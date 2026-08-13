@@ -6,9 +6,13 @@
 -- same environment, and is built by name instead.
 
 import Atlas.Knowledge.AbsoluteDegree
+import Atlas.Knowledge.AbsoluteGaloisInvariance
 import Atlas.Knowledge.AbsoluteInertiaDegree
+import Atlas.Knowledge.AbsoluteInertiaInvariance
+import Atlas.Knowledge.AbsoluteInertiaSubgroup
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.ClosedDerivedSeries
+import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.DigitSum
 import Atlas.Knowledge.ElementaryFilteredAut
 import Atlas.Knowledge.FiltAut
@@ -46,6 +50,7 @@ import Atlas.Knowledge.MStepSolvableQuotient
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.ParityIndex
 import Atlas.Knowledge.QuasiFreeFiltered
+import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.Shift
@@ -55,6 +60,7 @@ import Atlas.Knowledge.ShiftRhoEP
 import Atlas.Knowledge.ShiftRhoP
 import Atlas.Knowledge.ShiftT
 import Atlas.Knowledge.ShiftTStar
+import Atlas.Knowledge.SpanOfOpenUnitSubgroup
 import Atlas.Knowledge.StandardFiltered
 import Atlas.Knowledge.TRhoEP
 

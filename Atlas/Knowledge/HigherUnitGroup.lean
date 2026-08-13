@@ -13,6 +13,11 @@ makes those shifts the ones relevant to local fields.
 
 * `higherUnitGroup` — `U i (K) = 1 + 𝓂[K] ^ i` as a `Subgroup Kˣ`.
 
+## Main statements
+
+* `higherUnitGroup_antitone` — the family decreases in `i`, which is what "filtration" means and
+  what the real-indexed wrapper `Atlas.Knowledge.RealHigherUnitGroup` passes along.
+
 ## Implementation notes
 
 Closure under inverses is the only condition with content. An element `1 + y` with `y` in the
@@ -66,5 +71,14 @@ noncomputable def higherUnitGroup (K : Type*) [Field K] [ValuativeRel K] (i : �
     have : ((1 : ↥𝒪[K]) + -(y : ↥𝒪[K]) * ↑u⁻¹) * (1 + (y : ↥𝒪[K])) = 1 := by
       linear_combination ((y : ↥𝒪[K]) * ↑u⁻¹) * hu - (y : ↥𝒪[K]) * u.inv_mul
     exact_mod_cast this
+
+/-- The higher unit groups decrease: `U j (K) ≤ U i (K)` whenever `i ≤ j`, the inclusion of
+ideal powers `𝓂[K] ^ j ≤ 𝓂[K] ^ i` doing all the work
+([Pagano 2022, §2, p.415][Pagano2022]). -/
+theorem higherUnitGroup_antitone (K : Type*) [Field K] [ValuativeRel K] :
+    Antitone fun i : ℕ+ => higherUnitGroup K i := by
+  intro i j h x hx
+  obtain ⟨y, hy⟩ := hx
+  exact ⟨⟨(y : ↥𝒪[K]), Ideal.pow_le_pow_right (Nat.cast_le.mpr h) y.2⟩, hy⟩
 
 end Atlas.Knowledge
