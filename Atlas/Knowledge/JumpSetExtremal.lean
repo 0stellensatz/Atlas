@@ -97,7 +97,8 @@ theorem isJumpPair_jumpMin (ρ : Shift) (hS : ∀ p ∈ G, p.1 ∈ S) :
 theorem existsUnique_jumpPairOf_eq_jumpMax (ρ : Shift) (hS : ∀ p ∈ G, p.1 ∈ S) :
     ∃! A : Finset ℕ+, IsJumpSet ρ S A ∧ jumpPairOf ρ A = jumpMax ρ G := by
   refine ⟨jumpSetOf ρ (jumpMax ρ G),
-    ⟨(isJumpPair_jumpMax ρ hS).jumpSetOf, jumpPairOf_jumpSetOf (isJumpPair_jumpMax ρ hS)⟩, ?_⟩
+    ⟨(isJumpPair_jumpMax ρ hS).isJumpSet_jumpSetOf,
+      jumpPairOf_jumpSetOf (isJumpPair_jumpMax ρ hS)⟩, ?_⟩
   rintro A ⟨hA, hA2⟩
   rw [← hA2, jumpSetOf_jumpPairOf hA]
 
@@ -106,7 +107,8 @@ theorem existsUnique_jumpPairOf_eq_jumpMax (ρ : Shift) (hS : ∀ p ∈ G, p.1 �
 theorem existsUnique_jumpPairOf_eq_jumpMin (ρ : Shift) (hS : ∀ p ∈ G, p.1 ∈ S) :
     ∃! A : Finset ℕ+, IsJumpSet ρ S A ∧ jumpPairOf ρ A = jumpMin ρ G := by
   refine ⟨jumpSetOf ρ (jumpMin ρ G),
-    ⟨(isJumpPair_jumpMin ρ hS).jumpSetOf, jumpPairOf_jumpSetOf (isJumpPair_jumpMin ρ hS)⟩, ?_⟩
+    ⟨(isJumpPair_jumpMin ρ hS).isJumpSet_jumpSetOf,
+      jumpPairOf_jumpSetOf (isJumpPair_jumpMin ρ hS)⟩, ?_⟩
   rintro A ⟨hA, hA2⟩
   rw [← hA2, jumpSetOf_jumpPairOf hA]
 

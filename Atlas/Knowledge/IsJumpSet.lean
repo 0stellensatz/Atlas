@@ -47,15 +47,6 @@ sets are `S = T ρ`, its extended jump sets `S = T_star ρ hρ`
 def IsJumpSet (ρ : Shift) (S : Set ℕ+) (A : Finset ℕ+) : Prop :=
   (∀ a ∈ A, ∀ b ∈ A, a < b → ρ a ≤ b) ∧ ∀ a ∈ A, a ∉ A.image ⇑ρ → a ∈ S
 
-/-- In a nonempty finite set of positive integers, the least element is not hit by `ρ`: shifts
-move strictly up. Nothing about jump sets is needed. -/
-theorem sdiff_image_nonempty (ρ : Shift) {A : Finset ℕ+} (hA : A.Nonempty) :
-    (A \ A.image ⇑ρ).Nonempty := by
-  refine ⟨A.min' hA, Finset.mem_sdiff.mpr ⟨A.min'_mem hA, ?_⟩⟩
-  intro hmem
-  obtain ⟨a, ha, hρa⟩ := Finset.mem_image.mp hmem
-  exact absurd (A.min'_le a ha) (not_le.mpr (hρa ▸ ρ.lt_apply a))
-
 namespace IsJumpSet
 
 variable {ρ : Shift} {S : Set ℕ+} {A : Finset ℕ+}

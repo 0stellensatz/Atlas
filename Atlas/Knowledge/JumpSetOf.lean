@@ -15,7 +15,8 @@ multiplicities strictly decrease, so that greatest value *is* the successor's, a
 index the empty maximum is `0`, which makes the one formula cover both of the source's cases.
 
 When `P` is a jump pair `Atlas.Knowledge.IsJumpPair`, the result is a jump set
-`Atlas.Knowledge.IsJumpSet` (`IsJumpPair.jumpSetOf` below) whose indices are exactly the first
+`Atlas.Knowledge.IsJumpSet` (`IsJumpPair.isJumpSet_jumpSetOf` below) whose indices are exactly the
+first
 components of `P` and whose multiplicities are exactly the second components
 (`IsJumpPair.jumpMultiplicity_jumpSetOf`)—the content of the roundtrip
 `Atlas.Knowledge.JumpSetEquiv` runs on.
@@ -29,7 +30,7 @@ components of `P` and whose multiplicities are exactly the second components
 ## Main statements
 
 * `mem_jumpSetOf` — membership, as an orbit-segment condition.
-* `IsJumpPair.jumpSetOf` — the set attached to a jump pair is a jump set.
+* `IsJumpPair.isJumpSet_jumpSetOf` — the set attached to a jump pair is a jump set.
 * `IsJumpPair.jumpMultiplicity_jumpSetOf` — its multiplicity at a first component of `P` returns
   the second component.
 * `IsJumpPair.fst_not_mem_image` — first components of `P` are the indices of the attached set.
@@ -109,7 +110,7 @@ theorem iterate_lt_fst (hP : IsJumpPair ρ S P) {p q : ℕ+ × ℕ+} (hp : p ∈
 
 /-- The set attached to a jump pair is a jump set
 ([Pagano 2022, Prop. 2.3, p.416][Pagano2022]). -/
-theorem jumpSetOf (hP : IsJumpPair ρ S P) : IsJumpSet ρ S (jumpSetOf ρ P) := by
+theorem isJumpSet_jumpSetOf (hP : IsJumpPair ρ S P) : IsJumpSet ρ S (jumpSetOf ρ P) := by
   constructor
   · rintro x hx y hy hxy
     obtain ⟨q, hq, n, hn, rfl⟩ := mem_jumpSetOf.mp hx
@@ -143,7 +144,7 @@ theorem jumpSetOf (hP : IsJumpPair ρ S P) : IsJumpSet ρ S (jumpSetOf ρ P) := 
 /-- First components of a jump pair are not hit by `ρ` from inside the attached set: they are
 exactly its indices. -/
 theorem fst_not_mem_image (hP : IsJumpPair ρ S P) {q : ℕ+ × ℕ+} (hq : q ∈ P) :
-    q.1 ∉ (Atlas.Knowledge.jumpSetOf ρ P).image ⇑ρ := by
+    q.1 ∉ (jumpSetOf ρ P).image ⇑ρ := by
   intro hmem
   obtain ⟨x, hx, hρx⟩ := Finset.mem_image.mp hmem
   obtain ⟨r, hr, m, hm, rfl⟩ := mem_jumpSetOf.mp hx
@@ -167,9 +168,9 @@ theorem fst_not_mem_image (hP : IsJumpPair ρ S P) {q : ℕ+ × ℕ+} (hq : q �
 second component: the orbit segments at or beyond `q.1` count off `β` telescopically
 ([Pagano 2022, Prop. 2.3, p.416][Pagano2022]). -/
 theorem jumpMultiplicity_jumpSetOf (hP : IsJumpPair ρ S P) {q : ℕ+ × ℕ+} (hq : q ∈ P) :
-    jumpMultiplicity (Atlas.Knowledge.jumpSetOf ρ P) q.1 = (q.2 : ℕ) := by
+    jumpMultiplicity (jumpSetOf ρ P) q.1 = (q.2 : ℕ) := by
   suffices H : ∀ t : ℕ, ∀ q ∈ P, (P.filter fun r => q.1 < r.1).card = t →
-      jumpMultiplicity (Atlas.Knowledge.jumpSetOf ρ P) q.1 = (q.2 : ℕ) from H _ q hq rfl
+      jumpMultiplicity (jumpSetOf ρ P) q.1 = (q.2 : ℕ) from H _ q hq rfl
   intro t
   induction t with
   | zero =>
@@ -180,7 +181,7 @@ theorem jumpMultiplicity_jumpSetOf (hP : IsJumpPair ρ S P) {q : ℕ+ × ℕ+} (
       have : r ∈ P.filter fun r' => q.1 < r'.1 := Finset.mem_filter.mpr ⟨hr, hqr⟩
       rw [hcard] at this
       exact absurd this (Finset.notMem_empty r)
-    have hstr : (Atlas.Knowledge.jumpSetOf ρ P).filter (fun x => q.1 ≤ x)
+    have hstr : (jumpSetOf ρ P).filter (fun x => q.1 ≤ x)
         = (Finset.range ((q.2 : ℕ) - jumpSetOf.tail P q.1)).image fun n => (⇑ρ)^[n] q.1 := by
       ext x
       rw [Finset.mem_filter, Finset.mem_image]
@@ -240,7 +241,7 @@ theorem jumpMultiplicity_jumpSetOf (hP : IsJumpPair ρ S P) {q : ℕ+ × ℕ+} (
       rw [hsplit, Finset.card_insert_of_notMem hsnot] at hcard
       omega
     have hIH := ih s hsP hcard'
-    have hstr : (Atlas.Knowledge.jumpSetOf ρ P).filter (fun x => q.1 ≤ x ∧ x < s.1)
+    have hstr : (jumpSetOf ρ P).filter (fun x => q.1 ≤ x ∧ x < s.1)
         = (Finset.range ((q.2 : ℕ) - jumpSetOf.tail P q.1)).image fun n => (⇑ρ)^[n] q.1 := by
       ext x
       rw [Finset.mem_filter, Finset.mem_image]
@@ -260,9 +261,9 @@ theorem jumpMultiplicity_jumpSetOf (hP : IsJumpPair ρ S P) {q : ℕ+ × ℕ+} (
         apply hP.iterate_sub_lt hq hsP hqs
         rw [htail] at hm
         omega
-    have hsplit2 : (Atlas.Knowledge.jumpSetOf ρ P).filter (fun x => q.1 ≤ x)
-        = (Atlas.Knowledge.jumpSetOf ρ P).filter (fun x => q.1 ≤ x ∧ x < s.1)
-          ∪ (Atlas.Knowledge.jumpSetOf ρ P).filter fun x => s.1 ≤ x := by
+    have hsplit2 : (jumpSetOf ρ P).filter (fun x => q.1 ≤ x)
+        = (jumpSetOf ρ P).filter (fun x => q.1 ≤ x ∧ x < s.1)
+          ∪ (jumpSetOf ρ P).filter fun x => s.1 ≤ x := by
       ext x
       simp only [Finset.mem_filter, Finset.mem_union]
       constructor
@@ -274,14 +275,14 @@ theorem jumpMultiplicity_jumpSetOf (hP : IsJumpPair ρ S P) {q : ℕ+ × ℕ+} (
         · exact ⟨hx, hqx⟩
         · exact ⟨hx, le_trans (le_of_lt hqs) hsx⟩
     have hdisj : Disjoint
-        ((Atlas.Knowledge.jumpSetOf ρ P).filter fun x => q.1 ≤ x ∧ x < s.1)
-        ((Atlas.Knowledge.jumpSetOf ρ P).filter fun x => s.1 ≤ x) := by
+        ((jumpSetOf ρ P).filter fun x => q.1 ≤ x ∧ x < s.1)
+        ((jumpSetOf ρ P).filter fun x => s.1 ≤ x) := by
       rw [Finset.disjoint_left]
       intro x h1 h2
       rw [Finset.mem_filter] at h1 h2
       exact absurd h2.2 (not_le.mpr h1.2.2)
     have hsnd : (s.2 : ℕ) < (q.2 : ℕ) := by exact_mod_cast hP.snd_lt_snd hq hsP hqs
-    have h2 : ((Atlas.Knowledge.jumpSetOf ρ P).filter fun x => s.1 ≤ x).card = (s.2 : ℕ) := hIH
+    have h2 : ((jumpSetOf ρ P).filter fun x => s.1 ≤ x).card = (s.2 : ℕ) := hIH
     rw [jumpMultiplicity, hsplit2, Finset.card_union_of_disjoint hdisj, hstr,
       Finset.card_image_of_injOn ((ρ.iterate_strictMono_right q.1).injective.injOn),
       Finset.card_range, h2, htail]

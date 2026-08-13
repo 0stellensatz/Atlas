@@ -35,9 +35,8 @@ theorem jumpPairOf_eq_empty_iff (h : IsJumpSet ρ S A) : jumpPairOf ρ A = ∅ �
   · intro hP
     by_contra hne
     rw [← ne_eq, ← Finset.nonempty_iff_ne_empty] at hne
-    obtain ⟨i, hi⟩ := sdiff_image_nonempty ρ hne
-    rw [Finset.mem_sdiff] at hi
-    have hmem : (i, (⟨jumpMultiplicity A i, jumpMultiplicity_pos hi.1⟩ : ℕ+))
+    have hi := Finset.mem_sdiff.mp (ρ.min'_mem_sdiff_image hne)
+    have hmem : (A.min' hne, (⟨jumpMultiplicity A (A.min' hne), jumpMultiplicity_pos hi.1⟩ : ℕ+))
         ∈ jumpPairOf ρ A := mem_jumpPairOf.mpr ⟨hi.1, hi.2, rfl⟩
     rw [hP] at hmem
     exact absurd hmem (Finset.notMem_empty _)
