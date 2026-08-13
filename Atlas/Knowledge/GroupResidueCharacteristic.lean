@@ -25,10 +25,10 @@ The source characterizes the prime by the base-`ℓ` logarithm of the cardinalit
 condition `ℓ ^ 2 ≤ Nat.card`, which avoids `Nat.log`'s own junk values. The value is `0` when
 no prime passes the test, `sInf` of the empty set being `0`—an infinite quotient, whose
 `Nat.card` is `0`, fails at every prime. But the test can pass away from the MLF^ab situation:
-any torsion-free abelian group of rank at least `2` passes at `2`, so outside the intended
-domain the value is simply not meaningful, rather than uniformly `0`. Uniqueness of the
-qualifying prime is likewise part of what `Atlas.Knowledge.AbelianizedGaloisRecovery` asserts,
-not of the definition.
+any free abelian group of rank at least `2` passes at `2`, so outside the intended domain the
+value is simply not meaningful, rather than uniformly `0`. Uniqueness of the qualifying prime
+is likewise part of what `Atlas.Knowledge.AbelianizedGaloisRecovery` asserts, not of the
+definition.
 
 ## References
 
