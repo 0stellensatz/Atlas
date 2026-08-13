@@ -19,6 +19,8 @@ correspondence.
 
 * `IsMStepSolvable.mono` — an `m`-step solvable group is `n`-step solvable for every `n ≥ m`,
   granted a Hausdorff hypothesis making `⊥` closed.
+* `IsMStepSolvable.congr` — the condition transfers along a topological isomorphism, the
+  closed derived series being carried term-by-term onto the closed derived series.
 
 ## References
 
@@ -49,5 +51,14 @@ theorem IsMStepSolvable.mono [T2Space G] {m n : ℕ} (h : IsMStepSolvable G m) (
     refine le_antisymm
       (Subgroup.topologicalClosure_minimal _ le_rfl ?_) (Subgroup.le_topologicalClosure _)
     simp
+
+/-- `m`-step solvability transfers along a topological isomorphism: the isomorphism is a
+continuous closed surjection both ways, so it carries the closed derived series term-by-term
+onto the closed derived series. -/
+theorem IsMStepSolvable.congr {H : Type*} [Group H] [TopologicalSpace H]
+    [IsTopologicalGroup H] {m : ℕ} (h : IsMStepSolvable G m) (e : G ≃ₜ* H) :
+    IsMStepSolvable H m := by
+  rw [IsMStepSolvable, ← map_closedDerivedSeries e.toMonoidHom e.continuous
+    e.toHomeomorph.isClosedMap e.surjective m, h, Subgroup.map_bot]
 
 end Atlas.Knowledge

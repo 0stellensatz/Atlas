@@ -23,6 +23,10 @@ solvable quotient `Atlas.Knowledge.MStepSolvableQuotient`.
 * `derivedSeries_le_closedDerivedSeries` — it lies above Mathlib's `derivedSeries` termwise.
 * `closedDerivedSeries_one` — its first term is the subgroup Mathlib's
   `TopologicalAbelianization` quotients by, definitionally.
+* `map_closedDerivedSeries_le`, `map_closedDerivedSeries` — a continuous homomorphism carries
+  the series into the series, and a continuous closed surjection carries it onto the series.
+  The latter is what computes the series of a quotient of a compact group and so feeds every
+  statement about `Atlas.Knowledge.MStepSolvableQuotient`.
 
 ## Implementation notes
 
@@ -94,5 +98,56 @@ theorem derivedSeries_le_closedDerivedSeries (m : ℕ) :
   | zero => exact le_rfl
   | succ m ih =>
     exact (Subgroup.commutator_mono ih ih).trans (Subgroup.le_topologicalClosure _)
+
+/-! ## Functoriality -/
+
+variable {G} {H : Type*} [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
+
+/-- A continuous homomorphism carries the topological closure of a subgroup into the
+topological closure of its image. -/
+theorem map_topologicalClosure_le (f : G →* H) (hf : Continuous f) (S : Subgroup G) :
+    S.topologicalClosure.map f ≤ (S.map f).topologicalClosure :=
+  Subgroup.map_le_iff_le_comap.mpr <| Subgroup.topologicalClosure_minimal S
+    ((Subgroup.le_comap_map f S).trans (Subgroup.comap_mono (Subgroup.le_topologicalClosure _)))
+    ((Subgroup.isClosed_topologicalClosure _).preimage hf)
+
+/-- A continuous closed homomorphism carries the topological closure of a subgroup onto the
+topological closure of its image. -/
+theorem map_topologicalClosure (f : G →* H) (hf : Continuous f) (hf' : IsClosedMap f)
+    (S : Subgroup G) : S.topologicalClosure.map f = (S.map f).topologicalClosure := by
+  refine le_antisymm (map_topologicalClosure_le f hf S) ?_
+  refine Subgroup.topologicalClosure_minimal _
+    (Subgroup.map_mono (Subgroup.le_topologicalClosure S)) ?_
+  rw [Subgroup.coe_map]
+  exact hf' _ (Subgroup.isClosed_topologicalClosure S)
+
+/-- A continuous homomorphism carries each term of the closed derived series into the
+corresponding term of the codomain's series. -/
+theorem map_closedDerivedSeries_le (f : G →* H) (hf : Continuous f) (m : ℕ) :
+    (closedDerivedSeries G m).map f ≤ closedDerivedSeries H m := by
+  induction m with
+  | zero => exact le_top
+  | succ m ih =>
+    rw [closedDerivedSeries_succ, closedDerivedSeries_succ]
+    calc (⁅closedDerivedSeries G m, closedDerivedSeries G m⁆.topologicalClosure).map f
+        ≤ (⁅closedDerivedSeries G m, closedDerivedSeries G m⁆.map f).topologicalClosure :=
+          map_topologicalClosure_le f hf _
+      _ = (⁅(closedDerivedSeries G m).map f,
+            (closedDerivedSeries G m).map f⁆).topologicalClosure := by
+          rw [Subgroup.map_commutator]
+      _ ≤ (⁅closedDerivedSeries H m, closedDerivedSeries H m⁆).topologicalClosure :=
+          Subgroup.topologicalClosure_mono (Subgroup.commutator_mono ih ih)
+
+/-- A continuous closed surjection carries the closed derived series onto the closed derived
+series. For a quotient map of compact Hausdorff groups this says the series of the quotient is
+the image of the series. -/
+theorem map_closedDerivedSeries (f : G →* H) (hf : Continuous f) (hf' : IsClosedMap f)
+    (hsurj : Function.Surjective f) (m : ℕ) :
+    (closedDerivedSeries G m).map f = closedDerivedSeries H m := by
+  induction m with
+  | zero => simpa using Subgroup.map_top_of_surjective f hsurj
+  | succ m ih =>
+    rw [closedDerivedSeries_succ, closedDerivedSeries_succ, map_topologicalClosure f hf hf',
+      Subgroup.map_commutator, ih]
 
 end Atlas.Knowledge

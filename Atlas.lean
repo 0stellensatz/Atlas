@@ -5,13 +5,17 @@
 -- `Development` is imported: `Challenge.lean` shares its namespace and so cannot enter the
 -- same environment, and is built by name instead.
 
+import Atlas.Knowledge.AbelianizedGaloisRecovery
 import Atlas.Knowledge.AbsoluteDegree
 import Atlas.Knowledge.AbsoluteGaloisInvariance
+import Atlas.Knowledge.AbsoluteGaloisProsolvability
 import Atlas.Knowledge.AbsoluteInertiaDegree
 import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
 import Atlas.Knowledge.AbsoluteRamificationIndex
+import Atlas.Knowledge.CharacterTwist
 import Atlas.Knowledge.ClosedDerivedSeries
+import Atlas.Knowledge.CompletedUnitGroup
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.DigitSum
 import Atlas.Knowledge.ElementaryFilteredAut
@@ -29,12 +33,21 @@ import Atlas.Knowledge.FilteredModulePi
 import Atlas.Knowledge.FilteredProfiniteGroup
 import Atlas.Knowledge.FilteredRhoMap
 import Atlas.Knowledge.FreeFiltered
+import Atlas.Knowledge.GroupAbsoluteDegree
+import Atlas.Knowledge.GroupAbsoluteInertiaDegree
+import Atlas.Knowledge.GroupAbsoluteRamificationIndex
+import Atlas.Knowledge.GroupResidueCharacteristic
+import Atlas.Knowledge.GroupRootOfUnityExponent
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.IsFilteredHom
 import Atlas.Knowledge.IsJumpPair
 import Atlas.Knowledge.IsJumpSet
+import Atlas.Knowledge.IsLadicRepresentation
+import Atlas.Knowledge.IsMLFType
 import Atlas.Knowledge.IsMStepSolvable
+import Atlas.Knowledge.IsMStepSolvableRep
 import Atlas.Knowledge.IsMixedCharLocalField
+import Atlas.Knowledge.IsProsolvable
 import Atlas.Knowledge.JumpMultiplicity
 import Atlas.Knowledge.JumpOrder
 import Atlas.Knowledge.JumpPairOf
@@ -45,8 +58,11 @@ import Atlas.Knowledge.JumpSetOf
 import Atlas.Knowledge.JumpSetSmall
 import Atlas.Knowledge.JumpSetVector
 import Atlas.Knowledge.LegendreFormula
+import Atlas.Knowledge.MStepSolvableCenterBound
+import Atlas.Knowledge.MStepSolvableCenterFree
 import Atlas.Knowledge.MStepSolvableExtension
 import Atlas.Knowledge.MStepSolvableQuotient
+import Atlas.Knowledge.MStepSolvableStability
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.ParityIndex
 import Atlas.Knowledge.QuasiFreeFiltered
@@ -60,6 +76,7 @@ import Atlas.Knowledge.ShiftRhoEP
 import Atlas.Knowledge.ShiftRhoP
 import Atlas.Knowledge.ShiftT
 import Atlas.Knowledge.ShiftTStar
+import Atlas.Knowledge.SolvabilityDegree
 import Atlas.Knowledge.SpanOfOpenUnitSubgroup
 import Atlas.Knowledge.StandardFiltered
 import Atlas.Knowledge.TRhoEP
