@@ -5,9 +5,23 @@
 -- `Development` is imported: `Challenge.lean` shares its namespace and so cannot enter the
 -- same environment, and is built by name instead.
 
+import Atlas.Knowledge.AbsoluteDegree
+import Atlas.Knowledge.AbsoluteInertiaDegree
+import Atlas.Knowledge.AbsoluteRamificationIndex
+import Atlas.Knowledge.ClosedDerivedSeries
 import Atlas.Knowledge.DigitSum
+import Atlas.Knowledge.FilteredIso
+import Atlas.Knowledge.FilteredProfiniteGroup
 import Atlas.Knowledge.HigherUnitGroup
+import Atlas.Knowledge.IsMStepSolvable
+import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.LegendreFormula
+import Atlas.Knowledge.MStepSolvableExtension
+import Atlas.Knowledge.MStepSolvableQuotient
+import Atlas.Knowledge.OutFilt
+import Atlas.Knowledge.ParityIndex
+import Atlas.Knowledge.ResidueCharacteristic
+import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.Shift
 import Atlas.Knowledge.ShiftEPrime
 import Atlas.Knowledge.ShiftEStar
