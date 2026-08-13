@@ -19,8 +19,9 @@ MLF^n-type.
 
 * `closedDerivedSeries_le_map_subtype` — for a closed subgroup `H` above the `m`-th term, the
   `(m + n)`-th term of the series of `Γ` lies inside the `n`-th term of the intrinsic series of
-  `H`. This is `closedDerivedSeries Γ (m + n) = closedDerivedSeries (closedDerivedSeries Γ m) n`
-  in inequality form, with the intrinsic series compared through `Subgroup.map H.subtype`.
+  `H`. This is the inequality form of the composition identity—continuing the series `n` steps
+  below `m` computes the intrinsic series of the `m`-th term—with the intrinsic series of `↥H`
+  compared through `Subgroup.map H.subtype`.
 * `mStepSolvableQuotient_map_mk'_bijective` — the natural surjection
   `H^n →* (H ⧸ Γ^[m+n])^n` is bijective.
 
@@ -71,13 +72,14 @@ theorem closedDerivedSeries_le_map_subtype {H : Subgroup Γ} (hH : IsClosed (H :
 `H ⧸ closedDerivedSeries Γ (m + n)` is bijective
 ([Hyeon 2025, Lem. 2.3 (1), p.8][Hyeon2025]). -/
 theorem mStepSolvableQuotient_map_mk'_bijective {H : Subgroup Γ} (hH : IsOpen (H : Set Γ))
-    {m : ℕ} (hm : closedDerivedSeries Γ m ≤ H) (n : ℕ)
-    (hcont : Continuous (QuotientGroup.mk' ((closedDerivedSeries Γ (m + n)).subgroupOf H))) :
+    {m : ℕ} (hm : closedDerivedSeries Γ m ≤ H) (n : ℕ) :
     Function.Bijective (mStepSolvableQuotient.map n
-      (QuotientGroup.mk' ((closedDerivedSeries Γ (m + n)).subgroupOf H)) hcont) := by
+      (QuotientGroup.mk' ((closedDerivedSeries Γ (m + n)).subgroupOf H))
+      continuous_quotient_mk') := by
   have hHc : IsClosed (H : Set Γ) := Subgroup.isClosed_of_isOpen H hH
   haveI : CompactSpace ↥H := isCompact_iff_compactSpace.mp hHc.isCompact
   set N : Subgroup ↥H := (closedDerivedSeries Γ (m + n)).subgroupOf H with hN
+  have hcont : Continuous (QuotientGroup.mk' N) := continuous_quotient_mk'
   haveI : IsClosed (N : Set ↥H) :=
     (isClosed_closedDerivedSeries Γ (m + n)).preimage continuous_subtype_val
   -- the kernel of the truncation sits inside the `n`-th term of the intrinsic series

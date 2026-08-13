@@ -17,8 +17,8 @@ recovers the invariant `a_K` of `Atlas.Knowledge.RootOfUnityExponent`, which is 
 
 ## Implementation notes
 
-The source takes `log_{p(G)}` of the order of the `p(G)`-Sylow subgroup; for a finite abelian
-group that order is the `p(G)`-part of the group order, so the encoding is
+The source takes the base-`p(G)` logarithm of the order of the `p(G)`-Sylow subgroup; for a
+finite abelian group that order is the `p(G)`-part of the group order, so the encoding is
 `Nat.factorization` of `Nat.card` of the torsion at `p(G)`, which needs no `Fact` of primality
 and no Sylow machinery. When the torsion is infinite `Nat.card` is `0`, whose factorization is
 `0` everywhere—the junk value is `0`.

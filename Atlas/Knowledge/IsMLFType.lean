@@ -62,7 +62,7 @@ def IsMLFmType (m : ℕ) : Prop :=
 
 /-- A topological group is of **MLF^ab-type** if it is topologically isomorphic to the
 abelianized absolute Galois group of some mixed-characteristic local field—the case `m = 1` of
-`Atlas.Knowledge.IsMLFmType`, the source writing `G_K^ab` for `G_K^1`
+`IsMLFmType`, the source writing `G_K^ab` for `G_K^1`
 ([Hyeon 2025, Def. 2.2, p.8][Hyeon2025]). -/
 def IsMLFabType : Prop :=
   IsMLFmType.{u} G 1

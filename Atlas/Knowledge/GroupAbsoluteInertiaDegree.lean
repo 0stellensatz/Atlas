@@ -5,9 +5,9 @@ import Atlas.Knowledge.GroupRootOfUnityExponent
 /-!
 # group-theoretic absolute inertia degree
 
-The **group-theoretic absolute inertia degree** `f(G)` of an abelian group: `log_{p(G)}` of one
-more than the order of the quotient of the torsion of `G` by its `p(G)`-Sylow subgroup, for
-`p(G)` the group-theoretic residue characteristic
+The **group-theoretic absolute inertia degree** `f(G)` of an abelian group: the base-`p(G)`
+logarithm of one more than the order of the quotient of the torsion of `G` by its `p(G)`-Sylow
+subgroup, for `p(G)` the group-theoretic residue characteristic
 `Atlas.Knowledge.GroupResidueCharacteristic`. For `G` of MLF^ab-type that quotient has
 `p ^ f - 1` elements, so `f(G)` recovers the absolute inertia degree
 `Atlas.Knowledge.AbsoluteInertiaDegree` of the field, as
@@ -15,7 +15,8 @@ more than the order of the quotient of the torsion of `G` by its `p(G)`-Sylow su
 
 ## Main definitions
 
-* `groupAbsoluteInertiaDegree` — `log_{p(G)} (♯(torsion / p-Sylow) + 1)`.
+* `groupAbsoluteInertiaDegree` — the base-`p(G)` logarithm of one more than the order of the
+  prime-to-`p(G)` part of the torsion.
 
 ## Implementation notes
 
@@ -32,9 +33,9 @@ prime-to-`p(G)` part of the order, which is `Nat.card` divided by
 
 namespace Atlas.Knowledge
 
-/-- The **group-theoretic absolute inertia degree** of an abelian group: `log_{p(G)}` of one
-more than the order of the quotient of the torsion by its `p(G)`-Sylow subgroup
-([Hyeon 2025, §3, p.10][Hyeon2025]). -/
+/-- The **group-theoretic absolute inertia degree** of an abelian group: the base-`p(G)`
+logarithm of one more than the order of the quotient of the torsion by its `p(G)`-Sylow
+subgroup ([Hyeon 2025, §3, p.10][Hyeon2025]). -/
 noncomputable def groupAbsoluteInertiaDegree (G : Type*) [CommGroup G] : ℕ :=
   Nat.log (groupResidueCharacteristic G)
     (Nat.card (CommGroup.torsion G) /

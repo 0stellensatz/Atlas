@@ -33,13 +33,13 @@ namespace Atlas.Knowledge
 variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
 /-- The absolute Galois group of a mixed-characteristic local field is prosolvable. Claim
-recorded ahead of its proof ([Hyeon 2025, Rem. 2.4 (1), p.9][Hyeon2025]). -/
+recorded ahead of its proof ([Hyeon 2025, §2 Rem. (1), p.9][Hyeon2025]). -/
 theorem isProsolvable_absoluteGaloisGroup : IsProsolvable (Field.absoluteGaloisGroup K) := by
   sorry
 
 /-- The closed derived series of the absolute Galois group of a mixed-characteristic local
 field has trivial infimum—the group-level trace of prosolvability. Claim recorded ahead of its
-proof ([Hyeon 2025, Rem. 2.4 (1), p.9][Hyeon2025]). -/
+proof ([Hyeon 2025, §2 Rem. (1), p.9][Hyeon2025]). -/
 theorem iInf_closedDerivedSeries_absoluteGaloisGroup :
     ⨅ m : ℕ, closedDerivedSeries (Field.absoluteGaloisGroup K) m = ⊥ := by
   sorry
@@ -47,7 +47,7 @@ theorem iInf_closedDerivedSeries_absoluteGaloisGroup :
 /-- No term of the closed derived series of the absolute Galois group of a
 mixed-characteristic local field is trivial: `G_K` is prosolvable but not solvable, the wild
 inertia of `G_{ℚ_p}` being free pro-`p` of infinite rank. Claim recorded ahead of its proof
-([Hyeon 2025, Rem. 2.4 (1), p.9][Hyeon2025]). -/
+([Hyeon 2025, §2 Rem. (1), p.9][Hyeon2025]). -/
 theorem closedDerivedSeries_absoluteGaloisGroup_ne_bot (m : ℕ) :
     closedDerivedSeries (Field.absoluteGaloisGroup K) m ≠ ⊥ := by
   sorry

@@ -23,7 +23,7 @@ mixed-characteristic local field is prosolvable, which is the source of the vani
 namespace Atlas.Knowledge
 
 /-- A topological group is **prosolvable** if the quotient by every open normal subgroup is
-solvable ([Hyeon 2025, Rem. 2.4 (1), p.9][Hyeon2025]). -/
+solvable ([Hyeon 2025, §2 Rem. (1), p.9][Hyeon2025]). -/
 def IsProsolvable (G : Type*) [Group G] [TopologicalSpace G] : Prop :=
   ∀ N : OpenNormalSubgroup G, IsSolvable (G ⧸ N.toSubgroup)
 
