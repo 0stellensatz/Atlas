@@ -1,0 +1,58 @@
+import Mathlib
+
+/-!
+# shift
+
+A **shift** is a strictly increasing function `ρ : ℕ+ → ℕ+` with `1 < ρ 1`. Shifts are what jump
+sets are defined in terms of, and the two conditions are exactly what the jump-set machinery
+needs: strict monotonicity makes `ρ` injective, so the complement `Atlas.Knowledge.ShiftT` of its
+image is what carries information, and `1 < ρ 1` is what keeps that complement nonempty.
+
+The source writes the domain as `ℤ⩾1`; here it is `ℕ+`, which is the same ordered monoid and
+carries the coercion and arithmetic lemmas Mathlib already has for it.
+
+## Main definitions
+
+* `Shift` — a strictly increasing `ρ : ℕ+ → ℕ+` with `1 < ρ 1`.
+
+## Implementation notes
+
+`Shift` is bundled as a structure with a `FunLike` instance rather than left as a subtype of
+`ℕ+ → ℕ+`, so that `ρ i` means what it says and the two conditions travel with the function.
+
+## References
+
+* [Pagano2022] C. Pagano, *Jump sets in local fields*, J. Algebra **593** (2022), 398–476.
+-/
+
+namespace Atlas.Knowledge
+
+/-- A **shift** is a strictly increasing function `ℕ+ → ℕ+` sending `1` above `1`
+([Pagano 2022, §2, p.415][Pagano2022]). -/
+structure Shift where
+  shift_map : ℕ+ → ℕ+
+  strict_mono : StrictMono shift_map
+  one_lt_shift_one : 1 < shift_map 1
+
+instance : FunLike Shift ℕ+ ℕ+ where
+  coe := Shift.shift_map
+  coe_injective := by
+    intro ρ ρ' hρ
+    cases ρ; cases ρ'; congr
+
+namespace Shift
+
+@[simp]
+theorem coe_mk (f : ℕ+ → ℕ+) (h₁ h₂) : ⇑(⟨f, h₁, h₂⟩ : Shift) = f := rfl
+
+@[ext]
+theorem ext {f g : Shift} (h : ∀ n, f n = g n) : f = g := DFunLike.ext _ _ h
+
+/-- A shift is injective, being strictly increasing. -/
+lemma inj (ρ : Shift) : (⇑ρ).Injective := by
+  rw [coe_mk]
+  apply StrictMono.injective ρ.strict_mono
+
+end Shift
+
+end Atlas.Knowledge

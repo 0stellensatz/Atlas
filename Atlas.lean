@@ -6,6 +6,14 @@
 -- same environment, and is built by name instead.
 
 import Atlas.Knowledge.DigitSum
+import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.LegendreFormula
+import Atlas.Knowledge.Shift
+import Atlas.Knowledge.ShiftEPrime
+import Atlas.Knowledge.ShiftEStar
+import Atlas.Knowledge.ShiftRhoEP
+import Atlas.Knowledge.ShiftRhoP
+import Atlas.Knowledge.ShiftT
+import Atlas.Knowledge.TRhoEP
 
 import Atlas.Questions.«20260813».Development

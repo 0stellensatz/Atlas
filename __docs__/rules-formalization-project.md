@@ -39,7 +39,9 @@ A unit is two files and nothing else.
 
 ## The knowledge layer
 
-`Atlas/Knowledge/` is that layer: the standing, curated body of formalized mathematics that answers are built from. It is production code in the sense the comparator discipline means, and it is the reason an agent handed a question is not starting from Mathlib and a blank file.
+`Atlas/Knowledge/` is that layer: the standing, curated body of mathematics **autoformalized from the literature**, which answers are built from. It is production code in the sense the comparator discipline means, and it is the reason an agent handed a question is not starting from Mathlib and a blank file.
+
+**It is built ahead of the questions.** A layer that only accumulated what past answers happened to need would be a cache, and a cache is no use the first time a question is asked. Formalizing a source before anything asks for it is the normal way this layer grows, and the volume of work that takes is expected rather than a sign something has been mis-scoped.
 
 - **One file states one thing**, and the file is named for that thing in UpperCamelCase: `Knowledge/JumpSet.lean`, `Knowledge/HigherUnitGroup.lean`. One definition, one statement with its proof, one construction, one worked example. A file wanting a second principal declaration is two files.
 - **The file name is the index entry.** `ls Atlas/Knowledge/` is the index of everything Atlas knows, `grep -h '^# ' Atlas/Knowledge/*.lean` is that index annotated, and the root module is the same list again, complete because `__check__.py` says so. Nothing else indexes the layer, and nothing else needs to—a written index would be a second copy of a list already derivable three ways.
@@ -47,6 +49,15 @@ A unit is two files and nothing else.
 - **A prerequisite is an `import`. A soft or forward reference is a backticked module name in a docstring** (`./rules-documentation.md`), and it may name an item not written yet. That is the backlog, it is not an error, and it is not to be "fixed."
 - **Every item cites where it came from.** An item with no source in its docstring is not usable later; see `./rules-documentation.md`.
 - **A `sorry` on a theorem is a claim recorded before its proof**, and is allowed. Under a definition it never is (`./rules-comparator.md`).
+
+### Taking a source into the layer
+
+A paper or a chapter enters as *items*, not as a transcription of itself.
+
+- **Atomize, and name for the mathematics rather than for the source's numbering.** A paper's Definition 2.3 becomes `Knowledge/JumpSet.lean` and not `Knowledge/Pagano2022_2_3.lean`; a term's name is what someone will look for, and a source's numbering is an accident of that source. The pinpoint is not lost—it goes in the docstring citation, which is where it belongs.
+- **Take what is worth reusing, not everything.** A source contributes the notions and results that later questions will be stated against or answered from. Its scaffolding lemmas come along only where an item cannot elaborate without them.
+- **Two sources may supply one item.** An item is about a piece of mathematics, so where two papers state the same notion it is one item citing both, not two items racing to own the name. Where they state it *differently*, the difference is itself worth an item, and the modeling decision is recorded in `## Implementation notes`.
+- **The boundary with a source-formalization project.** A source being worked through unit by unit—its own numbered claims frozen in comparator files, its sectioning mirrored on disk, the goal being fidelity to that source—is a project of its own, and this is not it. Here a source is a supplier: what it supplies is chosen, atomized, and answerable to the vocabulary of the layer rather than to the paper's exposition. The two are different jobs on the same PDF, and neither is a substitute for the other.
 
 ## Import discipline
 

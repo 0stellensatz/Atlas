@@ -4,7 +4,7 @@ A place to pose formal mathematical questions and have agents answer them, toget
 
 Two layers:
 
-- **`Atlas/Knowledge/`** — atomic, cross-linked, curated. One file states one thing and is named for it, so `ls Atlas/Knowledge/` is the index of everything Atlas knows. This is the layer an agent reads before it starts proving, and it grows out of what answering actually needed.
+- **`Atlas/Knowledge/`** — atomic, cross-linked, curated. One file states one thing and is named for it, so `ls Atlas/Knowledge/` is the index of everything Atlas knows. This is the layer an agent reads before it starts proving: mathematics autoformalized from the literature, each item citing where it came from. It is built ahead of the questions rather than only in response to them—a static layer is one you can already read—and it also takes in whatever answering turns out to need.
 - **`Atlas/Questions/YYYYMMDD/`** — one directory per day questions were posed. `Challenge.lean` states them and leaves every one `sorry`; `Development.lean` carries the same declaration list, answered.
 
 The pair is the point. `Challenge.lean` stands alone against Mathlib and never changes when an answer is found, and `__check__.py` verifies that the two files still declare the same things—same names, kinds, binders, types, attributes, order. An agent that quietly reshapes a question to fit the proof it happened to find fails that check. Nothing else catches it: a diff on the file the proof goes into is exactly what an answer is supposed to look like.

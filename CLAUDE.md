@@ -8,7 +8,7 @@ Atlas is a place to **pose formal mathematical questions and have agents answer 
 
 Two layers, and the whole design is in the relation between them:
 
-- **`Atlas/Knowledge/`** — a curated, atomic, densely linked library. One file states one thing and is named for it, so `ls Atlas/Knowledge/` is the index of everything Atlas knows. It is written to be *read* by whoever is answering, and it grows from what answering actually needed.
+- **`Atlas/Knowledge/`** — a curated, atomic, densely linked library of mathematics **autoformalized from the literature**, each item citing its source. One file states one thing and is named for it, so `ls Atlas/Knowledge/` is the index of everything Atlas knows. It is written to be *read* by whoever is answering, and it is **built ahead of the questions**: the point of a static layer is that it is already there when a question arrives. It also takes in whatever answering turns out to need, but that is the second way it grows, not the first.
 - **`Atlas/Questions/YYYYMMDD/`** — one unit per day questions were posed, holding the comparator pair. `Challenge.lean` is the frozen question, `Development.lean` is the answer.
 
 **Atlas is bound to no source.** The questions are the writer's own, posed rather than transcribed, so nothing here follows a paper's exposition and there is no region of a text being worked through. Knowledge items *do* come from the literature and cite it; the questions do not.
