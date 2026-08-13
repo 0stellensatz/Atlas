@@ -23,11 +23,13 @@ by `n - 1 < v ≤ n`, and antitonicity, which is what "filtration" means.
 
 ## Implementation notes
 
-The source lets `v` range over `v ≥ 0`, with `U^0 (K) = U (K)` the full unit group; but the
-filtration its main theorem equips `Γ_K` with is the one with index `> 0`, and only that part
-is representable as `1 + 𝓂[K] ^ n`. Here `v` ranges over all of `ℝ` and the ceiling is clamped
-to `1`, so `U^v (K) = U 1 (K)` for every `v ≤ 0`: junk values below the source's range, the
-principal unit group on `(0, 1]` and beyond as in the source.
+Here `v` ranges over all of `ℝ` and the ceiling is clamped to `1`, so `U^v (K) = U 1 (K)` for
+every `v ≤ 0`. At `v = 0` this *disagrees with the source*, which defines `U^0 (K)` to be the
+full unit group: that group is not `1 + 𝓂[K] ^ n` for any `n`—at `n = 0` the translate is not
+even a subgroup of `Kˣ`—so the `ℕ+`-indexed `Atlas.Knowledge.HigherUnitGroup` cannot carry it,
+and the filtration the source's main theorem equips `Γ_K` with has index `> 0` and never asks
+for it. The disagreement is confined to that one point; for `v < 0` the source defines nothing
+and the value is junk; on `v > 0` the encoding is the source's.
 
 ## References
 
@@ -35,13 +37,11 @@ principal unit group on `(0, 1]` and beyond as in the source.
   fields*, Int. J. Math. **8** (1997), 499–506.
 -/
 
-open ValuativeRel
-
 namespace Atlas.Knowledge
 
-/-- The **real-indexed higher unit group** `U^v (K) = 1 + 𝓂[K] ^ ⌈v⌉`, the unit filtration in
-the indexing that matches the upper-numbering ramification filtration
-([Mochizuki 1997, §2, p.502][Mochizuki1997]). -/
+/-- The **real-indexed higher unit group** `U^v (K) = 1 + 𝓂[K] ^ ⌈v⌉`, the ceiling clamped to
+`1`: the unit filtration in the indexing that matches the upper-numbering ramification
+filtration ([Mochizuki 1997, §2, p.502][Mochizuki1997]). -/
 noncomputable def realHigherUnitGroup (K : Type*) [Field K] [ValuativeRel K] (v : ℝ) :
     Subgroup Kˣ :=
   higherUnitGroup K ⌈v⌉.toNat.toPNat'
@@ -58,9 +58,8 @@ theorem realHigherUnitGroup_eq (K : Type*) [Field K] [ValuativeRel K] {v : ℝ} 
   rw [realHigherUnitGroup, hc]
   simp
 
-/-- The real-indexed higher unit groups decrease in `v`, so the family is a filtration in the
-sense of `Atlas.Knowledge.FilteredProfiniteGroup`
-([Mochizuki 1997, §2, p.502][Mochizuki1997]). -/
+/-- The real-indexed higher unit groups decrease in `v`—antitonicity being what makes the
+family a filtration ([Mochizuki 1997, §2, p.502][Mochizuki1997]). -/
 theorem realHigherUnitGroup_antitone (K : Type*) [Field K] [ValuativeRel K] :
     Antitone (realHigherUnitGroup K) := by
   intro v w h

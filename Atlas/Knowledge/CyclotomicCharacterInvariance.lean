@@ -33,8 +33,6 @@ over the one fixed `p`; for other primes the source claims nothing.
   fields*, Int. J. Math. **8** (1997), 499–506.
 -/
 
-open ValuativeRel
-
 namespace Atlas.Knowledge
 
 /-- A topological isomorphism of absolute Galois groups of mixed-characteristic local fields
