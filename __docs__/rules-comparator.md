@@ -131,10 +131,10 @@ It is a textual check on the sources, so it is fast and needs no build; it does 
 
 ```bash
 lake build
-find Atlas -name Challenge.lean | sed 's|^|lake build |; s|/|.|g; s|\.lean$||' | sh
+find Atlas -name Challenge.lean | sed -E 's|/([0-9]+)/|/«\1»/|g; s|^|lake build |; s|/|.|g; s|\.lean$||' | sh
 ```
 
-The second command is a loop rather than a single target because there is one Challenge per question day, and it is the same loop `.github/workflows/build.yml` runs. A day whose name needs French quotes needs them here too, so quote the argument when running one by hand.
+The second command is a loop rather than a single target because there is one Challenge per question day, and it is the same loop `.github/workflows/build.yml` runs. Its first substitution wraps the numeric day directories in the French quotes the module names require—`20260813` is not an identifier, so without them lake cannot resolve the target. Keep the quotes when building one by hand: `lake build 'Atlas.Questions.«20260813».Challenge'`.
 
 `sorry` warnings from the comparator files are expected, and a Challenge target's `sorry` is permanent—it is the question, not a gap. **`Knowledge/` is exempt from the usual "production modules build without them" rule, in one direction only:**
 
