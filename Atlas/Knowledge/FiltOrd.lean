@@ -50,13 +50,13 @@ noncomputable def filtOrd (ρ : Shift) {D : Finset (ℕ+ × ℕ)} (v : ↥D → 
 
 /-- Over `M_ρ^f` the recipe lands on jump sets
 ([Pagano 2022, Thm. 3.36, p.433][Pagano2022]). -/
-theorem isJumpSet_filtOrd {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ}
+theorem isJumpSet_filtOrd {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ+}
     (v : ↥(Shift.freeIndex hρ f) → R) : IsJumpSet ρ (Shift.T ρ) (filtOrd ρ v) :=
   (isJumpPair_jumpMin ρ fun _ hp => coordGraph_fst_mem_T hρ hp).isJumpSet_jumpSetOf
 
 /-- Over `M_ρ^{f - 1} ⊕ M_ρ^*` the recipe lands on extended jump sets
 ([Pagano 2022, Thm. 3.36, p.433][Pagano2022]). -/
-theorem isJumpSet_filtOrd_star {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ}
+theorem isJumpSet_filtOrd_star {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ+}
     (v : ↥(Shift.starIndex hρ f) → R) :
     IsJumpSet ρ (Shift.T_star ρ hρ) (filtOrd ρ v) :=
   (isJumpPair_jumpMin ρ fun _ hp => coordGraph_fst_mem_T_star hρ hp).isJumpSet_jumpSetOf
@@ -103,16 +103,16 @@ theorem coordGraph_jumpSetVector {ρ : Shift} {S : Set ℕ+} {D : Finset (ℕ+ �
       exact toPNat'_toNat_addVal_pi_pow hπ p.2
 
 /-- Each level of a jump pair over `T_ρ` has its first copy in the free index. -/
-theorem freeIndex_fst_mem {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ} (hf : 0 < f)
+theorem freeIndex_fst_mem {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ+}
     {S : Set ℕ+} (hS : S ⊆ Shift.T ρ) {P : Finset (ℕ+ × ℕ+)} (hP : IsJumpPair ρ S P) :
     ∀ p ∈ P, ((p : ℕ+ × ℕ+).1, 0) ∈ Shift.freeIndex hρ f := by
   intro p hp
-  change (p.1, 0) ∈ hρ.toFinset ×ˢ Finset.range f
+  change (p.1, 0) ∈ hρ.toFinset ×ˢ Finset.range (f : ℕ)
   rw [Finset.mem_product]
-  exact ⟨hρ.mem_toFinset.mpr (hS (hP.fst_mem hp)), Finset.mem_range.mpr hf⟩
+  exact ⟨hρ.mem_toFinset.mpr (hS (hP.fst_mem hp)), Finset.mem_range.mpr f.pos⟩
 
 /-- Each level of an extended jump pair has its first copy in the star index. -/
-theorem starIndex_fst_mem {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ} (hf : 0 < f)
+theorem starIndex_fst_mem {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ+}
     {P : Finset (ℕ+ × ℕ+)} (hP : IsJumpPair ρ (Shift.T_star ρ hρ) P) :
     ∀ p ∈ P, ((p : ℕ+ × ℕ+).1, 0) ∈ Shift.starIndex hρ f := by
   intro p hp
@@ -120,9 +120,9 @@ theorem starIndex_fst_mem {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ} (hf
   rw [Finset.mem_union]
   rcases hP.fst_mem hp with hT | he
   · left
-    change (p.1, 0) ∈ hρ.toFinset ×ˢ Finset.range f
+    change (p.1, 0) ∈ hρ.toFinset ×ˢ Finset.range (f : ℕ)
     rw [Finset.mem_product]
-    exact ⟨hρ.mem_toFinset.mpr hT, Finset.mem_range.mpr hf⟩
+    exact ⟨hρ.mem_toFinset.mpr hT, Finset.mem_range.mpr f.pos⟩
   · right
     rw [Finset.mem_singleton]
     exact Prod.ext he rfl
@@ -143,7 +143,7 @@ section Claims
 the orbits of `π M_ρ^f` under the filtered automorphism group, so orbits are parametrized by
 jump sets. Claim recorded ahead of its proof
 ([Pagano 2022, Thm. 3.36, p.433][Pagano2022]; also Thm. 1.4, p.404). -/
-theorem filtOrd_eq_iff_exists_filtAut {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ) {π : R}
+theorem filtOrd_eq_iff_exists_filtAut {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+) {π : R}
     (hπ : Irreducible π) {v w : ↥(Shift.freeIndex hρ f) → R}
     (hv : v ∈ Ideal.span {π} • (⊤ : Submodule R (↥(Shift.freeIndex hρ f) → R)))
     (hw : w ∈ Ideal.span {π} • (⊤ : Submodule R (↥(Shift.freeIndex hρ f) → R))) :
@@ -155,7 +155,7 @@ theorem filtOrd_eq_iff_exists_filtAut {ρ : Shift} (hρ : (Shift.T ρ).Finite) (
 complete invariant of the orbits of the π-divisible vectors, so orbits are parametrized by
 extended jump sets. Claim recorded ahead of its proof
 ([Pagano 2022, Thm. 3.36, p.433][Pagano2022]; also Thm. 1.4, p.404). -/
-theorem filtOrd_star_eq_iff_exists_filtAut {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ)
+theorem filtOrd_star_eq_iff_exists_filtAut {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+)
     {π : R} (hπ : Irreducible π) {v w : ↥(Shift.starIndex hρ f) → R}
     (hv : v ∈ Ideal.span {π} • (⊤ : Submodule R (↥(Shift.starIndex hρ f) → R)))
     (hw : w ∈ Ideal.span {π} • (⊤ : Submodule R (↥(Shift.starIndex hρ f) → R))) :

@@ -109,7 +109,7 @@ variable {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
 multiplicities of the jump pair, and the value one past a multiplicity is the iterate that
 recovers the jump set. Claim recorded ahead of its proof
 ([Pagano 2022, Prop. 3.34, p.432][Pagano2022]). -/
-theorem breaksAt_jumpSetVector {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ) {π : R}
+theorem breaksAt_jumpSetVector {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+) {π : R}
     (hπ : Irreducible π) {P : Finset (ℕ+ × ℕ+)} (hP : IsJumpPair ρ (Shift.T ρ) P) :
     (∀ m : ℕ, (freeFiltered (R := R) ρ (Shift.freeIndex hρ f)).BreaksAt π
         (jumpSetVector π (Shift.freeIndex hρ f) P) m ↔ ∃ p ∈ P, ((p.2 : ℕ+) : ℕ) = m) ∧
@@ -121,7 +121,7 @@ theorem breaksAt_jumpSetVector {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ
 /-- The break behavior of the normal form over the presenting module `M_ρ^{f - 1} ⊕ M_ρ^*`,
 for extended jump pairs. Claim recorded ahead of its proof
 ([Pagano 2022, Prop. 3.34, p.432][Pagano2022]). -/
-theorem breaksAt_jumpSetVector_star {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ) {π : R}
+theorem breaksAt_jumpSetVector_star {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+) {π : R}
     (hπ : Irreducible π) {P : Finset (ℕ+ × ℕ+)}
     (hP : IsJumpPair ρ (Shift.T_star ρ hρ) P) :
     (∀ m : ℕ, (freeFiltered (R := R) ρ (Shift.starIndex hρ f)).BreaksAt π
@@ -134,7 +134,7 @@ theorem breaksAt_jumpSetVector_star {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f 
 /-- Each orbit of `π M_ρ^f` holds at most one normal form: two jump pairs whose vectors are
 conjugate under the filtered automorphism group coincide. Claim recorded ahead of its proof,
 which reads the pair off the break function ([Pagano 2022, Cor. 3.35, p.433][Pagano2022]). -/
-theorem jumpSetVector_eq_of_filtAut {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ) {π : R}
+theorem jumpSetVector_eq_of_filtAut {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+) {π : R}
     (hπ : Irreducible π) {P Q : Finset (ℕ+ × ℕ+)} (hP : IsJumpPair ρ (Shift.T ρ) P)
     (hQ : IsJumpPair ρ (Shift.T ρ) Q)
     {e : (↥(Shift.freeIndex hρ f) → R) ≃ₗ[R] (↥(Shift.freeIndex hρ f) → R)}
@@ -145,7 +145,7 @@ theorem jumpSetVector_eq_of_filtAut {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f 
 
 /-- The extended version: each orbit of `π (M_ρ^{f - 1} ⊕ M_ρ^*)` holds at most one normal
 form. Claim recorded ahead of its proof ([Pagano 2022, Cor. 3.35, p.433][Pagano2022]). -/
-theorem jumpSetVector_star_eq_of_filtAut {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ) {π : R}
+theorem jumpSetVector_star_eq_of_filtAut {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+) {π : R}
     (hπ : Irreducible π) {P Q : Finset (ℕ+ × ℕ+)} (hP : IsJumpPair ρ (Shift.T_star ρ hρ) P)
     (hQ : IsJumpPair ρ (Shift.T_star ρ hρ) Q)
     {e : (↥(Shift.starIndex hρ f) → R) ≃ₗ[R] (↥(Shift.starIndex hρ f) → R)}

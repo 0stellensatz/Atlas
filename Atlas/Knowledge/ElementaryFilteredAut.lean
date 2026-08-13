@@ -148,7 +148,7 @@ theorem standardWeight_pi_pow_mul_le {ρ : Shift} {π : R} (hπ : Irreducible π
 jump-set vector of the `≤_ρ`-minimal points of its coordinate graph. Claim recorded ahead of
 its proof, which composes finitely many elementary automorphisms
 ([Pagano 2022, Prop. 3.33, p.431][Pagano2022]). -/
-theorem exists_filtAut_eq_jumpSetVector {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ) {π : R}
+theorem exists_filtAut_eq_jumpSetVector {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+) {π : R}
     (hπ : Irreducible π) {v : ↥(Shift.freeIndex hρ f) → R}
     (hv : v ∈ Ideal.span {π} • (⊤ : Submodule R (↥(Shift.freeIndex hρ f) → R))) :
     ∃ e ∈ (freeFiltered (R := R) ρ (Shift.freeIndex hρ f)).filtAut,
@@ -158,7 +158,7 @@ theorem exists_filtAut_eq_jumpSetVector {ρ : Shift} (hρ : (Shift.T ρ).Finite)
 /-- The extended version of the normal-form theorem, over the presenting module
 `M_ρ^{f - 1} ⊕ M_ρ^*`. Claim recorded ahead of its proof
 ([Pagano 2022, Prop. 3.33, p.431][Pagano2022]). -/
-theorem exists_filtAut_eq_jumpSetVector_star {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ)
+theorem exists_filtAut_eq_jumpSetVector_star {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+)
     {π : R} (hπ : Irreducible π) {v : ↥(Shift.starIndex hρ f) → R}
     (hv : v ∈ Ideal.span {π} • (⊤ : Submodule R (↥(Shift.starIndex hρ f) → R))) :
     ∃ e ∈ (freeFiltered (R := R) ρ (Shift.starIndex hρ f)).filtAut,

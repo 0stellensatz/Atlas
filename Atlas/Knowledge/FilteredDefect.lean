@@ -22,12 +22,14 @@ allows a single one-dimensional defect at the critical index.
 
 ## Implementation notes
 
-Linearity makes each graded piece a module over the residue field, but the instance depends on
-the hypothesis `IsLinear`, so it cannot be a global `instance`: the dimensions are defined with
-a `letI` from `Module.IsTorsionBySet.module`, and the residue field is written `R ⧸ maximalIdeal
-R`—definitionally `IsLocalRing.ResidueField R`—so the instances stay syntactic. Dimensions are
-`Cardinal`-valued as in the source, which allows infinite ones; this tranche only meets finite
-values.
+The ring is a discrete valuation ring as in the source's §3.3, so that an irreducible `π` *is*
+a uniformizer—`(π) = 𝔪`—and the map `[π_R]_i` and its two dimensions are the source's, not
+depending on the choice of `π`. Linearity makes each graded piece a module over the residue
+field, but the instance depends on the hypothesis `IsLinear`, so it cannot be a global
+`instance`: the dimensions are defined with a `letI` from `Module.IsTorsionBySet.module`, and
+the residue field is written `R ⧸ maximalIdeal R`—definitionally
+`IsLocalRing.ResidueField R`—so the instances stay syntactic. Dimensions are `Cardinal`-valued
+as in the source, which allows infinite ones; this tranche only meets finite values.
 
 ## References
 
@@ -38,7 +40,8 @@ namespace Atlas.Knowledge
 
 open IsLocalRing
 
-variable {R : Type*} [CommRing R] [IsLocalRing R] {M : Type*} [AddCommGroup M] [Module R M]
+variable {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] {M : Type*}
+  [AddCommGroup M] [Module R M]
 
 namespace FilteredModule
 
@@ -54,7 +57,7 @@ theorem graded_isTorsionBySet {i : ℕ+} (h : maximalIdeal R • F.filt i ≤ F.
   rw [← map_smul, F.gradedMk_eq_zero_iff]
   exact h (Submodule.smul_mem_smul a.2 hm)
 
-omit [IsLocalRing R] in
+omit [IsDomain R] [IsDiscreteValuationRing R] in
 /-- Torsion passes to submodules. -/
 theorem isTorsionBySet_submodule {V : Type*} [AddCommGroup V] [Module R V] {s : Set R}
     (hT : Module.IsTorsionBySet R V s) (N : Submodule R V) :
@@ -63,7 +66,7 @@ theorem isTorsionBySet_submodule {V : Type*} [AddCommGroup V] [Module R V] {s : 
   refine Subtype.ext ?_
   simpa using hT (x := (x : V)) (a := a)
 
-omit [IsLocalRing R] in
+omit [IsDomain R] [IsDiscreteValuationRing R] in
 /-- Torsion passes to quotients. -/
 theorem isTorsionBySet_quotient {V : Type*} [AddCommGroup V] [Module R V] {s : Set R}
     (hT : Module.IsTorsionBySet R V s) (N : Submodule R V) :
