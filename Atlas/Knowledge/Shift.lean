@@ -53,6 +53,25 @@ lemma inj (ρ : Shift) : (⇑ρ).Injective := by
   rw [coe_mk]
   apply StrictMono.injective ρ.strict_mono
 
+/-- A shift moves every point strictly up. -/
+lemma lt_apply (ρ : Shift) (x : ℕ+) : x < ρ x := by
+  induction x with
+  | one => exact ρ.one_lt_shift_one
+  | succ n ih => exact (PNat.add_one_le_iff.mpr ih).trans_lt (ρ.strict_mono (PNat.lt_add_right n 1))
+
+/-- Iterating a shift from any starting point is strictly increasing in the iteration count. -/
+lemma iterate_strictMono_right (ρ : Shift) (x : ℕ+) : StrictMono fun n => (⇑ρ)^[n] x :=
+  strictMono_nat_of_lt_succ fun n => by
+    rw [Function.iterate_succ_apply']
+    exact ρ.lt_apply _
+
+lemma iterate_le_iterate_right (ρ : Shift) (x : ℕ+) {m n : ℕ} (h : m ≤ n) :
+    (⇑ρ)^[m] x ≤ (⇑ρ)^[n] x :=
+  (ρ.iterate_strictMono_right x).monotone h
+
+lemma le_iterate (ρ : Shift) (x : ℕ+) (n : ℕ) : x ≤ (⇑ρ)^[n] x :=
+  (ρ.iterate_strictMono_right x).monotone (Nat.zero_le n)
+
 end Shift
 
 end Atlas.Knowledge
