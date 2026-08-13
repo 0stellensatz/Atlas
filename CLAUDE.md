@@ -44,12 +44,13 @@ python3 __init_question__.py 20260813 --append  # add one question to both files
 
 ## Which rules this project carries
 
-All four documents in `__docs__/`, fine-tuned here and not in the template (https://github.com/0stellensatz/AutoFormalization) they came from. What was narrowed:
+The four template documents in `__docs__/`, fine-tuned here and not in the template (https://github.com/0stellensatz/AutoFormalization) they came from, and one document native to this project. What was narrowed:
 
 - **`rules-comparator.md`** — the per-unit comparator namespace; the Mathlib-vocabulary statement policy, with the exception procedure and the three rules a clone block carries; `Knowledge/` exempted from "production modules build without `sorry`", on theorems only.
 - **`rules-formalization-project.md`** — a unit is a day rather than a slice of a source; the knowledge layer replaces per-unit production code entirely; the import discipline that keeps days independent and pushes shared work up into `Knowledge/`.
 - **`rules-documentation.md`** — an `## In this project` section: a knowledge item's docstring title is the bare term because that line is the index entry, and a backticked `Atlas.Knowledge.*` name may point at an item not yet written, which is the backlog and is not to be "fixed".
 - **`rules-comments.md`** — the closing *When the target is Mathlib* section is cut; nothing here is headed upstream.
+- **`rules-workflow.md`** — the native one, not from the template: the cycle a phase travels—plan as tracking issue, formalization per PR, adversarial review by a second agent on a different model, revision, verification before the issue's checkboxes are ticked, linear merge. The author never ticks its own boxes; the document says why, and it is the comparator's threat model one layer up.
 
 Run the checker before declaring work done, and a build after it—including the Challenge files, which `lake build` leaves out and whose failure to elaborate is otherwise invisible:
 
