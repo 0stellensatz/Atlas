@@ -151,11 +151,7 @@ theorem jumpSetOf_jumpPairOf (h : IsJumpSet ρ S A) : jumpSetOf ρ (jumpPairOf �
     exact (Finset.mem_filter.mp hx).1
   · intro hx
     have hAne : A.Nonempty := ⟨x, hx⟩
-    have hminB : A.min' hAne ∈ A \ A.image ⇑ρ := by
-      refine Finset.mem_sdiff.mpr ⟨A.min'_mem hAne, ?_⟩
-      intro hmem
-      obtain ⟨a, ha, hρa⟩ := Finset.mem_image.mp hmem
-      exact absurd (A.min'_le a ha) (not_le.mpr (hρa ▸ ρ.lt_apply a))
+    have hminB : A.min' hAne ∈ A \ A.image ⇑ρ := ρ.min'_mem_sdiff_image hAne
     have hBne : ((A \ A.image ⇑ρ).filter fun j => j ≤ x).Nonempty :=
       ⟨A.min' hAne, Finset.mem_filter.mpr ⟨hminB, A.min'_le x hx⟩⟩
     have himem := Finset.max'_mem _ hBne
@@ -215,7 +211,7 @@ are mutually inverse, for jump sets and extended jump sets at once
 def jumpSetEquiv (ρ : Shift) (S : Set ℕ+) :
     {A : Finset ℕ+ // IsJumpSet ρ S A} ≃ {P : Finset (ℕ+ × ℕ+) // IsJumpPair ρ S P} where
   toFun A := ⟨jumpPairOf ρ A.1, A.2.jumpPairOf⟩
-  invFun P := ⟨jumpSetOf ρ P.1, P.2.jumpSetOf⟩
+  invFun P := ⟨jumpSetOf ρ P.1, P.2.isJumpSet_jumpSetOf⟩
   left_inv A := Subtype.ext (jumpSetOf_jumpPairOf A.2)
   right_inv P := Subtype.ext (jumpPairOf_jumpSetOf P.2)
 

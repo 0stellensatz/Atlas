@@ -93,7 +93,7 @@ theorem induction_on {motive : Finset ℕ+ → Prop} (h : IsJumpSet ρ S A)
     intro A hcard hjs
     rcases A.eq_empty_or_nonempty with rfl | hne
     · exact empty
-    have hBne : (A \ A.image ⇑ρ).Nonempty := sdiff_image_nonempty ρ hne
+    have hBne : (A \ A.image ⇑ρ).Nonempty := ⟨_, ρ.min'_mem_sdiff_image hne⟩
     have himem := Finset.max'_mem _ hBne
     rw [Finset.mem_sdiff] at himem
     obtain ⟨hiA, hiIm⟩ := himem

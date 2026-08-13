@@ -72,6 +72,14 @@ lemma iterate_le_iterate_right (ρ : Shift) (x : ℕ+) {m n : ℕ} (h : m ≤ n)
 lemma le_iterate (ρ : Shift) (x : ℕ+) (n : ℕ) : x ≤ (⇑ρ)^[n] x :=
   (ρ.iterate_strictMono_right x).monotone (Nat.zero_le n)
 
+/-- The least element of a nonempty finite set is not hit by a shift: shifts move strictly up. -/
+lemma min'_mem_sdiff_image (ρ : Shift) {A : Finset ℕ+} (hA : A.Nonempty) :
+    A.min' hA ∈ A \ A.image ⇑ρ := by
+  refine Finset.mem_sdiff.mpr ⟨A.min'_mem hA, ?_⟩
+  intro hmem
+  obtain ⟨a, ha, hρa⟩ := Finset.mem_image.mp hmem
+  exact absurd (A.min'_le a ha) (not_le.mpr (hρa ▸ ρ.lt_apply a))
+
 end Shift
 
 end Atlas.Knowledge
