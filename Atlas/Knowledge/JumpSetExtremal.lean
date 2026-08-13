@@ -92,6 +92,29 @@ theorem isJumpPair_jumpMin (ρ : Shift) (hS : ∀ p ∈ G, p.1 ∈ S) :
     obtain ⟨-, hqmin⟩ := Finset.mem_filter.mp hq
     exact hne (hqmin p (Finset.mem_filter.mp hp).1 hord)
 
+/-- Jump pairs are antichains of the jump order: the converse of
+`Atlas.Knowledge.isJumpPair_of_antichain`, and the reason a jump pair is its own set of minimal
+points ([Pagano 2022, Def. 2.6, p.418][Pagano2022]). -/
+theorem IsJumpPair.not_jumpOrder {ρ : Shift} (hP : IsJumpPair ρ S G) {p q : ℕ+ × ℕ+}
+    (hp : p ∈ G) (hq : q ∈ G) (hne : p ≠ q) : ¬JumpOrder ρ p q := by
+  rintro ⟨h1, h2⟩
+  rcases lt_trichotomy p.1 q.1 with hlt | heq | hlt
+  · exact absurd h1 (not_le.mpr (hP.snd_lt_snd hp hq hlt))
+  · exact hne (hP.eq_of_fst_eq hp hq heq)
+  · exact absurd h2 (not_le.mpr (hP.iterate_lt_iterate hq hp hlt))
+
+/-- A jump pair is its own set of minimal points under the jump order. -/
+theorem IsJumpPair.jumpMin_eq_self {ρ : Shift} (hP : IsJumpPair ρ S G) : jumpMin ρ G = G := by
+  refine Finset.filter_true_of_mem fun p hp q hq hqp => ?_
+  by_contra hne
+  exact hP.not_jumpOrder hq hp hne hqp
+
+/-- A jump pair is its own set of maximal points under the jump order. -/
+theorem IsJumpPair.jumpMax_eq_self {ρ : Shift} (hP : IsJumpPair ρ S G) : jumpMax ρ G = G := by
+  refine Finset.filter_true_of_mem fun p hp q hq hpq => ?_
+  by_contra hne
+  exact hP.not_jumpOrder hp hq (fun h => hne h.symm) hpq
+
 /-- The maximal points of any finite graph with first components in `S` are the pair
 `(I_A, β_A)` of a unique jump set ([Pagano 2022, Prop. 2.7, p.418][Pagano2022]). -/
 theorem existsUnique_jumpPairOf_eq_jumpMax (ρ : Shift) (hS : ∀ p ∈ G, p.1 ∈ S) :

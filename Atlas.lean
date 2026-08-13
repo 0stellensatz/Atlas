@@ -10,9 +10,23 @@ import Atlas.Knowledge.AbsoluteInertiaDegree
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.ClosedDerivedSeries
 import Atlas.Knowledge.DigitSum
+import Atlas.Knowledge.ElementaryFilteredAut
+import Atlas.Knowledge.FiltAut
+import Atlas.Knowledge.FiltOrd
+import Atlas.Knowledge.FilteredBreak
+import Atlas.Knowledge.FilteredComplete
+import Atlas.Knowledge.FilteredDefect
+import Atlas.Knowledge.FilteredGradedCriterion
+import Atlas.Knowledge.FilteredGradedPiece
 import Atlas.Knowledge.FilteredIso
+import Atlas.Knowledge.FilteredLinear
+import Atlas.Knowledge.FilteredModule
+import Atlas.Knowledge.FilteredModulePi
 import Atlas.Knowledge.FilteredProfiniteGroup
+import Atlas.Knowledge.FilteredRhoMap
+import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.HigherUnitGroup
+import Atlas.Knowledge.IsFilteredHom
 import Atlas.Knowledge.IsJumpPair
 import Atlas.Knowledge.IsJumpSet
 import Atlas.Knowledge.IsMStepSolvable
@@ -25,11 +39,13 @@ import Atlas.Knowledge.JumpSetExtremal
 import Atlas.Knowledge.JumpSetInduction
 import Atlas.Knowledge.JumpSetOf
 import Atlas.Knowledge.JumpSetSmall
+import Atlas.Knowledge.JumpSetVector
 import Atlas.Knowledge.LegendreFormula
 import Atlas.Knowledge.MStepSolvableExtension
 import Atlas.Knowledge.MStepSolvableQuotient
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.ParityIndex
+import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.Shift
@@ -39,6 +55,7 @@ import Atlas.Knowledge.ShiftRhoEP
 import Atlas.Knowledge.ShiftRhoP
 import Atlas.Knowledge.ShiftT
 import Atlas.Knowledge.ShiftTStar
+import Atlas.Knowledge.StandardFiltered
 import Atlas.Knowledge.TRhoEP
 
 import Atlas.Questions.«20260813».Development
