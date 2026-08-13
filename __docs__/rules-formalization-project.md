@@ -1,8 +1,10 @@
-# Architecture for source-formalization projects
+# Architecture: the knowledge layer and the question units
 
-These rules govern any Lake project that formalizes a piece of mathematical literature unit by unit. A *unit* is a directory holding one comparator trio—that much is fixed, since `__check__.py` pairs the three files by the directory they share—but **which slice of the source a unit corresponds to, and what its directory is called, are the project's own choice**, fixed in its `CLAUDE.md`: a chapter, a section, one theorem together with the lemmas it needs, or a single unit at the library root when the source is short enough not to want dividing. Nothing below depends on which.
+These rules govern the shape of this package: a standing body of formalized mathematics, and a run of dated question units stated against it.
 
-That `CLAUDE.md` also fixes the project's root namespace, its source of truth (the paper, a reading note taken from it, or both), whether it keeps a `CompareMathlib.lean`, and any statement policy layered on top of these rules.
+**Atlas is bound to no source.** The questions are its own—posed rather than transcribed—so nothing here mirrors a paper's sectioning, and there is no exposition being worked through. A *unit* is one day's questions, in the directory `Atlas/Questions/YYYYMMDD/`, and the date is the only thing that groups its contents: questions posed on one day share a directory whether or not they share a subject. That a unit is a directory holding one comparator pair is what `__check__.py` fixes, since it pairs the files by the directory they share; that the directory is a date is this project's own choice.
+
+Two things about that spelling are load-bearing. `20260813` is not an identifier, so the module `Atlas.Questions.«20260813».Challenge`, the namespace, and the root module's import line all need the French quotes. And targets are named `question_YYYYMMDD_a`, `_b`, … lettered in the order they were posed, so a name carries its own day and no two days collide.
 
 Two companion documents carry the parts not repeated here: `./rules-comparator.md` (the Challenge / Development pair—the specification-versus-proof split that these rules assume throughout) and `./rules-documentation.md` (module and declaration docstrings, and citations).
 
@@ -28,49 +30,53 @@ Module names mirror file paths under the package root: `<Project>/<Unit>/Foo.lea
 
 ## What a unit holds
 
-Three files are named by the comparator discipline. The rest is production code, and how it is split is not prescribed.
+A unit is two files and nothing else.
 
-- **`Challenge.lean` — the frozen statement of the unit's targets**, one declaration per numbered claim of the source, each proved by `sorry`, over its own clones of the definitions they mention. Reading it top to bottom should read like the source unit itself. It imports only Mathlib, and it is the file that does *not* change when a proof is found.
-- **`Development.lean` — the same declarations, discharged** by delegating to the unit's proof files, each body bridging from the clone to the production original (`./rules-comparator.md`). This is the unit's public, source-facing face.
-- **`CompareMathlib.lean`** — optional; see `./rules-comparator.md`.
+- **`Challenge.lean` — the frozen statement of the day's questions**, one declaration per question, each proved by `sorry`, and stated in Mathlib's vocabulary (`./rules-comparator.md`). It imports only Mathlib, and it is the file that does *not* change when an answer is found. A `sorry` here is permanent: it is the question, not a gap.
+- **`Development.lean` — the same declarations, answered**, by importing what the answer needs from `Atlas.Knowledge` and delegating to it. This is where an agent works, and the only file of the two it may edit.
 
-Beside them:
+**There is no per-unit production code, no `Defs.lean`, and no per-unit proof file.** The template puts the definitions and proofs a unit is stated over beside that unit; here they sit in one project-wide layer that every unit draws on, because a day is a bad place to leave anything meant to be reused, and reuse is the point.
 
-- **The production definitions** the unit's targets are stated over: structures, instances, notation, and `rfl`-level unfolding lemmas. Give them a file of their own—`Defs.lean` is the conventional name, and nothing enforces it—as soon as more than one file states lemmas over them, so that each of those files can import the definitions rather than one of them owning the definitions and the rest having to import it whole. A unit whose targets are stated in Mathlib's vocabulary alone wants no such file, and clones nothing into its comparator files either.
-- **The proof files.** One per goal, or per tight cluster of goals, named in UpperCamelCase after the result proved, with the source tag recorded in the module docstring. This is where the actual multi-line proofs live, and what `Development.lean` delegates to.
+## The knowledge layer
 
-However the production side is split, the comparator files clone the definitions their targets need rather than importing them, so the production copy and the clones are maintained in step by hand (`./rules-comparator.md`).
+`Atlas/Knowledge/` is that layer: the standing, curated body of formalized mathematics that answers are built from. It is production code in the sense the comparator discipline means, and it is the reason an agent handed a question is not starting from Mathlib and a blank file.
+
+- **One file states one thing**, and the file is named for that thing in UpperCamelCase: `Knowledge/JumpSet.lean`, `Knowledge/HigherUnitGroup.lean`. One definition, one statement with its proof, one construction, one worked example. A file wanting a second principal declaration is two files.
+- **The file name is the index entry.** `ls Atlas/Knowledge/` is the index of everything Atlas knows, `grep -h '^# ' Atlas/Knowledge/*.lean` is that index annotated, and the root module is the same list again, complete because `__check__.py` says so. Nothing else indexes the layer, and nothing else needs to—a written index would be a second copy of a list already derivable three ways.
+- **An item is referred to by its module name**, `Atlas.Knowledge.<Item>`, whether by an `import` or by a backticked mention in a docstring. Module components are UpperCamelCase, so a module name equals its file stem exactly, and that exactness is what lets `./__graph__.sh` resolve a reference without guessing. The declarations *inside* an item are named by Mathlib's own convention for their kind—`digitSum` for a `def` returning data, `sub_one_mul_padicValNat_factorial` for a theorem—and are written in prose as usual; they are not what the graph tracks, and the lowercase initial is what tells the two apart.
+- **A prerequisite is an `import`. A soft or forward reference is a backticked module name in a docstring** (`./rules-documentation.md`), and it may name an item not written yet. That is the backlog, it is not an error, and it is not to be "fixed."
+- **Every item cites where it came from.** An item with no source in its docstring is not usable later; see `./rules-documentation.md`.
+- **A `sorry` on a theorem is a claim recorded before its proof**, and is allowed. Under a definition it never is (`./rules-comparator.md`).
 
 ## Import discipline
 
-Lean's import graph is acyclic, and the comparator sits at the top of the unit, so nothing in a unit may import its own `Development.lean`. The flow within a unit is fixed:
+Lean's import graph is acyclic, and everything here flows one way:
 
 ```
-production definitions  ←  proof files  ←  Development.lean
+Mathlib  ←  Knowledge/  ←  Development.lean
 
-Mathlib  ←  Challenge.lean,  CompareMathlib.lean
+Mathlib  ←  Challenge.lean
 ```
 
-- Proof files import wherever the production definitions live, and one another as needed, never `Development.lean`. That is the argument for giving the definitions a file of their own once there are two proof files: without it, one of them owns the definitions and every sibling has to import that file whole, dragging its proofs into scope along with them.
-- **`Challenge.lean` and `CompareMathlib.lean` sit outside this graph entirely**—they import Mathlib alone and carry their own clones of the definitions their targets mention (`./rules-comparator.md`).
-- When a production definition carries a proof obligation, prove the obligation in place when it is short; if it grows, split it into a prerequisite file imported *by* the one holding the definition. Never leave a `sorry` underneath a definition—a definition that does not elaborate takes everything downstream of it with it.
-- A definition whose proof obligation *is* one of the source's numbered claims lives in the comparator files only (declared after the claim it depends on), so the obligation stays a visible goal; it has no production counterpart, and the proof files must not reference it.
-- Later units build on earlier ones by importing their `Development`. A later unit's comparator files import nothing at all beyond Mathlib, so they re-clone whatever earlier definitions their own targets mention.
+- **A `Knowledge/` file imports Mathlib and other `Knowledge/` files, and nothing else.** It never imports a question, in either direction and at any remove. A genuine mutual dependency between two items is resolved by demoting one direction to a docstring reference, which is what the soft link is for.
+- **`Challenge.lean` sits outside the graph entirely**—Mathlib alone (`./rules-comparator.md`).
+- **No `Questions/` directory imports another.** Days are independent, and a day is finished when it is. **What a second day also wants moves up into `Knowledge/`** rather than being reached for sideways—that rule is what makes the knowledge layer grow from use instead of becoming a place things are filed.
+- When a `Knowledge/` definition carries a proof obligation, prove the obligation in place when it is short; if it grows, split it into a prerequisite item imported *by* the one holding the definition. Never leave a `sorry` underneath a definition—a definition that does not elaborate takes everything downstream of it with it.
 
 ## Workflow
 
-1. **Skeleton.** Write `Challenge.lean` from the source against Mathlib alone: the definitions its targets need, cloned into the comparator namespace, then every target as a `sorry`. Copy the clone block over to the production side under the project namespace, which is where the production tower will build on it. Copy `Challenge.lean` whole to `Development.lean` and adjust only its module docstring and imports. The unit must build at this stage—`sorry` is a warning, not an error.
-2. **Fill.** Pick a `sorry` in `Development.lean`, create (or extend) the proof file for it, and prove the result there over the production definitions. A proof file may carry `sorry`s while work on it is in progress.
-3. **Discharge.** Once the proof is `sorry`-free, add its `import` to `Development.lean` and replace the `sorry` with a body that bridges from the clones to the production API and delegates to it—for definitions that are `def`s, a one-liner; for cloned structures, the `obtain` / `⟨...⟩` conversion of `./rules-comparator.md`. **The statement never changes at this step, only its body**, and `Challenge.lean` is not touched at all.
+1. **Pose.** Scaffold the day with `__init_question__.py`, then add each question with its `--append` mode, which writes the identical declaration into both files so the two cannot start out of step. State it in Mathlib's vocabulary, unfolding any `Knowledge/` notion it is about. **A statement that will not elaborate is not yet a question**—`sorry` closes a proof, never a hole in what is being asked, so getting the statement to elaborate is where most of the work of posing one goes. Name in the Challenge's `## Implementation notes` the `Knowledge/` items the question is about, as backticked fully-qualified names; that is the pointer an agent follows, and it costs nothing, being a docstring rather than an import.
+2. **Answer.** In `Development.lean` only, replace a `sorry` with a proof, importing from `Atlas.Knowledge` whatever it draws on. **The statement never changes at this step, only its body**, and `Challenge.lean` is not touched at all.
+3. **Promote.** Anything the answer needed that a second question would also want—a definition, a lemma worth a name—moves into `Knowledge/` as an item of its own rather than staying inline in a body. This is the step that is easy to skip and the one that makes the layer worth having.
 
-If step 3 cannot be carried out without changing the statement, the statement was wrong: fix it in `Challenge.lean` first, propagate the identical edit to the other comparator files of the unit, and only then adjust the proof.
+If step 2 cannot be carried out without changing the statement, the statement was wrong. Fix it in `Challenge.lean` first, copy the changed declaration verbatim into `Development.lean`, restore its body, and only then adjust the proof—in that order, and in one commit. Weakening a statement to fit the proof that turned out to be reachable is the single failure this whole architecture exists to catch, and `__check__.py` catches it only if the Challenge is edited deliberately rather than drifted into.
 
 ## Namespaces and naming
 
-- Production declarations live in the project's root namespace; source-level objects get nested namespaces for dot notation. The comparator files share a namespace of their own (`./rules-comparator.md`).
-- The comparator files own the public, source-facing names, in descriptive Mathlib style. Each proof file wraps its contents in a sub-namespace named after the file (`namespace <Root>.RhoEP` inside `RhoEP.lean`), so its concluding lemma can restate the target without a name clash; helpers not meant for use outside the file are `private`.
-- Docstrings on source-facing declarations cite the source's numbering and page—see `./rules-documentation.md`.
-- Modeling decisions (how a source object is encoded—e.g., `ℤ_{≥1}` as `ℕ+`) are recorded once, in the `## Implementation notes` of the `Challenge.lean` that introduces them, and stay consistent across units.
+- Knowledge items live in `Atlas.Knowledge`, flat: `Knowledge/JumpSet.lean` declares `Atlas.Knowledge.JumpSet` and puts what supports it in a nested `namespace JumpSet`, for dot notation. The comparator files of a unit share a namespace of their own (`./rules-comparator.md`). Helpers not meant for use outside their file are `private`.
+- Knowledge items are named in descriptive Mathlib style, and a name is chosen as the name of the *term*, since it is also the file name and the index entry.
+- Docstrings on knowledge items cite where the item comes from, by numbering and page—see `./rules-documentation.md`.
+- Modeling decisions (how an object is encoded—e.g., `ℤ_{≥1}` as `ℕ+`) are recorded once, in the `## Implementation notes` of the item that introduces them, and stay consistent across the layer.
 - When a declaration's natural name collides with the Mathlib lemma it mirrors, the Mathlib one is reachable as `_root_.<name>`; prefer a distinct descriptive name when the collision would confuse.
 
 ## File layout
@@ -79,7 +85,7 @@ Every `.lean` file starts with `import Mathlib`, then the project-local imports 
 
 ```lean
 import Mathlib
-import <Project>.<Unit>.Defs
+import Atlas.Knowledge.JumpSet
 
 /-!
 # <title>
@@ -87,7 +93,7 @@ import <Project>.<Unit>.Defs
 -/
 ```
 
-In `Challenge.lean` and `CompareMathlib.lean` the block stops at the first line: they take no project-local import at all.
+In `Challenge.lean` the block stops at the first line: it takes no project-local import at all.
 
 **There is no file-level `set_option` block.** The suppressions it is tempting to open every file with—`warningAsError false`, `linter.style.longLine false`, `linter.style.emptyLine false`—are not used, and the set is empty: nothing stands between a file and the Mathlib linter set that `lakefile.toml` enables. The long-line linter in particular is a check the file is expected to pass, since comments are hard-wrapped at 100 columns (`./rules-comments.md`).
 
@@ -106,11 +112,14 @@ This is what Mathlib's own `linter.style.setOption` demands; an unscoped `set_op
 All of these are run from the project directory (from elsewhere, wrap the change of directory in a subshell so it does not leak into later commands):
 
 ```bash
-lake build                               # the whole project
-lake build <Project>.<Unit>.Development  # one unit
-lake build <Project>.<Unit>.Challenge    # the comparator, separately
-lake build <Project>.<Unit>.CompareMathlib   # likewise, when the project keeps one
+lake build                                          # the knowledge layer and every Development
+lake build Atlas.Knowledge.JumpSet                  # one knowledge item
+lake build 'Atlas.Questions.«20260813».Development'  # one day's answers
+lake build 'Atlas.Questions.«20260813».Challenge'    # its questions, which the root module omits
+./__graph__.sh                                      # the knowledge web, and what is promised but unwritten
 ```
+
+The French quotes in a day's module name have to survive the shell, so quote the argument. Every Challenge at once is the loop in `./rules-comparator.md`.
 
 A fresh checkout of a project needs `lake exe cache get` **before** the first build—otherwise Lean compiles Mathlib from source, which takes hours. Alongside the build, run the project's own structural check (`./rules-comparator.md`):
 

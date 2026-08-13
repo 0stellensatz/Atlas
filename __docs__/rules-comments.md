@@ -2,7 +2,9 @@
 
 How the prose *inside* a comment is written: line breaking, how mathematics is set, Markdown usage, emphasis. What each file and each declaration must *carry* as documentation—the comment forms and their delimiter layout, the module docstring skeleton, which declarations need a docstring, and how a work is cited—is a separate matter, governed by `./rules-documentation.md`.
 
-**One guide covers every project**, whether it is personal notes or aimed at upstreaming. The rules below hold either way; the few extras that apply only when the target is Mathlib are collected in the last section, and a project not headed upstream drops that section from its copy.
+**This project's questions and its knowledge layer are its own, not aimed at upstreaming**, so the template's closing *When the target is Mathlib* section—the copyright header, cite keys resolving against `docs/references.bib`, a mandatory `## Tags`—is not copied here and none of it is in force. Everything below applies as written. (Restore that section from the template this project was generated from, https://github.com/0stellensatz/AutoFormalization, if a file ever turns upstream.)
+
+Dropping the copyright header means dropping the linter that looks for one, and `lakefile.toml` is where that is done—`weak.linter.style.header = false`, project-wide. It is turned off there rather than in a file so that the file-level `set_option` block stays empty (`./rules-formalization-project.md`). Here that matters more than it does elsewhere: a `sorry` warning is this project's backlog, on a knowledge theorem and in every Challenge, so a second warning firing on every file regardless would train the reader to skim past exactly the output that carries information.
 
 ## Hard wrap at 100 columns
 
@@ -73,15 +75,5 @@ When rung 4 is used, the LaTeX inside it follows these conventions:
 - **Bold with double asterisks**, used sparingly: a named theorem or a major concept on first introduction (`**the mean value theorem**`), or in-sentence emphasis (`**nothing**`). Bold is *not* used to announce the source item a declaration transcribes—no `**Theorem 1** (p.5): …` opener—because that item is cited at the end of the docstring instead; see *Citing other works* in `./rules-documentation.md`.
 - **Headers** follow the module docstring skeleton of `./rules-documentation.md`: `#` for the file title, `##` for its structural subsections, `###` for a subtitle inside a sectioning comment below the module header.
 - **Markdown links** of the form `[text](url)`, allowing italics to nest inside the link text—`[*Loogle*](https://loogle.lean-lang.org/)`.
-
-## When the target is Mathlib
-
-A file headed upstream keeps everything above—the 100-column wrap and the Markdown rules are Mathlib's own—and adds only this, following the official [Mathlib style guide](https://leanprover-community.github.io/contribute/style.html) and [documentation guidelines](https://leanprover-community.github.io/contribute/doc.html):
-
-- **A copyright header** opens the file, ahead of the imports.
-- **Cite keys resolve against Mathlib's `docs/references.bib`**, not the project's own bibliography. The bracketed syntax of `./rules-documentation.md` is unchanged, so upstreaming a file means moving its entries into that database, nothing more.
-- **`## Tags` is expected** in the module docstring rather than optional.
-- **The full Mathlib linter set must pass**, with no file-level suppression—which is the rule here in any case. One consequence for the wrap rule above: the licence to leave a line over-long rather than break a construct is not available upstream, since `linter.style.longLine` has to pass and cannot be turned off. Reword the sentence so that the unbreakable construct starts a line of its own.
-- **MathJax renders full LaTeX environments** (`align`, `cases`, …) on the documentation site, so the rung-4 fallback has more room upstream than it does in the editor. It is still a fallback.
 
 Exemplary modules to imitate: `Mathlib.NumberTheory.Padics.PadicNorm`, `Mathlib.Topology.Basic`, `Mathlib.Analysis.Calculus.ContDiff.Basic`.

@@ -1,15 +1,16 @@
-name = "AutoFormalization"
+name = "Atlas"
 version = "0.1.0"
-description = "" # one line: what this project formalizes
-keywords = ["math"]
-homepage = "https://github.com/0stellensatz/AutoFormalization"
+description = "Formal questions posed against a curated knowledge layer, and the answers to them."
+keywords = ["math", "formalization", "knowledge-base"]
+homepage = "https://github.com/0stellensatz/Atlas"
 license = "Apache-2.0"
-defaultTargets = ["AutoFormalization"]
+defaultTargets = ["Atlas"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
 relaxedAutoImplicit = false
 weak.linter.mathlibStandardSet = true
+weak.linter.style.header = false # no copyright header here; see `__docs__/rules-comments.md`
 maxSynthPendingDepth = 3
 
 [[require]]
@@ -23,4 +24,4 @@ git = "https://codeberg.org/wvhulle/lean-prism.git"
 rev = "main"
 
 [[lean_lib]]
-name = "AutoFormalization"
+name = "Atlas"

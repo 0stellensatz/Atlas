@@ -1,8 +1,10 @@
 # The Challenge / Development comparator pair
 
-This project freezes the results it is chasing in a *comparator* file and proves them in a parallel file carrying the same declaration list. The convention follows the agent workflow of the `rigid` project (https://github.com/dagurtomas/rigid/blob/main/AGENTS.md), including its rule that the frozen file stands alone against Mathlib.
+This project freezes each question it poses in a *comparator* file and answers it in a parallel file carrying the same declaration list. The convention follows the agent workflow of the `rigid` project (https://github.com/dagurtomas/rigid/blob/main/AGENTS.md), including its rule that the frozen file stands alone against Mathlib.
 
 The point of the pair is that the *specification* and the *proof* cannot drift apart silently: a statement may only change by changing both files in the same commit, so no proof is ever quietly weakened to fit a proof that was easier to find.
+
+**Here that is the whole reason the project exists.** Questions are answered by agents, and an agent writing a proof can edit the statement in the same edit. No `git diff` flags that, because a diff on the file the proof goes into is exactly what an answer is supposed to look like. The fourth check of `__check__.py` is the only thing that says the statement in the file the agent edited still matches the statement in the file it did not, so the second file is not overhead here—it is the mechanism.
 
 ## The three files
 
@@ -10,13 +12,29 @@ A unit—one directory, called whatever the project calls it and covering whatev
 
 - **`Challenge.lean` — the frozen specification.** The definitions its targets are stated over, cloned into the comparator namespace, then one declaration per target, each proved by `sorry`. It imports `Mathlib` and nothing else.
 - **`Development.lean` — the same declarations, solved.** Exactly the same list, importing the project's production modules and replacing each target's body with a proof drawn from them. The cloned definitions keep their bodies unchanged—a definition has nothing to solve. Bodies still unproved stay `sorry`.
-- **`CompareMathlib.lean` — the optional third file.** Same list again, proved *directly off the Mathlib API* rather than by the source's own argument—the shortest idiomatic route, ideally a one-liner naming the exact Mathlib lemma. Like `Challenge.lean` it imports only Mathlib. It exists for projects whose material Mathlib already covers, where reading the two proofs side by side is the point. It shares the comparator namespace, so it too stays out of the root module and is built by name. Whether a project keeps one is recorded in its `CLAUDE.md`.
+- **`CompareMathlib.lean` — the optional third file.** Same list again, proved *directly off the Mathlib API* rather than by the source's own argument—the shortest idiomatic route, ideally a one-liner naming the exact Mathlib lemma. Like `Challenge.lean` it imports only Mathlib. It exists for projects whose material Mathlib already covers, where reading the two proofs side by side is the point. It shares the comparator namespace, so it too stays out of the root module and is built by name. **Atlas keeps none**, and a unit here is the two files above: the file exists to set a source's own argument beside the Mathlib API, and Atlas follows no source's argument. Where the idea does apply—a question that turns out to be a Mathlib theorem—the identification is recorded in the `Knowledge/` item as a theorem the build keeps honest, not as a third frozen file per day.
 
 Production code—the real proofs, and the definitions they are stated over—lives outside the three, under the project's own namespace, and is governed by `./rules-formalization-project.md`.
 
 ## A comparator file imports only Mathlib
 
 **`Challenge.lean` imports `Mathlib` (or `Mathlib.*`) and nothing else**—not whatever file holds the unit's production definitions, not one of its proof files, not another unit's `Challenge.lean`. `CompareMathlib.lean` is bound by the same rule: it carries the same declaration list, so it would have to hold the same definitions in any case, and reaching Mathlib by the shortest route is its whole purpose. `Development.lean` is the one file of the three that imports the project, since delegating to the production modules is what it is for.
+
+### Questions are stated in Mathlib's vocabulary
+
+**A target here is stated in Mathlib's vocabulary alone, so it clones nothing.** A `Knowledge/` notion a question is *about* is unfolded inline in the statement—`(S : Set ℕ) (hS : 0 ∈ S ∧ …)` rather than a hypothesis typed by `Atlas.Knowledge.JumpSet`. The knowledge layer is what an answer is *built from*, never what a question is *phrased in*.
+
+This promotes to the default what the rest of this document treats as a last resort, and `./rules-formalization-project.md` already anticipates it: a unit whose targets are stated in Mathlib's vocabulary alone clones nothing into its comparator files. It is the default here because Atlas has one unit per day and a knowledge layer meant to outlive all of them. A cloned definition is copied into two files by hand, and check 4 compares only *within* one unit directory—so a notion cloned by ten days lives in twenty hand-synced copies that nothing relates to each other, or to the original in `Knowledge/`. That is one static knowledge layer turned into eleven drifting ones, which is the opposite of what it is for.
+
+What it costs is statement length, and nothing else. The bridge collapses to naming the production lemma, and the benchmark gets stronger: a Challenge with no project-local definition in scope is one an outside agent can read on its own terms, and one that cannot be weakened by an edit to a definition somewhere else.
+
+**Cloning stays available as the exception**, where unfolding inline would genuinely be unreadable. It costs one sentence of justification in that Challenge's `## Implementation notes`, and the clone block then carries three rules the per-unit comparator namespace below does not cover, because none of the three is namespaced at all:
+
+- **Any `notation` is `scoped`.** A `notation` inside a namespace is global unless marked, so two days cloning one notation declare it twice against different constants, and every use site in the root environment becomes ambiguous.
+- **No instance whose head is entirely Mathlib.** It is registered globally under a fresh name per day—no clash and no error, just N-way ambiguity in synthesis.
+- **No top-level `attribute [...]` assignment.** It leaks across imports and is not namespaced at all.
+
+The rest of this section describes what cloning entails when the exception is taken.
 
 A comparator file therefore **clones, into the comparator namespace, every definition its targets are stated over**, ahead of the targets themselves. The clones are declarations like any other: they stand in all three files, in the same order, with the same signatures—and, a definition having nothing to solve, with the same bodies. They are independent copies of the production API and never references to it. The production files hold the originals under `<Project>`; each comparator file holds its own copies under `<Project>Challenge`; the two towers never meet.
 
@@ -45,14 +63,18 @@ The rebuilt term is accepted because a field of the clone reduces to the corresp
 
 The conversion is expected to carry most targets, not all. Where it genuinely cannot be written, the target stays `sorry` in `Development.lean` with a comment naming the obstruction, and it is the *statement* that gets revisited: restate the target in Mathlib's vocabulary so nothing has to be transported, and propagate the edit to every comparator file of the unit. Importing the production definitions back into `Challenge.lean` is not among the options.
 
-Later units build on earlier ones in the Development tower only, by importing the earlier `Development.lean`. `Challenge.lean` and `CompareMathlib.lean` reach no earlier unit, so a later unit's comparator re-clones whatever earlier definitions its own targets mention.
+In a project whose units are a source's chapters, later units build on earlier ones in the Development tower, by importing the earlier `Development.lean`. **Atlas's units do not build on each other at all**: a unit is one day's questions, days are independent, and no `Questions/` directory imports another (`./rules-formalization-project.md`). What a second day also wants moves up into `Knowledge/`, which is the one direction anything travels here.
 
 ## Namespaces
 
-- Production declarations—the definitions and the proofs alike—live in the project's root namespace `<Project>`.
-- **All three comparator files use the one comparator namespace `<Project>Challenge`**—`Challenge.lean`, `Development.lean`, and `CompareMathlib.lean` alike, clones and targets together. Its being distinct from `<Project>` is what lets Development delegate to a production declaration of the same short name without a clash; its being *shared* across the three is what makes them literal alternatives, one declaration list under one set of names, and is why no two of them may meet in one environment (see below).
+- Production declarations—the definitions and the proofs alike—live in `Atlas.Knowledge`, flat, one principal declaration per file and named for that file.
+- **Both comparator files of a unit use that unit's own comparator namespace `AtlasChallenge.«YYYYMMDD»`**—`Challenge.lean` and `Development.lean` alike, clones and targets together. The French quotes are not decoration: `20260813` is not an identifier, and the namespace does not parse without them. Its being distinct from `Atlas` is what lets Development delegate to a production declaration of the same short name without a clash; its being *shared* across the unit's files is what makes them literal alternatives, one declaration list under one set of names, and is why no two of them may meet in one environment (see below).
+
+	**The namespace is per unit rather than one project-wide `AtlasChallenge`, and that is where this copy departs from the template it was generated from.** The root module holds every `Development.lean` at once, so under a single shared namespace any two days that clone the same definition declare one name twice—and Lean rejects a duplicate `def` outright. A project with one unit never meets this; a project with one unit per day meets it on the second day that clones. `__check__.py` is indifferent to the change: it never parses a `namespace` line as a declaration, it stops a multi-line signature at one, and it keys units by the directory their `Challenge.lean` sits in.
+
+	Name resolution is unaffected. `namespace A.B` is sugar for `namespace A` followed by `namespace B`, so both are enclosing and the clone-wins precedence below holds unchanged; another day's namespace is a *sibling*, and is never in the resolution chain.
 - Dot notation works inside the comparator namespace, because the clone a target's hypothesis is typed by lives there too: `IsJumpSetWithin.isJumpPairWithin` applies to a term of type `<Project>Challenge.IsJumpSetWithin`. The production restatement in the proof file provides it independently, over `<Project>.IsJumpSetWithin`.
-- `Development.lean` needs `open <Project>` to name the production declarations it delegates to, and it is the only file where a short name has both a clone and an original in scope. **The clone wins**—a declaration of the enclosing namespace takes precedence over one reached by `open`, with no ambiguity error (checked on Lean v4.28.0). That is the right default, since it is the clone the statements must be about; but it means a delegation that *wants* the original gets the clone silently. Write the production one `<Project>.foo` in full at the call site, every time.
+- `Development.lean` needs `open Atlas.Knowledge` to name the production declarations it delegates to, and it is the only file where a short name has both a clone and an original in scope. **The clone wins**—a declaration of the enclosing namespace takes precedence over one reached by `open`, with no ambiguity error (checked on Lean v4.28.0). That is the right default, since it is the clone the statements must be about; but it means a delegation that *wants* the original gets the clone silently. Write the production one `Atlas.Knowledge.foo` in full at the call site, every time. Under the statement policy above a Development body usually has no clone in scope at all, which removes the trap rather than managing it.
 
 ## The declaration lists must match exactly
 
@@ -109,8 +131,12 @@ It is a textual check on the sources, so it is fast and needs no build; it does 
 
 ```bash
 lake build
-lake build <Project>.<Unit>.Challenge
-lake build <Project>.<Unit>.CompareMathlib
+find Atlas -name Challenge.lean | sed 's|^|lake build |; s|/|.|g; s|\.lean$||' | sh
 ```
 
-`sorry` warnings from the comparator files are expected. Production modules should build without them.
+The second command is a loop rather than a single target because there is one Challenge per question day, and it is the same loop `.github/workflows/build.yml` runs. A day whose name needs French quotes needs them here too, so quote the argument when running one by hand.
+
+`sorry` warnings from the comparator files are expected, and a Challenge target's `sorry` is permanent—it is the question, not a gap. **`Knowledge/` is exempt from the usual "production modules build without them" rule, in one direction only:**
+
+- A `Knowledge/` **theorem** may be `sorry`. That is a claim recorded before its proof, and the build warning naming its module and line is the whole of the backlog—nothing else tracks it, and nothing else needs to. It is not to be "fixed" by deleting the claim.
+- A `Knowledge/` **definition** may never sit above a `sorry`. A `sorry`ed proof obligation inside a `def` is a junk value rather than a hole: it elaborates, it propagates through everything downstream, and it warns in only one place. Prove the obligation, or do not make the definition.
