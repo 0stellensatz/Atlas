@@ -52,15 +52,17 @@ namespace Atlas.Knowledge
 
 open IsDiscreteValuationRing
 
-/-- The index of the free model `M_ρ^f`: `f` copies of each level in `T_ρ`
+/-- The index of the free model `M_ρ^f`: `f` copies of each level in `T_ρ`. The multiplicity is
+a *positive* integer, as in the source—at `f = 0` the model would collapse to the trivial
+module and the classification claims would be false as stated
 ([Pagano 2022, Def. 3.25, p.427][Pagano2022]). -/
-noncomputable def Shift.freeIndex {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ) :
+noncomputable def Shift.freeIndex {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+) :
     Finset (ℕ+ × ℕ) :=
-  hρ.toFinset ×ˢ Finset.range f
+  hρ.toFinset ×ˢ Finset.range (f : ℕ)
 
 /-- The index of the presenting module `M_ρ^{f - 1} ⊕ M_ρ^*`: `f` copies of each level in
 `T_ρ` and one copy of level `e_ρ^*` ([Pagano 2022, §3.3.4, p.429][Pagano2022]). -/
-noncomputable def Shift.starIndex {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ) :
+noncomputable def Shift.starIndex {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+) :
     Finset (ℕ+ × ℕ) :=
   Shift.freeIndex hρ f ∪ {(Shift.e_star ρ hρ, 0)}
 
@@ -86,7 +88,8 @@ theorem weight_freeFiltered {ρ : Shift} {D : Finset (ℕ+ × ℕ)} (x : ↥D �
   rw [freeFiltered, FilteredModule.weight_pi]
   simp
 
-/-- The free model lies in the source's category `C_ρ`
+/-- The ρ-map of the free model dominates `ρ`—the one condition of the source's category `C_ρ`
+recorded here; its completeness and linearity are not part of this statement
 ([Pagano 2022, Def. 3.25, p.427][Pagano2022]). -/
 theorem freeFiltered_rhoBounded (ρ : Shift) (D : Finset (ℕ+ × ℕ)) :
     (freeFiltered (R := R) ρ D).RhoBounded ρ := by
@@ -156,7 +159,7 @@ def IsFilteredBasis (ρ : Shift) (D : Finset (ℕ+ × ℕ)) (F : FilteredModule 
 
 /-- The **`(f, ρ)`-free** filtered modules: those filtered-isomorphic to the free model
 `M_ρ^f` ([Pagano 2022, Def. 3.25, p.427][Pagano2022]). -/
-def IsFree (ρ : Shift) (hρ : (Shift.T ρ).Finite) (f : ℕ) (F : FilteredModule R M) : Prop :=
+def IsFree (ρ : Shift) (hρ : (Shift.T ρ).Finite) (f : ℕ+) (F : FilteredModule R M) : Prop :=
   ∃ e : (↥(Shift.freeIndex hρ f) → R) ≃ₗ[R] M,
     IsFilteredHom (freeFiltered ρ (Shift.freeIndex hρ f)) F
         (e : (↥(Shift.freeIndex hρ f) → R) →ₗ[R] M) ∧
@@ -165,14 +168,15 @@ def IsFree (ρ : Shift) (hρ : (Shift.T ρ).Finite) (f : ℕ) (F : FilteredModul
 
 /-- The freeness criterion: a complete, strictly linear member of `C_ρ` is `(f, ρ)`-free
 exactly when every defect and codefect vanishes and each graded piece over `T_ρ` has dimension
-`f`. Claim recorded ahead of its proof
-([Pagano 2022, Prop. 3.24, p.427][Pagano2022]). -/
-theorem isFree_iff_defect_eq_zero {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ)
+`f`. The source states the criterion for a linear member of `C_ρ`; strict linearity is required
+here because the defects of `Atlas.Knowledge.FilteredDefect` are defined only under it. Claim
+recorded ahead of its proof ([Pagano 2022, Prop. 3.24, p.427][Pagano2022]). -/
+theorem isFree_iff_defect_eq_zero {ρ : Shift} (hρ : (Shift.T ρ).Finite) (f : ℕ+)
     {F : FilteredModule R M} (hM : F.IsComplete) (hF : F.RhoBounded ρ)
     (h : F.IsStrictlyLinear) {π : R} (hπ : Irreducible π) :
     IsFree ρ hρ f F ↔
       (∀ i, FilteredModule.defect h hπ i = 0) ∧ (∀ i, FilteredModule.codefect h hπ i = 0) ∧
-        ∀ i ∈ Shift.T ρ, F.fDim h.1 i = f := by
+        ∀ i ∈ Shift.T ρ, F.fDim h.1 i = (f : ℕ) := by
   sorry
 
 end Freeness

@@ -20,7 +20,8 @@ form the finite tranche uses.
 
 ## Main statements
 
-* `standardFiltered_rhoBounded` — `S (n)` lies in the source's category `C_ρ`.
+* `standardFiltered_rhoBounded` — the ρ-map of `S (n)` dominates `ρ`, the condition of the
+  source's category `C_ρ` that the universal property consumes.
 * `isFilteredHom_toSpanSingleton` — for `v ∈ F.filt n`, the map `x ↦ x • v` is a filtered
   morphism `S (n) → F`; together with `eq_toSpanSingleton_of_isFilteredHom`, which says every
   filtered morphism out of `S (n)` arises this way from `φ 1 ∈ F.filt n`, this is the
@@ -91,7 +92,8 @@ theorem mem_standardFiltered_filt {ρ : Shift} {n : ℕ+} {x : R} {i : ℕ+} :
     x ∈ (standardFiltered ρ n).filt i ↔ (i : WithTop ℕ+) ≤ standardWeight ρ n x :=
   Iff.rfl
 
-/-- `S (n)` lies in the source's category `C_ρ`: its ρ-map dominates `ρ`
+/-- The ρ-map of `S (n)` dominates `ρ`—the one condition of the source's category `C_ρ`
+recorded here; its completeness and linearity are not part of this statement
 ([Pagano 2022, Def. 3.19, p.426][Pagano2022]). -/
 theorem standardFiltered_rhoBounded (ρ : Shift) (n : ℕ+) :
     (standardFiltered (R := R) ρ n).RhoBounded ρ := by

@@ -23,8 +23,9 @@ them the extended jump set that determines it.
 
 The source states condition (c)—the defect bound at `e_ρ'`—under "if `T_ρ` is finite"; the
 finiteness is a standing hypothesis of this tranche, carried as the argument `hρ` that
-`Shift.e'` needs anyway, so the conditional form collapses. The uniformizer is a parameter as
-in the source ("we fix a uniformizer"), the defects not depending on the choice.
+`Shift.e'` needs anyway, so the conditional form collapses. The ring is a discrete valuation
+ring as in the source, and the uniformizer is a parameter as there ("we fix a uniformizer"):
+two uniformizers differ by a unit, so the defects do not depend on the choice.
 
 ## References
 
@@ -33,7 +34,8 @@ in the source ("we fix a uniformizer"), the defects not depending on the choice.
 
 namespace Atlas.Knowledge
 
-variable {R : Type*} [CommRing R] [IsLocalRing R] {M : Type*} [AddCommGroup M] [Module R M]
+variable {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] {M : Type*}
+  [AddCommGroup M] [Module R M]
 
 /-- The **`(f, ρ)`-quasi-free** filtered modules: complete, strictly linear members of `C_ρ`
 whose graded pieces all have dimension `f`, whose defects and codefects vanish away from the

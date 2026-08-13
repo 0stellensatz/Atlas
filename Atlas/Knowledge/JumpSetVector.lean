@@ -88,18 +88,18 @@ theorem mem_coordGraph {D : Finset (ℕ+ × ℕ)} {v : ↥D → R} {p : ℕ+ × 
 
 /-- The first components of the coordinate graph over the free index lie in `T ρ`: the levels
 do ([Pagano 2022, §3.3.5, p.430][Pagano2022]). -/
-theorem coordGraph_fst_mem_T {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ}
+theorem coordGraph_fst_mem_T {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ+}
     {v : ↥(Shift.freeIndex hρ f) → R} {p : ℕ+ × ℕ+} (hp : p ∈ coordGraph v) :
     p.1 ∈ Shift.T ρ := by
   obtain ⟨j, -, h1, -⟩ := mem_coordGraph.mp hp
-  have hj : j.1 ∈ hρ.toFinset ×ˢ Finset.range f := j.2
+  have hj : j.1 ∈ hρ.toFinset ×ˢ Finset.range (f : ℕ) := j.2
   rw [Finset.mem_product] at hj
   rw [← h1]
   exact hρ.mem_toFinset.mp hj.1
 
 /-- The first components of the coordinate graph over the star index lie in `T*_ρ`
 ([Pagano 2022, §3.3.5, p.430][Pagano2022]). -/
-theorem coordGraph_fst_mem_T_star {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ}
+theorem coordGraph_fst_mem_T_star {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : ℕ+}
     {v : ↥(Shift.starIndex hρ f) → R} {p : ℕ+ × ℕ+} (hp : p ∈ coordGraph v) :
     p.1 ∈ Shift.T_star ρ hρ := by
   obtain ⟨j, -, h1, -⟩ := mem_coordGraph.mp hp
@@ -107,7 +107,7 @@ theorem coordGraph_fst_mem_T_star {ρ : Shift} (hρ : (Shift.T ρ).Finite) {f : 
   rw [Finset.mem_union] at hj
   rw [← h1]
   rcases hj with hj | hj
-  · have hj' : j.1 ∈ hρ.toFinset ×ˢ Finset.range f := hj
+  · have hj' : j.1 ∈ hρ.toFinset ×ˢ Finset.range (f : ℕ) := hj
     rw [Finset.mem_product] at hj'
     exact Or.inl (hρ.mem_toFinset.mp hj'.1)
   · rw [Finset.mem_singleton] at hj

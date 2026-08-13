@@ -22,6 +22,8 @@ non-canonically, first for filtered orbits and later for sets of jumps of charac
 ## Main statements
 
 * `isJumpPair_of_antichain` — antichains of the jump order are jump pairs.
+* `IsJumpPair.not_jumpOrder`, `IsJumpPair.jumpMin_eq_self`, `IsJumpPair.jumpMax_eq_self` — the
+  converse: jump pairs are antichains, so each is its own set of extremal points.
 * `existsUnique_jumpPairOf_eq_jumpMax`, `existsUnique_jumpPairOf_eq_jumpMin` — each extremal set
   is `(I_A, β_A)` of a unique jump set.
 

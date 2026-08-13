@@ -10,8 +10,9 @@ filtration step absorbs the maximal ideal times the `i`-th step. Over the source
 discrete valuation ring this is the largest `j` with `π_R M_i ⊆ M_j`, the function that records
 how far multiplication by the uniformizer pushes the filtration; it is the bridge between
 filtered modules and the shifts `Atlas.Knowledge.Shift` of the jump-set combinatorics, crossed
-in `Atlas.Knowledge.FilteredLinear`. The condition `ρ_M ≥ ρ` cutting out the source's category
-`C_ρ` is `FilteredModule.RhoBounded` here.
+in `Atlas.Knowledge.FilteredLinear`. The condition `ρ_M ≥ ρ`—the ρ-map third of what cuts the
+source's category `C_ρ` out of the filtered modules, alongside completeness and linearity—is
+`FilteredModule.RhoBounded` here.
 
 ## Main definitions
 
@@ -79,8 +80,9 @@ theorem rhoMap_mono : Monotone F.rhoMap := by
   rw [F.le_rhoMap_iff] at hj ⊢
   exact le_trans (Submodule.smul_mono le_rfl (F.antitone_filt hii')) hj
 
-/-- The condition `ρ_M ≥ ρ` against a shift, which cuts the source's category `C_ρ` out of the
-filtered modules over `R` ([Pagano 2022, §3.3.2, p.425][Pagano2022]). -/
+/-- The condition `ρ_M ≥ ρ` against a shift: together with completeness and linearity it cuts
+the source's category `C_ρ` out of the filtered modules over `R`
+([Pagano 2022, §3.3.2, p.425][Pagano2022]). -/
 def RhoBounded (ρ : Shift) : Prop :=
   ∀ i : ℕ+, maximalIdeal R • F.filt i ≤ F.filt (ρ i)
 
