@@ -56,7 +56,7 @@ Run the checker before declaring work done, and a build after it—including the
 ```bash
 python3 __check__.py
 lake build
-find Atlas -name Challenge.lean | sed 's|^|lake build |; s|/|.|g; s|\.lean$||' | sh
+find Atlas -name Challenge.lean | sed -E 's|/([0-9]+)/|/«\1»/|g; s|^|lake build |; s|/|.|g; s|\.lean$||' | sh
 ```
 
 ## Editing conventions for the comments
