@@ -41,6 +41,7 @@ import Atlas.Knowledge.GroupRootOfUnityExponent
 import Atlas.Knowledge.HerbrandPhi
 import Atlas.Knowledge.HerbrandPsi
 import Atlas.Knowledge.HigherUnitGroup
+import Atlas.Knowledge.IntegralClosureDVR
 import Atlas.Knowledge.IsFilteredHom
 import Atlas.Knowledge.IsJumpPair
 import Atlas.Knowledge.IsJumpSet
