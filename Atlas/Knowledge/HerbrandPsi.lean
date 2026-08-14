@@ -46,18 +46,18 @@ variable (K : Type*) [Field K] [ValuativeRel K] (L : Type*) [Field L] [Algebra K
 
 /-- The **inverse Herbrand function** `ψ` of `L` over `K`: the inverse of the Herbrand
 function `Atlas.Knowledge.herbrandPhi`
-([Serre 1979, Chap. IV, §3, Prop. 13, p.73][Serre1979]). -/
+([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
 noncomputable def herbrandPsi : ℝ → ℝ :=
   Function.invFun (herbrandPhi K L)
 
 variable [FiniteDimensional K L]
 
-/-- `φ ∘ ψ = id` ([Serre 1979, Chap. IV, §3, Prop. 13, p.73][Serre1979]). -/
+/-- `φ ∘ ψ = id` ([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
 @[simp]
 theorem herbrandPhi_herbrandPsi (v : ℝ) : herbrandPhi K L (herbrandPsi K L v) = v :=
   Function.rightInverse_invFun (herbrandPhi_bijective K L).surjective v
 
-/-- `ψ ∘ φ = id` ([Serre 1979, Chap. IV, §3, Prop. 13, p.73][Serre1979]). -/
+/-- `ψ ∘ φ = id` ([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
 @[simp]
 theorem herbrandPsi_herbrandPhi (u : ℝ) : herbrandPsi K L (herbrandPhi K L u) = u :=
   Function.leftInverse_invFun (herbrandPhi_bijective K L).injective u
@@ -69,7 +69,7 @@ theorem herbrandPsi_zero : herbrandPsi K L 0 = 0 := by
   rw [herbrandPsi_herbrandPhi]
 
 /-- The inverse Herbrand function is strictly increasing
-([Serre 1979, Chap. IV, §3, Prop. 13, p.73][Serre1979]). -/
+([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
 theorem herbrandPsi_strictMono : StrictMono (herbrandPsi K L) := by
   intro v w hvw
   by_contra hle
@@ -79,7 +79,7 @@ theorem herbrandPsi_strictMono : StrictMono (herbrandPsi K L) := by
   exact absurd this (not_le.mpr hvw)
 
 /-- The inverse Herbrand function is a bijection of the real line
-([Serre 1979, Chap. IV, §3, Prop. 13, p.73][Serre1979]). -/
+([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
 theorem herbrandPsi_bijective : Function.Bijective (herbrandPsi K L) :=
   ⟨fun v w h => by
     have := congrArg (herbrandPhi K L) h

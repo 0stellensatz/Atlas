@@ -30,8 +30,9 @@ index `φ (u)`, the index computed over the intermediate field. The inverse func
 
 The source integrates `1 / (G_0 : G_t)` with a convention for `t ∈ [-1, 0]`; here the
 integrand is the ratio `Nat.card (G_⌈t⌉) / Nat.card (G_0)`, which equals `1 / (G_0 : G_t)` on
-`t ≥ 0` where `G_t ≤ G_0`, equals `1` on `(-1, 0]` as the source's convention demands, and
-differs from the source's point convention only at `t = -1` itself, invisible to the integral.
+`t ≥ 0` where `G_t ≤ G_0`, equals `1` on `(-1, 0]`, and at `t = -1`, where the source's
+convention reads `(G_0 : G_t) = (G_{-1} : G_0)⁻¹`, equals that reciprocal as well—the
+encoding matches the source at every point of `[-1, 0]`.
 The function is total on `ℝ`: below `u = -1` the source defines nothing and the integrand's
 value `Nat.card (G) / Nat.card (G_0)` is junk—kept `≥ 1`, so bijectivity survives. Without
 `FiniteDimensional K L` the cardinalities vanish and `φ` collapses to `0`; every statement
@@ -108,7 +109,7 @@ private theorem le_integrand (t : ℝ) :
   exact_mod_cast h1
 
 /-- The Herbrand function is strictly increasing
-([Serre 1979, Chap. IV, §3, Prop. 12, p.73][Serre1979]). -/
+([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
 theorem herbrandPhi_strictMono : StrictMono (herbrandPhi K L) := by
   intro u v huv
   have key := intervalIntegral.integral_add_adjacent_intervals
@@ -127,8 +128,8 @@ theorem herbrandPhi_continuous : Continuous (herbrandPhi K L) :=
   intervalIntegral.continuous_primitive (integrand_intervalIntegrable K L) 0
 
 /-- The Herbrand function is a bijection of the real line: strictly increasing, continuous,
-and of at least linear growth on either side
-([Serre 1979, Chap. IV, §3, Prop. 12, p.73][Serre1979]). -/
+and of at least linear growth on either side—the source's homeomorphism of `[-1, +∞)`,
+extended over the junk region by design ([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
 theorem herbrandPhi_bijective : Function.Bijective (herbrandPhi K L) := by
   refine ⟨(herbrandPhi_strictMono K L).injective, ?_⟩
   have hc : 0 < (Nat.card (lowerRamificationGroup K L 0) : ℝ) := by
