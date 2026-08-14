@@ -33,13 +33,14 @@ quotient as claims.
 
 ## Implementation notes
 
-The source writes `G (0+) = ⋃ v > 0, G (v)` with no closure, and identifies it with the
-Galois group of `F` over the maximal tamely ramified subextension. For infinite `F` the two
-sides of that identification differ by a closure: the right side is closed, while the plain
-union is in general a proper dense subgroup of it—over `ℚ_p` the upper-numbering breaks of
-finite quotients accumulate at `0`, so by Baire the countable union of the closed proper steps
-`G (v)` cannot be closed, let alone all of the wild inertia. The definition here therefore
-takes the topological closure, which is the object the source's identification is true of;
+The source defines `G (0+)` as the *closure* of the union of the `G (v)`, `v > 0`—the
+closure bar in its display is load-bearing, and a plain-text extraction of the PDF drops it,
+which is worth a warning to any future reader working from one. The bar cannot be omitted:
+for infinite `F` the plain union is in general a proper dense subgroup of the wild
+inertia—over `ℚ_p` the upper-numbering breaks of finite quotients accumulate at `0`, so by
+Baire the countable union of the closed proper steps `G (v)` cannot be closed. The definition
+here renders the bar as `Subgroup.topologicalClosure`, the object the source identifies with
+the tame fixed field;
 `coe_wildInertiaSubgroup` keeps the union visible as a dense subgroup, and antitonicity makes
 that union a directed join, so nothing below `0` is lost. The identification itself waits on
 tame vocabulary the layer does not yet carry; what is recorded now is the inertia end,
@@ -63,9 +64,9 @@ variable (K : Type*) [Field K] [ValuativeRel K] (F : Type*) [Field F] [Algebra K
 
 /-- The **wild inertia subgroup** `G (0+)`: the topological closure of the join of the
 ramification filtration over indices `v > 0`, classically the Galois group of `F` over the
-maximal tamely ramified subextension. The source writes the plain union, which for infinite
-`F` is a proper dense subgroup; the closure is the object its identification with the tame
-fixed field is true of ([Hyeon 2025, §2, p.7][Hyeon2025]). -/
+maximal tamely ramified subextension. The closure renders the source's closure bar and is
+load-bearing: for infinite `F` the plain union is a proper dense subgroup
+([Hyeon 2025, §2, p.7][Hyeon2025]). -/
 noncomputable def wildInertiaSubgroup : Subgroup (F ≃ₐ[K] F) :=
   (⨆ v : {v : ℝ // 0 < v}, ramificationFiltration K F (v : ℝ)).topologicalClosure
 
@@ -98,9 +99,9 @@ theorem coe_wildInertiaSubgroup :
   simp only [SetLike.mem_coe, Set.mem_iUnion]
   exact Subgroup.mem_iSup_of_directed (ramificationFiltration_directed K F)
 
-/-- The wild inertia subgroup is closed—by definition, the closure repairing the source's
-plain union, which is in general properly dense in it
-([Hyeon 2025, §2, p.7][Hyeon2025]). -/
+/-- The wild inertia subgroup is closed—by definition, the source's closure bar rendered as
+`Subgroup.topologicalClosure`; the bar is load-bearing, the plain union being in general
+properly dense ([Hyeon 2025, §2, p.7][Hyeon2025]). -/
 theorem isClosed_wildInertiaSubgroup :
     IsClosed (wildInertiaSubgroup K F : Set (F ≃ₐ[K] F)) :=
   Subgroup.isClosed_topologicalClosure _
