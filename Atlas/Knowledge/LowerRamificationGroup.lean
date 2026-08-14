@@ -8,8 +8,8 @@ The ramification groups of a finite Galois extension of local fields, in the low
 `G_i` is the set of automorphisms with `v_L (s a - a) ≥ i + 1` for every `a` in `𝒪_L`, a
 decreasing chain of normal subgroups of the Galois group with `G_{-1} = G` and `G_0` the
 inertia subgroup. This file gives the `ℤ`-indexed family and its basic API—membership unwound,
-the value `⊤` below the start of the chain, antitonicity, normality—and records eventual
-triviality as a claim. The real-indexed version is
+the value `⊤` below the start of the chain, antitonicity, normality—and proves that the chain
+reaches the trivial subgroup. The real-indexed version is
 `Atlas.Knowledge.RealLowerRamificationGroup`, the Herbrand functions that renumber the chain
 are `Atlas.Knowledge.HerbrandPhi` and `Atlas.Knowledge.HerbrandPsi`, and the numbering they
 produce is `Atlas.Knowledge.UpperRamificationGroup`.
@@ -25,7 +25,7 @@ produce is `Atlas.Knowledge.UpperRamificationGroup`.
 * `mem_lowerRamificationGroup_iff` — membership unwound.
 * `lowerRamificationGroup_eq_top` — `G_i = ⊤` for `i ≤ -1`.
 * `lowerRamificationGroup_antitone` — the chain decreases.
-* `exists_lowerRamificationGroup_eq_bot` — the chain reaches `⊥`, recorded ahead of its proof.
+* `exists_lowerRamificationGroup_eq_bot` — the chain reaches `⊥`.
 
 ## Implementation notes
 
@@ -40,7 +40,10 @@ truncated by `Int.toNat`: every `i ≤ -1` gives the power `0`, hence the whole 
 `i = -1` that is the source's `G_{-1} = G`, below it the source defines nothing and the value
 is junk. The definition asks nothing of `L` beyond being an algebraic field extension of
 `K`—no valuation on `L`, no completeness, no finiteness; the classical hypotheses enter only
-the recorded claim.
+the eventual-triviality theorem. That theorem is proved not by the source's route—the
+valuation of `s x₀ - x₀` at a monogenic generator `x₀`—but by separatedness: the radical
+powers of the Noetherian domain `integralClosure 𝒪[K] L` have trivial intersection, so an
+automorphism that moves an integral element falls out of the chain at some finite level.
 
 ## References
 
@@ -146,10 +149,69 @@ instance (i : ℤ) : (lowerRamificationGroup K L i).Normal := by
   rwa [Ideal.map_pow, Ideal.map_jacobson_of_bijective hbij, Ideal.map_bot] at hmem
 
 /-- The chain of lower-numbering ramification groups of a finite extension of a
-mixed-characteristic local field reaches the trivial subgroup. Claim recorded ahead of its
-proof ([Serre 1979, Chap. IV, §1, Prop. 1, p.62][Serre1979]). -/
+mixed-characteristic local field reaches the trivial subgroup
+([Serre 1979, Chap. IV, §1, Prop. 1, p.62][Serre1979]). -/
 theorem exists_lowerRamificationGroup_eq_bot [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K L] : ∃ n : ℤ, lowerRamificationGroup K L n = ⊥ := by
-  sorry
+  classical
+  haveI : IsNoetherianRing (integralClosure 𝒪[K] L) :=
+    IsIntegralClosure.isNoetherianRing 𝒪[K] K L (integralClosure 𝒪[K] L)
+  -- Every nonidentity automorphism falls out of the chain at some level: it moves an
+  -- integral element, and the difference survives some power of the radical because the
+  -- radical powers of a Noetherian domain are separated.
+  have key : ∀ σ : L ≃ₐ[K] L, ∃ n : ℤ, σ ≠ 1 → σ ∉ lowerRamificationGroup K L n := by
+    intro σ
+    by_cases hσ : σ = 1
+    · exact ⟨0, fun h => absurd hσ h⟩
+    obtain ⟨y, hy⟩ : ∃ y : L, σ y ≠ y := by
+      by_contra h
+      push Not at h
+      exact hσ (AlgEquiv.ext h)
+    obtain ⟨c, hc0, hint⟩ := exists_integral_multiples 𝒪[K] K ({y} : Finset L)
+    have hcy : IsIntegral 𝒪[K] (c • y) := hint y (Finset.mem_singleton_self y)
+    have hcK : algebraMap 𝒪[K] K c ≠ 0 := fun h =>
+      hc0 (IsFractionRing.injective 𝒪[K] K (by rw [h, map_zero]))
+    have hcL : algebraMap 𝒪[K] L c ≠ 0 := by
+      rw [IsScalarTower.algebraMap_apply 𝒪[K] K L]
+      exact fun h => hcK ((map_eq_zero_iff _ (algebraMap K L).injective).mp h)
+    have hσcy : σ (c • y) ≠ c • y := by
+      rw [Algebra.smul_def, map_mul, IsScalarTower.algebraMap_apply 𝒪[K] K L,
+        AlgEquiv.commutes, ← IsScalarTower.algebraMap_apply 𝒪[K] K L]
+      exact fun h => hy (mul_left_cancel₀ hcL h)
+    set x : integralClosure 𝒪[K] L := ⟨c • y, hcy⟩ with hxdef
+    have hδ : galRestrict 𝒪[K] K L (integralClosure 𝒪[K] L) σ x - x ≠ 0 := by
+      intro h
+      apply hσcy
+      have hcoe := congrArg (algebraMap (integralClosure 𝒪[K] L) L) h
+      rw [map_sub, map_zero, sub_eq_zero, algebraMap_galRestrict_apply] at hcoe
+      exact hcoe
+    obtain ⟨m, hm⟩ : ∃ m : ℕ,
+        galRestrict 𝒪[K] K L (integralClosure 𝒪[K] L) σ x - x ∉
+          Ideal.jacobson (⊥ : Ideal (integralClosure 𝒪[K] L)) ^ m := by
+      by_contra hall
+      push Not at hall
+      apply hδ
+      have hJne : Ideal.jacobson (⊥ : Ideal (integralClosure 𝒪[K] L)) ≠ ⊤ := by
+        intro h
+        obtain ⟨M, hM⟩ := Ideal.exists_maximal (integralClosure 𝒪[K] L)
+        exact hM.ne_top (top_le_iff.mp (h ▸ sInf_le ⟨bot_le, hM⟩))
+      have hbot := Ideal.iInf_pow_eq_bot_of_isDomain
+        (Ideal.jacobson (⊥ : Ideal (integralClosure 𝒪[K] L))) hJne
+      have hmem : galRestrict 𝒪[K] K L (integralClosure 𝒪[K] L) σ x - x ∈
+          (⊥ : Ideal (integralClosure 𝒪[K] L)) := by
+        rw [← hbot]
+        exact (Submodule.mem_iInf _).mpr hall
+      simpa using hmem
+    refine ⟨(m : ℤ) - 1, fun _ hmem' => ?_⟩
+    have hx' := (mem_lowerRamificationGroup_iff K L).mp hmem' x
+    rw [show ((m : ℤ) - 1 + 1).toNat = m by omega] at hx'
+    exact hm hx'
+  choose f hf using key
+  obtain ⟨N, hN⟩ := Finite.exists_le f
+  refine ⟨N, ?_⟩
+  rw [Subgroup.eq_bot_iff_forall]
+  intro σ hσmem
+  by_contra hne
+  exact hf σ hne (lowerRamificationGroup_antitone K L (hN σ) hσmem)
 
 end Atlas.Knowledge
