@@ -1,5 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.RealLowerRamificationGroup
+import Atlas.Knowledge.RamificationNumber
 
 /-!
 # Herbrand function φ
@@ -13,7 +14,8 @@ bijectivity—and records **Herbrand's theorem**, the statement the function exi
 image of `G_u` in a quotient of the Galois group is the ramification group of the quotient at
 index `φ (u)`, the index computed over the intermediate field. The inverse function is
 `Atlas.Knowledge.HerbrandPsi`, and the numbering `φ` produces is
-`Atlas.Knowledge.UpperRamificationGroup`.
+`Atlas.Knowledge.UpperRamificationGroup`. The file also carries the evaluation of `φ` at
+integer arguments and its equivalent form as a sum of truncated ramification numbers `i_G`.
 
 ## Main definitions
 
@@ -23,6 +25,9 @@ index `φ (u)`, the index computed over the intermediate field. The inverse func
 
 * `herbrandPhi_zero`, `herbrandPhi_strictMono`, `herbrandPhi_continuous`,
   `herbrandPhi_bijective` — the calculus API, the last three under `FiniteDimensional K L`.
+* `herbrandPhi_eq_add_of_mem_Icc` — `φ` is affine on `[n, n + 1]`, slope `1 / (G_0 : G_{n+1})`.
+* `herbrandPhi_natCast` — the evaluation at integers: `φ (n) = (g_0 + ⋯ + g_{n}) / g_0 - 1`.
+* `sum_toNat_min_ramificationNumber` — the `i_G` form: `Σ_σ min (i_G σ, n + 1) = g_0 (φ (n) + 1)`.
 * `map_realLowerRamificationGroup` — Herbrand's theorem, recorded ahead of its proof.
 * `herbrandPhi_comp` — transitivity in a tower, recorded ahead of its proof.
 
@@ -165,6 +170,119 @@ theorem herbrandPhi_bijective : Function.Bijective (herbrandPhi K L) := by
       ((Filter.tendsto_id.atBot_div_const hc))
     filter_upwards [Filter.eventually_le_atBot (0 : ℝ)] with u hu
     exact hbound_bot u hu
+
+/-- The Herbrand function is affine on each interval `[n, n + 1]`, of slope
+`1 / (G_0 : G_{n+1})`—the explicit piecewise-linear description of `φ`
+([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
+theorem herbrandPhi_eq_add_of_mem_Icc {n : ℕ} {u : ℝ} (h1 : (n : ℝ) ≤ u) (h2 : u ≤ n + 1) :
+    herbrandPhi K L u = herbrandPhi K L n +
+      (u - n) * ((Nat.card (lowerRamificationGroup K L (n + 1)) : ℝ) /
+        (Nat.card (lowerRamificationGroup K L 0) : ℝ)) := by
+  have key := intervalIntegral.integral_add_adjacent_intervals
+    (integrand_intervalIntegrable K L 0 n) (integrand_intervalIntegrable K L n u)
+  have hcongr : (∫ t in (n : ℝ)..u,
+      (Nat.card (realLowerRamificationGroup K L t) : ℝ) /
+        (Nat.card (lowerRamificationGroup K L 0) : ℝ)) =
+      ∫ t in (n : ℝ)..u,
+        (Nat.card (lowerRamificationGroup K L ((n : ℤ) + 1)) : ℝ) /
+          (Nat.card (lowerRamificationGroup K L 0) : ℝ) := by
+    apply intervalIntegral.integral_congr_ae
+    apply Filter.Eventually.of_forall
+    intro t ht
+    rw [Set.uIoc_of_le h1] at ht
+    rw [realLowerRamificationGroup_eq K L (i := (n : ℤ) + 1)
+      (by push_cast; linarith [ht.1]) (by push_cast; linarith [ht.2])]
+  rw [hcongr, intervalIntegral.integral_const, smul_eq_mul] at key
+  have key' : herbrandPhi K L n + (u - (n : ℝ)) *
+      ((Nat.card (lowerRamificationGroup K L ((n : ℤ) + 1)) : ℝ) /
+        (Nat.card (lowerRamificationGroup K L 0) : ℝ)) = herbrandPhi K L u := key
+  linarith [key']
+
+/-- The evaluation of the Herbrand function at a natural number:
+`φ (n) + 1 = (g_0 + g_1 + ⋯ + g_n) / g_0` for `g_i = Nat.card (G_i)`—the source's displayed
+formula ([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
+theorem herbrandPhi_natCast (n : ℕ) :
+    herbrandPhi K L n =
+      (∑ i ∈ Finset.range (n + 1), (Nat.card (lowerRamificationGroup K L i) : ℝ)) /
+        (Nat.card (lowerRamificationGroup K L 0) : ℝ) - 1 := by
+  have h0 : (Nat.card (lowerRamificationGroup K L 0) : ℝ) ≠ 0 := by
+    exact_mod_cast (Nat.card_pos (α := lowerRamificationGroup K L 0)).ne'
+  induction n with
+  | zero => simp
+  | succ n ih =>
+    have key := herbrandPhi_eq_add_of_mem_Icc K L (n := n) (u := (n : ℝ) + 1)
+      (by linarith) le_rfl
+    rw [Finset.sum_range_succ]
+    push_cast
+    rw [key, ih]
+    field_simp
+    ring
+
+/-- The integer-argument form of the source's Lemma 3, phrased through
+`Atlas.Knowledge.ramificationNumber`: the truncated ramification numbers `min (i_G (σ), n + 1)`
+sum over the Galois group to `g_0 (φ (n) + 1)`
+([Serre 1979, Chap. IV, §3, Lem. 3, p.74][Serre1979]). -/
+theorem sum_toNat_min_ramificationNumber (n : ℕ) :
+    (∑ σ : L ≃ₐ[K] L, ((min (ramificationNumber K L σ) (n + 1 : ℕ∞)).toNat : ℝ)) =
+      (Nat.card (lowerRamificationGroup K L 0) : ℝ) * (herbrandPhi K L n + 1) := by
+  classical
+  have hnat : (∑ σ : L ≃ₐ[K] L, (min (ramificationNumber K L σ) ((n : ℕ∞) + 1)).toNat) =
+      ∑ i ∈ Finset.range (n + 1), Nat.card (lowerRamificationGroup K L i) := by
+    have hσ : ∀ σ : L ≃ₐ[K] L,
+        (min (ramificationNumber K L σ) ((n : ℕ∞) + 1)).toNat =
+          ((Finset.range (n + 1)).filter
+            fun i : ℕ => σ ∈ lowerRamificationGroup K L (i : ℤ)).card := by
+      intro σ
+      have hfin : min (ramificationNumber K L σ) ((n : ℕ∞) + 1) ≠ ⊤ :=
+        ne_top_of_le_ne_top (by exact_mod_cast ENat.coe_ne_top (n + 1)) (min_le_right _ _)
+      have hrange : ((Finset.range (n + 1)).filter
+          fun i : ℕ => σ ∈ lowerRamificationGroup K L (i : ℤ)) =
+          Finset.range ((min (ramificationNumber K L σ) ((n : ℕ∞) + 1)).toNat) := by
+        ext i
+        simp only [Finset.mem_filter, Finset.mem_range]
+        rw [show ((i : ℤ)) = ((i + 1 : ℕ) : ℤ) - 1 by push_cast; ring,
+          mem_lowerRamificationGroup_sub_one_iff]
+        constructor
+        · rintro ⟨hin, hle⟩
+          have h2 : ((i + 1 : ℕ) : ℕ∞) ≤ (n : ℕ∞) + 1 := by
+            have : i + 1 ≤ n + 1 := by omega
+            exact_mod_cast this
+          have hmin := le_min hle h2
+          rw [← ENat.coe_toNat hfin] at hmin
+          have : i + 1 ≤ (min (ramificationNumber K L σ) ((n : ℕ∞) + 1)).toNat := by
+            exact_mod_cast hmin
+          omega
+        · intro hi
+          have hmin : ((i + 1 : ℕ) : ℕ∞) ≤
+              min (ramificationNumber K L σ) ((n : ℕ∞) + 1) := by
+            rw [← ENat.coe_toNat hfin]
+            have : i + 1 ≤ (min (ramificationNumber K L σ) ((n : ℕ∞) + 1)).toNat := by
+              omega
+            exact_mod_cast this
+          refine ⟨?_, hmin.trans (min_le_left _ _)⟩
+          have h2 := hmin.trans (min_le_right _ _)
+          have : i + 1 ≤ n + 1 := by exact_mod_cast h2
+          omega
+      rw [hrange, Finset.card_range]
+    calc ∑ σ : L ≃ₐ[K] L, (min (ramificationNumber K L σ) ((n : ℕ∞) + 1)).toNat
+        = ∑ σ : L ≃ₐ[K] L, ((Finset.range (n + 1)).filter
+            fun i : ℕ => σ ∈ lowerRamificationGroup K L (i : ℤ)).card :=
+          Finset.sum_congr rfl fun σ _ => hσ σ
+      _ = ∑ σ : L ≃ₐ[K] L, ∑ i ∈ Finset.range (n + 1),
+            if σ ∈ lowerRamificationGroup K L (i : ℤ) then 1 else 0 := by
+          simp only [Finset.card_filter]
+      _ = ∑ i ∈ Finset.range (n + 1), ∑ σ : L ≃ₐ[K] L,
+            if σ ∈ lowerRamificationGroup K L (i : ℤ) then 1 else 0 := Finset.sum_comm
+      _ = ∑ i ∈ Finset.range (n + 1), Nat.card (lowerRamificationGroup K L i) := by
+          refine Finset.sum_congr rfl fun i _ => ?_
+          rw [← Finset.card_filter, Nat.card_eq_fintype_card, Fintype.card_subtype]
+  have h0 : (Nat.card (lowerRamificationGroup K L 0) : ℝ) ≠ 0 := by
+    exact_mod_cast (Nat.card_pos (α := lowerRamificationGroup K L 0)).ne'
+  have hcast := congrArg (fun m : ℕ => (m : ℝ)) hnat
+  push_cast at hcast
+  rw [hcast, herbrandPhi_natCast K L n]
+  field_simp
+  ring
 
 end Finite
 
