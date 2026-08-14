@@ -70,6 +70,7 @@ import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.ParityIndex
 import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.RamificationFiltration
+import Atlas.Knowledge.RamificationNumber
 import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.ResidueCharacteristic
