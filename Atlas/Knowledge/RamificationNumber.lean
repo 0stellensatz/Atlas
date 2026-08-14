@@ -28,6 +28,9 @@ and the two ultrametric laws for a product.
 * `ramificationNumber_conj`, `ramificationNumber_inv` — invariance.
 * `min_ramificationNumber_le_mul`, `ramificationNumber_mul_eq_min_of_ne` — the ultrametric
   laws.
+* `exists_maximal_ramificationNumber_representative`,
+  `ramificationNumber_mul_eq_min_of_maximal` — the maximal representative of a coset and the
+  truncation identity it satisfies, the group-theoretic step of Herbrand's theorem.
 
 ## Implementation notes
 
@@ -221,5 +224,42 @@ theorem ramificationNumber_mul_eq_min_of_ne {σ τ : L ≃ₐ[K] L}
       rwa [show σ⁻¹ * (σ * τ) = τ by group] at h2
     rw [ramificationNumber_inv K L] at h1
     exact absurd h1 (not_le.mpr (lt_min hgt (not_le.mp hgt')))
+
+/-- Every coset of a normal subgroup of the Galois group contains a representative of maximal
+ramification number—the element Serre takes with `i_G (s) = j (σ)`
+([Serre 1979, Chap. IV, §3, proof of Lem. 4, pp.74–75][Serre1979]). -/
+theorem exists_maximal_ramificationNumber_representative [FiniteDimensional K L]
+    (H : Subgroup (L ≃ₐ[K] L)) [H.Normal] (q : (L ≃ₐ[K] L) ⧸ H) :
+    ∃ σ : L ≃ₐ[K] L, QuotientGroup.mk' H σ = q ∧
+      ∀ γ : L ≃ₐ[K] L, QuotientGroup.mk' H γ = q →
+        ramificationNumber K L γ ≤ ramificationNumber K L σ := by
+  have hne : Nonempty {σ : L ≃ₐ[K] L // QuotientGroup.mk' H σ = q} := by
+    obtain ⟨σ, hσ⟩ := QuotientGroup.mk'_surjective H q
+    exact ⟨⟨σ, hσ⟩⟩
+  obtain ⟨⟨σ, hσ⟩, hmax⟩ := Finite.exists_max
+    (fun γ : {σ : L ≃ₐ[K] L // QuotientGroup.mk' H σ = q} =>
+      ramificationNumber K L (γ : L ≃ₐ[K] L))
+  exact ⟨σ, hσ, fun γ hγ => hmax ⟨γ, hγ⟩⟩
+
+/-- A representative of maximal ramification number in its coset truncates the whole coset:
+`i_G (σ τ) = min (i_G (τ), i_G (σ))` for every `τ` in the subgroup—Serre's "in either case,
+`i_G (s t) = Inf (i_G (t), m)`"
+([Serre 1979, Chap. IV, §3, proof of Lem. 4, p.75][Serre1979]). -/
+theorem ramificationNumber_mul_eq_min_of_maximal {H : Subgroup (L ≃ₐ[K] L)} [H.Normal]
+    {σ : L ≃ₐ[K] L}
+    (hmax : ∀ γ : L ≃ₐ[K] L, QuotientGroup.mk' H γ = QuotientGroup.mk' H σ →
+      ramificationNumber K L γ ≤ ramificationNumber K L σ)
+    (τ : H) :
+    ramificationNumber K L (σ * τ) =
+      min (ramificationNumber K L (τ : L ≃ₐ[K] L)) (ramificationNumber K L σ) := by
+  have hfiber : QuotientGroup.mk' H (σ * (τ : L ≃ₐ[K] L)) = QuotientGroup.mk' H σ := by
+    rw [map_mul]
+    simp [(QuotientGroup.eq_one_iff (τ : L ≃ₐ[K] L)).mpr τ.property]
+  by_cases hne : ramificationNumber K L σ = ramificationNumber K L (τ : L ≃ₐ[K] L)
+  · rw [← hne, min_self]
+    apply le_antisymm (hmax _ hfiber)
+    have h := min_ramificationNumber_le_mul K L σ (τ : L ≃ₐ[K] L)
+    rwa [← hne, min_self] at h
+  · rw [ramificationNumber_mul_eq_min_of_ne K L hne, min_comm]
 
 end Atlas.Knowledge
