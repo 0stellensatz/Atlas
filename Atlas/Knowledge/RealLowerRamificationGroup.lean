@@ -56,8 +56,9 @@ theorem realLowerRamificationGroup_eq {u : ℝ} {i : ℤ} (h1 : (i : ℝ) - 1 < 
     exact ⟨h1, h2⟩
   rw [realLowerRamificationGroup, hc]
 
-/-- The real-indexed lower ramification groups decrease in `u`
-([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
+/-- The real-indexed lower ramification groups decrease in `u`—the integer-indexed decrease of
+the source, transported through the ceiling
+([Serre 1979, Chap. IV, §1, Prop. 1, p.62][Serre1979]). -/
 theorem realLowerRamificationGroup_antitone : Antitone (realLowerRamificationGroup K L) :=
   fun _ _ h => lowerRamificationGroup_antitone K L (Int.ceil_le_ceil h)
 
