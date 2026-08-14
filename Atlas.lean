@@ -38,6 +38,8 @@ import Atlas.Knowledge.GroupAbsoluteInertiaDegree
 import Atlas.Knowledge.GroupAbsoluteRamificationIndex
 import Atlas.Knowledge.GroupResidueCharacteristic
 import Atlas.Knowledge.GroupRootOfUnityExponent
+import Atlas.Knowledge.HerbrandPhi
+import Atlas.Knowledge.HerbrandPsi
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.IsFilteredHom
 import Atlas.Knowledge.IsJumpPair
@@ -58,6 +60,7 @@ import Atlas.Knowledge.JumpSetOf
 import Atlas.Knowledge.JumpSetSmall
 import Atlas.Knowledge.JumpSetVector
 import Atlas.Knowledge.LegendreFormula
+import Atlas.Knowledge.LowerRamificationGroup
 import Atlas.Knowledge.MStepSolvableCenterBound
 import Atlas.Knowledge.MStepSolvableCenterFree
 import Atlas.Knowledge.MStepSolvableExtension
@@ -66,7 +69,9 @@ import Atlas.Knowledge.MStepSolvableStability
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.ParityIndex
 import Atlas.Knowledge.QuasiFreeFiltered
+import Atlas.Knowledge.RamificationFiltration
 import Atlas.Knowledge.RealHigherUnitGroup
+import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.Shift
@@ -80,5 +85,7 @@ import Atlas.Knowledge.SolvabilityDegree
 import Atlas.Knowledge.SpanOfOpenUnitSubgroup
 import Atlas.Knowledge.StandardFiltered
 import Atlas.Knowledge.TRhoEP
+import Atlas.Knowledge.UpperRamificationGroup
+import Atlas.Knowledge.WildInertiaSubgroup
 
 import Atlas.Questions.«20260813».Development
