@@ -21,6 +21,9 @@ and the two ultrametric laws for a product.
 
 * `natCast_le_ramificationNumber_iff` — `n ≤ i_G (σ)` iff `σ` moves every integral element
   into the `n`-th radical power.
+* `natCast_le_ramificationNumber_iff_of_adjoin_eq_top` — at a generator of the integral
+  closure the quantifier collapses to the single element: the source's definition
+  `i_G (σ) = v_L (σ x - x)`, recovered as a theorem.
 * `mem_lowerRamificationGroup_iff_le_ramificationNumber` — `σ ∈ G_i ↔ i + 1 ≤ i_G (σ)`.
 * `mem_lowerRamificationGroup_sub_one_iff` — the `ℕ`-indexed form `σ ∈ G_{n - 1} ↔ n ≤ i_G (σ)`,
   the shape every argument through the levels uses.
@@ -39,9 +42,11 @@ integers and derives the filtration from it; here the dependence is reversed. `i
 supremum of the radical powers that absorb every difference `σ x - x`, a definition available
 without monogenicity and without a valuation on `L`—indeed nothing is asked of the extension
 beyond algebraicity: no Galois hypothesis, no finiteness, no local-field structure on `K`—and
-the source's description at a generator becomes a theorem for the later monogenicity item to
-prove. The supremum is taken in `ℕ∞`, where the set of absorbing exponents is downward closed,
-so `natCast_le_ramificationNumber_iff` pins the value exactly; `= ∞` at the identity is the
+the source's description at a generator becomes the theorem
+`natCast_le_ramificationNumber_iff_of_adjoin_eq_top`, whose generator
+`Atlas.Knowledge.monogenicIntegralClosure` supplies. The supremum is taken in `ℕ∞`, where the
+set of absorbing exponents is downward closed, so `natCast_le_ramificationNumber_iff` pins the
+value exactly; `= ∞` at the identity is the
 separatedness of the radical powers already carried by
 `Atlas.Knowledge.exists_lowerRamificationGroup_eq_bot`, and the classical hypotheses enter
 only there. The ultrametric equal-case law is proved from the group laws alone—`σ` recovered
@@ -111,6 +116,37 @@ theorem natCast_le_ramificationNumber_iff {σ : L ≃ₐ[K] L} {n : ℕ} :
     exact absurd h (not_le.mpr hlt)
   · intro h
     exact le_sSup ⟨n, h, rfl⟩
+
+/-- At a generator of the integral closure the ramification number is read off the single
+element: `n ≤ i_G (σ)` if and only if `σ x - x` lies in the `n`-th radical power. Every other
+difference `σ y - y` is a multiple of `σ x - x`, since `y` is a polynomial in `x` over the
+fixed base—this is the source's definition `i_G (σ) = v_L (σ x - x)` recovered from the
+generator-free one, at the generator `Atlas.Knowledge.monogenicIntegralClosure` supplies
+([Serre 1979, Chap. IV, §1, p.62][Serre1979]). -/
+theorem natCast_le_ramificationNumber_iff_of_adjoin_eq_top
+    {x : integralClosure 𝒪[K] L}
+    (hx : Algebra.adjoin 𝒪[K] ({x} : Set (integralClosure 𝒪[K] L)) = ⊤)
+    {σ : L ≃ₐ[K] L} {n : ℕ} :
+    (n : ℕ∞) ≤ ramificationNumber K L σ ↔
+      galRestrict 𝒪[K] K L (integralClosure 𝒪[K] L) σ x - x ∈
+        Ideal.jacobson (⊥ : Ideal (integralClosure 𝒪[K] L)) ^ n := by
+  rw [natCast_le_ramificationNumber_iff]
+  refine ⟨fun h => h x, fun h y => ?_⟩
+  have hy : y ∈ Algebra.adjoin 𝒪[K] ({x} : Set (integralClosure 𝒪[K] L)) := by
+    rw [hx]; exact Algebra.mem_top
+  rw [Algebra.adjoin_singleton_eq_range_aeval, AlgHom.mem_range] at hy
+  obtain ⟨P, rfl⟩ := hy
+  obtain ⟨c, hc⟩ := Polynomial.sub_dvd_eval_sub
+    (galRestrict 𝒪[K] K L (integralClosure 𝒪[K] L) σ x) x
+    (P.map (algebraMap 𝒪[K] (integralClosure 𝒪[K] L)))
+  have key : galRestrict 𝒪[K] K L (integralClosure 𝒪[K] L) σ (Polynomial.aeval x P) -
+      Polynomial.aeval x P =
+      (galRestrict 𝒪[K] K L (integralClosure 𝒪[K] L) σ x - x) * c := by
+    rw [← Polynomial.aeval_algHom_apply, ← Polynomial.eval_map_algebraMap,
+      ← Polynomial.eval_map_algebraMap]
+    exact hc
+  rw [key]
+  exact Ideal.mul_mem_right c _ h
 
 /-- Membership in the lower filtration through the ramification number:
 `σ ∈ G_i ↔ i + 1 ≤ i_G (σ)`
