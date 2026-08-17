@@ -74,6 +74,7 @@ import Atlas.Knowledge.ParityIndex
 import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.RamificationFiltration
 import Atlas.Knowledge.RamificationNumber
+import Atlas.Knowledge.RamificationNumberEqAddVal
 import Atlas.Knowledge.RamificationNumberRestrictScalars
 import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
