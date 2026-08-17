@@ -13,6 +13,7 @@ import Atlas.Knowledge.AbsoluteInertiaDegree
 import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
 import Atlas.Knowledge.AbsoluteRamificationIndex
+import Atlas.Knowledge.AddValMapIntegralClosure
 import Atlas.Knowledge.CharacterTwist
 import Atlas.Knowledge.ClosedDerivedSeries
 import Atlas.Knowledge.CompletedUnitGroup
