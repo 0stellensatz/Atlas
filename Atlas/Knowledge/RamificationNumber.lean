@@ -46,11 +46,10 @@ the source's description at a generator becomes the theorem
 `natCast_le_ramificationNumber_iff_of_adjoin_eq_top`, whose generator
 `Atlas.Knowledge.monogenicIntegralClosure` supplies. The supremum is taken in `ℕ∞`, where the
 set of absorbing exponents is downward closed, so `natCast_le_ramificationNumber_iff` pins the
-value exactly; `= ∞` at the identity is the
-separatedness of the radical powers already carried by
-`Atlas.Knowledge.exists_lowerRamificationGroup_eq_bot`, and the classical hypotheses enter
-only there. The ultrametric equal-case law is proved from the group laws alone—`σ` recovered
-as `(σ τ) τ⁻¹`—rather than from valuation theory.
+value exactly; `= ∞` at the identity is the separatedness of the radical powers already
+carried by `Atlas.Knowledge.exists_lowerRamificationGroup_eq_bot`, and the classical
+hypotheses enter only there. The ultrametric equal-case law is proved from the group laws
+alone—`σ` recovered as `(σ τ) τ⁻¹`—rather than from valuation theory.
 
 ## References
 

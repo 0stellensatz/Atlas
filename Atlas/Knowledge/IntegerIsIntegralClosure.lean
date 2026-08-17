@@ -12,10 +12,9 @@ written in.
 
 ## Main statements
 
-* `IntegerIsIntegralClosure.hasExtension` — the valuation of `E` extends that of `K`, gluing
-  Mathlib's `ValuativeExtension` to `Valuation.HasExtension`.
 * `mem_integer_iff_isIntegral` — membership in `𝒪[E]` is integrality over `𝒪[K]`.
 * `integerIsIntegralClosure` — `𝒪[E]` is the integral closure of `𝒪[K]` in `E`.
+* `integer_isIntegral` — the integer tower `𝒪[K] → 𝒪[E]` is integral.
 
 ## Implementation notes
 
@@ -29,8 +28,14 @@ of `E` trivial against `IntegerIsIntegralClosure.isNontrivial`. No rank-one hypo
 on `E`: nontriviality ascends from `K` through the strictly monotone map of value groups, and
 the normed structure on `K` is rebuilt inside the proof exactly as in
 `Atlas.Knowledge.IntegralClosureDVR`, so the auxiliary uniformity never escapes. The bridge
-instance `IntegerIsIntegralClosure.hasExtension` is generic—no local-field hypotheses—and is
-what hands the proof the algebra `𝒪[K] → 𝒪[E]` and its scalar tower over `E`.
+instance `IntegerIsIntegralClosure.hasExtension` and the nontriviality ascent
+`IntegerIsIntegralClosure.isNontrivial` are generic—no local-field hypotheses—and reusable
+wherever a `ValuativeExtension` lives; they stay out of the index deliberately, as scaffolding
+of this item rather than items of their own. The scaffolding carries the namespace as a name
+prefix instead of a `namespace` block so the shared `variable` line serves the public
+statements too. In the source the identification of the valuation ring with the integral
+closure sits at proof level: Prop. 3 constructs the closure as the discrete valuation ring of
+the extension, and Cor. 2's uniqueness is what pins any compatible valuation to it.
 
 ## References
 
@@ -96,6 +101,8 @@ theorem mem_integer_iff_isIntegral [TopologicalSpace K] [IsMixedCharLocalField K
         ((IntegralClosureDVR.mem_integralClosure_iff_spectralNorm_le_one hc).mpr hz))
     · refine Or.inr (Subalgebra.mem_toSubring.mpr
         ((IntegralClosureDVR.mem_integralClosure_iff_spectralNorm_le_one hc).mpr ?_))
+      -- the `z = 0` branch is vacuous under `hz` (`spectralNorm K E 0 = 0`); splitting is
+      -- cheaper than deriving `z ≠ 0` from it
       rcases eq_or_ne z 0 with rfl | hz0
       · simp [spectralNorm_zero]
       · have hmul : spectralNorm K E (z * z⁻¹) =
@@ -145,8 +152,8 @@ instance integerIsIntegralClosure [TopologicalSpace K] [IsMixedCharLocalField K]
 
 /-- The integer tower is integral: every element of `𝒪[E]` is integral over `𝒪[K]`
 ([Serre 1979, Chap. II, §2, Prop. 3 and Cor. 2, pp.28–29][Serre1979]). -/
-instance [TopologicalSpace K] [IsMixedCharLocalField K] [FiniteDimensional K E] :
-    Algebra.IsIntegral 𝒪[K] 𝒪[E] :=
+instance integer_isIntegral [TopologicalSpace K] [IsMixedCharLocalField K]
+    [FiniteDimensional K E] : Algebra.IsIntegral 𝒪[K] 𝒪[E] :=
   IsIntegralClosure.isIntegral_algebra 𝒪[K] E
 
 end Atlas.Knowledge

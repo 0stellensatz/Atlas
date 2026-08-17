@@ -32,7 +32,9 @@ nothing more, and the normed structure is rebuilt inside the proofs from the loc
 hypotheses, so the auxiliary uniformity never escapes. The discrete valuation property is
 Dedekind plus local: the closure is a Dedekind domain because `𝒪[K]` is one and the extension
 is finite and separable—separability free in characteristic zero—and a local Dedekind domain
-that is not a field is a discrete valuation ring. The source's remaining clauses—`B` free of
+that is not a field is a discrete valuation ring. The unit-ball membership description stays
+public inside the scaffolding namespace: it is the reusable core of the route, and later items
+take it single-copy rather than re-proving it. The source's remaining clauses—`B` free of
 rank `n` over `𝒪[K]`, completeness of `L`—are not stated here.
 
 ## References
@@ -54,8 +56,7 @@ omit [IsUltrametricDist K] in
 /-- The integral closure of `𝒪[K]` in `L` is the closed unit ball of the spectral norm: the
 minimal polynomial over `K` of an integral element is the image of its minimal polynomial over
 the integrally closed `𝒪[K]`, and conversely a monic polynomial with coefficients of norm at
-most one lifts to `𝒪[K]`. Public within the scaffolding namespace so that
-`Atlas.Knowledge.integerIsIntegralClosure` can reuse it single-copy. -/
+most one lifts to `𝒪[K]`. -/
 theorem mem_integralClosure_iff_spectralNorm_le_one [IsIntegrallyClosed 𝒪[K]]
     (hc : ∀ x : K, ‖x‖ ≤ 1 ↔ valuation K x ≤ 1) {y : L} :
     y ∈ integralClosure 𝒪[K] L ↔ spectralNorm K L y ≤ 1 := by

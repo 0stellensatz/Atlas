@@ -17,15 +17,21 @@ the lower filtration is `H_i = G_i ∩ H`.
 * `mem_lowerRamificationGroup_restrictScalars_iff` — `σ ∈ H_i ↔ σ ∈ G_i`, pointwise.
 * `lowerRamificationGroup_restrictScalars` — `H_i = G_i ∩ H`, the intersection read as a
   `Subgroup.comap` along `AlgEquiv.restrictScalarsHom`.
+* `lowerRamificationGroup_map_restrictScalarsHom` — the same identity read literally as an
+  image: `H_i` maps onto `G_i ⊓ H` inside `Gal(L/K)`.
 
 ## Implementation notes
 
 The content of the proposition is that the integral closure of `𝒪[E]` in `L` is the integral
-closure of `𝒪[K]` in `L`: `Atlas.Knowledge.integerIsIntegralClosure` makes the two base rings
-comparable—`𝒪[E]` is integral over `𝒪[K]`—so integrality over either base transits to the
-other, and the two `galRestrict` actions agree through the identification because both act as
-`σ` on `L`. The source states the proposition for an arbitrary subgroup `H` of the Galois
-group—no normality—and none is assumed here: `E` is any intermediate valued field. Because the
+closure of `𝒪[K]` in `L`: `Atlas.Knowledge.integer_isIntegral` makes `𝒪[E]` integral over
+`𝒪[K]`, so integrality over either base transits to the other, and the two `galRestrict`
+actions agree through the identification because both act as `σ` on `L`. The source's whole
+proof is "this follows from condition a) of lemma 1" (p.61), condition a) being stated in the
+intrinsic `A_L`; the base-dependent carrier here is exactly why the closure identification
+must be proved in its place. The source states the proposition for an arbitrary subgroup `H`
+of the Galois group—no normality—and none is assumed here: `E` is any intermediate valued
+field. The scaffolding carries the namespace as a name prefix instead of a `namespace` block
+so the shared `variable` line serves the public statements too. Because the
 transported theory is the intrinsic ramification theory of `L` over `E`, the E-side
 consequences—the eventual triviality of the filtration of `L` over `E` among them—come through
 this item without any local-field structure on `E`.
@@ -47,9 +53,9 @@ variable (E : Type*) [Field E] [ValuativeRel E] [Algebra K E] [Algebra E L]
 
 omit [Algebra.IsAlgebraic K L] in
 /-- The integral closure of `𝒪[E]` in `L` is the integral closure of `𝒪[K]` in `L`: the ring
-`𝒪[E]` is itself integral over `𝒪[K]` by `Atlas.Knowledge.integerIsIntegralClosure`, so
-integrality over either base transits to the other. -/
-theorem RamificationNumberRestrictScalars.mem_integralClosure_iff_mem
+`𝒪[E]` is itself integral over `𝒪[K]` by `Atlas.Knowledge.integer_isIntegral`, so integrality
+over either base transits to the other. -/
+theorem RamificationNumberRestrictScalars.mem_integralClosure_base_iff
     [TopologicalSpace K] [IsMixedCharLocalField K] [FiniteDimensional K L] (z : L) :
     z ∈ integralClosure 𝒪[E] L ↔ z ∈ integralClosure 𝒪[K] L := by
   haveI : FiniteDimensional K E := FiniteDimensional.left K E L
@@ -78,7 +84,7 @@ theorem RamificationNumberRestrictScalars.forall_galRestrict_sub_mem_iff
   have h : (integralClosure 𝒪[E] L).toSubring = (integralClosure 𝒪[K] L).toSubring :=
     SetLike.ext fun z => by
       rw [Subalgebra.mem_toSubring, Subalgebra.mem_toSubring]
-      exact RamificationNumberRestrictScalars.mem_integralClosure_iff_mem K L E z
+      exact RamificationNumberRestrictScalars.mem_integralClosure_base_iff K L E z
   let e : integralClosure 𝒪[E] L ≃+* integralClosure 𝒪[K] L := RingEquiv.subringCongr h
   have hcompat : ∀ x : integralClosure 𝒪[E] L,
       e (galRestrict 𝒪[E] E L (integralClosure 𝒪[E] L) σ x) =
@@ -143,5 +149,15 @@ theorem lowerRamificationGroup_restrictScalars [TopologicalSpace K] [IsMixedChar
   ext σ
   rw [Subgroup.mem_comap, AlgEquiv.restrictScalarsHom_apply]
   exact mem_lowerRamificationGroup_restrictScalars_iff K L E
+
+/-- The image form of the intersection: `H_i` maps onto `G_i ⊓ H` inside `Gal(L/K)`, with `H`
+the range of the restriction embedding—the source's `H_i = G_i ∩ H` read literally
+([Serre 1979, Chap. IV, §1, Prop. 2, p.62][Serre1979]). -/
+theorem lowerRamificationGroup_map_restrictScalarsHom [TopologicalSpace K]
+    [IsMixedCharLocalField K] [FiniteDimensional K L] (i : ℤ) :
+    Subgroup.map (AlgEquiv.restrictScalarsHom K) (lowerRamificationGroup E L i) =
+      lowerRamificationGroup K L i ⊓ (AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range := by
+  rw [lowerRamificationGroup_restrictScalars K L E, Subgroup.map_comap_eq]
+  exact inf_comm _ _
 
 end Atlas.Knowledge
