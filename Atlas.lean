@@ -69,6 +69,7 @@ import Atlas.Knowledge.MStepSolvableCenterFree
 import Atlas.Knowledge.MStepSolvableExtension
 import Atlas.Knowledge.MStepSolvableQuotient
 import Atlas.Knowledge.MStepSolvableStability
+import Atlas.Knowledge.MinpolyMapEqCharpoly
 import Atlas.Knowledge.MonogenicIntegralClosure
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.ParityIndex
