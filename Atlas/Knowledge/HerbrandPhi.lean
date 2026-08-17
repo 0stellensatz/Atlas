@@ -1,6 +1,7 @@
 import Mathlib
 import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.RamificationNumber
+import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 
 /-!
 # Herbrand function φ
@@ -171,11 +172,11 @@ theorem herbrandPhi_bijective : Function.Bijective (herbrandPhi K L) := by
     filter_upwards [Filter.eventually_le_atBot (0 : ℝ)] with u hu
     exact hbound_bot u hu
 
-/-- The Herbrand function is affine on each interval `[n, n + 1]`, of slope
-`1 / (G_0 : G_{n+1})`—the explicit piecewise-linear description of `φ`, whose display the
-source states for positive `n`; `n = 0` is admitted here
+/-- The Herbrand function is affine on `[n, n + 1]` for every integer `n`, of slope
+`1 / (G_0 : G_{n+1})`—the piecewise-linear description of `φ`, extended from the source's
+nonnegative range over every integer, the junk region below `-1` included
 ([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
-theorem herbrandPhi_eq_add_of_mem_Icc {n : ℕ} {u : ℝ} (h1 : (n : ℝ) ≤ u) (h2 : u ≤ n + 1) :
+theorem herbrandPhi_eq_add_of_mem_Icc_int {n : ℤ} {u : ℝ} (h1 : (n : ℝ) ≤ u) (h2 : u ≤ n + 1) :
     herbrandPhi K L u = herbrandPhi K L n +
       (u - n) * ((Nat.card (lowerRamificationGroup K L (n + 1)) : ℝ) /
         (Nat.card (lowerRamificationGroup K L 0) : ℝ)) := by
@@ -185,19 +186,49 @@ theorem herbrandPhi_eq_add_of_mem_Icc {n : ℕ} {u : ℝ} (h1 : (n : ℝ) ≤ u)
       (Nat.card (realLowerRamificationGroup K L t) : ℝ) /
         (Nat.card (lowerRamificationGroup K L 0) : ℝ)) =
       ∫ t in (n : ℝ)..u,
-        (Nat.card (lowerRamificationGroup K L ((n : ℤ) + 1)) : ℝ) /
+        (Nat.card (lowerRamificationGroup K L (n + 1)) : ℝ) /
           (Nat.card (lowerRamificationGroup K L 0) : ℝ) := by
     apply intervalIntegral.integral_congr_ae
     apply Filter.Eventually.of_forall
     intro t ht
     rw [Set.uIoc_of_le h1] at ht
-    rw [realLowerRamificationGroup_eq K L (i := (n : ℤ) + 1)
+    rw [realLowerRamificationGroup_eq K L (i := n + 1)
       (by push_cast; linarith [ht.1]) (by push_cast; linarith [ht.2])]
   rw [hcongr, intervalIntegral.integral_const, smul_eq_mul] at key
   have key' : herbrandPhi K L n + (u - (n : ℝ)) *
-      ((Nat.card (lowerRamificationGroup K L ((n : ℤ) + 1)) : ℝ) /
+      ((Nat.card (lowerRamificationGroup K L (n + 1)) : ℝ) /
         (Nat.card (lowerRamificationGroup K L 0) : ℝ)) = herbrandPhi K L u := key
   linarith [key']
+
+/-- The Herbrand function is affine on each interval `[n, n + 1]`, of slope
+`1 / (G_0 : G_{n+1})`—the explicit piecewise-linear description of `φ`, whose display the
+source states for positive `n`; `n = 0` is admitted here
+([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
+theorem herbrandPhi_eq_add_of_mem_Icc {n : ℕ} {u : ℝ} (h1 : (n : ℝ) ≤ u) (h2 : u ≤ n + 1) :
+    herbrandPhi K L u = herbrandPhi K L n +
+      (u - n) * ((Nat.card (lowerRamificationGroup K L (n + 1)) : ℝ) /
+        (Nat.card (lowerRamificationGroup K L 0) : ℝ)) := by
+  exact_mod_cast herbrandPhi_eq_add_of_mem_Icc_int K L (n := (n : ℤ))
+    (by exact_mod_cast h1) (by exact_mod_cast h2)
+
+/-- `φ (-1) = -1`: the left endpoint of the slope-one segment of `φ` on `[-1, 0]`
+([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
+@[simp]
+theorem herbrandPhi_neg_one : herbrandPhi K L (-1) = -1 := by
+  have h0 : (Nat.card (lowerRamificationGroup K L 0) : ℝ) ≠ 0 := by
+    exact_mod_cast (Nat.card_pos (α := lowerRamificationGroup K L 0)).ne'
+  have key := herbrandPhi_eq_add_of_mem_Icc_int K L (n := -1) (u := 0)
+    (by norm_num) (by norm_num)
+  rw [herbrandPhi_zero] at key
+  norm_num [div_self h0] at key
+  linarith [key]
+
+/-- For `u ≤ -1` also `φ (u) ≤ -1`—the source's homeomorphism of `[-1, +∞)` onto itself never
+maps the junk region into the working range
+([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
+theorem herbrandPhi_le_neg_one {u : ℝ} (hu : u ≤ -1) : herbrandPhi K L u ≤ -1 := by
+  rw [← herbrandPhi_neg_one K L]
+  exact (herbrandPhi_strictMono K L).monotone hu
 
 /-- The evaluation of the Herbrand function at a natural number:
 `φ (n) + 1 = (g_0 + g_1 + ⋯ + g_n) / g_0` for `g_i = Nat.card (G_i)`—the source's displayed
@@ -292,6 +323,37 @@ section Tower
 
 variable (E : Type*) [Field E] [ValuativeRel E] [Algebra K E] [Algebra E L]
   [IsScalarTower K E L] [ValuativeExtension K E] [Algebra.IsAlgebraic E L]
+
+omit [ValuativeRel K] [Algebra.IsAlgebraic K L] [ValuativeRel E] [ValuativeExtension K E]
+  [Algebra.IsAlgebraic E L] in
+/-- The subgroup of `L ≃ₐ[K] L` fixing `E` pointwise—the range of
+`AlgEquiv.restrictScalarsHom K`—is normal, being the kernel of the restriction
+`AlgEquiv.restrictNormalHom E` through `Atlas.Knowledge.restrictScalarsHom_range_eq_ker`; a
+theorem to apply by `haveI` where a proof needs it rather than a global instance
+([Serre 1979, Chap. IV, §1, proof of Prop. 3, p.63][Serre1979]). -/
+theorem restrictScalarsHom_range_normal [Normal K E] :
+    ((AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range).Normal :=
+  restrictScalarsHom_range_eq_ker K E L ▸ MonoidHom.normal_ker _
+
+omit [ValuativeRel E] [ValuativeExtension K E] [Algebra.IsAlgebraic E L] in
+/-- Every fiber of the restriction `AlgEquiv.restrictNormalHom E` contains a representative
+of maximal ramification number—the element Serre takes with `i_G (s) = j (σ)`, the coset
+statement `Atlas.Knowledge.exists_maximal_ramificationNumber_representative` read on a fiber
+of the restriction to a normal subextension
+([Serre 1979, Chap. IV, §3, proof of Lem. 4, pp.74–75][Serre1979]). -/
+theorem exists_maximal_ramificationNumber_restrictNormalHom_representative
+    [FiniteDimensional K L] [IsGalois K L] [Normal K E] (σ' : E ≃ₐ[K] E) :
+    ∃ σ : L ≃ₐ[K] L, AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E σ = σ' ∧
+      ∀ γ : L ≃ₐ[K] L, AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E γ = σ' →
+        ramificationNumber K L γ ≤ ramificationNumber K L σ := by
+  have hne : Nonempty
+      {σ : L ≃ₐ[K] L // AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E σ = σ'} := by
+    obtain ⟨σ, hσ⟩ := AlgEquiv.restrictNormalHom_surjective (F := K) (K₁ := E) L σ'
+    exact ⟨⟨σ, hσ⟩⟩
+  obtain ⟨⟨σ, hσ⟩, hmax⟩ := Finite.exists_max
+    (fun γ : {σ : L ≃ₐ[K] L // AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E σ = σ'} =>
+      ramificationNumber K L (γ : L ≃ₐ[K] L))
+  exact ⟨σ, hσ, fun γ hγ => hmax ⟨γ, hγ⟩⟩
 
 /-- **Herbrand's theorem**: for a normal subextension `E` of a finite Galois extension `L` of
 a mixed-characteristic local field `K`, the image of the real-indexed lower ramification group
