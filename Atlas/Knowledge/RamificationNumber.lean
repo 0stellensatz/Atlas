@@ -244,7 +244,7 @@ theorem exists_maximal_ramificationNumber_representative [FiniteDimensional K L]
 /-- A representative of maximal ramification number in its coset truncates the whole coset:
 `i_G (σ τ) = min (i_G (τ), i_G (σ))` for every `τ` in the subgroup—Serre's "in either case,
 `i_G (s t) = Inf (i_G (t), m)`"
-([Serre 1979, Chap. IV, §3, proof of Lem. 4, p.75][Serre1979]). -/
+([Serre 1979, Chap. IV, §3, proof of Lem. 4, pp.74–75][Serre1979]). -/
 theorem ramificationNumber_mul_eq_min_of_maximal {H : Subgroup (L ≃ₐ[K] L)} [H.Normal]
     {σ : L ≃ₐ[K] L}
     (hmax : ∀ γ : L ≃ₐ[K] L, QuotientGroup.mk' H γ = QuotientGroup.mk' H σ →

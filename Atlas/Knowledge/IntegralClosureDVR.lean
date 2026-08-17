@@ -15,7 +15,8 @@ filtering the ramification groups are the powers of the maximal ideal.
 
 * `integralClosure_isLocalRing` — the integral closure of `𝒪[K]` in `L` is a local ring.
 * `integralClosureDVR` — the integral closure of `𝒪[K]` in `L` is a discrete valuation ring.
-* `jacobson_bot_eq_maximalIdeal` — its Jacobson radical is its maximal ideal.
+* `integralClosure_jacobson_bot_eq_maximalIdeal` — its Jacobson radical is its maximal
+  ideal.
 
 ## Implementation notes
 
@@ -25,13 +26,14 @@ on an algebraic extension is multiplicative and nonarchimedean, and the integral
 minimal polynomial has coefficients of norm at most one, which is the bound on the spectral
 value. Locality then comes from the unit-ball description, not from Hensel's lemma: a unit of
 the ball has norm exactly one by multiplicativity, so the nonunits are the open ball, which the
-ultrametric inequality closes under addition. The statements mention no topology and no
-norm—`K` carries only its valuative relation, and the normed structure is rebuilt inside each
-proof from the local-field hypotheses, so the auxiliary uniformity never escapes. The discrete
-valuation property is Dedekind plus local: the closure is a Dedekind domain because `𝒪[K]` is
-one and the extension is finite and separable—separability free in characteristic zero—and a
-local Dedekind domain that is not a field is a discrete valuation ring. Completeness of the
-closure, the remaining clause of the source's statement, is not stated here.
+ultrametric inequality closes under addition. The statements mention no norm and no
+uniformity—`K` carries its valuative relation and the topology of the local-field class,
+nothing more, and the normed structure is rebuilt inside the proofs from the local-field
+hypotheses, so the auxiliary uniformity never escapes. The discrete valuation property is
+Dedekind plus local: the closure is a Dedekind domain because `𝒪[K]` is one and the extension
+is finite and separable—separability free in characteristic zero—and a local Dedekind domain
+that is not a field is a discrete valuation ring. The source's remaining clauses—`B` free of
+rank `n` over `𝒪[K]`, completeness of `L`—are not stated here.
 
 ## References
 
@@ -155,12 +157,11 @@ end IntegralClosureDVR
 variable (K : Type*) [Field K] [ValuativeRel K] (L : Type*) [Field L] [Algebra K L]
   [Algebra.IsAlgebraic K L]
 
-/-- The integral closure of the ring of integers of a mixed-characteristic local field in a
-finite extension is a local ring: it is the closed unit ball of the spectral norm, whose
-nonunits—the open ball—absorb addition
-([Serre 1979, Chap. II, §2, Prop. 3][Serre1979]). -/
-instance integralClosure_isLocalRing [TopologicalSpace K] [IsMixedCharLocalField K]
-    [FiniteDimensional K L] : IsLocalRing (integralClosure 𝒪[K] L) := by
+/-- The two unit-ball conclusions at the public hypotheses, the normed structure rebuilt
+once. -/
+private theorem IntegralClosureDVR.isLocalRing_and_not_isField [TopologicalSpace K]
+    [IsMixedCharLocalField K] [FiniteDimensional K L] :
+    IsLocalRing (integralClosure 𝒪[K] L) ∧ ¬IsField (integralClosure 𝒪[K] L) := by
   letI : UniformSpace K := IsTopologicalAddGroup.rightUniformSpace K
   haveI : IsUniformAddGroup K := isUniformAddGroup_of_addCommGroup
   letI : (Valued.v (R := K)).RankOne :=
@@ -170,36 +171,34 @@ instance integralClosure_isLocalRing [TopologicalSpace K] [IsMixedCharLocalField
   letI : NontriviallyNormedField K := Valued.toNontriviallyNormedField K (ValueGroupWithZero K)
   haveI : IsUltrametricDist K := inferInstance
   haveI : CompleteSpace K := inferInstance
-  exact IntegralClosureDVR.isLocalRing fun x => Valued.toNormedField.norm_le_one_iff
+  exact ⟨IntegralClosureDVR.isLocalRing fun x => Valued.toNormedField.norm_le_one_iff,
+    IntegralClosureDVR.not_isField fun x => Valued.toNormedField.norm_le_one_iff⟩
 
 /-- The integral closure of the ring of integers of a mixed-characteristic local field in a
-finite extension is a discrete valuation ring—the algebraic core of the source's "`A_L` is a
-complete discrete valuation ring"
-([Serre 1979, Chap. II, §2, Prop. 3][Serre1979]). -/
+finite extension is a local ring: it is the closed unit ball of the spectral norm, whose
+nonunits—the open ball—absorb addition
+([Serre 1979, Chap. II, §2, Prop. 3, p.28][Serre1979]). -/
+instance integralClosure_isLocalRing [TopologicalSpace K] [IsMixedCharLocalField K]
+    [FiniteDimensional K L] : IsLocalRing (integralClosure 𝒪[K] L) :=
+  (IntegralClosureDVR.isLocalRing_and_not_isField K L).1
+
+/-- The integral closure of the ring of integers of a mixed-characteristic local field in a
+finite extension is a discrete valuation ring—the discrete-valuation-ring clause of the
+source's proposition, whose other clauses the Implementation notes leave unstated
+([Serre 1979, Chap. II, §2, Prop. 3, p.28][Serre1979]). -/
 instance integralClosureDVR [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K L] : IsDiscreteValuationRing (integralClosure 𝒪[K] L) := by
   haveI : IsDedekindDomain (integralClosure 𝒪[K] L) :=
     IsIntegralClosure.isDedekindDomain 𝒪[K] K L (integralClosure 𝒪[K] L)
-  have hnf : ¬IsField (integralClosure 𝒪[K] L) := by
-    letI : UniformSpace K := IsTopologicalAddGroup.rightUniformSpace K
-    haveI : IsUniformAddGroup K := isUniformAddGroup_of_addCommGroup
-    letI : (Valued.v (R := K)).RankOne :=
-      { hom' := IsRankLeOne.nonempty.some.emb (R := K).comp
-          MonoidWithZeroHom.ValueGroup₀.embedding
-        strictMono' := IsRankLeOne.nonempty.some.strictMono.comp
-          MonoidWithZeroHom.ValueGroup₀.embedding_strictMono }
-    letI : NontriviallyNormedField K := Valued.toNontriviallyNormedField K (ValueGroupWithZero K)
-    haveI : IsUltrametricDist K := inferInstance
-    haveI : CompleteSpace K := inferInstance
-    exact IntegralClosureDVR.not_isField fun x => Valued.toNormedField.norm_le_one_iff
-  exact ((IsDiscreteValuationRing.TFAE (integralClosure 𝒪[K] L) hnf).out 2 0).mp
+  exact ((IsDiscreteValuationRing.TFAE (integralClosure 𝒪[K] L)
+    (IntegralClosureDVR.isLocalRing_and_not_isField K L).2).out 2 0).mp
     ‹IsDedekindDomain (integralClosure 𝒪[K] L)›
 
 /-- The Jacobson radical of the integral closure—the ideal the lower numbering of
 `Atlas.Knowledge.LowerRamificationGroup` is written in—is its maximal ideal
-([Serre 1979, Chap. II, §2, Prop. 3][Serre1979]). -/
-theorem jacobson_bot_eq_maximalIdeal [TopologicalSpace K] [IsMixedCharLocalField K]
-    [FiniteDimensional K L] :
+([Serre 1979, Chap. II, §2, Prop. 3, p.28][Serre1979]). -/
+theorem integralClosure_jacobson_bot_eq_maximalIdeal [TopologicalSpace K]
+    [IsMixedCharLocalField K] [FiniteDimensional K L] :
     Ideal.jacobson (⊥ : Ideal (integralClosure 𝒪[K] L)) =
       IsLocalRing.maximalIdeal (integralClosure 𝒪[K] L) :=
   IsLocalRing.jacobson_eq_maximalIdeal ⊥ bot_ne_top

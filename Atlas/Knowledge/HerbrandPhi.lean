@@ -200,7 +200,8 @@ theorem herbrandPhi_eq_add_of_mem_Icc {n : ℕ} {u : ℝ} (h1 : (n : ℝ) ≤ u)
 
 /-- The evaluation of the Herbrand function at a natural number:
 `φ (n) + 1 = (g_0 + g_1 + ⋯ + g_n) / g_0` for `g_i = Nat.card (G_i)`—the source's displayed
-formula ([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
+formula, stated there for positive `n`; `n = 0` is admitted here, both sides reading `0`
+([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
 theorem herbrandPhi_natCast (n : ℕ) :
     herbrandPhi K L n =
       (∑ i ∈ Finset.range (n + 1), (Nat.card (lowerRamificationGroup K L i) : ℝ)) /
