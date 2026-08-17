@@ -65,7 +65,7 @@ theorem IntegerIsIntegralClosure.isNontrivial [ValuativeRel.IsNontrivial K] :
 
 /-- An element of a finite extension `E` of a mixed-characteristic local field `K` lies in
 `𝒪[E]` if and only if it is integral over `𝒪[K]`
-([Serre 1979, Chap. II, §2, Prop. 3 and Cor. 2, pp.29–30][Serre1979]). -/
+([Serre 1979, Chap. II, §2, Prop. 3 and Cor. 2, pp.28–29][Serre1979]). -/
 theorem mem_integer_iff_isIntegral [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K E] {x : E} : x ∈ 𝒪[E] ↔ IsIntegral 𝒪[K] x := by
   haveI : Algebra.IsAlgebraic K E := Algebra.IsAlgebraic.of_finite K E
@@ -135,7 +135,7 @@ theorem mem_integer_iff_isIntegral [TopologicalSpace K] [IsMixedCharLocalField K
 
 /-- The ring of integers of a finite extension of a mixed-characteristic local field is the
 integral closure of the base ring of integers
-([Serre 1979, Chap. II, §2, Prop. 3 and Cor. 2, pp.29–30][Serre1979]). -/
+([Serre 1979, Chap. II, §2, Prop. 3 and Cor. 2, pp.28–29][Serre1979]). -/
 instance integerIsIntegralClosure [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K E] : IsIntegralClosure 𝒪[E] 𝒪[K] E where
   algebraMap_injective := Subtype.coe_injective
@@ -144,7 +144,7 @@ instance integerIsIntegralClosure [TopologicalSpace K] [IsMixedCharLocalField K]
     exact (mem_integer_iff_isIntegral K E).mp y.2⟩
 
 /-- The integer tower is integral: every element of `𝒪[E]` is integral over `𝒪[K]`
-([Serre 1979, Chap. II, §2, Prop. 3 and Cor. 2, pp.29–30][Serre1979]). -/
+([Serre 1979, Chap. II, §2, Prop. 3 and Cor. 2, pp.28–29][Serre1979]). -/
 instance [TopologicalSpace K] [IsMixedCharLocalField K] [FiniteDimensional K E] :
     Algebra.IsIntegral 𝒪[K] 𝒪[E] :=
   IsIntegralClosure.isIntegral_algebra 𝒪[K] E
