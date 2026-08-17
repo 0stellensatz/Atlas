@@ -50,12 +50,13 @@ namespace IntegralClosureDVR
 variable {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K] [ValuativeRel K]
   {L : Type*} [Field L] [Algebra K L] [Algebra.IsAlgebraic K L]
 
-/- The integral closure of `𝒪[K]` in `L` is the closed unit ball of the spectral norm: the
+omit [IsUltrametricDist K] in
+/-- The integral closure of `𝒪[K]` in `L` is the closed unit ball of the spectral norm: the
 minimal polynomial over `K` of an integral element is the image of its minimal polynomial over
 the integrally closed `𝒪[K]`, and conversely a monic polynomial with coefficients of norm at
-most one lifts to `𝒪[K]`. -/
-omit [IsUltrametricDist K] in
-private theorem mem_integralClosure_iff_spectralNorm_le_one [IsIntegrallyClosed 𝒪[K]]
+most one lifts to `𝒪[K]`. Public within the scaffolding namespace so that
+`Atlas.Knowledge.integerIsIntegralClosure` can reuse it single-copy. -/
+theorem mem_integralClosure_iff_spectralNorm_le_one [IsIntegrallyClosed 𝒪[K]]
     (hc : ∀ x : K, ‖x‖ ≤ 1 ↔ valuation K x ≤ 1) {y : L} :
     y ∈ integralClosure 𝒪[K] L ↔ spectralNorm K L y ≤ 1 := by
   have hyK : IsIntegral K y := (Algebra.IsAlgebraic.isAlgebraic y).isIntegral
