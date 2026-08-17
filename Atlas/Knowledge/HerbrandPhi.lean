@@ -172,7 +172,8 @@ theorem herbrandPhi_bijective : Function.Bijective (herbrandPhi K L) := by
     exact hbound_bot u hu
 
 /-- The Herbrand function is affine on each interval `[n, n + 1]`, of slope
-`1 / (G_0 : G_{n+1})`—the explicit piecewise-linear description of `φ`
+`1 / (G_0 : G_{n+1})`—the explicit piecewise-linear description of `φ`, whose display the
+source states for positive `n`; `n = 0` is admitted here
 ([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
 theorem herbrandPhi_eq_add_of_mem_Icc {n : ℕ} {u : ℝ} (h1 : (n : ℝ) ≤ u) (h2 : u ≤ n + 1) :
     herbrandPhi K L u = herbrandPhi K L n +
