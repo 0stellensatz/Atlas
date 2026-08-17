@@ -81,6 +81,7 @@ import Atlas.Knowledge.RamificationNumberRestrictScalars
 import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.ResidueCharacteristic
+import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.Shift
 import Atlas.Knowledge.ShiftEPrime
