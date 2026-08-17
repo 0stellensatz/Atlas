@@ -4,8 +4,8 @@ import Atlas.Knowledge.LowerRamificationGroup
 /-!
 # ramification number
 
-The ramification number `i_G (σ)` of an automorphism of a finite Galois extension of local
-fields: the largest `n` such that `σ` moves every integral element by an element of the `n`-th
+The ramification number `i_G (σ)` of an automorphism of an algebraic extension of a valued
+field: the largest `n` such that `σ` moves every integral element by an element of the `n`-th
 power of the Jacobson radical, with `i_G (1) = ∞`. The function is the numbering of the lower
 filtration read pointwise—`σ ∈ G_i` if and only if `i + 1 ≤ i_G (σ)`—and it is what the proof
 of Herbrand's theorem in `Atlas.Knowledge.HerbrandPhi` manipulates in place of the groups
@@ -22,6 +22,8 @@ and the two ultrametric laws for a product.
 * `natCast_le_ramificationNumber_iff` — `n ≤ i_G (σ)` iff `σ` moves every integral element
   into the `n`-th radical power.
 * `mem_lowerRamificationGroup_iff_le_ramificationNumber` — `σ ∈ G_i ↔ i + 1 ≤ i_G (σ)`.
+* `mem_lowerRamificationGroup_sub_one_iff` — the `ℕ`-indexed form `σ ∈ G_{n - 1} ↔ n ≤ i_G (σ)`,
+  the shape every argument through the levels uses.
 * `ramificationNumber_eq_top_iff` — `i_G (σ) = ∞ ↔ σ = 1`.
 * `ramificationNumber_conj`, `ramificationNumber_inv` — invariance.
 * `min_ramificationNumber_le_mul`, `ramificationNumber_mul_eq_min_of_ne` — the ultrametric
@@ -32,10 +34,11 @@ and the two ultrametric laws for a product.
 The source defines `i_G (σ) = v_L (σ x₀ - x₀)` at a monogenic generator `x₀` of the ring of
 integers and derives the filtration from it; here the dependence is reversed. `i_G` is the
 supremum of the radical powers that absorb every difference `σ x - x`, a definition available
-without monogenicity and without a valuation on `L`, and the source's description at a
-generator becomes a theorem for the later monogenicity item to prove. The supremum is taken in
-`ℕ∞`, where the set of absorbing exponents is downward closed, so
-`natCast_le_ramificationNumber_iff` pins the value exactly; `= ∞` at the identity is the
+without monogenicity and without a valuation on `L`—indeed nothing is asked of the extension
+beyond algebraicity: no Galois hypothesis, no finiteness, no local-field structure on `K`—and
+the source's description at a generator becomes a theorem for the later monogenicity item to
+prove. The supremum is taken in `ℕ∞`, where the set of absorbing exponents is downward closed,
+so `natCast_le_ramificationNumber_iff` pins the value exactly; `= ∞` at the identity is the
 separatedness of the radical powers already carried by
 `Atlas.Knowledge.exists_lowerRamificationGroup_eq_bot`, and the classical hypotheses enter
 only there. The ultrametric equal-case law is proved from the group laws alone—`σ` recovered
@@ -67,7 +70,7 @@ namespace RamificationNumber
 
 variable {K L}
 
-/- The set of absorbing exponents is downward closed. -/
+/-- The set of absorbing exponents is downward closed. -/
 private theorem absorbs_of_le {σ : L ≃ₐ[K] L} {m m' : ℕ} (hm' : m' ≤ m)
     (hm : ∀ x : integralClosure 𝒪[K] L,
       galRestrict 𝒪[K] K L (integralClosure 𝒪[K] L) σ x - x ∈
@@ -77,22 +80,10 @@ private theorem absorbs_of_le {σ : L ≃ₐ[K] L} {m m' : ℕ} (hm' : m' ≤ m)
         Ideal.jacobson (⊥ : Ideal (integralClosure 𝒪[K] L)) ^ m' :=
   fun x => Ideal.pow_le_pow_right hm' (hm x)
 
-/- Comparison of `ℕ∞` values through their natural lower bounds. -/
-private theorem le_of_forall_natCast_le {a b : ℕ∞}
-    (h : ∀ n : ℕ, (n : ℕ∞) ≤ a → (n : ℕ∞) ≤ b) : a ≤ b := by
-  induction a using ENat.recTopCoe with
-  | top =>
-    induction b using ENat.recTopCoe with
-    | top => exact le_rfl
-    | coe m =>
-      have hcontra := h (m + 1) le_top
-      exact absurd (by exact_mod_cast hcontra : m + 1 ≤ m) (by omega)
-  | coe k => exact h k le_rfl
-
 end RamificationNumber
 
 /-- `n ≤ i_G (σ)` if and only if `σ` moves every element of the integral closure by an element
-of the `n`-th radical power ([Serre 1979, Chap. IV, §1, p.62][Serre1979]). -/
+of the `n`-th radical power ([Serre 1979, Chap. IV, §1, Lem. 1, pp.61–62][Serre1979]). -/
 theorem natCast_le_ramificationNumber_iff {σ : L ≃ₐ[K] L} {n : ℕ} :
     (n : ℕ∞) ≤ ramificationNumber K L σ ↔
       ∀ x : integralClosure 𝒪[K] L,
@@ -127,8 +118,8 @@ theorem mem_lowerRamificationGroup_iff_le_ramificationNumber {i : ℤ} {σ : L �
   rw [mem_lowerRamificationGroup_iff, natCast_le_ramificationNumber_iff]
 
 /-- The `ℕ`-indexed form of the filtration characterization: `σ ∈ G_{n - 1} ↔ n ≤ i_G (σ)`,
-the shape every argument through the levels uses
-([Serre 1979, Chap. IV, §1, Prop. 1, p.62][Serre1979]). -/
+the shape every argument through the levels uses—the first displayed law of `i_G`, reindexed
+([Serre 1979, Chap. IV, §1, p.62][Serre1979]). -/
 theorem mem_lowerRamificationGroup_sub_one_iff {n : ℕ} {σ : L ≃ₐ[K] L} :
     σ ∈ lowerRamificationGroup K L ((n : ℤ) - 1) ↔
       (n : ℕ∞) ≤ ramificationNumber K L σ := by
@@ -136,8 +127,7 @@ theorem mem_lowerRamificationGroup_sub_one_iff {n : ℕ} {σ : L ≃ₐ[K] L} :
     show ((n : ℤ) - 1 + 1).toNat = n by omega]
 
 /-- The ramification number is infinite exactly at the identity—the pointwise form of the
-eventual triviality of the filtration
-([Serre 1979, Chap. IV, §1, p.62][Serre1979]). -/
+eventual triviality of the filtration ([Serre 1979, Chap. IV, §1, p.62][Serre1979]). -/
 theorem ramificationNumber_eq_top_iff [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K L] {σ : L ≃ₐ[K] L} :
     ramificationNumber K L σ = ⊤ ↔ σ = 1 := by
@@ -150,7 +140,7 @@ theorem ramificationNumber_eq_top_iff [TopologicalSpace K] [IsMixedCharLocalFiel
     rwa [hn, Subgroup.mem_bot] at hmem
   · rintro rfl
     apply top_unique
-    apply RamificationNumber.le_of_forall_natCast_le
+    apply ENat.forall_natCast_le_iff_le.mp
     intro n _
     rw [natCast_le_ramificationNumber_iff]
     intro x
@@ -168,16 +158,16 @@ theorem ramificationNumber_conj (τ σ : L ≃ₐ[K] L) :
       ((inferInstance : (lowerRamificationGroup K L ((n : ℤ) - 1)).Normal).conj_mem σ'
         ((mem_lowerRamificationGroup_sub_one_iff K L).mpr h) τ')
   apply le_antisymm
-  · apply RamificationNumber.le_of_forall_natCast_le
+  · apply ENat.forall_natCast_le_iff_le.mp
     intro n hn
     have h := key (τ * σ * τ⁻¹) τ⁻¹ n hn
     rwa [show τ⁻¹ * (τ * σ * τ⁻¹) * τ⁻¹⁻¹ = σ by group] at h
-  · apply RamificationNumber.le_of_forall_natCast_le
+  · apply ENat.forall_natCast_le_iff_le.mp
     intro n hn
     exact key σ τ n hn
 
-/-- The ramification number of an inverse
-([Serre 1979, Chap. IV, §1, p.62][Serre1979]). -/
+/-- The ramification number of an inverse—unstated in the source and, like the equal-case
+law, proved from the group laws alone ([Serre 1979, Chap. IV, §1, p.62][Serre1979]). -/
 theorem ramificationNumber_inv (σ : L ≃ₐ[K] L) :
     ramificationNumber K L σ⁻¹ = ramificationNumber K L σ := by
   have key : ∀ (σ' : L ≃ₐ[K] L) (n : ℕ),
@@ -187,11 +177,11 @@ theorem ramificationNumber_inv (σ : L ≃ₐ[K] L) :
     exact (mem_lowerRamificationGroup_sub_one_iff K L).mp
       (inv_mem ((mem_lowerRamificationGroup_sub_one_iff K L).mpr h))
   apply le_antisymm
-  · apply RamificationNumber.le_of_forall_natCast_le
+  · apply ENat.forall_natCast_le_iff_le.mp
     intro n hn
     have h := key σ⁻¹ n hn
     rwa [inv_inv] at h
-  · apply RamificationNumber.le_of_forall_natCast_le
+  · apply ENat.forall_natCast_le_iff_le.mp
     intro n hn
     exact key σ n hn
 
@@ -200,7 +190,7 @@ ultrametric law ([Serre 1979, Chap. IV, §1, p.62][Serre1979]). -/
 theorem min_ramificationNumber_le_mul (σ τ : L ≃ₐ[K] L) :
     min (ramificationNumber K L σ) (ramificationNumber K L τ) ≤
       ramificationNumber K L (σ * τ) := by
-  apply RamificationNumber.le_of_forall_natCast_le
+  apply ENat.forall_natCast_le_iff_le.mp
   intro n hn
   exact (mem_lowerRamificationGroup_sub_one_iff K L).mp
     (mul_mem ((mem_lowerRamificationGroup_sub_one_iff K L).mpr (hn.trans (min_le_left _ _)))
