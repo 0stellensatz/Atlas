@@ -31,9 +31,14 @@ enters as the exponent of the ideal identity between the maximal ideals of the t
 taken as a hypothesis exactly as in `Atlas.Knowledge.AddValMapIntegralClosure`, and both
 ramification numbers are read as orders through `Atlas.Knowledge.RamificationNumberEqAddVal` at
 the generators `Atlas.Knowledge.MonogenicIntegralClosure` supplies. Serre opens the proof by
-disposing of `σ = 1`, where both sides are infinite; here no case split is made: the elements
-`a` and `b` are compared by mutual divisibility, which at `σ' = 1` degenerates to `0 ∣ 0`, and
-the `ℕ∞` arithmetic of `IsDiscreteValuationRing.addVal` absorbs `⊤` uniformly. Serre's `f`, the
+disposing of `σ = 1`, where both sides are infinite; here no case split on `σ'` is made: the
+elements `a` and `b` are compared by mutual divisibility, which at `σ' = 1` degenerates to
+`0 ∣ 0`. The `ℕ∞` arithmetic is uniform only because the exponent is nonzero—`0 • ⊤ = 0` would
+falsify the identity coset—and that is not free: `Atlas.Knowledge.addVal_mapIntegralClosure`
+consumes `Atlas.Knowledge.ne_zero_of_map_maximalIdeal_eq_pow` where the scaling law meets `⊤`,
+so the source's case split is relocated into the ideal identity, not eliminated. The source
+also states the identity divided by the index—`i_{G/H} (σ') = (1/e') Σ i_G (s)`—and it is
+stated here multiplied through, `ℕ∞` having no division. Serre's `f`, the
 minimal polynomial of `x` over the intermediate field, is taken instead over the integral
 closure of `𝒪[K]` in `E`—that is what lets the coefficientwise divisibility by `a` be stated
 inside the closure—and `minpoly.isIntegrallyClosed_eq_field_fractions'` identifies its
@@ -49,7 +54,9 @@ coefficient map, the explicit factor `h` never named. The sign in the source's `
 which is `b` up to sign, is the unit `(-1) ^ card`, and both divisibility transports cross it
 through `IsUnit.dvd_mul_left` and `IsUnit.mul_left_dvd` rather than normalizing it away. The
 scaffolding carries the namespace as a name prefix instead of a `namespace` block so the shared
-`variable` line serves the principal statement too.
+`variable` line serves the principal statement too, and it stays out of `## Main statements`
+deliberately, as the layer's other assembled items do. The `DecidableEq` binder on the
+principal is what its `Finset.filter` asks for, `Classical`-dischargeable at any use site.
 
 ## References
 
@@ -77,11 +84,11 @@ theorem RamificationNumberFiberSum.addVal_prod {R : Type*} [CommRing R] [IsDomai
   | cons a s ha ih =>
     rw [Finset.prod_cons, Finset.sum_cons, IsDiscreteValuationRing.addVal_mul, ih]
 
-/-- An element dividing every coefficient of a polynomial divides its value at any point. -/
+/-- An element dividing every coefficient of a polynomial divides its value at any
+point—`Polynomial.C_dvd_iff_dvd_coeff`, evaluated. -/
 theorem RamificationNumberFiberSum.dvd_eval_of_dvd_coeff {R : Type*} [CommRing R] {a z : R}
     {p : Polynomial R} (h : ∀ i, a ∣ p.coeff i) : a ∣ p.eval z := by
-  rw [Polynomial.eval_eq_sum, Polynomial.sum_def]
-  exact Finset.dvd_sum fun i _ => (h i).mul_right _
+  simpa using Polynomial.eval_dvd (x := z) ((Polynomial.C_dvd_iff_dvd_coeff a p).mpr h)
 
 /-- A generator of the integral closure of `𝒪[K]` in `L` is a primitive element of `L` over any
 intermediate field: every element of `L` is an `𝒪[K]`-denominator away from a polynomial in the
@@ -262,7 +269,7 @@ theorem RamificationNumberFiberSum.addVal_eq_addVal_prod [TopologicalSpace K]
       rw [← Polynomial.eval₂_at_apply, Polynomial.eval₂_map, hcompL,
         IsScalarTower.algebraMap_eq (integralClosure 𝒪[K] E) E L, ← RingHom.comp_assoc,
         ← Polynomial.eval₂_map, ← minpoly.isIntegrallyClosed_eq_field_fractions' E hxint,
-        ← Polynomial.eval₂_map, ← Polynomial.eval_map, minpolyMapEqCharpoly E L hxfield,
+        ← Polynomial.eval₂_map, ← Polynomial.eval_map, minpoly_map_eq_charpoly E L hxfield,
         MulSemiringAction.charpoly_eq, Polynomial.map_prod, Polynomial.eval_prod]
       refine Finset.prod_congr rfl fun t _ => ?_
       rw [Polynomial.map_sub, Polynomial.map_X, Polynomial.map_C, Polynomial.eval_sub,

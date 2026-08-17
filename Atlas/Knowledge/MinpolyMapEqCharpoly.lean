@@ -13,14 +13,14 @@ minimal polynomial with that characteristic polynomial.
 
 ## Main statements
 
-* `minpolyMapEqCharpoly` — at a primitive element `x`,
+* `minpoly_map_eq_charpoly` — at a primitive element `x`,
   `(minpoly E x).map (algebraMap E L) = MulSemiringAction.charpoly (L ≃ₐ[E] L) x`.
 
 ## Implementation notes
 
 The orbit product is `MulSemiringAction.charpoly`, the product of `X - C (g • x)` over the
 *full* group `L ≃ₐ[E] L` acting through `AlgEquiv.applyMulSemiringAction`—not the
-`Polynomial.prodXSubSMul` product behind `FixedPoints.minpoly`, which runs over the quotient
+`prodXSubSMul` product behind `FixedPoints.minpoly`, which runs over the quotient
 by the stabilizer of `x` and so carries each orbit factor once. At a primitive element the
 stabilizer is trivial and the two products agree, but the full-group form is the one whose
 coefficient descent Mathlib packages. The coefficients of the product descend to `E` by
@@ -48,7 +48,7 @@ variable (E : Type*) [Field E] (L : Type*) [Field L] [Algebra E L] [FiniteDimens
 of `x` over `E` pushed into `L` is the full Galois orbit product
 `∏ g : L ≃ₐ[E] L, (X - C (g • x))`
 ([Serre 1979, Chap. IV, §1, proof of Prop. 3, p.63][Serre1979]). -/
-theorem minpolyMapEqCharpoly {x : L} (hx : IntermediateField.adjoin E {x} = ⊤) :
+theorem minpoly_map_eq_charpoly {x : L} (hx : IntermediateField.adjoin E {x} = ⊤) :
     (minpoly E x).map (algebraMap E L) = MulSemiringAction.charpoly (L ≃ₐ[E] L) x := by
   obtain ⟨q, hqmap, hqdeg, hqmonic⟩ := Polynomial.lifts_and_natDegree_eq_and_monic
     (Algebra.IsInvariant.charpoly_mem_lifts E L (L ≃ₐ[E] L) x)

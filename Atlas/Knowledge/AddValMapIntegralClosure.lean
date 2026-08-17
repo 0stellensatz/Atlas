@@ -16,6 +16,8 @@ to the ramification index times the valuation there.
   power of the maximal ideal of the closure in `L`: the ideal identity whose exponent is the
   ramification index.
 * `map_maximalIdeal_eq_pow_unique` — that exponent is unique.
+* `ne_zero_of_map_maximalIdeal_eq_pow` — any exponent satisfying the identity is nonzero, the
+  fact the degenerate `ℕ∞` arithmetic of every consumer turns on.
 * `addVal_mapIntegralClosure` — with `e` that exponent, the order of the image of `z` is `e`
   times the order of `z`.
 
@@ -76,6 +78,21 @@ theorem AddValMapIntegralClosure.comap_maximalIdeal [TopologicalSpace K]
     ⟨fun x => IsIntegral.tower_top (integralClosure.isIntegral x)⟩
   exact IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal _)
 
+/-- The exponent of the ideal identity is nonzero: the pushforward of the maximal ideal stays
+inside the maximal ideal upstairs, so the identity cannot read `⊤`—the fact every consumer of
+the identity needs for the degenerate `ℕ∞` arithmetic
+([Serre 1979, Chap. I, §4, p.14][Serre1979]). -/
+theorem ne_zero_of_map_maximalIdeal_eq_pow [TopologicalSpace K] [IsMixedCharLocalField K]
+    [FiniteDimensional K E] [FiniteDimensional K L] {e : ℕ}
+    (he : Ideal.map (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom 𝒪[K] E L))
+        (IsLocalRing.maximalIdeal (integralClosure 𝒪[K] E)) =
+      IsLocalRing.maximalIdeal (integralClosure 𝒪[K] L) ^ e) : e ≠ 0 := by
+  intro h0
+  have hle := Ideal.map_le_iff_le_comap.mpr
+    (AddValMapIntegralClosure.comap_maximalIdeal K L E).ge
+  rw [he, h0, pow_zero, Ideal.one_eq_top] at hle
+  exact (IsLocalRing.maximalIdeal.isMaximal _).ne_top (top_le_iff.mp hle)
+
 /-- There is a nonzero exponent `e` with the image of the maximal ideal under the pushforward
 generating the `e`-th power of the maximal ideal upstairs: the single-prime case of the
 source's decomposition of an extended prime into the primes above it, whose exponent is the
@@ -92,11 +109,11 @@ theorem exists_map_maximalIdeal_eq_pow [TopologicalSpace K] [IsMixedCharLocalFie
       ((Ideal.map_eq_bot_iff_of_injective
         (AddValMapIntegralClosure.mapIntegralClosure_injective K L E)).mp h)
   obtain ⟨e, he⟩ := IsDiscreteValuationRing.ideal_eq_span_pow_irreducible hbot hϖ
-  refine ⟨e, fun h0 => ?_, by rw [he, hϖ.maximalIdeal_eq, Ideal.span_singleton_pow]⟩
-  have hle := Ideal.map_le_iff_le_comap.mpr
-    (AddValMapIntegralClosure.comap_maximalIdeal K L E).ge
-  rw [he, h0, pow_zero, Ideal.span_singleton_one] at hle
-  exact (IsLocalRing.maximalIdeal.isMaximal _).ne_top (top_le_iff.mp hle)
+  have hepow : Ideal.map (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom 𝒪[K] E L))
+      (IsLocalRing.maximalIdeal (integralClosure 𝒪[K] E)) =
+      IsLocalRing.maximalIdeal (integralClosure 𝒪[K] L) ^ e := by
+    rw [he, hϖ.maximalIdeal_eq, Ideal.span_singleton_pow]
+  exact ⟨e, ne_zero_of_map_maximalIdeal_eq_pow K L E hepow, hepow⟩
 
 /-- The exponent of `Atlas.Knowledge.exists_map_maximalIdeal_eq_pow` is unique: distinct powers
 of the maximal ideal of a discrete valuation ring are distinct ideals
@@ -128,12 +145,7 @@ theorem addVal_mapIntegralClosure [TopologicalSpace K] [IsMixedCharLocalField K]
     IsDiscreteValuationRing.addVal (integralClosure 𝒪[K] L)
         (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom 𝒪[K] E L) z) =
       e • IsDiscreteValuationRing.addVal (integralClosure 𝒪[K] E) z := by
-  have he0 : e ≠ 0 := by
-    intro h0
-    have hle := Ideal.map_le_iff_le_comap.mpr
-      (AddValMapIntegralClosure.comap_maximalIdeal K L E).ge
-    rw [he, h0, pow_zero, Ideal.one_eq_top] at hle
-    exact (IsLocalRing.maximalIdeal.isMaximal _).ne_top (top_le_iff.mp hle)
+  have he0 : e ≠ 0 := ne_zero_of_map_maximalIdeal_eq_pow K L E he
   obtain ⟨ϖE, hϖE⟩ := IsDiscreteValuationRing.exists_irreducible (integralClosure 𝒪[K] E)
   obtain ⟨ϖL, hϖL⟩ := IsDiscreteValuationRing.exists_irreducible (integralClosure 𝒪[K] L)
   -- the ideal identity read on generators: the image of a uniformizer has order `e`
