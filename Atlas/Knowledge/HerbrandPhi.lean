@@ -1,6 +1,9 @@
 import Mathlib
-import Atlas.Knowledge.RealLowerRamificationGroup
+import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
 import Atlas.Knowledge.RamificationNumber
+import Atlas.Knowledge.RamificationNumberFiberSum
+import Atlas.Knowledge.RamificationNumberRestrictScalars
+import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 
 /-!
@@ -11,7 +14,7 @@ homeomorphism `φ (u) = ∫ t in 0..u, dt / (G_0 : G_t)` of the real line that c
 numbering of the ramification filtration into the upper numbering. This file defines `φ` as an
 interval integral through `Atlas.Knowledge.realLowerRamificationGroup`, proves the calculus
 facts that make it a change of numbering—`φ (0) = 0`, strict monotonicity, continuity,
-bijectivity—and records **Herbrand's theorem**, the statement the function exists for: the
+bijectivity—and proves **Herbrand's theorem**, the statement the function exists for: the
 image of `G_u` in a quotient of the Galois group is the ramification group of the quotient at
 index `φ (u)`, the index computed over the intermediate field. The inverse function is
 `Atlas.Knowledge.HerbrandPsi`, and the numbering `φ` produces is
@@ -29,7 +32,9 @@ integer arguments and its equivalent form as a sum of truncated ramification num
 * `herbrandPhi_eq_add_of_mem_Icc` — `φ` is affine on `[n, n + 1]`, slope `1 / (G_0 : G_{n+1})`.
 * `herbrandPhi_natCast` — the evaluation at integers: `φ (n) = (g_0 + ⋯ + g_{n}) / g_0 - 1`.
 * `sum_toNat_min_ramificationNumber` — the `i_G` form: `Σ_σ min (i_G σ, n + 1) = g_0 (φ (n) + 1)`.
-* `map_realLowerRamificationGroup` — Herbrand's theorem, recorded ahead of its proof.
+* `ramificationNumber_restrictNormal_sub_one_eq_herbrandPhi` — Lemma 4: the ramification
+  number of a quotient automorphism through `φ`, at a lift of maximal ramification number.
+* `map_realLowerRamificationGroup` — Herbrand's theorem.
 * `herbrandPhi_comp` — transitivity in a tower, recorded ahead of its proof.
 
 ## Implementation notes
@@ -45,7 +50,7 @@ value `Nat.card (G) / Nat.card (G_0)` is junk—kept `≥ 1`, so bijectivity sur
 beyond the definition therefore assumes finiteness. Herbrand's theorem and transitivity are
 stated over an abstract tower `K ⊆ E ⊆ L` with `ValuativeExtension K E` carrying the
 compatibility of valuations; over a complete base that compatibility pins the valuation of `E`
-to the canonical extension, which is what the recorded claims are about.
+to the canonical extension, which is what the two statements are about.
 
 ## References
 
@@ -355,16 +360,192 @@ theorem exists_maximal_ramificationNumber_restrictNormalHom_representative
       ramificationNumber K L (γ : L ≃ₐ[K] L))
   exact ⟨σ, hσ, fun γ hγ => hmax ⟨γ, hγ⟩⟩
 
+/-- For a lift `σ` of maximal ramification number in the fiber of the restriction to `E` above
+`σ' ≠ 1`, the ramification number of `σ'` less one is the value of the Herbrand function of
+`L` over `E` at the ramification number of `σ` less one—both numbers finite away from the
+identity, read into `ℝ` where `herbrandPhi` lives
+([Serre 1979, Chap. IV, §3, Lem. 4, pp.74–75][Serre1979]). -/
+theorem ramificationNumber_restrictNormal_sub_one_eq_herbrandPhi
+    [TopologicalSpace K] [IsMixedCharLocalField K] [FiniteDimensional K L]
+    [IsGalois K L] [Normal K E] {σ : L ≃ₐ[K] L} {σ' : E ≃ₐ[K] E}
+    (hσ : AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E σ = σ')
+    (hmax : ∀ γ : L ≃ₐ[K] L, AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E γ = σ' →
+      ramificationNumber K L γ ≤ ramificationNumber K L σ)
+    (hσ' : σ' ≠ 1) :
+    ((ramificationNumber K E σ').toNat : ℝ) - 1 =
+      herbrandPhi E L (((ramificationNumber K L σ).toNat : ℝ) - 1) := by
+  classical
+  haveI : FiniteDimensional K E := FiniteDimensional.left K E L
+  haveI : FiniteDimensional E L := Module.Finite.right K E L
+  haveI : IsGalois E L := IsGalois.tower_top_of_isGalois K E L
+  haveI := restrictScalarsHom_range_normal K L E
+  -- maximality in the coset form `ramificationNumber_mul_eq_min_of_maximal` consumes
+  have hmax' : ∀ γ : L ≃ₐ[K] L,
+      QuotientGroup.mk' (AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range γ =
+        QuotientGroup.mk' (AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range σ →
+      ramificationNumber K L γ ≤ ramificationNumber K L σ := by
+    intro γ hγ
+    refine hmax γ ?_
+    have hker : γ⁻¹ * σ ∈ (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E).ker := by
+      rw [← restrictScalarsHom_range_eq_ker K E L]
+      exact QuotientGroup.eq.mp hγ
+    rw [MonoidHom.mem_ker, map_mul, map_inv, inv_mul_eq_one] at hker
+    exact hker.trans hσ
+  -- Tate's fiber sum at the inertia-order exponent, reindexed over the automorphisms over `E`
+  have hsum := ramificationNumber_fiber_sum K L E
+    (map_maximalIdeal_eq_pow_card_inertia K L E) σ'
+  have himg : (∑ s ∈ Finset.univ.image
+        (fun t : L ≃ₐ[E] L => σ * AlgEquiv.restrictScalars K t), ramificationNumber K L s) =
+      ∑ t : L ≃ₐ[E] L, ramificationNumber K L (σ * AlgEquiv.restrictScalars K t) :=
+    Finset.sum_image fun t₁ _ t₂ _ h =>
+      AlgEquiv.restrictScalarsHom_injective K (mul_left_cancel h)
+  rw [restrictNormalHom_fiber_eq K E L σ σ' hσ, himg] at hsum
+  -- Serre's "in either case": every summand truncates at the maximal representative
+  have hterm : ∀ t : L ≃ₐ[E] L,
+      ramificationNumber K L (σ * t.restrictScalars K) =
+        min (ramificationNumber E L t) (ramificationNumber K L σ) := by
+    intro t
+    rw [ramificationNumber_restrictScalars K L E t]
+    exact ramificationNumber_mul_eq_min_of_maximal K L hmax' ⟨t.restrictScalars K, t, rfl⟩
+  rw [Finset.sum_congr rfl fun t _ => hterm t] at hsum
+  -- both ramification numbers are finite away from the identity
+  have hσ1 : σ ≠ 1 := by
+    rintro rfl
+    exact hσ' (hσ.symm.trans (map_one _))
+  have hmtop : ramificationNumber K L σ ≠ ⊤ := fun h =>
+    hσ1 ((ramificationNumber_eq_top_iff K L).mp h)
+  have hitop : ramificationNumber K E σ' ≠ ⊤ := fun h =>
+    hσ' ((ramificationNumber_eq_top_iff K E).mp h)
+  set m : ℕ := (ramificationNumber K L σ).toNat
+  set i' : ℕ := (ramificationNumber K E σ').toNat
+  have hmcast : ((m : ℕ) : ℕ∞) = ramificationNumber K L σ := ENat.coe_toNat hmtop
+  have hicast : ((i' : ℕ) : ℕ∞) = ramificationNumber K E σ' := ENat.coe_toNat hitop
+  rw [← hicast, ← hmcast] at hsum
+  rcases Nat.eq_zero_or_pos m with hm0 | hm1
+  · -- `j (σ) = 0`: the sum vanishes termwise, forcing `i_{G/H} (σ') = 0`, both sides read `-1`
+    have hzero : (∑ t : L ≃ₐ[E] L, min (ramificationNumber E L t) ((m : ℕ) : ℕ∞)) = 0 := by
+      refine Finset.sum_eq_zero fun t _ => ?_
+      rw [hm0, Nat.cast_zero]
+      exact min_eq_right zero_le
+    rw [hzero, nsmul_eq_mul, mul_eq_zero] at hsum
+    have hi0 : i' = 0 := by
+      rcases hsum with h | h
+      · exact absurd (by exact_mod_cast h)
+          (Nat.card_pos (α := lowerRamificationGroup E L 0)).ne'
+      · exact_mod_cast h
+    rw [hi0, hm0]
+    norm_num [herbrandPhi_neg_one E L]
+  · -- `j (σ) ≥ 1`: the summands are finite, and Lemma 3 over the base `E` reads off the sum
+    have hfin : ∀ t : L ≃ₐ[E] L, min (ramificationNumber E L t) ((m : ℕ) : ℕ∞) ≠ ⊤ :=
+      fun t => ne_top_of_le_ne_top (ENat.coe_ne_top m) (min_le_right _ _)
+    have hnat : Nat.card (lowerRamificationGroup E L 0) * i' =
+        ∑ t : L ≃ₐ[E] L, (min (ramificationNumber E L t) ((m : ℕ) : ℕ∞)).toNat := by
+      have hcast : ((∑ t : L ≃ₐ[E] L,
+            (min (ramificationNumber E L t) ((m : ℕ) : ℕ∞)).toNat : ℕ) : ℕ∞) =
+          ∑ t : L ≃ₐ[E] L, min (ramificationNumber E L t) ((m : ℕ) : ℕ∞) := by
+        rw [Nat.cast_sum]
+        exact Finset.sum_congr rfl fun t _ => ENat.coe_toNat (hfin t)
+      have h2 : ((Nat.card (lowerRamificationGroup E L 0) * i' : ℕ) : ℕ∞) =
+          ((∑ t : L ≃ₐ[E] L,
+            (min (ramificationNumber E L t) ((m : ℕ) : ℕ∞)).toNat : ℕ) : ℕ∞) := by
+        rw [hcast, Nat.cast_mul, ← nsmul_eq_mul]
+        exact hsum
+      exact_mod_cast h2
+    have hkey := sum_toNat_min_ramificationNumber E L (m - 1)
+    rw [show ((m - 1 : ℕ) : ℕ∞) + 1 = ((m : ℕ) : ℕ∞) from by
+        exact_mod_cast Nat.sub_add_cancel hm1] at hkey
+    have hreal : (Nat.card (lowerRamificationGroup E L 0) : ℝ) * (i' : ℝ) =
+        (Nat.card (lowerRamificationGroup E L 0) : ℝ) *
+          (herbrandPhi E L ((m - 1 : ℕ) : ℝ) + 1) := by
+      rw [← hkey]
+      exact_mod_cast congrArg (fun k : ℕ => (k : ℝ)) hnat
+    have hcard0 : (Nat.card (lowerRamificationGroup E L 0) : ℝ) ≠ 0 := by
+      exact_mod_cast (Nat.card_pos (α := lowerRamificationGroup E L 0)).ne'
+    have hii : (i' : ℝ) = herbrandPhi E L ((m - 1 : ℕ) : ℝ) + 1 :=
+      mul_left_cancel₀ hcard0 hreal
+    rw [show ((m : ℕ) : ℝ) - 1 = ((m - 1 : ℕ) : ℝ) from by
+        rw [Nat.cast_sub hm1, Nat.cast_one]]
+    linarith [hii]
+
 /-- **Herbrand's theorem**: for a normal subextension `E` of a finite Galois extension `L` of
 a mixed-characteristic local field `K`, the image of the real-indexed lower ramification group
 `G_u` under restriction to `E` is the ramification group of `E` over `K` at index
-`φ_{L/E} (u)`—the Herbrand function computed over the intermediate field. Claim recorded ahead
-of its proof ([Serre 1979, Chap. IV, §3, Lem. 5, p.75][Serre1979]). -/
+`φ_{L/E} (u)`—the Herbrand function computed over the intermediate field
+([Serre 1979, Chap. IV, §3, Lem. 5, p.75][Serre1979]). -/
 theorem map_realLowerRamificationGroup [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K L] [IsGalois K L] [Normal K E] (u : ℝ) :
     Subgroup.map (AlgEquiv.restrictNormalHom E) (realLowerRamificationGroup K L u) =
       realLowerRamificationGroup K E (herbrandPhi E L u) := by
-  sorry
+  classical
+  haveI : FiniteDimensional K E := FiniteDimensional.left K E L
+  haveI : FiniteDimensional E L := Module.Finite.right K E L
+  haveI : IsGalois E L := IsGalois.tower_top_of_isGalois K E L
+  by_cases hu : u ≤ -1
+  · -- below `-1` both filtrations are everything, and restriction is surjective
+    have hL : realLowerRamificationGroup K L u = ⊤ := by
+      rw [realLowerRamificationGroup]
+      exact lowerRamificationGroup_eq_top K L (Int.ceil_le.mpr (by exact_mod_cast hu))
+    have hE : realLowerRamificationGroup K E (herbrandPhi E L u) = ⊤ := by
+      rw [realLowerRamificationGroup]
+      exact lowerRamificationGroup_eq_top K E
+        (Int.ceil_le.mpr (by exact_mod_cast herbrandPhi_le_neg_one E L hu))
+    rw [hL, hE, ← MonoidHom.range_eq_map]
+    exact MonoidHom.range_eq_top.mpr fun σ' =>
+      AlgEquiv.restrictNormalHom_surjective (F := K) (K₁ := E) L σ'
+  push Not at hu
+  ext σ'
+  simp only [Subgroup.mem_map]
+  by_cases hσ' : σ' = 1
+  · subst hσ'
+    exact iff_of_true ⟨1, one_mem _, map_one _⟩ (one_mem _)
+  obtain ⟨σ, hσ, hmax⟩ :=
+    exists_maximal_ramificationNumber_restrictNormalHom_representative K L E σ'
+  have hσ1 : σ ≠ 1 := by
+    rintro rfl
+    exact hσ' (hσ.symm.trans (map_one _))
+  have hmtop : ramificationNumber K L σ ≠ ⊤ := fun h =>
+    hσ1 ((ramificationNumber_eq_top_iff K L).mp h)
+  have hitop : ramificationNumber K E σ' ≠ ⊤ := fun h =>
+    hσ' ((ramificationNumber_eq_top_iff K E).mp h)
+  have hlem4 := ramificationNumber_restrictNormal_sub_one_eq_herbrandPhi K L E hσ hmax hσ'
+  set m : ℕ := (ramificationNumber K L σ).toNat
+  set i' : ℕ := (ramificationNumber K E σ').toNat
+  have hmcast : ((m : ℕ) : ℕ∞) = ramificationNumber K L σ := ENat.coe_toNat hmtop
+  have hicast : ((i' : ℕ) : ℕ∞) = ramificationNumber K E σ' := ENat.coe_toNat hitop
+  have hceilu : 0 ≤ ⌈u⌉ := by
+    have h1 : (-1 : ℤ) < ⌈u⌉ := Int.lt_ceil.mpr (by exact_mod_cast hu)
+    omega
+  have hceilφ : 0 ≤ ⌈herbrandPhi E L u⌉ := by
+    have h1 : (-1 : ℝ) < herbrandPhi E L u := by
+      rw [← herbrandPhi_neg_one E L]
+      exact herbrandPhi_strictMono E L hu
+    have h2 : (-1 : ℤ) < ⌈herbrandPhi E L u⌉ := Int.lt_ceil.mpr (by exact_mod_cast h1)
+    omega
+  calc (∃ γ ∈ realLowerRamificationGroup K L u,
+        AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E γ = σ')
+      ↔ σ ∈ realLowerRamificationGroup K L u := by
+        constructor
+        · rintro ⟨γ, hγmem, hγ⟩
+          rw [realLowerRamificationGroup,
+            mem_lowerRamificationGroup_iff_le_ramificationNumber] at hγmem ⊢
+          exact hγmem.trans (hmax γ hγ)
+        · exact fun h => ⟨σ, h, hσ⟩
+    _ ↔ u ≤ (m : ℝ) - 1 := by
+        rw [realLowerRamificationGroup, mem_lowerRamificationGroup_iff_le_ramificationNumber,
+          ← hmcast, Nat.cast_le,
+          show (⌈u⌉ + 1).toNat ≤ m ↔ ⌈u⌉ ≤ (m : ℤ) - 1 from by omega, Int.ceil_le]
+        push_cast
+        exact Iff.rfl
+    _ ↔ herbrandPhi E L u ≤ (i' : ℝ) - 1 := by
+        rw [hlem4]
+        exact ((herbrandPhi_strictMono E L).le_iff_le).symm
+    _ ↔ σ' ∈ realLowerRamificationGroup K E (herbrandPhi E L u) := by
+        rw [realLowerRamificationGroup, mem_lowerRamificationGroup_iff_le_ramificationNumber,
+          ← hicast, Nat.cast_le,
+          show (⌈herbrandPhi E L u⌉ + 1).toNat ≤ i' ↔
+            ⌈herbrandPhi E L u⌉ ≤ (i' : ℤ) - 1 from by omega, Int.ceil_le]
+        push_cast
+        exact Iff.rfl
 
 /-- Transitivity of the Herbrand function in a tower: `φ_{L/K} = φ_{E/K} ∘ φ_{L/E}`. Claim
 recorded ahead of its proof ([Serre 1979, Chap. IV, §3, Prop. 15, p.74][Serre1979]). -/
