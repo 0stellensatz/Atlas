@@ -60,7 +60,7 @@ private theorem finitePlaceValue_of_ne (v w : HeightOneSpectrum (𝓞 K))
 /-- The **finite-place idele**: the idele whose `v`-component is prescribed and whose other
 components are `1` — Milne's `(1, …, 1, a, 1, …)`
 ([Milne 2020, Chap. V, §4, 4.3, p.171][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/SinglePlace.lean:54`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/SinglePlace.lean:204`][Yamaguchi2026]). -/
 noncomputable def finitePlaceIdele (v : HeightOneSpectrum (𝓞 K)) :
     (v.adicCompletion K)ˣ →* IdeleGroup K where
   toFun x :=
@@ -94,7 +94,7 @@ noncomputable def finitePlaceIdele (v : HeightOneSpectrum (𝓞 K)) :
 
 /-- The **finite-place idele class**: one local unit, made global, made a class
 ([Milne 2020, Chap. V, §4, 4.3, p.171][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/SinglePlace.lean:172`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/SinglePlace.lean:271`][Yamaguchi2026]). -/
 noncomputable def finitePlaceIdeleClass (v : HeightOneSpectrum (𝓞 K)) :
     (v.adicCompletion K)ˣ →* IdeleClassGroup K :=
   (QuotientGroup.mk' (principalIdeleSubgroup K)).comp (finitePlaceIdele v)

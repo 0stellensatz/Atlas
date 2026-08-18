@@ -19,15 +19,16 @@ subgroups, which is Milne's corollary.
 
 ## Implementation notes
 
-The subgroup class is the literature's: *open* of finite index (Milne Thm. 5.5, NSW
-(8.1.24) — where, for a number field, all open subgroups are of finite index). The source
+The subgroup class is the literature's: *open* of finite index (Milne Thm. 5.5; NSW
+(8.1.24), which states the norm groups of finite *separable* extensions — the abelian
+reduction is `Atlas.Knowledge.normLimitation` — and whose §2 remark, p.444, adds that for
+a number field all open subgroups are of finite index). The source
 quantifies over *closed* finite-index subgroups
 (`GlobalClassFieldTheory/GlobalClassFields/ClosedFiniteIndexClassFieldConstruction.lean:97`);
 in a topological group a finite-index subgroup is open exactly when it is closed, so the
 two forms coincide, and Atlas states the books'. The class fields are found inside
 `Atlas.Knowledge.maximalAbelianExtension` as `FiniteGaloisIntermediateField`s — their
-abelianness is automatic and not restated. The `NumberField` structure of the
-subextension enters by `NumberField.of_module_finite` in statement position.
+abelianness is automatic and not restated.
 
 ## References
 
@@ -58,7 +59,6 @@ is the norm subgroup of a finite subextension of `K^ab`. Claim recorded ahead of
 theorem exists_classField (H : Subgroup (IdeleClassGroup K))
     (hopen : IsOpen (H : Set (IdeleClassGroup K))) (hfin : H.FiniteIndex) :
     ∃ L : FiniteGaloisIntermediateField K (maximalAbelianExtension K),
-      letI : NumberField L := NumberField.of_module_finite K L
       ideleClassNormRange K L = H := by
   sorry
 
@@ -66,10 +66,8 @@ theorem exists_classField (H : Subgroup (IdeleClassGroup K))
 norm subgroup coincide. Claim recorded ahead of its proof
 ([Milne 2020, Chap. V, §5, Thm. 5.5 and Cor. 5.6, p.179][MilneCFT]). -/
 theorem classField_unique
-    {L M : FiniteGaloisIntermediateField K (maximalAbelianExtension K)} :
-    letI : NumberField L := NumberField.of_module_finite K L
-    letI : NumberField M := NumberField.of_module_finite K M
-    ideleClassNormRange K L = ideleClassNormRange K M → L = M := by
+    {L M : FiniteGaloisIntermediateField K (maximalAbelianExtension K)}
+    (h : ideleClassNormRange K L = ideleClassNormRange K M) : L = M := by
   sorry
 
 end Atlas.Knowledge

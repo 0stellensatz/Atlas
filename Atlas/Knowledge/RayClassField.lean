@@ -35,9 +35,12 @@ of the exactness statement is the tensor form `Units.map (Algebra.norm (K_v))` o
 `(K_v ⊗[K] L)ˣ` — the shape the source proves equal to its chosen-completion model
 (`AlgebraicNumberTheory/Idele/Relative/FinitePlaceTensorNorm.lean:162`). Ramification
 support is stated as the equivalence Milne asserts ("divisible exactly by the primes
-ramifying"); the source records only the forward implication
+ramifying"); the source restates only the forward implication
 (`GlobalClassFieldTheory/GlobalClassFields/AbelianConductorRamification.lean:68`), on its
-chosen completions.
+chosen completions, though the equivalence it derives it from is an iff one rewrite away.
+The exactness statement's `sInf` is over a set that is nonempty because the local norm
+group of an abelian extension is open, so the `ℕ`-junk value at the empty set never
+enters.
 
 ## References
 
@@ -83,7 +86,7 @@ theorem nonempty_algHom_isRayClassField_iff (m : Modulus K)
 /-- **Conductor exactness**: the finite conductor exponent at `v` is the least level at
 which the local higher unit group is contained in the tensor-model local norms. Claim
 recorded ahead of its proof
-([Milne 2020, Chap. V, §3, Rem. 3.8, p.158][MilneCFT];
+([Milne 2020, Chap. I, 1.9, p.23][MilneCFT];
 [Yamaguchi 2026,
 `GlobalClassFieldTheory/GlobalClassFields/AbelianConductorExactness.lean:111`]
 [Yamaguchi2026]). -/

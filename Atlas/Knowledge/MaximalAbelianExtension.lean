@@ -8,9 +8,10 @@ closure of the closed commutator subgroup of the absolute Galois group: `K^ab` i
 global reciprocity map of `Atlas.Knowledge.IsGlobalArtinMap` maps onto, and its finite
 subextensions are the abelian extensions the class-field correspondence enumerates. Both
 structure facts are proved here, not recorded: the extension is Galois — the commutator
-closure is normal — and its Galois group is commutative. The identification of that Galois
-group with Mathlib's `Field.absoluteGaloisGroupAbelianization`, the vocabulary Phase 2's
-local layer speaks, is the one recorded claim.
+closure is normal — and its Galois group is commutative. So is the *algebraic*
+identification of that Galois group with Mathlib's
+`Field.absoluteGaloisGroupAbelianization`, the vocabulary Phase 2's local layer speaks;
+only its upgrade to a homeomorphism is the recorded claim.
 
 ## Main definitions
 
@@ -19,8 +20,10 @@ local layer speaks, is the one recorded claim.
 ## Main statements
 
 * `IsGalois` and `IsAbelianGalois` instances — proved.
-* `nonempty_continuousMulEquiv_absoluteGaloisGroupAbelianization` — `Gal (K^ab/K)` is the
-  topological abelianization of the absolute Galois group; recorded ahead of its proof.
+* `nonempty_mulEquiv_absoluteGaloisGroupAbelianization` — `Gal (K^ab/K)` is the
+  topological abelianization of the absolute Galois group, as groups; proved.
+* `nonempty_continuousMulEquiv_absoluteGaloisGroupAbelianization` — the homeomorphism
+  upgrade; recorded ahead of its proof.
 
 ## Implementation notes
 
@@ -28,9 +31,12 @@ The closure is taken in `AlgebraicClosure K` directly — the field is char-zero
 separable-closure detour is needed, and Mathlib's `Field.absoluteGaloisGroup` is
 transparently the automorphism group of the closure. The `IsAbelianGalois` proof routes
 through `InfiniteGalois.normalAutEquivQuotient` against the commutative
-`Field.absoluteGaloisGroupAbelianization` — shorter than the source's compactness argument
-(`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:101`); the source also carries
-the same object at `:37`, over the separable closure.
+`Field.absoluteGaloisGroupAbelianization`, and the same equivalence proves the algebraic
+identification outright; the source instead transports commutativity through a
+compactness homeomorphism
+(`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:83`, supporting chain
+`:53`–`:107`, against which this file's whole route is about a third the length); the
+source also carries the same object at `:37`, over the separable closure.
 
 ## References
 
@@ -81,10 +87,23 @@ instance : IsAbelianGalois K (maximalAbelianExtension K) where
       exact mul_comm (e.symm σ) (e.symm τ))⟩
 
 /-- The Galois group of the maximal abelian extension is the topological abelianization of
-the absolute Galois group — the identification that makes this item's `Gal (K^ab/K)` and
-the local layer's `Field.absoluteGaloisGroupAbelianization` the same vocabulary. Claim
-recorded ahead of its proof
-([Neukirch–Schmidt–Wingberg 2008, Chap. VIII, §2, (8.2.2), p.445][NeukirchEtAl2008]). -/
+the absolute Galois group, as groups — the identification that makes this item's
+`Gal (K^ab/K)` and the local layer's `Field.absoluteGaloisGroupAbelianization` the same
+vocabulary, proved by the same normal-quotient equivalence as the instances above
+([Neukirch–Schmidt–Wingberg 2008, p.157 and Chap. VIII, p.425][NeukirchEtAl2008]). -/
+theorem nonempty_mulEquiv_absoluteGaloisGroupAbelianization :
+    Nonempty ((maximalAbelianExtension K ≃ₐ[K] maximalAbelianExtension K) ≃*
+      Field.absoluteGaloisGroupAbelianization K) := by
+  let H : ClosedSubgroup (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K) :=
+    ⟨(commutator (Field.absoluteGaloisGroup K)).topologicalClosure,
+      Subgroup.isClosed_topologicalClosure _⟩
+  haveI : H.Normal := Field.absoluteGaloisGroup.commutator_closure_isNormal K
+  exact ⟨(InfiniteGalois.normalAutEquivQuotient (k := K) (K := AlgebraicClosure K) H).symm⟩
+
+/-- The identification upgrades to a homeomorphism: the two topological groups are
+isomorphic as such. Claim recorded ahead of its proof — the algebraic half is
+`nonempty_mulEquiv_absoluteGaloisGroupAbelianization`, and only continuity remains
+([Neukirch–Schmidt–Wingberg 2008, p.157 and Chap. VIII, p.425][NeukirchEtAl2008]). -/
 theorem nonempty_continuousMulEquiv_absoluteGaloisGroupAbelianization :
     Nonempty ((maximalAbelianExtension K ≃ₐ[K] maximalAbelianExtension K) ≃ₜ*
       Field.absoluteGaloisGroupAbelianization K) := by

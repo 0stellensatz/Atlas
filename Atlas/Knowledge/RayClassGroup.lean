@@ -37,8 +37,8 @@ integrality outside the modulus's support, where the level is zero and
 condition comaps `Units.posSubgroup ℝ` along
 `InfinitePlace.Completion.extensionEmbeddingOfIsReal`, replacing the source's if-then-else
 over all infinite places and its `piUnits` transport
-(`AlgebraicNumberTheory/RayClass/Basic.lean:93`, `FullModulus.lean:214`) by one comap over
-the modulus's real places. The class-level subgroup joins the principal ideles before
+(`AlgebraicNumberTheory/RayClass/Basic.lean:93`, `FullModulus.lean:214, :252`) by one
+comap over the modulus's real places. The class-level subgroup joins the principal ideles before
 mapping down, as the source does (`FullModulus.lean:330`).
 
 ## References
@@ -68,7 +68,7 @@ noncomputable def localUnitReduction (v : HeightOneSpectrum (𝓞 K)) (n : ℕ) 
     (v.adicCompletionIntegers K).toSubmonoid.unitsEquivUnitsType.toMonoidHom
 
 /-- The **local higher unit group** `U_v^(n)`: integral units congruent to `1` modulo the
-`n`-th power of the maximal ideal ([Milne 2020, Chap. V, §1, p.149][MilneCFT];
+`n`-th power of the maximal ideal ([Milne 2020, Chap. V, §4, p.172][MilneCFT];
 [Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/Basic.lean:42`][Yamaguchi2026]). -/
 noncomputable def localHigherUnitGroup (v : HeightOneSpectrum (𝓞 K)) (n : ℕ) :
     Subgroup (v.adicCompletion K)ˣ :=
@@ -76,7 +76,7 @@ noncomputable def localHigherUnitGroup (v : HeightOneSpectrum (𝓞 K)) (n : ℕ
     (localUnitReduction K v n).ker
 
 /-- Membership through the integral-unit lift and the vanishing of the reduction
-([Milne 2020, Chap. V, §1, p.149][MilneCFT]). -/
+([Milne 2020, Chap. V, §4, p.172][MilneCFT]). -/
 theorem mem_localHigherUnitGroup_iff (v : HeightOneSpectrum (𝓞 K)) (n : ℕ)
     (x : (v.adicCompletion K)ˣ) :
     x ∈ localHigherUnitGroup K v n ↔
@@ -91,7 +91,7 @@ theorem mem_localHigherUnitGroup_iff (v : HeightOneSpectrum (𝓞 K)) (n : ℕ)
 
 /-- At level zero the congruence condition is vacuous: `U_v^(0)` is the full integral-unit
 subgroup — the reason the finite congruence condition imposes only integrality outside a
-modulus's support ([Milne 2020, Chap. V, §1, p.149][MilneCFT]). -/
+modulus's support ([Milne 2020, Chap. V, §4, p.172][MilneCFT]). -/
 theorem localHigherUnitGroup_zero (v : HeightOneSpectrum (𝓞 K)) :
     localHigherUnitGroup K v 0 = (v.adicCompletionIntegers K).units := by
   ext x
@@ -108,7 +108,7 @@ theorem localHigherUnitGroup_zero (v : HeightOneSpectrum (𝓞 K)) :
     exact Units.ext (Subsingleton.elim _ _)
 
 /-- The subgroup of infinite-adele units **positive at the real place** `v`
-([Milne 2020, Chap. V, §1, p.149][MilneCFT];
+([Milne 2020, Chap. V, §4, p.172][MilneCFT];
 [Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/Basic.lean:93`][Yamaguchi2026]). -/
 noncomputable def realPositiveSubgroup (v : RealPlace K) :
     Subgroup (InfiniteAdeleRing K)ˣ :=
@@ -118,7 +118,7 @@ noncomputable def realPositiveSubgroup (v : RealPlace K) :
     (Units.posSubgroup ℝ)
 
 /-- The finite congruence subgroup of a finite modulus: the congruence condition at every
-finite place, to the modulus's depth ([Milne 2020, Chap. V, §1, p.149][MilneCFT];
+finite place, to the modulus's depth ([Milne 2020, Chap. V, §4, p.172][MilneCFT];
 [Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/Basic.lean:120`][Yamaguchi2026]). -/
 noncomputable def finiteIdeleCongruenceSubgroup (m : HeightOneSpectrum (𝓞 K) →₀ ℕ) :
     Subgroup (Πʳ v : HeightOneSpectrum (𝓞 K),
@@ -127,7 +127,7 @@ noncomputable def finiteIdeleCongruenceSubgroup (m : HeightOneSpectrum (𝓞 K) 
     (localHigherUnitGroup K v (m v))
 
 /-- The **idele congruence subgroup** of a modulus: real positivity at its real places,
-finite congruence everywhere ([Milne 2020, Chap. V, §1, p.149][MilneCFT];
+finite congruence everywhere ([Milne 2020, Chap. V, §4, p.172][MilneCFT];
 [Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/FullModulus.lean:307`][Yamaguchi2026]). -/
 noncomputable def ideleCongruenceSubgroup (m : Modulus K) : Subgroup (IdeleGroup K) :=
   (⨅ v ∈ m.infinitePart, realPositiveSubgroup K v).prod
@@ -135,7 +135,7 @@ noncomputable def ideleCongruenceSubgroup (m : Modulus K) : Subgroup (IdeleGroup
 
 /-- The **congruence subgroup** of the idele class group: the modulus's condition joined
 with the principal ideles, mapped down to `C_K`
-([Milne 2020, Chap. V, §1, p.149][MilneCFT];
+([Milne 2020, Chap. V, §4, p.172][MilneCFT];
 [Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/FullModulus.lean:330`][Yamaguchi2026]). -/
 noncomputable def congruenceSubgroup (m : Modulus K) : Subgroup (IdeleClassGroup K) :=
   Subgroup.map (QuotientGroup.mk' (principalIdeleSubgroup K))

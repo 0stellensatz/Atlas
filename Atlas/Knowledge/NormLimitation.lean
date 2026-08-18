@@ -47,8 +47,6 @@ abelian subextension. Claim recorded ahead of its proof
 on its normal-closure model][Yamaguchi2026]). -/
 theorem normLimitation (L : Type*) [Field L] [NumberField L] [Algebra K L]
     [FiniteDimensional K L] :
-    letI : NumberField (maximalAbelianSubextension K L) :=
-      NumberField.of_module_finite K (maximalAbelianSubextension K L)
     ideleClassNormRange K L =
       ideleClassNormRange K (maximalAbelianSubextension K L) := by
   sorry

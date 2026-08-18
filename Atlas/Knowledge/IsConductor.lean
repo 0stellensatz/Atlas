@@ -25,10 +25,11 @@ for a subgroup that has any defining modulus is the recorded claim.
 ## Implementation notes
 
 Uniqueness of the conductor is antisymmetry of the modulus order and deliberately not
-restated. The source constructs its conductor pointwise by `Nat.find` on a subtype that
-carries the defining-modulus existence (`GlobalClassFieldTheory/GlobalClassFields/`
-`Conductor.lean:34, :42, :119`, `ConductorInfinitePart.lean:241`); the characterization
-here is that construction's defining property, freed of the choice.
+restated. The source constructs its conductor pointwise by `Nat.find`
+(`GlobalClassFieldTheory/GlobalClassFields/Conductor.lean:90`) on a subtype that carries
+the defining-modulus existence (`Conductor.lean:34, :42, :119`,
+`ConductorInfinitePart.lean:241`); the characterization here is that construction's
+defining property, freed of the choice.
 
 ## References
 

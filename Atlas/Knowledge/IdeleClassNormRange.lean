@@ -32,12 +32,13 @@ The classical `N_{L/K} : C_L → C_K` (Milne's componentwise `b_v = ∏_{w ∣ v
 p.177) presents the same subgroup through the decomposition `𝔸_K ⊗ L ≅ 𝔸_L`; that
 equivalence is completion-comparison machinery this layer does not yet have, so the
 subgroup is *defined* on the tensor side and the componentwise reading is recorded as its
-classical face — the source proves the two agree
-(`GlobalClassFieldTheory/GlobalClassFields/NormConductor.lean:320`), and its own norm is
-built the same way (`AlgebraicNumberTheory/Idele/Extension/BaseChange.lean:104`). Because
-`Algebra.norm` is total with junk value `1`, the definition itself forces no finiteness —
-`[NumberField L]` and `[FiniteDimensional K L]` are carried as the semantic hypotheses of
-every consumer, not as elaboration needs.
+classical face — the source's identification is the base-change equivalence
+(`AlgebraicNumberTheory/Idele/BaseChange.lean:554`) with the norm transported through it
+(`AlgebraicNumberTheory/Idele/Extension/IdeleNorm.lean:36`), and its own norm is built the
+same way (`AlgebraicNumberTheory/Idele/Extension/BaseChange.lean:104`). Because
+`Algebra.norm` is total with junk value `1`, only `[FiniteDimensional K L]` is
+load-bearing — off it the norm degenerates and the subgroup collapses — and no
+`NumberField` structure on `L` enters at all.
 
 ## References
 
@@ -63,13 +64,13 @@ comparison and the class-group projection
 [Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Extension/BaseChange.lean:104`]
 [Yamaguchi2026]). -/
 noncomputable def ideleClassNormRange
-    (L : Type*) [Field L] [NumberField L] [Algebra K L] [FiniteDimensional K L] :
+    (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L] :
     Subgroup (IdeleClassGroup K) :=
-  Subgroup.map
+  MonoidHom.range
     ((QuotientGroup.mk' (principalIdeleSubgroup K)).comp
       ((ideleGroupEquivAdeleRingUnits K).symm.toMonoidHom.comp
         (Units.map (Algebra.norm (AdeleRing (𝓞 K) K) :
-          (AdeleRing (𝓞 K) K ⊗[K] L) →* AdeleRing (𝓞 K) K)))) ⊤
+          (AdeleRing (𝓞 K) K ⊗[K] L) →* AdeleRing (𝓞 K) K))))
 
 /-- The adelic norm of `1 ⊗ x` is the diagonal image of the field norm — the base-change
 compatibility of `Algebra.norm`, proved from `LinearMap.det_baseChange`
@@ -89,17 +90,17 @@ theorem norm_one_tmul (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L
 
 /-- The principal idele of a field norm lies in the norm subgroup: the tensor model owes
 the classical vocabulary its diagonal compatibility, and pays
-([Milne 2020, Chap. V, §5, Thm. 5.3 (a), pp.178–179][MilneCFT];
+([Milne 2020, Chap. V, §4, p.177][MilneCFT];
 [Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Extension/BaseChange.lean:161`]
 [Yamaguchi2026]). -/
 theorem principalIdele_norm_mem_ideleClassNormRange
-    (L : Type*) [Field L] [NumberField L] [Algebra K L] [FiniteDimensional K L] (x : Lˣ) :
+    (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L] (x : Lˣ) :
     QuotientGroup.mk' (principalIdeleSubgroup K)
         (principalIdele K (Units.map (Algebra.norm K : L →* K) x)) ∈
       ideleClassNormRange K L := by
-  refine Subgroup.mem_map.2
+  refine MonoidHom.mem_range.2
     ⟨Units.map (Algebra.TensorProduct.includeRight :
-        L →ₐ[K] AdeleRing (𝓞 K) K ⊗[K] L).toRingHom.toMonoidHom x, trivial, ?_⟩
+        L →ₐ[K] AdeleRing (𝓞 K) K ⊗[K] L).toRingHom.toMonoidHom x, ?_⟩
   have hnorm :
       Units.map (Algebra.norm (AdeleRing (𝓞 K) K) :
           (AdeleRing (𝓞 K) K ⊗[K] L) →* AdeleRing (𝓞 K) K)

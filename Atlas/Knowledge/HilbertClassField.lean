@@ -1,6 +1,5 @@
 import Mathlib
 import Atlas.Knowledge.RayClassGroup
-import Atlas.Knowledge.IdeleComponent
 import Atlas.Knowledge.IdeleClassNormRange
 
 /-!
@@ -17,8 +16,8 @@ becomes principal in a small Hilbert class field.
 
 ## Main definitions
 
-* `integralAtFinitePlaces` — ideles integral at every finite place.
-* `smallHilbertNormSubgroup`, `bigHilbertNormSubgroup` — the two norm subgroups.
+* `smallHilbertNormSubgroup`, `bigHilbertNormSubgroup` — the two norm subgroups, as the
+  congruence subgroups of the two zero moduli (no real places, all real places).
 * `IsSmallHilbertClassField`, `IsBigHilbertClassField` — the characterizations.
 
 ## Main statements
@@ -30,9 +29,12 @@ becomes principal in a small Hilbert class field.
 
 ## Implementation notes
 
-The route to the class-group identification is the divisor map from finite ideles to
-fractional ideals with kernel exactly `integralAtFinitePlaces` — the source's
-`AlgebraicNumberTheory/Idele/IdealMap.lean:360, :379` and
+Both subgroups are congruence subgroups of moduli with zero finite part, differing only
+in the real places — the small one's integrality reading at level zero is exactly
+`Atlas.Knowledge.localHigherUnitGroup_zero`. The route to the class-group identification
+is the divisor map from finite ideles to fractional ideals whose kernel is the
+integral-idele condition — the source's
+`AlgebraicNumberTheory/Idele/IdealMap.lean:360, :378` and
 `Idele/ClassGroup/Core.lean:147` — future work the claim records rather than imports. The
 principal ideal theorem is stated on the predicate slot, in pure `Ideal.map` vocabulary;
 its classical proof route is the Verlagerung through
@@ -56,26 +58,19 @@ namespace Atlas.Knowledge
 
 variable (K : Type*) [Field K] [NumberField K]
 
-/-- Ideles **integral at every finite place**: every finite component is an integral unit
-([Milne 2020, Chap. V, §3, Ex. 3.9, p.159][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/IdealMap.lean:374`][Yamaguchi2026]). -/
-noncomputable def integralAtFinitePlaces : Subgroup (IdeleGroup K) :=
-  ⨅ v : HeightOneSpectrum (𝓞 K),
-    Subgroup.comap (finiteIdeleComponent K v) ((v.adicCompletionIntegers K).units)
-
-/-- The **small Hilbert norm subgroup**: classes of ideles integral at every finite place
-— the norm subgroup of the wide Hilbert class field
-([Milne 2020, Chap. V, §3, Ex. 3.9, p.159][MilneCFT];
+/-- The **small Hilbert norm subgroup**: the congruence subgroup of the zero modulus with
+no real places — classes of ideles integral at every finite place, by
+`Atlas.Knowledge.localHigherUnitGroup_zero` — the norm subgroup of the wide Hilbert class
+field ([Milne 2020, Chap. V, §3, Ex. 3.9, p.159][MilneCFT];
 [Yamaguchi 2026, `GlobalClassFieldTheory/GlobalClassFields/SmallHilbertClassField.lean:29`]
 [Yamaguchi2026]). -/
 noncomputable def smallHilbertNormSubgroup : Subgroup (IdeleClassGroup K) :=
-  Subgroup.map (QuotientGroup.mk' (principalIdeleSubgroup K))
-    (integralAtFinitePlaces K ⊔ principalIdeleSubgroup K)
+  congruenceSubgroup K ⟨0, ∅⟩
 
 open scoped Classical in
 /-- The **big Hilbert norm subgroup**: the congruence subgroup of the narrow zero modulus
 — integrality at the finite places, positivity at every real place
-([Milne 2020, Chap. V, §3, Exercise 3.14, p.160][MilneCFT];
+([Milne 2020, Introduction, Ex. 0.6, p.6][MilneCFT];
 [Yamaguchi 2026, `GlobalClassFieldTheory/GlobalClassFields/BigHilbertClassField.lean:26`]
 [Yamaguchi2026]). -/
 noncomputable def bigHilbertNormSubgroup : Subgroup (IdeleClassGroup K) :=
@@ -93,7 +88,7 @@ def IsSmallHilbertClassField (M : Type*) [Field M] [NumberField M] [Algebra K M]
 
 /-- The **big (narrow) Hilbert class field** characterization: norm subgroup the narrow
 zero modulus's congruence subgroup
-([Milne 2020, Chap. V, §3, Exercise 3.14, p.160][MilneCFT];
+([Milne 2020, Introduction, Ex. 0.6, p.6][MilneCFT];
 [Yamaguchi 2026,
 `GlobalClassFieldTheory/GlobalClassFields/HilbertClassFieldRealization.lean:88`]
 [Yamaguchi2026]). -/

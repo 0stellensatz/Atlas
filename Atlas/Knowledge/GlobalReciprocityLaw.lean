@@ -23,8 +23,8 @@ of `φ` is available to carry the normalization.
 ## Implementation notes
 
 The Galois-form claim is a plain `≃*`, deliberately: both sides are finite discrete, so
-the topological form adds nothing, and stating it topologically would require the ad-hoc
-topology instances on `Abelianization` the source installs by hand
+the topological form adds nothing, and stating it topologically would require the local-instance
+re-declarations of the quotient topology on `Abelianization` the source carries
 (`GlobalClassFieldTheory/Reciprocity/ArithmeticNormalization.lean:49`). The source's
 finite-level equivalence is arithmetically normalized by composing its geometric one with
 inversion (`:140`, via `:105`); the kernel statement here needs no such step because the
@@ -60,7 +60,6 @@ theorem globalReciprocity_ker
       (maximalAbelianExtension K ≃ₐ[K] maximalAbelianExtension K)}
     (hφ : IsGlobalArtinMap K φ)
     (L : FiniteGaloisIntermediateField K (maximalAbelianExtension K)) :
-    letI : NumberField L := NumberField.of_module_finite K L
     MonoidHom.ker ((AlgEquiv.restrictNormalHom L).comp φ.toMonoidHom) =
       ideleClassNormRange K L := by
   sorry
@@ -71,7 +70,7 @@ finite Galois extension. Claim recorded ahead of its proof
 [Milne 2020, Chap. V, §5, Thm. 5.3, pp.178–179][MilneCFT];
 [Yamaguchi 2026,
 `GlobalClassFieldTheory/Reciprocity/ArithmeticNormalization.lean:140`][Yamaguchi2026]). -/
-theorem globalReciprocity_abelianization (L : Type*) [Field L] [NumberField L]
+theorem globalReciprocity_abelianization (L : Type*) [Field L]
     [Algebra K L] [FiniteDimensional K L] [IsGalois K L] :
     Nonempty (Abelianization (L ≃ₐ[K] L) ≃*
       (IdeleClassGroup K ⧸ ideleClassNormRange K L)) := by

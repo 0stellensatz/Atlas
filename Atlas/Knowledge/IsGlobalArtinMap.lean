@@ -33,8 +33,9 @@ correspondence are the recorded claims.
 ## Implementation notes
 
 The normalization is Milne's and Phase 2's arithmetic convention: uniformizer to
-*arithmetic* Frobenius, rendered by Mathlib's `Valuation.IsUniformizer` (provably the
-value `exp (−1)` — Serre's normalization) and `IsArithFrobAt` on the ring of integers of
+*arithmetic* Frobenius, rendered by Mathlib's `Valuation.IsUniformizer` (a value strictly
+below one generating the value group — Serre's side of the convention) and
+`IsArithFrobAt` on the ring of integers of
 the subextension, with every instance synthesizing — the `NumberField` structure of a
 finite subextension enters by `NumberField.of_module_finite` in statement position, the
 source's own idiom. The source's infinite-level map
@@ -42,8 +43,8 @@ source's own idiom. The source's infinite-level map
 *geometric* normalization — its arithmetic form exists only at finite level, by
 composition with inversion (`Reciprocity/ArithmeticNormalization.lean:105`, convention
 docstring at `:4`) — so a port of its infinite-level statements into this vocabulary
-composes with inversion; its cyclotomic computations
-(`KroneckerWeber/RationalCyclotomicArithmeticReciprocity.lean:112`) pin the same
+composes with inversion; its cyclotomic computations, in the top-level
+`KroneckerWeber/RationalCyclotomicArithmeticReciprocity.lean:112`, pin the same
 convention this predicate states. Unramifiedness is `Algebra.IsUnramifiedAt (𝓞 K)` at
 every prime over `v`, Mathlib's locus vocabulary.
 
@@ -104,7 +105,7 @@ theorem IsGlobalArtinMap.unique
 
 /-- The global Artin map is surjective. Claim recorded ahead of its proof
 ([Neukirch–Schmidt–Wingberg 2008, Chap. VIII, §2, (8.2.2), p.445][NeukirchEtAl2008];
-[Milne 2020, Chap. V, §5, Rem. 5.7 (a), pp.179–180][MilneCFT];
+[Milne 2020, Chap. V, §5, Rem. 5.7 (a), p.179][MilneCFT];
 [Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/MaximalAbelianGlobalArtin.lean:58`]
 [Yamaguchi2026]). -/
 theorem IsGlobalArtinMap.surjective
@@ -117,7 +118,7 @@ theorem IsGlobalArtinMap.surjective
 group: the exact sequence `1 → C_K° → C_K → Gal (K^ab/K) → 1`. Claim recorded ahead of
 its proof
 ([Neukirch–Schmidt–Wingberg 2008, Chap. VIII, §2, (8.2.2), p.445][NeukirchEtAl2008];
-[Milne 2020, Chap. V, §5, Rem. 5.7 (a), pp.179–180][MilneCFT];
+[Milne 2020, Chap. V, §5, Rem. 5.7 (a), p.179][MilneCFT];
 [Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/MaximalAbelianKernel.lean:123`]
 [Yamaguchi2026]). -/
 theorem IsGlobalArtinMap.ker_eq
@@ -129,8 +130,9 @@ theorem IsGlobalArtinMap.ker_eq
 
 /-- The **infinite abelian class-field correspondence**: closed subgroups of the
 component quotient `C_K / C_K°` against intermediate fields of `K^ab`, order-reversing.
-Claim recorded ahead of its proof
-([Milne 2020, Introduction, pp.11–12][MilneCFT];
+Claim recorded ahead of its proof — the finite-level bijection this is the profinite
+limit of is Milne's corollary
+([Milne 2020, Chap. V, §5, Cor. 5.6, p.179][MilneCFT];
 [Yamaguchi 2026,
 `GlobalClassFieldTheory/GlobalClassFields/InfiniteAbelianClassFieldCorrespondence.lean:100`]
 [Yamaguchi2026]). -/
