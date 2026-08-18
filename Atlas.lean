@@ -55,6 +55,7 @@ import Atlas.Knowledge.IsFrobeniusNormalized
 import Atlas.Knowledge.IsJumpPair
 import Atlas.Knowledge.IsJumpSet
 import Atlas.Knowledge.IsLadicRepresentation
+import Atlas.Knowledge.IsLocalHilbertSymbol
 import Atlas.Knowledge.IsLocalReciprocity
 import Atlas.Knowledge.IsMLFType
 import Atlas.Knowledge.IsMStepSolvable
