@@ -16,10 +16,11 @@ interval integral through `Atlas.Knowledge.realLowerRamificationGroup`, proves t
 facts that make it a change of numbering—`φ (0) = 0`, strict monotonicity, continuity,
 bijectivity—and proves **Herbrand's theorem**, the statement the function exists for: the
 image of `G_u` in a quotient of the Galois group is the ramification group of the quotient at
-index `φ (u)`, the index computed over the intermediate field. The inverse function is
-`Atlas.Knowledge.HerbrandPsi`, and the numbering `φ` produces is
-`Atlas.Knowledge.UpperRamificationGroup`. The file also carries the evaluation of `φ` at
-integer arguments and its equivalent form as a sum of truncated ramification numbers `i_G`.
+index `φ (u)`, the index computed over the intermediate field, together with the transitivity
+`φ_{L/K} = φ_{E/K} ∘ φ_{L/E}` it entails. The inverse function is `Atlas.Knowledge.HerbrandPsi`,
+and the numbering `φ` produces is `Atlas.Knowledge.UpperRamificationGroup`. The file also carries
+the evaluation of `φ` at integer arguments and its equivalent form as a sum of truncated
+ramification numbers `i_G`.
 
 ## Main definitions
 
@@ -35,7 +36,10 @@ integer arguments and its equivalent form as a sum of truncated ramification num
 * `ramificationNumber_restrictNormal_sub_one_eq_herbrandPhi` — Lemma 4: the ramification
   number of a quotient automorphism through `φ`, at a lift of maximal ramification number.
 * `map_realLowerRamificationGroup` — Herbrand's theorem.
-* `herbrandPhi_comp` — transitivity in a tower, recorded ahead of its proof.
+* `card_lowerRamificationGroup_eq_card_mul_card_map` — the order of `G_i` as the order of the
+  filtration over `E` times the order of the image of `G_i` under restriction, the counting
+  step of the transitivity proof.
+* `herbrandPhi_comp` — transitivity in a tower: `φ_{L/K} = φ_{E/K} ∘ φ_{L/E}`.
 
 ## Implementation notes
 
@@ -50,7 +54,11 @@ value `Nat.card (G) / Nat.card (G_0)` is junk—kept `≥ 1`, so bijectivity sur
 beyond the definition therefore assumes finiteness. Herbrand's theorem and transitivity are
 stated over an abstract tower `K ⊆ E ⊆ L` with `ValuativeExtension K E` carrying the
 compatibility of valuations; over a complete base that compatibility pins the valuation of `E`
-to the canonical extension, which is what the two statements are about.
+to the canonical extension, which is what the two statements are about. The source proves the
+transitivity by comparing derivatives; the proof here is derivative-free: both sides are
+piecewise affine with the same value at `0`, and on each `[n, n + 1]` their slopes agree by
+Herbrand's theorem combined with the counting identity
+`card_lowerRamificationGroup_eq_card_mul_card_map`.
 
 ## References
 
@@ -547,12 +555,181 @@ theorem map_realLowerRamificationGroup [TopologicalSpace K] [IsMixedCharLocalFie
         push_cast
         exact Iff.rfl
 
-/-- Transitivity of the Herbrand function in a tower: `φ_{L/K} = φ_{E/K} ∘ φ_{L/E}`. Claim
-recorded ahead of its proof ([Serre 1979, Chap. IV, §3, Prop. 15, p.74][Serre1979]). -/
+/-- The counting identity of the transitivity proof: the order of `G_i` is the order of
+`H_i`—the same filtration computed over `E`—times the order of the image of `G_i` under the
+restriction to `E`. This is the first isomorphism theorem for `AlgEquiv.restrictNormalHom E`
+cut down to `G_i`, whose kernel `Atlas.Knowledge.lowerRamificationGroup_map_restrictScalarsHom`
+identifies with `H_i`
+([Serre 1979, Chap. IV, §3, proof of Prop. 15, p.75][Serre1979]). -/
+theorem card_lowerRamificationGroup_eq_card_mul_card_map [TopologicalSpace K]
+    [IsMixedCharLocalField K] [FiniteDimensional K L] [Normal K E] (i : ℤ) :
+    Nat.card (lowerRamificationGroup K L i) =
+      Nat.card (lowerRamificationGroup E L i) *
+        Nat.card (Subgroup.map (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E)
+          (lowerRamificationGroup K L i)) := by
+  classical
+  set f := (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E).comp
+    (lowerRamificationGroup K L i).subtype with hf
+  have hcard := Subgroup.card_eq_card_quotient_mul_card_subgroup f.ker
+  have hrange : f.range = Subgroup.map (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E)
+      (lowerRamificationGroup K L i) := by
+    rw [hf, MonoidHom.range_comp, Subgroup.range_subtype]
+  have hker : Nat.card f.ker = Nat.card (lowerRamificationGroup E L i) := by
+    have h1 : f.ker = ((AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range ⊓
+        lowerRamificationGroup K L i).subgroupOf (lowerRamificationGroup K L i) := by
+      rw [Subgroup.inf_subgroupOf_right, hf, ← MonoidHom.comap_ker,
+        ← restrictScalarsHom_range_eq_ker K E L]
+      rfl
+    have h2 : Nat.card (((AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range ⊓
+        lowerRamificationGroup K L i).subgroupOf (lowerRamificationGroup K L i)) =
+        Nat.card (((AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range ⊓
+          lowerRamificationGroup K L i : Subgroup (L ≃ₐ[K] L))) :=
+      Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv
+    have h3 : (AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range ⊓
+        lowerRamificationGroup K L i =
+        Subgroup.map (AlgEquiv.restrictScalarsHom K) (lowerRamificationGroup E L i) := by
+      rw [lowerRamificationGroup_map_restrictScalarsHom K L E i, inf_comm]
+    rw [h1, h2, h3]
+    exact (Nat.card_congr (Subgroup.equivMapOfInjective _ _
+      (AlgEquiv.restrictScalarsHom_injective K)).toEquiv).symm
+  rw [hcard, Nat.card_congr (QuotientGroup.quotientKerEquivRange f).toEquiv, hrange, hker]
+  exact mul_comm _ _
+
+/-- The composite `φ_{E/K} ∘ φ_{L/E}` is affine on `[n, n + 1]`, its slope the product of the
+slope of `φ_{L/E}` there and the slope of `φ_{E/K}` on the image interval: `herbrandPhi E L`
+maps `[n, n + 1]` onto an interval on whose interior the integrand of `herbrandPhi K E` is the
+constant that Herbrand's theorem `Atlas.Knowledge.map_realLowerRamificationGroup` computes
+from the image of `G_{n + 1}`
+([Serre 1979, Chap. IV, §3, proof of Prop. 15, p.75][Serre1979]). -/
+theorem herbrandPhi_herbrandPhi_eq_add_of_mem_Icc_int [TopologicalSpace K]
+    [IsMixedCharLocalField K] [FiniteDimensional K L] [IsGalois K L] [Normal K E]
+    {n : ℤ} {u : ℝ} (h1 : (n : ℝ) ≤ u) (h2 : u ≤ n + 1) :
+    herbrandPhi K E (herbrandPhi E L u) = herbrandPhi K E (herbrandPhi E L n) +
+      (u - n) * ((Nat.card (lowerRamificationGroup E L (n + 1)) : ℝ) /
+        (Nat.card (lowerRamificationGroup E L 0) : ℝ)) *
+      ((Nat.card (Subgroup.map (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E)
+          (lowerRamificationGroup K L (n + 1))) : ℝ) /
+        (Nat.card (lowerRamificationGroup K E 0) : ℝ)) := by
+  classical
+  haveI : FiniteDimensional K E := FiniteDimensional.left K E L
+  haveI : FiniteDimensional E L := Module.Finite.right K E L
+  have hab : herbrandPhi E L n ≤ herbrandPhi E L u := (herbrandPhi_strictMono E L).monotone h1
+  have key := intervalIntegral.integral_add_adjacent_intervals
+    (integrand_intervalIntegrable K E 0 (herbrandPhi E L n))
+    (integrand_intervalIntegrable K E (herbrandPhi E L n) (herbrandPhi E L u))
+  have hcongr : (∫ x in (herbrandPhi E L n)..(herbrandPhi E L u),
+      (Nat.card (realLowerRamificationGroup K E x) : ℝ) /
+        (Nat.card (lowerRamificationGroup K E 0) : ℝ)) =
+      ∫ x in (herbrandPhi E L n)..(herbrandPhi E L u),
+        (Nat.card (Subgroup.map (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E)
+            (lowerRamificationGroup K L (n + 1))) : ℝ) /
+          (Nat.card (lowerRamificationGroup K E 0) : ℝ) := by
+    apply intervalIntegral.integral_congr_ae
+    apply Filter.Eventually.of_forall
+    intro x hx
+    rw [Set.uIoc_of_le hab] at hx
+    have hs : herbrandPhi E L (Function.invFun (herbrandPhi E L) x) = x :=
+      Function.rightInverse_invFun (herbrandPhi_bijective E L).surjective x
+    set s := Function.invFun (herbrandPhi E L) x with hsdef
+    have hs1 : (n : ℝ) < s := by
+      by_contra hc
+      push Not at hc
+      have hle : herbrandPhi E L s ≤ herbrandPhi E L n :=
+        (herbrandPhi_strictMono E L).monotone hc
+      rw [hs] at hle
+      exact absurd hx.1 (not_lt.mpr hle)
+    have hs2 : s ≤ (n : ℝ) + 1 := by
+      by_contra hc
+      push Not at hc
+      have hlt : herbrandPhi E L ((n : ℝ) + 1) < herbrandPhi E L s :=
+        herbrandPhi_strictMono E L hc
+      rw [hs] at hlt
+      have hub : herbrandPhi E L u ≤ herbrandPhi E L ((n : ℝ) + 1) :=
+        (herbrandPhi_strictMono E L).monotone h2
+      exact absurd hx.2 (not_le.mpr (lt_of_le_of_lt hub hlt))
+    have herb := map_realLowerRamificationGroup K L E s
+    rw [hs, realLowerRamificationGroup_eq K L (i := n + 1)
+      (by push_cast; linarith) (by push_cast; linarith)] at herb
+    rw [← herb]
+  rw [hcongr, intervalIntegral.integral_const, smul_eq_mul] at key
+  have key' : herbrandPhi K E (herbrandPhi E L n) +
+      (herbrandPhi E L u - herbrandPhi E L n) *
+        ((Nat.card (Subgroup.map (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E)
+            (lowerRamificationGroup K L (n + 1))) : ℝ) /
+          (Nat.card (lowerRamificationGroup K E 0) : ℝ)) =
+      herbrandPhi K E (herbrandPhi E L u) := key
+  have hEL := herbrandPhi_eq_add_of_mem_Icc_int E L (n := n) h1 h2
+  rw [← key', hEL]
+  ring
+
+/-- Transitivity of the Herbrand function in a tower: `φ_{L/K} = φ_{E/K} ∘ φ_{L/E}`
+([Serre 1979, Chap. IV, §3, Prop. 15, p.74][Serre1979]). -/
 theorem herbrandPhi_comp [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K L] [IsGalois K L] [Normal K E] (u : ℝ) :
     herbrandPhi K L u = herbrandPhi K E (herbrandPhi E L u) := by
-  sorry
+  classical
+  haveI : FiniteDimensional K E := FiniteDimensional.left K E L
+  haveI : FiniteDimensional E L := Module.Finite.right K E L
+  -- the image of `G_0` downstairs is the whole zeroth group of `E` over `K`
+  have hmap0 : Subgroup.map (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E)
+      (lowerRamificationGroup K L 0) = lowerRamificationGroup K E 0 := by
+    have h := map_realLowerRamificationGroup K L E 0
+    simp only [herbrandPhi_zero, realLowerRamificationGroup, Int.ceil_zero] at h
+    exact h
+  -- Serre's slope identity, from the counting identity at `j` and at `0`
+  have hslope : ∀ j : ℤ,
+      (Nat.card (lowerRamificationGroup K L j) : ℝ) /
+        (Nat.card (lowerRamificationGroup K L 0) : ℝ) =
+      (Nat.card (lowerRamificationGroup E L j) : ℝ) /
+        (Nat.card (lowerRamificationGroup E L 0) : ℝ) *
+      ((Nat.card (Subgroup.map (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E)
+          (lowerRamificationGroup K L j)) : ℝ) /
+        (Nat.card (lowerRamificationGroup K E 0) : ℝ)) := by
+    intro j
+    have hj := card_lowerRamificationGroup_eq_card_mul_card_map K L E j
+    have h0 := card_lowerRamificationGroup_eq_card_mul_card_map K L E 0
+    rw [hmap0] at h0
+    have hj' : (Nat.card (lowerRamificationGroup K L j) : ℝ) =
+        (Nat.card (lowerRamificationGroup E L j) : ℝ) *
+          (Nat.card (Subgroup.map (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E)
+            (lowerRamificationGroup K L j)) : ℝ) := by exact_mod_cast hj
+    have h0' : (Nat.card (lowerRamificationGroup K L 0) : ℝ) =
+        (Nat.card (lowerRamificationGroup E L 0) : ℝ) *
+          (Nat.card (lowerRamificationGroup K E 0) : ℝ) := by exact_mod_cast h0
+    rw [hj', h0', div_mul_div_comm]
+  -- the step across `[n, n + 1]`, both sides
+  have hstep : ∀ n : ℤ,
+      herbrandPhi K L ((n + 1 : ℤ) : ℝ) - herbrandPhi K L (n : ℝ) =
+        herbrandPhi K E (herbrandPhi E L ((n + 1 : ℤ) : ℝ)) -
+          herbrandPhi K E (herbrandPhi E L (n : ℝ)) := by
+    intro n
+    have hL := herbrandPhi_eq_add_of_mem_Icc_int K L (n := n) (u := ((n + 1 : ℤ) : ℝ))
+      (by push_cast; linarith) (by push_cast; linarith)
+    have hC := herbrandPhi_herbrandPhi_eq_add_of_mem_Icc_int K L E (n := n)
+      (u := ((n + 1 : ℤ) : ℝ)) (by push_cast; linarith) (by push_cast; linarith)
+    rw [hL, hC, hslope (n + 1)]
+    ring
+  -- transitivity at the integers, by two-sided induction from `φ (0) = 0`
+  have hint : ∀ n : ℤ, herbrandPhi K L (n : ℝ) = herbrandPhi K E (herbrandPhi E L (n : ℝ)) := by
+    intro n
+    induction n with
+    | zero => simp
+    | succ k ih => linarith [hstep (k : ℤ), ih]
+    | pred k ih =>
+      have h := hstep (-(k : ℤ) - 1)
+      rw [show (-(k : ℤ) - 1 + 1 : ℤ) = -(k : ℤ) by omega] at h
+      linarith [h, ih]
+  -- an arbitrary point, placed on `[⌈u⌉ - 1, ⌈u⌉]`
+  have h1 : ((⌈u⌉ - 1 : ℤ) : ℝ) ≤ u := by
+    push_cast
+    linarith [Int.ceil_lt_add_one u]
+  have h2 : u ≤ ((⌈u⌉ - 1 : ℤ) : ℝ) + 1 := by
+    push_cast
+    linarith [Int.le_ceil u]
+  have hL := herbrandPhi_eq_add_of_mem_Icc_int K L (n := ⌈u⌉ - 1) h1 h2
+  have hC := herbrandPhi_herbrandPhi_eq_add_of_mem_Icc_int K L E (n := ⌈u⌉ - 1) h1 h2
+  rw [hL, hC, hint (⌈u⌉ - 1), hslope (⌈u⌉ - 1 + 1)]
+  ring
 
 end Tower
 
