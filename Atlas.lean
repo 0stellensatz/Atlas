@@ -87,6 +87,7 @@ import Atlas.Knowledge.IsMLFType
 import Atlas.Knowledge.IsMStepSolvable
 import Atlas.Knowledge.IsMStepSolvableRep
 import Atlas.Knowledge.IsMixedCharLocalField
+import Atlas.Knowledge.IsProfiniteTransfer
 import Atlas.Knowledge.IsProsolvable
 import Atlas.Knowledge.JumpMultiplicity
 import Atlas.Knowledge.JumpOrder
