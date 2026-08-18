@@ -52,6 +52,7 @@ import Atlas.Knowledge.HerbrandPhi
 import Atlas.Knowledge.HerbrandPsi
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.HilbertClassField
+import Atlas.Knowledge.HilbertProductFormula
 import Atlas.Knowledge.IdeleClassGroup
 import Atlas.Knowledge.IdeleClassIdentityComponent
 import Atlas.Knowledge.IdeleClassNormRange
