@@ -16,7 +16,7 @@ stabilize into the intertwiner. Uniqueness runs the same computation in reverse.
 
 ## Main definitions
 
-* `lubinTateLinearForm`, `HasLinearTerm` — the prescribed-linear-term interface.
+* `lubinTateLinearForm`, `LubinTateHasLinearTerm` — the prescribed-linear-term interface.
 * `lubinTateInVariable`, `LubinTateIntertwines` — the intertwining equation.
 * `lubinTateIntertwiner` — the recursive solution.
 
@@ -59,14 +59,14 @@ variable {A : Type*} [CommRing A] {σ : Type*} [Fintype σ]
 
 /-- The multivariable linear form `∑ i, Lᵢ Xᵢ`
 ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/LinearTerm.lean:18`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `LubinTate/FormalModule/LinearTerm.lean:20`][Yamaguchi2026]). -/
 noncomputable def lubinTateLinearForm (L : σ → A) : MvPowerSeries σ A :=
   ∑ i, MvPowerSeries.C (L i) * MvPowerSeries.X i
 
 /-- A series **has linear term** `L` when its difference from `∑ i, Lᵢ Xᵢ` has order at
 least two ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FormalModule/LinearTerm.lean:31`][Yamaguchi2026]). -/
-def HasLinearTerm (H : MvPowerSeries σ A) (L : σ → A) : Prop :=
+def LubinTateHasLinearTerm (H : MvPowerSeries σ A) (L : σ → A) : Prop :=
   (2 : ℕ∞) ≤ (H - lubinTateLinearForm L).order
 
 @[simp]
@@ -98,37 +98,34 @@ theorem coeff_lubinTateLinearForm_single (L : σ → A) (i : σ) :
     exact hj ((Finsupp.single_left_injective one_ne_zero) hij).symm
   · simp
 
-namespace HasLinearTerm
+namespace LubinTateHasLinearTerm
 
 variable {H : MvPowerSeries σ A} {L : σ → A}
 
-theorem coeff_eq_of_degree_lt_two (h : HasLinearTerm H L) {d : σ →₀ ℕ}
+theorem coeff_eq_of_degree_lt_two (h : LubinTateHasLinearTerm H L) {d : σ →₀ ℕ}
     (hd : (d.degree : ℕ∞) < 2) :
     coeff d H = coeff d (lubinTateLinearForm L) := by
   have := coeff_of_lt_order (f := H - lubinTateLinearForm L) (d := d) (lt_of_lt_of_le hd h)
   rw [map_sub, sub_eq_zero] at this
   exact this
 
-theorem constantCoeff_eq_zero (h : HasLinearTerm H L) : constantCoeff H = 0 := by
+theorem constantCoeff_eq_zero (h : LubinTateHasLinearTerm H L) : constantCoeff H = 0 := by
   have h0 := h.coeff_eq_of_degree_lt_two (d := 0) (by simp)
   simpa using h0
 
-theorem one_le_order (h : HasLinearTerm H L) : (1 : ℕ∞) ≤ H.order :=
+theorem one_le_order (h : LubinTateHasLinearTerm H L) : (1 : ℕ∞) ≤ H.order :=
   one_le_order_of_constantCoeff_eq_zero h.constantCoeff_eq_zero
 
-theorem coeff_single (h : HasLinearTerm H L) (i : σ) :
+theorem coeff_single (h : LubinTateHasLinearTerm H L) (i : σ) :
     coeff (Finsupp.single i 1) H = L i := by
   rw [h.coeff_eq_of_degree_lt_two (by simp [Finsupp.degree_single]),
     coeff_lubinTateLinearForm_single]
 
-theorem hasSubst (h : HasLinearTerm H L) : PowerSeries.HasSubst H :=
-  PowerSeries.HasSubst.of_constantCoeff_zero h.constantCoeff_eq_zero
-
-end HasLinearTerm
+end LubinTateHasLinearTerm
 
 theorem lubinTateLinearForm_hasLinearTerm (L : σ → A) :
-    HasLinearTerm (lubinTateLinearForm L) L := by
-  rw [HasLinearTerm, sub_self, order_zero]
+    LubinTateHasLinearTerm (lubinTateLinearForm L) L := by
+  rw [LubinTateHasLinearTerm, sub_self, order_zero]
   exact le_top
 
 end LinearTerm
@@ -138,7 +135,7 @@ section Intertwines
 variable {A : Type*} [CommRing A] [IsLocalRing A] {π : A} {σ : Type*}
 
 /-- The Lubin–Tate series `e` inserted into the variable `Xᵢ`
-([Yamaguchi 2026, `LubinTate/FormalModule/Intertwiner.lean:22`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `LubinTate/FormalModule/Intertwiner.lean:26`][Yamaguchi2026]). -/
 noncomputable def lubinTateInVariable (e : LubinTateSeries A π) (i : σ) :
     MvPowerSeries σ A :=
   PowerSeries.subst (MvPowerSeries.X i) e.toPowerSeries
@@ -163,10 +160,6 @@ theorem constantCoeff_lubinTateInVariable (e : LubinTateSeries A π) (i : σ) :
 theorem hasSubst_lubinTateInVariable [Finite σ] (e : LubinTateSeries A π) :
     MvPowerSeries.HasSubst (fun i : σ => lubinTateInVariable e i) :=
   hasSubst_of_constantCoeff_zero fun i => constantCoeff_lubinTateInVariable e i
-
-theorem one_le_order_lubinTateInVariable (e : LubinTateSeries A π) (i : σ) :
-    (1 : ℕ∞) ≤ (lubinTateInVariable e i).order :=
-  one_le_order_of_constantCoeff_eq_zero (constantCoeff_lubinTateInVariable e i)
 
 private theorem order_X_mv (i : σ) :
     (MvPowerSeries.X i : MvPowerSeries σ A).order = 1 := by
@@ -201,7 +194,7 @@ theorem two_le_order_lubinTateInVariable_sub (e : LubinTateSeries A π) (i : σ)
 
 /-- The **intertwining equation** `e(H(X)) = H(ē(X₁), …, ē(Xₙ))`
 ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/Intertwiner.lean:44`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `LubinTate/FormalModule/Intertwiner.lean:47`][Yamaguchi2026]). -/
 def LubinTateIntertwines (e ebar : LubinTateSeries A π)
     (H : MvPowerSeries σ A) : Prop :=
   PowerSeries.subst H e.toPowerSeries =
@@ -665,11 +658,11 @@ private noncomputable def lubinTateApprox (hπ : Irreducible π)
 
 private theorem hasLinearTerm_lubinTateApprox (hπ : Irreducible π)
     (e ebar : LubinTateSeries A π) (L : σ → A) (r : ℕ) :
-    HasLinearTerm (lubinTateApprox hπ e ebar L r) L := by
+    LubinTateHasLinearTerm (lubinTateApprox hπ e ebar L r) L := by
   induction r with
   | zero => exact lubinTateLinearForm_hasLinearTerm L
   | succ r IH =>
-    rw [HasLinearTerm, lubinTateApprox, add_sub_right_comm]
+    rw [LubinTateHasLinearTerm, lubinTateApprox, add_sub_right_comm]
     refine le_trans (le_min IH ?_) min_order_le_add
     exact le_trans (by exact_mod_cast (by omega : 2 ≤ r + 2))
       (le_order_lubinTateCorrection hπ e ebar _ r)
@@ -804,8 +797,8 @@ private theorem coeff_lubinTateIntertwiner_eq (hπ : Irreducible π)
 [Yamaguchi2026]). -/
 theorem lubinTateIntertwiner_hasLinearTerm (hπ : Irreducible π)
     (e ebar : LubinTateSeries A π) (L : σ → A) :
-    HasLinearTerm (lubinTateIntertwiner hπ e ebar L) L := by
-  rw [HasLinearTerm]
+    LubinTateHasLinearTerm (lubinTateIntertwiner hπ e ebar L) L := by
+  rw [LubinTateHasLinearTerm]
   apply le_order
   intro d hd
   rw [map_sub, coeff_lubinTateIntertwiner_eq hπ e ebar L (r := d.degree) (by omega),
@@ -863,8 +856,8 @@ omit [Finite (IsLocalRing.ResidueField A)] in
 [Yamaguchi2026]). -/
 theorem LubinTateIntertwines.eq_of_hasLinearTerm (hπ : Irreducible π)
     {e ebar : LubinTateSeries A π} {H H' : MvPowerSeries σ A} {L : σ → A}
-    (hH : HasLinearTerm H L) (hI : LubinTateIntertwines e ebar H)
-    (hH' : HasLinearTerm H' L) (hI' : LubinTateIntertwines e ebar H') : H = H' := by
+    (hH : LubinTateHasLinearTerm H L) (hI : LubinTateIntertwines e ebar H)
+    (hH' : LubinTateHasLinearTerm H' L) (hI' : LubinTateIntertwines e ebar H') : H = H' := by
   have key : ∀ n : ℕ, ∀ u : σ →₀ ℕ, u.degree = n → coeff u H = coeff u H' := by
     intro n
     induction n using Nat.strong_induction_on with
@@ -916,7 +909,7 @@ term ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
 theorem existsUnique_lubinTateIntertwiner (hπ : Irreducible π)
     (e ebar : LubinTateSeries A π) (L : σ → A) :
     ∃! H : MvPowerSeries σ A,
-      HasLinearTerm H L ∧ LubinTateIntertwines e ebar H :=
+      LubinTateHasLinearTerm H L ∧ LubinTateIntertwines e ebar H :=
   ⟨lubinTateIntertwiner hπ e ebar L,
     ⟨lubinTateIntertwiner_hasLinearTerm hπ e ebar L,
       lubinTateIntertwiner_intertwines hπ e ebar L⟩,

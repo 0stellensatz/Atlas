@@ -142,14 +142,14 @@ private theorem eq_single_of_degree_eq_one {u : σ →₀ ℕ} (hu : u.degree = 
 
 omit [IsLocalRing A] in
 private theorem hasLinearTerm_subst [Fintype σ] [Fintype τ]
-    {H : MvPowerSeries σ A} {L : σ → A} (hH : HasLinearTerm H L)
+    {H : MvPowerSeries σ A} {L : σ → A} (hH : LubinTateHasLinearTerm H L)
     {g : σ → MvPowerSeries τ A} {M : σ → τ → A}
-    (hg : ∀ i, HasLinearTerm (g i) (M i)) :
-    HasLinearTerm (MvPowerSeries.subst g H) (fun j => ∑ i, L i * M i j) := by
+    (hg : ∀ i, LubinTateHasLinearTerm (g i) (M i)) :
+    LubinTateHasLinearTerm (MvPowerSeries.subst g H) (fun j => ∑ i, L i * M i j) := by
   classical
   have hgs : MvPowerSeries.HasSubst g :=
     hasSubst_of_constantCoeff_zero fun i => (hg i).constantCoeff_eq_zero
-  rw [HasLinearTerm]
+  rw [LubinTateHasLinearTerm]
   apply le_order
   intro d hd
   have hd1 : d.degree ≤ 1 := by
@@ -204,9 +204,9 @@ private theorem hasLinearTerm_subst [Fintype σ] [Fintype τ]
 
 omit [IsLocalRing A] in
 private theorem hasLinearTerm_X [Fintype σ] [DecidableEq σ] (j : σ) :
-    HasLinearTerm (MvPowerSeries.X j : MvPowerSeries σ A)
+    LubinTateHasLinearTerm (MvPowerSeries.X j : MvPowerSeries σ A)
       (fun i => if i = j then 1 else 0) := by
-  rw [HasLinearTerm]
+  rw [LubinTateHasLinearTerm]
   have : lubinTateLinearForm (fun i : σ => if i = j then (1 : A) else 0) =
       MvPowerSeries.X j := by
     rw [lubinTateLinearForm, Finset.sum_eq_single j]
@@ -226,7 +226,7 @@ variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
 
 omit [IsDomain A] [IsDiscreteValuationRing A] [Finite (IsLocalRing.ResidueField A)] in
 private theorem hasLinearTerm_congr {σ : Type*} [Fintype σ] {H : MvPowerSeries σ A}
-    {L L' : σ → A} (h : HasLinearTerm H L) (hLL : L = L') : HasLinearTerm H L' :=
+    {L L' : σ → A} (h : LubinTateHasLinearTerm H L) (hLL : L = L') : LubinTateHasLinearTerm H L' :=
   hLL ▸ h
 
 /-- The **standard Lubin–Tate formal group series**: the unique two-variable intertwiner
@@ -245,13 +245,13 @@ noncomputable def standardLubinTateFormalGroupPowerSeries (hπ : Irreducible π)
 [Yamaguchi2026]). -/
 theorem existsUnique_standardLubinTateFormalGroupPowerSeries (hπ : Irreducible π) :
     ∃! H : MvPowerSeries (Fin 2) A,
-      HasLinearTerm H (fun _ => 1) ∧
+      LubinTateHasLinearTerm H (fun _ => 1) ∧
         LubinTateIntertwines (standardLubinTateSeries hπ)
           (standardLubinTateSeries hπ) H :=
   existsUnique_lubinTateIntertwiner hπ _ _ _
 
 private theorem hLT_std (hπ : Irreducible π) :
-    HasLinearTerm (standardLubinTateFormalGroupPowerSeries hπ)
+    LubinTateHasLinearTerm (standardLubinTateFormalGroupPowerSeries hπ)
       (fun _ : Fin 2 => (1 : A)) :=
   lubinTateIntertwiner_hasLinearTerm hπ _ _ _
 
@@ -275,8 +275,8 @@ private theorem intertwines_pair (hπ : Irreducible π) {n : ℕ}
 
 private theorem hasLinearTerm_pair (hπ : Irreducible π) {n : ℕ}
     (g : Fin 2 → MvPowerSeries (Fin n) A) (M : Fin 2 → Fin n → A)
-    (hg : ∀ i, HasLinearTerm (g i) (M i)) :
-    HasLinearTerm (MvPowerSeries.subst g (standardLubinTateFormalGroupPowerSeries hπ))
+    (hg : ∀ i, LubinTateHasLinearTerm (g i) (M i)) :
+    LubinTateHasLinearTerm (MvPowerSeries.subst g (standardLubinTateFormalGroupPowerSeries hπ))
       (fun j => ∑ i, M i j) := by
   have := hasLinearTerm_subst (hLT_std hπ) hg
   refine hasLinearTerm_congr this ?_
@@ -302,9 +302,9 @@ private theorem assoc_std (hπ : Irreducible π) :
         (standardLubinTateFormalGroupPowerSeries hπ) := by
   classical
   have hXlt : ∀ j : Fin 3,
-      HasLinearTerm (MvPowerSeries.X j : MvPowerSeries (Fin 3) A)
+      LubinTateHasLinearTerm (MvPowerSeries.X j : MvPowerSeries (Fin 3) A)
         (fun i => if i = j then (1 : A) else 0) := fun j => hasLinearTerm_X j
-  have hG₁lt : HasLinearTerm
+  have hG₁lt : LubinTateHasLinearTerm
       (MvPowerSeries.subst
         ![(MvPowerSeries.X 0 : MvPowerSeries (Fin 3) A),
           (MvPowerSeries.X 1 : MvPowerSeries (Fin 3) A)]
@@ -317,7 +317,7 @@ private theorem assoc_std (hπ : Irreducible π) :
     fin_cases i
     · simpa using hXlt 0
     · simpa using hXlt 1
-  have hG₂lt : HasLinearTerm
+  have hG₂lt : LubinTateHasLinearTerm
       (MvPowerSeries.subst
         ![(MvPowerSeries.X 1 : MvPowerSeries (Fin 3) A),
           (MvPowerSeries.X 2 : MvPowerSeries (Fin 3) A)]
@@ -356,7 +356,7 @@ private theorem assoc_std (hπ : Irreducible π) :
       fin_cases i
       · simpa using intertwines_X (σ := Fin 3) (standardLubinTateSeries hπ) 1
       · simpa using intertwines_X (σ := Fin 3) (standardLubinTateSeries hπ) 2
-  have hLlt : HasLinearTerm
+  have hLlt : LubinTateHasLinearTerm
       (MvPowerSeries.subst
         ![MvPowerSeries.subst
             ![(MvPowerSeries.X 0 : MvPowerSeries (Fin 3) A),
@@ -375,7 +375,7 @@ private theorem assoc_std (hπ : Irreducible π) :
       · simpa using hXlt 2
     · funext j
       fin_cases j <;> simp [Fin.sum_univ_two]
-  have hRlt : HasLinearTerm
+  have hRlt : LubinTateHasLinearTerm
       (MvPowerSeries.subst
         ![(MvPowerSeries.X 0 : MvPowerSeries (Fin 3) A),
           MvPowerSeries.subst
@@ -442,9 +442,9 @@ private theorem comm_std (hπ : Irreducible π) :
         (standardLubinTateFormalGroupPowerSeries hπ) := by
   classical
   have hXlt : ∀ j : Fin 2,
-      HasLinearTerm (MvPowerSeries.X j : MvPowerSeries (Fin 2) A)
+      LubinTateHasLinearTerm (MvPowerSeries.X j : MvPowerSeries (Fin 2) A)
         (fun i => if i = j then (1 : A) else 0) := fun j => hasLinearTerm_X j
-  have hRlt : HasLinearTerm
+  have hRlt : LubinTateHasLinearTerm
       (MvPowerSeries.subst
         ![(MvPowerSeries.X 1 : MvPowerSeries (Fin 2) A),
           (MvPowerSeries.X 0 : MvPowerSeries (Fin 2) A)]

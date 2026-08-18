@@ -60,7 +60,7 @@ noncomputable def standardLubinTatePolynomialIterate (n : ℕ) : Polynomial A :=
   ((standardLubinTatePolynomial A π).comp)^[n] Polynomial.X
 
 /-- The primitive quotient polynomial at level `n + 1`, `(f^[n])^(q−1) + π`
-([Milne 2020, Chap. I, §3, p.36][MilneCFT];
+([Milne 2020, Chap. I, §3, pp.38–39][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/DivisionPolynomial.lean:191`][Yamaguchi2026]). -/
 noncomputable def standardLubinTatePrimitivePolynomial (n : ℕ) : Polynomial A :=
   standardLubinTatePolynomialIterate A π n ^
@@ -89,8 +89,8 @@ theorem standardLubinTatePolynomialIterate_succ (n : ℕ) :
   Function.iterate_succ_apply' _ n _
 
 /-- The tower factorization `f^[n+1] = f^[n] · Qₙ` — purely polynomial
-([Milne 2020, Chap. I, §3, p.36][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/DivisionPolynomial.lean:266`,
+([Milne 2020, Chap. I, §3, pp.38–39][MilneCFT];
+[Yamaguchi 2026, `LubinTate/FiniteLevel/DivisionPolynomial.lean:267`,
 `standardLubinTatePolynomialIterate_succ_factor`][Yamaguchi2026]). -/
 theorem standardLubinTatePolynomialIterate_succ_factor
     [Finite (IsLocalRing.ResidueField A)] (n : ℕ) :
@@ -113,6 +113,7 @@ theorem standardLubinTatePolynomialIterate_succ_factor
   rw [hpow]
   ring
 
+/-- The standard polynomial is monic of degree `q`. -/
 theorem standardLubinTatePolynomial_monic [Finite (IsLocalRing.ResidueField A)] :
     (standardLubinTatePolynomial A π).Monic := by
   apply Polynomial.monic_X_pow_add
@@ -165,6 +166,7 @@ theorem standardLubinTatePolynomialIterate_eval_zero
       standardLubinTatePolynomial]
     simp [hq]
 
+/-- The primitive part is monic. -/
 theorem standardLubinTatePrimitivePolynomial_monic
     [Finite (IsLocalRing.ResidueField A)] [IsDomain A] (n : ℕ) :
     (standardLubinTatePrimitivePolynomial A π n).Monic := by
@@ -180,6 +182,7 @@ theorem standardLubinTatePrimitivePolynomial_monic
   have hqpos : 0 < Nat.card (IsLocalRing.ResidueField A) := by omega
   exact_mod_cast Nat.mul_pos (by omega) (Nat.pow_pos hqpos)
 
+/-- The primitive part has degree `(q − 1) · qⁿ`. -/
 theorem standardLubinTatePrimitivePolynomial_natDegree
     [Finite (IsLocalRing.ResidueField A)] [IsDomain A] (n : ℕ) :
     (standardLubinTatePrimitivePolynomial A π n).natDegree =
@@ -205,7 +208,7 @@ theorem standardLubinTatePrimitivePolynomial_natDegree
     exact_mod_cast hposdeg
 
 /-- The Eisenstein-side constant coefficient: `Qₙ(0) = π`
-([Yamaguchi 2026, `LubinTate/FiniteLevel/NormUniformizer.lean:31`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `LubinTate/FiniteLevel/DivisionPolynomial.lean:255`][Yamaguchi2026]). -/
 theorem standardLubinTatePrimitivePolynomial_coeff_zero
     [Finite (IsLocalRing.ResidueField A)] (n : ℕ) :
     (standardLubinTatePrimitivePolynomial A π n).coeff 0 = π := by

@@ -66,7 +66,6 @@ theorem standardLubinTateUpperRamification {π : 𝒪[K]} (hπ : Irreducible π)
 /-- At an integer `k ∈ [1, n+1]`, the upper group of the level field has order
 `q^{n+1−k}`. Claim recorded ahead of its proof
 ([Serre 1979, Chap. XV, §2, Thm. 2, p.228][Serre1979];
-[Milne 2020, Chap. I, §4, p.47][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/HerbrandFormula.lean:284`,
 `standardLubinTateRealUpperRamificationGroup_natCard`][Yamaguchi2026]). -/
 theorem standardLubinTateUpperRamification_natCard {π : 𝒪[K]} (hπ : Irreducible π)

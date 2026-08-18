@@ -9,7 +9,10 @@ polynomial of the chosen level generator is the primitive division polynomial, w
 constant coefficient is `π`, so the power-basis norm formula gives the value up to the
 sign `(−1)^d` twice over — once from the formula, once from negating the generator — and
 the two cancel. This is the input half of the norm-subgroup description of the tower:
-the canonical uniformizer is a norm from every level. Everything here is proved — the
+the canonical uniformizer is a norm from every level. Negating the generator is not
+cosmetic: Milne's un-negated computation carries `(−1)^{(q−1)q^{n−1}}` and needs an
+"unless `q = 2` and `n = 1`" escape, where `N(−λₙ) = π` is uniformly true. Everything
+here is proved — the
 route banked this item as recorded, but the argument is pure minimal-polynomial algebra
 and needs no completeness, so it landed proved.
 
@@ -50,7 +53,7 @@ private theorem norm_neg' {L : Type*} [Field L] [Algebra K L] [FiniteDimensional
   rw [show (-1 : L) = algebraMap K L (-1) by simp, Algebra.norm_algebraMap]
 
 /-- The **norm of the negated level generator is the uniformizer**: `N(−λₙ) = π`
-([Milne 2020, Chap. I, §3, Thm. 3.6 (c), p.38][MilneCFT];
+([Milne 2020, Chap. I, §3, Thm. 3.6 (c), p.38, proof p.39][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/NormUniformizer.lean:43`][Yamaguchi2026]). -/
 theorem standardLubinTate_norm_neg_levelGenerator {π : A} (hπ : Irreducible π) (n : ℕ) :
     Algebra.norm K (-(standardLubinTateLevelGenerator K hπ n :

@@ -27,7 +27,8 @@ completed formal module.
 
 **Deliberate weakening, flagged in the route:** the source's description is *data* — the
 specific action sending the unit parameter `u` to the automorphism moving the chosen
-torsion point by `[u⁻¹]` (`LubinTate/FiniteLevel/LevelAbelian.lean:53`), whose
+torsion point by `[u⁻¹]` (`LubinTate/FiniteLevel/LevelAbelian.lean:53`; the twist is
+Milne's `φ_π(a)(λ) = [u⁻¹]_f(λ)` on p.40, two pages past the bare isomorphism), whose
 construction needs the completed formal-module torsion theory. Atlas records abstract
 isomorphy and the abelianness, not the pinned action; a future discharge that proves more
 than `Nonempty` replaces this claim rather than extending it. The subgroup is on integer
