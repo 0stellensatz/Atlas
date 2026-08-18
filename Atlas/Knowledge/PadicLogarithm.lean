@@ -51,8 +51,6 @@ where the values land is made here—above the threshold that is
   edition, 2002.
 * [Koblitz1984] N. Koblitz, *p-adic numbers, p-adic analysis, and zeta-functions*, Graduate
   Texts in Mathematics **58**, Springer New York, 1984.
-* [Hyeon2025] S.-H. Hyeon, *The m-step solvable anabelian geometry of mixed-characteristic local
-  fields*, J. London Math. Soc. **112** (2025), e70402.
 -/
 
 open ValuativeRel
@@ -62,7 +60,7 @@ namespace Atlas.Knowledge
 /-- The **p-adic logarithm**: the series `∑ (-1)ⁿ / (n + 1) • (x - 1) ^ (n + 1)`, the expansion
 of `log` around `1`, total by the junk-value convention of `tsum`
 ([Fesenko–Vostokov 2002, Chap. VI, (1.2), p.208][FesenkoVostokov2002];
-[Koblitz 1984, Chap. IV, §1, p.79][Koblitz1984]). -/
+[Koblitz 1984, Chap. IV, §1, pp.78–79][Koblitz1984]). -/
 noncomputable def padicLogarithm (K : Type*) [Field K] [TopologicalSpace K] [CharZero K]
     (x : K) : K :=
   ∑' n : ℕ, ((-1) ^ n / (n + 1) : ℚ) • (x - 1) ^ (n + 1)
@@ -70,13 +68,13 @@ noncomputable def padicLogarithm (K : Type*) [Field K] [TopologicalSpace K] [Cha
 namespace PadicLogarithm
 
 /-- The logarithm series converges on every principal unit of a mixed-characteristic local
-field: for `y` in the maximal ideal, the series of `padicLogarithm` at `1 + y` is summable.
-Claim recorded ahead of its proof
+field: for `u` in the first higher unit group, the series of `padicLogarithm` at `u` is
+summable. Claim recorded ahead of its proof
 ([Fesenko–Vostokov 2002, Chap. VI, (1.4), p.212][FesenkoVostokov2002];
-[Koblitz 1984, Chap. IV, §1, p.79][Koblitz1984]). -/
+[Koblitz 1984, Chap. IV, §1, pp.78–79][Koblitz1984]). -/
 theorem summable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
-    [IsMixedCharLocalField K] (y : ↥𝒪[K]) (hy : y ∈ 𝓂[K]) :
-    Summable fun n : ℕ => ((-1) ^ n / (n + 1) : ℚ) • ((y : K)) ^ (n + 1) := by
+    [IsMixedCharLocalField K] (u : Kˣ) (hu : u ∈ higherUnitGroup K 1) :
+    Summable fun n : ℕ => ((-1) ^ n / (n + 1) : ℚ) • ((u : K) - 1) ^ (n + 1) := by
   sorry
 
 /-- On principal units the p-adic logarithm turns multiplication into addition:
