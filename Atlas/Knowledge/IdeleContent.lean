@@ -123,8 +123,7 @@ private theorem infiniteContent_apply (a : (InfiniteAdeleRing K)ˣ) :
 /-- The **content** of an idele: the product of the normalized absolute values of all its
 coordinates, `c (a) = ∏ |a_v|_v`
 ([Milne 2020, Chap. V, §4, 4.4, p.171][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/NormCore.lean:94`, inverse and ideal-norm
-factors][Yamaguchi2026]). -/
+[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/NormCore.lean:94`, inverted][Yamaguchi2026]). -/
 noncomputable def ideleContent : IdeleGroup K →* ℝ≥0ˣ :=
   ((infiniteContent K).comp (MonoidHom.fst _ _)) *
     ((finiteContent K).comp (MonoidHom.snd _ _))
@@ -139,7 +138,7 @@ private theorem unitsVal_injective : Function.Injective unitsVal := fun _ _ h =>
 /-- **The product formula**: principal ideles have content one. Proved through Mathlib's
 `NumberField.prod_abs_eq_one` — the normalization of `ideleContent` is chosen to make this
 literal ([Milne 2020, Chap. V, §4, 4.4, p.171][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalNorm.lean:228`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalNorm.lean:243`][Yamaguchi2026]). -/
 theorem ideleContent_principalIdele (x : Kˣ) :
     ideleContent K (principalIdele K x) = 1 := by
   have hx : (x : K) ≠ 0 := Units.ne_zero x

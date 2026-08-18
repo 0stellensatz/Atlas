@@ -17,17 +17,16 @@ this file is recorded.
 
 ## Main statements
 
-* `principalIdele_injective` — the diagonal is injective, through any single archimedean
-  block.
+* `principalIdele_injective` — the diagonal is injective, through the archimedean factor.
 
 ## Implementation notes
 
 The finite half goes through the algebra map into the finite adele ring and then Mathlib's
 `RestrictedProduct.unitsEquiv`, so that evaluating a principal idele at a finite place is
 definitionally the local embedding of the field element — the content computation of
-`Atlas.Knowledge.ideleContent` leans on that transparency. Injectivity needs only one
-archimedean coordinate: the algebra map of a field into the nonempty product of its
-archimedean completions is injective.
+`Atlas.Knowledge.ideleContent` leans on that transparency. Injectivity needs only the
+archimedean factor: the algebra map of a field into the nonempty product of its archimedean
+completions is injective.
 
 ## References
 
@@ -52,15 +51,15 @@ private noncomputable def finiteUnitsEquiv :
 
 /-- The **principal idele** of a field unit: the diagonal embedding `Kˣ →* 𝕀_K`, the field
 placed in all of its completions at once
-([Milne 2020, Chap. V, §4, p.171][MilneCFT];
+([Milne 2020, Chap. V, §4, 4.2, p.170][MilneCFT];
 [Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalCore.lean:21`][Yamaguchi2026]). -/
 noncomputable def principalIdele : Kˣ →* IdeleGroup K :=
   (Units.map (algebraMap K (InfiniteAdeleRing K)).toMonoidHom).prod
     ((finiteUnitsEquiv K).toMonoidHom.comp
       (Units.map (algebraMap K (FiniteAdeleRing (𝓞 K) K)).toMonoidHom))
 
-/-- The diagonal is injective: a field unit is recovered from any archimedean coordinate
-([Milne 2020, Chap. V, §4, p.171][MilneCFT];
+/-- The diagonal is injective: a field unit is recovered from the archimedean factor
+([Milne 2020, Chap. V, §4, 4.2, p.170][MilneCFT];
 [Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalCore.lean:48`][Yamaguchi2026]). -/
 theorem principalIdele_injective : Function.Injective (principalIdele K) := by
   intro x y h

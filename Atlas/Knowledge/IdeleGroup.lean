@@ -28,8 +28,11 @@ adele ring, assembled from Mathlib's own equivalences because at this pin the ad
 The topology matters more than the algebra: Milne's end-of-section note records that the
 adelic topology does not induce the idelic one and that the ideles are not even a
 topological group under the induced topology, which is why the type is built from the
-restricted product of unit groups rather than as a subspace of the adeles — and why the
-comparison with `(𝔸_K)ˣ` is a `MulEquiv` and deliberately not a homeomorphism claim. The
+restricted product of unit groups rather than as a subspace of the adeles. That note is
+about the subspace topology; `(𝔸_K)ˣ` in Mathlib carries the units topology instead, under
+which it is a topological group, and the comparison below is a `MulEquiv` for a duller
+reason — Mathlib's `RestrictedProduct.unitsEquiv` is algebraic only, and whether the
+comparison is a homeomorphism is a separate question this item does not take up. The
 `Fact` instance is the unlock for every topological instance downstream (quotients, the
 identity component); Mathlib gates the restricted-product topological group on it, and the
 openness proof is `Valued.isOpen_valuationSubring` through `Submonoid.isOpen_units`. The
@@ -69,8 +72,12 @@ theorem isOpen_adicCompletionIntegers_units (v : HeightOneSpectrum (𝓞 K)) :
     IsOpen ((v.adicCompletionIntegers K).units : Set (v.adicCompletion K)ˣ) :=
   Submonoid.isOpen_units (Valued.isOpen_valuationSubring _)
 
-instance : Fact (∀ v : HeightOneSpectrum (𝓞 K),
-    IsOpen ((v.adicCompletionIntegers K).units : Set (v.adicCompletion K)ˣ)) :=
+/-- The openness of the local unit subgroups, packaged as the `Fact` instance that lets
+`IsTopologicalGroup (IdeleGroup K)` and everything downstream synthesize
+([Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Topology.lean:27`][Yamaguchi2026]). -/
+instance factIsOpenAdicCompletionIntegersUnits :
+    Fact (∀ v : HeightOneSpectrum (𝓞 K),
+      IsOpen ((v.adicCompletionIntegers K).units : Set (v.adicCompletion K)ˣ)) :=
   ⟨isOpen_adicCompletionIntegers_units K⟩
 
 -- Naming the forward composite before inverting keeps `isDefEq` away from unfolding the
@@ -86,9 +93,9 @@ private noncomputable def adeleRingUnitsEquiv :
         (fun v : HeightOneSpectrum (𝓞 K) => v.adicCompletion K)))
 
 /-- The idele group is the unit group of the adele ring: `𝕀_K ≃* (𝔸_K)ˣ`, from Mathlib's
-`MulEquiv.prodUnits` and `RestrictedProduct.unitsEquiv` — algebraic only; the idele
-topology is finer than the one the adeles induce
-([Milne 2020, Chap. V, §4, p.169, footnote 10, and the note p.171][MilneCFT];
+`MulEquiv.prodUnits` and `RestrictedProduct.unitsEquiv` — algebraic only: Mathlib states
+the units equivalence with no continuity, and no homeomorphism is claimed here
+([Milne 2020, Chap. V, §4, p.169, footnote 10][MilneCFT];
 [Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Basic.lean:142`][Yamaguchi2026]). -/
 noncomputable def ideleGroupEquivAdeleRingUnits :
     IdeleGroup K ≃* (AdeleRing (𝓞 K) K)ˣ :=
