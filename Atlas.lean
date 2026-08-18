@@ -51,6 +51,7 @@ import Atlas.Knowledge.GroupAbsoluteInertiaDegree
 import Atlas.Knowledge.GroupAbsoluteRamificationIndex
 import Atlas.Knowledge.GroupResidueCharacteristic
 import Atlas.Knowledge.GroupRootOfUnityExponent
+import Atlas.Knowledge.HasseArf
 import Atlas.Knowledge.HasseNormPrinciple
 import Atlas.Knowledge.HerbrandPhi
 import Atlas.Knowledge.HerbrandPsi
@@ -148,9 +149,11 @@ import Atlas.Knowledge.StandardFiltered
 import Atlas.Knowledge.StandardLubinTateFormalGroup
 import Atlas.Knowledge.StandardLubinTateGaloisDescription
 import Atlas.Knowledge.StandardLubinTateLevelField
+import Atlas.Knowledge.StandardLubinTateNormSubgroup
 import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTatePolynomial
 import Atlas.Knowledge.StandardLubinTateSeries
+import Atlas.Knowledge.StandardLubinTateUpperRamification
 import Atlas.Knowledge.TRhoEP
 import Atlas.Knowledge.UnitFiniteSupport
 import Atlas.Knowledge.UpperRamificationGroup
