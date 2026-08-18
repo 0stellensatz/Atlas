@@ -293,7 +293,7 @@ theorem standardLubinTatePrimitivePolynomialOverField_eq_minpoly {π : A}
   rwa [Polynomial.IsRoot, Polynomial.eval_map, ← Polynomial.aeval_def] at this
 
 /-- The level-`n + 1` extension has degree `(q − 1) · qⁿ`
-([Milne 2020, Chap. I, §3, Thm. 3.2, p.37][MilneCFT];
+([Milne 2020, Chap. I, §3, Thm. 3.6 (a), p.38][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:283`][Yamaguchi2026]). -/
 theorem standardLubinTateLevelField_finrank {π : A} (hπ : Irreducible π) (n : ℕ) :
     Module.finrank K (standardLubinTateLevelField K hπ n) =

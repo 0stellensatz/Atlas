@@ -50,7 +50,7 @@ private theorem norm_neg' {L : Type*} [Field L] [Algebra K L] [FiniteDimensional
   rw [show (-1 : L) = algebraMap K L (-1) by simp, Algebra.norm_algebraMap]
 
 /-- The **norm of the negated level generator is the uniformizer**: `N(−λₙ) = π`
-([Milne 2020, Chap. I, §3, Thm. 3.2 and p.38][MilneCFT];
+([Milne 2020, Chap. I, §3, Thm. 3.6 (c), p.38][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/NormUniformizer.lean:43`][Yamaguchi2026]). -/
 theorem standardLubinTate_norm_neg_levelGenerator {π : A} (hπ : Irreducible π) (n : ℕ) :
     Algebra.norm K (-(standardLubinTateLevelGenerator K hπ n :
