@@ -110,6 +110,7 @@ import Atlas.Knowledge.RamificationNumber
 import Atlas.Knowledge.RamificationNumberEqAddVal
 import Atlas.Knowledge.RamificationNumberFiberSum
 import Atlas.Knowledge.RamificationNumberRestrictScalars
+import Atlas.Knowledge.RayClassField
 import Atlas.Knowledge.RayClassGroup
 import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
