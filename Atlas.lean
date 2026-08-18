@@ -58,6 +58,7 @@ import Atlas.Knowledge.IdeleClassNormRange
 import Atlas.Knowledge.IdeleComponent
 import Atlas.Knowledge.IdeleContent
 import Atlas.Knowledge.IdeleGroup
+import Atlas.Knowledge.InfinitePlaceHilbertSymbol
 import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.IntegralClosureDVR
 import Atlas.Knowledge.IsArithmeticFrobenius
