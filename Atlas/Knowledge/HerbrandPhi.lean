@@ -30,9 +30,13 @@ ramification numbers `i_G`.
 
 * `herbrandPhi_zero`, `herbrandPhi_strictMono`, `herbrandPhi_continuous`,
   `herbrandPhi_bijective` — the calculus API, the last three under `FiniteDimensional K L`.
-* `herbrandPhi_eq_add_of_mem_Icc` — `φ` is affine on `[n, n + 1]`, slope `1 / (G_0 : G_{n+1})`.
+* `herbrandPhi_eq_add_of_mem_Icc_int` — `φ` is affine on `[n, n + 1]` for every integer `n`,
+  slope `1 / (G_0 : G_{n+1})`; `herbrandPhi_eq_add_of_mem_Icc` is its `ℕ`-indexed corollary.
+* `herbrandPhi_neg_one` — `φ (-1) = -1`, with `herbrandPhi_le_neg_one` below the working range.
 * `herbrandPhi_natCast` — the evaluation at integers: `φ (n) = (g_0 + ⋯ + g_{n}) / g_0 - 1`.
 * `sum_toNat_min_ramificationNumber` — the `i_G` form: `Σ_σ min (i_G σ, n + 1) = g_0 (φ (n) + 1)`.
+* `exists_maximal_ramificationNumber_restrictNormalHom_representative` — every restriction
+  fiber contains a lift of maximal ramification number.
 * `ramificationNumber_restrictNormal_sub_one_eq_herbrandPhi` — Lemma 4: the ramification
   number of a quotient automorphism through `φ`, at a lift of maximal ramification number.
 * `map_realLowerRamificationGroup` — Herbrand's theorem.
@@ -58,7 +62,11 @@ to the canonical extension, which is what the two statements are about. The sour
 transitivity by comparing derivatives; the proof here is derivative-free: both sides are
 piecewise affine with the same value at `0`, and on each `[n, n + 1]` their slopes agree by
 Herbrand's theorem combined with the counting identity
-`card_lowerRamificationGroup_eq_card_mul_card_map`.
+`card_lowerRamificationGroup_eq_card_mul_card_map`. The tower helpers carry `[IsGalois K L]`
+where `[Normal K L]` would mathematically suffice: `Normal` extends `Algebra.IsAlgebraic`, so
+taking it as a binder trips the overlapping-instances linter against the section variables,
+while `IsGalois` carries normality as a field—and the statements the helpers feed assume
+`IsGalois K L` anyway.
 
 ## References
 
@@ -187,7 +195,7 @@ theorem herbrandPhi_bijective : Function.Bijective (herbrandPhi K L) := by
 
 /-- The Herbrand function is affine on `[n, n + 1]` for every integer `n`, of slope
 `1 / (G_0 : G_{n+1})`—the piecewise-linear description of `φ`, extended from the source's
-nonnegative range over every integer, the junk region below `-1` included
+positive range over every integer, the junk region below `-1` included
 ([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
 theorem herbrandPhi_eq_add_of_mem_Icc_int {n : ℤ} {u : ℝ} (h1 : (n : ℝ) ≤ u) (h2 : u ≤ n + 1) :
     herbrandPhi K L u = herbrandPhi K L n +
@@ -337,56 +345,69 @@ section Tower
 variable (E : Type*) [Field E] [ValuativeRel E] [Algebra K E] [Algebra E L]
   [IsScalarTower K E L] [ValuativeExtension K E] [Algebra.IsAlgebraic E L]
 
-omit [ValuativeRel K] [Algebra.IsAlgebraic K L] [ValuativeRel E] [ValuativeExtension K E]
-  [Algebra.IsAlgebraic E L] in
-/-- The subgroup of `L ≃ₐ[K] L` fixing `E` pointwise—the range of
-`AlgEquiv.restrictScalarsHom K`—is normal, being the kernel of the restriction
-`AlgEquiv.restrictNormalHom E` through `Atlas.Knowledge.restrictScalarsHom_range_eq_ker`; a
-theorem to apply by `haveI` where a proof needs it rather than a global instance
-([Serre 1979, Chap. IV, §1, proof of Prop. 3, p.63][Serre1979]). -/
-theorem restrictScalarsHom_range_normal [Normal K E] :
-    ((AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range).Normal :=
-  restrictScalarsHom_range_eq_ker K E L ▸ MonoidHom.normal_ker _
-
 omit [ValuativeRel E] [ValuativeExtension K E] [Algebra.IsAlgebraic E L] in
 /-- Every fiber of the restriction `AlgEquiv.restrictNormalHom E` contains a representative
-of maximal ramification number—the element Serre takes with `i_G (s) = j (σ)`, the coset
-statement `Atlas.Knowledge.exists_maximal_ramificationNumber_representative` read on a fiber
-of the restriction to a normal subextension
+of maximal ramification number—the element Serre takes with `i_G (s) = j (σ)`, derived from
+the coset statement `Atlas.Knowledge.exists_maximal_ramificationNumber_representative` by
+identifying the fiber with a coset of the scalar-restriction range through
+`Atlas.Knowledge.restrictScalarsHom_range_eq_ker`
 ([Serre 1979, Chap. IV, §3, proof of Lem. 4, pp.74–75][Serre1979]). -/
 theorem exists_maximal_ramificationNumber_restrictNormalHom_representative
     [FiniteDimensional K L] [IsGalois K L] [Normal K E] (σ' : E ≃ₐ[K] E) :
     ∃ σ : L ≃ₐ[K] L, AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E σ = σ' ∧
       ∀ γ : L ≃ₐ[K] L, AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E γ = σ' →
         ramificationNumber K L γ ≤ ramificationNumber K L σ := by
-  have hne : Nonempty
-      {σ : L ≃ₐ[K] L // AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E σ = σ'} := by
-    obtain ⟨σ, hσ⟩ := AlgEquiv.restrictNormalHom_surjective (F := K) (K₁ := E) L σ'
-    exact ⟨⟨σ, hσ⟩⟩
-  obtain ⟨⟨σ, hσ⟩, hmax⟩ := Finite.exists_max
-    (fun γ : {σ : L ≃ₐ[K] L // AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E σ = σ'} =>
-      ramificationNumber K L (γ : L ≃ₐ[K] L))
-  exact ⟨σ, hσ, fun γ hγ => hmax ⟨γ, hγ⟩⟩
+  obtain ⟨σ₀, hσ₀⟩ := AlgEquiv.restrictNormalHom_surjective (F := K) (K₁ := E) L σ'
+  haveI := restrictScalarsHom_range_normal K E L
+  obtain ⟨σ, hσq, hmaxq⟩ := exists_maximal_ramificationNumber_representative K L
+    (AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range (QuotientGroup.mk' _ σ₀)
+  have hbridge : ∀ γ : L ≃ₐ[K] L,
+      QuotientGroup.mk' (AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range γ =
+        QuotientGroup.mk' (AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range σ₀ ↔
+      AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E γ = σ' := by
+    intro γ
+    constructor
+    · intro h
+      have hker : γ⁻¹ * σ₀ ∈ (AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E).ker := by
+        rw [← restrictScalarsHom_range_eq_ker K E L]
+        exact QuotientGroup.eq.mp h
+      rw [MonoidHom.mem_ker, map_mul, map_inv, inv_mul_eq_one] at hker
+      exact hker.trans hσ₀
+    · intro h
+      refine QuotientGroup.eq.mpr ?_
+      rw [restrictScalarsHom_range_eq_ker K E L, MonoidHom.mem_ker, map_mul, map_inv,
+        inv_mul_eq_one]
+      exact h.trans hσ₀.symm
+  exact ⟨σ, (hbridge σ).mp hσq, fun γ hγ => hmaxq γ ((hbridge γ).mpr hγ)⟩
 
 /-- For a lift `σ` of maximal ramification number in the fiber of the restriction to `E` above
-`σ' ≠ 1`, the ramification number of `σ'` less one is the value of the Herbrand function of
-`L` over `E` at the ramification number of `σ` less one—both numbers finite away from the
-identity, read into `ℝ` where `herbrandPhi` lives
-([Serre 1979, Chap. IV, §3, Lem. 4, pp.74–75][Serre1979]). -/
+`σ'`, the ramification number of `σ'` less one is the value of the Herbrand function of `L`
+over `E` at the ramification number of `σ` less one, read into `ℝ` where `herbrandPhi` lives;
+at `σ' = 1` both numbers are infinite, their `toNat` junk reads `0`, and both sides degenerate
+to `φ (-1) = -1` ([Serre 1979, Chap. IV, §3, Lem. 4, pp.74–75][Serre1979]). -/
 theorem ramificationNumber_restrictNormal_sub_one_eq_herbrandPhi
     [TopologicalSpace K] [IsMixedCharLocalField K] [FiniteDimensional K L]
     [IsGalois K L] [Normal K E] {σ : L ≃ₐ[K] L} {σ' : E ≃ₐ[K] E}
     (hσ : AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E σ = σ')
     (hmax : ∀ γ : L ≃ₐ[K] L, AlgEquiv.restrictNormalHom (F := K) (K₁ := L) E γ = σ' →
-      ramificationNumber K L γ ≤ ramificationNumber K L σ)
-    (hσ' : σ' ≠ 1) :
+      ramificationNumber K L γ ≤ ramificationNumber K L σ) :
     ((ramificationNumber K E σ').toNat : ℝ) - 1 =
       herbrandPhi E L (((ramificationNumber K L σ).toNat : ℝ) - 1) := by
   classical
   haveI : FiniteDimensional K E := FiniteDimensional.left K E L
   haveI : FiniteDimensional E L := Module.Finite.right K E L
   haveI : IsGalois E L := IsGalois.tower_top_of_isGalois K E L
-  haveI := restrictScalarsHom_range_normal K L E
+  by_cases hσ' : σ' = 1
+  · -- at the identity the maximal lift is inert too, and both sides read `φ (-1) = -1`
+    subst hσ'
+    have htop : ramificationNumber K L σ = ⊤ :=
+      top_unique (le_of_eq_of_le ((ramificationNumber_eq_top_iff K L).mpr rfl).symm
+        (hmax 1 (map_one _)))
+    have hitop : ramificationNumber K E (1 : E ≃ₐ[K] E) = ⊤ :=
+      (ramificationNumber_eq_top_iff K E).mpr rfl
+    rw [htop, hitop, ENat.toNat_top]
+    norm_num [herbrandPhi_neg_one E L]
+  haveI := restrictScalarsHom_range_normal K E L
   -- maximality in the coset form `ramificationNumber_mul_eq_min_of_maximal` consumes
   have hmax' : ∀ γ : L ≃ₐ[K] L,
       QuotientGroup.mk' (AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range γ =
@@ -515,7 +536,7 @@ theorem map_realLowerRamificationGroup [TopologicalSpace K] [IsMixedCharLocalFie
     hσ1 ((ramificationNumber_eq_top_iff K L).mp h)
   have hitop : ramificationNumber K E σ' ≠ ⊤ := fun h =>
     hσ' ((ramificationNumber_eq_top_iff K E).mp h)
-  have hlem4 := ramificationNumber_restrictNormal_sub_one_eq_herbrandPhi K L E hσ hmax hσ'
+  have hlem4 := ramificationNumber_restrictNormal_sub_one_eq_herbrandPhi K L E hσ hmax
   set m : ℕ := (ramificationNumber K L σ).toNat
   set i' : ℕ := (ramificationNumber K E σ').toNat
   have hmcast : ((m : ℕ) : ℕ∞) = ramificationNumber K L σ := ENat.coe_toNat hmtop

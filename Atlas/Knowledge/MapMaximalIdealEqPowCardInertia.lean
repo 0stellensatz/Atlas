@@ -131,7 +131,7 @@ set_option maxHeartbeats 800000 in
 ideal identity of `Atlas.Knowledge.AddValMapIntegralClosure` holds at the exponent
 `Nat.card (lowerRamificationGroup E L 0)`—the source's inertia subgroup `G₀` of order the
 ramification index
-([Serre 1979, Chap. I, §7, Prop. 21 and its corollary, p.22; Chap. IV, §1, Prop. 1,
+([Serre 1979, Chap. I, §7, Prop. 21 and Cor., p.22 and Chap. IV, §1, Prop. 1,
 p.62][Serre1979]). -/
 theorem map_maximalIdeal_eq_pow_card_inertia [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K E] [FiniteDimensional K L] [IsGalois E L] :

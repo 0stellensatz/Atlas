@@ -16,6 +16,7 @@ when, having chosen one `s ∈ G` representing `σ ∈ G/H`, he writes the other
 * `restrictScalarsHom_range_eq_ker` — the range of `AlgEquiv.restrictScalarsHom K` equals the
   kernel of `AlgEquiv.restrictNormalHom E`. No finiteness and no Galois hypothesis on `L` over
   `K` enters: `E` normal over `K` is all the restriction needs to exist.
+* `restrictScalarsHom_range_normal` — the range is normal, being a kernel.
 * `restrictNormalHom_fiber_eq` — under finiteness, the `Finset` of automorphisms restricting to
   a given `σ' : E ≃ₐ[K] E` is the image of `L ≃ₐ[E] L` under `t ↦ σ * t.restrictScalars K`,
   for any one representative `σ`.
@@ -68,6 +69,15 @@ theorem restrictScalarsHom_range_eq_ker :
     have hfix : ∀ y : E, s (algebraMap E L y) = algebraMap E L y := fun y => by
       rw [← hcomm s y, hs]; rfl
     exact ⟨AlgEquiv.ofRingEquiv (f := s.toRingEquiv) hfix, AlgEquiv.ext fun _ => rfl⟩
+
+/-- The subgroup of `L ≃ₐ[K] L` fixing `E` pointwise—the range of
+`AlgEquiv.restrictScalarsHom K`—is normal, being a kernel; a theorem to apply by `haveI` where
+a proof needs it rather than a global instance. This is the source's standing assumption "the
+subgroup `H` is normal" made automatic for the fixing subgroup of a normal subextension
+([Serre 1979, Chap. IV, §1, p.63][Serre1979]). -/
+theorem restrictScalarsHom_range_normal :
+    ((AlgEquiv.restrictScalarsHom (S := E) (A := L) K).range).Normal :=
+  restrictScalarsHom_range_eq_ker K E L ▸ MonoidHom.normal_ker _
 
 section Finite
 
