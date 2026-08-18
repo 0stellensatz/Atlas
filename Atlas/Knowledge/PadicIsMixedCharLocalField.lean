@@ -18,6 +18,7 @@ matching the metric balls with the valuation balls through the dictionary
 * `mulValuation_lt_exp_iff_norm_lt` — the ball dictionary: `Padic.mulValuation z < exp k` if and
   only if `‖z‖ < (p : ℝ) ^ k`.
 * `padic_isValuativeTopology` — the norm topology on `ℚ_[p]` is the valuative topology.
+* `padic_isNonarchimedeanLocalField` — `ℚ_[p]` is a nonarchimedean local field.
 * `padic_isMixedCharLocalField` — `ℚ_[p]` is a mixed-characteristic local field.
 
 ## Implementation notes
@@ -25,10 +26,13 @@ matching the metric balls with the valuation balls through the dictionary
 The derivation goes through Mathlib's own constructor
 `IsValuativeTopology.of_mem_nhds_zero_iff_vle`, which asks for the neighborhoods of zero to be
 exactly the balls of a single compatible valuation — here `Padic.mulValuation`, the valuation that
-induces `ValuativeRel ℚ_[p]`. No `Valued ℚ_[p] ℤᵐ⁰` instance is installed on the way: `Valued`
-extends `UniformSpace`, `ℚ_[p]`'s uniformity is the metric one, and a second uniformity instance
-would be a diamond. The constructor takes the valuation directly, so the bridge needs no such
-structure.
+induces `ValuativeRel ℚ_[p]`. No `Valued` structure is presupposed: `ℚ_[p]` carries none at the
+pinned Mathlib, and the canonical route to one — the low-priority migration instance of
+`Mathlib.Topology.Algebra.Valued.ValuativeRel` — already demands `IsValuativeTopology`, so a
+derivation through `Valued` would be circular. Downstream of this item that route opens, and
+`Valued ℚ_[p] (ValueGroupWithZero ℚ_[p])` synthesizes over the metric uniformity itself —
+definitionally, so no diamond arises. What must never be installed is a hand-built
+`Valued ℚ_[p] ℤᵐ⁰` carrying a second uniformity beside the metric one.
 
 ## References
 
