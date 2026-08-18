@@ -24,6 +24,7 @@ import Atlas.Knowledge.ConductorExponent
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.DigitSum
 import Atlas.Knowledge.ElementaryFilteredAut
+import Atlas.Knowledge.ExistsClassField
 import Atlas.Knowledge.FiltAut
 import Atlas.Knowledge.FiltOrd
 import Atlas.Knowledge.FilteredBreak
