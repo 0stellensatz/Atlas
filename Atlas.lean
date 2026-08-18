@@ -118,6 +118,7 @@ import Atlas.Knowledge.NormLimitation
 import Atlas.Knowledge.NormOneIdeleClassIsCompact
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.OutFilt
+import Atlas.Knowledge.PadicIsMixedCharLocalField
 import Atlas.Knowledge.ParityIndex
 import Atlas.Knowledge.PowerResidueBadPlaceCorrection
 import Atlas.Knowledge.PowerResidueReciprocity
