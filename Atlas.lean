@@ -48,6 +48,7 @@ import Atlas.Knowledge.HerbrandPsi
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.IdeleClassGroup
 import Atlas.Knowledge.IdeleClassIdentityComponent
+import Atlas.Knowledge.IdeleClassNormRange
 import Atlas.Knowledge.IdeleContent
 import Atlas.Knowledge.IdeleGroup
 import Atlas.Knowledge.IntegerIsIntegralClosure
