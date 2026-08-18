@@ -111,6 +111,7 @@ import Atlas.Knowledge.NormOneIdeleClassIsCompact
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.ParityIndex
+import Atlas.Knowledge.PrimeIdealPowerResidueSymbol
 import Atlas.Knowledge.PrincipalIdele
 import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.RamificationFiltration
