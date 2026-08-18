@@ -100,6 +100,7 @@ import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
 import Atlas.Knowledge.LocalKroneckerWeber
 import Atlas.Knowledge.LowerRamificationGroup
+import Atlas.Knowledge.LubinTateSeries
 import Atlas.Knowledge.MStepSolvableCenterBound
 import Atlas.Knowledge.MStepSolvableCenterFree
 import Atlas.Knowledge.MStepSolvableExtension
@@ -143,6 +144,7 @@ import Atlas.Knowledge.ShiftTStar
 import Atlas.Knowledge.SolvabilityDegree
 import Atlas.Knowledge.SpanOfOpenUnitSubgroup
 import Atlas.Knowledge.StandardFiltered
+import Atlas.Knowledge.StandardLubinTateSeries
 import Atlas.Knowledge.TRhoEP
 import Atlas.Knowledge.UnitFiniteSupport
 import Atlas.Knowledge.UpperRamificationGroup
