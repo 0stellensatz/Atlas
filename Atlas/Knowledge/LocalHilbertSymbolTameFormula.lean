@@ -32,13 +32,18 @@ same reading the source takes. The congruence form avoids constructing the reduc
 isomorphism `μ_n (K) ≃ μ_n (𝓀)` of the literature: Serre's statement passes through the
 multiplicative-representative identification, and `v (x - y) < 1` says exactly that `x`
 reduces to `y`'s residue without naming the lift. The exponent orientation is Serre's
-Prop. 8 read against the *arithmetic* normalization both this layer and the literature fix;
-the source's formula (`LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:937`) has
-its exponent on the inverse-standard valuation and its symbol on transposed slots, and the
-two sign forks cancel by skew-symmetry, so the formulas agree — the docstring of
-`Atlas.Knowledge.IsLocalHilbertSymbol` records the cancellation. The injectivity proof needs
-no ultrametric dominance: from `(1 + x) ^ n = 1` the binomial expansion factors as
-`x · (n + x · S) = 0` with `S` integral, forcing `v (n) ≤ v (x) < 1` outright.
+Prop. 8 read against the *arithmetic* normalization both this layer and the literature fix.
+The source's only tame statement
+(`LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:937`) is the unit-first special
+case — its first slot is a valuation-ring unit, so the `(-1)` factor and the `b ^ (- v a)`
+term are invisible in it, and the general orientation rests on Serre alone, the reduction to
+uniformizers of Prop. 8's proof included. On that sub-case the formulas agree: the source's
+two departures — transposed slots and inverted Artin normalization, recorded in
+`Atlas.Knowledge.IsLocalHilbertSymbol`'s notes — cancel by skew-symmetry, and its exponent
+`- valuationMap` is already the standard valuation, with nothing left to reconcile. The
+injectivity proof needs no ultrametric dominance: from `(1 + x) ^ n = 1` the binomial
+expansion factors as `x · (n + x · S) = 0` with `S` integral, forcing `v (n) ≤ v (x) < 1`
+outright.
 
 ## References
 
@@ -59,7 +64,7 @@ section ValuationLemmas
 variable (K : Type*) [Field K] [ValuativeRel K]
 
 /-- Roots of unity have valuation one: the value group is torsion-free away from zero
-([Serre 1979, Chap. XIV, §3, Lemma 1, p.210][Serre1979]). -/
+([Serre 1979, Chap. XIV, §3, p.210][Serre1979]). -/
 theorem valuation_eq_one_of_pow_eq_one {ζ : K} {n : ℕ} (hn : n ≠ 0) (hζ : ζ ^ n = 1) :
     valuation K ζ = 1 := by
   have h : (valuation K ζ) ^ n = 1 := by rw [← map_pow, hζ, map_one]
@@ -128,9 +133,9 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 /-- When `K` contains the `n`-th roots of unity and `n` is a unit, `n` divides `q - 1`: the
 `n` roots of unity reduce injectively into the residue units, and Lagrange counts. This is
 what makes the exponent `(q - 1) / n` of the tame formula the literature's integer
-([Serre 1979, Chap. XIV, §3, Lemma 2, p.210][Serre1979];
-[Yamaguchi 2026, `LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:380`]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. XIV, §3, Example, p.210][Serre1979];
+[Yamaguchi 2026,
+`LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:380`][Yamaguchi2026]). -/
 theorem dvd_card_residueField_sub_one {n : ℕ} (hn : valuation K ((n : ℕ) : K) = 1)
     (hmu : (primitiveRoots n K).Nonempty) : n ∣ Nat.card 𝓀[K] - 1 := by
   have hn0 : n ≠ 0 := by rintro rfl; simp at hn
@@ -201,8 +206,9 @@ Hilbert symbol `(a, b)` is congruent modulo the maximal ideal to
 `c = (-1)^{αβ} a^β / b^α` raised to `(q - 1) / n`, read through the reduction that
 `eq_one_of_pow_eq_one_of_valuation_sub_one_lt` makes exact. Claim recorded ahead of its
 proof ([Serre 1979, Chap. XIV, §3, Prop. 8 and Cor., pp.210–211][Serre1979];
-[Yamaguchi 2026, `LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:937`, exponent
-on the inverse-standard valuation and slots transposed][Yamaguchi2026]). -/
+[Yamaguchi 2026,
+`LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:937`, the unit-first special
+case][Yamaguchi2026]). -/
 theorem localHilbertSymbol_tame_formula {n : ℕ} {h : Kˣ → Kˣ → Kˣ}
     (hh : IsLocalHilbertSymbol K n h) (hn : valuation K ((n : ℕ) : K) = 1)
     (hmu : (primitiveRoots n K).Nonempty) (a b : Kˣ) :

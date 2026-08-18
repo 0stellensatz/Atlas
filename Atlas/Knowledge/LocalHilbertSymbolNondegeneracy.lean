@@ -25,10 +25,12 @@ the layer states in Mathlib's vocabulary rather than bundling a descended map.
 The `n`-th powers enter as `MonoidHom.range (powMonoidHom n)`, the mapped-subgroup form the
 layer already uses for norm groups. The left statement quantifies the second slot and needs
 no `n ≠ 0` in its proved direction — the root of an `n`-th power is rational outright — while
-the right one runs through the values being `n`-th roots of unity. The source proves both
-kernels from its maximal-Kummer-extension apparatus
-(`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:49, :120`) and packages
-nondegeneracy at `:355`; the discharge of the claims here will follow that route.
+the right one runs through the values being `n`-th roots of unity. The source proves the
+left kernel from its maximal-Kummer-extension apparatus
+(`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:49`), derives the right
+kernel from it through skew-symmetry (`:120`), and packages nondegeneracy at `:355` — on the
+descended quotient, so the shape stated here on representatives is that of `:49` and `:120`;
+the discharge of the claims will follow that route.
 
 ## References
 
@@ -52,8 +54,8 @@ every `b` iff `a ∈ (Kˣ)ⁿ`. The forward direction is a claim recorded ahead 
 reverse is `Atlas.Knowledge.IsLocalHilbertSymbol.pow_left_eq_one`
 ([Serre 1979, Chap. XIV, §2, Prop. 7 vi, p.208][Serre1979];
 [Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT];
-[Yamaguchi 2026, `LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:49`]
-[Yamaguchi2026]). -/
+[Yamaguchi 2026,
+`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:49`][Yamaguchi2026]). -/
 theorem localHilbertSymbol_left_kernel (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) (a : Kˣ) :
     (∀ b : Kˣ, h a b = 1) ↔ a ∈ MonoidHom.range (powMonoidHom n : Kˣ →* Kˣ) := by
@@ -70,8 +72,8 @@ every `a` iff `b ∈ (Kˣ)ⁿ`. The forward direction is a claim recorded ahead 
 reverse is `Atlas.Knowledge.IsLocalHilbertSymbol.pow_right_eq_one`
 ([Serre 1979, Chap. XIV, §2, Prop. 7 and Cor., pp.208–209][Serre1979];
 [Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT];
-[Yamaguchi 2026, `LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:120`]
-[Yamaguchi2026]). -/
+[Yamaguchi 2026,
+`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:120`][Yamaguchi2026]). -/
 theorem localHilbertSymbol_right_kernel (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) (b : Kˣ) :
     (∀ a : Kˣ, h a b = 1) ↔ b ∈ MonoidHom.range (powMonoidHom n : Kˣ →* Kˣ) := by
@@ -88,8 +90,8 @@ trivial — an element paired to `1` against everything is an `n`-th power, in e
 Derived from the two kernel characterizations, whose recorded claims carry the backlog
 ([Serre 1979, Chap. XIV, §2, Prop. 7 vi and Cor., pp.208–209][Serre1979];
 [Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT];
-[Yamaguchi 2026, `LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:355`]
-[Yamaguchi2026]). -/
+[Yamaguchi 2026,
+`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:355`][Yamaguchi2026]). -/
 theorem localHilbertSymbol_nondegeneracy (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) :
     (∀ a : Kˣ, (∀ b : Kˣ, h a b = 1) →

@@ -34,15 +34,20 @@ existence is recorded ahead of its proof.
 The slot convention is Serre's and Milne's, and it matters: the norm-residue symbol of the
 *second* argument acts on the roots of the *first*. The read repository builds its symbol the
 other way around (`LocalClassFieldTheory/Kummer/LocalHilbertSymbol.lean:44`) *and* composes
-with the inverse-normalized Artin map recorded in `Atlas.Knowledge.NormalizedValuation`'s
-notes — two departures that cancel through skew-symmetry, so its symbol is equal to the one
+with the inverse-normalized Artin map recorded in `Atlas.Knowledge.IsFrobeniusNormalized`'s
+notes — the valuation half of that fork is `Atlas.Knowledge.NormalizedValuation`'s — two
+departures that cancel through skew-symmetry, so its symbol is equal to the one
 characterized here. The carrier is a bare curried function rather than a bundled bilinear
-map: the predicate pins values only where lifts and roots exist, and bimultiplicativity is
-derived, not imposed. The `μ_n ⊂ K` hypothesis of the literature is not baked into the
-predicate; the claims that need it carry it. At `n = 0` there are no roots and the predicate
-degenerates, which is why the pinning statements carry `n ≠ 0`. `unique` consumes the
-recorded claim `Atlas.Knowledge.IsLocalReciprocity.unique`, and the axiom audit tracks that
-inheritance — the proof is genuine, the taint deliberate.
+map: bimultiplicativity is derived from the characterization, not imposed by the carrier.
+The `μ_n ⊂ K` hypothesis of the literature enters with more force than a binder: the
+predicate makes every lift of `φ (1)` fix every radical, so it places every `n`-th root of
+every unit inside the abelianized closure — off `μ_n ⊂ K` it is unsatisfiable, the proved
+lemmas below are vacuous there, and `exists_isLocalHilbertSymbol` states the hypothesis
+explicitly. At `n = 0` the same mechanism turns contradictory against dense range — every
+element is a `0`-th root of `1`, so every lift of every `φ (b)` is forced to be the
+identity; the pinning statements carry `n ≠ 0` because root existence does. `unique`
+consumes the recorded claim `Atlas.Knowledge.IsLocalReciprocity.unique`, and the axiom audit
+tracks that inheritance — the proof is genuine, the taint deliberate.
 
 ## References
 
@@ -175,7 +180,7 @@ theorem mul_right (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0) (a b b' : Kˣ
 
 /-- An `n`-th power in the first slot kills the symbol: its root is already rational, so
 every lift fixes it. The trivial half of left nondegeneracy, and the only pinning statement
-that survives `n = 0` ([Serre 1979, Chap. XIV, §2, Prop. 7 vi, p.208][Serre1979]). -/
+that survives `n = 0` ([Serre 1979, Chap. XIV, §2, Rem. 2, p.207][Serre1979]). -/
 theorem pow_left_eq_one (hh : IsLocalHilbertSymbol K n h) (c b : Kˣ) :
     h (c ^ n) b = 1 := by
   obtain ⟨φ, -, hspec⟩ := hh
@@ -201,8 +206,7 @@ theorem one_right (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0) (a : Kˣ) : h
 
 /-- An `n`-th power in the second slot kills the symbol: its norm-residue class acts through
 the `n`-th power of a lift, and the values are `n`-th roots of unity. The trivial half of
-right nondegeneracy ([Serre 1979, Chap. XIV, §2, Prop. 7 vi and Cor., pp.208–209]
-[Serre1979]). -/
+right nondegeneracy ([Serre 1979, Chap. XIV, §2, Rem. 2, p.207][Serre1979]). -/
 theorem pow_right_eq_one (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0) (a c : Kˣ) :
     h a (c ^ n) = 1 := by
   have key : ∀ m : ℕ, h a (c ^ m) = h a c ^ m := by
