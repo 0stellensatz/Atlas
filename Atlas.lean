@@ -41,7 +41,6 @@ import Atlas.Knowledge.FilteredModule
 import Atlas.Knowledge.FilteredModulePi
 import Atlas.Knowledge.FilteredProfiniteGroup
 import Atlas.Knowledge.FilteredRhoMap
-
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
 import Atlas.Knowledge.FinitePlaceIdele
@@ -103,6 +102,7 @@ import Atlas.Knowledge.LegendreFormula
 import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
 import Atlas.Knowledge.LocalKroneckerWeber
+import Atlas.Knowledge.LocalTateDuality
 import Atlas.Knowledge.LowerRamificationGroup
 import Atlas.Knowledge.LubinTateIntertwiner
 import Atlas.Knowledge.LubinTateSeries
@@ -111,8 +111,8 @@ import Atlas.Knowledge.MStepSolvableCenterFree
 import Atlas.Knowledge.MStepSolvableExtension
 import Atlas.Knowledge.MStepSolvableQuotient
 import Atlas.Knowledge.MStepSolvableStability
-import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
 import Atlas.Knowledge.MStepSolvableSubextension
+import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
 import Atlas.Knowledge.MaximalAbelianExtension
 import Atlas.Knowledge.MaximalAbelianSubextension
 import Atlas.Knowledge.MinpolyMapEqCharpoly
