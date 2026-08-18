@@ -22,6 +22,7 @@ import Atlas.Knowledge.CharacterTwist
 import Atlas.Knowledge.ClosedDerivedSeries
 import Atlas.Knowledge.CompletedUnitGroup
 import Atlas.Knowledge.ConductorExponent
+import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.DigitSum
 import Atlas.Knowledge.ElementaryFilteredAut
