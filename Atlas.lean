@@ -60,6 +60,7 @@ import Atlas.Knowledge.IsArtinRestriction
 import Atlas.Knowledge.IsConductor
 import Atlas.Knowledge.IsFilteredHom
 import Atlas.Knowledge.IsFrobeniusNormalized
+import Atlas.Knowledge.IsGlobalArtinMap
 import Atlas.Knowledge.IsJumpPair
 import Atlas.Knowledge.IsJumpSet
 import Atlas.Knowledge.IsLadicRepresentation
