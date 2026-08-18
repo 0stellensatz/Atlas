@@ -89,6 +89,7 @@ import Atlas.Knowledge.MonogenicIntegralClosure
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.ParityIndex
+import Atlas.Knowledge.PrincipalIdele
 import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.RamificationFiltration
 import Atlas.Knowledge.RamificationNumber
