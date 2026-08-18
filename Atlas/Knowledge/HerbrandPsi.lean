@@ -9,7 +9,7 @@ of the homeomorphism `φ` of `Atlas.Knowledge.HerbrandPhi`, the function that re
 upper numbering back into the lower. This file defines `ψ` as `Function.invFun` of `φ` and
 proves the API that `Atlas.Knowledge.UpperRamificationGroup` consumes: the two inverse
 identities, `ψ (0) = 0`, strict monotonicity, and bijectivity, all under
-`FiniteDimensional K L`; transitivity in a tower is recorded as a claim.
+`FiniteDimensional K L`; transitivity in a tower inverts the transitivity of `φ`.
 
 ## Main definitions
 
@@ -19,7 +19,7 @@ identities, `ψ (0) = 0`, strict monotonicity, and bijectivity, all under
 
 * `herbrandPhi_herbrandPsi` / `herbrandPsi_herbrandPhi` — the inverse identities.
 * `herbrandPsi_zero`, `herbrandPsi_strictMono`, `herbrandPsi_bijective` — the order API.
-* `herbrandPsi_comp` — transitivity in a tower, recorded ahead of its proof.
+* `herbrandPsi_comp` — transitivity in a tower.
 
 ## Implementation notes
 
@@ -91,13 +91,18 @@ section Tower
 variable (E : Type*) [Field E] [ValuativeRel E] [Algebra K E] [Algebra E L]
   [IsScalarTower K E L] [ValuativeExtension K E] [Algebra.IsAlgebraic E L]
 
-/-- Transitivity of the inverse Herbrand function in a tower: `ψ_{L/K} = ψ_{L/E} ∘ ψ_{E/K}`.
-Claim recorded ahead of its proof
+/-- Transitivity of the inverse Herbrand function in a tower: `ψ_{L/K} = ψ_{L/E} ∘ ψ_{E/K}`,
+the inverse of the transitivity of `φ`
 ([Serre 1979, Chap. IV, §3, Prop. 15, p.74][Serre1979]). -/
 theorem herbrandPsi_comp [TopologicalSpace K] [IsMixedCharLocalField K] [IsGalois K L]
     [Normal K E] (v : ℝ) :
     herbrandPsi K L v = herbrandPsi E L (herbrandPsi K E v) := by
-  sorry
+  haveI : FiniteDimensional K E := FiniteDimensional.left K E L
+  haveI : FiniteDimensional E L := Module.Finite.right K E L
+  have h : herbrandPhi K L (herbrandPsi E L (herbrandPsi K E v)) = v := by
+    rw [herbrandPhi_comp K L E, herbrandPhi_herbrandPsi, herbrandPhi_herbrandPsi]
+  conv_lhs => rw [← h]
+  rw [herbrandPsi_herbrandPhi]
 
 end Tower
 

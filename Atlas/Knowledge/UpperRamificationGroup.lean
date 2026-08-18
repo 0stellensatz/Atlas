@@ -8,7 +8,7 @@ The ramification filtration of a finite Galois extension of local fields in the 
 numbering: `G^v = G_{ψ (v)}`, the lower filtration read through the inverse Herbrand function
 `Atlas.Knowledge.HerbrandPsi`. The lower numbering is adapted to subgroups—`H_i = G_i ∩ H`—and
 the upper numbering to quotients: the ramification groups of a quotient are the images of the
-`G^v`, which is the compatibility recorded here and the reason the filtration of an infinite
+`G^v`, which is the compatibility proved here and the reason the filtration of an infinite
 Galois group, `Atlas.Knowledge.RamificationFiltration`, is defined in the upper numbering.
 
 ## Main definitions
@@ -19,7 +19,7 @@ Galois group, `Atlas.Knowledge.RamificationFiltration`, is defined in the upper 
 
 * `upperRamificationGroup_zero` — `G^0 = G_0`, the inertia end of the filtration.
 * `upperRamificationGroup_antitone` — the family decreases in `v`.
-* `map_upperRamificationGroup` — compatibility with quotients, recorded ahead of its proof.
+* `map_upperRamificationGroup` — compatibility with quotients.
 * `herbrandPsi_eq_integral` — the source's direct description
   `ψ (v) = ∫ w in 0..v, (G^0 : G^w)`, recorded ahead of its proof.
 
@@ -78,14 +78,18 @@ variable (E : Type*) [Field E] [ValuativeRel E] [Algebra K E] [Algebra E L]
 /-- Compatibility of the upper numbering with quotients: for a normal subextension `E` of a
 finite Galois extension `L` of a mixed-characteristic local field `K`, the image of `G^v`
 under restriction to `E` is the `v`th upper-numbering ramification group of `E` over
-`K`—same index, no renumbering; this is what the upper numbering is for. Claim recorded ahead
-of its proof ([Serre 1979, Chap. IV, §3, Prop. 14, p.74][Serre1979];
+`K`—same index, no renumbering; this is what the upper numbering is for. Herbrand's theorem
+at `ψ_{L/K} (v)`, the index unwound by the transitivity of `ψ`
+([Serre 1979, Chap. IV, §3, Prop. 14, p.74][Serre1979];
 [Hyeon 2025, §2, (2), p.7][Hyeon2025]). -/
 theorem map_upperRamificationGroup [TopologicalSpace K] [IsMixedCharLocalField K]
     [IsGalois K L] [Normal K E] (v : ℝ) :
     Subgroup.map (AlgEquiv.restrictNormalHom E) (upperRamificationGroup K L v) =
       upperRamificationGroup K E v := by
-  sorry
+  haveI : FiniteDimensional K E := FiniteDimensional.left K E L
+  haveI : FiniteDimensional E L := Module.Finite.right K E L
+  rw [upperRamificationGroup, upperRamificationGroup, map_realLowerRamificationGroup K L E,
+    herbrandPsi_comp K L E, herbrandPhi_herbrandPsi]
 
 end Tower
 
