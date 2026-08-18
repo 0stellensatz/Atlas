@@ -113,6 +113,7 @@ import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.ParityIndex
 import Atlas.Knowledge.PowerResidueBadPlaceCorrection
+import Atlas.Knowledge.PowerResidueReciprocity
 import Atlas.Knowledge.PrimeIdealPowerResidueSymbol
 import Atlas.Knowledge.PrincipalIdele
 import Atlas.Knowledge.QuasiFreeFiltered
