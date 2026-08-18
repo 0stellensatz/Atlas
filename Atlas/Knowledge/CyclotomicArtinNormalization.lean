@@ -9,8 +9,9 @@ import Atlas.Knowledge.MaximalAbelianExtension
 
 The global Artin map computed on a cyclotomic field: on a floor of `ℚ`'s maximal abelian
 extension that is a cyclotomic extension of level `m`, any global Artin map sends the
-class of a one-place uniformizer idele at a prime `q` not dividing `m` to the
-automorphism `ζ ↦ ζ ^ q` — Milne's `(p, ℚ[ζₘ]/ℚ) = [p]`, stated through Mathlib's
+class of a one-place uniformizer idele at a prime `q` not dividing `m` to an
+automorphism whose restriction to the floor is `ζ ↦ ζ ^ q` — Milne's
+`(p, ℚ[ζₘ]/ℚ) = [p]`, stated through Mathlib's
 `IsCyclotomicExtension.Rat.galEquivZMod` as one equation in `(ZMod m)ˣ`. This is the
 normalization that gives Kronecker–Weber its class-field meaning: which automorphism each
 unramified prime induces on the cyclotomic field containing a given abelian extension.
@@ -30,13 +31,18 @@ of them, and reduction is injective on `m`-th roots of unity at primes away from
 which pins the `galEquivZMod` class to `[q]`. The source's transported definition — the
 Frobenius as a `Gal` element built from its own reciprocity map
 (`KroneckerWeber/RationalRayClassFieldCyclotomic.lean:492`) — is subsumed rather than
-ported: the characterization-only Artin layer already names the transported automorphism
-as a restriction, and wrapping it as data under a `∀ φ` binder is what
-`Atlas.Knowledge.IsFinitePlaceHilbertSymbol` teaches to avoid. Three `letI` bindings sit
-in statement position because pinned Mathlib fails to *synthesize* `Normal`,
-`FiniteDimensional`, and `NumberField` for a `FiniteGaloisIntermediateField` floor at
-`K := ℚ`, though the instance values themselves typecheck; the idiom is
-`Atlas.Knowledge.IsGlobalArtinMap`'s own. Milne's Introduction statement restricts `m` to
+ported: the source *constructs* the reciprocity value where Atlas *characterizes* it, as
+`Atlas.Knowledge.IsFinitePlaceHilbertSymbol` does for the local symbol, so the
+characterization-only Artin layer already names the transported automorphism as a
+restriction. The statement's shape moves once against the source: the source computes on
+the concrete `CyclotomicField m ℚ`, where this claim quantifies over the level-`m`
+floors of `ℚ^ab` — the form the restriction vocabulary forces — and neither statement
+implies the other without identifying `CyclotomicField m ℚ` with such a floor. Two
+`letI` bindings sit in statement position because pinned Mathlib fails to *synthesize*
+`Normal` and `NumberField` for a `FiniteGaloisIntermediateField` floor at `K := ℚ`,
+though the instance values themselves typecheck and `FiniteDimensional` synthesizes
+fine; the `NumberField` binding is `Atlas.Knowledge.IsGlobalArtinMap`'s own idiom, which
+at generic `K` needs no other. Milne's Introduction statement restricts `m` to
 be odd or divisible by `4`; `galEquivZMod` needs no such restriction, so neither does
 this statement.
 
@@ -55,7 +61,8 @@ namespace Atlas.Knowledge
 
 /-- The **cyclotomic Artin normalization**: on a level-`m` cyclotomic floor of `ℚ`'s
 maximal abelian extension, a global Artin map sends the class of a one-place uniformizer
-idele at a prime `q ∤ m` to `ζ ↦ ζ ^ q`. Claim recorded ahead of its proof
+idele at a prime `q ∤ m` to an automorphism restricting on the floor to `ζ ↦ ζ ^ q`.
+Claim recorded ahead of its proof
 ([Milne 2020, Introduction, p.7, and Chap. V, §3, Ex. 3.2, p.157][MilneCFT];
 [Yamaguchi 2026, `KroneckerWeber/RationalRayClassFieldCyclotomic.lean:510`, transported
 definition at `:492`][Yamaguchi2026]). -/
@@ -71,7 +78,6 @@ theorem cyclotomicArtinNormalization
     (hπ : (Valued.v : Valuation (v.adicCompletion ℚ) ℤᵐ⁰).IsUniformizer
       (π : v.adicCompletion ℚ)) :
     letI : Normal ℚ L := L.isGalois.to_normal
-    letI : FiniteDimensional ℚ L := L.finiteDimensional
     letI : NumberField L := NumberField.of_module_finite ℚ L
     IsCyclotomicExtension.Rat.galEquivZMod m L
         (AlgEquiv.restrictNormalHom L (φ (finitePlaceIdeleClass v π))) =

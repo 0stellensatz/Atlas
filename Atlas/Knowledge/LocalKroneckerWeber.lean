@@ -16,11 +16,16 @@ reversal in the source.
 
 ## Implementation notes
 
-The primitive-root clause is part of the source's statement, not decoration: the witness
-`ζ` generating with `Algebra.adjoin ℚ_[p] {ζ} = ⊤` is what the source's global compositum
-argument consumes, so the recorded claim keeps it. `L` is `Type`, not `Type*`, matching
-the source — the claim is recorded for the port. Pinned Mathlib has no Kronecker–Weber
-statement, local or global, to identify against.
+The primitive-root clause is part of the source's statement, and a port does not weaken
+an existential: the recorded claim keeps the witness `ζ` with
+`Algebra.adjoin ℚ_[p] {ζ} = ⊤` because dropping it would record a strictly weaker claim
+than the theorem being ported. The source consumes the ported theorem nowhere — it is
+the reader-facing endpoint, and the global chain runs through a structured variant whose
+destructuring discards exactly this witness
+(`KroneckerWeber/LocalCyclotomicEmbedding.lean:340`) — so keeping the clause also loses
+nothing downstream. `L` is `Type`, not `Type*`, matching the source — the claim is
+recorded for the port. Pinned Mathlib has no Kronecker–Weber statement, local or global,
+to identify against.
 
 ## References
 
