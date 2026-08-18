@@ -70,6 +70,7 @@ import Atlas.Knowledge.JumpSetInduction
 import Atlas.Knowledge.JumpSetOf
 import Atlas.Knowledge.JumpSetSmall
 import Atlas.Knowledge.JumpSetVector
+import Atlas.Knowledge.KummerCharacterEquiv
 import Atlas.Knowledge.KummerRadicalSubgroup
 import Atlas.Knowledge.LegendreFormula
 import Atlas.Knowledge.LowerRamificationGroup
