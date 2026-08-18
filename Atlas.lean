@@ -42,6 +42,7 @@ import Atlas.Knowledge.FilteredRhoMap
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
 import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FreeFiltered
+import Atlas.Knowledge.GaussReciprocity
 import Atlas.Knowledge.GlobalReciprocityLaw
 import Atlas.Knowledge.GroupAbsoluteDegree
 import Atlas.Knowledge.GroupAbsoluteInertiaDegree
