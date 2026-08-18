@@ -31,9 +31,10 @@ The completion is Mathlib's `ProfiniteGrp.ProfiniteCompletion.completion` of the
 group `Kˣ`—the source likewise completes the discrete group, so no topology on the field
 enters. The source states part (3) for an arbitrary finite extension and reduces at once to
 the Galois case, which is the case stated here: without normality the Galois action on `Lˣ`
-that the statement quantifies over is not available. Both fields carry the full
-mixed-characteristic hypotheses: the claims lean on the local structure of the unit group, not
-only on the extension being finite.
+that the statement quantifies over is not available. `L` carries no valuative hypotheses at
+all: a finite extension of a mixed-characteristic local field is one—the content of
+`Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField`—so the local structure of the unit
+group that the proofs lean on is available on `L` without being data of the statement.
 
 ## References
 
@@ -48,8 +49,7 @@ open CategoryTheory
 universe u
 
 variable (K L : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
-  [IsMixedCharLocalField K] [Field L] [ValuativeRel L] [TopologicalSpace L]
-  [IsMixedCharLocalField L] [Algebra K L] [FiniteDimensional K L]
+  [IsMixedCharLocalField K] [Field L] [Algebra K L] [FiniteDimensional K L]
 
 /-- The map induced on profinite completions of the multiplicative groups by a finite
 extension of mixed-characteristic local fields is injective. Claim recorded ahead of its proof
