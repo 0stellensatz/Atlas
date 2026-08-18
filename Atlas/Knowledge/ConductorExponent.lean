@@ -39,8 +39,9 @@ junks to `⊤` — the junk region is owned here once. The unit steps are phrase
 `Atlas.Knowledge.mem_higherUnitGroup_iff` identifies with the layer's translate-set
 filtration; at level `0` the condition ranges over all of `𝒪[K]ˣ` since `𝓂[K]^0 = ⊤`, so
 the `U^0` semantics needs no case split. Agreement with the source's ℕ-valued `Nat.find`
-form (`LocalClassFieldTheory/Finite/Conductor.lean:48`) is exactly the finiteness claim. The cutoff claims take
-the reciprocity map through `Atlas.Knowledge.IsArtinRestriction` and are true because the
+form (`LocalClassFieldTheory/Finite/Conductor.lean:48`) is exactly the finiteness claim.
+The cutoff claims take the reciprocity map through `Atlas.Knowledge.IsArtinRestriction` and
+are true because the
 characterization pins the kernel as the norm subgroup; they are stated only over mixed
 characteristic for that reason, while the definition and `conductorExponent_le_iff` keep
 full generality. Declarations touching the subtype `↥(𝓂[K] ^ m)` carry a scoped
