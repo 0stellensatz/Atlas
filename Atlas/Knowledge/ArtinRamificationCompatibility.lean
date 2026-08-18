@@ -48,7 +48,7 @@ open ValuativeRel
 namespace Atlas.Knowledge
 
 variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
-  (L : Type*) [Field L] [Algebra K L] [Algebra.IsAlgebraic K L]
+  (L : Type*) [Field L] [Algebra K L]
   [FiniteDimensional K L] [IsAbelianGalois K L]
   [Algebra L (AlgebraicClosure K)] [IsScalarTower K L (AlgebraicClosure K)]
 
@@ -56,9 +56,9 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 mixed-characteristic local field, the reciprocity image of the `t`th higher unit group is
 the `t`th upper-numbering ramification group, `t > 0`. Claim recorded ahead of its proof
 ([Serre 1979, Chap. XV, §2, Thm. 2 and Remark, p.228][Serre1979];
-[Hyeon 2025, §3, p.10][Hyeon2025];
 [Yamaguchi 2026,
-`Finite/LocalReciprocity/Filtered/FiniteAbelian.lean:30`][Yamaguchi2026]). -/
+`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/FiniteAbelian.lean:30`]
+[Yamaguchi2026]). -/
 theorem artinRamificationCompatibility (ρ : Kˣ →* (L ≃ₐ[K] L))
     (hρ : IsArtinRestriction K L ρ) {t : ℝ} (ht : 0 < t) :
     Subgroup.map ρ (realHigherUnitGroup K t) = upperRamificationGroup K L t := by
@@ -71,7 +71,8 @@ be false for every ramified extension. Claim recorded ahead of its proof
 ([Serre 1979, Chap. XIII, §4, Cor. to Prop. 13, p.198][Serre1979];
 [Hyeon 2025, §3, p.10][Hyeon2025];
 [Yamaguchi 2026,
-`Finite/LocalReciprocity/Filtered/FiniteAbelian.lean:30`][Yamaguchi2026]). -/
+`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/FiniteAbelian.lean:30`]
+[Yamaguchi2026]). -/
 theorem artinRamificationCompatibility_zero (ρ : Kˣ →* (L ≃ₐ[K] L))
     (hρ : IsArtinRestriction K L ρ) :
     Subgroup.map ρ (MonoidHom.range (Units.map (𝒪[K].subtype : ↥𝒪[K] →* K))) =

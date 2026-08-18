@@ -40,8 +40,9 @@ completes against *all* finite-index normal subgroups; its agreement with the to
 completion of the classical statement is the char-0 fact that every finite-index subgroup of
 `Kˣ` is open — false in equal characteristic, which is why `IsMixedCharLocalField` is
 load-bearing and the read repository, which proves the comparison only under an undischarged
-openness hypothesis (`Infinite/AbstractProfiniteCompletionComparison.lean:298`), states its
-own completion instead. The `∃ e` shape, rather than a `ProfiniteGrp` bundling, is forced:
+openness hypothesis
+(`LocalClassFieldTheory/Infinite/AbstractProfiniteCompletionComparison.lean:298`), states
+its own completion instead. The `∃ e` shape, rather than a `ProfiniteGrp` bundling, is forced:
 the compactness instances do not synthesize through the `absoluteGaloisGroup` definition.
 
 ## References

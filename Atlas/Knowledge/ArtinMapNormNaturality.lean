@@ -27,7 +27,7 @@ enter through `Atlas.Knowledge.IsAbelianizedArtinRestriction`. The norm is Mathl
 `[FiniteDimensional K E]` carries. No continuous forms are stated: the source's continuous
 squares are `DFunLike.congr_fun` transports of the algebraic ones against a `private local
 instance` topology on the abelianization that Mathlib does not carry
-(`Finite/LocalReciprocity/FixedFieldContinuousNaturality.lean:27`).
+(`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldContinuousNaturality.lean:27`).
 
 ## References
 
@@ -55,9 +55,10 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 Galois floors `M` over `K` inside `M'` over `E`, the reciprocity maps intertwine the field
 norm with the abelianized restriction — `res ∘ Art_E = Art_K ∘ N_{E/K}`. Claim recorded
 ahead of its proof
-([Serre 1979, Chap. XIII, §4, Prop. 10 (a), p.197][Serre1979];
+([Serre 1979, Chap. XIII, §4, Prop. 10 (a) composed with Prop. 12, p.197][Serre1979];
 [Yamaguchi 2026,
-`Finite/LocalReciprocity/FixedFieldNormResidueNaturality.lean:561`][Yamaguchi2026]). -/
+`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldNormResidueNaturality.lean:561`]
+[Yamaguchi2026]). -/
 theorem artinMap_norm_naturality
     (artK : Kˣ →* Abelianization (M ≃ₐ[K] M))
     (artE : Eˣ →* Abelianization (M' ≃ₐ[E] M'))
@@ -77,7 +78,9 @@ variable [Algebra M' (AlgebraicClosure K)] [IsScalarTower K M' (AlgebraicClosure
 smaller Galois floor is the abelianized restriction of that of a larger — the compatibility
 that glues the floors into one absolute map. Claim recorded ahead of its proof
 ([Serre 1979, Chap. XIII, §4, Prop. 12, p.197][Serre1979];
-[Yamaguchi 2026, `Finite/LocalReciprocity/NormResidueNaturality.lean:34`][Yamaguchi2026]). -/
+[Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidueNaturality.lean:34`]
+[Yamaguchi2026]). -/
 theorem artinMap_restriction_naturality
     (artM : Kˣ →* Abelianization (M ≃ₐ[K] M))
     (artM' : Kˣ →* Abelianization (M' ≃ₐ[K] M'))

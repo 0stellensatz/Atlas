@@ -34,10 +34,11 @@ the transcription into one is `Abelianization.of` applied pointwise. Existence o
 Frobenius-normalized map with the right kernel is not this item's claim: it is part of the
 full characterization `Atlas.Knowledge.IsLocalReciprocity`, whose `frobenius` field is this
 square read on roots of unity one floor up. The source repository proves the square for its
-constructed map (`Finite/LocalReciprocity/UnramifiedNormalization.lean:383, :479`) — against
-its inverse-standard valuation, so its uniformizer-to-Frobenius statement is literally about
-the *inverse* uniformizer (`:437`); the port into this vocabulary composes with the negation
-recorded in `Atlas.Knowledge.NormalizedValuation`.
+constructed map
+(`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:383, :479`) —
+against its inverse-standard valuation, so its uniformizer-to-Frobenius statement is
+literally about the *inverse* uniformizer (`:437`); the port into this vocabulary composes
+with the negation recorded in `Atlas.Knowledge.NormalizedValuation`.
 
 ## References
 
@@ -64,8 +65,9 @@ uniformizer, uniformizer ↦ arithmetic Frobenius
 ([Serre 1979, Chap. XIII, §4, Prop. 13, p.197][Serre1979];
 [Milne 2020, Chap. I, §1, Thm. 1.1 (a), p.20][MilneCFT];
 [Hyeon 2025, §3, p.10][Hyeon2025];
-[Yamaguchi 2026, `Finite/LocalReciprocity/UnramifiedNormalization.lean:383`, valuation sign
-reversed][Yamaguchi2026]). -/
+[Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:383`, valuation
+sign reversed][Yamaguchi2026]). -/
 def IsFrobeniusNormalized (ρ : Kˣ →* (L ≃ₐ[K] L)) : Prop :=
   ∀ σ : L ≃ₐ[K] L, IsArithmeticFrobenius K L σ →
     ∀ x : Kˣ, ρ x = σ ^ normalizedValuation K x

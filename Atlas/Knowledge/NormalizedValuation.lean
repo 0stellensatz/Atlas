@@ -33,9 +33,11 @@ The sign is a decision, made once here for the layer: the order isomorphism is f
 the valuation of a uniformizer — an element `< 1` — to `ofAdd (-1)`, so the raw `toAdd`
 readout gives uniformizers value `-1`, and this item negates it to the classical orientation
 `v (π) = +1` of [Serre1979] and [Hyeon2025]. The repository read alongside keeps the raw
-readout instead — its `valuationMap` (`LocalFieldTheory/ValuationExactSequence.lean:31`,
-values `-1` on uniformizers per `IdealQuotients.lean:204`) calls itself inverse-standard out
-loud — so any port of its proofs into this vocabulary must compose with negation; the
+readout instead — its `valuationMap`
+(`LocalFieldTheory/NonarchimedeanLocalField/ValuationExactSequence.lean:31`, values `-1` on
+uniformizers per `LocalFieldTheory/NonarchimedeanLocalField/IdealQuotients.lean:204`) calls
+itself inverse-standard out loud (`ValuationExactSequence.lean:82`) — so any port of its
+proofs into this vocabulary must compose with negation; the
 convention fork is deliberate and must not be repaired silently from either side. The map is
 kept a bare function with a multiplicativity lemma rather than a bundled `MonoidHom` into
 `Multiplicative ℤ`: every consumer writes `σ ^ v x`, where the bare form reads correctly.

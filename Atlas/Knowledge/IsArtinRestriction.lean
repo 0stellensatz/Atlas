@@ -52,7 +52,10 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 
 /-- The **Artin restriction** predicate: `ρ : Kˣ →* (L ≃ₐ[K] L)` is the restriction to `L`
 of an absolute reciprocity map — some `φ` with `Atlas.Knowledge.IsLocalReciprocity` has every
-lift of `φ (x)` restricting to `ρ (x)`
+lift of `φ (x)` restricting to `ρ (x)`. This is the abelian floors' notion: off them it is
+unsatisfiable, since the lift condition forces the closed commutator subgroup to restrict
+trivially and `Gal (L/K)` to be abelian — a non-abelian floor supports only
+`Atlas.Knowledge.IsAbelianizedArtinRestriction`
 ([Serre 1979, Chap. XIII, §4, Prop. 12, p.197][Serre1979];
 [Milne 2020, Chap. I, §1, Thm. 1.1 (b), p.20][MilneCFT]). -/
 def IsArtinRestriction (ρ : Kˣ →* (L ≃ₐ[K] L)) : Prop :=

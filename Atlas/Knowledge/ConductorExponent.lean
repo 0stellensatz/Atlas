@@ -32,8 +32,9 @@ proved.
 
 The definition needs no local-field structure and no finiteness — `sInf` is total on the
 complete lattice `ℕ∞`, an empty set of normic levels giving `⊤`; for an infinite extension
-Mathlib's `Algebra.norm` is the constant `1`, every level is normic, and the exponent junks
-to `0` — the junk region is owned here once. The unit steps are phrased through the
+Mathlib's `Algebra.norm` is the constant `1`, so the norm range collapses to the trivial
+subgroup, no level is normic for any field with a nontrivial unit step, and the exponent
+junks to `⊤` — the junk region is owned here once. The unit steps are phrased through the
 `(↥𝒪[K])ˣ`-carrier of the source's principal units, which
 `Atlas.Knowledge.mem_higherUnitGroup_iff` identifies with the layer's translate-set
 filtration; at level `0` the condition ranges over all of `𝒪[K]ˣ` since `𝓂[K]^0 = ⊤`, so

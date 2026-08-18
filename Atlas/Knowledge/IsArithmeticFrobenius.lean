@@ -38,8 +38,8 @@ extension and owns its junk regions: without unramifiedness the congruence pins 
 inertia — uniqueness genuinely needs `G_0 = ⊥` — and the exponent is `Nat.card 𝓀[K]`, the
 *base* residue cardinality, so nothing here collapses when the residue extension is proper.
 The source repository builds its Frobenius through a residue-action equivalence instead
-(`LocalFieldTheory/NonarchimedeanLocalField/UnramifiedFrobenius.lean:119`) and proves it
-satisfies exactly this congruence (`:167`).
+(`LocalFieldTheory/NonarchimedeanLocalField/UnramifiedFrobenius.lean:119`) and proves that
+it satisfies the equivalent residue-field form of the congruence (`:167`).
 
 ## References
 
