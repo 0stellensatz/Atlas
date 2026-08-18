@@ -10,6 +10,7 @@ import Atlas.Knowledge.AbelianizedGaloisTransfer
 import Atlas.Knowledge.AbsoluteDegree
 import Atlas.Knowledge.AbsoluteGaloisInvariance
 import Atlas.Knowledge.AbsoluteGaloisProsolvability
+import Atlas.Knowledge.AbsoluteGaloisSubextension
 import Atlas.Knowledge.AbsoluteInertiaDegree
 import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
