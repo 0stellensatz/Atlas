@@ -57,6 +57,7 @@ import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.IntegralClosureDVR
 import Atlas.Knowledge.IsArithmeticFrobenius
 import Atlas.Knowledge.IsArtinRestriction
+import Atlas.Knowledge.IsConductor
 import Atlas.Knowledge.IsFilteredHom
 import Atlas.Knowledge.IsFrobeniusNormalized
 import Atlas.Knowledge.IsJumpPair
