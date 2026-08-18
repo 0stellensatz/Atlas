@@ -21,9 +21,9 @@ quotient topology that the openness `Fact` of `Atlas.Knowledge.IdeleGroup` makes
 topological group. The theorem is classically attributed to Fujisaki (1951); Milne asserts
 it without number or proof, and Neukirch–Schmidt–Wingberg state it in exactly this item's
 vocabulary — the kernel of the absolute value descended to the idele class group is
-compact — pinning the classical homes as Weil, *Basic number theory*, Chap. VI, (1.6), and
-Cassels–Fröhlich, Chap. II, §16. Weil's book is keyed in the bibliography but not cached,
-so the rendered pinpoint is theirs. The source repository proves the theorem in
+compact — pinning the classical homes as Neukirch, *Algebraic number theory*, Chap. VI,
+(1.6), and Cassels–Fröhlich, Chap. II, §16. Neukirch's book is keyed in the bibliography
+but not cached, so the rendered pinpoint is theirs. The source repository proves the theorem in
 `AlgebraicNumberTheory/Idele/NormOneCompact.lean` through an adelic Minkowski-style
 argument (a compact integral cover shrunk onto the norm-one classes, `:793`); the discharge
 of this claim will follow that proof.
