@@ -25,7 +25,8 @@ Both are claims recorded ahead of their proofs.
 * `mStepSolvableSubextension_continuousMulEquiv` — the level identity: the `n`-step solvable
   quotient of `Field.absoluteGaloisGroup ↥l` is that of the image of `l.fixingSubgroup` at
   level `m + n`.
-* `isMLFmType_mStepSolvableQuotient` — the typeness corollary, on abstract groups.
+* `MStepSolvableSubextension.isMLFmType_mStepSolvableQuotient` — the typeness corollary, on
+  abstract groups.
 
 ## Implementation notes
 
@@ -38,11 +39,14 @@ group of the level field is the Galois correspondence and enters the proof, not 
 encoding note of `Atlas.Knowledge.MStepSolvableExtension`. The containment hypothesis is
 load-bearing: without it the identity has no reason to hold—already at `m = 0`, `n = 1` the
 left side is the full abelianization of the subextension's Galois group while the right side
-sees only its image in that of `k`. The typeness corollary quantifies a bare
-topological group, profiniteness arriving through the isomorphism its hypothesis asserts; the
-witness for the conclusion is the fixed field of the preimage of `H`, a finite extension of the
-witness for `G` and a mixed-characteristic local field by
-`Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField`.
+sees only its image in that of `k`. The `Nonempty` shape drops the source's naturality—its
+display is an equality along the natural map—because the identification of the left side with
+the fixing subgroup is itself only `Nonempty`-recorded in
+`Atlas.Knowledge.AbsoluteGaloisSubextension`, so no canonical map is available to pin the
+isomorphism against. The typeness corollary quantifies a bare topological group, profiniteness
+arriving through the isomorphism its hypothesis asserts; the witness for the conclusion is the
+fixed field of the preimage of `H`, a finite extension of the witness for `G` and a
+mixed-characteristic local field by `Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField`.
 
 ## References
 
@@ -69,6 +73,8 @@ theorem mStepSolvableSubextension_continuousMulEquiv (k : Type*) [Field k] [Char
           l.fixingSubgroup) n) := by
   sorry
 
+namespace MStepSolvableSubextension
+
 /-- An open subgroup of a group of MLF^{m+n}-type containing the `m`-th term of the closed
 derived series has `n`-step solvable quotient of MLF^n-type—the "in particular" of the level
 identity, read through `Atlas.Knowledge.MStepSolvableStability`. Claim recorded ahead of its
@@ -78,5 +84,7 @@ theorem isMLFmType_mStepSolvableQuotient {G : Type*} [Group G] [TopologicalSpace
     (hH : IsOpen (H : Set G)) (hm : closedDerivedSeries G m ≤ H) :
     IsMLFmType.{u} (mStepSolvableQuotient ↥H n) n := by
   sorry
+
+end MStepSolvableSubextension
 
 end Atlas.Knowledge
