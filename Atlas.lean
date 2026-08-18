@@ -46,6 +46,7 @@ import Atlas.Knowledge.GroupAbsoluteInertiaDegree
 import Atlas.Knowledge.GroupAbsoluteRamificationIndex
 import Atlas.Knowledge.GroupResidueCharacteristic
 import Atlas.Knowledge.GroupRootOfUnityExponent
+import Atlas.Knowledge.HasseNormPrinciple
 import Atlas.Knowledge.HerbrandPhi
 import Atlas.Knowledge.HerbrandPsi
 import Atlas.Knowledge.HigherUnitGroup
