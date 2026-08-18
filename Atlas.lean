@@ -54,6 +54,7 @@ import Atlas.Knowledge.HerbrandPsi
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.HilbertClassField
 import Atlas.Knowledge.HilbertProductFormula
+import Atlas.Knowledge.IdealPowerResidueSymbol
 import Atlas.Knowledge.IdeleClassGroup
 import Atlas.Knowledge.IdeleClassIdentityComponent
 import Atlas.Knowledge.IdeleClassNormRange
