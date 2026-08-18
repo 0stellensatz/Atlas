@@ -6,6 +6,7 @@
 -- same environment, and is built by name instead.
 
 import Atlas.Knowledge.AbelianizedGaloisRecovery
+import Atlas.Knowledge.AbelianizedGaloisTransfer
 import Atlas.Knowledge.AbsoluteDegree
 import Atlas.Knowledge.AbsoluteGaloisInvariance
 import Atlas.Knowledge.AbsoluteGaloisProsolvability
@@ -14,9 +15,12 @@ import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.AddValMapIntegralClosure
+import Atlas.Knowledge.ArtinMapNormNaturality
+import Atlas.Knowledge.ArtinRamificationCompatibility
 import Atlas.Knowledge.CharacterTwist
 import Atlas.Knowledge.ClosedDerivedSeries
 import Atlas.Knowledge.CompletedUnitGroup
+import Atlas.Knowledge.ConductorExponent
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.DigitSum
 import Atlas.Knowledge.ElementaryFilteredAut
@@ -44,10 +48,14 @@ import Atlas.Knowledge.HerbrandPsi
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.IntegralClosureDVR
+import Atlas.Knowledge.IsArithmeticFrobenius
+import Atlas.Knowledge.IsArtinRestriction
 import Atlas.Knowledge.IsFilteredHom
+import Atlas.Knowledge.IsFrobeniusNormalized
 import Atlas.Knowledge.IsJumpPair
 import Atlas.Knowledge.IsJumpSet
 import Atlas.Knowledge.IsLadicRepresentation
+import Atlas.Knowledge.IsLocalReciprocity
 import Atlas.Knowledge.IsMLFType
 import Atlas.Knowledge.IsMStepSolvable
 import Atlas.Knowledge.IsMStepSolvableRep
@@ -72,6 +80,7 @@ import Atlas.Knowledge.MStepSolvableStability
 import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
 import Atlas.Knowledge.MinpolyMapEqCharpoly
 import Atlas.Knowledge.MonogenicIntegralClosure
+import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.ParityIndex
 import Atlas.Knowledge.QuasiFreeFiltered

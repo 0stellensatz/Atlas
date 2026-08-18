@@ -17,6 +17,8 @@ makes those shifts the ones relevant to local fields.
 
 * `higherUnitGroup_antitone` — the family decreases in `i`, which is what "filtration" means and
   what the real-indexed wrapper `Atlas.Knowledge.RealHigherUnitGroup` passes along.
+* `mem_higherUnitGroup_iff` — membership through the units of the integer ring: the
+  translate-set carrier identified with the mapped-subgroup presentation.
 
 ## Implementation notes
 
@@ -31,6 +33,8 @@ search on the subtype `↥(𝓂[K] ^ i : Ideal ↥𝒪[K])`, which is the expens
 ## References
 
 * [Pagano2022] C. Pagano, *Jump sets in local fields*, J. Algebra **593** (2022), 398–476.
+* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
+  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -80,5 +84,40 @@ theorem higherUnitGroup_antitone (K : Type*) [Field K] [ValuativeRel K] :
   intro i j h x hx
   obtain ⟨y, hy⟩ := hx
   exact ⟨⟨(y : ↥𝒪[K]), Ideal.pow_le_pow_right (Nat.cast_le.mpr h) y.2⟩, hy⟩
+
+set_option synthInstance.maxHeartbeats 40000 in
+-- The instance search on the subtype `↥(𝓂[K] ^ i : Ideal ↥𝒪[K])` is again the expensive step
+-- and does not fit the default budget.
+/-- Membership in the higher unit group through the units of the integer ring: `x ∈ U i (K)`
+iff some unit `u` of `𝒪[K]` congruent to `1` modulo `𝓂[K] ^ i` maps to `x` under the
+inclusion `𝒪[K]ˣ → Kˣ` — the translate-set carrier identified with the mapped-subgroup
+presentation of the principal units
+([Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/PrincipalUnits.lean:18`][Yamaguchi2026]). -/
+theorem mem_higherUnitGroup_iff (K : Type*) [Field K] [ValuativeRel K] (i : ℕ+) (x : Kˣ) :
+    x ∈ higherUnitGroup K i ↔
+      ∃ u : (↥𝒪[K])ˣ,
+        ((u : ↥𝒪[K]) - 1) ∈ (𝓂[K] ^ (i : ℕ) : Ideal ↥𝒪[K]) ∧
+          Units.map (𝒪[K].subtype : ↥𝒪[K] →* K) u = x := by
+  constructor
+  · rintro ⟨y, hy⟩
+    have hym : (y : ↥𝒪[K]) ∈ 𝓂[K] := Ideal.pow_le_self i.pos.ne' y.2
+    obtain ⟨u, hu⟩ : IsUnit ((1 : ↥𝒪[K]) + (y : ↥𝒪[K])) := by
+      simpa using IsLocalRing.isUnit_one_sub_self_of_mem_nonunits (-(y : ↥𝒪[K]))
+        ((IsLocalRing.mem_maximalIdeal _).mp (neg_mem hym))
+    refine ⟨u, ?_, ?_⟩
+    · rw [hu]
+      simp
+    · ext
+      rw [Units.coe_map]
+      simp only [MonoidHom.coe_coe, Subring.coe_subtype]
+      rw [hu]
+      push_cast
+      exact hy
+  · rintro ⟨u, hu1, rfl⟩
+    refine ⟨⟨(u : ↥𝒪[K]) - 1, hu1⟩, ?_⟩
+    push_cast
+    rw [Units.coe_map]
+    simp
 
 end Atlas.Knowledge
