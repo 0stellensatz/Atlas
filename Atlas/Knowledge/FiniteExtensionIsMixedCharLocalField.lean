@@ -56,7 +56,7 @@ namespace FiniteExtensionIsMixedCharLocalField
 that extends the base and the topology it induces, is locally compact: it is complete as a
 finite-dimensional topological vector space over a complete base, and its residue field is
 finite. Claim recorded ahead of its proof
-([Serre 1979, Chap. II, §1, Prop. 1, p.27, and §2, Prop. 3, pp.28–29][Serre1979]). -/
+([Serre 1979, Chap. II, §1, Prop. 1, p.27, and §2, Prop. 3 and Cor. 1, pp.28–29][Serre1979]). -/
 theorem locallyCompactSpace (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] (L : Type*) [Field L] [ValuativeRel L] [TopologicalSpace L]
     [Algebra K L] [ValuativeExtension K L] [FiniteDimensional K L] [IsValuativeTopology L] :

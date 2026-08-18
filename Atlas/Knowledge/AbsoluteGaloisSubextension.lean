@@ -6,13 +6,12 @@ import Mathlib
 The fixing subgroup of a subextension is the absolute Galois group of the subextension: for an
 intermediate field `l` of the algebraic closure of `k`, the subgroup of
 `Field.absoluteGaloisGroup k` fixing `l` pointwise, in its subspace topology, is topologically
-isomorphic to `Field.absoluteGaloisGroup ↥l`. Combined with the infinite Galois
-correspondence—in characteristic zero every open subgroup is the fixing subgroup of a finite
-subextension, proved here from Mathlib's `InfiniteGalois`—this is the identification of open
-subgroups of the absolute Galois group with absolute Galois groups of finite extensions, the
-mechanism by which a group-theoretic statement about open subgroups becomes a field-theoretic
-statement about finite extensions, as in the level identity of
-`Atlas.Knowledge.MStepSolvableSubextension`.
+isomorphic to `Field.absoluteGaloisGroup ↥l`. Combined with the infinite Galois correspondence—in
+characteristic zero every open subgroup is the fixing subgroup of a finite subextension, proved
+here from Mathlib's `InfiniteGalois`—this is the identification of open subgroups of the
+absolute Galois group with absolute Galois groups of finite extensions, the mechanism by which
+a group-theoretic statement about open subgroups becomes a field-theoretic statement about
+finite extensions, as in the level identity of `Atlas.Knowledge.MStepSolvableSubextension`.
 
 ## Main statements
 
@@ -26,11 +25,18 @@ statement about finite extensions, as in the level identity of
 The isomorphism claim is `Nonempty`-shaped because it conjugates a choice: `AlgebraicClosure
 ↥l` and `AlgebraicClosure k` are two algebraic closures of `l`, identified by an `l`-algebra
 isomorphism that exists but is not canonical. The topological content is that the subspace
-topology on the fixing subgroup is its own Krull topology. No hypothesis on `k` is needed for
-the isomorphism; the open-subgroup dictionary does need the Galois correspondence, so it asks
-for `CharZero`, which makes the algebraic closure Galois over `k`—the layer applies it to
-mixed-characteristic local fields only. The dictionary produces the fixing subgroup equal to
-the given subgroup, not merely isomorphic, so consumers can rewrite along it.
+topology on the fixing subgroup is its own Krull topology, which holds because the two
+neighborhood bases of `1` interleave: a basic open `Gal (k̄ / E)`, `E` finite over `k`, cuts
+down to the fixing subgroup of the composite of `l` and `E`, finite over `l`, and every finite
+subextension of `l` sits inside such a composite. No hypothesis on `k` is needed for the
+isomorphism—the algebraic closure of `k` is algebraic over `l` and algebraically closed, so it
+is an algebraic closure of `l` in any characteristic; the cited proposition covers the Galois
+case, and the general case and the topological half are this standard argument, which is why
+the docstring marks them so rather than sourced. The open-subgroup dictionary does need the
+Galois correspondence, so it asks for `CharZero`, which makes the algebraic closure Galois
+over `k`—the layer applies it to mixed-characteristic local fields only. The dictionary
+produces the fixing subgroup equal to the given subgroup, not merely isomorphic, so consumers
+can rewrite along it.
 
 ## References
 
@@ -45,7 +51,9 @@ namespace Atlas.Knowledge
 /-- The fixing subgroup of a subextension `l`, in its subspace topology, is the absolute Galois
 group of `l`: restriction of scalars along `k ⊆ l` and a choice of `l`-isomorphism of
 algebraic closures exhibit `Gal (k̄ / l)` as `Field.absoluteGaloisGroup ↥l`. Claim recorded
-ahead of its proof ([Milne 2022, Chap. 7, Prop. 7.12, p.97][MilneFT]). -/
+ahead of its proof ([Milne 2022, Chap. 7, Prop. 7.12, p.97][MilneFT] for the correspondence
+when the closure is Galois over `k`; the general case and the matching of the subspace
+topology with the Krull topology are standard, per the implementation notes). -/
 theorem absoluteGaloisSubextension_continuousMulEquiv (k : Type*) [Field k]
     (l : IntermediateField k (AlgebraicClosure k)) :
     Nonempty (↥l.fixingSubgroup ≃ₜ* Field.absoluteGaloisGroup ↥l) := by
