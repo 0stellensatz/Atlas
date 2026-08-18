@@ -37,6 +37,7 @@ import Atlas.Knowledge.FilteredModule
 import Atlas.Knowledge.FilteredModulePi
 import Atlas.Knowledge.FilteredProfiniteGroup
 import Atlas.Knowledge.FilteredRhoMap
+import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.GroupAbsoluteDegree
 import Atlas.Knowledge.GroupAbsoluteInertiaDegree
