@@ -33,17 +33,17 @@ structure, and the `Valuation.Compatible` instance is what pins the relation to 
 `v`-adic valuation rather than an arbitrary one — together they are the canonical bridge
 Mathlib's own `Valued`-to-`ValuativeRel` migration uses, so no orphan structure is
 invented. At the pinned Mathlib, `IsNonarchimedeanLocalField` ships with no instance at
-all — not even `ℚ_[p]` — and none of its three components synthesizes for the completion:
-`IsValuativeTopology` (Mathlib carries it only for `WithVal` and for the
-`ValuativeRel`-induced topology, neither of which fires here — its own TODO at
-`Mathlib/NumberTheory/Padics/HeightOneSpectrum.lean:50` says as much),
-`ValuativeRel.IsNontrivial`, and `LocallyCompactSpace`. The first two are routine facts
-about the `Valued` structure; the compactness is Serre's Proposition 1 — locally compact
-iff complete with finite residue field — and is the real content. The source builds the
-same certificate over its normed completion from its own machinery
-(`GlobalClassFieldTheory/Reciprocity/FinitePlaceArtin/Construction.lean:294`, certificate
-at `:305`); Atlas records the claim on Mathlib's `Valued` completion instead and lets the
-backlog carry it.
+all — the `ℚ_[p]` model is Atlas's own, `Atlas.Knowledge.PadicIsMixedCharLocalField` — and
+none of its three components synthesizes for the completion: `IsValuativeTopology` (Mathlib carries
+it only for `WithVal` and for the `ValuativeRel`-induced topology, neither of which fires here —
+its own TODO at `Mathlib/NumberTheory/Padics/HeightOneSpectrum.lean:50` says as much),
+`ValuativeRel.IsNontrivial`, and `LocallyCompactSpace`. The first two are routine facts about the
+`Valued` structure; the compactness is Serre's Proposition 1 — locally compact iff complete with
+finite residue field — and is the real content. The source builds the same certificate over its
+normed completion from its own machinery
+(`GlobalClassFieldTheory/Reciprocity/FinitePlaceArtin/Construction.lean:294`, certificate at
+`:305`); Atlas records the claim on Mathlib's `Valued` completion instead and lets the backlog
+carry it.
 
 ## References
 
