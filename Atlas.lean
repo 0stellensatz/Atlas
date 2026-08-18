@@ -74,6 +74,7 @@ import Atlas.Knowledge.JumpSetVector
 import Atlas.Knowledge.KummerCharacterEquiv
 import Atlas.Knowledge.KummerRadicalSubgroup
 import Atlas.Knowledge.LegendreFormula
+import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LowerRamificationGroup
 import Atlas.Knowledge.MStepSolvableCenterBound
 import Atlas.Knowledge.MStepSolvableCenterFree
