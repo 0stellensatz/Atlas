@@ -100,6 +100,7 @@ import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
 import Atlas.Knowledge.LocalKroneckerWeber
 import Atlas.Knowledge.LowerRamificationGroup
+import Atlas.Knowledge.LubinTateIntertwiner
 import Atlas.Knowledge.LubinTateSeries
 import Atlas.Knowledge.MStepSolvableCenterBound
 import Atlas.Knowledge.MStepSolvableCenterFree
