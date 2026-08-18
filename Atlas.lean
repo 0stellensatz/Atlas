@@ -96,6 +96,7 @@ import Atlas.Knowledge.KummerRadicalSubgroup
 import Atlas.Knowledge.LegendreFormula
 import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
+import Atlas.Knowledge.LocalKroneckerWeber
 import Atlas.Knowledge.LowerRamificationGroup
 import Atlas.Knowledge.MStepSolvableCenterBound
 import Atlas.Knowledge.MStepSolvableCenterFree
