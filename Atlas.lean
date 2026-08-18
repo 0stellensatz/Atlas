@@ -100,6 +100,7 @@ import Atlas.Knowledge.MaximalAbelianSubextension
 import Atlas.Knowledge.MinpolyMapEqCharpoly
 import Atlas.Knowledge.Modulus
 import Atlas.Knowledge.MonogenicIntegralClosure
+import Atlas.Knowledge.NormLimitation
 import Atlas.Knowledge.NormOneIdeleClassIsCompact
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.OutFilt
