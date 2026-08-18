@@ -10,9 +10,11 @@ odd coprime naturals, `J(a|b) · J(b|a) = (-1)^{a/2 · b/2}`, together with the 
 of the quadratic bad-place correction over `ℚ` that turns the general power reciprocity
 law into it. The correction evaluation — the infinite place trivial on positives, the
 dyadic Hilbert symbol contributing the classical sign — is recorded ahead of its proof;
-the law itself is proved, from Mathlib's `jacobiSym.quadratic_reciprocity`, and that
-proof is this project's identification-theorem slot: the statement the source reaches
-from its Artin machinery is verified by the build to be the library's theorem.
+the law itself is proved *from* Mathlib's `jacobiSym.quadratic_reciprocity`, which is how
+the build certifies the CFT-derived form: a three-line derivation, not an identity — the
+two statements differ by the coprimality hypothesis that cancels `J(b|a)²` — and nothing
+formal yet ties this theorem to the recorded class-field chain, which is future work the
+implementation notes lay out.
 
 ## Main statements
 
@@ -25,15 +27,17 @@ from its Artin machinery is verified by the build to be the library's theorem.
 The source derives `gaussReciprocity_nat_from_powerResidueReciprocity` from its general
 law without invoking the library theorem
 (`GlobalClassFieldTheory/Reciprocity/RationalQuadraticPowerResidueReciprocity.lean:1040`)
-and identifies the two post hoc by proof irrelevance (`:1202`). Proof irrelevance makes
-that identification empty as a Lean statement, so Atlas discharges the slot the one way
-the build can keep honest: the CFT-derived form is stated and proved *by* the library
-theorem — `jacobiSym.quadratic_reciprocity` at the pin already carries the `a / 2` Nat-
-division spelling — while the derivation from class field theory lives in the two
-recorded neighbors, `Atlas.Knowledge.powerResidueReciprocity` and the correction
-evaluation here (its source form at `:980`, the dyadic computation behind it at Milne's
-`(u2^r, v2^s)_2` formula). Coprimality enters only to cancel the square `J(b|a)^2`; the
-library statement needs none.
+and identifies the two post hoc by proof irrelevance (`:1202`) — empty as a Lean
+statement, so no identification theorem can carry that content here. What this file does
+instead: it states the CFT-derived form — identical to the source's `:1040` down to the
+`a / 2` Nat-division, which Mathlib's `jacobiSym.quadratic_reciprocity` also carries at
+the pin — and proves it from the library theorem, with coprimality entering only to
+cancel the square `J(b|a)^2`, which the library statement does not need. The derivation
+*from class field theory* is recorded at statement level by the two neighbors —
+`Atlas.Knowledge.powerResidueReciprocity` and the correction evaluation here (its source
+form at `:980`) — but no Lean term yet connects them to `gaussReciprocity`; porting the
+source's specialization (residue fields to `ZMod p`, the quadratic ideal symbol to the
+Jacobi symbol) is the future work that would close that loop formally.
 
 ## References
 
@@ -69,8 +73,8 @@ theorem powerResidueBadPlaceCorrection_rat_two
 /-- **Gauss reciprocity**: for odd coprime naturals,
 `J(a|b) · J(b|a) = (-1)^{a/2 · b/2}` — the form the source derives from power-residue
 reciprocity with the dyadic correction evaluated, proved here from Mathlib's
-`jacobiSym.quadratic_reciprocity`, which is the identification of the class-field route
-with the library theorem
+`jacobiSym.quadratic_reciprocity`; the statements differ by the coprimality that cancels
+`J(b|a)²`, and the tie to the recorded class-field chain is future work
 ([Milne 2020, Chap. VIII, §5, pp.243, 248][MilneCFT];
 [Yamaguchi 2026,
 `GlobalClassFieldTheory/Reciprocity/RationalQuadraticPowerResidueReciprocity.lean:1040`,

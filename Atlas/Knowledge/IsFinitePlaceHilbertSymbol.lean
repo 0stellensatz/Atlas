@@ -107,7 +107,7 @@ theorem pow_eq_one [IsMixedCharLocalField (v.adicCompletion K)]
   exact hH.pow_eq_one hn _ _
 
 /-- The finite-place symbol is multiplicative in its first slot
-([Milne 2020, Chap. VIII, §5, p.246][MilneCFT]). -/
+([Milne 2020, Chap. III, §4, Thm. 4.4 (a), p.113][MilneCFT]). -/
 theorem mul_left [IsMixedCharLocalField (v.adicCompletion K)]
     (hh : IsFinitePlaceHilbertSymbol K n v h) (hn : n ≠ 0) (a a' b : Kˣ) :
     h (a * a') b = h a b * h a' b := by
@@ -117,7 +117,7 @@ theorem mul_left [IsMixedCharLocalField (v.adicCompletion K)]
   exact hH.mul_left hn _ _ _
 
 /-- The finite-place symbol is multiplicative in its second slot
-([Milne 2020, Chap. VIII, §5, p.246][MilneCFT]). -/
+([Milne 2020, Chap. III, §4, Thm. 4.4 (a), p.113][MilneCFT]). -/
 theorem mul_right [IsMixedCharLocalField (v.adicCompletion K)]
     (hh : IsFinitePlaceHilbertSymbol K n v h) (hn : n ≠ 0) (a b b' : Kˣ) :
     h a (b * b') = h a b * h a b' := by

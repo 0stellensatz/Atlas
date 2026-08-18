@@ -89,9 +89,9 @@ theorem infinitePlaceHilbertSymbol_eq_one_of_isComplex (n : ℕ) {v : InfinitePl
   exact (InfinitePlace.not_isReal_iff_isComplex.mpr hv) hreal
 
 omit [NumberField K] in
-/-- Away from the quadratic exponent the infinite factor is trivial
-([Milne 2020, Chap. VIII, §5, p.248][MilneCFT];
-[Yamaguchi 2026,
+/-- Away from the quadratic exponent the infinite factor is trivial — `μₙ ⊄ ℝ` past
+`n = 2`, so only the quadratic case can see a real place
+([Yamaguchi 2026,
 `GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/InfinitePlace.lean:59`]
 [Yamaguchi2026]). -/
 theorem infinitePlaceHilbertSymbol_eq_one_of_ne_two {n : ℕ} (hn : n ≠ 2)

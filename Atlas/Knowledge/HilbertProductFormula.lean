@@ -31,8 +31,8 @@ supports of the two arguments, both arguments are units at an unramified place, 
 symbol dies. The formula's future proof is the source's: map the product of local Artin
 factors of a principal idele through the Kummer root character
 (`GlobalClassFieldTheory/Reciprocity/HilbertProductFormula.lean:172`, support at
-`GlobalHilbertSymbol/FinitePlaceFiniteSupport.lean:29`) — the idèle-class machinery
-enters there, not in the statement.
+`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/FinitePlaceFiniteSupport.lean:29`)
+— the idèle-class machinery enters there, not in the statement.
 
 ## References
 

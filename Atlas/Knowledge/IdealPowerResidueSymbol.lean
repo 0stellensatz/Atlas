@@ -99,8 +99,7 @@ noncomputable def idealPowerResidueFactor (I : Ideal (𝓞 K)) {n : ℕ} (hn : n
     1
 
 /-- Only divisors of the denominator contribute a nontrivial factor
-([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:369`]
+([Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:369`]
 [Yamaguchi2026]). -/
 theorem idealPowerResidueFactor_mulSupport_finite (I : Ideal (𝓞 K)) (hI : I ≠ 0)
     {n : ℕ} (hn : n ≠ 0) (hmu : (primitiveRoots n K).Nonempty) (a : 𝓞 K)

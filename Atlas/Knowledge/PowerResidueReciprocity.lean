@@ -58,8 +58,8 @@ variable {K : Type*} [Field K] [NumberField K]
 with the first argument a local unit, the symbol is the prime power residue symbol raised
 to the valuation of the second argument — `(a,b)_v = (a/𝔭_v)^{ord_v(b)}`. Claim recorded
 ahead of its proof ([Milne 2020, Chap. VIII, §5, 5.8, p.246][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1176`,
-used through the factor form][Yamaguchi2026]). -/
+[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1017`]
+[Yamaguchi2026]). -/
 theorem IsFinitePlaceHilbertSymbol.tame_eq {n : ℕ} (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) {v : HeightOneSpectrum (𝓞 K)}
     {h : Kˣ → Kˣ → Kˣ} (hh : IsFinitePlaceHilbertSymbol K n v h)

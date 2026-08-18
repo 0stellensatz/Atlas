@@ -141,6 +141,7 @@ import Atlas.Knowledge.SolvabilityDegree
 import Atlas.Knowledge.SpanOfOpenUnitSubgroup
 import Atlas.Knowledge.StandardFiltered
 import Atlas.Knowledge.TRhoEP
+import Atlas.Knowledge.UnitFiniteSupport
 import Atlas.Knowledge.UpperRamificationGroup
 import Atlas.Knowledge.WildInertiaSubgroup
 
