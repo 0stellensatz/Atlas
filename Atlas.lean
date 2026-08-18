@@ -15,6 +15,7 @@ import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.AddValMapIntegralClosure
+import Atlas.Knowledge.AdicCompletionIsMixedCharLocalField
 import Atlas.Knowledge.ArtinMapNormNaturality
 import Atlas.Knowledge.ArtinRamificationCompatibility
 import Atlas.Knowledge.CharacterTwist
