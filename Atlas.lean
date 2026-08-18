@@ -146,6 +146,7 @@ import Atlas.Knowledge.SolvabilityDegree
 import Atlas.Knowledge.SpanOfOpenUnitSubgroup
 import Atlas.Knowledge.StandardFiltered
 import Atlas.Knowledge.StandardLubinTateFormalGroup
+import Atlas.Knowledge.StandardLubinTateGaloisDescription
 import Atlas.Knowledge.StandardLubinTateLevelField
 import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTatePolynomial
