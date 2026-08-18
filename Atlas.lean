@@ -88,6 +88,7 @@ import Atlas.Knowledge.MStepSolvableQuotient
 import Atlas.Knowledge.MStepSolvableStability
 import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
 import Atlas.Knowledge.MaximalAbelianExtension
+import Atlas.Knowledge.MaximalAbelianSubextension
 import Atlas.Knowledge.MinpolyMapEqCharpoly
 import Atlas.Knowledge.Modulus
 import Atlas.Knowledge.MonogenicIntegralClosure
