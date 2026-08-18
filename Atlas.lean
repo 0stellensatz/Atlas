@@ -64,6 +64,7 @@ import Atlas.Knowledge.IsArithmeticFrobenius
 import Atlas.Knowledge.IsArtinRestriction
 import Atlas.Knowledge.IsConductor
 import Atlas.Knowledge.IsFilteredHom
+import Atlas.Knowledge.IsFinitePlaceHilbertSymbol
 import Atlas.Knowledge.IsFrobeniusNormalized
 import Atlas.Knowledge.IsGlobalArtinMap
 import Atlas.Knowledge.IsJumpPair
