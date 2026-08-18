@@ -122,6 +122,7 @@ import Atlas.Knowledge.NormLimitation
 import Atlas.Knowledge.NormOneIdeleClassIsCompact
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.OutFilt
+import Atlas.Knowledge.PadicExpConvergence
 import Atlas.Knowledge.PadicIsMixedCharLocalField
 import Atlas.Knowledge.PadicLogarithm
 import Atlas.Knowledge.ParityIndex
