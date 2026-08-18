@@ -25,6 +25,7 @@ import Atlas.Knowledge.CompletedUnitGroup
 import Atlas.Knowledge.ConductorExponent
 import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
+import Atlas.Knowledge.DeepUnitGroup
 import Atlas.Knowledge.DigitSum
 import Atlas.Knowledge.ElementaryFilteredAut
 import Atlas.Knowledge.ExistsClassField
