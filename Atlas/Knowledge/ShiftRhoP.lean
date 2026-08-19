@@ -16,6 +16,10 @@ two characteristics rather than a gap in what is formalized here.
 
 * `ρ_p` — the shift `i ↦ p * i`.
 
+## Main statements
+
+* `ρ_p_iterate` — iterating the shift is scaling by the corresponding power of `p`.
+
 ## References
 
 * [Pagano2022] C. Pagano, *Jump sets in local fields*, J. Algebra **593** (2022), 398–476.
