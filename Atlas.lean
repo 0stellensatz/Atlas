@@ -96,6 +96,7 @@ import Atlas.Knowledge.IsProSylow
 import Atlas.Knowledge.IsProfiniteTransfer
 import Atlas.Knowledge.IsProsolvable
 import Atlas.Knowledge.IsTateSystem
+import Atlas.Knowledge.IsUnitFiltration
 import Atlas.Knowledge.JumpMultiplicity
 import Atlas.Knowledge.JumpOrder
 import Atlas.Knowledge.JumpPairOf
@@ -174,6 +175,7 @@ import Atlas.Knowledge.StandardLubinTateSeries
 import Atlas.Knowledge.StandardLubinTateUpperRamification
 import Atlas.Knowledge.TRhoEP
 import Atlas.Knowledge.TateTwist
+import Atlas.Knowledge.UnitFiltrationQuasiFree
 import Atlas.Knowledge.UnitFiniteSupport
 import Atlas.Knowledge.UpperRamificationGroup
 import Atlas.Knowledge.WildInertiaSubgroup
