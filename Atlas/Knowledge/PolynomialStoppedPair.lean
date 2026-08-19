@@ -21,16 +21,20 @@ Theorem 10.1, recorded in `Atlas.Knowledge.FieldJumpsBelowE`.
 
 A weight determines its monomial: `deg g · v + α` with `1 ≤ α ≤ deg g` is division with
 remainder, so the increasing arrangement has no ties and the record condition quantifies over
-strictly lighter monomials without a tie rule. Exactness of the division by the `p`-part of
-the index is part of membership rather than a consequence—at level `j ≥ 1` it is not
-automatic as it was for `Atlas.Knowledge.EisensteinGraph`, and the source's Procedure
-guarantees it only at the selected monomials—so junk quotients are unrepresentable. The
-leading monomial always contributes the first record, its weight least and its coefficient a
-unit. At level zero the records recover the minimal points of the coefficient graph
-`Atlas.Knowledge.EisensteinGraph`, the record condition and `≤_ρ`-minimality agreeing on a
-tie-free graph—the identification by which the source's §10 subsumes its introduction's
-recipe. The definition is total; the statements about it hypothesize Eisenstein and the
-level's base field.
+strictly lighter monomials without a tie rule. The index range starts at `1`, dropping the
+source's constant term: under Eisenstein the constant's weight ties with the leading
+monomial's—the one tie the range removes—its index has no `p`-adic valuation to shoot with,
+and Mathlib's `padicValNat p 0 = 0` would otherwise install a spurious competitor blocking
+every record. Exactness of the division by the `p`-part of the index is a membership
+conjunct so that the definition stays honest off the Eisenstein locus; on it the conjunct is
+automatic at every record, the leading monomial being the strict weight minimum, so a record
+off the leading index has `p`-adic valuation below the degree's and its `p`-part divides the
+weight—the argument of `Atlas.Knowledge.EisensteinGraph`. The leading monomial always
+contributes the first record, its weight least and its coefficient a unit. At level zero the
+records recover the minimal points of the coefficient graph, the record condition and
+`≤_ρ`-minimality agreeing on a tie-free graph—the identification by which the source's §10
+subsumes its introduction's recipe. The definition is total; the statements about it
+hypothesize Eisenstein and the level's base field.
 
 ## References
 

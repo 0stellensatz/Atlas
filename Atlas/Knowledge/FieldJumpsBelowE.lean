@@ -8,15 +8,18 @@ import Atlas.Knowledge.ShiftRhoEP
 import Atlas.Knowledge.TRhoEP
 
 /-!
-# field jumps below e from the polynomial
+# field jumps below e
 
-The source's Theorem 10.1: at level `j`, the part of the cut-out field's invariant lying
-below `e` is computed by the stopped pair of the Eisenstein polynomial—the points of the
+The source's Theorem 10.1: at a positive level `j`, the part of the cut-out field's invariant
+lying below `e` is computed by the stopped pair of the Eisenstein polynomial—the points of the
 presenting pair whose level satisfies `p^{β - j - 1} · i < e` are exactly the points of
-`Atlas.Knowledge.PolynomialStoppedPair` with every multiplicity raised by `j`. This is the
-level-`j` generalization of `Atlas.Knowledge.EisensteinFieldInvariant`'s Theorem 1.11, which
-it recovers at `j = 0` on the full pair; above the cut nothing is asserted, which is the
-theorem's honesty about where the coefficients stop seeing the field.
+`Atlas.Knowledge.PolynomialStoppedPair` with every multiplicity raised by `j`. Positivity of
+`j` is the source's "let `j` be a positive integer" and it cannot be dropped: at `(p, j) =
+(2, 0)` the source's own `x ^ 2 + 2 * x + 2` over `ℚ_2` has invariant `{1}` while its stopped
+pair is not empty, the counterexample its §10 closes with. This is the positive-level
+counterpart of `Atlas.Knowledge.EisensteinFieldInvariant`'s Theorem 1.11, whose level-zero
+world needs the strong separability this theorem trades for `j ≥ 1`; above the cut nothing is
+asserted, which is the theorem's honesty about where the coefficients stop seeing the field.
 
 ## Main statements
 
@@ -44,12 +47,12 @@ namespace Atlas.Knowledge
 
 open ValuativeRel
 
-/-- The source's Theorem 10.1: below `e`, the presenting pair of the field cut out by an
-Eisenstein polynomial over `ℚ_{p^f} (ζ_{p^{j+1}})` is the polynomial's stopped pair with
-every multiplicity raised by `j`. Claim recorded ahead of its proof
+/-- The source's Theorem 10.1: at a positive level, below `e`, the presenting pair of the
+field cut out by an Eisenstein polynomial over `ℚ_{p^f} (ζ_{p^{j+1}})` is the polynomial's
+stopped pair with every multiplicity raised by `j`. Claim recorded ahead of its proof
 ([Pagano 2022, Thm. 10.1, p.469][Pagano2022]). -/
 theorem isStarQuotient_filter_eq_polynomialStoppedPair (p e f : ℕ+) (j : ℕ)
-    [Fact (p : ℕ).Prime] (hp1 : 1 < p)
+    [Fact (p : ℕ).Prime] (hp1 : 1 < p) (hj : 0 < j)
     (E : Type*) [Field E] [ValuativeRel E] [TopologicalSpace E] [IsMixedCharLocalField E]
     (hpE : (p : ℕ) = residueCharacteristic E)
     (heE : (p : ℕ) ^ j * ((p : ℕ) - 1) = absoluteRamificationIndex E)
