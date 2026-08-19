@@ -1,5 +1,4 @@
 import Mathlib
-import Atlas.Knowledge.IsMixedCharLocalField
 
 /-!
 # Eisenstein polynomials of a local field
