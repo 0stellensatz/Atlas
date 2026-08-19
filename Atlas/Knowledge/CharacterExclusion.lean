@@ -22,13 +22,15 @@ uniqueness of `Atlas.Knowledge.UnitFiltrationClassification`'s layer.
 
 * `exclusionMax` — the source's `Max`: the common levels of largest positive multiplicity
   excess.
+* `exclusionPoint`, `ExclusionCondition` — the adjoined point and the maximality condition
+  the criterion tests it with.
 
 ## Main statements
 
 All are claims recorded ahead of their proofs.
 
 * `characterJumpSets_subset_of_isQuasiFree` — `𝒥_{M_•} ⊆ Jump*_ρ` on a quasi-free module.
-* `notMem_characterJumpSets_iff_of_two_lt` — the exclusion criterion away from residue
+* `notMem_characterJumpSets_iff_of_ne_two` — the exclusion criterion away from residue
   field `𝔽_2`.
 * `notMem_characterJumpSets_iff_of_eq_two` — the exclusion criterion at residue field `𝔽_2`.
 
@@ -95,7 +97,7 @@ theorem characterJumpSets_subset_of_isQuasiFree (ρ : Shift) (hρ : (Shift.T ρ)
 not a set of jumps of a character exactly when its `Max` against the presenting pair is a
 singleton—forced to `{e_ρ^*}` at `f > 1`—and the adjoined points are maximal. Claim recorded
 ahead of its proof ([Pagano 2022, Thm. 4.8 (a), p.439][Pagano2022]). -/
-theorem notMem_characterJumpSets_iff_of_two_lt (ρ : Shift) (hρ : (Shift.T ρ).Finite)
+theorem notMem_characterJumpSets_iff_of_ne_two (ρ : Shift) (hρ : (Shift.T ρ).Finite)
     (f : ℕ+) {π : R} (hπ : Irreducible π) {Q : Finset (ℕ+ × ℕ+)} {F : FilteredModule R M}
     (hqf : IsQuasiFree ρ hρ f hπ F) (hnf : ¬ IsFree ρ hρ f F)
     (hQP : IsJumpPair ρ (Shift.T_star ρ hρ) Q) (hQ : IsStarQuotient ρ hρ f hπ Q F)

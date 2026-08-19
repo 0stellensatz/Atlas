@@ -22,14 +22,17 @@ it.
 ## Implementation notes
 
 A block of the index `D` is the submodule of vectors vanishing off one level, the reading of
-the source's `proj_i`-images that needs no decomposition of the model. The order is an `sInf`
-over the positive `r` with `π ^ r` killing the character's block image; on a block the
-character does not kill, over a finite index every element of `Q(R) ⧸ R` is killed by some
-power, so the set is nonempty and the `sInf` genuine—`0` is the junk value at a block already
-killed, and the graph never reads it, its filter keeping exactly the unkilled levels. The
-uniformizer is guarded by irreducibility as in `Atlas.Knowledge.IsStarQuotient`; the value
-does not depend on the choice, two uniformizers differing by a unit. `Nat.toPNat'` on the
-order is exact on the graph, the order being at least `1` there.
+the source's `proj_i`-images that needs no decomposition of the model; it needs no valuation,
+so it is stated over a domain, while the order and the graph bind the discrete valuation ring
+explicitly—a `variable` block would drop the unmentioned instance, and away from it the `sInf`
+below loses its meaning. The order is an `sInf` over the positive `r` with `π ^ r` killing the
+character's block image; over a discrete valuation ring every element of `Q(R) ⧸ R` is killed
+by a power of the uniformizer and a block is finitely generated, so the set is nonempty at
+*every* block and the `sInf` genuine—at a killed block the value is `1`, which the graph never
+reads, its filter keeping exactly the unkilled levels. The uniformizer is guarded by
+irreducibility as in `Atlas.Knowledge.IsStarQuotient`; the value does not depend on the
+choice, two uniformizers differing by a unit. `Nat.toPNat'` on the order is exact on the
+graph, the order being at least `1` wherever the set is nonempty.
 
 ## References
 
@@ -38,7 +41,7 @@ order is exact on the graph, the order being at least `1` there.
 
 namespace Atlas.Knowledge
 
-variable {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+variable {R : Type*} [CommRing R] [IsDomain R]
 
 /-- The **block** of a level in a free model: the submodule of vectors supported on the
 indices of that level—the image of the source's `proj_i`
@@ -54,18 +57,19 @@ set_option linter.unusedVariables false in
 -- uniformizer—but the notion is the source's only at one, and the guard keeps junk scalars
 -- unstatable.
 /-- The **order** `b_χ` of a character at a level: the least positive power of the uniformizer
-killing the character on the block—`sInf` of the killing exponents, whose junk value `0` at a
-killed block the graph never reads ([Pagano 2022, Def. 4.2, p.436][Pagano2022]). -/
-noncomputable def characterOrder {D : Finset (ℕ+ × ℕ)} {π : R} (hπ : Irreducible π)
-    (χ : (↥D → R) →ₗ[R] fractionQuotient R) (a : ℕ+) : ℕ :=
+killing the character on the block—`sInf` of the killing exponents, a nonempty set over a
+discrete valuation ring, with value `1` at a killed block, which the graph never reads
+([Pagano 2022, Def. 4.2, p.436][Pagano2022]). -/
+noncomputable def characterOrder [IsDiscreteValuationRing R] {D : Finset (ℕ+ × ℕ)} {π : R}
+    (hπ : Irreducible π) (χ : (↥D → R) →ₗ[R] fractionQuotient R) (a : ℕ+) : ℕ :=
   sInf {r : ℕ | 1 ≤ r ∧ ∀ v ∈ blockSubmodule D a, π ^ r • χ v = 0}
 
 open Classical in
 /-- The **graph of a character** of a free model: one point per level whose block the
 character does not kill, paired with its order—the source's `(A_χ, b_χ)`, carried as a graph
 ([Pagano 2022, Def. 4.2, p.436][Pagano2022]). -/
-noncomputable def characterGraph {D : Finset (ℕ+ × ℕ)} {π : R} (hπ : Irreducible π)
-    (χ : (↥D → R) →ₗ[R] fractionQuotient R) : Finset (ℕ+ × ℕ+) :=
+noncomputable def characterGraph [IsDiscreteValuationRing R] {D : Finset (ℕ+ × ℕ)} {π : R}
+    (hπ : Irreducible π) (χ : (↥D → R) →ₗ[R] fractionQuotient R) : Finset (ℕ+ × ℕ+) :=
   ((D.image Prod.fst).filter fun i => Submodule.map χ (blockSubmodule D i) ≠ ⊥).image
     fun a => (a, (characterOrder hπ χ a).toPNat')
 
