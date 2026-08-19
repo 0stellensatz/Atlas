@@ -21,6 +21,7 @@ import Atlas.Knowledge.ArtinMapNormNaturality
 import Atlas.Knowledge.ArtinMapProfiniteTransferNaturality
 import Atlas.Knowledge.ArtinRamificationCompatibility
 import Atlas.Knowledge.AxSenTate
+import Atlas.Knowledge.BreakFunction
 import Atlas.Knowledge.CharacterExclusion
 import Atlas.Knowledge.CharacterGraph
 import Atlas.Knowledge.CharacterRegularization
@@ -205,11 +206,16 @@ import Atlas.Knowledge.StandardLubinTateUpperRamification
 import Atlas.Knowledge.StoppedGameJumpPair
 import Atlas.Knowledge.StronglyEisensteinExtremal
 import Atlas.Knowledge.TRhoEP
+import Atlas.Knowledge.TameBaseChange
 import Atlas.Knowledge.TateTwist
 import Atlas.Knowledge.UnitFiltrationClassification
 import Atlas.Knowledge.UnitFiltrationQuasiFree
 import Atlas.Knowledge.UnitFiniteSupport
+import Atlas.Knowledge.UnitPairFree
+import Atlas.Knowledge.UnitPairIndependence
+import Atlas.Knowledge.UnitPairOrbit
 import Atlas.Knowledge.UpperRamificationGroup
+import Atlas.Knowledge.WildBaseChange
 import Atlas.Knowledge.WildInertiaSubgroup
 
 import Atlas.Questions.«20260813».Development
