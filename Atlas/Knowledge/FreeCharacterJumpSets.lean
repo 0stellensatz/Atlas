@@ -1,6 +1,6 @@
 import Mathlib
-import Atlas.Knowledge.IsFilteredCharacter
 import Atlas.Knowledge.FreeFiltered
+import Atlas.Knowledge.IsFilteredCharacter
 import Atlas.Knowledge.IsJumpSet
 import Atlas.Knowledge.ShiftTStar
 
@@ -14,17 +14,17 @@ analogue of the orbit classification `Atlas.Knowledge.FiltOrd` records for vecto
 cases jump sets parametrize, there orbits, here sets of jumps—and the base the exclusion
 criterion `Atlas.Knowledge.CharacterExclusion` cuts against on a quasi-free module.
 
+## Main definitions
+
+* `jumpSetFamily` — the `ρ`-jump sets relative to an index set, as a collection of sets: the
+  source's `Jump_ρ` and `Jump*_ρ` in the shape `𝒥` takes its values.
+
 ## Main statements
 
 Both are claims recorded ahead of their proofs.
 
 * `characterJumpSets_freeIndex` — `𝒥_{M_ρ^f} = Jump_ρ`.
 * `characterJumpSets_starIndex` — `𝒥_{M_ρ^{f-1} ⊕ M_ρ^*} = Jump*_ρ`.
-
-## Main definitions
-
-* `jumpSetFamily` — the `ρ`-jump sets relative to an index set, as a collection of sets: the
-  source's `Jump_ρ` and `Jump*_ρ` in the shape `𝒥` takes its values.
 
 ## Implementation notes
 

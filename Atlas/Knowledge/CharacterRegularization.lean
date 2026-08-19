@@ -32,10 +32,13 @@ over an arbitrary finite index, a deliberate widening recorded as in
 `Atlas.Knowledge.IsStarQuotient`: the arguments—coordinate transformations erasing dominated
 points, and the decay of block orders along the shift's orbits—see only the levels and
 multiplicities of the index, never membership of the levels in `T_ρ`, so the model's shape
-does not enter. The jump-pair hypothesis of the second claim is stated over unconstrained
-levels, `Set.univ`, the weakest form under which the conclusion's right side is the intended
-object; the composition with a filtered automorphism is composition with its underlying linear
-map.
+does not enter. Neither claim hypothesizes `Atlas.Knowledge.IsFilteredCharacter`, and neither
+does the source: over a finite index every linear map into `Q(R) ⧸ R` is a character, its
+image killed by a power of the uniformizer and the deep filtration steps falling into the
+corresponding multiples. The jump-pair hypothesis of the second claim is stated over
+unconstrained levels, `Set.univ`, the weakest form under which the conclusion's right side is
+the intended object; the composition with a filtered automorphism is composition with its
+underlying linear map.
 
 ## References
 
