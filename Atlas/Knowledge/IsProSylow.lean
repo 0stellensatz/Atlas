@@ -12,8 +12,8 @@ which Sylow-ness at every level packages; the source's own existence proof runs 
 the image of a Sylow subgroup under a surjection onto a further level is again one
 ([Serre 1994, Chap. I, §1.4, Prop. 4, p.6][Serre1994]; Mathlib's `Sylow.mapSurjective`).
 Existence, conjugacy, and the containment of every pro-`p` subgroup in a Sylow one are the
-recorded claims. Uniqueness in the abelian case is proved outright,
-and is the form the layer consumes: the torsion-level Sylow readings of
+recorded claims. Uniqueness in the abelian case is proved outright, and is the form the
+layer consumes: the torsion-level Sylow readings of
 `Atlas.Knowledge.GroupRootOfUnityExponent` and `Atlas.Knowledge.GroupAbsoluteInertiaDegree`,
 and, one gate ahead, the group-theoretic wild inertia of an MLF-type group
 `Atlas.Knowledge.IsMLFType`—the source's *unique* pro-`p` Sylow subgroup of the inertia part,
