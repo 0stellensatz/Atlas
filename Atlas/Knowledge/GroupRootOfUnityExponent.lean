@@ -28,7 +28,11 @@ finite abelian group that order is the `p(G)`-part of the group order, so the en
 and no Sylow machinery. When the torsion is infinite `Nat.card` is `0`, whose factorization is
 `0` everywhere—the junk value is `0`. The Sylow reading itself is `card_sylow`, which restores
 the subgroup language where a consumer wants it; the profinite-level vocabulary is
-`Atlas.Knowledge.IsProSylow`.
+`Atlas.Knowledge.IsProSylow`. In `card_sylow` the primality hypothesis and the finite torsion
+together force `G` infinite—a finite `G` is all torsion, the quotient by the torsion is
+trivial, and `p(G)` junks to `0`, never prime—so the honest domain is the infinite abelian
+groups with finite torsion, the MLF^ab-type groups among them. The primality is load-bearing:
+at `p(G) = 0` the whole group is a Sylow `0`-subgroup while the right side is `1`.
 
 ## References
 
