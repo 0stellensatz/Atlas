@@ -17,7 +17,7 @@ presented, in the sense of `Atlas.Knowledge.IsStarQuotient`, by a unique extende
 the invariant `(I_K, β_K)` of the field. Uniqueness is what makes it an invariant, and the
 identification `Atlas.Knowledge.filtOrd_jumpSetVector` is how it is read off a presentation:
 the filtered order of the kernel's normal form is the jump set of the pair. Which pairs occur
-is answered by `Atlas.Knowledge.jumpSetRealization`.
+is answered by `Atlas.Knowledge.JumpSetRealization`.
 
 ## Main statements
 
@@ -32,8 +32,9 @@ Both are claims recorded ahead of their proofs.
 
 The condition `μ_p (K) ≠ {1}` is spelled as a unit of the field of order exactly `p`: a `ζ`
 with `ζ ^ p = 1` and `ζ ≠ 1`. Uniqueness in the second claim runs over every extended jump
-pair, not only the admissible ones—the source's Theorem 3.35 bounds the orbit of a normal form
-by one pair with no admissibility hypothesis—and admissibility of the unique pair then follows
+pair, not only the admissible ones—the source bounds the orbit of a normal form by one pair
+with no admissibility hypothesis
+([Pagano 2022, Cor. 3.35, p.433][Pagano2022])—and admissibility of the unique pair then follows
 by combining `Atlas.Knowledge.UnitFiltrationQuasiFree` with
 `Atlas.Knowledge.IsStarQuotient.isAdmissibleJumpPair`, so it is not restated here. The
 uniformizer of the presentation is `p` itself, matching the defect reading of the quasi-free
@@ -78,7 +79,7 @@ theorem existsUnique_isStarQuotient_unitFiltration (K : Type*) [Field K] [Valuat
     (hF : IsUnitFiltration K (p : ℕ) F) :
     ∃! P : Finset (ℕ+ × ℕ+),
       IsJumpPair (ρ_ep e p hp1) (Shift.T_star (ρ_ep e p hp1) (T_ρ_ep_finite e p hp1)) P ∧
-        IsStarQuotient (ρ_ep e p hp1) (T_ρ_ep_finite e p hp1) f ((p : ℕ) : ℤ_[(p : ℕ)]) P F := by
+        IsStarQuotient (ρ_ep e p hp1) (T_ρ_ep_finite e p hp1) f PadicInt.irreducible_p P F := by
   sorry
 
 end Atlas.Knowledge

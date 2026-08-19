@@ -9,8 +9,8 @@ The **admissible** extended jump pairs: those whose minimal level, pushed along 
 times as its multiplicity, lands exactly on `e_ρ^*`. These are the extended jump sets that
 parametrize the `(f, ρ)`-quasi-free filtered modules that are not free—the image of the
 presentation `(I, β) ↦ M_ρ^{f - 1} ⊕ M_ρ^* ⧸ R v_{(I, β)}` recorded over
-`Atlas.Knowledge.IsStarQuotient`—and the hypothesis under which the realizability claim
-`Atlas.Knowledge.jumpSetRealization` produces a local field.
+`Atlas.Knowledge.IsStarQuotient`—and the hypothesis under which the realizability claim of
+`Atlas.Knowledge.JumpSetRealization` produces a local field.
 
 ## Main definitions
 
