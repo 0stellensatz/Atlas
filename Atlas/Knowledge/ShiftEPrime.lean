@@ -9,9 +9,9 @@ For a shift `ρ` with finite `Atlas.Knowledge.ShiftT`, the source writes `e_ρ` 
 written `e'` here, `ρ` being the argument rather than a subscript.
 
 `ρ` is injective (`Shift.inj`), so the preimage is well defined wherever it exists; the definition
-goes through `Function.invFun`, which is total and therefore says nothing about the case where
-`e_star ρ` is itself missed by `ρ`. A statement about `e'` that needs the preimage to be genuine
-has to supply that, which is why nothing here is claimed about it.
+goes through `Function.invFun`, which is total. The preimage does exist: `e_star ρ` sits one past
+the maximum of what the shift misses, so it is hit, and `Shift.apply_e'` records the genuineness
+that `invFun` alone would leave open.
 
 ## Main definitions
 
@@ -37,7 +37,6 @@ namespace Shift
 /-- For a shift `ρ` with `T ρ` finite, `e'` is `ρ⁻¹ (e_star ρ)`, written `e_ρ` in the source
 ([Pagano 2022, §2, p.415][Pagano2022]). -/
 noncomputable def e' {ρ : Shift} (hρ : (T ρ).Finite) := (⇑ρ).invFun (e_star ρ hρ)
-
 
 /-- The preimage is genuine: `e_star` is not missed by the shift, so `Function.invFun` finds
 a real preimage and `ρ (e' ρ) = e_star ρ`. -/
