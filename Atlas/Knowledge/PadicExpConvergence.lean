@@ -122,13 +122,57 @@ variable {K : Type*} [Field K] [ValuativeRel K] [IsDiscreteValuationRing ↥𝒪
 set_option synthInstance.maxHeartbeats 80000 in
 -- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.
 /-- Membership of `u * ϖ ^ w` in a power of the maximal ideal is a comparison of exponents. -/
-private theorem mem_pow_iff {ϖ : ↥𝒪[K]} (hϖ : Irreducible ϖ) {u : (↥𝒪[K])ˣ} {w k : ℕ} :
+theorem mem_pow_iff {ϖ : ↥𝒪[K]} (hϖ : Irreducible ϖ) {u : (↥𝒪[K])ˣ} {w k : ℕ} :
     ((u : ↥𝒪[K]) * ϖ ^ w) ∈ (𝓂[K] ^ k : Ideal ↥𝒪[K]) ↔ k ≤ w := by
   rw [hϖ.maximalIdeal_eq, Ideal.span_singleton_pow, Ideal.mem_span_singleton,
     IsUnit.dvd_mul_left u.isUnit]
   exact pow_dvd_pow_iff hϖ.ne_zero hϖ.not_isUnit
 
 end Ideal
+
+section NormedIdeal
+
+variable {K : Type*} [NormedField K] [ValuativeRel K] [IsDiscreteValuationRing ↥𝒪[K]]
+  (hc : ∀ y : K, ‖y‖ ≤ 1 ↔ valuation K y ≤ 1)
+
+include hc
+
+omit [IsDiscreteValuationRing ↥𝒪[K]] in
+/-- A unit of the integers has norm one. -/
+theorem norm_unit_eq_one (u : (↥𝒪[K])ˣ) : ‖((u : ↥𝒪[K]) : K)‖ = 1 := by
+  refine (norm_eq_one_iff_valuation_eq_one hc _).mpr ?_
+  have h2 : valuation K ((algebraMap (↥𝒪[K]) K) (u : ↥𝒪[K])) = 1 :=
+    (Valuation.integer.integers (valuation K)).isUnit_iff_valuation_eq_one.mp u.isUnit
+  exact h2
+
+set_option synthInstance.maxHeartbeats 80000 in
+-- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.
+/-- Membership in a power of the maximal ideal, read off the norm: `z ∈ 𝓂 ^ k` exactly when
+`‖z‖ ≤ ‖ϖ‖ ^ k` for a uniformizer `ϖ`. This is the bridge every estimate on the exponential
+crosses, since the series is controlled by norms and the statements are about ideals. -/
+theorem mem_pow_iff_norm_le {ϖ : ↥𝒪[K]} (hϖ : Irreducible ϖ)
+    (hc0 : 0 < ‖((ϖ : ↥𝒪[K]) : K)‖) (hc1 : ‖((ϖ : ↥𝒪[K]) : K)‖ < 1)
+    (z : ↥𝒪[K]) (k : ℕ) :
+    z ∈ (𝓂[K] ^ k : Ideal ↥𝒪[K]) ↔ ‖(z : K)‖ ≤ ‖((ϖ : ↥𝒪[K]) : K)‖ ^ k := by
+  rcases eq_or_ne z 0 with rfl | hz0
+  · simp [pow_nonneg hc0.le k]
+  obtain ⟨m, u, hu⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hz0 hϖ
+  have hznorm : ‖(z : K)‖ = ‖((ϖ : ↥𝒪[K]) : K)‖ ^ m := by
+    rw [hu]; push_cast; rw [norm_mul, norm_pow, norm_unit_eq_one hc u, one_mul]
+  rw [hznorm, hu, mem_pow_iff hϖ, pow_le_pow_iff_right_of_lt_one₀ hc0 hc1]
+
+set_option synthInstance.maxHeartbeats 80000 in
+-- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.
+/-- Any two uniformizers have the same norm: they generate the same ideal, so they are
+associated, and a unit has norm one. -/
+theorem norm_irreducible_eq {ϖ ϖ' : ↥𝒪[K]} (hϖ : Irreducible ϖ) (hϖ' : Irreducible ϖ') :
+    ‖((ϖ : ↥𝒪[K]) : K)‖ = ‖((ϖ' : ↥𝒪[K]) : K)‖ := by
+  obtain ⟨v, hv⟩ : Associated ϖ ϖ' := by
+    rw [← Ideal.span_singleton_eq_span_singleton, ← hϖ.maximalIdeal_eq, ← hϖ'.maximalIdeal_eq]
+  have := congrArg (fun z : ↥𝒪[K] => ‖(z : K)‖) hv
+  simpa [norm_unit_eq_one hc v] using this
+
+end NormedIdeal
 
 section Normed
 
@@ -148,21 +192,15 @@ set_option synthInstance.maxHeartbeats 80000 in
 and membership of `x` in a power of the maximal ideal is the comparison `k ≤ w`. Everything
 both directions of `Atlas.Knowledge.padicExpConvergence` need, and everything
 `Atlas.Knowledge.PadicExpIsomorphism.exp_add` needs, is here. -/
-theorem exists_norm_term_eq {x : ↥𝒪[K]} (hx0 : x ≠ 0) :
-    ∃ (c : ℝ) (w : ℕ), 0 < c ∧ c < 1 ∧
+theorem exists_norm_term_eq {ϖ : ↥𝒪[K]} (hϖ : Irreducible ϖ) {x : ↥𝒪[K]} (hx0 : x ≠ 0) :
+    ∃ w : ℕ, 0 < ‖((ϖ : ↥𝒪[K]) : K)‖ ∧ ‖((ϖ : ↥𝒪[K]) : K)‖ < 1 ∧
       (∀ n : ℕ, ‖(n ! : ℚ)⁻¹ • ((x : K) ^ n)‖
-        = c ^ (w * n) / c ^ (absoluteRamificationIndex K *
+        = ‖((ϖ : ↥𝒪[K]) : K)‖ ^ (w * n) / ‖((ϖ : ↥𝒪[K]) : K)‖ ^ (absoluteRamificationIndex K *
             padicValNat (residueCharacteristic K) (n !))) ∧
       (∀ k : ℕ, x ∈ (𝓂[K] ^ k : Ideal ↥𝒪[K]) ↔ k ≤ w) := by
-  have hunit : ∀ v : (↥𝒪[K])ˣ, ‖((v : ↥𝒪[K]) : K)‖ = 1 := by
-    intro v
-    refine (norm_eq_one_iff_valuation_eq_one hc _).mpr ?_
-    have h2 : valuation K ((algebraMap (↥𝒪[K]) K) (v : ↥𝒪[K])) = 1 :=
-      (Valuation.integer.integers (valuation K)).isUnit_iff_valuation_eq_one.mp v.isUnit
-    exact h2
-  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
+  have hunit : ∀ v : (↥𝒪[K])ˣ, ‖((v : ↥𝒪[K]) : K)‖ = 1 := norm_unit_eq_one hc
   obtain ⟨w, u, hu⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hx0 hϖ
-  refine ⟨‖((ϖ : ↥𝒪[K]) : K)‖, w, ?_, ?_, ?_, ?_⟩
+  refine ⟨w, ?_, ?_, ?_, ?_⟩
   · rw [norm_pos_iff]; simpa using hϖ.ne_zero
   · rw [norm_lt_one_iff_valuation_lt_one hc]
     exact valuation_lt_one_of_mem_maximalIdeal _
@@ -200,7 +238,9 @@ theorem summable_norm_expSeries {x : ↥𝒪[K]}
     intro n hn
     simp only [Finset.mem_singleton] at hn
     simp [zero_pow hn]
-  obtain ⟨c, w, hc0, hc1, hterm, hmem⟩ := exists_norm_term_eq hc hp hpe hx0
+  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
+  obtain ⟨w, hc0, hc1, hterm, hmem⟩ := exists_norm_term_eq hc hp hpe hϖ hx0
+  set c : ℝ := ‖((ϖ : ↥𝒪[K]) : K)‖ with hcdef
   have hk : absoluteRamificationIndex K / (residueCharacteristic K - 1) + 1 ≤ w :=
     (hmem _).mp hx
   set D : ℕ := residueCharacteristic K - 1 with hDdef
@@ -269,7 +309,9 @@ theorem padicExpConvergence (K : Type*) [Field K] [ValuativeRel K] [TopologicalS
   -- Below the threshold the terms along `n = p ^ j` stay bounded away from zero.
   by_contra hlt
   have hx0 : x ≠ 0 := by rintro rfl; exact hlt (Ideal.zero_mem _)
-  obtain ⟨c, w, hc0, hc1, hterm, hmem⟩ := exists_norm_term_eq hc hp hpe hx0
+  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
+  obtain ⟨w, hc0, hc1, hterm, hmem⟩ := exists_norm_term_eq hc hp hpe hϖ hx0
+  set c : ℝ := ‖((ϖ : ↥𝒪[K]) : K)‖ with hcdef
   set D : ℕ := residueCharacteristic K - 1 with hDdef
   set e : ℕ := absoluteRamificationIndex K with hedef
   set v : ℕ → ℕ := fun n => padicValNat (residueCharacteristic K) (n !) with hvdef
