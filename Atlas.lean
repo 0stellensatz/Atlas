@@ -29,6 +29,7 @@ import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.DeepUnitGroup
 import Atlas.Knowledge.DigitSum
+import Atlas.Knowledge.EisensteinFieldInvariant
 import Atlas.Knowledge.EisensteinGraph
 import Atlas.Knowledge.EisensteinJumpPair
 import Atlas.Knowledge.ElementaryFilteredAut
@@ -180,6 +181,7 @@ import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTatePolynomial
 import Atlas.Knowledge.StandardLubinTateSeries
 import Atlas.Knowledge.StandardLubinTateUpperRamification
+import Atlas.Knowledge.StronglyEisensteinExtremal
 import Atlas.Knowledge.TRhoEP
 import Atlas.Knowledge.TateTwist
 import Atlas.Knowledge.UnitFiltrationClassification
