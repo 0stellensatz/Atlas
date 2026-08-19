@@ -29,6 +29,8 @@ import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.DeepUnitGroup
 import Atlas.Knowledge.DigitSum
+import Atlas.Knowledge.EisensteinGraph
+import Atlas.Knowledge.EisensteinJumpPair
 import Atlas.Knowledge.ElementaryFilteredAut
 import Atlas.Knowledge.ExistsClassField
 import Atlas.Knowledge.FiltAut
@@ -97,6 +99,8 @@ import Atlas.Knowledge.IsProSylow
 import Atlas.Knowledge.IsProfiniteTransfer
 import Atlas.Knowledge.IsProsolvable
 import Atlas.Knowledge.IsStarQuotient
+import Atlas.Knowledge.IsStronglyEisenstein
+import Atlas.Knowledge.IsStronglySeparablePolynomial
 import Atlas.Knowledge.IsTateSystem
 import Atlas.Knowledge.IsUnitFiltration
 import Atlas.Knowledge.JumpMultiplicity
