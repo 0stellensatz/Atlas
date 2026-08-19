@@ -10,9 +10,9 @@ import Atlas.Knowledge.ShiftT
 The pair `(I_g, β_g)` the source attaches to an Eisenstein polynomial: the `≤_ρ`-minimal points
 of the coefficient graph `Atlas.Knowledge.eisensteinGraph`, along the shift
 `Atlas.Knowledge.ShiftRhoP` at a prime `p`—in the source's application, the residue
-characteristic of the base field. As with
-`Atlas.Knowledge.filtOrd`, the recipe is taken as the *definition*, which makes it total; the
-source's assertion that it lands on a jump pair is here a proved theorem, in two stages. The
+characteristic of the base field. As with `Atlas.Knowledge.filtOrd`, the recipe is taken as
+the *definition*, which makes it total; the source's assertion that it lands on a jump pair is
+here a proved theorem, in two stages. The
 antichain structure is generic—minimal points of any finite graph form a jump pair over
 unconstrained levels. That the levels then land in `T_ρ` is the Eisenstein arithmetic: a
 minimal point below the top multiplicity has level prime to `p` because the `p`-part of its
@@ -20,8 +20,7 @@ index is exact in its weight, and at the top multiplicity every point other than
 one is dominated by it—the leading monomial has the smallest weight in that stratum, its
 coefficient being a unit while Eisenstein coefficients are not. The identification of this
 pair with the field-side invariant of `Atlas.Knowledge.UnitFiltrationClassification` is the
-content of the source's Theorem 1.11, the claim of
-`Atlas.Knowledge.EisensteinFieldInvariant`.
+content of the source's Theorem 1.11, the claim of `Atlas.Knowledge.EisensteinFieldInvariant`.
 
 ## Main definitions
 
