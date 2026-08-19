@@ -9,7 +9,8 @@ import Atlas.Knowledge.ShiftT
 
 The pair `(I_g, β_g)` the source attaches to an Eisenstein polynomial: the `≤_ρ`-minimal points
 of the coefficient graph `Atlas.Knowledge.eisensteinGraph`, along the shift
-`Atlas.Knowledge.ShiftRhoP` of the polynomial's residue characteristic. As with
+`Atlas.Knowledge.ShiftRhoP` at a prime `p`—in the source's application, the residue
+characteristic of the base field. As with
 `Atlas.Knowledge.filtOrd`, the recipe is taken as the *definition*, which makes it total; the
 source's assertion that it lands on a jump pair is here a proved theorem, in two stages. The
 antichain structure is generic—minimal points of any finite graph form a jump pair over
@@ -19,7 +20,8 @@ index is exact in its weight, and at the top multiplicity every point other than
 one is dominated by it—the leading monomial has the smallest weight in that stratum, its
 coefficient being a unit while Eisenstein coefficients are not. The identification of this
 pair with the field-side invariant of `Atlas.Knowledge.UnitFiltrationClassification` is the
-content of the source's Theorem 1.11, recorded with this tranche's claims.
+content of the source's Theorem 1.11, the claim of
+`Atlas.Knowledge.EisensteinFieldInvariant`.
 
 ## Main definitions
 
@@ -29,8 +31,8 @@ content of the source's Theorem 1.11, recorded with this tranche's claims.
 
 * `isJumpPair_univ_eisensteinJumpPair` — the generic half: minimal points form a jump pair
   over unconstrained levels. Proved.
-* `isJumpPair_eisensteinJumpPair` — on a monic Eisenstein polynomial the pair is a jump pair
-  over `T_ρ`, the source's `(I_g, β_g) ∈ Jump_{ρ_{∞, p}}`. Proved.
+* `isJumpPair_eisensteinJumpPair` — on an Eisenstein polynomial the pair is a jump pair over
+  `T_ρ`, the source's `(I_g, β_g) ∈ Jump_{ρ_{∞, p}}`. Proved.
 
 ## Implementation notes
 
@@ -38,8 +40,11 @@ The source states the landing as the existence of a unique pair whose graph is t
 set; with the recipe as definition the graph *is* the minimal-point set, and what remains—the
 minimal points satisfy the jump-pair conditions over `T_ρ`—is the theorem. Primality of `p`
 enters only there, through the exactness of `p`-parts; the definition itself is stated at any
-`1 < p`. Monicity stands in for the source's normalization of an Eisenstein polynomial and is
-what makes the leading coefficient a unit, which the top-multiplicity domination consumes.
+`1 < p`, and nothing ties `p` to `R`—in the source's application `p` is the residue
+characteristic of the base, but the arithmetic holds at any prime over any discrete valuation
+ring. The source's `Eis_d (K)` is monic by definition; the landing theorem does not hypothesize
+monicity, because the one thing the top-multiplicity domination consumes—the leading
+coefficient being a unit—is already the `leading` field of `Polynomial.IsEisensteinAt`.
 
 ## References
 
@@ -53,9 +58,8 @@ open IsDiscreteValuationRing
 variable {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
 
 /-- The **jump pair of an Eisenstein polynomial**: the `≤_ρ`-minimal points of its coefficient
-graph along the shift `ρ_p` of the residue characteristic—the source's `(I_{g(x)}, β_{g(x)})`,
-carried as its graph, with the recipe taken as the definition
-([Pagano 2022, §1.2.1, p.408][Pagano2022]). -/
+graph along the shift `ρ_p`—the source's `(I_{g(x)}, β_{g(x)})`, carried as its graph, with the
+recipe taken as the definition ([Pagano 2022, §1.2.1, p.408][Pagano2022]). -/
 noncomputable def eisensteinJumpPair (p : ℕ+) (hp : 1 < p) (g : Polynomial R) :
     Finset (ℕ+ × ℕ+) :=
   jumpMin (ρ_p p hp) (eisensteinGraph (p : ℕ) g)
@@ -93,14 +97,17 @@ private theorem not_dvd_level {p n i v : ℕ} (hpp : p.Prime) (hi : i ≠ 0)
       ← mul_assoc, mul_comm p t, mul_assoc]
   exact h2 ((Nat.dvd_add_right h1).mp hdvd)
 
-/-- On a monic Eisenstein polynomial the recipe lands: the pair is a jump pair over `T_ρ`—the
+/-- On an Eisenstein polynomial the recipe lands: the pair is a jump pair over `T_ρ`—the
 source's `(I_{g(x)}, β_{g(x)}) ∈ Jump_{ρ_{∞, p}}`. Below the top multiplicity a minimal
 point's level is prime to `p` since the `p`-part of its index divides its weight exactly one
 level deep; at the top multiplicity the leading point dominates every other, its weight being
 least in the stratum ([Pagano 2022, §1.2.1, p.408][Pagano2022]). -/
 theorem isJumpPair_eisensteinJumpPair (p : ℕ+) (hp : 1 < p) (hpp : (p : ℕ).Prime)
-    {g : Polynomial R} (hg : g.IsEisensteinAt (IsLocalRing.maximalIdeal R)) (hm : g.Monic) :
+    {g : Polynomial R} (hg : g.IsEisensteinAt (IsLocalRing.maximalIdeal R)) :
     IsJumpPair (ρ_p p hp) (Shift.T (ρ_p p hp)) (eisensteinJumpPair p hp g) := by
+  have hunit : IsUnit (g.coeff g.natDegree) := by
+    have h := hg.leading
+    rwa [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff, not_not] at h
   have huniv := isJumpPair_univ_eisensteinJumpPair p hp g
   refine ⟨huniv.1, ?_, huniv.2.2.1, huniv.2.2.2⟩
   intro q hq
@@ -126,18 +133,18 @@ theorem isJumpPair_eisensteinJumpPair (p : ℕ+) (hp : 1 < p) (hpp : (p : ℕ).P
   · by_cases hii : i = g.natDegree
     · refine hT ?_
       have hv0 : ((addVal R) (g.coeff i)).toNat = 0 := by
-        rw [hii, hm.coeff_natDegree]
-        simp
+        rw [hii, addVal_eq_zero_iff.mpr hunit]
+        rfl
       rw [hq1coe, hv0, mul_zero, zero_add]
       have := Nat.not_dvd_ordCompl hpp hi0
       rwa [Nat.factorization_def i hpp] at this
     · exfalso
       have hilt : i < g.natDegree := lt_of_le_of_ne hin hii
       have hv1 : 1 ≤ ((addVal R) (g.coeff i)).toNat := one_le_addVal_toNat (hg.mem hilt) hci
-      have hcn : g.coeff g.natDegree ≠ 0 := by
-        rw [hm.coeff_natDegree]; exact one_ne_zero
+      have hcn : g.coeff g.natDegree ≠ 0 := hunit.ne_zero
       have hvn0 : ((addVal R) (g.coeff g.natDegree)).toNat = 0 := by
-        rw [hm.coeff_natDegree]; simp
+        rw [addVal_eq_zero_iff.mpr hunit]
+        rfl
       set ptn : ℕ+ × ℕ+ :=
         (((g.natDegree * ((addVal R) (g.coeff g.natDegree)).toNat + g.natDegree) /
             (p : ℕ) ^ padicValNat (p : ℕ) g.natDegree).toPNat',

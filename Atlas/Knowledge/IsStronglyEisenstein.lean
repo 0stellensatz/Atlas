@@ -18,7 +18,10 @@ the most likely jump set in the source's counting.
 The valuation is `IsDiscreteValuationRing.addVal`, and the equation is stated in `ℕ∞`, where
 `1` is the coercion; a zero linear coefficient has valuation `⊤` and is correctly excluded.
 Nothing here asks the polynomial to be Eisenstein—the predicate is total, as with
-`Atlas.Knowledge.eisensteinGraph`—and the statements that consume it hypothesize it.
+`Atlas.Knowledge.eisensteinGraph`—and the statements that consume it hypothesize it. The
+source's `d ≥ 2` is likewise not carried: a polynomial with unit leading coefficient and
+degree at most `1` has linear coefficient a unit or zero, valuation `0` or `⊤`, never `1`, so
+the bound is implied wherever the source applies the notion.
 
 ## References
 

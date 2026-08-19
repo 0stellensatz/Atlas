@@ -18,6 +18,8 @@ polynomial-side invariant whose identification with the field-side invariant of
 ## Main statements
 
 * `mem_eisensteinGraph` — membership unfolded to a witnessing index.
+* `eisensteinGraph_nonempty` — the graph of an Eisenstein polynomial of positive degree
+  carries at least its leading point, so nothing downstream is vacuous.
 
 ## Implementation notes
 
@@ -26,10 +28,13 @@ polynomial cuts out, which is the degree times the ramification index `p - 1` of
 base field; the last factor is prime to `p`, so the constraint is spelled against the degree
 and no field enters the definition. The same arithmetic makes the division exact: the `p`-part
 of the index divides the index and, through the constraint, the degree, hence the whole
-weight. The definition is total—any polynomial over a discrete valuation ring is accepted, and
-the division truncates and `Nat.toPNat'` junks to `1` where the reading is not the source's;
-the statements about the graph hypothesize Eisenstein, where no junk arises. The valuation of
-a coefficient is read through `IsDiscreteValuationRing.addVal`, whose `⊤` at a zero
+weight—at *every* index the filter admits and every `p`, with no primality and no Eisenstein
+hypothesis—and the level is at least `1`, so the division never truncates and `Nat.toPNat'`
+never junks. The definition is total, and the degenerate readings are elsewhere: at
+`p ∈ {0, 1}` the `p`-adic valuations collapse to `0`, so the divisor is `1`, every
+multiplicity is `1`, and the graph is the plain weight graph of the polynomial—well formed,
+but not the source's object, which the consuming statements' primality excludes. The valuation
+of a coefficient is read through `IsDiscreteValuationRing.addVal`, whose `⊤` at a zero
 coefficient is avoided by the nonvanishing filter.
 
 ## References
@@ -67,5 +72,15 @@ theorem mem_eisensteinGraph {p : ℕ} {g : Polynomial R} {q : ℕ+ × ℕ+} :
     exact ⟨i, ⟨h1, h2⟩, h3, h4, rfl⟩
   · rintro ⟨i, ⟨h1, h2⟩, h3, h4, rfl⟩
     exact ⟨i, ⟨⟨h1, h2⟩, h3, h4⟩, rfl⟩
+
+/-- The coefficient graph of an Eisenstein polynomial of positive degree is nonempty: the
+leading coefficient is a unit, so the leading index always contributes its point. -/
+theorem eisensteinGraph_nonempty {p : ℕ} {g : Polynomial R}
+    (hg : g.IsEisensteinAt (IsLocalRing.maximalIdeal R)) (hd : 1 ≤ g.natDegree) :
+    (eisensteinGraph p g).Nonempty := by
+  have hunit : IsUnit (g.coeff g.natDegree) := by
+    have h := hg.leading
+    rwa [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff, not_not] at h
+  exact ⟨_, mem_eisensteinGraph.mpr ⟨g.natDegree, ⟨hd, le_rfl⟩, hunit.ne_zero, le_rfl, rfl⟩⟩
 
 end Atlas.Knowledge
