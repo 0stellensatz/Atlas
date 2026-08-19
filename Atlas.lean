@@ -56,6 +56,7 @@ import Atlas.Knowledge.GroupAbsoluteInertiaDegree
 import Atlas.Knowledge.GroupAbsoluteRamificationIndex
 import Atlas.Knowledge.GroupResidueCharacteristic
 import Atlas.Knowledge.GroupRootOfUnityExponent
+import Atlas.Knowledge.GroupTateModule
 import Atlas.Knowledge.HasseArf
 import Atlas.Knowledge.HasseNormPrinciple
 import Atlas.Knowledge.HerbrandPhi
@@ -93,6 +94,7 @@ import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.IsProSylow
 import Atlas.Knowledge.IsProfiniteTransfer
 import Atlas.Knowledge.IsProsolvable
+import Atlas.Knowledge.IsTateSystem
 import Atlas.Knowledge.JumpMultiplicity
 import Atlas.Knowledge.JumpOrder
 import Atlas.Knowledge.JumpPairOf
