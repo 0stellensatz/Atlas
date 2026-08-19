@@ -8,8 +8,9 @@ import Atlas.Knowledge.MStepSolvableQuotient
 
 The data the group-theoretic Tate module `Atlas.Knowledge.groupTateModule` is built over: a
 decreasing sequence of open normal subgroups `H ν` of a topological group `G`, beginning at `G`
-itself, such that the `ℓ ^ ν`-torsion of the topological abelianization of `H ν` is cyclic of
-order `ℓ ^ ν` and the quotient `G ⧸ H ν` is abelian, together with a homomorphism
+itself and with each step of finite index, such that the `ℓ ^ ν`-torsion of the topological
+abelianization of `H ν` is a copy of `ℤ ⧸ ℓ ^ ν ℤ` and the quotient `G ⧸ H ν` is abelian,
+together with a homomorphism
 `V ν : (H ν)^ab → (H (ν + 1))^ab` for each step, descending the transfer—the source's unnamed
 package of a sequence satisfying its conditions (i) and (ii) with the maps `Ver` between the
 abelianizations of its consecutive terms. On the maximal `2`-step solvable quotient of the
@@ -20,7 +21,8 @@ prime, which is the recorded claim; the module built over a system is
 
 ## Main definitions
 
-* `IsTateSystem` — the sequence conditions, and the descent of the transfers.
+* `IsTateSystem` — the sequence conditions, the finite index of the steps, and the descent of
+  the transfers.
 * `IsTateSystem.ofSubgroupOf` — the homomorphism reading an element of `H.subgroupOf K` as an
   element of `H`, along which the transfer out of a level lands in the abelianization of the
   next level.
@@ -41,13 +43,23 @@ the abelianization is commutative, and asks it to be isomorphic to `Multiplicati
 `ZMod (ℓ ^ ν)`—the source's `(ℤ ⧸ ℓ^ν ℤ)₊` read multiplicatively. The `transfer` field is the
 consumer device of `Atlas.Knowledge.IsProfiniteTransfer`: the transfer of `↥(H ν)` into its
 open subgroup is not a construction but a characterization whose existence is that file's
-recorded claim, so a system carries a witness `W` satisfying it. `W` lands in the topological
-abelianization of `(H (ν + 1)).subgroupOf (H ν)`, the next level as a subgroup of the current
-one; `V ν` is asked to be `W` followed by the map that `ofSubgroupOf` induces between the
-abelianizations, which is `Atlas.Knowledge.mStepSolvableQuotient.map` at `m = 1`. The prime `ℓ`
-is a bare natural: no field of the structure needs primality, and the claims that do hypothesize
-it. The index begins at `ν = 0`, where the torsion condition asks the `1`-torsion to be trivial,
-which every group satisfies.
+recorded claim, so a system carries a witness `W` satisfying it. That characterization has
+content exactly at finite index—its descent field sits behind a `FiniteIndex` binder—and
+openness buys finite index only over a compact group, while the structure must elaborate over
+carriers through which compactness does not synthesize, the note of
+`Atlas.Knowledge.IsProfiniteTransfer`; so the finiteness of each step is the field
+`finiteIndex`, over which the descent pins the value of `V ν` at every class, the argument of
+`Atlas.Knowledge.IsProfiniteTransfer.unique`. Over a system the family `V` is therefore a
+function of the sequence, which is what lets the recorded claims quantify over both. `W` lands
+in the topological abelianization of `(H (ν + 1)).subgroupOf (H ν)`, the next level as a
+subgroup of the current one; `V ν` is asked to be `W` followed by the map that `ofSubgroupOf`
+induces between the abelianizations, which is `Atlas.Knowledge.mStepSolvableQuotient.map` at
+`m = 1`. The prime `ℓ` is a bare natural: no field of the structure needs primality, the
+local-field claims hypothesize it, and the degenerate values state exactly what they read—at
+`ℓ = 1` the torsion condition is satisfied by every group, and at `ℓ = 0` it asks the
+abelianizations of the positive levels to be copies of `ℤ`—so away from a prime nothing
+meaningful is asserted, and nothing is claimed. The index begins at `ν = 0`, where the torsion
+condition asks the `1`-torsion to be trivial, which every group satisfies.
 
 ## References
 
@@ -78,9 +90,9 @@ theorem continuous_ofSubgroupOf [TopologicalSpace G] {H K : Subgroup G} :
 end IsTateSystem
 
 /-- A **Tate-module system** at `ℓ` on a topological group: a decreasing sequence `H ν` of open
-normal subgroups beginning at the whole group, whose topological abelianizations have cyclic
-`ℓ ^ ν`-torsion of order `ℓ ^ ν` and abelian quotients, together with homomorphisms between the
-abelianizations of consecutive terms descending the transfer
+normal subgroups beginning at the whole group, with each step of finite index, whose topological
+abelianizations have `ℓ ^ ν`-torsion a copy of `ℤ ⧸ ℓ ^ ν ℤ` and abelian quotients, together
+with homomorphisms between the abelianizations of consecutive terms descending the transfer
 ([Hyeon 2025, §3, p.11][Hyeon2025], the sequence with conditions (i) and (ii);
 [Hyeon 2025, §3, p.12][Hyeon2025], the maps `Ver` between the abelianizations). -/
 structure IsTateSystem (ℓ : ℕ) (G : Type*) [Group G] [TopologicalSpace G]
@@ -95,8 +107,13 @@ structure IsTateSystem (ℓ : ℕ) (G : Type*) [Group G] [TopologicalSpace G]
   isOpen : ∀ ν, IsOpen (H ν : Set G)
   /-- Every term is normal, so that the group acts on it by conjugation. -/
   normal : ∀ ν, (H ν).Normal
+  /-- Every step has finite index in the previous level: over a compact group this follows from
+  openness, but the structure elaborates over carriers through which compactness does not
+  synthesize, and without it the descent of the transfer would have no content. -/
+  finiteIndex : ∀ ν, ((H (ν + 1)).subgroupOf (H ν)).FiniteIndex
   /-- The source's condition (i): the `ℓ ^ ν`-torsion of the topological abelianization of the
-  `ν`th term—the kernel of its `ℓ ^ ν`-power map—is cyclic of order `ℓ ^ ν`. -/
+  `ν`th term—the kernel of its `ℓ ^ ν`-power map—is a copy of `ℤ ⧸ ℓ ^ ν ℤ`, read
+  multiplicatively. -/
   torsion : ∀ ν, Nonempty
     (↥((powMonoidHom (ℓ ^ ν) : TopologicalAbelianization ↥(H ν)
         →* TopologicalAbelianization ↥(H ν)).ker)

@@ -13,8 +13,9 @@ Tate-module system: the homomorphism into the automorphisms of the group-theoret
 maximal `2`-step solvable quotient of the absolute Galois group of a mixed-characteristic local
 field the recorded claim identifies it with Mathlib's `cyclotomicCharacter`: the image of a
 Galois element acts on the `ν`th level by raising to the character's value modulo `ℓ ^ ν`—the
-source's statement that the cyclotomic character of the field factors through the
-group-theoretic character, and the group-side counterpart of the invariance
+module half of the source's `ℤ_ℓ(1) ≅ T_ℓ(G_K²)`, of which the factoring of the field's
+`p_K`-adic cyclotomic character through `χ(G_K²)` is the specialization at the residue
+characteristic—and the group-side counterpart of the invariance
 `Atlas.Knowledge.CyclotomicCharacterInvariance`.
 
 ## Main definitions
@@ -40,8 +41,8 @@ specializes to `χ(G) := χ^(p(G^ab))(G)`; with the system and its transfers as 
 specialization is the instance at `ℓ` the group-theoretic residue characteristic
 `Atlas.Knowledge.GroupResidueCharacteristic` of the abelianization, so no separate definition
 is made. In the identification the Galois element enters through `QuotientGroup.mk`, the
-projection onto the maximal `2`-step solvable quotient—the factoring of the source—and the
-exponent is spelled `PadicInt.toZModPow` applied to the character value, the modulo-`ℓ ^ ν`
+projection onto the maximal `2`-step solvable quotient—the source's passage through `G_K²`—and
+the exponent is spelled `PadicInt.toZModPow` applied to the character value, the modulo-`ℓ ^ ν`
 reading by which Mathlib's `cyclotomicCharacter.spec` states the action on `ℓ ^ ν`-th roots of
 unity.
 
@@ -96,9 +97,10 @@ theorem groupCyclotomicCharacter_coe (ℓ : ℕ) {G : Type*} [Group G] [Topologi
 /-- On the maximal `2`-step solvable quotient of the absolute Galois group of a
 mixed-characteristic local field, the group-theoretic cyclotomic character of a Tate-module
 system is the `ℓ`-adic cyclotomic character: the image of a Galois element acts on the `ν`th
-level of the Tate module by raising to the character's value modulo `ℓ ^ ν`—the cyclotomic
-character of the field factors through the group-theoretic character. Claim recorded ahead of
-its proof ([Hyeon 2025, Prop. 3.2, p.12][Hyeon2025]). -/
+level of the Tate module by raising to the character's value modulo `ℓ ^ ν`—the action half of
+the source's `ℤ_ℓ(1) ≅ T_ℓ(G_K²)`, whose specialization at the residue characteristic is the
+factoring of the field's cyclotomic character through the group-theoretic one. Claim recorded
+ahead of its proof ([Hyeon 2025, Prop. 3.2 (1), p.12][Hyeon2025], with (2) the specialization). -/
 theorem groupCyclotomicCharacter_eq_pow_cyclotomicCharacter (ℓ : ℕ) [Fact ℓ.Prime] (K : Type*)
     [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
     (H : ℕ → Subgroup (mStepSolvableQuotient (Field.absoluteGaloisGroup K) 2))
