@@ -1,45 +1,54 @@
 import Mathlib
 import Atlas.Knowledge.ExtendedGameJumpPair
-import Atlas.Knowledge.ShiftDepth
 
 /-!
 # jump pair of a stopped shooting game
 
 The source's stopped games and what they see of the pair: two extended games are identified
-when their trajectories agree as long as the rabbit stays at or below the stop, and the part
-of the pair whose shots land within the stop is an invariant of the class—the content of the
-source's Remark 7.4, proved here on trajectories. The stopped pair is the truncation of
+when their trajectories agree as long as the rabbit stays below the stop, and the part of the
+pair whose shots land within the stop is an invariant of the class—the first two sentences of
+the source's Remark 7.4, proved here on trajectories; the remark's remaining half, reading
+the classes inside `𝒮^*_{=1}`, is not restated. The stopped pair is the truncation of
 `Atlas.Knowledge.ExtendedGameJumpPair` by the landing bound, so it is an extended jump pair
 by restriction; and agreement below the stop transports records, so equivalent games share
-it. The stopping game of an Eisenstein polynomial, an element of this stopped world, is
-`Atlas.Knowledge.PolynomialStoppedPair`. The reconstruction of a full pair from a stopped one
-across levels—the source's Remark 7.5—is consumed by this web through its mass consequence,
-already recorded as `Atlas.Knowledge.extendedGameMass_level`, and is not restated.
+it. The stopping game of an Eisenstein polynomial is `Atlas.Knowledge.PolynomialStoppedPair`;
+its truncation cuts by the rabbit's position where this one cuts by the shot's landing, the
+source's own split between its §7 and its §10, and the two meet through the game's dynamics
+rather than by containment. The reconstruction of a full pair from a stopped one across
+levels—the source's Remark 7.5—surfaces in this web as the multiplicity shift of
+`Atlas.Knowledge.FieldJumpsBelowE`, its mass corollary being the Remark 7.6 identity recorded
+in `Atlas.Knowledge.GameLevelDecomposition`.
 
 ## Main definitions
 
 * `stoppedGameJumpPair` — the points of the extended pair whose shot lands at or below the
   stop.
-* `StoppedEquiv` — agreement of trajectories while at or below the stop.
+* `StoppedEquiv` — agreement of trajectories while strictly below the stop.
 
 ## Main statements
 
 All proved.
 
+* `stoppedGameJumpPair_finite` — the stopped pair is finite, a subset of the extended pair.
 * `isJumpPair_stoppedGameJumpPair` — the stopped pair is an extended jump pair, by
   restriction.
+* `stoppedEquiv_equivalence` — agreement below the stop is an equivalence of trajectories.
 * `stoppedGameJumpPair_eq_of_stoppedEquiv` — equivalent games share the stopped pair: the
-  source's Remark 7.4.
+  invariance of the source's Remark 7.4.
 
 ## Implementation notes
 
 The truncation keeps the points with `ρ^[β] (level) ≤ x`, the source's
-`ρ^{β_G (i)} (i) ≤ x`; a record contributing such a point sits at a position below its own
-shot's landing, so all earlier states do too, and agreement below the stop carries the record
-across—the two validity guards enter as hypotheses, one per trajectory, since off them the
-pairs are the guards' empty branches and nothing is claimed. The invariance is stated for
-valid strictly increasing trajectories on both sides, the only place the source's classes
-live.
+`ρ^{β_G (i)} (i) ≤ x`; a record contributing such a point sits strictly below the stop, its
+position preceding its own shot's landing, so all earlier states do too, and agreement below
+the stop carries the record across—the two validity guards enter as hypotheses, one per
+trajectory, since off them the pairs are the guards' empty branches and nothing is claimed.
+The equivalence demands agreement of *states* where the source identifies rabbit
+trajectories: at a position that is both deep and an iterate of `e_ρ^*` the two kinds record
+different lengths, so the state is the datum the invariant needs—a deliberate sharpening of
+the source's wording. Its guard is strict, agreement asked only while a rabbit sits below
+the stop, matching the source's "stays below"; the invariance is stated for valid strictly
+increasing trajectories on both sides, the only place the source's classes live.
 
 ## References
 
@@ -70,15 +79,25 @@ theorem isJumpPair_stoppedGameJumpPair (ρ : Shift) (hρ : (Shift.T ρ).Finite) 
   rw [Set.Finite.mem_toFinset] at hpt ⊢
   exact hpt.1
 
-/-- **Agreement below the stop**: two trajectories identified as long as either sits at or
+/-- **Agreement below the stop**: two trajectories identified as long as either sits strictly
 below `x`—the identification defining the source's stopped games
 ([Pagano 2022, §7, p.458][Pagano2022]). -/
 def StoppedEquiv (x : ℕ+) (ω ω' : ℕ → ℕ+ × ℕ) : Prop :=
-  ∀ t, ((ω t).1 ≤ x ∨ (ω' t).1 ≤ x) → ω t = ω' t
+  ∀ t, ((ω t).1 < x ∨ (ω' t).1 < x) → ω t = ω' t
+
+/-- Agreement below the stop is an equivalence: the guard transports along the agreement it
+demands. -/
+theorem stoppedEquiv_equivalence (x : ℕ+) : Equivalence (StoppedEquiv x) where
+  refl _ _ _ := rfl
+  symm h t ht := (h t ht.symm).symm
+  trans h h' t ht := by
+    rcases ht with h1 | h3
+    · exact (h t (Or.inl h1)).trans (h' t (Or.inl (h t (Or.inl h1) ▸ h1)))
+    · exact (h t (Or.inr ((h' t (Or.inr h3)) ▸ h3))).trans (h' t (Or.inr h3))
 
 /-- Equivalent games share the stopped pair: a record whose shot lands within the stop sits
-below it with all its history, and agreement below the stop carries it across—the source's
-Remark 7.4 ([Pagano 2022, Rem. 7.4, p.458][Pagano2022]). -/
+strictly below it with all its history, and agreement below the stop carries it across—the
+invariance of the source's Remark 7.4 ([Pagano 2022, Rem. 7.4, p.458][Pagano2022]). -/
 theorem stoppedGameJumpPair_eq_of_stoppedEquiv (ρ : Shift) (hρ : (Shift.T ρ).Finite)
     (x : ℕ+) {ω ω' : ℕ → ℕ+ × ℕ}
     (hω : StrictMono (fun t => (ω t).1) ∧ ∀ t, IsExtendedGameState ρ hρ (ω t))
@@ -98,18 +117,18 @@ theorem stoppedGameJumpPair_eq_of_stoppedEquiv (ρ : Shift) (hρ : (Shift.T ρ).
   have hmem' := hmem
   rw [extendedGameJumpPair, if_pos hσ] at hmem'
   obtain ⟨t, ht, rfl⟩ := hmem'
-  have hpos : (σ t).1 ≤ x := by
+  have hpos : (σ t).1 < x := by
     have hiter : (⇑ρ)^[(σ t).2] (extendedGameLevel ρ hρ (σ t)) = (σ t).1 :=
       extendedGameLevel_iterate ρ hρ (hσ.2 t)
-    have hle : (σ t).1 ≤ (⇑ρ)^[(σ t).2 + 1] (extendedGameLevel ρ hρ (σ t)) := by
+    have hlt : (σ t).1 < (⇑ρ)^[(σ t).2 + 1] (extendedGameLevel ρ hρ (σ t)) := by
       rw [Function.iterate_succ_apply', hiter]
-      exact le_of_lt (ρ.lt_apply _)
-    exact le_trans hle hbound
+      exact ρ.lt_apply _
+    exact lt_of_lt_of_le hlt hbound
   have hagree : ∀ s ≤ t, σ s = σ' s := by
     intro s hs
     refine heq s (Or.inl ?_)
     rcases lt_or_eq_of_le hs with hlt | rfl
-    · exact le_of_lt (lt_of_lt_of_le (hσ.1 hlt) hpos)
+    · exact lt_trans (hσ.1 hlt) hpos
     · exact hpos
   have hstate : σ t = σ' t := hagree t le_rfl
   have ht' : ExtendedGameRecord σ' t := by
