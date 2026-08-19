@@ -5,7 +5,6 @@ import Atlas.Knowledge.IsJumpPair
 import Atlas.Knowledge.IsStronglySeparablePolynomial
 import Atlas.Knowledge.IsUnitFiltration
 import Atlas.Knowledge.ShiftRhoEP
-import Atlas.Knowledge.TRhoEP
 
 /-!
 # break function of a module element
@@ -41,8 +40,10 @@ it generates. The base unit enters as a unit of the extension carrying a witness
 base, the embedding device of this web, and the extension is the standing strongly separable
 tower: an unramified step, characterized by equal absolute ramification, and a totally
 ramified step cut by a strongly separable Eisenstein polynomial. Uniqueness in the recorded
-claim quantifies over pairs with the break characterization alone, as the source states it,
-the evaluation being its "moreover".
+claim quantifies over full break pairs, evaluation included: the break characterization sees
+the pair only through its multiplicities, so the levels of a candidate could slide inside
+`T_ρ` without disturbing it, and the evaluation display is what pins them—the source's
+uniqueness reads through its Corollary 3.39, the break function determining the module.
 
 ## References
 
@@ -106,8 +107,8 @@ theorem exists_isBreakPair (p eL : ℕ+) [Fact (p : ℕ).Prime] (hp1 : 1 < p)
       (@IsBreakPair ℤ_[(p : ℕ)] _ _ _ m (ρ_ep eL p hp1) F _ PadicInt.irreducible_p
         (Additive.ofMul u) P) ∧
       ∀ Q : Finset (ℕ+ × ℕ+),
-        IsJumpPair (ρ_ep eL p hp1) (Shift.T (ρ_ep eL p hp1)) Q →
-        @BreaksAt ℤ_[(p : ℕ)] _ _ _ m F _ PadicInt.irreducible_p (Additive.ofMul u) Q →
+        @IsBreakPair ℤ_[(p : ℕ)] _ _ _ m (ρ_ep eL p hp1) F _ PadicInt.irreducible_p
+          (Additive.ofMul u) Q →
         Q = P := by
   sorry
 

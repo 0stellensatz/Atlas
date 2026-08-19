@@ -1,7 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.AbsoluteInertiaDegree
 import Atlas.Knowledge.AbsoluteRamificationIndex
-import Atlas.Knowledge.EisensteinSet
 import Atlas.Knowledge.IsStarQuotient
 import Atlas.Knowledge.IsUnitFiltration
 import Atlas.Knowledge.ShiftRhoEP
@@ -27,8 +26,13 @@ are realizable over a given base; the wild answer, under gap conditions, is
 The extension enters by Eisenstein generation with degree prime to `p`, and each field
 carries its own unit filtration and presenting pair through the standing devices; the
 conclusion equates the top pair with the image of the base pair under level scaling. The
-parameters of both star models are pinned relationally, the top ramification the degree
-times the base one.
+parameters of both star models are pinned relationally; that the top ramification is the
+degree times the base one, and that the inertia degree is shared, are derivable from the
+Eisenstein generation—the extension is totally ramified—rather than separately bound. The
+source's standing base, a finite extension of `ℚ_p (ζ_p)`, is carried semantically: a
+presenting pair exists exactly over a field with a `p`-th root of unity, the dichotomy of
+`Atlas.Knowledge.UnitFiltrationClassification`, so away from the standing the hypotheses are
+unsatisfiable and nothing is asserted.
 
 ## References
 
@@ -46,7 +50,7 @@ theorem isStarQuotient_map_of_tame (p e₁ e₂ f d : ℕ+) [Fact (p : ℕ).Prim
     (K₁ K₂ : Type) [Field K₁] [ValuativeRel K₁] [TopologicalSpace K₁]
     [IsMixedCharLocalField K₁] [Field K₂] [ValuativeRel K₂] [TopologicalSpace K₂]
     [IsMixedCharLocalField K₂] [Algebra K₁ K₂]
-    (hp₁ : (p : ℕ) = residueCharacteristic K₁)
+    (hpres : (p : ℕ) = residueCharacteristic K₁)
     (he₁ : (e₁ : ℕ) = absoluteRamificationIndex K₁)
     (he₂ : (e₂ : ℕ) = absoluteRamificationIndex K₂)
     (hf : (f : ℕ) = absoluteInertiaDegree K₁)

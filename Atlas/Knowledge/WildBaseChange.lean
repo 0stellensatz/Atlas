@@ -32,11 +32,15 @@ All are claims recorded ahead of their proofs.
 ## Implementation notes
 
 The exceptional level `p e / (p - 1)` is spelled multiplicatively, `i (p - 1) ≠ p e`, exact
-at every `e` where the source's fraction need not be integral. The gap conditions compare
-raised multiplicities—`β (i) + v_p (d) < β (max J)` and its consecutive form—in natural
-numbers, safe because the comparisons are strict. The scaled level divides the `p`-part out
-of the degree, an exact division; `Nat.toPNat'` never junks there. The extension and the
-two invariants enter by the standing devices, one filtration and presenting pair per field.
+at every `e` where the source's fraction need not be integral. The gap conditions are spelled
+additively—`β (i) + v_p (d) < β (max J)` and its consecutive form—so no natural-number
+subtraction enters them. The scaled level divides the `p`-part out of the degree, an exact
+division; `Nat.toPNat'` never junks there. The extension and the two invariants enter by the
+standing devices, one filtration and presenting pair per field, the shared inertia degree
+and the ramification relation derivable from the totally ramified generation; the source's
+standing base, a finite extension of `ℚ_p (ζ_p)`, is carried semantically as in
+`Atlas.Knowledge.TameBaseChange`, a presenting pair existing exactly over a field with a
+`p`-th root of unity.
 
 ## References
 
@@ -55,7 +59,7 @@ theorem mem_isStarQuotient_of_gap (p e₁ e₂ f d : ℕ+) [Fact (p : ℕ).Prime
     (K₁ K₂ : Type) [Field K₁] [ValuativeRel K₁] [TopologicalSpace K₁]
     [IsMixedCharLocalField K₁] [Field K₂] [ValuativeRel K₂] [TopologicalSpace K₂]
     [IsMixedCharLocalField K₂] [Algebra K₁ K₂]
-    (hp₁ : (p : ℕ) = residueCharacteristic K₁)
+    (hpres : (p : ℕ) = residueCharacteristic K₁)
     (he₁ : (e₁ : ℕ) = absoluteRamificationIndex K₁)
     (he₂ : (e₂ : ℕ) = absoluteRamificationIndex K₂)
     (hf : (f : ℕ) = absoluteInertiaDegree K₁)
@@ -95,7 +99,7 @@ theorem mem_isStarQuotient_of_exceptional (p e₁ e₂ f d : ℕ+) [Fact (p : �
     (K₁ K₂ : Type) [Field K₁] [ValuativeRel K₁] [TopologicalSpace K₁]
     [IsMixedCharLocalField K₁] [Field K₂] [ValuativeRel K₂] [TopologicalSpace K₂]
     [IsMixedCharLocalField K₂] [Algebra K₁ K₂]
-    (hp₁ : (p : ℕ) = residueCharacteristic K₁)
+    (hpres : (p : ℕ) = residueCharacteristic K₁)
     (he₁ : (e₁ : ℕ) = absoluteRamificationIndex K₁)
     (he₂ : (e₂ : ℕ) = absoluteRamificationIndex K₂)
     (hf : (f : ℕ) = absoluteInertiaDegree K₁)
@@ -132,7 +136,7 @@ theorem map_subset_isStarQuotient_of_gaps (p e₁ e₂ f d : ℕ+) [Fact (p : �
     (K₁ K₂ : Type) [Field K₁] [ValuativeRel K₁] [TopologicalSpace K₁]
     [IsMixedCharLocalField K₁] [Field K₂] [ValuativeRel K₂] [TopologicalSpace K₂]
     [IsMixedCharLocalField K₂] [Algebra K₁ K₂]
-    (hp₁ : (p : ℕ) = residueCharacteristic K₁)
+    (hpres : (p : ℕ) = residueCharacteristic K₁)
     (he₁ : (e₁ : ℕ) = absoluteRamificationIndex K₁)
     (he₂ : (e₂ : ℕ) = absoluteRamificationIndex K₂)
     (hf : (f : ℕ) = absoluteInertiaDegree K₁)

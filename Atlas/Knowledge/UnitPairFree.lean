@@ -4,6 +4,7 @@ import Atlas.Knowledge.BreakFunction
 import Atlas.Knowledge.FiltAut
 import Atlas.Knowledge.FiltOrd
 import Atlas.Knowledge.FreeFiltered
+import Atlas.Knowledge.TRhoEP
 
 /-!
 # unit pair in the torsion-free case
