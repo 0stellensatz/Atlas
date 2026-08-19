@@ -39,7 +39,7 @@ onto the fixing subgroup carrying the closed commutator subgroup into the closed
 subgroup—is the claim's business, not the statement's. The reciprocity maps of the two floors
 enter through `Atlas.Knowledge.IsLocalReciprocity`, each over its own local-field structure
 with `[ValuativeExtension K L]` tying the two, and the transfer enters as any `V` satisfying
-`Atlas.Knowledge.IsProfiniteTransfer`, unambiguous by that file's uniqueness claim. The source
+`Atlas.Knowledge.IsProfiniteTransfer`, unambiguous by that file's uniqueness theorem. The source
 states the square on the profinite completions; the form here is its restriction to `Kˣ`,
 which is dense, so nothing is lost. The fixing subgroup is the abstract-extension counterpart
 of the intermediate-field dictionary of `Atlas.Knowledge.AbsoluteGaloisSubextension`.
@@ -58,7 +58,7 @@ namespace Atlas.Knowledge
 
 namespace ArtinMapProfiniteTransferNaturality
 
-variable (K : Type*) [Field K] (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L]
+variable (K : Type*) [Field K] (L : Type*) [Field L] [Algebra K L]
   [Algebra L (AlgebraicClosure K)] [IsScalarTower K L (AlgebraicClosure K)]
 
 /-- The subgroup of the absolute Galois group of `K` fixing `L` pointwise: the fixing subgroup
@@ -69,7 +69,10 @@ noncomputable def fixingSubgroup : Subgroup (Field.absoluteGaloisGroup K) :=
 /-- Conjugation by a choice `ψ` of `L`-isomorphism of algebraic closures realizes the absolute
 Galois group of `L` inside the subgroup of `G_K` fixing `L`—the identification of the fixing
 subgroup with the Galois group of the subextension
-([Milne 2022, Chap. 7, Prop. 7.12, p.97][MilneFT]). -/
+([Milne 2022, Chap. 7, Prop. 7.12, p.97][MilneFT] for the fixing-subgroup dictionary when the
+closure is Galois over the base; the general case and the transport across the two closures
+are the standard argument, per the implementation notes of
+`Atlas.Knowledge.AbsoluteGaloisSubextension`). -/
 noncomputable def conj (ψ : AlgebraicClosure L ≃ₐ[L] AlgebraicClosure K) :
     Field.absoluteGaloisGroup L →* ↥(fixingSubgroup K L) :=
   MonoidHom.codRestrict

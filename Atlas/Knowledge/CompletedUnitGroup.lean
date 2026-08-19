@@ -12,7 +12,7 @@ parts (1) and (3) of the source's Lemma A.3, the input to its proof of the cente
 group is `G^ab` of the corresponding Galois group, so injectivity and descent here translate
 into statements about the tower of `Atlas.Knowledge.MStepSolvableQuotient`s. Part (2), the
 injectivity of the transfer map, has its vocabulary in `Atlas.Knowledge.IsProfiniteTransfer`
-and remains that tranche's gate, deliberately unstated here.
+and is deliberately unstated here.
 
 ## Main statements
 
