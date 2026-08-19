@@ -8,7 +8,7 @@ import Atlas.Knowledge.ShiftRhoEP
 import Atlas.Knowledge.TRhoEP
 
 /-!
-# strongly Eisenstein and the extremal invariant
+# extremal invariant of a strongly Eisenstein polynomial
 
 The source's Theorem 10.3: away from `(p, j) = (2, 0)`, an Eisenstein polynomial over
 `ℚ_{p^f} (ζ_{p^{j+1}})` is strongly Eisenstein in the sense of
@@ -17,7 +17,7 @@ the two-point extremal pair—level `e / (p^{v_p (e)} (p - 1))` with multiplicit
 and level `e_j + 1` with multiplicity `j + 1`. This is the jump set the source shows occurs
 with the highest probability, and the equivalence is how one reads "most likely" off the
 polynomial: a uniformizer in the linear coefficient. The excluded case is genuine—the source
-exhibits `x^2 + 2x + 2` over `ℚ_2`, strongly Eisenstein with invariant `{1}`.
+exhibits `x ^ 2 + 2 * x + 2` over `ℚ_2`, strongly Eisenstein with invariant `{1}`.
 
 ## Main statements
 
@@ -29,13 +29,18 @@ exhibits `x^2 + 2x + 2` over `ℚ_2`, strongly Eisenstein with invariant `{1}`.
 The base is characterized relationally, as in `Atlas.Knowledge.EisensteinFieldInvariant` at
 `j = 0`: residue characteristic `p`, absolute ramification index `p^j (p - 1)`, absolute
 inertia degree `f`, and a primitive `p^{j+1}`-th root of unity—a root of unity whose `p^j`-th
-power is not yet `1`—pin the field to `ℚ_{p^f} (ζ_{p^{j+1}})`. The source's standing
-`e ∈ p^{j+1} (p - 1) ℤ_{≥1}` is the divisibility hypothesis, on top of the equation tying `e`
-to the degree; the extremal pair's levels are spelled with truncating division and
-`Nat.toPNat'`, both exact and positive under it. The exclusion `(p, j) ≠ (2, 0)` is the
-disjunction of the two disequalities. The equivalence quantifies its field side over every
-module structure and unit filtration of the cut-out field; one direction of the informal
-statement therefore leans on the existence claim
+power is not yet `1`—pin the field to `ℚ_{p^f} (ζ_{p^{j+1}})`; the star model's parameters
+come from the base and the degree while the filtration presented is the cut-out field's,
+which is right because an Eisenstein generator makes the extension totally ramified, the
+inertia degree passing up unchanged and the ramification index multiplying by the degree. The
+source's standing `e ∈ p^{j+1} (p - 1) ℤ_{≥1}` is the divisibility hypothesis, on top of the
+equation tying `e` to the degree; together they force `p` to divide the degree, so the
+source's `d ≥ 2` for the strongly Eisenstein notion is implied here by the hypotheses. The
+extremal pair's levels are spelled with truncating division and `Nat.toPNat'`, both exact and
+positive under the divisibility, and the two points are always distinct, their multiplicities
+differing. The exclusion `(p, j) ≠ (2, 0)` is the disjunction of the two disequalities. The
+equivalence quantifies its field side over every module structure and unit filtration of the
+cut-out field; one direction of the informal statement therefore leans on the existence claim
 `Atlas.Knowledge.exists_isUnitFiltration`, which is what makes the quantified form and the
 source's form the same statement.
 

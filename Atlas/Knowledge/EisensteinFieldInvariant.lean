@@ -17,9 +17,11 @@ separable Eisenstein polynomial over the source's base `ℚ_{p^f} (ζ_p)`, the p
 `Atlas.Knowledge.IsStarQuotient`, the unit filtration of the field the polynomial cuts out—the
 source's `(I_{g(x)}, β_{g(x)}) = (I_{E_f[x]/g(x)}, β_{E_f[x]/g(x)})`, read here through the
 uniqueness of `Atlas.Knowledge.UnitFiltrationClassification`. Ahead of it, the membership
-upgrade that makes the identification well typed: under strong separability the pair, a
-`ρ_p`-jump pair by `Atlas.Knowledge.isJumpPair_eisensteinJumpPair`, is a jump pair for the
-finite-`T` shift `Atlas.Knowledge.ShiftRhoEP` as well.
+upgrade that lets that uniqueness identify the presentation with the field's invariant: under
+strong separability the pair, a `ρ_p`-jump pair by
+`Atlas.Knowledge.isJumpPair_eisensteinJumpPair`, is a jump pair for the finite-`T` shift
+`Atlas.Knowledge.ShiftRhoEP` as well, and `Atlas.Knowledge.IsJumpPair.T_star` widens it into
+the extended world the uniqueness quantifies over.
 
 ## Main statements
 
@@ -43,8 +45,12 @@ the full degree, so the field is that compositum. The cut-out field enters as a
 mixed-characteristic local field carrying an `E`-algebra structure together with a root of the
 polynomial that generates it, the reading of `E[x] ⧸ g(x)`; the algebra structure carries no
 valuative compatibility because none is needed, a field embedding of mixed-characteristic
-local fields being automatically continuous. The conclusion quantifies over every module
-structure and unit filtration of the cut-out field, as everywhere in this web;
+local fields being automatically continuous. The star model's parameters are the *base's*
+inertia degree and the degree-derived `e`, while the filtration presented is the *cut-out*
+field's: that is the right reading because an Eisenstein generator makes `K ⧸ E` totally
+ramified, so the inertia degree passes up unchanged and the ramification index multiplies by
+the degree—the one inference both statements stand on. The conclusion quantifies over every
+module structure and unit filtration of the cut-out field, as everywhere in this web;
 `Atlas.Knowledge.IsUnitFiltration` says why the quantification costs nothing. The uniformizer
 of the presentation is `p` itself, matching `Atlas.Knowledge.UnitFiltrationClassification`,
 whose uniqueness claim is what makes "the pair presents the filtration" the same statement as
@@ -61,12 +67,12 @@ namespace Atlas.Knowledge
 
 /-- The pair of a strongly separable Eisenstein polynomial is a `ρ_ep`-jump pair at
 `e = deg g · (p - 1)`, not only a `ρ_p`-one: strong separability caps the weights of the
-minimal points, which is what brings the levels and their iterates into the finite-`T` world.
+minimal points, which is what brings the levels into the finite-`T` world.
 Claim recorded ahead of its proof ([Pagano 2022, §1.2.1, p.408][Pagano2022]). -/
 theorem isJumpPair_ρ_ep_eisensteinJumpPair {R : Type*} [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] (p e : ℕ+) (hp : 1 < p) (hpp : (p : ℕ).Prime)
     {g : Polynomial R} (hg : g.IsEisensteinAt (IsLocalRing.maximalIdeal R))
-    (hval : (addVal R) (((p : ℕ) : R)) = (((p : ℕ) - 1 : ℕ) : ℕ∞))
+    (hval : (addVal R) ((p : ℕ) : R) = (((p : ℕ) - 1 : ℕ) : ℕ∞))
     (hss : IsStronglySeparablePolynomial (p : ℕ) g)
     (he : (e : ℕ) = g.natDegree * ((p : ℕ) - 1)) :
     IsJumpPair (ρ_ep e p hp) (Shift.T (ρ_ep e p hp)) (eisensteinJumpPair p hp g) := by
