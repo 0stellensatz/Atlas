@@ -32,7 +32,9 @@ prime-to-`p(G)` part of the order, which is `Nat.card` divided by
 `Atlas.Knowledge.GroupRootOfUnityExponent`, and the reason this file imports it. The Sylow
 reading is `eq_log_card_quotient_sylow`, through the order formula for the quotient by a
 subgroup and the Sylow order of `GroupRootOfUnityExponent.card_sylow`; the profinite-level
-vocabulary is `Atlas.Knowledge.IsProSylow`.
+vocabulary is `Atlas.Knowledge.IsProSylow`. As there, the hypotheses force `G` infinite—on a
+finite group `p(G)` junks to `0`, never prime—so the honest domain is the infinite abelian
+groups with finite torsion.
 
 ## References
 
