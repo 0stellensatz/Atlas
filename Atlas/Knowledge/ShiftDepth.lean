@@ -20,11 +20,13 @@ readings.
 
 ## Main statements
 
+* `Shift.exists_iterate_depth` — the depth is attained, off which the root is read.
+* `Shift.depth_lt` — the depth sits strictly below the position.
 * `Shift.iterate_root` — the root really is a preimage: `ρ^[depth x] (root x) = x`.
 * `Shift.root_mem_T` — the root is missed by the shift: one more pull-back would contradict
   the maximality of the depth.
-* `Shift.depth_iterate_of_mem_T` — on iterates of a `T_ρ`-point the depth is exact.
-* `Shift.add_le_iterate` — iterates grow at least linearly, which is what bounds the depth.
+* `Shift.depth_iterate_of_mem_T`, `Shift.root_iterate_of_mem_T` — on iterates of a
+  `T_ρ`-point the depth is exact and the root is that point.
 
 ## Implementation notes
 
@@ -53,15 +55,6 @@ noncomputable def depth (x : ℕ+) : ℕ :=
 private theorem depth_set_nonempty (x : ℕ+) : {m | ∃ y, (⇑ρ)^[m] y = x}.Nonempty :=
   ⟨0, x, rfl⟩
 
-/-- Iterates of a shift grow at least linearly: each application strictly increases. -/
-theorem add_le_iterate (y : ℕ+) (m : ℕ) : (y : ℕ) + m ≤ ((⇑ρ)^[m] y : ℕ) := by
-  induction m with
-  | zero => simp
-  | succ m ih =>
-    rw [Function.iterate_succ_apply']
-    have h2 : ((⇑ρ)^[m] y : ℕ) < (ρ ((⇑ρ)^[m] y) : ℕ) := by exact_mod_cast ρ.lt_apply _
-    omega
-
 private theorem depth_set_bddAbove (x : ℕ+) : BddAbove {m | ∃ y, (⇑ρ)^[m] y = x} := by
   refine ⟨(x : ℕ), fun m hm => ?_⟩
   obtain ⟨y, hy⟩ := hm
@@ -73,6 +66,18 @@ private theorem depth_set_bddAbove (x : ℕ+) : BddAbove {m | ∃ y, (⇑ρ)^[m]
 /-- The depth is attained: some `y` reaches `x` in exactly `depth x` steps. -/
 theorem exists_iterate_depth (x : ℕ+) : ∃ y, (⇑ρ)^[ρ.depth x] y = x :=
   Nat.sSup_mem (ρ.depth_set_nonempty x) (ρ.depth_set_bddAbove x)
+
+/-- The depth sits strictly below the position: pulling back `x` times would outrun `x`. -/
+theorem depth_lt (x : ℕ+) : ρ.depth x < (x : ℕ) := by
+  have hle : ρ.depth x ≤ (x : ℕ) - 1 := by
+    refine csSup_le ⟨0, x, rfl⟩ (fun m hm => ?_)
+    obtain ⟨y, hy⟩ := hm
+    have h := ρ.add_le_iterate y m
+    rw [hy] at h
+    have := y.pos
+    omega
+  have := x.pos
+  omega
 
 /-- The **root** of `x` along a shift: the point from which `x` is reached in `depth x`
 steps—in the shooting game, the position of the shooter aiming at the rabbit at `x`
@@ -116,6 +121,15 @@ theorem depth_iterate_of_mem_T {y : ℕ+} (hy : y ∈ Shift.T ρ) (m : ℕ) :
     rw [hk, Function.iterate_succ_apply'] at hy'
     exact hy.2 ⟨(⇑ρ)^[k] z, Set.mem_univ _, hy'⟩
   · omega
+
+/-- The root of an iterate of a `T_ρ`-point is that point: the companion of the exact depth,
+which is what computes the shooter under a known pull-back. -/
+theorem root_iterate_of_mem_T {y : ℕ+} (hy : y ∈ Shift.T ρ) (m : ℕ) :
+    ρ.root ((⇑ρ)^[m] y) = y := by
+  have hd := ρ.depth_iterate_of_mem_T hy m
+  have hr := ρ.iterate_root ((⇑ρ)^[m] y)
+  rw [hd] at hr
+  exact Function.Injective.iterate ρ.inj m hr
 
 end Shift
 
