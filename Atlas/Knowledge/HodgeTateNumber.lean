@@ -1,5 +1,4 @@
 import Mathlib
-import Atlas.Knowledge.CharacterTwist
 import Atlas.Knowledge.IsLadicRepresentation
 import Atlas.Knowledge.PadicComplexGaloisAction
 import Atlas.Knowledge.TateTwist
@@ -30,27 +29,34 @@ the recorded claim, and the fixed-field base of the dimension is computed by
 
 Both are claims recorded ahead of their proofs.
 
-* `HodgeTateNumber.support_finite` — for an open `H` and an `ℓ`-adic representation, only
-  finitely many numbers are nonzero.
+* `HodgeTateNumber.support_finite` — for an open `H` and a `p`-adic representation—the
+  condition of `Atlas.Knowledge.IsLadicRepresentation` at `ℓ = p`—only finitely many numbers
+  are nonzero.
 * `HodgeTateNumber.finsum_le` — their sum is at most the dimension of `V`.
 
 ## Implementation notes
 
 The source states the numbers for a `p_K`-adic representation of `G_K`, `K` a
 mixed-characteristic local field; here `G_K` is a subgroup `H` of the absolute Galois group of
-the base `ℚ_[p]`, the frame of `Atlas.Knowledge.AxSenTate`, and the twist is by the cyclotomic
-character of the base restricted to `H`, which is the cyclotomic character of the subextension.
-The `K`-vector space structure enters with no construction: the invariants are `H`-fixed, the
-fixed field acts on the left tensor factor through `ℂ_[p]`, and the action of `H` commutes
-with that multiplication exactly because the fixed field is fixed—the content of the
-`smul_mem'` field of `invariants`. The definitions are total: for a subgroup that is not open,
-or a representation that is not `ℓ`-adic, the numbers are whatever `Module.finrank` junk-values
-them to be—`0` wherever the invariants have infinite rank—and the recorded claims say nothing
-there; `IsHodgeTate` reads the honest equality on the claims' domain, where the support is
-finite, and compares a finite sum. The claims carry `IsOpen` rather than `IsClosed` because
-the source's base is a mixed-characteristic local field: for a general closed subgroup the
-cyclotomic character can die on `H` and the twists collapse, so finiteness of the support is
-genuinely a statement about the open case.
+the base `ℚ_[p]`, the frame of `Atlas.Knowledge.AxSenTate`, and the twist is
+`Atlas.Knowledge.tateTwist` along the inclusion of `H`—the restriction to `H` of the base's
+cyclotomic character, which is the cyclotomic character of the subextension, an identification
+across the two closures that the layer does not yet state and whose vocabulary is
+`Atlas.Knowledge.CyclotomicCharacterInvariance`. The `K`-vector space structure enters with no
+construction: the invariants are `H`-fixed, the fixed field acts on the left tensor factor
+through `ℂ_[p]`, and the action of `H` commutes with that multiplication exactly because the
+fixed field is fixed—the content of the `smul_mem'` field of `invariants`. The definitions are
+total, and their junk values all fall to `0`: `Module.finrank` vanishes wherever the invariants
+have infinite rank, which off the open case is everywhere they are nonzero at all, the fixed
+field of a non-open subgroup being incomplete of infinite corank in its completion. The claims
+carry `IsOpen` not because they would fail off it—they would hold vacuously, every number
+junking to `0`—but because the open case is where the numbers compute the source's
+`d^i_{HT,K}`: for open `H` the fixed field is a finite extension of `ℚ_[p]`, complete, and
+equal to the fixed points of `ℂ_[p]` by `Atlas.Knowledge.axSenTate`, so the dimension is taken
+over the field the source takes it over. `IsHodgeTate` reads the honest equality on the
+claims' domain, where the support and the sum are finite; note its junk lands on the *true*
+side for a `V` of infinite dimension over `ℚ_[p]`, both sides vanishing, which a consumer
+should mind before applying it off the `p`-adic domain.
 
 ## References
 
@@ -76,14 +82,12 @@ noncomputable def galois (H : Subgroup (Field.absoluteGaloisGroup ℚ_[p])) :
   (AlgEquiv.toLinearMapHom ℚ_[p] ℂ_[p]).comp ((padicComplexGaloisAction p).comp H.subtype)
 
 /-- The representation of `H` on `ℂ_[p] ⊗ V(i)`: the Galois action on the left factor,
-tensored with the `i`th Tate twist of `ρ`—the twist by the `i`th power of the cyclotomic
-character of the base restricted to `H`
+tensored with the `i`th Tate twist of `ρ` along the inclusion of `H`
 ([Brinon–Conrad 2009, §2.2, p.12][BrinonConrad2009], the operation `V ↝ ℂ_K ⊗ V` with the
 action `g (c ⊗ v) = g(c) ⊗ g(v)`). -/
 noncomputable def twistedTensor (ρ : Representation ℚ_[p] ↥H V) (i : ℤ) :
     Representation ℚ_[p] ↥H (TensorProduct ℚ_[p] ℂ_[p] V) :=
-  (galois H).tprod
-    (characterTwist ρ ((TateTwist.padicCyclotomicCharacter p ℚ_[p]).comp H.subtype ^ i))
+  (galois H).tprod (tateTwist ρ H.subtype i)
 
 /-- The action of `H` on `ℂ_[p] ⊗ V(i)` commutes with the multiplication by the fixed field
 of `H` on the left factor: the twisted tensor action is linear over the fixed field. -/
@@ -136,7 +140,7 @@ end HodgeTateNumber
 /-- The `i`th **Hodge–Tate number** of a representation of a subgroup `H` of the absolute
 Galois group of `ℚ_[p]`: the dimension, over the fixed field of `H`, of the `H`-invariants of
 `ℂ_[p] ⊗ V(-i)` ([Hyeon 2025, §5, p.18][Hyeon2025], the number `d^i_{HT,K}`;
-[Brinon–Conrad 2009, Remark 2.3.2, p.17][BrinonConrad2009], the subspaces `W[q]`). -/
+[Brinon–Conrad 2009, Remark 2.3.2, p.17][BrinonConrad2009], the subspaces `W[-i]`). -/
 noncomputable def hodgeTateNumber (p : ℕ) [Fact p.Prime]
     (H : Subgroup (Field.absoluteGaloisGroup ℚ_[p])) {V : Type*} [AddCommGroup V]
     [Module ℚ_[p] V] (ρ : Representation ℚ_[p] ↥H V) (i : ℤ) : ℕ :=
@@ -144,27 +148,31 @@ noncomputable def hodgeTateNumber (p : ℕ) [Fact p.Prime]
     ↥(HodgeTateNumber.invariants ρ (-i))
 
 /-- **Hodge–Tateness**: the Hodge–Tate numbers of the representation sum to the dimension of
-its space—the equality case of `HodgeTateNumber.finsum_le`
-([Hyeon 2025, §5, p.18][Hyeon2025]; [Brinon–Conrad 2009, Def. 2.3.4, p.17][BrinonConrad2009]). -/
+its space—the equality case of `HodgeTateNumber.finsum_le` ([Hyeon 2025, §5, p.18][Hyeon2025];
+[Brinon–Conrad 2009, Def. 2.3.4 and Ex. 2.3.5, p.17][BrinonConrad2009], where the intrinsic
+`ξ_W`-form is shown equivalent to this sum equality). -/
 def IsHodgeTate (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGaloisGroup ℚ_[p]))
     {V : Type*} [AddCommGroup V] [Module ℚ_[p] V] (ρ : Representation ℚ_[p] ↥H V) : Prop :=
   ∑ᶠ i : ℤ, hodgeTateNumber p H ρ i = Module.finrank ℚ_[p] V
 
 namespace HodgeTateNumber
 
-/-- For an open subgroup and an `ℓ`-adic representation, only finitely many Hodge–Tate numbers
-are nonzero. Claim recorded ahead of its proof ([Hyeon 2025, §5, p.18][Hyeon2025];
-[Brinon–Conrad 2009, Remark 2.3.2, p.17][BrinonConrad2009]). -/
+/-- For an open subgroup and a `p`-adic representation, only finitely many Hodge–Tate numbers
+are nonzero. Claim recorded ahead of its proof
+([Brinon–Conrad 2009, Remark 2.3.2, p.17][BrinonConrad2009], "vanish for all but finitely
+many"; [Hyeon 2025, §5, p.18][Hyeon2025], where the finiteness is implicit in the sum over
+`ℤ`). -/
 theorem support_finite (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGaloisGroup ℚ_[p]))
     (hH : IsOpen (H : Set (Field.absoluteGaloisGroup ℚ_[p]))) {V : Type*} [AddCommGroup V]
     [Module ℚ_[p] V] [TopologicalSpace V] (ρ : Representation ℚ_[p] ↥H V)
     (hρ : IsLadicRepresentation ρ) : {i : ℤ | hodgeTateNumber p H ρ i ≠ 0}.Finite := by
   sorry
 
-/-- The Hodge–Tate numbers of an `ℓ`-adic representation of an open subgroup sum to at most
+/-- The Hodge–Tate numbers of a `p`-adic representation of an open subgroup sum to at most
 the dimension of its space. Claim recorded ahead of its proof
-([Hyeon 2025, §5, p.18][Hyeon2025]; [Brinon–Conrad 2009, Remark 2.3.2,
-p.17][BrinonConrad2009], the injectivity of `⊕ (ℂ_K ⊗ W[q]) → W`). -/
+([Hyeon 2025, §5, p.18][Hyeon2025];
+[Brinon–Conrad 2009, Remark 2.3.2, p.17][BrinonConrad2009], the injectivity of
+`⊕ (ℂ_K ⊗ W[q]) → W`). -/
 theorem finsum_le (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGaloisGroup ℚ_[p]))
     (hH : IsOpen (H : Set (Field.absoluteGaloisGroup ℚ_[p]))) {V : Type*} [AddCommGroup V]
     [Module ℚ_[p] V] [TopologicalSpace V] (ρ : Representation ℚ_[p] ↥H V)

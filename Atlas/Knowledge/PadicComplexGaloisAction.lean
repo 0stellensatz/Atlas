@@ -7,15 +7,20 @@ The absolute Galois group of `ℚ_[p]` acts on Mathlib's field `ℂ_[p]` of `p`-
 numbers: each automorphism of the algebraic closure is an isometry for the spectral norm, so it
 extends uniquely to the completion, and the extensions assemble into a homomorphism into the
 `ℚ_[p]`-algebra automorphisms. This is the `G_K`-module structure the source puts on
-`ℂ_{p_K}`—stated over the base `ℚ_[p]`, whose closure is every mixed-characteristic local
-field's closure—and it is the layer's entry into `p`-adic Hodge theory: the fixed points of a
-closed subgroup are `Atlas.Knowledge.axSenTate`, and the twisted tensor invariants built on it
-are `Atlas.Knowledge.hodgeTateNumber`.
+`ℂ_{p_K}`—stated over the base `ℚ_[p]`, whose closure is the closure of every
+mixed-characteristic local field of residue characteristic `p`—and it is the layer's entry
+into `p`-adic Hodge theory: the fixed points of a closed subgroup are
+`Atlas.Knowledge.axSenTate`, and the twisted tensor invariants built on it are
+`Atlas.Knowledge.hodgeTateNumber`.
 
 ## Main definitions
 
 * `padicComplexGaloisAction` — the homomorphism from the absolute Galois group of `ℚ_[p]` to
   the `ℚ_[p]`-algebra automorphisms of `ℂ_[p]`.
+* `PadicComplexGaloisAction.toAlgEquiv`, `PadicComplexGaloisAction.toGalSubgroup` — the
+  definitional unwrappings of a Galois element, and of a subgroup, to the automorphism group
+  of `PadicAlgCl p`; the second is how `Atlas.Knowledge.axSenTate` and
+  `Atlas.Knowledge.hodgeTateNumber` reach `IntermediateField.fixedField`.
 
 ## Main statements
 
@@ -78,10 +83,12 @@ noncomputable def ringHom (σ : Field.absoluteGaloisGroup ℚ_[p]) : ℂ_[p] →
   UniformSpace.Completion.mapRingHom ((toAlgEquiv σ).toAlgHom : PadicAlgCl p →+* PadicAlgCl p)
     (isometry σ).continuous
 
+/-- The extension agrees with the automorphism on the image of the algebraic closure. -/
 theorem ringHom_coe (σ : Field.absoluteGaloisGroup ℚ_[p]) (x : PadicAlgCl p) :
     ringHom σ (x : ℂ_[p]) = (toAlgEquiv σ x : ℂ_[p]) :=
   UniformSpace.Completion.map_coe (isometry σ).uniformContinuous x
 
+/-- Extension is compatible with composition: the extensions form a monoid action. -/
 theorem ringHom_comp (σ τ : Field.absoluteGaloisGroup ℚ_[p]) :
     (ringHom σ).comp (ringHom τ) = ringHom (σ * τ) :=
   RingHom.ext fun x =>
@@ -90,6 +97,7 @@ theorem ringHom_comp (σ τ : Field.absoluteGaloisGroup ℚ_[p]) :
         (isometry τ).uniformContinuous)
       x
 
+/-- The identity extends to the identity. -/
 theorem ringHom_one : ringHom (1 : Field.absoluteGaloisGroup ℚ_[p]) = RingHom.id ℂ_[p] :=
   RingHom.ext fun x => congrFun UniformSpace.Completion.map_id x
 
