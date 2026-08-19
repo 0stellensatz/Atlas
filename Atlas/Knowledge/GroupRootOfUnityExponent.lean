@@ -15,13 +15,20 @@ recovers the invariant `a_K` of `Atlas.Knowledge.RootOfUnityExponent`, which is 
 
 * `groupRootOfUnityExponent` — the `p(G)`-adic valuation of the order of the torsion subgroup.
 
+## Main statements
+
+* `GroupRootOfUnityExponent.card_sylow` — every `p(G)`-Sylow subgroup of a finite torsion has
+  order `p(G) ^ a(G)`: the source's Sylow reading of the encoding. Proved.
+
 ## Implementation notes
 
 The source takes the base-`p(G)` logarithm of the order of the `p(G)`-Sylow subgroup; for a
 finite abelian group that order is the `p(G)`-part of the group order, so the encoding is
 `Nat.factorization` of `Nat.card` of the torsion at `p(G)`, which needs no `Fact` of primality
 and no Sylow machinery. When the torsion is infinite `Nat.card` is `0`, whose factorization is
-`0` everywhere—the junk value is `0`.
+`0` everywhere—the junk value is `0`. The Sylow reading itself is `card_sylow`, which restores
+the subgroup language where a consumer wants it; the profinite-level vocabulary is
+`Atlas.Knowledge.IsProSylow`.
 
 ## References
 
@@ -36,5 +43,19 @@ order of the `p(G)`-Sylow subgroup of its torsion, encoded as the `p(G)`-adic va
 order of the torsion subgroup ([Hyeon 2025, §3, p.10][Hyeon2025]). -/
 noncomputable def groupRootOfUnityExponent (G : Type*) [CommGroup G] : ℕ :=
   (Nat.card (CommGroup.torsion G)).factorization (groupResidueCharacteristic G)
+
+namespace GroupRootOfUnityExponent
+
+/-- Every `p(G)`-Sylow subgroup of a finite torsion has order `p(G) ^ a(G)`: the
+`Nat.factorization` encoding agrees with the source's Sylow-subgroup reading
+([Hyeon 2025, §3, p.10][Hyeon2025]). -/
+theorem card_sylow (G : Type*) [CommGroup G] (hp : (groupResidueCharacteristic G).Prime)
+    [Finite (CommGroup.torsion G)]
+    (P : Sylow (groupResidueCharacteristic G) (CommGroup.torsion G)) :
+    Nat.card P = groupResidueCharacteristic G ^ groupRootOfUnityExponent G := by
+  haveI : Fact (groupResidueCharacteristic G).Prime := ⟨hp⟩
+  exact Sylow.card_eq_multiplicity P
+
+end GroupRootOfUnityExponent
 
 end Atlas.Knowledge
