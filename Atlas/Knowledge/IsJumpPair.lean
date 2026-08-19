@@ -1,5 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.Shift
+import Atlas.Knowledge.ShiftTStar
 
 /-!
 # jump pair
@@ -17,6 +18,11 @@ graphs make equality of pairs plain `Finset` equality, which is what the equival
 
 * `IsJumpPair` — graphs of the pairs `(I, β)` with `I ⊆ S`, `β` strictly decreasing, and
   `i ↦ ρ^[β i] i` strictly increasing.
+
+## Main statements
+
+* `IsJumpPair.T_star` — a jump pair over `T ρ` is one over `T_star ρ`: the index set enters
+  one clause, and the extended set contains the plain one.
 
 ## References
 
@@ -68,6 +74,13 @@ theorem iterate_sub_lt (h : IsJumpPair ρ S P) {p q : ℕ+ × ℕ+} (hp : p ∈ 
   rw [hsplit, Function.iterate_add_apply] at h3
   exact lt_of_le_of_lt (ρ.iterate_le_iterate_right p.1 hn)
     ((ρ.strict_mono.iterate (q.2 : ℕ)).lt_iff_lt.mp h3)
+
+/-- A jump pair over `T ρ` is one over `T_star ρ`: the index set enters only the membership
+clause, and the extended set contains the plain one. This is the bridge from the plain
+membership statements to the extended quantifications of the classification layer. -/
+theorem T_star {ρ : Shift} {hρ : (Shift.T ρ).Finite} {P : Finset (ℕ+ × ℕ+)}
+    (h : IsJumpPair ρ (Shift.T ρ) P) : IsJumpPair ρ (Shift.T_star ρ hρ) P :=
+  ⟨h.1, fun p hp => Or.inl (h.2.1 p hp), h.2.2.1, h.2.2.2⟩
 
 end IsJumpPair
 
