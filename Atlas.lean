@@ -21,6 +21,9 @@ import Atlas.Knowledge.ArtinMapNormNaturality
 import Atlas.Knowledge.ArtinMapProfiniteTransferNaturality
 import Atlas.Knowledge.ArtinRamificationCompatibility
 import Atlas.Knowledge.AxSenTate
+import Atlas.Knowledge.CharacterExclusion
+import Atlas.Knowledge.CharacterGraph
+import Atlas.Knowledge.CharacterRegularization
 import Atlas.Knowledge.CharacterTwist
 import Atlas.Knowledge.ClosedDerivedSeries
 import Atlas.Knowledge.CompletedUnitGroup
@@ -50,6 +53,7 @@ import Atlas.Knowledge.FilteredRhoMap
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
 import Atlas.Knowledge.FinitePlaceIdele
+import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.GaussReciprocity
 import Atlas.Knowledge.GlobalKroneckerWeber
@@ -83,6 +87,7 @@ import Atlas.Knowledge.IsAdmissibleJumpPair
 import Atlas.Knowledge.IsArithmeticFrobenius
 import Atlas.Knowledge.IsArtinRestriction
 import Atlas.Knowledge.IsConductor
+import Atlas.Knowledge.IsFilteredCharacter
 import Atlas.Knowledge.IsFilteredHom
 import Atlas.Knowledge.IsFinitePlaceHilbertSymbol
 import Atlas.Knowledge.IsFrobeniusNormalized
@@ -151,6 +156,7 @@ import Atlas.Knowledge.PowerResidueReciprocity
 import Atlas.Knowledge.PrimeIdealPowerResidueSymbol
 import Atlas.Knowledge.PrincipalIdele
 import Atlas.Knowledge.QuasiFreeFiltered
+import Atlas.Knowledge.QuasiFreeTorsion
 import Atlas.Knowledge.RamificationFiltration
 import Atlas.Knowledge.RamificationNumber
 import Atlas.Knowledge.RamificationNumberEqAddVal
