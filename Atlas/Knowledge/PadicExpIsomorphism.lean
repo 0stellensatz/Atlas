@@ -2,6 +2,7 @@ import Mathlib
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.IsMixedCharLocalField
+import Atlas.Knowledge.PadicExpConvergence
 import Atlas.Knowledge.PadicLogarithm
 import Atlas.Knowledge.ResidueCharacteristic
 
@@ -31,6 +32,9 @@ All are claims recorded ahead of their proofs.
 * `PadicExpIsomorphism.exp_padicLogarithm` — the exponential inverts the logarithm on
   `U i (K)`.
 
+Of the four, `PadicExpIsomorphism.exp_add` is proved; the other three are claims recorded ahead
+of their proofs.
+
 ## Implementation notes
 
 The exponential is Mathlib's `NormedSpace.exp`, whose value at `x` is the sum of the series
@@ -48,7 +52,21 @@ level, so their per-level forms follow by inclusion. On these domains the value 
 exponential lands on a unit because its series has first term `1` and the tail falls in the
 maximal ideal, which is what membership of the value in the image of `U i (K)` encodes. No
 claim is made at or below the threshold, where the series diverges and the value of
-`NormedSpace.exp` is junk. The cited sources state the inverse-isomorphism pair on the whole
+`NormedSpace.exp` is junk.
+
+`exp_add` is the Cauchy product and nothing more. `NormedSpace.exp_eq_tsum_rat` spells the
+exponential as exactly the `tsum` this layer writes, and on the convergence ideal the series is
+*absolutely* summable—`Atlas.Knowledge.PadicExpConvergence.summable_norm_expSeries`, which is
+the "if" half of the threshold theorem factored out for this purpose—so
+`tsum_mul_tsum_eq_tsum_sum_antidiagonal_of_summable_norm` turns the product of the two sums into
+a sum over antidiagonals, and what remains is the binomial identity one `n` at a time:
+`(n !)⁻¹ * (n.choose i) = (i !)⁻¹ * (j !)⁻¹` for `i + j = n`, which is
+`Nat.add_choose_mul_factorial_mul_factorial` cast into `K`. Nothing about the nonarchimedean
+structure enters beyond the absolute summability, which is why this one claim of the four is
+reachable while the two inversion identities are not: those need the functional equation of
+`PowerSeries.log`, which Mathlib does not have at this revision.
+
+The cited sources state the inverse-isomorphism pair on the whole
 convergence ball—Koblitz over `ℂ_p`, from which the restriction to `K` is immediate—and the
 per-level bijection is the standard refinement: above the threshold the exponential and the
 logarithm preserve the valuation, so the ball bijection cuts to each level; the level
@@ -65,9 +83,39 @@ statement of the third source is the instance the layer's consumers use.
   fields*, J. London Math. Soc. **112** (2025), e70402.
 -/
 
-open ValuativeRel
+open ValuativeRel Finset.HasAntidiagonal
+open scoped Nat
 
 namespace Atlas.Knowledge
+
+namespace PadicExpIsomorphism
+
+/-- The binomial identity behind `exp_add`, one `n` at a time: the `n`th term of the
+exponential series at `x + y` is the antidiagonal sum of the products of the `i`th term at `x`
+and the `j`th term at `y`, because `(n !)⁻¹ * (n.choose i) = (i !)⁻¹ * (j !)⁻¹`. -/
+private theorem expTerm_add (K : Type*) [Field K] [CharZero K] (x y : K) (n : ℕ) :
+    ((n ! : ℚ)⁻¹) • (x + y) ^ n
+      = ∑ kl ∈ antidiagonal n, (((kl.1 ! : ℚ)⁻¹) • x ^ kl.1) * (((kl.2 ! : ℚ)⁻¹) • y ^ kl.2) := by
+  rw [(Commute.all x y).add_pow', Finset.smul_sum]
+  refine Finset.sum_congr rfl fun kl hkl => ?_
+  rw [mem_antidiagonal] at hkl
+  subst hkl
+  have h1 : ((kl.1 ! : ℕ) : K) ≠ 0 := by exact_mod_cast kl.1.factorial_ne_zero
+  have h2 : ((kl.2 ! : ℕ) : K) ≠ 0 := by exact_mod_cast kl.2.factorial_ne_zero
+  have h3 : ((((kl.1 + kl.2)! : ℕ)) : K) ≠ 0 := by exact_mod_cast (kl.1 + kl.2).factorial_ne_zero
+  have hkey : (((kl.1 + kl.2).choose kl.1 : ℕ) : K) * ((kl.1 ! : ℕ) : K) * ((kl.2 ! : ℕ) : K)
+      = (((kl.1 + kl.2)! : ℕ) : K) := by
+    have h := Nat.add_choose_mul_factorial_mul_factorial kl.2 kl.1
+    rw [Nat.add_comm kl.2 kl.1] at h
+    exact_mod_cast congrArg (fun m : ℕ => (m : K)) (by linarith [h] : (kl.1 + kl.2).choose kl.1 *
+      kl.1 ! * kl.2 ! = (kl.1 + kl.2)!)
+  rw [Rat.smul_def, Rat.smul_def, Rat.smul_def, nsmul_eq_mul]
+  push_cast
+  field_simp
+  linear_combination (x ^ kl.1 * y ^ kl.2) * hkey
+
+end PadicExpIsomorphism
+
 
 /-- Above the threshold `e / (p - 1)`, the exponential is a bijection of the ideal power onto
 the higher unit group: for `(p - 1) * i > e`, `NormedSpace.exp` maps the image of `𝓂 ^ i` in
@@ -88,10 +136,11 @@ theorem padicExpIsomorphism (K : Type*) [Field K] [ValuativeRel K] [TopologicalS
 
 namespace PadicExpIsomorphism
 
+set_option synthInstance.maxHeartbeats 80000 in
+-- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.
 /-- On the convergence ideal, the exponential turns addition into multiplication:
 `exp (x + y) = exp x * exp y` for `x`, `y` in `𝓂 ^ (e / (p - 1) + 1)`—hence on every deeper
-level by inclusion. Claim recorded ahead of its proof
-([Koblitz 1984, Chap. IV, §1, p.80][Koblitz1984];
+level by inclusion ([Koblitz 1984, Chap. IV, §1, p.80][Koblitz1984];
 [Fesenko–Vostokov 2002, Chap. VI, (1.2) and (1.5), pp.208, 212][FesenkoVostokov2002]). -/
 theorem exp_add (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] (x y : ↥𝒪[K])
@@ -100,7 +149,24 @@ theorem exp_add (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     (hy : y ∈ (𝓂[K] ^ (absoluteRamificationIndex K / (residueCharacteristic K - 1) + 1) :
       Ideal ↥𝒪[K])) :
     NormedSpace.exp ((x : K) + (y : K)) = NormedSpace.exp (x : K) * NormedSpace.exp (y : K) := by
-  sorry
+  have hp : (residueCharacteristic K).Prime := residueCharacteristic_prime K
+  -- Rebuild the normed structure; its topology is the given one.
+  letI : UniformSpace K := IsTopologicalAddGroup.rightUniformSpace K
+  haveI : IsUniformAddGroup K := isUniformAddGroup_of_addCommGroup
+  letI : (Valued.v (R := K)).RankOne :=
+    { hom' := IsRankLeOne.nonempty.some.emb (R := K).comp MonoidWithZeroHom.ValueGroup₀.embedding
+      strictMono' := IsRankLeOne.nonempty.some.strictMono.comp
+        MonoidWithZeroHom.ValueGroup₀.embedding_strictMono }
+  letI : NontriviallyNormedField K := Valued.toNontriviallyNormedField K (ValueGroupWithZero K)
+  haveI : CompleteSpace K := inferInstance
+  have hc : ∀ z : K, ‖z‖ ≤ 1 ↔ valuation K z ≤ 1 := fun z => Valued.toNormedField.norm_le_one_iff
+  have hpe := span_residueCharacteristic_eq_maximalIdeal_pow K
+  rw [NormedSpace.exp_eq_tsum_rat]
+  simp only
+  rw [tsum_mul_tsum_eq_tsum_sum_antidiagonal_of_summable_norm
+    (PadicExpConvergence.summable_norm_expSeries hc hp hpe hx)
+    (PadicExpConvergence.summable_norm_expSeries hc hp hpe hy)]
+  exact tsum_congr fun n => expTerm_add K _ _ n
 
 /-- The logarithm inverts the exponential on the convergence ideal: `log (exp x) = x` for
 `x ∈ 𝓂 ^ (e / (p - 1) + 1)`—hence on every deeper level by inclusion. Claim recorded ahead of

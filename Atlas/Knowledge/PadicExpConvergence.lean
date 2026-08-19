@@ -117,8 +117,7 @@ end Arith
 
 section Ideal
 
-variable {K : Type*} [Field K] [ValuativeRel K] [TopologicalSpace K]
-  [IsMixedCharLocalField K]
+variable {K : Type*} [Field K] [ValuativeRel K] [IsDiscreteValuationRing ↥𝒪[K]]
 
 set_option synthInstance.maxHeartbeats 80000 in
 -- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.
@@ -130,6 +129,111 @@ private theorem mem_pow_iff {ϖ : ↥𝒪[K]} (hϖ : Irreducible ϖ) {u : (↥�
   exact pow_dvd_pow_iff hϖ.ne_zero hϖ.not_isUnit
 
 end Ideal
+
+section Normed
+
+variable {K : Type*} [NormedField K] [CharZero K] [ValuativeRel K]
+  [IsDiscreteValuationRing ↥𝒪[K]]
+  (hc : ∀ y : K, ‖y‖ ≤ 1 ↔ valuation K y ≤ 1)
+  (hp : (residueCharacteristic K).Prime)
+  (hpe : Ideal.span {((residueCharacteristic K : ℕ) : ↥𝒪[K])}
+    = 𝓂[K] ^ absoluteRamificationIndex K)
+
+include hc hp hpe
+
+set_option synthInstance.maxHeartbeats 80000 in
+-- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.
+/-- The structure of the series at a nonzero integer, read off a uniformizer `ϖ`: with
+`c = ‖ϖ‖` and `x = u * ϖ ^ w`, the term at `n` has norm `c ^ (w * n) / c ^ (e * v_p (n !))`,
+and membership of `x` in a power of the maximal ideal is the comparison `k ≤ w`. Everything
+both directions of `Atlas.Knowledge.padicExpConvergence` need, and everything
+`Atlas.Knowledge.PadicExpIsomorphism.exp_add` needs, is here. -/
+theorem exists_norm_term_eq {x : ↥𝒪[K]} (hx0 : x ≠ 0) :
+    ∃ (c : ℝ) (w : ℕ), 0 < c ∧ c < 1 ∧
+      (∀ n : ℕ, ‖(n ! : ℚ)⁻¹ • ((x : K) ^ n)‖
+        = c ^ (w * n) / c ^ (absoluteRamificationIndex K *
+            padicValNat (residueCharacteristic K) (n !))) ∧
+      (∀ k : ℕ, x ∈ (𝓂[K] ^ k : Ideal ↥𝒪[K]) ↔ k ≤ w) := by
+  have hunit : ∀ v : (↥𝒪[K])ˣ, ‖((v : ↥𝒪[K]) : K)‖ = 1 := by
+    intro v
+    refine (norm_eq_one_iff_valuation_eq_one hc _).mpr ?_
+    have h2 : valuation K ((algebraMap (↥𝒪[K]) K) (v : ↥𝒪[K])) = 1 :=
+      (Valuation.integer.integers (valuation K)).isUnit_iff_valuation_eq_one.mp v.isUnit
+    exact h2
+  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
+  obtain ⟨w, u, hu⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hx0 hϖ
+  refine ⟨‖((ϖ : ↥𝒪[K]) : K)‖, w, ?_, ?_, ?_, ?_⟩
+  · rw [norm_pos_iff]; simpa using hϖ.ne_zero
+  · rw [norm_lt_one_iff_valuation_lt_one hc]
+    exact valuation_lt_one_of_mem_maximalIdeal _
+      (by rw [hϖ.maximalIdeal_eq]; exact Ideal.mem_span_singleton_self ϖ)
+  · have hxnorm : ‖(x : K)‖ = ‖((ϖ : ↥𝒪[K]) : K)‖ ^ w := by
+      rw [hu]; push_cast; rw [norm_mul, norm_pow, hunit u, one_mul]
+    have hpnorm : ‖((residueCharacteristic K : ℕ) : K)‖
+        = ‖((ϖ : ↥𝒪[K]) : K)‖ ^ absoluteRamificationIndex K := by
+      obtain ⟨v, hv⟩ : Associated ((residueCharacteristic K : ℕ) : ↥𝒪[K])
+          (ϖ ^ absoluteRamificationIndex K) := by
+        rw [← Ideal.span_singleton_eq_span_singleton, ← Ideal.span_singleton_pow,
+          ← hϖ.maximalIdeal_eq]
+        exact hpe
+      have := congrArg (fun z : ↥𝒪[K] => ‖(z : K)‖) hv
+      simpa [hunit v] using this
+    intro n
+    rw [Rat.smul_def, norm_mul, norm_pow, hxnorm, ← pow_mul, div_eq_mul_inv, mul_comm]
+    congr 1
+    push_cast
+    rw [norm_inv, norm_natCast_eq_pow hc hp _ n.factorial_ne_zero, hpnorm, ← pow_mul]
+  · intro k; rw [hu]; exact mem_pow_iff hϖ
+
+set_option synthInstance.maxHeartbeats 80000 in
+-- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.
+/-- Above the threshold the exponential series converges *absolutely*: the term norms are
+dominated by a geometric series, because Legendre's bound turns the exponent
+`w * n - e * v_p (n !)` into at least `n / (p - 1)`. -/
+theorem summable_norm_expSeries {x : ↥𝒪[K]}
+    (hx : x ∈ (𝓂[K] ^ (absoluteRamificationIndex K / (residueCharacteristic K - 1) + 1) :
+      Ideal ↥𝒪[K])) :
+    Summable (fun n : ℕ => ‖(n ! : ℚ)⁻¹ • ((x : K) ^ n)‖) := by
+  haveI : Fact (residueCharacteristic K).Prime := ⟨hp⟩
+  rcases eq_or_ne x 0 with rfl | hx0
+  · refine summable_of_ne_finset_zero (s := {0}) ?_
+    intro n hn
+    simp only [Finset.mem_singleton] at hn
+    simp [zero_pow hn]
+  obtain ⟨c, w, hc0, hc1, hterm, hmem⟩ := exists_norm_term_eq hc hp hpe hx0
+  have hk : absoluteRamificationIndex K / (residueCharacteristic K - 1) + 1 ≤ w :=
+    (hmem _).mp hx
+  set D : ℕ := residueCharacteristic K - 1 with hDdef
+  set e : ℕ := absoluteRamificationIndex K with hedef
+  set v : ℕ → ℕ := fun n => padicValNat (residueCharacteristic K) (n !) with hvdef
+  set d : ℝ := (D : ℝ) with hddef
+  have hd0 : 0 < d := by
+    rw [hddef, hDdef]; exact_mod_cast Nat.sub_pos_of_lt (by have := hp.two_le; omega)
+  have hdw : e + 1 ≤ D * w := div_bound hp.two_le hk
+  have hr0 : (0 : ℝ) ≤ c ^ ((1 : ℝ) / d) := Real.rpow_nonneg hc0.le _
+  have hr1 : c ^ ((1 : ℝ) / d) < 1 := Real.rpow_lt_one hc0.le hc1 (by positivity)
+  refine Summable.of_nonneg_of_le (fun n => norm_nonneg _) (fun n => ?_)
+    (summable_geometric_of_lt_one hr0 hr1)
+  have hnat : D * (e * v n) + n ≤ D * (w * n) := by
+    calc D * (e * v n) + n = e * (D * v n) + n := by ring
+      _ ≤ e * n + n := Nat.add_le_add_right (Nat.mul_le_mul_left e (factorial_bound n)) n
+      _ = n * (e + 1) := by ring
+      _ ≤ n * (D * w) := Nat.mul_le_mul_left n hdw
+      _ = D * (w * n) := by ring
+  have hcast : d * ((e * v n : ℕ) : ℝ) + (n : ℝ) ≤ d * ((w * n : ℕ) : ℝ) := by
+    rw [hddef]; exact_mod_cast hnat
+  have hexp : (n : ℝ) / d ≤ ((w * n : ℕ) : ℝ) - ((e * v n : ℕ) : ℝ) := by
+    rw [div_le_iff₀ hd0, sub_mul, mul_comm _ d, mul_comm _ d]
+    linarith
+  rw [hterm n, ← Real.rpow_natCast c (w * n), ← Real.rpow_natCast c (e * v n),
+    ← Real.rpow_sub hc0]
+  calc c ^ (((w * n : ℕ) : ℝ) - ((e * v n : ℕ) : ℝ))
+      ≤ c ^ ((n : ℝ) / d) := Real.rpow_le_rpow_of_exponent_ge hc0 hc1.le hexp
+    _ = (c ^ ((1 : ℝ) / d)) ^ n := by
+        rw [← Real.rpow_natCast (c ^ ((1 : ℝ) / d)) n, ← Real.rpow_mul hc0.le]
+        ring_nf
+
+end Normed
 
 end PadicExpConvergence
 
@@ -148,8 +252,8 @@ theorem padicExpConvergence (K : Type*) [Field K] [ValuativeRel K] [TopologicalS
     Summable (fun n : ℕ => (n ! : ℚ)⁻¹ • ((x : K) ^ n)) ↔
       x ∈ (𝓂[K] ^ (absoluteRamificationIndex K / (residueCharacteristic K - 1) + 1) :
         Ideal ↥𝒪[K]) := by
-  haveI : Fact (residueCharacteristic K).Prime := ⟨residueCharacteristic_prime K⟩
-  have hp2 : 2 ≤ residueCharacteristic K := (residueCharacteristic_prime K).two_le
+  have hp : (residueCharacteristic K).Prime := residueCharacteristic_prime K
+  haveI : Fact (residueCharacteristic K).Prime := ⟨hp⟩
   -- Rebuild the normed structure; its topology is the given one.
   letI : UniformSpace K := IsTopologicalAddGroup.rightUniformSpace K
   haveI : IsUniformAddGroup K := isUniformAddGroup_of_addCommGroup
@@ -160,125 +264,50 @@ theorem padicExpConvergence (K : Type*) [Field K] [ValuativeRel K] [TopologicalS
   letI : NontriviallyNormedField K := Valued.toNontriviallyNormedField K (ValueGroupWithZero K)
   haveI : CompleteSpace K := inferInstance
   have hc : ∀ y : K, ‖y‖ ≤ 1 ↔ valuation K y ≤ 1 := fun y => Valued.toNormedField.norm_le_one_iff
-  have hunit : ∀ v : (↥𝒪[K])ˣ, ‖((v : ↥𝒪[K]) : K)‖ = 1 := by
-    intro v
-    refine (norm_eq_one_iff_valuation_eq_one hc _).mpr ?_
-    have h2 : valuation K ((algebraMap (↥𝒪[K]) K) (v : ↥𝒪[K])) = 1 :=
-      (Valuation.integer.integers (valuation K)).isUnit_iff_valuation_eq_one.mp v.isUnit
-    exact h2
-  -- The degenerate point is in every ideal power and its series has finite support.
-  rcases eq_or_ne x 0 with rfl | hx0
-  · refine ⟨fun _ => Ideal.zero_mem _, fun _ => summable_of_ne_finset_zero (s := {0}) ?_⟩
-    intro n hn
-    simp only [Finset.mem_singleton] at hn
-    simp [zero_pow hn]
-  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
-  obtain ⟨w, u, hu⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hx0 hϖ
-  set c : ℝ := ‖((ϖ : ↥𝒪[K]) : K)‖ with hcdef
-  have hc0 : 0 < c := by
-    rw [hcdef, norm_pos_iff]
-    simpa using hϖ.ne_zero
-  have hc1 : c < 1 := by
-    rw [hcdef, norm_lt_one_iff_valuation_lt_one hc]
-    exact valuation_lt_one_of_mem_maximalIdeal _
-      (by rw [hϖ.maximalIdeal_eq]; exact Ideal.mem_span_singleton_self ϖ)
-  -- the norm of `x`, of `p`, and of `n !`
-  have hxnorm : ‖(x : K)‖ = c ^ w := by
-    rw [hu]
-    push_cast
-    rw [norm_mul, norm_pow, hunit u, one_mul]
-  have hpnorm : ‖((residueCharacteristic K : ℕ) : K)‖ = c ^ absoluteRamificationIndex K := by
-    obtain ⟨v, hv⟩ : Associated ((residueCharacteristic K : ℕ) : ↥𝒪[K])
-        (ϖ ^ absoluteRamificationIndex K) := by
-      rw [← Ideal.span_singleton_eq_span_singleton, ← Ideal.span_singleton_pow,
-        ← hϖ.maximalIdeal_eq]
-      exact span_residueCharacteristic_eq_maximalIdeal_pow K
-    have := congrArg (fun z : ↥𝒪[K] => ‖(z : K)‖) hv
-    simpa [hunit v] using this
-  have hfact : ∀ n : ℕ, ‖((n ! : ℕ) : K)‖
-      = c ^ (absoluteRamificationIndex K * padicValNat (residueCharacteristic K) (n !)) := by
-    intro n
-    rw [norm_natCast_eq_pow hc (residueCharacteristic_prime K) _ n.factorial_ne_zero, hpnorm,
-      ← pow_mul]
-  have hterm : ∀ n : ℕ, ‖(n ! : ℚ)⁻¹ • ((x : K) ^ n)‖
-      = c ^ (w * n) / c ^ (absoluteRamificationIndex K *
-          padicValNat (residueCharacteristic K) (n !)) := by
-    intro n
-    rw [Rat.smul_def, norm_mul, norm_pow, hxnorm, ← pow_mul, div_eq_mul_inv, mul_comm]
-    congr 1
-    push_cast
-    rw [norm_inv, hfact n]
-  have hmem : ∀ k : ℕ, x ∈ (𝓂[K] ^ k : Ideal ↥𝒪[K]) ↔ k ≤ w := by
-    intro k; rw [hu]; exact mem_pow_iff hϖ
-  rw [hmem]
+  have hpe := span_residueCharacteristic_eq_maximalIdeal_pow K
+  refine ⟨fun hsum => ?_, fun hx => Summable.of_norm (summable_norm_expSeries hc hp hpe hx)⟩
+  -- Below the threshold the terms along `n = p ^ j` stay bounded away from zero.
+  by_contra hlt
+  have hx0 : x ≠ 0 := by rintro rfl; exact hlt (Ideal.zero_mem _)
+  obtain ⟨c, w, hc0, hc1, hterm, hmem⟩ := exists_norm_term_eq hc hp hpe hx0
   set D : ℕ := residueCharacteristic K - 1 with hDdef
   set e : ℕ := absoluteRamificationIndex K with hedef
   set v : ℕ → ℕ := fun n => padicValNat (residueCharacteristic K) (n !) with hvdef
   set d : ℝ := (D : ℝ) with hddef
-  have hd0 : 0 < d := by rw [hddef, hDdef]; exact_mod_cast Nat.sub_pos_of_lt (by omega)
+  have hd0 : 0 < d := by
+    rw [hddef, hDdef]; exact_mod_cast Nat.sub_pos_of_lt (by have := hp.two_le; omega)
+  have hdw : D * w ≤ e := div_bound' (not_le.mp fun h => hlt ((hmem _).mpr h))
   have hrpow : ∀ n : ℕ, ‖(n ! : ℚ)⁻¹ • ((x : K) ^ n)‖
       = c ^ (((w * n : ℕ) : ℝ) - ((e * v n : ℕ) : ℝ)) := by
     intro n
     rw [hterm n, Real.rpow_sub hc0, Real.rpow_natCast, Real.rpow_natCast]
-  constructor
-  · -- Summable forces the threshold: below it the terms along `n = p ^ j` do not vanish.
-    intro hsum
-    by_contra hlt
-    push Not at hlt
-    have hdw : D * w ≤ e := div_bound' hlt
-    have hB : (0 : ℝ) < c ^ ((e : ℝ) / d) := Real.rpow_pos_of_pos hc0 _
-    have hge : ∀ j : ℕ, c ^ ((e : ℝ) / d) ≤
-        ‖((residueCharacteristic K ^ j)! : ℚ)⁻¹ • ((x : K) ^ (residueCharacteristic K ^ j))‖ := by
-      intro j
-      rw [hrpow]
-      refine Real.rpow_le_rpow_of_exponent_ge hc0 hc1.le ?_
-      have hnat : D * (w * residueCharacteristic K ^ j)
-          ≤ D * (e * v (residueCharacteristic K ^ j)) + e := by
-        have hfp : D * v (residueCharacteristic K ^ j) + 1 = residueCharacteristic K ^ j :=
-          factorial_pow j
-        calc D * (w * residueCharacteristic K ^ j)
-            = residueCharacteristic K ^ j * (D * w) := by ring
-          _ ≤ residueCharacteristic K ^ j * e := Nat.mul_le_mul_left _ hdw
-          _ = e * (D * v (residueCharacteristic K ^ j)) + e := by
-              conv_lhs => rw [← hfp]
-              ring
-          _ = D * (e * v (residueCharacteristic K ^ j)) + e := by ring
-      have hcast : d * ((w * residueCharacteristic K ^ j : ℕ) : ℝ)
-          ≤ d * ((e * v (residueCharacteristic K ^ j) : ℕ) : ℝ) + (e : ℝ) := by
-        rw [hddef]; exact_mod_cast hnat
-      rw [le_div_iff₀ hd0, sub_mul, mul_comm _ d, mul_comm _ d]
-      linarith
-    have h0 : Filter.Tendsto (fun n : ℕ => ‖(n ! : ℚ)⁻¹ • ((x : K) ^ n)‖) Filter.atTop (nhds 0) :=
-      by simpa using hsum.tendsto_atTop_zero.norm
-    obtain ⟨N, hN⟩ := Filter.eventually_atTop.mp (h0.eventually (gt_mem_nhds hB))
-    obtain ⟨j, hj⟩ : ∃ j : ℕ, N < residueCharacteristic K ^ j :=
-      pow_unbounded_of_one_lt _ (by omega)
-    exact absurd (hN _ hj.le) (not_lt.mpr (hge j))
-  · -- Above the threshold the terms are dominated by a geometric series.
-    intro hk
-    have hdw : e + 1 ≤ D * w := div_bound hp2 hk
-    have hr0 : (0 : ℝ) ≤ c ^ ((1 : ℝ) / d) := Real.rpow_nonneg hc0.le _
-    have hr1 : c ^ ((1 : ℝ) / d) < 1 := Real.rpow_lt_one hc0.le hc1 (by positivity)
-    have hbound : ∀ n : ℕ, ‖(n ! : ℚ)⁻¹ • ((x : K) ^ n)‖ ≤ (c ^ ((1 : ℝ) / d)) ^ n := by
-      intro n
-      have hnat : D * (e * v n) + n ≤ D * (w * n) := by
-        calc D * (e * v n) + n = e * (D * v n) + n := by ring
-          _ ≤ e * n + n := Nat.add_le_add_right (Nat.mul_le_mul_left e (factorial_bound n)) n
-          _ = n * (e + 1) := by ring
-          _ ≤ n * (D * w) := Nat.mul_le_mul_left n hdw
-          _ = D * (w * n) := by ring
-      have hcast : d * ((e * v n : ℕ) : ℝ) + (n : ℝ) ≤ d * ((w * n : ℕ) : ℝ) := by
-        rw [hddef]; exact_mod_cast hnat
-      have hexp : (n : ℝ) / d ≤ ((w * n : ℕ) : ℝ) - ((e * v n : ℕ) : ℝ) := by
-        rw [div_le_iff₀ hd0, sub_mul, mul_comm _ d, mul_comm _ d]
-        linarith
-      rw [hrpow n]
-      calc c ^ (((w * n : ℕ) : ℝ) - ((e * v n : ℕ) : ℝ))
-          ≤ c ^ ((n : ℝ) / d) := Real.rpow_le_rpow_of_exponent_ge hc0 hc1.le hexp
-        _ = (c ^ ((1 : ℝ) / d)) ^ n := by
-            rw [← Real.rpow_natCast (c ^ ((1 : ℝ) / d)) n, ← Real.rpow_mul hc0.le]
-            ring_nf
-    exact Summable.of_norm (Summable.of_nonneg_of_le (fun n => norm_nonneg _) hbound
-      (summable_geometric_of_lt_one hr0 hr1))
+  have hB : (0 : ℝ) < c ^ ((e : ℝ) / d) := Real.rpow_pos_of_pos hc0 _
+  have hge : ∀ j : ℕ, c ^ ((e : ℝ) / d) ≤
+      ‖((residueCharacteristic K ^ j)! : ℚ)⁻¹ • ((x : K) ^ (residueCharacteristic K ^ j))‖ := by
+    intro j
+    rw [hrpow]
+    refine Real.rpow_le_rpow_of_exponent_ge hc0 hc1.le ?_
+    have hnat : D * (w * residueCharacteristic K ^ j)
+        ≤ D * (e * v (residueCharacteristic K ^ j)) + e := by
+      have hfp : D * v (residueCharacteristic K ^ j) + 1 = residueCharacteristic K ^ j :=
+        factorial_pow j
+      calc D * (w * residueCharacteristic K ^ j)
+          = residueCharacteristic K ^ j * (D * w) := by ring
+        _ ≤ residueCharacteristic K ^ j * e := Nat.mul_le_mul_left _ hdw
+        _ = e * (D * v (residueCharacteristic K ^ j)) + e := by
+            conv_lhs => rw [← hfp]
+            ring
+        _ = D * (e * v (residueCharacteristic K ^ j)) + e := by ring
+    have hcast : d * ((w * residueCharacteristic K ^ j : ℕ) : ℝ)
+        ≤ d * ((e * v (residueCharacteristic K ^ j) : ℕ) : ℝ) + (e : ℝ) := by
+      rw [hddef]; exact_mod_cast hnat
+    rw [le_div_iff₀ hd0, sub_mul, mul_comm _ d, mul_comm _ d]
+    linarith
+  have h0 : Filter.Tendsto (fun n : ℕ => ‖(n ! : ℚ)⁻¹ • ((x : K) ^ n)‖) Filter.atTop (nhds 0) :=
+    by simpa using hsum.tendsto_atTop_zero.norm
+  obtain ⟨N, hN⟩ := Filter.eventually_atTop.mp (h0.eventually (gt_mem_nhds hB))
+  obtain ⟨j, hj⟩ : ∃ j : ℕ, N < residueCharacteristic K ^ j :=
+    pow_unbounded_of_one_lt _ (by have := hp.two_le; omega)
+  exact absurd (hN _ hj.le) (not_lt.mpr (hge j))
 
 end Atlas.Knowledge
