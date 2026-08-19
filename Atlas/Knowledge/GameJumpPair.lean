@@ -27,8 +27,8 @@ phase's business.
 
 * `gameJumpPair_finite` — the pair has finitely many points: records carry pairwise distinct
   depths bounded by the first.
-* `isJumpPair_gameJumpPair` — on a strictly increasing trajectory the pair is a `ρ`-jump
-  pair over `T_ρ`: the source's Proposition 7.1. Proved.
+* `isJumpPair_gameJumpPair` — the pair is a `ρ`-jump pair over `T_ρ`, unconditionally: the
+  source's Proposition 7.1. Proved.
 
 ## Implementation notes
 
@@ -38,9 +38,11 @@ no second component is transported. Time `0` is vacuously a record, the game ope
 first shooter. The source's display defines the record set as times and passes silently to
 the shooters when it forms the pair—its `I_G` is introduced as the set of *shooting
 positions* where a new shooter came in—and the graph here does the same passage explicitly,
-one point per record, at the root of the position. The pair is a `Set` with its finiteness a
-theorem rather than a `Finset`, the record times being unbounded even when the records are
-few; `IsJumpPair` consumes it through `Set.Finite.toFinset`.
+one point per record, at the root of the position. Off the strictly increasing trajectories
+the source sets the pair to `∅`—a measure-zero locus in its Markov reading—and the definition
+carries that branch, which is what makes the landing theorem unconditional. The pair is a
+`Set` with its finiteness a theorem rather than a `Finset`, the record times being unbounded
+even when the records are few; `IsJumpPair` consumes it through `Set.Finite.toFinset`.
 
 ## References
 
@@ -55,12 +57,16 @@ strictly below every earlier one; the moment a new shooter enters
 def GameRecord (ρ : Shift) (ω : ℕ → ℕ+) (t : ℕ) : Prop :=
   ∀ s < t, ρ.depth (ω t) < ρ.depth (ω s)
 
-/-- The **jump pair of a shooting game**: one point per record, at the shooter's position—the
-root of the rabbit's—with one more than the shot length; the source's `(I_G, β_G)`, carried
-as a graph ([Pagano 2022, §7, pp.453–455][Pagano2022]). -/
+open Classical in
+/-- The **jump pair of a shooting game**: on a strictly increasing trajectory, one point per
+record, at the shooter's position—the root of the rabbit's—with one more than the shot
+length, and empty off the strictly increasing locus, as the source prescribes; the source's
+`(I_G, β_G)`, carried as a graph ([Pagano 2022, §7, pp.453–455][Pagano2022]). -/
 noncomputable def gameJumpPair (ρ : Shift) (ω : ℕ → ℕ+) : Set (ℕ+ × ℕ+) :=
-  {p | ∃ t, GameRecord ρ ω t ∧
-    p = (ρ.root (ω t), ⟨ρ.depth (ω t) + 1, Nat.succ_pos _⟩)}
+  if StrictMono ω then
+    {p | ∃ t, GameRecord ρ ω t ∧
+      p = (ρ.root (ω t), ⟨ρ.depth (ω t) + 1, Nat.succ_pos _⟩)}
+  else ∅
 
 section GameLemmas
 
@@ -101,6 +107,10 @@ end GameLemmas
 /-- The pair of a game is finite: records carry pairwise distinct depths, all bounded by the
 depth at time `0` ([Pagano 2022, §7, p.454][Pagano2022]). -/
 theorem gameJumpPair_finite (ρ : Shift) (ω : ℕ → ℕ+) : (gameJumpPair ρ ω).Finite := by
+  rw [gameJumpPair]
+  split_ifs with hmono
+  swap
+  · exact Set.finite_empty
   apply Set.Finite.of_finite_image (f := Prod.snd)
   · apply Set.Finite.subset (Set.finite_Iic (⟨ρ.depth (ω 0) + 1, Nat.succ_pos _⟩ : ℕ+))
     rintro n ⟨p, ⟨t, ht, rfl⟩, rfl⟩
@@ -122,17 +132,25 @@ theorem gameJumpPair_finite (ρ : Shift) (ω : ℕ → ℕ+) : (gameJumpPair ρ 
     subst this
     rfl
 
-/-- On a strictly increasing trajectory the pair of a game is a `ρ`-jump pair over `T_ρ`: the
-source's Proposition 7.1, at the level of one trajectory. Roots order with time, so levels
-are distinct and multiplicities strictly decrease; the levels are roots, hence in `T_ρ`; and
-the iterate at a point is one shift past the rabbit, which advances
+/-- The pair of a game is a `ρ`-jump pair over `T_ρ`: the source's Proposition 7.1, at the
+level of one trajectory. On a strictly increasing trajectory, roots order with time, so
+levels are distinct and multiplicities strictly decrease; the levels are roots, hence in
+`T_ρ`; and the iterate at a point is one shift past the rabbit, which advances. Off that
+locus the pair is empty and the conditions are vacuous
 ([Pagano 2022, Prop. 7.1, p.454][Pagano2022]). -/
-theorem isJumpPair_gameJumpPair (ρ : Shift) {ω : ℕ → ℕ+} (hmono : StrictMono ω) :
+theorem isJumpPair_gameJumpPair (ρ : Shift) (ω : ℕ → ℕ+) :
     IsJumpPair ρ (Shift.T ρ) (gameJumpPair_finite ρ ω).toFinset := by
+  by_cases hmono : StrictMono ω
+  swap
+  · have hempty : (gameJumpPair_finite ρ ω).toFinset = ∅ := by
+      rw [Set.Finite.toFinset_eq_empty, gameJumpPair, if_neg hmono]
+    rw [hempty]
+    exact IsJumpPair.empty ρ _
   have hmem : ∀ p ∈ (gameJumpPair_finite ρ ω).toFinset, ∃ t, GameRecord ρ ω t ∧
       p = (ρ.root (ω t), ⟨ρ.depth (ω t) + 1, Nat.succ_pos _⟩) := by
     intro p hp
-    exact ((gameJumpPair_finite ρ ω).mem_toFinset).mp hp
+    have := ((gameJumpPair_finite ρ ω).mem_toFinset).mp hp
+    rwa [gameJumpPair, if_pos hmono] at this
   refine ⟨?_, ?_, ?_, ?_⟩
   · intro p hp q hq hfst
     obtain ⟨t, ht, rfl⟩ := hmem p hp

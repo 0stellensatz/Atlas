@@ -72,6 +72,15 @@ lemma iterate_le_iterate_right (ρ : Shift) (x : ℕ+) {m n : ℕ} (h : m ≤ n)
 lemma le_iterate (ρ : Shift) (x : ℕ+) (n : ℕ) : x ≤ (⇑ρ)^[n] x :=
   (ρ.iterate_strictMono_right x).monotone (Nat.zero_le n)
 
+/-- Iterates of a shift grow at least linearly: each application strictly increases. -/
+lemma add_le_iterate (ρ : Shift) (y : ℕ+) (m : ℕ) : (y : ℕ) + m ≤ ((⇑ρ)^[m] y : ℕ) := by
+  induction m with
+  | zero => simp
+  | succ m ih =>
+    rw [Function.iterate_succ_apply']
+    have h2 : ((⇑ρ)^[m] y : ℕ) < (ρ ((⇑ρ)^[m] y) : ℕ) := by exact_mod_cast ρ.lt_apply _
+    omega
+
 /-- The least element of a nonempty finite set is not hit by a shift: shifts move strictly up. -/
 lemma min'_mem_sdiff_image (ρ : Shift) {A : Finset ℕ+} (hA : A.Nonempty) :
     A.min' hA ∈ A \ A.image ⇑ρ := by
