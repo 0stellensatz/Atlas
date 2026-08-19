@@ -1,7 +1,9 @@
 import Mathlib
 import Atlas.Knowledge.ExtendedGameJumpPair
 import Atlas.Knowledge.ExtendedGameTransition
+import Atlas.Knowledge.IsAdmissibleJumpPair
 import Atlas.Knowledge.ShiftDepth
+import Atlas.Knowledge.ShiftEPrime
 
 /-!
 # measure of the extended shooting game
@@ -21,13 +23,18 @@ the admissible ones, which is the source's observation tying the game to
 * `extendedGamePathMeasure` — the measure `μ^*_{q,r}` on extended state paths.
 * `extendedGameMass` — the mass of an extended jump pair under the pushforward.
 
+## Main statements
+
+* `extendedGameMass_pos_iff` — at the start `e'_ρ`, the pairs of positive mass are exactly
+  the admissible ones. Claim recorded ahead of its proof.
+
 ## Implementation notes
 
 As in `Atlas.Knowledge.GamePathMeasure`, the Markov instances the trajectory construction
 asks for descend from the recorded claim
 `Atlas.Knowledge.isMarkovKernel_extendedGameKernel` and enter as hypotheses. The initial
 state is `(r, depth r)`, of the first kind—the source starts its extended games below
-`e'_ρ`, where the extra shooter has not yet fired. The mass is the path measure of the
+`e_ρ^*`, before the extra shooter's positions. The mass is the path measure of the
 pair's fiber, an outer application that needs no measurability, though over the discrete
 σ-algebra on states the fiber is in fact measurable; stating masses pointwise on graphs is
 what the consuming claims evaluate anyway, the source equipping `Jump^*_ρ` with the discrete
@@ -68,5 +75,15 @@ noncomputable def extendedGameMass (ρ : Shift) (hρ : (Shift.T ρ).Finite) (p q
     (P : Finset (ℕ+ × ℕ+)) : ℝ≥0∞ :=
   extendedGamePathMeasure ρ hρ p q r
     {ω | extendedGameJumpPair ρ hρ (fun t => (ω t).val) = ↑P}
+
+/-- At the start `e'_ρ` the pairs of positive mass are exactly the admissible ones: the
+source's observation tying the extended game to admissibility. Claim recorded ahead of its
+proof ([Pagano 2022, §7, p.457][Pagano2022]). -/
+theorem extendedGameMass_pos_iff (ρ : Shift) (hρ : (Shift.T ρ).Finite) (p q : ℕ+)
+    (hp : 1 < p) (hq : 1 < q)
+    [∀ n, IsMarkovKernel (extendedGameHistoryKernel ρ hρ p q n)]
+    {P : Finset (ℕ+ × ℕ+)} (hP : IsJumpPair ρ (Shift.T_star ρ hρ) P) :
+    0 < extendedGameMass ρ hρ p q (Shift.e' hρ) P ↔ IsAdmissibleJumpPair ρ hρ P := by
+  sorry
 
 end Atlas.Knowledge
