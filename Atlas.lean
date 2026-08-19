@@ -76,6 +76,7 @@ import Atlas.Knowledge.IdeleGroup
 import Atlas.Knowledge.InfinitePlaceHilbertSymbol
 import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.IntegralClosureDVR
+import Atlas.Knowledge.IsAdmissibleJumpPair
 import Atlas.Knowledge.IsArithmeticFrobenius
 import Atlas.Knowledge.IsArtinRestriction
 import Atlas.Knowledge.IsConductor
@@ -95,6 +96,7 @@ import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.IsProSylow
 import Atlas.Knowledge.IsProfiniteTransfer
 import Atlas.Knowledge.IsProsolvable
+import Atlas.Knowledge.IsStarQuotient
 import Atlas.Knowledge.IsTateSystem
 import Atlas.Knowledge.IsUnitFiltration
 import Atlas.Knowledge.JumpMultiplicity
@@ -104,6 +106,7 @@ import Atlas.Knowledge.JumpSetEquiv
 import Atlas.Knowledge.JumpSetExtremal
 import Atlas.Knowledge.JumpSetInduction
 import Atlas.Knowledge.JumpSetOf
+import Atlas.Knowledge.JumpSetRealization
 import Atlas.Knowledge.JumpSetSmall
 import Atlas.Knowledge.JumpSetVector
 import Atlas.Knowledge.KummerCharacterEquiv
@@ -175,6 +178,7 @@ import Atlas.Knowledge.StandardLubinTateSeries
 import Atlas.Knowledge.StandardLubinTateUpperRamification
 import Atlas.Knowledge.TRhoEP
 import Atlas.Knowledge.TateTwist
+import Atlas.Knowledge.UnitFiltrationClassification
 import Atlas.Knowledge.UnitFiltrationQuasiFree
 import Atlas.Knowledge.UnitFiniteSupport
 import Atlas.Knowledge.UpperRamificationGroup
