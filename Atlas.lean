@@ -20,6 +20,7 @@ import Atlas.Knowledge.AdicCompletionIsMixedCharLocalField
 import Atlas.Knowledge.ArtinMapNormNaturality
 import Atlas.Knowledge.ArtinMapProfiniteTransferNaturality
 import Atlas.Knowledge.ArtinRamificationCompatibility
+import Atlas.Knowledge.AxSenTate
 import Atlas.Knowledge.CharacterTwist
 import Atlas.Knowledge.ClosedDerivedSeries
 import Atlas.Knowledge.CompletedUnitGroup
@@ -62,6 +63,7 @@ import Atlas.Knowledge.HerbrandPsi
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.HilbertClassField
 import Atlas.Knowledge.HilbertProductFormula
+import Atlas.Knowledge.HodgeTateNumber
 import Atlas.Knowledge.IdealPowerResidueSymbol
 import Atlas.Knowledge.IdeleClassGroup
 import Atlas.Knowledge.IdeleClassIdentityComponent
