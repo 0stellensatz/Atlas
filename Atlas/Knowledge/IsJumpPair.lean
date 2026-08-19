@@ -23,6 +23,8 @@ graphs make equality of pairs plain `Finset` equality, which is what the equival
 
 * `IsJumpPair.T_star` — a jump pair over `T ρ` is one over `T_star ρ`: the index set enters
   one clause, and the extended set contains the plain one.
+* `IsJumpPair.subset` — a subset of a jump-pair graph is a jump-pair graph: every clause
+  quantifies over members only.
 
 ## References
 
@@ -81,6 +83,15 @@ membership statements to the extended quantifications of the classification laye
 theorem T_star {ρ : Shift} {hρ : (Shift.T ρ).Finite} {P : Finset (ℕ+ × ℕ+)}
     (h : IsJumpPair ρ (Shift.T ρ) P) : IsJumpPair ρ (Shift.T_star ρ hρ) P :=
   ⟨h.1, fun p hp => Or.inl (h.2.1 p hp), h.2.2.1, h.2.2.2⟩
+
+/-- A subset of a jump-pair graph is a jump-pair graph: every clause of the definition
+quantifies over members only, so all four restrict. -/
+theorem subset {ρ : Shift} {S : Set ℕ+} {P Q : Finset (ℕ+ × ℕ+)}
+    (h : IsJumpPair ρ S P) (hsub : Q ⊆ P) : IsJumpPair ρ S Q :=
+  ⟨fun a ha b hb => h.1 a (hsub ha) b (hsub hb),
+   fun a ha => h.2.1 a (hsub ha),
+   fun a ha b hb => h.2.2.1 a (hsub ha) b (hsub hb),
+   fun a ha b hb => h.2.2.2 a (hsub ha) b (hsub hb)⟩
 
 end IsJumpPair
 

@@ -41,6 +41,7 @@ import Atlas.Knowledge.ExistsClassField
 import Atlas.Knowledge.ExtendedGameJumpPair
 import Atlas.Knowledge.ExtendedGameMeasure
 import Atlas.Knowledge.ExtendedGameTransition
+import Atlas.Knowledge.FieldJumpsBelowE
 import Atlas.Knowledge.FiltAut
 import Atlas.Knowledge.FiltOrd
 import Atlas.Knowledge.FilteredBreak
@@ -162,6 +163,7 @@ import Atlas.Knowledge.PadicExpIsomorphism
 import Atlas.Knowledge.PadicIsMixedCharLocalField
 import Atlas.Knowledge.PadicLogarithm
 import Atlas.Knowledge.ParityIndex
+import Atlas.Knowledge.PolynomialStoppedPair
 import Atlas.Knowledge.PowerResidueBadPlaceCorrection
 import Atlas.Knowledge.PowerResidueReciprocity
 import Atlas.Knowledge.PrimeIdealPowerResidueSymbol
@@ -200,6 +202,7 @@ import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTatePolynomial
 import Atlas.Knowledge.StandardLubinTateSeries
 import Atlas.Knowledge.StandardLubinTateUpperRamification
+import Atlas.Knowledge.StoppedGameJumpPair
 import Atlas.Knowledge.StronglyEisensteinExtremal
 import Atlas.Knowledge.TRhoEP
 import Atlas.Knowledge.TateTwist
