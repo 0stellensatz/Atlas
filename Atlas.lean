@@ -125,6 +125,7 @@ import Atlas.Knowledge.NormLimitation
 import Atlas.Knowledge.NormOneIdeleClassIsCompact
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.OutFilt
+import Atlas.Knowledge.PadicComplexGaloisAction
 import Atlas.Knowledge.PadicExpConvergence
 import Atlas.Knowledge.PadicExpIsomorphism
 import Atlas.Knowledge.PadicIsMixedCharLocalField
@@ -166,6 +167,7 @@ import Atlas.Knowledge.StandardLubinTatePolynomial
 import Atlas.Knowledge.StandardLubinTateSeries
 import Atlas.Knowledge.StandardLubinTateUpperRamification
 import Atlas.Knowledge.TRhoEP
+import Atlas.Knowledge.TateTwist
 import Atlas.Knowledge.UnitFiniteSupport
 import Atlas.Knowledge.UpperRamificationGroup
 import Atlas.Knowledge.WildInertiaSubgroup
