@@ -10,8 +10,9 @@ unity, the base units outside the second unit group lie in a single orbit of the
 automorphisms of the unit filtration. This is the independence claim
 `Atlas.Knowledge.UnitPairIndependence` pushed through the orbit reading of
 `Atlas.Knowledge.UnitPairFree`: one common pair, one orbit. The source also characterizes
-the orbit through `filt-ord` of `p`-th powers, which the two claims it follows from already
-carry between them; and its positive-characteristic companion, Corollary 11.5, lives in the
+the orbit through `filt-ord` of `p`-th powers, ranging over all of the extension's unit
+filtration—wider than the base units here—and that description is not restated; its
+positive-characteristic companion, Corollary 11.5, lives in the
 equal-characteristic world this layer's vocabulary does not reach—the structural divide
 `Atlas.Knowledge.ShiftRhoP` records—and is deliberately not stated.
 
