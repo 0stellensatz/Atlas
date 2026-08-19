@@ -1,5 +1,6 @@
 import Mathlib
-import Atlas.Knowledge.GameTransition
+import Atlas.Knowledge.IsGameState
+import Atlas.Knowledge.ShiftDepth
 import Atlas.Knowledge.ShiftEStar
 
 /-!
@@ -61,7 +62,7 @@ instance (ρ : Shift) (hρ : (Shift.T ρ).Finite) : MeasurableSpace (ExtendedGam
 open Classical in
 /-- The source's `v_ρ (e_ρ^*, k₁, k₂)`: the number of iterates of `e_ρ^*` lying in
 `(k₁, k₂]`—how many chances the extra shooter gets along a step
-([Pagano 2022, §7, p.456][Pagano2022]). -/
+([Pagano 2022, §7, p.455][Pagano2022]). -/
 noncomputable def extendedShotCount (ρ : Shift) (hρ : (Shift.T ρ).Finite) (k₁ k₂ : ℕ+) : ℕ :=
   ((Finset.range ((k₂ : ℕ) + 1)).filter fun m =>
     k₁ < (⇑ρ)^[m] (Shift.e_star ρ hρ) ∧ (⇑ρ)^[m] (Shift.e_star ρ hρ) ≤ k₂).card

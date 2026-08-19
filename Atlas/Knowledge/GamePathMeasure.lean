@@ -18,6 +18,11 @@ consumer device of the layer.
 * `gameHistoryKernel` — the one-step kernel read off the last coordinate of a history.
 * `gamePathMeasure` — the measure `μ_{q,r}` on state paths, through `Kernel.traj`.
 
+## Main statements
+
+* `gamePathMeasure_strictMono` — almost every trajectory advances strictly: the rabbit only
+  moves forward. Claim recorded ahead of its proof.
+
 ## Implementation notes
 
 `ProbabilityTheory.Kernel.traj` asks each history kernel to be Markov as an instance, and the
@@ -51,5 +56,13 @@ noncomputable def gamePathMeasure (ρ : Shift) (q : ℕ+) (r : ℕ+)
     [∀ n, IsMarkovKernel (gameHistoryKernel ρ q n)] :
     Measure ((n : ℕ) → GameState ρ) :=
   Kernel.traj (gameHistoryKernel ρ q) 0 (fun _ => ⟨(r, ρ.depth r), rfl⟩)
+
+/-- Almost every trajectory advances strictly: the transition weights vanish off the forward
+positions, so the strictly increasing paths carry the whole measure. Claim recorded ahead of
+its proof ([Pagano 2022, §7, p.455][Pagano2022]). -/
+theorem gamePathMeasure_strictMono (ρ : Shift) (q : ℕ+) (r : ℕ+) (hq : 1 < q)
+    [∀ n, IsMarkovKernel (gameHistoryKernel ρ q n)] :
+    gamePathMeasure ρ q r {ω | StrictMono fun n => ((ω n).val.1 : ℕ+)} = 1 := by
+  sorry
 
 end Atlas.Knowledge
