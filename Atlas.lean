@@ -54,6 +54,7 @@ import Atlas.Knowledge.GlobalReciprocityLaw
 import Atlas.Knowledge.GroupAbsoluteDegree
 import Atlas.Knowledge.GroupAbsoluteInertiaDegree
 import Atlas.Knowledge.GroupAbsoluteRamificationIndex
+import Atlas.Knowledge.GroupCyclotomicCharacter
 import Atlas.Knowledge.GroupResidueCharacteristic
 import Atlas.Knowledge.GroupRootOfUnityExponent
 import Atlas.Knowledge.GroupTateModule
