@@ -35,6 +35,7 @@ import Atlas.Knowledge.DigitSum
 import Atlas.Knowledge.EisensteinFieldInvariant
 import Atlas.Knowledge.EisensteinGraph
 import Atlas.Knowledge.EisensteinJumpPair
+import Atlas.Knowledge.EisensteinSet
 import Atlas.Knowledge.ElementaryFilteredAut
 import Atlas.Knowledge.ExistsClassField
 import Atlas.Knowledge.ExtendedGameJumpPair
@@ -145,6 +146,7 @@ import Atlas.Knowledge.MStepSolvableQuotient
 import Atlas.Knowledge.MStepSolvableStability
 import Atlas.Knowledge.MStepSolvableSubextension
 import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
+import Atlas.Knowledge.MassFormula
 import Atlas.Knowledge.MaximalAbelianExtension
 import Atlas.Knowledge.MaximalAbelianSubextension
 import Atlas.Knowledge.MinpolyMapEqCharpoly
@@ -178,6 +180,7 @@ import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
+import Atlas.Knowledge.SerreMass
 import Atlas.Knowledge.Shift
 import Atlas.Knowledge.ShiftDepth
 import Atlas.Knowledge.ShiftEPrime
