@@ -59,6 +59,7 @@ import Atlas.Knowledge.FilteredRhoMap
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
 import Atlas.Knowledge.FinitePlaceIdele
+import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.GameJumpPair
