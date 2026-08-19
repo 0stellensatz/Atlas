@@ -13,7 +13,7 @@ asking a filtered-module structure on the principal units to have the higher-uni
 mixed-characteristic local field carries one. This is the object the source's §5 classifies:
 its quasi-freeness is `Atlas.Knowledge.UnitFiltrationQuasiFree`, the classification by extended
 jump pairs is `Atlas.Knowledge.UnitFiltrationClassification`, and the realizability of the
-admissible pairs is `Atlas.Knowledge.jumpSetRealization`.
+admissible pairs is `Atlas.Knowledge.JumpSetRealization`.
 
 ## Main definitions
 
@@ -35,10 +35,14 @@ continuous extension of the power maps, whose formation is exactly the content t
 claim records, along the route of `Atlas.Knowledge.PadicExpIsomorphism`: above the threshold
 the exponential identifies the deep levels with ideal powers, which are `ℤ_p`-modules already,
 and the finite levels below are filled in by finiteness. Quantifying consumers over every such
-parameter asserts no more than the source does, because the group determines the structure: the
-principal units are a finite direct sum of copies of `ℤ_p` and a finite group, additive maps
-out of `ℤ_p` with profinite target are multiplications, and so any two `ℤ_p`-scalar actions on
-the principal units agree. The prime enters as a variable pinned to
+parameter asserts no more than the source does, because the group determines the structure,
+with no continuity hypothesized: the principal units are a finite direct sum of copies of
+`ℤ_p` and a finite group, so a scalar action—a ring map from `ℤ_p` into the additive
+endomorphisms—agrees with `n • id` on `ℤ` by additivity and unitality and preserves
+divisibility by the powers of `p`, while the `p`-adic filtration on those endomorphisms is
+separated, homomorphisms from the torsion into the free part vanishing and homomorphisms into
+the torsion being killed by its order; so any two scalar actions agree, and continuity is a
+conclusion rather than a hypothesis. The prime enters as a variable pinned to
 `Atlas.Knowledge.ResidueCharacteristic` by an equation, the notation `ℤ_[p]` requiring a
 `Fact p.Prime` instance that a projection cannot carry, as in `Atlas.Knowledge.DeepUnitGroup`.
 In the existence claim the module structure is an explicit existential and the filtered module
