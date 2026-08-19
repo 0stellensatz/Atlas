@@ -55,6 +55,7 @@ import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
 import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
+import Atlas.Knowledge.GameJumpPair
 import Atlas.Knowledge.GaussReciprocity
 import Atlas.Knowledge.GlobalKroneckerWeber
 import Atlas.Knowledge.GlobalReciprocityLaw
@@ -91,6 +92,7 @@ import Atlas.Knowledge.IsFilteredCharacter
 import Atlas.Knowledge.IsFilteredHom
 import Atlas.Knowledge.IsFinitePlaceHilbertSymbol
 import Atlas.Knowledge.IsFrobeniusNormalized
+import Atlas.Knowledge.IsGameState
 import Atlas.Knowledge.IsGlobalArtinMap
 import Atlas.Knowledge.IsJumpPair
 import Atlas.Knowledge.IsJumpSet
@@ -170,6 +172,7 @@ import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.Shift
+import Atlas.Knowledge.ShiftDepth
 import Atlas.Knowledge.ShiftEPrime
 import Atlas.Knowledge.ShiftEStar
 import Atlas.Knowledge.ShiftRhoEP
