@@ -37,6 +37,9 @@ import Atlas.Knowledge.EisensteinGraph
 import Atlas.Knowledge.EisensteinJumpPair
 import Atlas.Knowledge.ElementaryFilteredAut
 import Atlas.Knowledge.ExistsClassField
+import Atlas.Knowledge.ExtendedGameJumpPair
+import Atlas.Knowledge.ExtendedGameMeasure
+import Atlas.Knowledge.ExtendedGameTransition
 import Atlas.Knowledge.FiltAut
 import Atlas.Knowledge.FiltOrd
 import Atlas.Knowledge.FilteredBreak
@@ -56,6 +59,9 @@ import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.GameJumpPair
+import Atlas.Knowledge.GameLevelDecomposition
+import Atlas.Knowledge.GamePathMeasure
+import Atlas.Knowledge.GameTransition
 import Atlas.Knowledge.GaussReciprocity
 import Atlas.Knowledge.GlobalKroneckerWeber
 import Atlas.Knowledge.GlobalReciprocityLaw
@@ -66,6 +72,7 @@ import Atlas.Knowledge.GroupCyclotomicCharacter
 import Atlas.Knowledge.GroupResidueCharacteristic
 import Atlas.Knowledge.GroupRootOfUnityExponent
 import Atlas.Knowledge.GroupTateModule
+import Atlas.Knowledge.HaarGameMass
 import Atlas.Knowledge.HasseArf
 import Atlas.Knowledge.HasseNormPrinciple
 import Atlas.Knowledge.HerbrandPhi
