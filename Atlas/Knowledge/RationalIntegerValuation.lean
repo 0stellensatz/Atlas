@@ -59,7 +59,9 @@ set_option synthInstance.maxHeartbeats 80000 in
 -- `IsLocalRing ↥𝒪[K]`, which the residue-field rewrites go through, does not fit the default
 -- instance budget.
 /-- A natural number is a unit of `𝒪[K]` exactly when it is prime to the residue
-characteristic ([Serre 1979, Chap. II, §1, p.26][Serre1979]). -/
+characteristic—the residue field has characteristic `p_K`, so a natural number's residue is
+nonzero exactly when `p_K` does not divide it
+([Serre 1979, Chap. II, §5, p.36][Serre1979]). -/
 theorem isUnit_natCast_iff (m : ℕ) :
     IsUnit (m : ↥𝒪[K]) ↔ ¬ (residueCharacteristic K) ∣ m := by
   haveI := ringChar.charP 𝓀[K]
@@ -68,7 +70,7 @@ theorem isUnit_natCast_iff (m : ℕ) :
   rfl
 
 /-- A natural number prime to the residue characteristic has valuation one
-([Koblitz 1984, Chap. III, §1, p.60][Koblitz1984]). -/
+([Koblitz 1984, Chap. I, §2, p.2][Koblitz1984]). -/
 theorem valuation_natCast_eq_one (m : ℕ) (hm : ¬ (residueCharacteristic K) ∣ m) :
     valuation K (m : K) = 1 := by
   have hu : IsUnit (m : ↥𝒪[K]) := (isUnit_natCast_iff m).mpr hm
@@ -76,7 +78,8 @@ theorem valuation_natCast_eq_one (m : ℕ) (hm : ¬ (residueCharacteristic K) �
   simpa using hu
 
 /-- The residue characteristic has valuation strictly less than one: it lies in the maximal
-ideal ([Serre 1979, Chap. II, §1, p.26][Serre1979]). -/
+ideal ([Serre 1979, Chap. II, §5, p.36][Serre1979], "since `p` goes to zero in `K̄`, one has
+`v (p) ≥ 1`"). -/
 theorem valuation_residueCharacteristic_lt_one :
     valuation K ((residueCharacteristic K : ℕ) : K) < 1 := by
   have hnu : ¬ IsUnit ((residueCharacteristic K : ℕ) : ↥𝒪[K]) := by
@@ -109,7 +112,8 @@ theorem exists_eq_pow_padicValNat_mul {p : ℕ} [Fact p.Prime] {m : ℕ} (hm : m
   exact pow_succ_padicValNat_not_dvd hm ⟨c, by rw [pow_succ, mul_assoc, ← hc, ← hm']⟩
 
 /-- The valuation of a nonzero natural number is `v (p)` raised to its `p`-adic valuation
-([Koblitz 1984, Chap. III, §1, p.60][Koblitz1984]). -/
+([Koblitz 1984, Chap. I, §2, p.2][Koblitz1984], the definition `|x|_p = 1 / p ^ ord_p x`
+rescaled by `v (p)`). -/
 theorem valuation_natCast {K : Type*} [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] (m : ℕ) (hm : m ≠ 0) :
     valuation K (m : K) =
@@ -158,7 +162,7 @@ variable (hp : (residueCharacteristic K).Prime)
 include hp
 
 /-- The norm of a nonzero natural number is the norm of the residue characteristic raised to
-its `p`-adic valuation ([Koblitz 1984, Chap. III, §1, p.60][Koblitz1984]). -/
+its `p`-adic valuation ([Koblitz 1984, Chap. I, §2, p.2][Koblitz1984]). -/
 theorem norm_natCast_eq_pow (m : ℕ) (hm : m ≠ 0) :
     ‖(m : K)‖ =
       ‖((residueCharacteristic K : ℕ) : K)‖ ^ padicValNat (residueCharacteristic K) m := by

@@ -21,8 +21,6 @@ computations it gates.
 
 ## Main statements
 
-All are claims recorded ahead of their proofs.
-
 * `padicExpIsomorphism` — the exponential is a bijection of `𝓂 ^ i` onto `U i (K)` above the
   threshold.
 * `PadicExpIsomorphism.exp_add` — on the convergence ideal, the exponential turns addition
@@ -78,11 +76,11 @@ because `exp` preserves norms of differences, `K` is complete, and the limit is 
 No continuity lemma for `NormedSpace.exp`, no radius-of-convergence argument, and no
 logarithm enters.
 
-The cited sources state the inverse-isomorphism pair on the whole
-convergence ball—Koblitz over `ℂ_p`, from which the restriction to `K` is immediate—and the
-per-level bijection is the standard refinement: above the threshold the exponential and the
-logarithm preserve the valuation, so the ball bijection cuts to each level; the level
-statement of the third source is the instance the layer's consumers use.
+The cited sources state the inverse-isomorphism pair on the whole convergence ball—Koblitz over
+`ℂ_[p]`, from which the restriction to `K` is immediate—and the per-level bijection is the
+standard refinement: above the threshold the exponential and the logarithm preserve the
+valuation, so the ball bijection cuts to each level; the level statement of the third source is
+the instance the layer's consumers use.
 
 ## References
 
@@ -127,7 +125,9 @@ private theorem expTerm_add (K : Type*) [Field K] [CharZero K] (x y : K) (n : �
   field_simp
   linear_combination (x ^ kl.1 * y ^ kl.2) * hkey
 
-
+/-- The exponent bookkeeping of the tail estimate: under the threshold guard `e + 1 ≤ D * w`
+and Legendre's bound `D * v + 1 ≤ n`, the term exponent `w * n - e * v` clears `w` by at least
+one once `n ≥ 2`—written without subtraction as `e * v + w + 1 ≤ w * n`. -/
 theorem tail_exponent {D e w v n : ℕ} (hD : 1 ≤ D) (hv : D * v + 1 ≤ n) (hw : e + 1 ≤ D * w)
     (hn : 2 ≤ n) : e * v + w + 1 ≤ w * n := by
   have h1 : (D : ℤ) * v + 1 ≤ (n : ℤ) := by exact_mod_cast hv
@@ -166,6 +166,9 @@ private theorem threshold_le {i : ℕ}
 
 set_option synthInstance.maxHeartbeats 80000 in
 -- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.
+/-- The two estimates that carry `padicExpIsomorphism`: above the threshold the exponential
+moves points by exactly their norm, `‖exp x - 1‖ = ‖x‖`, and the second-order error
+`exp x - 1 - x` is smaller by at least a factor of a uniformizer. -/
 theorem norm_exp_estimates {ϖ : ↥𝒪[K]} (hϖ : Irreducible ϖ) {i : ℕ}
     (hi : absoluteRamificationIndex K < (residueCharacteristic K - 1) * i)
     {x : ↥𝒪[K]} (hx : x ∈ (𝓂[K] ^ i : Ideal ↥𝒪[K])) :
@@ -230,7 +233,6 @@ end Normed
 end PadicExpIsomorphism
 
 namespace PadicExpIsomorphism
-
 
 set_option synthInstance.maxHeartbeats 80000 in
 -- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.

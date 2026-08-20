@@ -5,10 +5,13 @@ import Mathlib
 
 The identity `log (exp X) = X` in `A⟦X⟧` for a `ℚ`-algebra `A`: the logarithm series composed
 with the exponential series is the identity, as an identity of formal power series and before
-any question of convergence. It is the coefficient-level fact behind the two inversion identities
-of `Atlas.Knowledge.PadicExpIsomorphism` and behind
-`Atlas.Knowledge.PadicLogarithm.log_mul`—each of those is this identity evaluated at a point
-where both series converge, and none of them can be proved without it.
+any question of convergence. It is the coefficient-level fact behind the two inversion
+identities of `Atlas.Knowledge.PadicExpIsomorphism`—each of those is this identity evaluated at
+a point where both series converge, and neither can be proved without it. The additivity
+`Atlas.Knowledge.PadicLogarithm.log_mul` is *not* behind it: that claim lives on all the
+principal units, the exponential converges only above the threshold `e / (p - 1)`, and the
+formal identity the additivity runs on instead is the power law of
+`Atlas.Knowledge.FormalLogPow`.
 
 ## Main definitions
 
@@ -59,8 +62,8 @@ namespace Atlas.Knowledge
 
 variable (A : Type*) [CommRing A] [Algebra ℚ A]
 
-/-- The geometric series `∑ (-1)ⁿ Xⁿ`, the derivative of `log (1 + X)`
-([Koblitz 1984, Chap. IV, §1, p.78][Koblitz1984]). -/
+/-- The geometric series `∑ (-1)ⁿ Xⁿ`: the termwise derivative of the logarithm series
+`log (1 + X) = ∑ (-1)ⁿ⁺¹ Xⁿ / n` of [Koblitz 1984, Chap. IV, §1, p.78][Koblitz1984]. -/
 noncomputable def formalGeom : PowerSeries A := mk fun n => (-1 : A) ^ n
 
 namespace FormalLogExp
@@ -80,9 +83,8 @@ theorem derivative_log_eq : d⁄dX A (log A) = formalGeom A := by
 end FormalLogExp
 
 omit [Algebra ℚ A] in
-/-- `formalGeom * (1 + X) = 1`: the geometric series is the formal inverse of `1 + X`
-([Koblitz 1984, Chap. IV, §1, p.78][Koblitz1984]). -/
-theorem formalGeom_mul (A : Type*) [CommRing A] : formalGeom A * (1 + X) = 1 := by
+/-- `formalGeom * (1 + X) = 1`: the geometric series is the formal inverse of `1 + X`. -/
+theorem formalGeom_mul : formalGeom A * (1 + X) = 1 := by
   have h := congrArg (rescale (-1 : A)) (mk_one_mul_one_sub_eq_one A)
   rw [map_mul, map_one, map_sub, map_one, rescale_X] at h
   rw [FormalLogExp.formalGeom_eq_rescale]
@@ -92,7 +94,7 @@ theorem formalGeom_mul (A : Type*) [CommRing A] : formalGeom A * (1 + X) = 1 := 
 open FormalLogExp in
 /-- **The formal logarithm inverts the formal exponential**: `log (exp X) = X` in `A⟦X⟧` for a
 `ℚ`-algebra `A`. This is the coefficient-level identity behind every convergent statement that
-`exp` and `log` are mutually inverse ([Koblitz 1984, Chap. IV, §1, p.81][Koblitz1984]). -/
+`exp` and `log` are mutually inverse ([Koblitz 1984, Chap. IV, §1, pp.80–81][Koblitz1984]). -/
 theorem formalLogOf_exp [IsAddTorsionFree A] : logOf (exp A) = (X : PowerSeries A) := by
   refine derivative.ext ?_ ?_
   · rw [logOf_eq, derivative_subst A HasSubst.exp_sub_one, derivative_log_eq, derivative_X]
