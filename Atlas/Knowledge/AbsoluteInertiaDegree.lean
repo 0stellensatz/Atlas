@@ -31,7 +31,7 @@ As with the ramification index, the encoding and the name are connected by a the
 than left as two assertions: `card_residueField_eq_pow` proves `#𝓀[K] = p_K ^ f_K`, which is
 what every counting argument downstream reads `f_K` as—the well-posedness obligation of this
 item, the `f`-side sibling of
-`Atlas.Knowledge.AbsoluteRamificationIndex.span_residueCharacteristic_eq_maximalIdeal_pow`.
+`Atlas.Knowledge.span_residueCharacteristic_eq_maximalIdeal_pow`.
 The proof moves the two residue fields of the encoding onto `𝓀[K]` and `ZMod p_K` along the
 canonical maps and counts a finite vector space over its prime field.
 
@@ -73,8 +73,8 @@ private theorem under_eq :
 set_option synthInstance.maxHeartbeats 80000 in
 -- Same instance searches through `IsLocalRing ↥𝒪[K]`.
 /-- The residue field counts what the inertia degree is named for: `#𝓀[K] = p_K ^ f_K`
-([Serre 1979, Chap. II, §5, p.36][Serre1979], where the residue field of the unequal
-characteristic case is finite with `q = p ^ f` elements;
+([Serre 1979, Chap. II, §5, p.36][Serre1979], when the residue field of the unequal
+characteristic case is finite with q = p^f elements;
 [Hyeon 2025, §3, p.9][Hyeon2025]). -/
 theorem card_residueField_eq_pow :
     Nat.card 𝓀[K] = residueCharacteristic K ^ absoluteInertiaDegree K := by

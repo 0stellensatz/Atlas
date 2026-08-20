@@ -49,7 +49,7 @@ along `n = p ^ j`, where `(p - 1) * v_p ((p ^ j)!) + 1 = p ^ j` exactly, pins th
 summability criterion, which Mathlib does not have at this revision.
 
 The identification `p • 𝒪[K] = 𝓂[K] ^ e` is what lets `e` be read as a valuation at all; it is
-`Atlas.Knowledge.AbsoluteRamificationIndex.span_residueCharacteristic_eq_maximalIdeal_pow`, and
+`Atlas.Knowledge.span_residueCharacteristic_eq_maximalIdeal_pow`, and
 without it the threshold in the statement would be about a length rather than about the
 ramification. The statements mention no norm and no uniformity: the normed structure is rebuilt
 inside the proof from the local-field hypotheses, as in `Atlas.Knowledge.IntegralClosureDVR`.

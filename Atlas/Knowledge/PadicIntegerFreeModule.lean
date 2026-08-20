@@ -20,8 +20,8 @@ item.
 
 ## Main statements
 
-* `padicIntegerFreeModule` — `𝒪[K]` is topologically isomorphic to
-  `Fin (absoluteDegree K) → ℤ_[p]` as an additive group.
+* `padicIntegerFreeModule` — `Fin (absoluteDegree K) → ℤ_[p]` is topologically isomorphic to
+  `𝒪[K]` as an additive group.
 
 ## Implementation notes
 
@@ -35,7 +35,7 @@ everything is everything. Freeness is then Mathlib's `Module.free_of_finite_type
 over the discrete valuation ring `ℤ_[p]`, and the rank is counted on `𝒪[K] ⧸ p 𝒪[K]`: the
 quotient has `p ^ (rank)` elements through the free structure, and `(p ^ f) ^ e` elements
 through the filtration `p 𝒪[K] = 𝓂[K] ^ e` of
-`Atlas.Knowledge.AbsoluteRamificationIndex.span_residueCharacteristic_eq_maximalIdeal_pow`,
+`Atlas.Knowledge.span_residueCharacteristic_eq_maximalIdeal_pow`,
 the multiplicativity of `Submodule.cardQuot` on powers of the maximal ideal, and the count
 `#𝓀[K] = p ^ f` of `Atlas.Knowledge.AbsoluteInertiaDegree.card_residueField_eq_pow`. The
 inverse of the final map is continuous for free, the source being compact and the target
@@ -43,8 +43,12 @@ Hausdorff.
 
 The scaffolding takes the module structure as a variable together with the hypothesis `hsmul`
 spelling its action through a ring morphism `φ`, the same discipline as the norm-variable
-scaffolding of `Atlas.Knowledge.RationalIntegerValuation`: the public statement instantiates
-`φ` with the coefficient embedding, whose action is definitionally multiplication.
+scaffolding of `Atlas.Knowledge.RationalIntegerValuation`, and like that item's it stays
+public: `φ` and `hsmul` are the reusable seam, and a later consumer of the spanning or
+closedness lemmas plugs in its own morphism. The public statement instantiates `φ` with the
+coefficient embedding, whose action is definitionally multiplication. The headline records
+the additive topological isomorphism only—its sole consumer needs no more—and the free-module
+structure that the proof manufactures on the way is deliberately not re-exported.
 
 ## References
 
@@ -200,11 +204,12 @@ end PadicIntegerFreeModule
 set_option synthInstance.maxHeartbeats 80000 in
 -- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.
 open PadicIntegerFreeModule in
-/-- **The valuation ring is free of rank the absolute degree over the `p`-adic integers**,
-topologically: with the module structure of the coefficient embedding, `𝒪[K]` is isomorphic
-to `Fin (e_K * f_K) → ℤ_[p]` as a topological additive group
+/-- **The valuation ring is `d` copies of the `p`-adic integers as a topological additive
+group**, `d = e * f` the absolute degree: the additive shadow of Serre's free-module
+statement, which is all the composition of `Atlas.Knowledge.DeepUnitGroup` consumes; the
+`ℤ_[p]`-linearity of the witness lives inside the proof
 ([Serre 1979, Chap. II, §5, p.36][Serre1979], "prop. 5 shows that A is a free Z_p-module of
-rank n = ef"; [Hyeon 2025, §3, p.9][Hyeon2025]). -/
+rank n = ef"; [Hyeon 2025, §3, pp.9–10][Hyeon2025]). -/
 theorem padicIntegerFreeModule (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] (p : ℕ) [Fact p.Prime] (hp : residueCharacteristic K = p) :
     Nonempty ((Fin (absoluteDegree K) → ℤ_[p]) ≃ₜ+ ↥𝒪[K]) := by

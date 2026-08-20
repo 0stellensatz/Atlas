@@ -7,7 +7,7 @@ import Atlas.Knowledge.PadicExpIsomorphism
 import Atlas.Knowledge.ResidueCharacteristic
 
 /-!
-# the exponential as a topological isomorphism
+# topological exp isomorphism above the threshold
 
 Above the threshold `e / (p - 1)`, the exponential bundles into an isomorphism of topological
 groups: for `(p - 1) * i > e`, the additive group of the ideal power `𝓂 ^ i`, written
@@ -25,10 +25,11 @@ the absolute degree.
 
 ## Implementation notes
 
-The isomorphism is packaged inside `Nonempty` so that the declaration stays a theorem: this
-project forbids `sorry` under a `def`, and an unbundled existence statement is its house style
-for structure recorded ahead of (or instead of) a named construction—
-`Atlas.Knowledge.deepUnitGroup_continuousMulEquiv` states its claim the same way. The witness
+The isomorphism is packaged inside `Nonempty` because its sole consumer,
+`Atlas.Knowledge.deepUnitGroup_continuousMulEquiv`, destructures the existence immediately and
+composes the witness away; a consumer that needs the identity of the underlying map—it is the
+exponential—takes it from `Atlas.Knowledge.padicExpIsomorphism`, where the bijection is
+recorded on `NormedSpace.exp` by name. The witness
 is assembled from `Atlas.Knowledge.padicExpIsomorphism`: `Set.BijOn.equiv` turns the bijection
 into an equivalence between the ideal power and the higher unit group,
 `Atlas.Knowledge.PadicExpIsomorphism.exp_add`—pulled from the convergence ideal down to level

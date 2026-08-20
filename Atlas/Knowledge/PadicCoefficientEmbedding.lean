@@ -9,8 +9,8 @@ import Atlas.Knowledge.ResidueCharacteristic
 
 The canonical embedding of the `p`-adic integers into the valuation ring of a
 mixed-characteristic local field of residue characteristic `p`, together with its extension to
-`ℚ_[p]`: Serre introduces the coefficient ring by observing that "the injection `Z → A` extends
-by continuity to an injection of the ring `Z_p` of `p`-adic integers into `A`"
+`ℚ_[p]`: Serre introduces the coefficient ring by observing that "the injection Z → A extends
+by continuity to an injection of the ring Z_p of p-adic integers into A"
 ([Serre 1979, Chap. II, §5, p.36][Serre1979]). Through the embedding the `ℤ_p`-module structure
 that `Atlas.Knowledge.DeepUnitGroup` reads off the deep unit groups becomes a structure carried
 by `K` itself: the scalars act inside `𝒪[K]`, not through an auxiliary coefficient ring.
@@ -26,8 +26,11 @@ by `K` itself: the scalars act inside `𝒪[K]`, not through an auxiliary coeffi
 
 * `PadicCoefficientEmbedding.sub_appr_mem` — the defining congruences: the image of `c` agrees
   with the approximation `c.appr n` modulo `𝓂[K] ^ n`.
+* `PadicFieldEmbedding.coe_padicCoefficientEmbedding` — the field-level morphism extends the
+  integral one, which is what makes it an extension at all.
 * `PadicCoefficientEmbedding.continuous`, `PadicCoefficientEmbedding.injective`, and
-  `PadicFieldEmbedding.continuous` — both embeddings are continuous, and they are injective.
+  `PadicFieldEmbedding.continuous` — both embeddings are continuous, and the integral one is
+  recorded injective.
 
 ## Implementation notes
 
@@ -236,8 +239,8 @@ end PadicCoefficientEmbedding
 /-- The **coefficient embedding**: the canonical ring morphism `ℤ_[p] →+* 𝒪[K]` into the
 valuation ring of a mixed-characteristic local field of residue characteristic `p`, sending a
 `p`-adic integer to the limit of its integer approximations `PadicInt.appr` along the
-maximal-adic filtration ([Serre 1979, Chap. II, §5, p.36][Serre1979], "the injection `Z → A`
-extends by continuity to an injection of the ring `Z_p` of `p`-adic integers into `A`"). -/
+maximal-adic filtration ([Serre 1979, Chap. II, §5, p.36][Serre1979], "the injection Z → A
+extends by continuity to an injection of the ring Z_p of p-adic integers into A"). -/
 noncomputable def padicCoefficientEmbedding : ℤ_[p] →+* ↥𝒪[K] where
   toFun c := (PadicCoefficientEmbedding.exists_limit K p hp c).choose
   map_one' := PadicCoefficientEmbedding.limit_one K p hp

@@ -24,6 +24,9 @@ absolute degree becomes group-theoretic, which is what the recovery claims of
 
 * `deepUnitGroup_continuousMulEquiv` — a deep unit group is topologically isomorphic to
   `Multiplicative (Fin d → ℤ_[p])`.
+* `DeepUnitGroup.integer_continuousAddEquiv_ideal_pow` — multiplication by `ϖ ^ i` identifies
+  the valuation ring with the `i`th power of its maximal ideal, topologically; the bridge the
+  composition crosses between `Atlas.Knowledge.padicIntegerFreeModule` and the level.
 
 ## Implementation notes
 
@@ -114,15 +117,15 @@ theorem integer_continuousAddEquiv_ideal_pow (K : Type*) [Field K] [ValuativeRel
 
 end DeepUnitGroup
 
-/-- A **deep unit group** is free of rank the absolute degree: for `(p - 1) * i > e`, the higher
-unit group `U i (K)`, in its subspace topology, is topologically isomorphic to
-`Multiplicative (Fin d → ℤ_[p])` for `d = e * f` the absolute degree—the exp/log pair
-identifying it with `𝓂 ^ i`, a free `ℤ_p`-module of rank `d`. Claim recorded ahead of its proof
+/-- A **deep unit group** is free of rank the absolute degree: for `(p - 1) * i > e`, the
+higher unit group `U i (K)`, in its subspace topology, is topologically isomorphic to
+`Multiplicative (Fin d → ℤ_[p])` for `d = e * f` the absolute degree—the exponential
+identifying it with `𝓂 ^ i`, which the coefficient embedding makes `d` copies of `ℤ_[p]`
 ([Fesenko–Vostokov 2002, Chap. I, (6.1) and (6.5), pp.17–20][FesenkoVostokov2002] for the
 `ℤ_p`-structure and the rank-`e * f` free part of `U 1 (K)`;
 [Mochizuki 1997, §1, p.501][Mochizuki1997] for the logarithm identifying a deep open subgroup
 of the units with an open subgroup of `K`; [Hyeon 2025, §4, p.17][Hyeon2025] for the level
-isomorphism; the freeness of the deep level itself is the exp/log inference of the summary). -/
+isomorphism). -/
 theorem deepUnitGroup_continuousMulEquiv (K : Type*) [Field K] [ValuativeRel K]
     [TopologicalSpace K] [IsMixedCharLocalField K] (p : ℕ) [Fact p.Prime]
     (hp : residueCharacteristic K = p) (i : ℕ+)
