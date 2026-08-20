@@ -147,6 +147,13 @@ theorem norm_lt_one_iff_valuation_lt_one (x : K) : ‖x‖ < 1 ↔ valuation K x
     rw [e1, e2, ← norm_inv, ← map_inv₀]
     exact one_lt_norm_iff_one_lt_valuation hc x⁻¹
 
+/-- A natural number has norm at most one: it lies in the valuation ring. -/
+theorem norm_natCast_le_one (m : ℕ) : ‖(m : K)‖ ≤ 1 := by
+  rw [hc]
+  have h : ((m : ↥𝒪[K]) : K) = (m : K) := by push_cast; rfl
+  rw [← h]
+  exact (m : ↥𝒪[K]).2
+
 /-- The comparison of unit balls, on the unit sphere. -/
 theorem norm_eq_one_iff_valuation_eq_one (x : K) : ‖x‖ = 1 ↔ valuation K x = 1 := by
   constructor

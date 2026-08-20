@@ -78,6 +78,31 @@ def Dominates (t : ℕ → ℝ) (x : K) (g : PowerSeries ℚ) : Prop :=
 
 variable {t : ℕ → ℝ} {x : K}
 
+/-- The norm of a rational multiple splits off the norm of the rational, read in `K`. -/
+theorem norm_rat_smul (q : ℚ) (y : K) : ‖q • y‖ = ‖q • (1 : K)‖ * ‖y‖ := by
+  rw [Rat.smul_def, Rat.smul_def, mul_one, norm_mul]
+
+/-- Geometric decay beats polynomial growth: `(m + 1) ^ N * r ^ m` is summable for `r < 1`.
+The shape every weight of the file is compared against. -/
+theorem summable_add_one_pow_mul_geometric {r : ℝ} (h0 : 0 ≤ r) (h1 : r < 1) (N : ℕ) :
+    Summable fun m : ℕ => ((m : ℝ) + 1) ^ N * r ^ m := by
+  have hpow : Summable fun m : ℕ => (m : ℝ) ^ N * r ^ m :=
+    summable_pow_mul_geometric_of_norm_lt_one N (by rwa [Real.norm_eq_abs, abs_of_nonneg h0])
+  have hgeo : Summable fun m : ℕ => r ^ m := summable_geometric_of_lt_one h0 h1
+  refine Summable.of_nonneg_of_le (fun m => by positivity) (fun m => ?_)
+    (((hpow.add hgeo).mul_left ((2 : ℝ) ^ N)))
+  have hb : ((m : ℝ) + 1) ^ N ≤ 2 ^ N * ((m : ℝ) ^ N + 1) :=
+    calc ((m : ℝ) + 1) ^ N ≤ 2 ^ (N - 1) * ((m : ℝ) ^ N + 1 ^ N) :=
+          add_pow_le (by positivity) (by norm_num) N
+      _ ≤ 2 ^ N * ((m : ℝ) ^ N + 1) := by
+          rw [one_pow]
+          exact mul_le_mul_of_nonneg_right
+            (pow_le_pow_right₀ (by norm_num) (by omega)) (by positivity)
+  calc ((m : ℝ) + 1) ^ N * r ^ m
+      ≤ 2 ^ N * ((m : ℝ) ^ N + 1) * r ^ m :=
+        mul_le_mul_of_nonneg_right hb (by positivity)
+    _ = 2 ^ N * ((m : ℝ) ^ N * r ^ m + r ^ m) := by ring
+
 /-- The constant series `1` is dominated by any weight with `1 ≤ t 0` and nonnegative tail. -/
 theorem Dominates.one (htnn : ∀ m, 0 ≤ t m) (ht0 : 1 ≤ t 0) : Dominates t x 1 := by
   intro m
@@ -111,6 +136,27 @@ theorem Dominates.pow [IsUltrametricDist K] (htnn : ∀ m, 0 ≤ t m) (ht0 : 1 �
   | d + 1 => by
       rw [pow_succ]
       exact (Dominates.pow htnn ht0 htmul hg d).mul htnn htmul hg
+
+/-- Domination by the constant weight `1` at the point `1` says exactly that every
+coefficient has norm at most one—the integral-coefficient reading. It transfers to the
+geometric weight at any point. -/
+theorem Dominates.geometric {g : PowerSeries ℚ}
+    (hg : Dominates (fun _ => (1 : ℝ)) (1 : K) g) (x : K) :
+    Dominates (fun m => ‖x‖ ^ m) x g := by
+  intro m
+  have h := hg m
+  rw [one_pow] at h
+  calc ‖coeff m g • x ^ m‖ = ‖coeff m g • (1 : K)‖ * ‖x ^ m‖ := norm_rat_smul _ _
+    _ ≤ 1 * ‖x‖ ^ m := by
+        rw [norm_pow]
+        exact mul_le_mul_of_nonneg_right h (by positivity)
+    _ = ‖x‖ ^ m := one_mul _
+
+/-- `1 + X` has integral coefficients: it is dominated by the constant weight `1` at `1`. -/
+theorem dominates_one_add_X : Dominates (fun _ => (1 : ℝ)) (1 : K) (1 + X : PowerSeries ℚ) := by
+  intro m
+  rw [one_pow, map_add]
+  rcases m with _ | _ | m <;> simp [coeff_one, coeff_X]
 
 /-- The term norms of a dominated series are summable against a summable weight. -/
 theorem Dominates.summable_norm (hts : Summable t) {g : PowerSeries ℚ}
@@ -209,13 +255,11 @@ theorem value_subst [IsUltrametricDist K] [CompleteSpace K] (htnn : ∀ m, 0 ≤
   have hsub : HasSubst g := HasSubst.of_constantCoeff_zero' hg0
   have hts : Summable t := by simpa using htpoly 0
   set F : ℕ × ℕ → K := fun md => coeff md.2 f • (coeff md.1 (g ^ md.2) • x ^ md.1) with hF
-  have hsmul_norm : ∀ (q : ℚ) (y : K), ‖q • y‖ = ‖q • (1 : K)‖ * ‖y‖ := fun q y => by
-    rw [Rat.smul_def, Rat.smul_def, mul_one, norm_mul]
   have hFzero : ∀ m d : ℕ, m < d → F (m, d) = 0 := fun m d h => by
     simp [hF, coeff_pow_eq_zero hg0 h]
   have hFbound : ∀ m d : ℕ, ‖F (m, d)‖ ≤ ((d : ℝ) + 1) ^ N * t m := fun m d =>
     calc ‖F (m, d)‖
-        = ‖coeff d f • (1 : K)‖ * ‖coeff m (g ^ d) • x ^ m‖ := hsmul_norm _ _
+        = ‖coeff d f • (1 : K)‖ * ‖coeff m (g ^ d) • x ^ m‖ := norm_rat_smul _ _
       _ ≤ ((d : ℝ) + 1) ^ N * t m :=
           mul_le_mul (hf d) (hg.pow htnn ht0 htmul d m) (norm_nonneg _) (by positivity)
   -- absolute convergence over the product index

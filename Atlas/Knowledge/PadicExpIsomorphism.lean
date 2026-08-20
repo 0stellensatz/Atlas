@@ -557,22 +557,7 @@ theorem padicLogarithm_exp (K : Type*) [Field K] [ValuativeRel K] [TopologicalSp
     hdom_exp.sub_one ht0
   have hF0 : PowerSeries.constantCoeff (PowerSeries.exp ℚ - 1) = 0 := by
     simp [PowerSeries.constantCoeff_exp]
-  obtain ⟨N, -, hN⟩ := exists_norm_natCast_inv_le hc hp
-  have hlog : ∀ d : ℕ,
-      ‖PowerSeries.coeff d (PowerSeries.log ℚ) • (1 : K)‖ ≤ ((d : ℝ) + 1) ^ N := by
-    intro d
-    rcases d with _ | n
-    · simp [PowerSeries.coeff_log]
-    · rw [PowerSeries.coeff_log]
-      simp only [Nat.succ_ne_zero, if_false, Algebra.algebraMap_self, RingHom.id_apply]
-      rw [Rat.smul_def, mul_one]
-      push_cast
-      rw [div_eq_mul_inv, norm_mul, norm_pow, norm_neg, norm_one, one_pow, one_mul, norm_inv]
-      have h1 : ((n : K) + 1) = ((n + 1 : ℕ) : K) := by push_cast; ring
-      rw [h1]
-      calc ‖((n + 1 : ℕ) : K)‖⁻¹ ≤ ((n + 1 : ℕ) : ℝ) ^ N := hN (n + 1)
-        _ ≤ (((n : ℝ) + 1) + 1) ^ N :=
-            pow_le_pow_left₀ (by positivity) (by push_cast; linarith) N
+  obtain ⟨N, hlog⟩ := PadicLogarithm.exists_norm_coeff_log_smul_le hc hp
   have hval_exp : PowerSeriesCompositionValue.value (x : K) (PowerSeries.exp ℚ)
       = NormedSpace.exp (x : K) := by
     rw [NormedSpace.exp_eq_tsum_rat, PowerSeriesCompositionValue.value]
