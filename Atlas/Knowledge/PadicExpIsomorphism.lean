@@ -1,9 +1,11 @@
 import Mathlib
 import Atlas.Knowledge.AbsoluteRamificationIndex
+import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.PadicExpConvergence
 import Atlas.Knowledge.PadicLogarithm
+import Atlas.Knowledge.PowerSeriesCompositionValue
 import Atlas.Knowledge.ResidueCharacteristic
 
 /-!
@@ -30,9 +32,6 @@ computations it gates.
 * `PadicExpIsomorphism.exp_padicLogarithm` — the exponential inverts the logarithm on
   `U i (K)`.
 
-Of the four, `padicExpIsomorphism` and `PadicExpIsomorphism.exp_add` are proved; the two
-inversion identities are claims recorded ahead of their proofs.
-
 ## Implementation notes
 
 The exponential is Mathlib's `NormedSpace.exp`, whose value at `x` is the sum of the series
@@ -40,9 +39,8 @@ The exponential is Mathlib's `NormedSpace.exp`, whose value at `x` is the sum of
 `Classical.choice` in Mathlib's definition picks the standard one—and whose convergence on the
 stated domain is `Atlas.Knowledge.PadicExpConvergence`. The isomorphism is stated unbundled: a
 `Set.BijOn` between the images of `𝓂 ^ i` and of `U i (K)` in `K`, plus the homomorphism
-identity and the two inversion identities. A bundled `MulEquiv` would be a definition, and a
-definition may not carry a `sorry`; the unbundled quadruple records the same content as claims
-and lets the bundling be built downstream once the proofs land. The bijection and the log-side
+identity and the two inversion identities; the bundling into a `≃ₜ*` is
+`Atlas.Knowledge.DeepUnitGroup`'s business, downstream. The bijection and the log-side
 inversion are per level, under the integer guard `e < (p - 1) * i`; the two identities
 `exp_add` and `padicLogarithm_exp` are instead stated once, on the convergence ideal
 `𝓂 ^ (e / (p - 1) + 1)` of `Atlas.Knowledge.PadicExpConvergence`, which contains every deeper
@@ -60,9 +58,18 @@ the "if" half of the threshold theorem factored out for this purpose—so
 a sum over antidiagonals, and what remains is the binomial identity one `n` at a time:
 `(n !)⁻¹ * (n.choose i) = (i !)⁻¹ * (j !)⁻¹` for `i + j = n`, which is
 `Nat.add_choose_mul_factorial_mul_factorial` cast into `K`. Nothing about the nonarchimedean
-structure enters beyond the absolute summability, which is why this one claim of the four is
-reachable while the two inversion identities are not: those need the functional equation of
-`PowerSeries.log`, which Mathlib does not have at this revision.
+structure enters beyond the absolute summability.
+
+The two inversion identities are the formal functional equation made convergent.
+`padicLogarithm_exp` is `Atlas.Knowledge.formalLogOf_exp` evaluated through
+`Atlas.Knowledge.PowerSeriesCompositionValue`: the exponential series is dominated by the
+threshold weight of `Atlas.Knowledge.PadicExpConvergence.exists_weight_expSeries`, the log
+series has polynomially growing coefficients by
+`Atlas.Knowledge.RationalIntegerValuation.exists_norm_natCast_inv_le`, so the value of
+`logOf (exp X)` at `x` is the log of the exp—and the formal identity says that value is `x`.
+`exp_padicLogarithm` then costs nothing: surjectivity of `padicExpIsomorphism` writes
+`u = exp z` with `z` in the ideal power, and `log u = log (exp z) = z` feeds back into the
+exponential.
 
 `padicExpIsomorphism` does **not** need the logarithm either, which is the departure from how
 the sources prove it. The two estimates of `PadicExpIsomorphism.norm_exp_estimates` carry all
@@ -513,18 +520,81 @@ theorem padicExpIsomorphism (K : Type*) [Field K] [ValuativeRel K] [TopologicalS
 namespace PadicExpIsomorphism
 
 /-- The logarithm inverts the exponential on the convergence ideal: `log (exp x) = x` for
-`x ∈ 𝓂 ^ (e / (p - 1) + 1)`—hence on every deeper level by inclusion. Claim recorded ahead of
-its proof ([Koblitz 1984, Chap. IV, §1, p.81][Koblitz1984];
+`x ∈ 𝓂 ^ (e / (p - 1) + 1)`—hence on every deeper level by inclusion
+([Koblitz 1984, Chap. IV, §1, pp.80–81][Koblitz1984];
 [Fesenko–Vostokov 2002, Chap. VI, (1.4), p.212][FesenkoVostokov2002]). -/
 theorem padicLogarithm_exp (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] (x : ↥𝒪[K])
     (hx : x ∈ (𝓂[K] ^ (absoluteRamificationIndex K / (residueCharacteristic K - 1) + 1) :
       Ideal ↥𝒪[K])) :
     padicLogarithm K (NormedSpace.exp (x : K)) = x := by
-  sorry
+  have hp : (residueCharacteristic K).Prime := residueCharacteristic_prime K
+  -- Rebuild the normed structure; its topology is the given one.
+  letI : UniformSpace K := IsTopologicalAddGroup.rightUniformSpace K
+  haveI : IsUniformAddGroup K := isUniformAddGroup_of_addCommGroup
+  letI : (Valued.v (R := K)).RankOne :=
+    { hom' := IsRankLeOne.nonempty.some.emb (R := K).comp MonoidWithZeroHom.ValueGroup₀.embedding
+      strictMono' := IsRankLeOne.nonempty.some.strictMono.comp
+        MonoidWithZeroHom.ValueGroup₀.embedding_strictMono }
+  letI : NontriviallyNormedField K := Valued.toNontriviallyNormedField K (ValueGroupWithZero K)
+  haveI : CompleteSpace K := inferInstance
+  haveI : IsUltrametricDist K := inferInstance
+  have hc : ∀ z : K, ‖z‖ ≤ 1 ↔ valuation K z ≤ 1 := fun z => Valued.toNormedField.norm_le_one_iff
+  have hpe := span_residueCharacteristic_eq_maximalIdeal_pow K
+  rcases eq_or_ne x 0 with rfl | hx0
+  · rw [show ((0 : ↥𝒪[K]) : K) = 0 from rfl, NormedSpace.exp_zero, padicLogarithm]
+    simp
+  obtain ⟨t, htnn, ht0, htmul, htpoly, hterm⟩ :=
+    PadicExpConvergence.exists_weight_expSeries hc hp hpe hx hx0
+  have hts : Summable t := by simpa using htpoly 0
+  have hcoeff_exp : ∀ m : ℕ, PowerSeries.coeff m (PowerSeries.exp ℚ) = ((m ! : ℚ))⁻¹ :=
+    fun m => by rw [PowerSeries.coeff_exp]; simp [one_div]
+  have hdom_exp : PowerSeriesCompositionValue.Dominates t (x : K) (PowerSeries.exp ℚ) := by
+    intro m
+    rw [hcoeff_exp]
+    exact (hterm m).le
+  have hdom : PowerSeriesCompositionValue.Dominates t (x : K) (PowerSeries.exp ℚ - 1) :=
+    hdom_exp.sub_one ht0
+  have hF0 : PowerSeries.constantCoeff (PowerSeries.exp ℚ - 1) = 0 := by
+    simp [PowerSeries.constantCoeff_exp]
+  obtain ⟨N, -, hN⟩ := exists_norm_natCast_inv_le hc hp
+  have hlog : ∀ d : ℕ,
+      ‖PowerSeries.coeff d (PowerSeries.log ℚ) • (1 : K)‖ ≤ ((d : ℝ) + 1) ^ N := by
+    intro d
+    rcases d with _ | n
+    · simp [PowerSeries.coeff_log]
+    · rw [PowerSeries.coeff_log]
+      simp only [Nat.succ_ne_zero, if_false, Algebra.algebraMap_self, RingHom.id_apply]
+      rw [Rat.smul_def, mul_one]
+      push_cast
+      rw [div_eq_mul_inv, norm_mul, norm_pow, norm_neg, norm_one, one_pow, one_mul, norm_inv]
+      have h1 : ((n : K) + 1) = ((n + 1 : ℕ) : K) := by push_cast; ring
+      rw [h1]
+      calc ‖((n + 1 : ℕ) : K)‖⁻¹ ≤ ((n + 1 : ℕ) : ℝ) ^ N := hN (n + 1)
+        _ ≤ (((n : ℝ) + 1) + 1) ^ N :=
+            pow_le_pow_left₀ (by positivity) (by push_cast; linarith) N
+  have hval_exp : PowerSeriesCompositionValue.value (x : K) (PowerSeries.exp ℚ)
+      = NormedSpace.exp (x : K) := by
+    rw [NormedSpace.exp_eq_tsum_rat, PowerSeriesCompositionValue.value]
+    exact tsum_congr fun m => by rw [hcoeff_exp]
+  have hvF : PowerSeriesCompositionValue.value (x : K) (PowerSeries.exp ℚ - 1)
+      = NormedSpace.exp (x : K) - 1 := by
+    rw [PowerSeriesCompositionValue.value_sub_one hts hdom_exp, hval_exp]
+  calc padicLogarithm K (NormedSpace.exp (x : K))
+      = PowerSeriesCompositionValue.value (NormedSpace.exp (x : K) - 1) (PowerSeries.log ℚ) :=
+        PadicLogarithm.padicLogarithm_eq_value _
+    _ = ∑' d : ℕ, PowerSeries.coeff d (PowerSeries.log ℚ)
+          • PowerSeriesCompositionValue.value (x : K) (PowerSeries.exp ℚ - 1) ^ d := by
+        rw [← hvF, PowerSeriesCompositionValue.value]
+    _ = PowerSeriesCompositionValue.value (x : K)
+          (PowerSeries.subst (PowerSeries.exp ℚ - 1) (PowerSeries.log ℚ)) :=
+        (PowerSeriesCompositionValue.value_subst htnn ht0 htmul htpoly hdom hF0 hlog).symm
+    _ = PowerSeriesCompositionValue.value (x : K) PowerSeries.X := by
+        rw [← PowerSeries.logOf_eq, formalLogOf_exp]
+    _ = (x : K) := PowerSeriesCompositionValue.value_X
 
 /-- The exponential inverts the logarithm on the higher unit group above the threshold:
-`exp (log u) = u` for `u ∈ U i (K)` with `(p - 1) * i > e`. Claim recorded ahead of its proof
+`exp (log u) = u` for `u ∈ U i (K)` with `(p - 1) * i > e`
 ([Koblitz 1984, Chap. IV, §1, p.81][Koblitz1984];
 [Fesenko–Vostokov 2002, Chap. VI, (1.4), p.212][FesenkoVostokov2002];
 [Hyeon 2025, §4, p.17][Hyeon2025]). -/
@@ -533,7 +603,17 @@ theorem exp_padicLogarithm (K : Type*) [Field K] [ValuativeRel K] [TopologicalSp
     (hi : absoluteRamificationIndex K < (residueCharacteristic K - 1) * (i : ℕ))
     (u : Kˣ) (hu : u ∈ higherUnitGroup K i) :
     NormedSpace.exp (padicLogarithm K (u : K)) = (u : K) := by
-  sorry
+  have hp : (residueCharacteristic K).Prime := residueCharacteristic_prime K
+  obtain ⟨-, -, hsurj⟩ := padicExpIsomorphism K i hi
+  obtain ⟨z, hz, hexp⟩ := hsurj ⟨u, hu, rfl⟩
+  obtain ⟨z', hz', rfl⟩ := hz
+  have hth : z' ∈ (𝓂[K] ^ (absoluteRamificationIndex K / (residueCharacteristic K - 1) + 1) :
+      Ideal ↥𝒪[K]) := by
+    refine Ideal.pow_le_pow_right ?_ hz'
+    have hD : 0 < residueCharacteristic K - 1 := by have := hp.two_le; omega
+    have := (Nat.div_lt_iff_lt_mul hD).mpr (by rw [Nat.mul_comm] at hi; exact hi)
+    omega
+  rw [← hexp, padicLogarithm_exp K z' hth]
 
 end PadicExpIsomorphism
 

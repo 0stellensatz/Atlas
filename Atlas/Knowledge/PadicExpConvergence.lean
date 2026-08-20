@@ -273,6 +273,91 @@ theorem summable_norm_expSeries {x : ↥𝒪[K]}
         rw [← Real.rpow_natCast (c ^ ((1 : ℝ) / d)) n, ← Real.rpow_mul hc0.le]
         ring_nf
 
+set_option synthInstance.maxHeartbeats 80000 in
+-- The ideal arithmetic on `↥𝒪[K]` does not fit the default instance budget.
+/-- The threshold weight, packaged for the composition-value machinery of
+`Atlas.Knowledge.PowerSeriesCompositionValue`: at a nonzero integer `x` above the threshold,
+the term norms of the exponential series are exactly a weight that is one at zero,
+submultiplicative, and summable against every polynomial. Submultiplicativity is the
+integrality of the binomial coefficients—`i ! * j !` divides `(i + j)!`—and the polynomial
+summability is the geometric domination of `summable_norm_expSeries` with the polynomial
+factor absorbed into the geometric decay. -/
+theorem exists_weight_expSeries {x : ↥𝒪[K]}
+    (hx : x ∈ (𝓂[K] ^ (absoluteRamificationIndex K / (residueCharacteristic K - 1) + 1) :
+      Ideal ↥𝒪[K]))
+    (hx0 : x ≠ 0) :
+    ∃ t : ℕ → ℝ, (∀ m, 0 ≤ t m) ∧ 1 ≤ t 0 ∧ (∀ i j, t i * t j ≤ t (i + j)) ∧
+      (∀ N : ℕ, Summable fun m : ℕ => ((m : ℝ) + 1) ^ N * t m) ∧
+      ∀ m : ℕ, ‖(m ! : ℚ)⁻¹ • ((x : K) ^ m)‖ = t m := by
+  haveI : Fact (residueCharacteristic K).Prime := ⟨hp⟩
+  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
+  obtain ⟨w, hc0, hc1, hterm, hmem⟩ := exists_norm_term_eq hc hp hpe hϖ hx0
+  set c : ℝ := ‖((ϖ : ↥𝒪[K]) : K)‖ with hcdef
+  set D : ℕ := residueCharacteristic K - 1 with hDdef
+  set e : ℕ := absoluteRamificationIndex K with hedef
+  set v : ℕ → ℕ := fun n => padicValNat (residueCharacteristic K) (n !) with hvdef
+  refine ⟨fun m => c ^ (w * m) / c ^ (e * v m), fun m => by positivity, ?_, ?_, ?_,
+    fun m => hterm m⟩
+  · have hv0 : v 0 = 0 := by simp [hvdef]
+    simp [hv0]
+  · intro i j
+    have hvv : v i + v j ≤ v (i + j) := by
+      have hdvd : (residueCharacteristic K) ^ (v i + v j) ∣ (i + j)! := by
+        rw [pow_add]
+        exact dvd_trans (mul_dvd_mul pow_padicValNat_dvd pow_padicValNat_dvd)
+          (Nat.factorial_mul_factorial_dvd_factorial_add i j)
+      rcases (padicValNat_dvd_iff (v i + v j) ((i + j)!)).mp hdvd with h0 | hle
+      · exact absurd h0 (Nat.factorial_ne_zero _)
+      · exact hle
+    rw [div_mul_div_comm, ← pow_add, ← pow_add,
+      show w * i + w * j = w * (i + j) by ring]
+    refine div_le_div_of_nonneg_left (by positivity) (by positivity) ?_
+    rw [← Nat.mul_add]
+    exact pow_le_pow_of_le_one hc0.le hc1.le (Nat.mul_le_mul_left e hvv)
+  · intro N
+    have hk : e / D + 1 ≤ w := (hmem _).mp hx
+    set d : ℝ := (D : ℝ) with hddef
+    have hd0 : 0 < d := by
+      rw [hddef, hDdef]; exact_mod_cast Nat.sub_pos_of_lt (by have := hp.two_le; omega)
+    have hdw : e + 1 ≤ D * w := div_bound hp.two_le hk
+    have hr0 : (0 : ℝ) ≤ c ^ ((1 : ℝ) / d) := Real.rpow_nonneg hc0.le _
+    have hr1 : c ^ ((1 : ℝ) / d) < 1 := Real.rpow_lt_one hc0.le hc1 (by positivity)
+    have hrpos : (0 : ℝ) < c ^ ((1 : ℝ) / d) := Real.rpow_pos_of_pos hc0 _
+    have hpoint : ∀ n : ℕ, c ^ (w * n) / c ^ (e * v n) ≤ (c ^ ((1 : ℝ) / d)) ^ n := by
+      intro n
+      have hnat : D * (e * v n) + n ≤ D * (w * n) := by
+        calc D * (e * v n) + n = e * (D * v n) + n := by ring
+          _ ≤ e * n + n := Nat.add_le_add_right (Nat.mul_le_mul_left e (factorial_bound n)) n
+          _ = n * (e + 1) := by ring
+          _ ≤ n * (D * w) := Nat.mul_le_mul_left n hdw
+          _ = D * (w * n) := by ring
+      have hcast : d * ((e * v n : ℕ) : ℝ) + (n : ℝ) ≤ d * ((w * n : ℕ) : ℝ) := by
+        rw [hddef]; exact_mod_cast hnat
+      have hexp : (n : ℝ) / d ≤ ((w * n : ℕ) : ℝ) - ((e * v n : ℕ) : ℝ) := by
+        rw [div_le_iff₀ hd0, sub_mul, mul_comm _ d, mul_comm _ d]
+        linarith
+      rw [div_eq_mul_inv, ← Real.rpow_natCast c (w * n), ← Real.rpow_natCast c (e * v n),
+        ← Real.rpow_neg hc0.le, ← Real.rpow_add hc0]
+      calc c ^ (((w * n : ℕ) : ℝ) + -((e * v n : ℕ) : ℝ))
+          ≤ c ^ ((n : ℝ) / d) := by
+            refine Real.rpow_le_rpow_of_exponent_ge hc0 hc1.le ?_
+            linarith
+        _ = (c ^ ((1 : ℝ) / d)) ^ n := by
+            rw [← Real.rpow_natCast (c ^ ((1 : ℝ) / d)) n, ← Real.rpow_mul hc0.le]
+            ring_nf
+    have h1 : Summable fun m : ℕ => (m : ℝ) ^ N * (c ^ ((1 : ℝ) / d)) ^ m :=
+      summable_pow_mul_geometric_of_norm_lt_one N
+        (by rwa [Real.norm_eq_abs, abs_of_nonneg hr0])
+    have h2 : Summable fun m : ℕ => (((m + 1 : ℕ)) : ℝ) ^ N * (c ^ ((1 : ℝ) / d)) ^ (m + 1) :=
+      (summable_nat_add_iff 1).mpr h1
+    have hgeom : Summable fun m : ℕ => ((m : ℝ) + 1) ^ N * (c ^ ((1 : ℝ) / d)) ^ m := by
+      refine ((h2.mul_left (c ^ ((1 : ℝ) / d))⁻¹).congr fun m => ?_)
+      push_cast
+      field_simp
+      ring
+    refine Summable.of_nonneg_of_le (fun m => by positivity) (fun m => ?_) hgeom
+    exact mul_le_mul_of_nonneg_left (hpoint m) (by positivity)
+
 end Normed
 
 end PadicExpConvergence

@@ -1,6 +1,7 @@
 import Mathlib
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.IsMixedCharLocalField
+import Atlas.Knowledge.PowerSeriesCompositionValue
 import Atlas.Knowledge.RationalIntegerValuation
 import Atlas.Knowledge.ResidueCharacteristic
 
@@ -83,6 +84,26 @@ noncomputable def padicLogarithm (K : Type*) [Field K] [TopologicalSpace K] [Cha
 namespace PadicLogarithm
 
 open RationalIntegerValuation
+
+/-- The logarithm as a composition value: `padicLogarithm K y` is the value, in the sense of
+`Atlas.Knowledge.PowerSeriesCompositionValue`, of the formal `log` series at `y - 1`. Pure
+reindexing between the layer's `(n + 1)`-indexed spelling and the coefficient spelling of
+`PowerSeries.log`, with no convergence hypothesis—off the summable locus the two sides junk
+together. -/
+theorem padicLogarithm_eq_value {K : Type*} [NormedField K] [CharZero K] (y : K) :
+    padicLogarithm K y = PowerSeriesCompositionValue.value (y - 1) (PowerSeries.log ℚ) := by
+  rw [padicLogarithm, PowerSeriesCompositionValue.value]
+  refine ((Function.Injective.tsum_eq (g := Nat.succ) Nat.succ_injective ?_).symm.trans
+    (tsum_congr fun n => ?_)).symm
+  · intro d hd
+    rcases d with _ | n
+    · exact absurd (by simp [PowerSeries.coeff_log]) hd
+    · exact ⟨n, rfl⟩
+  · congr 1
+    simp only [PowerSeries.coeff_log, Nat.succ_ne_zero, if_false, Algebra.algebraMap_self,
+      RingHom.id_apply, Nat.succ_eq_add_one, pow_succ]
+    push_cast
+    ring
 
 /-- The logarithm series converges on every principal unit of a mixed-characteristic local
 field: for `u` in the first higher unit group, the series of `padicLogarithm` at `u` is
