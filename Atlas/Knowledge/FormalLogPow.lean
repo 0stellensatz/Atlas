@@ -18,8 +18,8 @@ unit through `Atlas.Knowledge.PowerSeriesCompositionValue`.
 
 ## Implementation notes
 
-The sources state the two-variable addition law `log ((1 + X)(1 + Y)) = log (1 + X) +
-log (1 + Y)` in `ℚ⟦X, Y⟧` and specialize it; the layer records the one-variable `n`-fold
+The sources state the two-variable addition law log ((1 + X)(1 + Y)) = log (1 + X) + log (1 + Y)
+in two indeterminates over ℚ and specialize it; the layer records the one-variable `n`-fold
 specialization instead, because it is what the descent consumes and it stays inside
 `PowerSeries`, where Mathlib's substitution calculus lives—`MvPowerSeries` substitution would
 buy the two-variable law at the price of a second evaluation theory the layer would then need
@@ -87,8 +87,8 @@ open FormalLogPow in
 /-- **The formal power law of the logarithm**: `log ((1 + X) ^ n) = n • log (1 + X)` in
 `A⟦X⟧` for a `ℚ`-algebra `A`. The `n`-fold specialization of the sources' two-variable
 addition law, recorded in one variable per the implementation notes
-([Koblitz 1984, Chap. IV, §1, pp.79–80][Koblitz1984], the formal identity in `ℚ⟦X, Y⟧` at the
-foot of p.79 and the additivity it yields on p.80;
+([Koblitz 1984, Chap. IV, §1, pp.79–80][Koblitz1984], the formal identity in two indeterminates
+at the foot of p.79 and the additivity it yields on p.80;
 [Fesenko–Vostokov 2002, Chap. VI, (1.2), p.208][FesenkoVostokov2002]). -/
 theorem formalLogOf_pow (A : Type*) [CommRing A] [Algebra ℚ A] [IsAddTorsionFree A] (n : ℕ) :
     logOf ((1 + X : PowerSeries A) ^ n) = n • log A := by

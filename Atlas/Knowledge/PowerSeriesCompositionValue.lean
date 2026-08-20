@@ -5,12 +5,14 @@ import Mathlib
 
 Substitution of formal power series is compatible with evaluation: if `g` has zero constant
 coefficient and its terms at `x` are dominated by a summable weight, and the coefficients of `f`
-grow at most polynomially in the norm, then the series of `subst g f` at `x` sums to
+grow at most polynomially in the norm, then the value of `subst g f` at `x` equals
 `∑ (coeff d f) • (value of g at x) ^ d`—the value of the composition is the composition of the
-values. This is the transfer principle that turns the formal functional equations of
-`Atlas.Knowledge.FormalLogExp` into identities between convergent sums, and it is the piece
-whose absence blocked the inversion identities of `Atlas.Knowledge.PadicExpIsomorphism` and the
-additivity `Atlas.Knowledge.PadicLogarithm.log_mul`.
+values. Values are total `tsum`s, so the equation itself carries no summability; the absolute
+convergence that justifies it lives in the proof. This is the transfer principle that turns
+the formal functional equations of `Atlas.Knowledge.FormalLogExp` into identities between
+convergent sums, and it is the piece whose absence blocked the inversion identities of
+`Atlas.Knowledge.PadicExpIsomorphism` and the additivity
+`Atlas.Knowledge.PadicLogarithm.log_mul`.
 
 ## Main definitions
 
@@ -28,11 +30,15 @@ additivity `Atlas.Knowledge.PadicLogarithm.log_mul`.
 
 ## Implementation notes
 
-The source states the composition principle for a local number field and proves it by the
-double-sum estimate; here the signature is the minimal one under which that argument runs—a
-complete normed field whose metric is ultrametric—and the convergence data is carried by an
-explicit weight `t` rather than by a radius, because the two consumers hold their estimates in
-exactly that form: the exponential weight `c ^ (w * m) / c ^ (e * v_p (m !))` of
+The source states the composition principle over the completed maximal unramified extension,
+whose infinite residue field its own proof leans on, and closes by a valuation-tail estimate.
+The transcription changes the setting, the argument, and the coefficients: the signature is a
+complete normed field whose metric is ultrametric—the minimal one under which the replacement
+argument runs—the coefficient ring is `ℚ`, which is all the series of this layer carry, and
+the proof is Fubini on an absolutely convergent double family rather than the source's tail
+estimate. The source's radius for `f` becomes the polynomial growth of the coefficients of
+`f`, and its radius for `g` becomes an explicit weight `t`, because the two consumers hold
+their estimates in exactly that form: the exponential weight `c ^ (w * m) / c ^ (e * v_p (m !))` of
 `Atlas.Knowledge.PadicExpConvergence.exists_norm_term_eq` above the threshold, and the
 geometric weight `‖x‖ ^ m` for a series with integral coefficients on the maximal ideal. The
 weight is asked to be submultiplicative (`t i * t j ≤ t (i + j)`), which is what the ultrametric
@@ -208,7 +214,7 @@ theorem value_sub_one [CompleteSpace K] (hts : Summable t) {g : PowerSeries ℚ}
 
 /-- The value of a product of dominated series is the product of the values: the Cauchy
 product, available by absolute convergence
-([Fesenko–Vostokov 2002, Chap. VI, (1.5), p.212][FesenkoVostokov2002], the operation `×`). -/
+([Fesenko–Vostokov 2002, Chap. VI, (1.5), p.212][FesenkoVostokov2002], the operation ×). -/
 theorem value_mul [CompleteSpace K] (hts : Summable t) {g h : PowerSeries ℚ}
     (hg : Dominates t x g) (hh : Dominates t x h) :
     value x (g * h) = value x g * value x h := by
@@ -239,13 +245,15 @@ theorem coeff_pow_eq_zero {g : PowerSeries ℚ} (hg0 : constantCoeff g = 0)
   X_pow_dvd_iff.mp (pow_dvd_pow_of_dvd (X_dvd_iff.mpr hg0) d) m hmd
 
 /-- **The value of a composition is the composition of the values**: for `g` dominated with
-zero constant coefficient and `f` with polynomially growing coefficients, the series of
-`subst g f` at `x` sums to `∑ (coeff d f) • (value x g) ^ d`. The double sum converges
-absolutely because `g ^ d` has no coefficients below `d`, so the inner index bounds the outer
-one and the weight's polynomial slack absorbs the growth of `f`; two applications of Fubini
-exchange the two orders of summation
+zero constant coefficient and `f` with polynomially growing coefficients, the value of
+`subst g f` at `x` is `∑ (coeff d f) • (value x g) ^ d`. The double sum converges absolutely
+because `g ^ d` has no coefficients below `d`, so the inner index bounds the outer one and the
+weight's polynomial slack absorbs the growth of `f`; two applications of Fubini exchange the
+two orders of summation
 ([Fesenko–Vostokov 2002, Chap. VI, (1.5), Prop., p.212][FesenkoVostokov2002], specialized from
-`F̂ᵘʳ` to the field itself, with the radius data carried by the weight). -/
+the completed maximal unramified extension to the field itself and from its coefficients to
+`ℚ`, with the source's radius for `g` carried by the weight and its radius for `f` by the
+coefficient growth). -/
 theorem value_subst [IsUltrametricDist K] [CompleteSpace K] (htnn : ∀ m, 0 ≤ t m)
     (ht0 : 1 ≤ t 0) (htmul : ∀ i j, t i * t j ≤ t (i + j))
     (htpoly : ∀ N : ℕ, Summable fun m : ℕ => ((m : ℝ) + 1) ^ N * t m)

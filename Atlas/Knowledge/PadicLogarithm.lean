@@ -29,6 +29,8 @@ computation of the anabelian layer routes through, as in
 
 * `PadicLogarithm.summable` — the series converges on every principal unit.
 * `PadicLogarithm.log_mul` — on principal units the logarithm turns multiplication into addition.
+* `PadicLogarithm.log_pow` — the power law `log (y ^ n) = n • log y` on the open unit ball,
+  the pivot the additivity's `p`-power descent turns on.
 
 ## Implementation notes
 
@@ -63,7 +65,7 @@ one level per step at first and then at `e` levels per step
 (`PadicLogarithm.norm_pow_residueChar_sub_one_le`, the binomial expansion with every middle
 coefficient divisible by `p`), and once the pair is deep the deviation is *second order*:
 `PadicLogarithm.norm_log_mul_sub_le` bounds it by `ρ ^ 2 / ‖p‖` at depth `ρ`, the `d = 1` term
-of the deviation series being exactly `(u - 1)(v - 1)` and every deeper term paying `ρ` per
+of the deviation series being exactly `(u - 1) * (v - 1)` and every deeper term paying `ρ` per
 degree against at most `‖p‖⁻¹` per power of `p` in its denominator. Deep depth squares while
 the scaling is linear, so the deviation is smaller than every power of `‖p‖` and vanishes. The
 sources instead specialize a two-variable formal addition law; the descent stays inside one
@@ -210,9 +212,10 @@ include hc hp in
 `log (y ^ n) = n • log y`. The formal power law `Atlas.Knowledge.formalLogOf_pow` evaluated
 through the composition-value exchange, with the geometric weight `‖y - 1‖ ^ m`—available on
 the whole ball because `(1 + X) ^ n` has integral coefficients, with no threshold in sight
-([Koblitz 1984, Chap. IV, §1, p.80][Koblitz1984], the corollary
-`p^m log_p (1 + x) = log_p (1 + x) ^ (p^m)` drawn there from additivity; here proved directly
-and *feeding* additivity instead, per the implementation notes). -/
+([Koblitz 1984, Chap. IV, §1, p.80][Koblitz1984], the corollary chain
+p^m log_p (1 + x) = log_p (1 + x)^{p^m} drawn there from additivity, generalized from the
+source's exponent p^m to every n; here proved directly and *feeding* additivity instead, per
+the implementation notes). -/
 theorem log_pow [IsUltrametricDist K] [CompleteSpace K] {y : K} (hy : ‖y - 1‖ < 1) (n : ℕ) :
     padicLogarithm K (y ^ n) = (n : ℚ) • padicLogarithm K y := by
   have h0 : (0 : ℝ) ≤ ‖y - 1‖ := norm_nonneg _
@@ -259,10 +262,11 @@ theorem log_pow [IsUltrametricDist K] [CompleteSpace K] {y : K} (hy : ‖y - 1�
 
 omit [CharZero K] in
 include hc hp in
-/-- One `p`-power step deepens a principal unit: `‖y ^ p - 1‖` is at most the larger of
-`‖p‖ * ‖y - 1‖` and `‖y - 1‖ ^ p`—the binomial expansion, every middle coefficient divisible
-by `p` ([Fesenko–Vostokov 2002, Chap. I, (5.7), pp.14–15][FesenkoVostokov2002], the two
-regimes of `p`-powering on the unit filtration). -/
+/-- One `p`-power step deepens: on the closed unit ball around `1`, `‖y ^ p - 1‖` is at most
+the larger of `‖p‖ * ‖y - 1‖` and `‖y - 1‖ ^ p`—the binomial expansion, every middle
+coefficient divisible by `p`
+([Fesenko–Vostokov 2002, Chap. I, (5.7), pp.14–15][FesenkoVostokov2002], the two regimes of
+`p`-powering on the unit filtration). -/
 theorem norm_pow_residueChar_sub_one_le [IsUltrametricDist K] {y : K} (hy : ‖y - 1‖ ≤ 1) :
     ‖y ^ (residueCharacteristic K) - 1‖
       ≤ max (‖((residueCharacteristic K : ℕ) : K)‖ * ‖y - 1‖)
@@ -324,7 +328,7 @@ private theorem sub_one_mul_padicVal_le {p v m : ℕ} (hp2 : 2 ≤ p) (hv : 1 �
 include hc hp in
 /-- **The deep-pair estimate**: for `y`, `z` within `ρ` of `1`, with `ρ ^ (p - 1) ≤ ‖p‖`, the
 additivity deviation `log (y * z) - log y - log z` has norm at most `ρ ^ 2 / ‖p‖`. The `d = 1`
-term of the deviation series is exactly `(y - 1)(z - 1)`; every deeper term pays `ρ` per
+term of the deviation series is exactly `(y - 1) * (z - 1)`; every deeper term pays `ρ` per
 degree and recovers at most `‖p‖⁻¹` per power of `p` in its denominator, and the hypothesis
 prices the trade. -/
 theorem norm_log_mul_sub_le [IsUltrametricDist K] [CompleteSpace K] {ρ : ℝ} (hρ0 : 0 < ρ)
@@ -377,7 +381,7 @@ theorem norm_log_mul_sub_le [IsUltrametricDist K] [CompleteSpace K] {ρ : ℝ} (
     rw [h0, zero_smul, norm_zero]
     exact div_nonneg (by positivity) hπ0.le
   rcases d with _ | d
-  · -- degree one: the deviation is exactly `(y - 1)(z - 1)`
+  · -- degree one: the deviation is exactly `(y - 1) * (z - 1)`
     have hc1 : PowerSeries.coeff 1 (PowerSeries.log ℚ) = 1 := by
       rw [PowerSeries.coeff_log]
       norm_num

@@ -167,9 +167,9 @@ import Atlas.Knowledge.PadicIsMixedCharLocalField
 import Atlas.Knowledge.PadicLogarithm
 import Atlas.Knowledge.ParityIndex
 import Atlas.Knowledge.PolynomialStoppedPair
-import Atlas.Knowledge.PowerSeriesCompositionValue
 import Atlas.Knowledge.PowerResidueBadPlaceCorrection
 import Atlas.Knowledge.PowerResidueReciprocity
+import Atlas.Knowledge.PowerSeriesCompositionValue
 import Atlas.Knowledge.PrimeIdealPowerResidueSymbol
 import Atlas.Knowledge.PrincipalIdele
 import Atlas.Knowledge.QuasiFreeFiltered

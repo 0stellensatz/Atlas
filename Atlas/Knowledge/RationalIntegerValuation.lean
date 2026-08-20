@@ -78,8 +78,9 @@ theorem valuation_natCast_eq_one (m : ℕ) (hm : ¬ (residueCharacteristic K) �
   simpa using hu
 
 /-- The residue characteristic has valuation strictly less than one: it lies in the maximal
-ideal ([Serre 1979, Chap. II, §5, p.36][Serre1979], "since `p` goes to zero in `K̄`, one has
-`v (p) ≥ 1`"). -/
+ideal ([Serre 1979, Chap. II, §5, p.36][Serre1979], "since p goes to zero in K̄, one has
+v(p) ≥ 1", where Serre's v is additive and that inequality is this statement written
+additively). -/
 theorem valuation_residueCharacteristic_lt_one :
     valuation K ((residueCharacteristic K : ℕ) : K) < 1 := by
   have hnu : ¬ IsUnit ((residueCharacteristic K : ℕ) : ↥𝒪[K]) := by
