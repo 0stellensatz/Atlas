@@ -160,9 +160,12 @@ import Atlas.Knowledge.NormLimitation
 import Atlas.Knowledge.NormOneIdeleClassIsCompact
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.OutFilt
+import Atlas.Knowledge.PadicCoefficientEmbedding
 import Atlas.Knowledge.PadicComplexGaloisAction
 import Atlas.Knowledge.PadicExpConvergence
 import Atlas.Knowledge.PadicExpIsomorphism
+import Atlas.Knowledge.PadicExpTopologicalIso
+import Atlas.Knowledge.PadicIntegerFreeModule
 import Atlas.Knowledge.PadicIsMixedCharLocalField
 import Atlas.Knowledge.PadicLogarithm
 import Atlas.Knowledge.ParityIndex
