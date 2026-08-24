@@ -1,7 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.IntegerIsIntegralClosure
-import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 
 /-!
 # Galois invariance of the normalized valuation
@@ -16,19 +15,24 @@ equivariance that puts the valuation exact sequence `1 → U_L → Lˣ → ℤ �
 the Herbrand machinery of `Atlas.Knowledge.herbrandQuotient`, with the Galois action on the
 outer terms trivial and restricted respectively.
 
+## Main definitions
+
+* `algEquivIntegerRestrict` — the automorphism restricted to the integers, as a ring
+  isomorphism.
+
 ## Main statements
 
 * `normalizedValuation_algEquiv` — `v ∘ σ = v` on `Lˣ`; proved.
-* `algEquiv_mem_integer` / `algEquivIntegerRestrict` — the automorphism preserves the
-  integers, and its restriction as a ring isomorphism; proved.
+* `algEquiv_mem_integer` — the automorphism preserves the integers; proved.
 
 ## Implementation notes
 
 The carrier is the tower idiom of `Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField`:
-`L` carries its own valuative relation and topology with `[ValuativeExtension K L]` and
-`[IsValuativeTopology L]`, and the mixed-characteristic structure of `L` enters the main
-statement as an instance rather than through the existence theorem, so that the statement
-stays a statement about the named instances. The proof never touches the topology: it runs
+`L` carries its own valuative relation and topology with `[ValuativeExtension K L]`, and
+the mixed-characteristic structure of `L` enters the main statement as an instance rather
+than through the existence theorem — the section's `[IsValuativeTopology L]` is omitted
+from the statements it would duplicate, since the mixed-characteristic instance carries
+it. The proof never touches the topology: it runs
 through `Atlas.Knowledge.mem_integer_iff_isIntegral` and the factorization of a unit into a
 unit of the integers times an irreducible power, whose value the trio of
 `Atlas.Knowledge.normalizedValuation_mul` computes on both sides.
@@ -94,11 +98,11 @@ private theorem value_unit_mul_zpow
   rw [hu, hπ1]
   ring
 
-/-- **A `K`-automorphism preserves the normalized valuation**: the prolongation of a
-complete valuation to a finite extension is unique, rendered through the factorization of
-a unit into a unit of the integers times an irreducible power, both of which the
-automorphism preserves ([Serre 1979, Chap. II, §2, Prop. 3, p.28, and Cor. 2,
-p.29][Serre1979]). -/
+/-- **A `K`-automorphism preserves the normalized valuation**: `w ∘ s` prolongs the base
+valuation, hence coincides with `w` — Serre's Corollary 3, whose proof is this statement —
+rendered through the factorization of a unit into a unit of the integers times an
+irreducible power, both of which the automorphism preserves
+([Serre 1979, Chap. II, §2, Prop. 3, p.28, and Cor. 2–3, p.29][Serre1979]). -/
 theorem normalizedValuation_algEquiv (σ : L ≃ₐ[K] L) (x : Lˣ) :
     normalizedValuation L (Units.map (σ : L →* L) x) = normalizedValuation L x := by
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[L])

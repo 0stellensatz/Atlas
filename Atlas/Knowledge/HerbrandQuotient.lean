@@ -37,9 +37,10 @@ group acting on `Lˣ`, will instantiate it.
   the same graded counts: Serre's Corollary; proved.
 * `HerbrandQuotient.card_H0_int` / `HerbrandQuotient.card_H1_int` — the trivial action on
   `ℤ` counts `n` and `1`; proved.
-* `HerbrandQuotient.shiftAut_norm_range_eq_top` /
-  `HerbrandQuotient.shiftAut_ker_norm_le_range_diff` — both graded pieces of the co-induced
-  module are trivial; proved.
+* `HerbrandQuotient.card_H0_shiftAut` / `HerbrandQuotient.card_H1_shiftAut` — both graded
+  pieces of the co-induced module count `1`; proved.
+* `HerbrandQuotient.card_H0_congr` / `HerbrandQuotient.card_H1_congr` — isomorphic actions
+  count the same, the transport the staged computations travel; proved.
 
 ## Implementation notes
 
@@ -451,6 +452,54 @@ private theorem piece_finite_middle
     (Subgroup.groupEquivQuotientProdSubgroup
       (s := (pieceMap g hgu hgv : piece uB vB →* piece uC vC).ker)).symm
 
+/- Transport along an intertwining isomorphism: the pieces of isomorphic actions count the
+same — the kernel-level restriction of the isomorphism is bijective and matches the range
+parts. -/
+private theorem piece_card_congr (e : A ≃* B)
+    (heu : ∀ a, (e : A →* B) (uA a) = uB ((e : A →* B) a))
+    (hev : ∀ a, (e : A →* B) (vA a) = vB ((e : A →* B) a)) :
+    Nat.card (piece uA vA) = Nat.card (piece uB vB) := by
+  have heu' : ∀ b, e.symm (uB b) = uA (e.symm b) := by
+    intro b
+    refine e.injective ?_
+    rw [e.apply_symm_apply]
+    exact ((heu (e.symm b)).trans (congrArg uB (e.apply_symm_apply b))).symm
+  have hbij : Function.Bijective (kerRestrict (uA := uA) (uB := uB) (e : A →* B) heu) := by
+    constructor
+    · intro x y hxy
+      refine Subtype.ext (e.injective ?_)
+      exact congrArg Subtype.val hxy
+    · rintro ⟨y, hy⟩
+      have hmem : e.symm y ∈ uA.ker := by
+        rw [MonoidHom.mem_ker, ← heu' y, MonoidHom.mem_ker.mp hy, map_one]
+      exact ⟨⟨e.symm y, hmem⟩, Subtype.ext (e.apply_symm_apply y)⟩
+  refine Nat.card_congr (QuotientGroup.congr _ _ (MulEquiv.ofBijective _ hbij) ?_).toEquiv
+  rw [show ((MulEquiv.ofBijective _ hbij : uA.ker ≃* uB.ker) : uA.ker →* uB.ker) =
+    kerRestrict (uA := uA) (uB := uB) (e : A →* B) heu from MonoidHom.ext fun x => rfl]
+  ext z
+  rw [Subgroup.mem_map, Subgroup.mem_subgroupOf]
+  constructor
+  · rintro ⟨⟨w, hw⟩, hmem, rfl⟩
+    rw [Subgroup.mem_subgroupOf] at hmem
+    obtain ⟨a, ha⟩ := hmem
+    refine ⟨(e : A →* B) a, ?_⟩
+    rw [← hev, kerRestrict_coe]
+    exact congrArg (e : A →* B) ha
+  · rintro ⟨b, hb⟩
+    have hmemA : e.symm (z : B) ∈ uA.ker := by
+      rw [MonoidHom.mem_ker, ← heu' (z : B), MonoidHom.mem_ker.mp z.2, map_one]
+    refine ⟨⟨e.symm (z : B), hmemA⟩, ?_, ?_⟩
+    · rw [Subgroup.mem_subgroupOf]
+      refine ⟨e.symm b, ?_⟩
+      have hev' : ∀ w, e.symm (vB w) = vA (e.symm w) := by
+        intro w
+        refine e.injective ?_
+        rw [e.apply_symm_apply]
+        exact ((hev (e.symm w)).trans (congrArg vB (e.apply_symm_apply w))).symm
+      rw [show ((⟨e.symm (z : B), hmemA⟩ : uA.ker) : A) = e.symm (z : B) from rfl,
+        ← hev' b, hb]
+    · exact Subtype.ext (e.apply_symm_apply (z : B))
+
 end Assembly
 
 section Concrete
@@ -651,6 +700,23 @@ theorem finite_of_exact
       (fun b => map_norm_comm hg n b) (fun b => map_diff_comm hg b)
       hinj hsurj hexact
 
+/-- **Transport along an intertwining isomorphism**: isomorphic actions have even graded
+pieces of equal cardinality — the staged computations on literal carriers reach the
+consumer's carrier through this ([Serre 1979, Chap. VIII, §4, p.133][Serre1979]). -/
+theorem card_H0_congr {σA : A ≃* A} {σB : B ≃* B} (n : ℕ) (e : A ≃* B)
+    (he : ∀ a, e (σA a) = σB (e a)) :
+    Nat.card (H0 σA n) = Nat.card (H0 σB n) :=
+  piece_card_congr e (fun a => map_diff_comm (f := (e : A →* B)) (fun b => he b) a)
+    (fun a => map_norm_comm (f := (e : A →* B)) (fun b => he b) n a)
+
+/-- **Transport along an intertwining isomorphism**, odd piece
+([Serre 1979, Chap. VIII, §4, p.133][Serre1979]). -/
+theorem card_H1_congr {σA : A ≃* A} {σB : B ≃* B} (n : ℕ) (e : A ≃* B)
+    (he : ∀ a, e (σA a) = σB (e a)) :
+    Nat.card (H1 σA n) = Nat.card (H1 σB n) :=
+  piece_card_congr e (fun a => map_norm_comm (f := (e : A →* B)) (fun b => he b) n a)
+    (fun a => map_diff_comm (f := (e : A →* B)) (fun b => he b) a)
+
 end Concrete
 
 /- Cardinality of a subgroup quotient against an honest subgroup: when `N ≤ K`, the
@@ -711,8 +777,8 @@ unchanged — Serre's Corollary to Propositions 7 and 8.
 -/
 
 /-- The restriction of the action to a stable subgroup. Stability is asked in both
-directions because `σ ^ n = 1` is not data here; at `n = 0` the inverse direction is not a
-consequence ([Serre 1979, Chap. VIII, §4, p.134][Serre1979]). -/
+directions because no order for `σ` is data here, and without one the inverse direction is
+not a consequence ([Serre 1979, Chap. VIII, §4, p.134][Serre1979]). -/
 def stableRestrict (σ : A ≃* A) (N : Subgroup A) (hN : ∀ x ∈ N, σ x ∈ N)
     (hN' : ∀ x ∈ N, σ.symm x ∈ N) : ↥N ≃* ↥N where
   toFun x := ⟨σ x, hN x x.2⟩
@@ -787,9 +853,10 @@ theorem stableQuotient_pow (σ : A ≃* A) {n : ℕ} (hσ : σ ^ n = 1) (N : Sub
     rw [hσ] at this
     exact this
 
-/-- **A stable subgroup of finite index has the same graded counts**: Serre's Corollary in
-counting form, `#Ĥ⁰(A) ⬝ #Ĥ¹(N) = #Ĥ⁰(N) ⬝ #Ĥ¹(A)` — the sequence `1 → N → A → A ⧸ N → 1`
-against `Atlas.Knowledge.HerbrandQuotient.card_identity_of_exact`, with the finite
+/-- **A stable subgroup of finite index has the same graded counts**: the inclusion case of
+Serre's Corollary, in counting form, `#Ĥ⁰(A) ⬝ #Ĥ¹(N) = #Ĥ⁰(N) ⬝ #Ĥ¹(A)` — the sequence
+`1 → N → A → A ⧸ N → 1` against
+`Atlas.Knowledge.HerbrandQuotient.card_identity_of_exact`, with the finite
 quotient's two pieces cancelling by
 `Atlas.Knowledge.HerbrandQuotient.card_H0_eq_card_H1_of_finite`
 ([Serre 1979, Chap. VIII, §4, Corollary, p.134][Serre1979]). -/
@@ -837,7 +904,9 @@ private theorem norm_refl_int (n : ℕ) (a : Multiplicative ℤ) :
   simp [h, Finset.prod_const]
 
 /-- **`Ĥ⁰` of the trivial action on `ℤ` counts `n`**: the difference kernel is everything,
-the norms are the `n`-th powers, and reduction to `ZMod n` is onto with kernel exactly them
+the norms are the `n`-th powers, and reduction to `ZMod n` is onto with kernel exactly
+them. At `n = 0` the quotient is infinite and the equation reads through the `Nat.card`
+junk value
 ([Serre 1979, Chap. VIII, §4, p.133][Serre1979];
 [Yamaguchi 2026,
 `LocalClassFieldTheory/ClassFormation/ValueGroupCohomology.lean:132`][Yamaguchi2026]). -/
@@ -970,7 +1039,7 @@ theorem norm_shiftAut_apply (f : ZMod n → M) (j : ZMod n) :
   exact Finset.prod_congr rfl fun i _ => by rw [shiftAut_pow_apply n i f]
 
 /-- A member of the difference kernel of the shift is constant. -/
-theorem diff_shiftAut_ker [NeZero n] (f : ZMod n → M)
+theorem shiftAut_diff_ker [NeZero n] (f : ZMod n → M)
     (hf : f ∈ (diff (shiftAut n)).ker) (j : ZMod n) :
     f j = f 0 := by
   rw [MonoidHom.mem_ker] at hf
@@ -987,10 +1056,11 @@ theorem diff_shiftAut_ker [NeZero n] (f : ZMod n → M)
 
 /-- **`Ĥ⁰` of the co-induced module is trivial**: every difference-kernel member is the
 norm of the delta function at its constant value
-([Serre 1979, Chap. VII, §5, Exercise, pp.116–117][Serre1979];
+([Serre 1979, Chap. VII, §5, Exercise, pp.116–117, read through the two-periodicity of
+Chap. VIII, §4][Serre1979];
 [Yamaguchi 2026, `CyclicCohomology/Herbrand/Induced.lean:703`, specialized at the trivial
 subgroup][Yamaguchi2026]). -/
-theorem shiftAut_norm_range_eq_top [NeZero n] :
+theorem shiftAut_norm_range_subgroupOf_eq_top [NeZero n] :
     (norm (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n).range.subgroupOf
       (diff (shiftAut n : (ZMod n → M) ≃* (ZMod n → M))).ker = ⊤ := by
   rw [Subgroup.eq_top_iff']
@@ -1017,11 +1087,12 @@ theorem shiftAut_norm_range_eq_top [NeZero n] :
     ring
   rw [hzero]
   simp only [reduceIte]
-  exact (diff_shiftAut_ker n f hf j).symm
+  exact (shiftAut_diff_ker n f hf j).symm
 
 /-- **`Ĥ¹` of the co-induced module is trivial**: a norm-kernel member telescopes into a
 difference through its running products
-([Serre 1979, Chap. VII, §5, Exercise, pp.116–117][Serre1979];
+([Serre 1979, Chap. VII, §5, Exercise, pp.116–117, read through the two-periodicity of
+Chap. VIII, §4][Serre1979];
 [Yamaguchi 2026, `CyclicCohomology/Herbrand/Induced.lean:1095`, specialized at the trivial
 subgroup][Yamaguchi2026]). -/
 theorem shiftAut_ker_norm_le_range_diff [NeZero n] :
@@ -1079,6 +1150,32 @@ theorem shiftAut_ker_norm_le_range_diff [NeZero n] :
     rw [hlast] at hsplit
     rw [one_mul]
     exact inv_eq_of_mul_eq_one_right hsplit
+
+/-- **`Ĥ⁰` of the co-induced module counts `1`**
+([Serre 1979, Chap. VII, §5, Exercise, pp.116–117, read through the two-periodicity of
+Chap. VIII, §4][Serre1979]). -/
+theorem card_H0_shiftAut [NeZero n] :
+    Nat.card (H0 (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n) = 1 := by
+  haveI : Subsingleton (H0 (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n) := by
+    change Subsingleton ((diff (shiftAut n : (ZMod n → M) ≃* (ZMod n → M))).ker ⧸
+      (norm (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n).range.subgroupOf
+        (diff (shiftAut n : (ZMod n → M) ≃* (ZMod n → M))).ker)
+    rw [shiftAut_norm_range_subgroupOf_eq_top]
+    exact QuotientGroup.subsingleton_quotient_top
+  exact Nat.card_unique
+
+/-- **`Ĥ¹` of the co-induced module counts `1`**
+([Serre 1979, Chap. VII, §5, Exercise, pp.116–117, read through the two-periodicity of
+Chap. VIII, §4][Serre1979]). -/
+theorem card_H1_shiftAut [NeZero n] :
+    Nat.card (H1 (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n) = 1 := by
+  haveI : Subsingleton (H1 (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n) := by
+    change Subsingleton ((norm (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n).ker ⧸
+      (diff (shiftAut n : (ZMod n → M) ≃* (ZMod n → M))).range.subgroupOf
+        (norm (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n).ker)
+    rw [Subgroup.subgroupOf_eq_top.mpr (shiftAut_ker_norm_le_range_diff n)]
+    exact QuotientGroup.subsingleton_quotient_top
+  exact Nat.card_unique
 
 end HerbrandQuotient
 
