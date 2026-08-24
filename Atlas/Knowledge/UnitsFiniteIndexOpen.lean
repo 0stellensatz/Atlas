@@ -1,4 +1,5 @@
 import Mathlib
+import Atlas.Knowledge.AbsoluteDegree
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.DeepUnitGroup
 import Atlas.Knowledge.HigherUnitGroup
@@ -29,8 +30,8 @@ A finite-index subgroup of the abelian group `Kˣ` contains the power subgroup `
 open subgroup. Milne reaches this through Newton's lemma applied to `X ^ m - a`; the proof
 here instead runs through the layer's own deep unit groups: on a deep level
 `Atlas.Knowledge.deepUnitGroup_continuousMulEquiv` identifies `U i (K)` with
-`(ℤ_p) ^ d` topologically, where the `n`-th powers are the sublattice `n ⬝ (ℤ_p) ^ d` — a
-span of nonzero elements in each coordinate, open because nonzero ideals of `ℤ_[p]` are
+`Fin d → ℤ_[p]` topologically, where the `n`-th powers are the coordinatewise multiples of
+`n` — the span of `n` in each coordinate, open because nonzero ideals of `ℤ_[p]` are
 ideal powers of `p`, hence closed balls of nonzero radius. The image of that sublattice in
 `Kˣ` is then an open subgroup inside `(Kˣ) ^ n`, and a subgroup above an open subgroup is
 open. The openness of the levels `U i (K)` themselves, proved here privately, is the
