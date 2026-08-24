@@ -8,13 +8,13 @@ import Atlas.Knowledge.IntegerIsIntegralClosure
 
 A finite extension of a mixed-characteristic local field is again one. The statement splits
 along what is data and what is property: given a valuative relation on `L` extending that of
-`K` and inducing its topology, `L` satisfies `Atlas.Knowledge.IsMixedCharLocalField`—and such a
-structure exists, the valuation of `K` prolonging to `L`. Local compactness descends through
-finite dimensionality, nontriviality ascends through
+`K` and inducing its topology, `L` satisfies `Atlas.Knowledge.IsMixedCharLocalField`—and such
+a structure exists, the valuation of `K` prolonging to `L`. Local compactness ascends from
+the locally compact base through finite dimensionality, nontriviality through
 `Atlas.Knowledge.IntegerIsIntegralClosure.isNontrivial`, and characteristic zero rides the
 injective `algebraMap`. This is the field-side infrastructure that lets a statement about a
-finite extension of a mixed-characteristic local field drop any explicit local-field hypothesis
-on the extension, as `Atlas.Knowledge.CompletedUnitGroup` does.
+finite extension of a mixed-characteristic local field drop any explicit local-field
+hypothesis on the extension, as `Atlas.Knowledge.CompletedUnitGroup` does.
 
 ## Main statements
 
@@ -30,15 +30,19 @@ The conditional form hypothesizes `IsValuativeTopology L` rather than deriving i
 hypothesis ties the topology of `L` to its valuative relation, and without it the statement
 would quantify over junk topologies on `L` for which the local-field class is simply false.
 Local compactness is Mathlib's `LocallyCompactSpace.of_finiteDimensional_of_complete`, which
-asks for `K` as a complete `NontriviallyNormedField` and for `L` as a topological vector space
-over it; the layer carries `K` only valuatively, so the norm is rebuilt inside the proof
-exactly as in `Atlas.Knowledge.IntegerIsIntegralClosure`, and what remains—the one genuinely
-valuative leg—is continuity of the `algebraMap`. A ball of `L` need not contain the image of a
-ball of `K` for an abstract extension of valuative relations; here it does because below any
-`γ < 1` of the value group of `L` sits the image of an element of `K`, namely the constant
-coefficient of the minimal polynomial over `𝒪[K]` of a `b` of value `γ`: the relation
-`Atlas.Knowledge.mem_integer_iff_isIntegral` makes `b` integral over `𝒪[K]`, and the constant
-coefficient is `b` times a polynomial value that the valuation bounds by one coefficientwise.
+asks for `K` as a complete and *locally compact* `NontriviallyNormedField`—local compactness
+of the base is the hypothesis that carries the conclusion—and for `L` as a topological vector
+space over it; the layer carries `K` only valuatively, so the norm is rebuilt inside the
+proof exactly as in `Atlas.Knowledge.IntegerIsIntegralClosure`, and what remains—the one
+genuinely valuative leg—is continuity of the `algebraMap`. A ball of `L` need not contain the
+image of a ball of `K` for an abstract extension of valuative relations; here it does because
+below any `γ < 1` of the value group of `L` sits the image of a nonzero element of `K`,
+namely the constant coefficient of the minimal polynomial over `𝒪[K]` of a `b` of value `γ`:
+the relation `Atlas.Knowledge.mem_integer_iff_isIntegral` makes `b` integral over `𝒪[K]`, and
+the constant coefficient is `-b` times a polynomial value that the valuation bounds by one
+coefficientwise. Of the cited pinpoints, the proof of Prop. 3 is where the source runs this
+same finite-dimensional vector-topology argument; Prop. 1 with Cor. 1 restates the conclusion
+through the classical completeness and finite-residue characterization.
 The existence form quantifies the instances existentially, the pattern of
 `Atlas.Knowledge.IsMLFType`, and conjoins the `Prop`-valued classes; it is what justifies
 consumers that state claims about an abstract finite extension with no valuative data at all.
@@ -65,13 +69,8 @@ private theorem exists_algebraMap_le (K : Type*) [Field K] [ValuativeRel K] [Top
     [ValuativeExtension K L] [FiniteDimensional K L] (γ : (ValueGroupWithZero L)ˣ) :
     ∃ c : K, c ≠ 0 ∧ valuation L (algebraMap K L c) ≤ γ := by
   rcases le_or_gt 1 (γ : ValueGroupWithZero L) with hγ | hγ
-  · -- above `1` any nontrivially small element of `K` does
-    obtain ⟨u, hu0, hu1⟩ := ValuativeRel.IsNontrivial.exists_lt_one (R := K)
-    obtain ⟨a, rfl⟩ := valuation_surjective u
-    refine ⟨a, (Valuation.ne_zero_iff _).mp hu0.ne', le_trans (le_of_lt ?_) hγ⟩
-    rw [← ValuativeExtension.mapValueGroupWithZero_valuation]
-    have h1 := ValuativeExtension.mapValueGroupWithZero_strictMono (A := K) (B := L) hu1
-    rwa [map_one] at h1
+  · -- above `1` the element `1` does
+    exact ⟨1, one_ne_zero, by simpa using hγ⟩
   · -- below `1` take a `b` of value `γ`, integral over `𝒪[K]`; the constant coefficient of its
     -- minimal polynomial is `b` times an element the valuation bounds by one
     obtain ⟨b, hb⟩ := valuation_surjective (γ : ValueGroupWithZero L)
