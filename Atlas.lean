@@ -68,6 +68,7 @@ import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FormalLogPow
 import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
+import Atlas.Knowledge.GalIdealPowCounts
 import Atlas.Knowledge.GalUnits
 import Atlas.Knowledge.GameJumpPair
 import Atlas.Knowledge.GameLevelDecomposition
