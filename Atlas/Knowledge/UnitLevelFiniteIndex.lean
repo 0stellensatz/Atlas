@@ -75,7 +75,8 @@ theorem higherUnitGroup_le_ker (i : ℕ+) :
 normalized valuation is the compact unit group of the integers and the level is open, so
 the quotient is finite — "because `U_L` is compact, the quotient `U_L/V` is finite"
 ([Milne 2020, Chap. III, proof of Lemma 2.5, p.105][MilneCFT]; the source counterpart,
-over the integer-unit carrier and through a measure-free norm argument, is
+over the integer-unit carrier and through the principal-unit level tower — residue-field
+counting rather than compactness — is
 [Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/NormalBasisFiniteQuotient.lean:77`]
 [Yamaguchi2026]). -/
 theorem unitLevelFiniteIndex (i : ℕ+) :
