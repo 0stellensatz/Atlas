@@ -54,7 +54,12 @@ open subgroup `U`, take `d` the order of `φ (π)` modulo `U` and read both elem
 cyclotomic floor `K (μ_m)` with `m = q ^ d - 1`: the `frobenius` field forces both
 restrictions to be the `q`-power map, whose order on the `m`-th roots of unity is exactly
 `d`, and the two memberships then differ by `φ (π) ^ (d ⋅ k) ∈ U`. The discrepancy lies in
-every open subgroup of a group whose identity is closed, hence vanishes.
+every open subgroup of a group whose identity is closed, hence vanishes. The `denseRange`
+field is nowhere used: `normKernel` and `frobenius` alone pin the map, so the proof gives
+strictly more than the docstring's "three properties" phrasing asks. The open-subgroup
+correspondence proved along the way stays private; promoting it to a knowledge item beside
+`Atlas.Knowledge.AbsoluteGaloisSubextension.exists_fixingSubgroup_of_isOpen`, its
+non-abelian twin, is deferred until a second consumer appears.
 
 ## References
 
@@ -391,8 +396,8 @@ variable {φ ψ : Kˣ →* Field.absoluteGaloisGroupAbelianization K}
 /-- The characterization pins the map: two homomorphisms satisfying it are equal — on the
 uniformizers that generate `Kˣ`, the norm kernels decide the same open subgroups and the
 Frobenius normalization pins the cyclotomic restrictions, which pins the element. The proof
-is class-field-free; the classical statement is uniqueness in
-[Milne 2020, Chap. I, §1, Thm. 1.1, p.20][MilneCFT]. -/
+is class-field-free and never touches `denseRange`: the other two fields alone suffice. The
+classical statement is uniqueness in [Milne 2020, Chap. I, §1, Thm. 1.1, p.20][MilneCFT]. -/
 theorem unique (hφ : IsLocalReciprocity K φ) (hψ : IsLocalReciprocity K ψ) : φ = ψ := by
   haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
   haveI : CompactSpace (Field.absoluteGaloisGroup K) :=

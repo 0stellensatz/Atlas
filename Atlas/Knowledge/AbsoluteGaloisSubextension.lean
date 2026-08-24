@@ -26,12 +26,12 @@ The isomorphism claim is `Nonempty`-shaped because it conjugates a choice: `Alge
 ↥l` and `AlgebraicClosure k` are two algebraic closures of `l`, identified by an `l`-algebra
 isomorphism that exists but is not canonical. The topological content is that the subspace
 topology on the fixing subgroup is its own Krull topology, which holds because the two
-neighborhood bases of `1` interleave: transporting the finitely many basis vectors of a finite
-subextension across the identification of closures turns a basic open on either side into a
-basic open on the other, and an automorphism fixing the transported generators fixes the
-subextension they adjoin to. No hypothesis on `k` is needed for the
-isomorphism—the algebraic closure of `k` is algebraic over `l` and algebraically closed, so it
-is an algebraic closure of `l` in any characteristic; the cited proposition covers the Galois
+neighborhood bases of `1` interleave: transporting the finitely many basis vectors of a
+finite subextension across the identification of closures turns a basic open on either side
+into a basic open on the other, and an automorphism fixing the transported generators fixes
+the subextension they adjoin to. No hypothesis on `k` is needed for the isomorphism—the
+algebraic closure of `k` is algebraic over `l` and algebraically closed, so it is an
+algebraic closure of `l` in any characteristic; the cited proposition covers the Galois
 case, and the general case and the topological half are this standard argument, which is why
 the docstring marks them so rather than sourced. The open-subgroup dictionary does need the
 Galois correspondence, so it asks for `CharZero`, which makes the algebraic closure Galois
