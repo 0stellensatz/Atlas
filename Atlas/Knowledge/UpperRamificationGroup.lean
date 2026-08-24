@@ -21,7 +21,7 @@ Galois group, `Atlas.Knowledge.RamificationFiltration`, is defined in the upper 
 * `upperRamificationGroup_antitone` — the family decreases in `v`.
 * `map_upperRamificationGroup` — compatibility with quotients.
 * `herbrandPsi_eq_integral` — the source's direct description
-  `ψ (v) = ∫ w in 0..v, (G^0 : G^w)`, recorded ahead of its proof.
+  `ψ (v) = ∫ w in 0..v, (G^0 : G^w)`.
 
 ## Implementation notes
 
@@ -30,7 +30,14 @@ regions of the two ingredients compose: below `v = -1` the value is the whole gr
 without `FiniteDimensional K L` the function `ψ` is junk and the numbering with it—the
 statements beyond the definition assume finiteness. The quotient compatibility is stated over
 an abstract tower `K ⊆ E ⊆ L`, with `ValuativeExtension K E` pinning the valuation of `E`, as
-in `Atlas.Knowledge.HerbrandPhi`.
+in `Atlas.Knowledge.HerbrandPhi`. The integral description is proved the way this project
+proves every statement about the piecewise-affine Herbrand functions, derivative-free: across
+the image under `herbrandPhi K L` of an integer step the integrand is constant—the index of
+`lowerRamificationGroup K L (n + 1)` in `lowerRamificationGroup K L 0` as a ratio of
+cardinalities, the reciprocal of the slope of `herbrandPhi K L` there—so the integral out to
+the image of `u` grows by exactly `u - n` across the step; two-sided induction from
+`herbrandPhi_zero` pins the integer breakpoints, and any `v` lands in some step through
+`herbrandPsi K L v`.
 
 ## References
 
@@ -93,13 +100,120 @@ theorem map_upperRamificationGroup [TopologicalSpace K] [IsMixedCharLocalField K
 
 end Tower
 
+private theorem upper_integrand_monotone :
+    Monotone (fun w : ℝ =>
+      (Nat.card (upperRamificationGroup K L 0) : ℝ) /
+        (Nat.card (upperRamificationGroup K L w) : ℝ)) := by
+  intro w w' h
+  have hcard : Nat.card (upperRamificationGroup K L w') ≤
+      Nat.card (upperRamificationGroup K L w) :=
+    Nat.card_le_card_of_injective _
+      (Subgroup.inclusion_injective (upperRamificationGroup_antitone K L h))
+  have h0 : 0 < Nat.card (upperRamificationGroup K L w') := Nat.card_pos
+  dsimp only
+  exact div_le_div_of_nonneg_left (Nat.cast_nonneg _) (by exact_mod_cast h0)
+    (by exact_mod_cast hcard)
+
+private theorem upper_integrand_intervalIntegrable (a b : ℝ) :
+    IntervalIntegrable
+      (fun w : ℝ =>
+        (Nat.card (upperRamificationGroup K L 0) : ℝ) /
+          (Nat.card (upperRamificationGroup K L w) : ℝ))
+      MeasureTheory.volume a b :=
+  (upper_integrand_monotone K L).intervalIntegrable
+
+/-- For `u` between `n` and `n + 1`, the integral of the reciprocal upper index out to
+`herbrandPhi K L u` exceeds its value at `herbrandPhi K L n` by exactly `u - n`: the integrand
+is constant on the image of the step, the reciprocal of the slope of `herbrandPhi K L`. -/
+private theorem integral_upper_integrand_eq (n : ℤ) {u : ℝ} (h1 : (n : ℝ) ≤ u)
+    (h2 : u ≤ n + 1) :
+    (∫ w in (0 : ℝ)..(herbrandPhi K L u),
+      (Nat.card (upperRamificationGroup K L 0) : ℝ) /
+        (Nat.card (upperRamificationGroup K L w) : ℝ)) =
+      (∫ w in (0 : ℝ)..(herbrandPhi K L n),
+        (Nat.card (upperRamificationGroup K L 0) : ℝ) /
+          (Nat.card (upperRamificationGroup K L w) : ℝ)) + (u - n) := by
+  have hphi : herbrandPhi K L n ≤ herbrandPhi K L u := (herbrandPhi_strictMono K L).monotone h1
+  have key := intervalIntegral.integral_add_adjacent_intervals
+    (upper_integrand_intervalIntegrable K L 0 (herbrandPhi K L n))
+    (upper_integrand_intervalIntegrable K L (herbrandPhi K L n) (herbrandPhi K L u))
+  have hcongr : (∫ w in (herbrandPhi K L n)..(herbrandPhi K L u),
+      (Nat.card (upperRamificationGroup K L 0) : ℝ) /
+        (Nat.card (upperRamificationGroup K L w) : ℝ)) =
+      ∫ w in (herbrandPhi K L n)..(herbrandPhi K L u),
+        (Nat.card (lowerRamificationGroup K L 0) : ℝ) /
+          (Nat.card (lowerRamificationGroup K L (n + 1)) : ℝ) := by
+    apply intervalIntegral.integral_congr_ae
+    apply Filter.Eventually.of_forall
+    intro w hw
+    rw [Set.uIoc_of_le hphi] at hw
+    have hψ1 : (n : ℝ) < herbrandPsi K L w := by
+      have h := herbrandPsi_strictMono K L hw.1
+      rwa [herbrandPsi_herbrandPhi] at h
+    have hψ2 : herbrandPsi K L w ≤ (n : ℝ) + 1 := by
+      have hw2 : w ≤ herbrandPhi K L ((n : ℝ) + 1) :=
+        hw.2.trans ((herbrandPhi_strictMono K L).monotone h2)
+      have h := (herbrandPsi_strictMono K L).monotone hw2
+      rwa [herbrandPsi_herbrandPhi] at h
+    rw [upperRamificationGroup_zero, upperRamificationGroup,
+      realLowerRamificationGroup_eq K L (i := n + 1) (by push_cast; linarith)
+        (by push_cast; linarith)]
+  rw [hcongr, intervalIntegral.integral_const, smul_eq_mul] at key
+  have hstep := herbrandPhi_eq_add_of_mem_Icc_int K L (n := n) h1 h2
+  have hc1 : (Nat.card (lowerRamificationGroup K L (n + 1)) : ℝ) ≠ 0 := by
+    exact_mod_cast (Nat.card_pos (α := lowerRamificationGroup K L (n + 1))).ne'
+  have hc0 : (Nat.card (lowerRamificationGroup K L 0) : ℝ) ≠ 0 := by
+    exact_mod_cast (Nat.card_pos (α := lowerRamificationGroup K L 0)).ne'
+  have hmul : (herbrandPhi K L u - herbrandPhi K L n) *
+      ((Nat.card (lowerRamificationGroup K L 0) : ℝ) /
+        (Nat.card (lowerRamificationGroup K L (n + 1)) : ℝ)) = u - n := by
+    rw [hstep]
+    field_simp
+    ring
+  linarith [key, hmul]
+
+/-- The integral of the reciprocal upper index out to `herbrandPhi K L n` is `n`, by
+two-sided induction along the breakpoints from `herbrandPhi_zero`. -/
+private theorem integral_upper_integrand_intCast (n : ℤ) :
+    (∫ w in (0 : ℝ)..(herbrandPhi K L n),
+      (Nat.card (upperRamificationGroup K L 0) : ℝ) /
+        (Nat.card (upperRamificationGroup K L w) : ℝ)) = n := by
+  induction n with
+  | zero =>
+    rw [Int.cast_zero, herbrandPhi_zero]
+    simp
+  | succ k ih =>
+    have key := integral_upper_integrand_eq K L (n := (k : ℤ)) (u := (((k : ℤ) + 1 : ℤ) : ℝ))
+      (by push_cast; linarith) (by push_cast; linarith)
+    rw [ih] at key
+    push_cast at key ⊢
+    linarith [key]
+  | pred k ih =>
+    have key := integral_upper_integrand_eq K L (n := -(k : ℤ) - 1) (u := ((-(k : ℤ) : ℤ) : ℝ))
+      (by push_cast; linarith) (by push_cast; linarith)
+    rw [ih] at key
+    push_cast at key ⊢
+    linarith [key]
+
 /-- The source's direct description of the inverse Herbrand function through the upper
-numbering: `ψ (v) = ∫ w in 0..v, (G^0 : G^w)`, the index rendered as a ratio of cardinalities.
-Claim recorded ahead of its proof ([Serre 1979, Chap. IV, §3, p.74][Serre1979]). -/
+numbering: `ψ (v) = ∫ w in 0..v, (G^0 : G^w)`, the index rendered as a ratio of cardinalities
+([Serre 1979, Chap. IV, §3, p.74][Serre1979]). -/
 theorem herbrandPsi_eq_integral (v : ℝ) :
     herbrandPsi K L v = ∫ w in (0 : ℝ)..v,
       (Nat.card (upperRamificationGroup K L 0) : ℝ) /
         (Nat.card (upperRamificationGroup K L w) : ℝ) := by
-  sorry
+  have hv : herbrandPhi K L (herbrandPsi K L v) = v := herbrandPhi_herbrandPsi K L v
+  set u := herbrandPsi K L v with hu
+  have h1 : ((⌈u⌉ - 1 : ℤ) : ℝ) ≤ u := by
+    push_cast
+    linarith [Int.ceil_lt_add_one u]
+  have h2 : u ≤ ((⌈u⌉ - 1 : ℤ) : ℝ) + 1 := by
+    push_cast
+    linarith [Int.le_ceil u]
+  have key := integral_upper_integrand_eq K L (n := ⌈u⌉ - 1) h1 h2
+  rw [hv, integral_upper_integrand_intCast K L (⌈u⌉ - 1)] at key
+  rw [key]
+  push_cast
+  ring
 
 end Atlas.Knowledge

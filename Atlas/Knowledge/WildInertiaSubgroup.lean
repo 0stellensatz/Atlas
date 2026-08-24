@@ -1,4 +1,5 @@
 import Mathlib
+import Atlas.Knowledge.CommutatorMemLowerRamificationGroup
 import Atlas.Knowledge.RamificationFiltration
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
 
@@ -12,9 +13,9 @@ kernel `Atlas.Knowledge.AbsoluteInertiaSubgroup`—and immediately below it sits
 inertia group** `G (0+)`, classically the Galois group of `F` over the maximal tamely ramified
 subextension. This file defines `G (0+)` as the topological closure of the join of the
 `G (v)`, `v > 0`, proves its basic place—each `G (v)` sits inside it, it is closed and normal
-and lies under `G (0)`, and as a set it is the closure of the union—and records the
-identification of `G (0)` with the absolute inertia subgroup and the abelianness of the tame
-quotient as claims.
+and lies under `G (0)`, and as a set it is the closure of the union—proves the abelianness of
+the tame quotient in commutator form, and records the identification of `G (0)` with the
+absolute inertia subgroup as a claim.
 
 ## Main definitions
 
@@ -29,7 +30,7 @@ quotient as claims.
 * `ramificationFiltration_zero` — over the algebraic closure, `G (0)` is the absolute inertia
   subgroup, recorded ahead of its proof.
 * `commutator_mem_wildInertiaSubgroup` — commutators of `G (0)` fall into `G (0+)`: the tame
-  quotient is abelian, recorded ahead of its proof.
+  quotient is abelian.
 
 ## Implementation notes
 
@@ -44,9 +45,15 @@ the tame fixed field;
 `coe_wildInertiaSubgroup` keeps the union visible as a dense subgroup, and antitonicity makes
 that union a directed join, so nothing below `0` is lost. The identification itself waits on
 tame vocabulary the layer does not yet carry; what is recorded now is the inertia end,
-`ramificationFiltration_zero`, and the abelianness of `G (0) / G (0+)` in commutator form,
-which is the shape the prosolvability backlog
-(`Atlas.Knowledge.AbsoluteGaloisProsolvability`) consumes.
+`ramificationFiltration_zero`. The abelianness of `G (0) / G (0+)` is proved in the
+commutator form the prosolvability backlog (`Atlas.Knowledge.AbsoluteGaloisProsolvability`)
+consumes: at each finite level the commutator falls one step down by
+`Atlas.Knowledge.commutator_mem_lowerRamificationGroup`, and a compactness argument over the
+directed family of finite Galois subextensions lifts it into a positive step of the infinite
+filtration—an element of the upper-numbering group of a finite level is the restriction of an
+element of the corresponding step of `Atlas.Knowledge.ramificationFiltration`, which is the
+surjectivity half of the still-recorded `Atlas.Knowledge.map_ramificationFiltration`, proved
+here as a private lemma so that the claim's own discharge can later subsume it.
 
 ## References
 
@@ -134,15 +141,126 @@ theorem ramificationFiltration_zero :
     ramificationFiltration K (AlgebraicClosure K) 0 = absoluteInertiaSubgroup K := by
   sorry
 
+/-- The push-down step of the inverse-limit argument: between two finite Galois subextensions
+`E₁ ≤ E₂`, restriction carries the `v`th upper-numbering group of `E₂` into that of `E₁`—
+Herbrand compatibility `Atlas.Knowledge.map_upperRamificationGroup`, after equipping the
+abstract middle field with `Atlas.Knowledge.exists_valuativeExtension`. -/
+private theorem restrictNormalHom_mem_upperRamificationGroup [IsGalois K F]
+    (E₁ E₂ : FiniteGaloisIntermediateField K F) (hle : E₁ ≤ E₂) {v : ℝ} (x : F ≃ₐ[K] F)
+    (hx : AlgEquiv.restrictNormalHom E₂ x ∈ upperRamificationGroup K E₂ v) :
+    AlgEquiv.restrictNormalHom E₁ x ∈ upperRamificationGroup K E₁ v := by
+  letI : Algebra E₁ E₂ := RingHom.toAlgebra (Subsemiring.inclusion hle)
+  haveI : IsScalarTower K E₁ E₂ := IsScalarTower.of_algebraMap_eq (congrFun rfl)
+  haveI : IsScalarTower E₁ E₂ F := IsScalarTower.of_algebraMap_eq (congrFun rfl)
+  haveI : FiniteDimensional E₁ E₂ := Module.Finite.right K E₁ E₂
+  obtain ⟨vE₁, hvE₁⟩ := exists_valuativeExtension K E₁
+  letI := vE₁
+  haveI := hvE₁
+  rw [IsScalarTower.AlgEquiv.restrictNormalHom_comp_apply E₁ E₂ x,
+    ← map_upperRamificationGroup K E₂ E₁ v]
+  exact ⟨_, hx, rfl⟩
+
+/-- The lifting step of the inverse-limit argument: an element of the `v`th upper-numbering
+group at a finite level `E` is the restriction of an element of the `v`th step of the
+infinite filtration. Finite-level surjectivity feeds a directed family of nonempty closed
+subsets of the compact Galois group, and compactness intersects them. -/
+private theorem exists_ramificationFiltration_restrictNormalHom_eq [IsGalois K F]
+    (E : FiniteGaloisIntermediateField K F) {v : ℝ} {y : E ≃ₐ[K] E}
+    (hy : y ∈ upperRamificationGroup K E v) :
+    ∃ x ∈ ramificationFiltration K F v, AlgEquiv.restrictNormalHom E x = y := by
+  classical
+  let T : {E' : FiniteGaloisIntermediateField K F // E ≤ E'} → Set (F ≃ₐ[K] F) := fun E' =>
+    AlgEquiv.restrictNormalHom E'.1 ⁻¹' (upperRamificationGroup K E'.1 v : Set _) ∩
+      AlgEquiv.restrictNormalHom E ⁻¹' {y}
+  haveI : Nonempty {E' : FiniteGaloisIntermediateField K F // E ≤ E'} := ⟨⟨E, le_rfl⟩⟩
+  have hne : ∀ E' : {E' : FiniteGaloisIntermediateField K F // E ≤ E'}, (T E').Nonempty := by
+    rintro ⟨E', hle⟩
+    letI : Algebra E E' := RingHom.toAlgebra (Subsemiring.inclusion hle)
+    haveI : IsScalarTower K E E' := IsScalarTower.of_algebraMap_eq (congrFun rfl)
+    haveI : IsScalarTower E E' F := IsScalarTower.of_algebraMap_eq (congrFun rfl)
+    haveI : FiniteDimensional E E' := Module.Finite.right K E E'
+    obtain ⟨vE, hvE⟩ := exists_valuativeExtension K E
+    letI := vE
+    haveI := hvE
+    have hy' := hy
+    rw [← map_upperRamificationGroup K E' E v] at hy'
+    obtain ⟨y', hy'mem, hy'res⟩ := hy'
+    obtain ⟨x, hx⟩ :=
+      AlgEquiv.restrictNormalHom_surjective (F := K) (K₁ := E') F y'
+    refine ⟨x, ⟨?_, ?_⟩⟩
+    · rw [Set.mem_preimage, SetLike.mem_coe, hx]
+      exact hy'mem
+    · rw [Set.mem_preimage, Set.mem_singleton_iff,
+        IsScalarTower.AlgEquiv.restrictNormalHom_comp_apply E E' x, hx]
+      exact hy'res
+  have hdir : Directed (· ⊇ ·) T := by
+    intro E₁ E₂
+    refine ⟨⟨E₁.1 ⊔ E₂.1, le_trans E₁.2 le_sup_left⟩, fun x hx => ⟨?_, hx.2⟩,
+      fun x hx => ⟨?_, hx.2⟩⟩
+    · exact restrictNormalHom_mem_upperRamificationGroup K F E₁.1 (E₁.1 ⊔ E₂.1)
+        le_sup_left x hx.1
+    · exact restrictNormalHom_mem_upperRamificationGroup K F E₂.1 (E₁.1 ⊔ E₂.1)
+        le_sup_right x hx.1
+  have hclosed : ∀ E' : {E' : FiniteGaloisIntermediateField K F // E ≤ E'},
+      IsClosed (T E') := fun E' =>
+    ((isClosed_discrete _).preimage
+        (InfiniteGalois.restrictNormalHom_continuous E'.1.toIntermediateField)).inter
+      ((isClosed_discrete _).preimage
+        (InfiniteGalois.restrictNormalHom_continuous E.toIntermediateField))
+  obtain ⟨x, hx⟩ := IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed
+    T hdir hne (fun E' => (hclosed E').isCompact) hclosed
+  rw [Set.mem_iInter] at hx
+  refine ⟨x, ?_, (hx ⟨E, le_rfl⟩).2⟩
+  rw [mem_ramificationFiltration_iff]
+  intro E''
+  exact restrictNormalHom_mem_upperRamificationGroup K F E'' (E'' ⊔ E) le_sup_left x
+    (hx ⟨E'' ⊔ E, le_sup_right⟩).1
+
 /-- Commutators of inertia elements fall into the wild inertia subgroup: the tame quotient
 `G (0) / G (0+)` of the absolute Galois group of a mixed-characteristic local field is
-abelian, being pro-cyclic in the limit of the cyclic `G_0 / G_1` of the finite levels. Claim
-recorded ahead of its proof ([Serre 1979, Chap. IV, §2, Cor. 1, p.67][Serre1979]). -/
+abelian, being pro-cyclic in the limit of the cyclic `G_0 / G_1` of the finite levels
+([Serre 1979, Chap. IV, §2, Cor. 1, p.67][Serre1979]). -/
 theorem commutator_mem_wildInertiaSubgroup
     {a b : AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K}
     (ha : a ∈ ramificationFiltration K (AlgebraicClosure K) 0)
     (hb : b ∈ ramificationFiltration K (AlgebraicClosure K) 0) :
     a * b * a⁻¹ * b⁻¹ ∈ wildInertiaSubgroup K (AlgebraicClosure K) := by
-  sorry
+  haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
+  rw [mem_ramificationFiltration_iff] at ha hb
+  rw [← SetLike.mem_coe, wildInertiaSubgroup, Subgroup.topologicalClosure_coe,
+    mem_closure_iff_nhds]
+  intro N hN
+  rw [← map_mul_left_nhds_one, Filter.mem_map] at hN
+  obtain ⟨E, hE⟩ :=
+    (InfiniteGalois.krullTopology_mem_nhds_one_iff_of_isGalois _).mp hN
+  -- at the level of `E` the commutator falls one step down the lower numbering
+  have haE : AlgEquiv.restrictNormalHom E a ∈ lowerRamificationGroup K E 0 := by
+    have h := ha E
+    rwa [upperRamificationGroup_zero] at h
+  have hbE : AlgEquiv.restrictNormalHom E b ∈ lowerRamificationGroup K E 0 := by
+    have h := hb E
+    rwa [upperRamificationGroup_zero] at h
+  have hcE : AlgEquiv.restrictNormalHom E (a * b * a⁻¹ * b⁻¹) ∈
+      upperRamificationGroup K E (herbrandPhi K E 1) := by
+    have hupper1 : upperRamificationGroup K E (herbrandPhi K E 1) =
+        lowerRamificationGroup K E 1 := by
+      rw [upperRamificationGroup, herbrandPsi_herbrandPhi]
+      exact realLowerRamificationGroup_eq K E (i := 1) (by norm_num) (by norm_num)
+    rw [hupper1, map_mul, map_mul, map_mul, map_inv, map_inv]
+    exact commutator_mem_lowerRamificationGroup K E haE hbE
+  have hpos : (0 : ℝ) < herbrandPhi K E 1 := by
+    have h := herbrandPhi_strictMono K E (show (0 : ℝ) < 1 by norm_num)
+    rwa [herbrandPhi_zero] at h
+  -- lift it into the corresponding step of the infinite filtration
+  obtain ⟨x, hxmem, hxres⟩ :=
+    exists_ramificationFiltration_restrictNormalHom_eq K (AlgebraicClosure K) E hcE
+  refine ⟨x, ?_, ?_⟩
+  · -- `x` agrees with the commutator on `E`, so it lies in the given neighbourhood
+    have hfix : (a * b * a⁻¹ * b⁻¹)⁻¹ * x ∈ E.fixingSubgroup := by
+      rw [FiniteGaloisIntermediateField.mem_fixingSubgroup_iff]
+      rw [map_mul, map_inv, hxres, inv_mul_cancel]
+    simpa only [Set.mem_preimage, mul_inv_cancel_left] using hE hfix
+  · exact (le_iSup (fun w : {w : ℝ // 0 < w} =>
+      ramificationFiltration K (AlgebraicClosure K) (w : ℝ)) ⟨herbrandPhi K E 1, hpos⟩) hxmem
 
 end Atlas.Knowledge

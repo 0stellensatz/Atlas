@@ -27,6 +27,7 @@ import Atlas.Knowledge.CharacterGraph
 import Atlas.Knowledge.CharacterRegularization
 import Atlas.Knowledge.CharacterTwist
 import Atlas.Knowledge.ClosedDerivedSeries
+import Atlas.Knowledge.CommutatorMemLowerRamificationGroup
 import Atlas.Knowledge.CompletedUnitGroup
 import Atlas.Knowledge.ConductorExponent
 import Atlas.Knowledge.ConjugateDiameterBound
@@ -42,6 +43,7 @@ import Atlas.Knowledge.EisensteinJumpPair
 import Atlas.Knowledge.EisensteinSet
 import Atlas.Knowledge.ElementaryFilteredAut
 import Atlas.Knowledge.ExistsClassField
+import Atlas.Knowledge.ExistsValuativeExtension
 import Atlas.Knowledge.ExtendedGameJumpPair
 import Atlas.Knowledge.ExtendedGameMeasure
 import Atlas.Knowledge.ExtendedGameTransition
