@@ -22,7 +22,9 @@ outer terms trivial and restricted respectively.
 
 ## Main statements
 
-* `normalizedValuation_algEquiv` — `v ∘ σ = v` on `Lˣ`; proved.
+* `valuation_algEquiv` / `normalizedValuation_algEquiv` — `v ∘ σ = v`, multiplicatively on
+  `L` and normalized on `Lˣ`; proved.
+* `continuous_algEquiv` — a `K`-automorphism is continuous; proved.
 * `algEquiv_mem_integer` — the automorphism preserves the integers; proved.
 
 ## Implementation notes
@@ -97,6 +99,61 @@ private theorem value_unit_mul_zpow
     rfl
   rw [hu, hπ1]
   ring
+
+/-- **A `K`-automorphism preserves the multiplicative valuation**: the two factorizations
+into a unit times an irreducible power take the same value, the automorphism's irreducible
+being associated to the chosen one
+([Serre 1979, Chap. II, §2, Prop. 3, p.28, and Cor. 2–3, p.29][Serre1979]). -/
+theorem valuation_algEquiv (σ : L ≃ₐ[K] L) (x : L) :
+    valuation L (σ x) = valuation L x := by
+  rcases eq_or_ne x 0 with rfl | hx0
+  · rw [map_zero, map_zero]
+  -- both sides factor through the same integer power of an irreducible
+  have hσx0 : σ x ≠ 0 := fun h0 => hx0 (by simpa using σ.injective (h0.trans (map_zero σ).symm))
+  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[L])
+  obtain ⟨n, u, hu⟩ := IsDiscreteValuationRing.exists_units_eq_smul_zpow_of_irreducible hϖ
+    (hx0 : x ≠ 0)
+  -- the automorphism's irreducible has the same value
+  have hassoc : Associated ϖ (algEquivIntegerRestrict K L σ ϖ) := by
+    have h1 := (IsDiscreteValuationRing.irreducible_iff_uniformizer ϖ).mp hϖ
+    have h2 := (IsDiscreteValuationRing.irreducible_iff_uniformizer _).mp
+      (algEquivIntegerRestrict_irreducible K L σ hϖ)
+    rw [h1] at h2
+    exact Ideal.span_singleton_eq_span_singleton.mp h2
+  have hvunit : ∀ w : (↥𝒪[L])ˣ, valuation L (algebraMap ↥𝒪[L] L (w : ↥𝒪[L])) = 1 :=
+    fun w => (Valuation.integer.integers (v := valuation L)).valuation_unit w
+  have hvϖ : valuation L (algebraMap ↥𝒪[L] L (algEquivIntegerRestrict K L σ ϖ)) =
+      valuation L (algebraMap ↥𝒪[L] L ϖ) := by
+    obtain ⟨w, hw⟩ := hassoc
+    rw [← hw, map_mul, map_mul, hvunit w, mul_one]
+  -- both factorizations, valued
+  have hxval : x = algebraMap ↥𝒪[L] L (u : ↥𝒪[L]) * (algebraMap ↥𝒪[L] L ϖ) ^ n := by
+    rw [hu, Units.smul_def, Algebra.smul_def]
+  have hσxval : σ x = algebraMap ↥𝒪[L] L ((algEquivIntegerRestrict K L σ) (u : ↥𝒪[L])) *
+      (algebraMap ↥𝒪[L] L ((algEquivIntegerRestrict K L σ) ϖ)) ^ n := by
+    rw [hxval, map_mul, map_zpow₀]
+    rfl
+  have hσu : valuation L (algebraMap ↥𝒪[L] L ((algEquivIntegerRestrict K L σ) (u : ↥𝒪[L]))) =
+      1 := by
+    have := hvunit (Units.map (algEquivIntegerRestrict K L σ).toRingHom.toMonoidHom u)
+    exact this
+  rw [hσxval, hxval, map_mul, map_mul, map_zpow₀, map_zpow₀, hσu, hvunit u, hvϖ]
+
+/-- A `K`-automorphism is continuous: it preserves the valuation, hence every basic
+neighborhood of zero, and it is additive
+([Serre 1979, Chap. II, §2, Cor. 2–3, p.29][Serre1979]). -/
+theorem continuous_algEquiv (σ : L ≃ₐ[K] L) : Continuous (σ : L → L) := by
+  haveI : IsValuativeTopology L := inferInstance
+  refine continuous_of_continuousAt_zero σ.toAlgHom.toAddMonoidHom ?_
+  rw [ContinuousAt, map_zero]
+  rw [(IsValuativeTopology.hasBasis_nhds_zero' L).tendsto_iff
+    (IsValuativeTopology.hasBasis_nhds_zero' L)]
+  intro γ hγ
+  refine ⟨γ, hγ, fun x hx => ?_⟩
+  simp only [Set.mem_setOf_eq] at hx ⊢
+  rw [show (σ.toAlgHom.toAddMonoidHom : L → L) x = σ x from rfl,
+    valuation_algEquiv K L σ x]
+  exact hx
 
 /-- **A `K`-automorphism preserves the normalized valuation**: `w ∘ s` prolongs the base
 valuation, hence coincides with `w` — Serre's Corollary 3, whose proof is this statement —

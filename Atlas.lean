@@ -173,6 +173,7 @@ import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.PadicCoefficientEmbedding
 import Atlas.Knowledge.PadicComplexGaloisAction
 import Atlas.Knowledge.PadicExpConvergence
+import Atlas.Knowledge.PadicExpEquivariant
 import Atlas.Knowledge.PadicExpIsomorphism
 import Atlas.Knowledge.PadicExpTopologicalIso
 import Atlas.Knowledge.PadicIntegerFreeModule
