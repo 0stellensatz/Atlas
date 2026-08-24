@@ -1,6 +1,7 @@
 import Mathlib
 import Atlas.Knowledge.IsLadicRepresentation
 import Atlas.Knowledge.PadicComplexGaloisAction
+import Atlas.Knowledge.SemiInvariantIndependence
 import Atlas.Knowledge.TateTwist
 
 /-!
@@ -27,12 +28,12 @@ the recorded claim, and the fixed-field base of the dimension is computed by
 
 ## Main statements
 
-Both are claims recorded ahead of their proofs.
-
 * `HodgeTateNumber.support_finite` — for an open `H` and a `p`-adic representation—the
   condition of `Atlas.Knowledge.IsLadicRepresentation` at `ℓ = p`—only finitely many numbers
   are nonzero.
 * `HodgeTateNumber.finsum_le` — their sum is at most the dimension of `V`.
+* `HodgeTateNumber.sum_le` — the finite-partial-sum form both claims reduce to: over any
+  finite set of weights, the numbers sum to at most the dimension.
 
 ## Implementation notes
 
@@ -57,6 +58,14 @@ over the field the source takes it over. `IsHodgeTate` reads the honest equality
 claims' domain, where the support and the sum are finite; note its junk lands on the *true*
 side for a `V` of infinite dimension over `ℚ_[p]`, both sides vanishing, which a consumer
 should mind before applying it off the `p`-adic domain.
+
+Both claims reduce to the finite-partial-sum bound `sum_le`, and the reduction never needs
+the invariants to be finite-dimensional: the numbers are `Module.finrank`, which vanishes on
+infinite rank, so each weight contributes an independent family of exactly its number—junk
+weights contribute nothing—and `Atlas.Knowledge.semiInvariantIndependence` makes the union
+independent over `ℂ_[p]`, whose dimension caps the count. The representation hypothesis
+enters only through the finite-dimensionality of `V`; neither the topology on `V` nor the
+continuity of the action plays any role in the bound.
 
 ## References
 
@@ -125,6 +134,34 @@ theorem twistedTensor_smul (ρ : Representation ℚ_[p] ↥H V) (i : ℤ) (σ : 
     | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
   exact key _ x
 
+/-- The twisted tensor action is semilinear over the left factor: a `ℂ_[p]` scalar passes
+through at the cost of the Galois action on it. -/
+theorem twistedTensor_semilinear (ρ : Representation ℚ_[p] ↥H V) (i : ℤ) (σ : ↥H)
+    (c : ℂ_[p]) (x : TensorProduct ℚ_[p] ℂ_[p] V) :
+    twistedTensor ρ i σ (c • x)
+      = padicComplexGaloisAction p ↑σ c • twistedTensor ρ i σ x := by
+  have key : ∀ (B : V →ₗ[ℚ_[p]] V) (y : TensorProduct ℚ_[p] ℂ_[p] V),
+      TensorProduct.map (galois H σ) B (c • y)
+        = padicComplexGaloisAction p ↑σ c • TensorProduct.map (galois H σ) B y := by
+    intro B y
+    induction y using TensorProduct.induction_on with
+    | zero => simp
+    | tmul a v =>
+        calc TensorProduct.map (galois H σ) B (c • (a ⊗ₜ[ℚ_[p]] v))
+            = TensorProduct.map (galois H σ) B ((c * a) ⊗ₜ[ℚ_[p]] v) := by
+              rw [TensorProduct.smul_tmul', smul_eq_mul]
+          _ = galois H σ (c * a) ⊗ₜ[ℚ_[p]] B v := TensorProduct.map_tmul ..
+          _ = (padicComplexGaloisAction p ↑σ c * galois H σ a) ⊗ₜ[ℚ_[p]] B v := by
+              congr 1
+              exact map_mul (padicComplexGaloisAction p ↑σ) c a
+          _ = padicComplexGaloisAction p ↑σ c • (galois H σ a ⊗ₜ[ℚ_[p]] B v) := by
+              rw [TensorProduct.smul_tmul', smul_eq_mul]
+          _ = padicComplexGaloisAction p ↑σ c
+                • TensorProduct.map (galois H σ) B (a ⊗ₜ[ℚ_[p]] v) := by
+              rw [TensorProduct.map_tmul]
+    | add u w hu hw => rw [smul_add, map_add, map_add, hu, hw, smul_add]
+  exact key _ x
+
 /-- The `H`-invariants of `ℂ_[p] ⊗ V(i)`, as a module over the fixed field of `H`: the fixed
 field multiplies the left tensor factor, and the action commutes with that multiplication, so
 the invariants are stable. -/
@@ -134,6 +171,34 @@ noncomputable def invariants (ρ : Representation ℚ_[p] ↥H V) (i : ℤ) :
   add_mem' hx hy σ := by rw [map_add, hx σ, hy σ]
   zero_mem' σ := map_zero _
   smul_mem' f x hx σ := by rw [twistedTensor_smul, hx σ]
+
+/-- Membership in the invariants of the `(-i)`th twist is the eigenvector law for the
+untwisted action: the element transforms by the `i`th power of the cyclotomic character. -/
+theorem twistedTensor_eq_zpow_smul (ρ : Representation ℚ_[p] ↥H V) (i : ℤ)
+    {x : TensorProduct ℚ_[p] ℂ_[p] V} (hx : x ∈ invariants ρ (-i)) (σ : ↥H) :
+    twistedTensor ρ 0 σ x
+      = ((TateTwist.padicCyclotomicCharacter p ℚ_[p] σ.1 : ℚ_[p]) ^ i) • x := by
+  have hmem : twistedTensor ρ (-i) σ x = x := hx σ
+  set c : ℚ_[p] := (TateTwist.padicCyclotomicCharacter p ℚ_[p] σ.1 : ℚ_[p]) with hcdef
+  have hc0 : c ≠ 0 := Units.ne_zero _
+  have hcast : ∀ j : ℤ,
+      ((((TateTwist.padicCyclotomicCharacter p ℚ_[p]).comp H.subtype ^ j) σ
+        : ℚ_[p]ˣ) : ℚ_[p]) = c ^ j := by
+    intro j
+    rw [MonoidHom.zpow_apply]
+    push_cast
+    rfl
+  have h0 : (twistedTensor ρ 0) σ = TensorProduct.map ((galois H) σ) (ρ σ) := by
+    change TensorProduct.map _ ((tateTwist ρ H.subtype 0) σ) = _
+    rw [tateTwist_apply, hcast, zpow_zero, one_smul]
+  have hrel : twistedTensor ρ (-i) σ x = c ^ (-i) • twistedTensor ρ 0 σ x := by
+    change TensorProduct.map _ ((tateTwist ρ H.subtype (-i)) σ) x = _
+    rw [tateTwist_apply, hcast, TensorProduct.map_smul_right, LinearMap.smul_apply, h0]
+  rw [hrel] at hmem
+  calc twistedTensor ρ 0 σ x = (c ^ i * c ^ (-i)) • twistedTensor ρ 0 σ x := by
+        rw [← zpow_add₀ hc0, add_neg_cancel, zpow_zero, one_smul]
+    _ = c ^ i • (c ^ (-i) • twistedTensor ρ 0 σ x) := mul_smul _ _ _
+    _ = c ^ i • x := by rw [hmem]
 
 end HodgeTateNumber
 
@@ -157,8 +222,83 @@ def IsHodgeTate (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGaloisGrou
 
 namespace HodgeTateNumber
 
+/-- Over any finite set of weights, the Hodge–Tate numbers sum to at most the dimension of
+the space: each weight contributes to `ℂ_[p] ⊗ V` an independent family of size its number,
+distinct weights stay independent by the Serre–Tate lemma, and the `ℂ_[p]`-dimension of
+`ℂ_[p] ⊗ V` is the `ℚ_[p]`-dimension of `V`
+([Brinon–Conrad 2009, Lemma 2.3.1, p.16][BrinonConrad2009], the injectivity of
+`ξ_W` restricted to finitely many summands). -/
+theorem sum_le (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGaloisGroup ℚ_[p]))
+    (hH : IsOpen (H : Set (Field.absoluteGaloisGroup ℚ_[p]))) {V : Type*} [AddCommGroup V]
+    [Module ℚ_[p] V] [FiniteDimensional ℚ_[p] V] (ρ : Representation ℚ_[p] ↥H V)
+    (S : Finset ℤ) :
+    ∑ i ∈ S, hodgeTateNumber p H ρ i ≤ Module.finrank ℚ_[p] V := by
+  classical
+  set L := IntermediateField.fixedField (toGalSubgroup H) with hLdef
+  set n : ℤ → ℕ := fun i => if i ∈ S then hodgeTateNumber p H ρ i else 0 with hn
+  -- one independent family per weight, of size the number
+  have hex : ∀ i : ℤ, ∃ f : Fin (n i) → ↥(invariants ρ (-i)), LinearIndependent ↥L f := by
+    intro i
+    refine exists_linearIndependent_of_le_finrank ?_
+    rw [hn]
+    dsimp only
+    split
+    · exact le_rfl
+    · exact Nat.zero_le _
+  choose b hb using hex
+  set y : (Σ i : ℤ, Fin (n i)) → TensorProduct ℚ_[p] ℂ_[p] V :=
+    fun j => (b j.1 j.2 : TensorProduct ℚ_[p] ℂ_[p] V) with hydef
+  have hymem : ∀ j : Σ i : ℤ, Fin (n i), y j ∈ invariants ρ (-(j.1)) := fun j => (b j.1 j.2).2
+  -- within one weight, the family is the chosen one, transported along the fiber
+  have hind : ∀ i₀ : ℤ, LinearIndependent (R := ↥L)
+      (fun j : {j : Σ i : ℤ, Fin (n i) // j.1 = i₀} => y j.1) := by
+    intro i₀
+    have hbase : LinearIndependent (R := ↥L)
+        (fun k : Fin (n i₀) => (b i₀ k : TensorProduct ℚ_[p] ℂ_[p] V)) :=
+      (hb i₀).map' (Submodule.subtype _) (Submodule.ker_subtype _)
+    have hfun : (fun j : {j : Σ i : ℤ, Fin (n i) // j.1 = i₀} => y j.1)
+        = (fun k : Fin (n i₀) => (b i₀ k : TensorProduct ℚ_[p] ℂ_[p] V))
+          ∘ (fun j => Fin.cast (congrArg n j.2) j.1.2) := by
+      funext j
+      obtain ⟨⟨i, k⟩, hw⟩ := j
+      dsimp only at hw
+      subst hw
+      rfl
+    rw [hfun]
+    refine hbase.comp _ ?_
+    rintro ⟨⟨i, k⟩, hw⟩ ⟨⟨i', k'⟩, hw'⟩ h
+    dsimp only at hw hw'
+    subst hw
+    subst hw'
+    simp only [Fin.cast] at h
+    exact Subtype.ext (Sigma.ext rfl (by simpa using h))
+  -- distinct weights stay independent, and the finite sub-sigma over `S` counts
+  have hCp : LinearIndependent ℂ_[p] y :=
+    semiInvariantIndependence p H hH (fun σ => twistedTensor ρ 0 σ)
+      (fun σ c x => twistedTensor_semilinear ρ 0 σ c x) y (fun j => j.1)
+      (fun j σ => twistedTensor_eq_zpow_smul ρ j.1 (hymem j) σ) hind
+  set e : (Σ i : ↥S, Fin (n i.1)) → (Σ i : ℤ, Fin (n i)) := fun j => ⟨j.1.1, j.2⟩ with he
+  have hinj : Function.Injective e := by
+    rintro ⟨⟨i, hi⟩, k⟩ ⟨⟨i', hi'⟩, k'⟩ h
+    simp only [he, Sigma.mk.injEq] at h
+    obtain ⟨h1, h2⟩ := h
+    subst h1
+    simp only [heq_eq_eq] at h2
+    subst h2
+    rfl
+  have hfin : LinearIndependent ℂ_[p] (y ∘ e) := hCp.comp e hinj
+  have hcard := hfin.fintype_card_le_finrank
+  rw [Fintype.card_sigma, Module.finrank_baseChange] at hcard
+  calc ∑ i ∈ S, hodgeTateNumber p H ρ i
+      = ∑ i : ↥S, n i.1 := by
+        rw [← Finset.sum_coe_sort S (fun i => hodgeTateNumber p H ρ i)]
+        refine Finset.sum_congr rfl fun i _ => ?_
+        rw [hn]
+        exact (if_pos i.2).symm
+    _ ≤ Module.finrank ℚ_[p] V := by simpa using hcard
+
 /-- For an open subgroup and a `p`-adic representation, only finitely many Hodge–Tate numbers
-are nonzero. Claim recorded ahead of its proof
+are nonzero: more than `dim V` of them would overfill a finite partial sum
 ([Brinon–Conrad 2009, Remark 2.3.2, p.17][BrinonConrad2009], "vanish for all but finitely
 many"; [Hyeon 2025, §5, p.18][Hyeon2025], where the finiteness is implicit in the sum over
 `ℤ`). -/
@@ -166,10 +306,20 @@ theorem support_finite (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGal
     (hH : IsOpen (H : Set (Field.absoluteGaloisGroup ℚ_[p]))) {V : Type*} [AddCommGroup V]
     [Module ℚ_[p] V] [TopologicalSpace V] (ρ : Representation ℚ_[p] ↥H V)
     (hρ : IsLadicRepresentation ρ) : {i : ℤ | hodgeTateNumber p H ρ i ≠ 0}.Finite := by
-  sorry
+  haveI := hρ.finiteDimensional
+  by_contra hinf
+  rw [Set.not_finite] at hinf
+  obtain ⟨S, hSsub, hScard⟩ := hinf.exists_subset_card_eq (Module.finrank ℚ_[p] V + 1)
+  have hlow : (Module.finrank ℚ_[p] V + 1 : ℕ) ≤ ∑ i ∈ S, hodgeTateNumber p H ρ i := by
+    calc (Module.finrank ℚ_[p] V + 1 : ℕ) = ∑ _i ∈ S, 1 := by
+          rw [Finset.sum_const, smul_eq_mul, mul_one, hScard]
+      _ ≤ ∑ i ∈ S, hodgeTateNumber p H ρ i :=
+          Finset.sum_le_sum fun i hi => Nat.one_le_iff_ne_zero.mpr (hSsub hi)
+  have hup := sum_le p H hH ρ S
+  omega
 
 /-- The Hodge–Tate numbers of a `p`-adic representation of an open subgroup sum to at most
-the dimension of its space. Claim recorded ahead of its proof
+the dimension of its space: the support is finite, and the partial sum over it is bounded
 ([Hyeon 2025, §5, p.18][Hyeon2025];
 [Brinon–Conrad 2009, Remark 2.3.2, p.17][BrinonConrad2009], the injectivity of
 `⊕ (ℂ_K ⊗ W[q]) → W`). -/
@@ -178,7 +328,11 @@ theorem finsum_le (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGaloisGr
     [Module ℚ_[p] V] [TopologicalSpace V] (ρ : Representation ℚ_[p] ↥H V)
     (hρ : IsLadicRepresentation ρ) :
     ∑ᶠ i : ℤ, hodgeTateNumber p H ρ i ≤ Module.finrank ℚ_[p] V := by
-  sorry
+  haveI := hρ.finiteDimensional
+  have hsupp : (Function.support fun i : ℤ => hodgeTateNumber p H ρ i).Finite :=
+    support_finite p H hH ρ hρ
+  rw [finsum_eq_sum _ hsupp]
+  exact sum_le p H hH ρ _
 
 end HodgeTateNumber
 

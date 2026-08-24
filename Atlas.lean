@@ -32,6 +32,8 @@ import Atlas.Knowledge.ConductorExponent
 import Atlas.Knowledge.ConjugateDiameterBound
 import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
+import Atlas.Knowledge.CyclotomicIntegerBasis
+import Atlas.Knowledge.CyclotomicNormalizedTraceBound
 import Atlas.Knowledge.DeepUnitGroup
 import Atlas.Knowledge.DigitSum
 import Atlas.Knowledge.EisensteinFieldInvariant
@@ -192,6 +194,7 @@ import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
+import Atlas.Knowledge.SemiInvariantIndependence
 import Atlas.Knowledge.SerreMass
 import Atlas.Knowledge.Shift
 import Atlas.Knowledge.ShiftDepth
@@ -217,6 +220,7 @@ import Atlas.Knowledge.StronglyEisensteinExtremal
 import Atlas.Knowledge.TRhoEP
 import Atlas.Knowledge.TameBaseChange
 import Atlas.Knowledge.TateTwist
+import Atlas.Knowledge.TateTwistVanishing
 import Atlas.Knowledge.UnitFiltrationClassification
 import Atlas.Knowledge.UnitFiltrationQuasiFree
 import Atlas.Knowledge.UnitFiniteSupport

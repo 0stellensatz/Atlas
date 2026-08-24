@@ -17,6 +17,10 @@ closure of what is already fixed algebraically.
 
 * `axSenTate` — the fixed points of a closed subgroup are the closure of the image of its
   fixed field.
+* `AxSenTate.fixedPoints_eq_image_of_isOpen` — for an open subgroup the closure collapses:
+  the fixed points are exactly the image of the fixed field, which is finite over `ℚ_[p]`
+  and hence closed. This is the form every finite-dimensional consumer reads the theorem
+  through.
 
 ## Implementation notes
 
@@ -158,5 +162,52 @@ theorem axSenTate (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGaloisGr
       rw [h]
       exact isClosed_biInter fun σ _ =>
         isClosed_eq (isometry_algEquiv σ).continuous continuous_id
+
+namespace AxSenTate
+
+/-- For an **open** subgroup the closure in the Ax–Sen–Tate theorem collapses: the fixed
+points of `H` on `ℂ_[p]` are exactly the image of its fixed field. Openness makes the fixed
+field finite-dimensional over `ℚ_[p]` through the Krull correspondence, and a
+finite-dimensional subspace of `ℂ_[p]` is closed. -/
+theorem fixedPoints_eq_image_of_isOpen (p : ℕ) [Fact p.Prime]
+    (H : Subgroup (Field.absoluteGaloisGroup ℚ_[p]))
+    (hH : IsOpen (H : Set (Field.absoluteGaloisGroup ℚ_[p]))) :
+    {x : ℂ_[p] | ∀ σ ∈ H, padicComplexGaloisAction p σ x = x}
+      = (((↑) : PadicAlgCl p → ℂ_[p]) ''
+          (IntermediateField.fixedField (toGalSubgroup H) : Set (PadicAlgCl p))) := by
+  have hclosed : IsClosed (H : Set (Field.absoluteGaloisGroup ℚ_[p])) :=
+    Subgroup.isClosed_of_isOpen H hH
+  rw [axSenTate p H hclosed]
+  set L := IntermediateField.fixedField (toGalSubgroup H) with hL
+  have hKrull : L.fixingSubgroup = toGalSubgroup H :=
+    InfiniteGalois.fixingSubgroup_fixedField ⟨toGalSubgroup H, hclosed⟩
+  haveI hfd : FiniteDimensional ℚ_[p] ↥L := by
+    refine (InfiniteGalois.isOpen_iff_finite L).mp ?_
+    rw [hKrull]
+    exact hH
+  let f : PadicAlgCl p →ₗ[ℚ_[p]] ℂ_[p] :=
+    (Algebra.linearMap (PadicAlgCl p) ℂ_[p]).restrictScalars ℚ_[p]
+  have himg : (((↑) : PadicAlgCl p → ℂ_[p]) '' (L : Set (PadicAlgCl p)))
+      = (Submodule.map f (Subalgebra.toSubmodule L.toSubalgebra) : Set ℂ_[p]) := rfl
+  rw [himg]
+  haveI : FiniteDimensional ℚ_[p]
+      ↥(Submodule.map f (Subalgebra.toSubmodule L.toSubalgebra)) := by infer_instance
+  exact (Submodule.map f
+    (Subalgebra.toSubmodule L.toSubalgebra)).closed_of_finiteDimensional.closure_eq
+
+/-- The elementwise form of the open case: a scalar of `ℂ_[p]` fixed by every element of an
+open subgroup comes from the fixed field. -/
+theorem exists_algebraMap_eq_of_isOpen (p : ℕ) [Fact p.Prime]
+    (H : Subgroup (Field.absoluteGaloisGroup ℚ_[p]))
+    (hH : IsOpen (H : Set (Field.absoluteGaloisGroup ℚ_[p]))) {c : ℂ_[p]}
+    (hc : ∀ σ ∈ H, padicComplexGaloisAction p σ c = c) :
+    ∃ a : ↥(IntermediateField.fixedField (toGalSubgroup H)),
+      algebraMap ↥(IntermediateField.fixedField (toGalSubgroup H)) ℂ_[p] a = c := by
+  have hmem : c ∈ {x : ℂ_[p] | ∀ σ ∈ H, padicComplexGaloisAction p σ x = x} := hc
+  rw [fixedPoints_eq_image_of_isOpen p H hH] at hmem
+  obtain ⟨a, haL, ha⟩ := hmem
+  exact ⟨⟨a, haL⟩, ha⟩
+
+end AxSenTate
 
 end Atlas.Knowledge
