@@ -68,11 +68,11 @@ import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FormalLogPow
 import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
+import Atlas.Knowledge.GalUnits
 import Atlas.Knowledge.GameJumpPair
 import Atlas.Knowledge.GameLevelDecomposition
 import Atlas.Knowledge.GamePathMeasure
 import Atlas.Knowledge.GameTransition
-import Atlas.Knowledge.GalUnits
 import Atlas.Knowledge.GaussReciprocity
 import Atlas.Knowledge.GlobalKroneckerWeber
 import Atlas.Knowledge.GlobalReciprocityLaw

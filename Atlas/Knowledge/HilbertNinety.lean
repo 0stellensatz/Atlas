@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# Hilbert's Theorem 90
+# Hilbert's theorem 90
 
 The cyclic Hilbert 90 of a finite Galois extension, at `Type*`: a norm-one element of `L` is
 `y / σ y` for any generator `σ` of the cyclic Galois group. Mathlib carries this statement
@@ -77,7 +77,7 @@ theorem prod_pow_apply_eq_norm (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgr
 
 section Telescope
 
-variable (σ : L ≃ₐ[K] L) {x : L}
+variable (σ : L ≃ₐ[K] L)
 
 /- The running partial norms. -/
 private def partialNorm (x : L) (i : ℕ) : L := ∏ j ∈ Finset.range i, (σ ^ j) x
@@ -181,6 +181,5 @@ theorem hilbertNinety (hgen : ∀ τ, τ ∈ Subgroup.zpowers σ)
   exact hkey.symm
 
 end Hilbert90
-
 
 end Atlas.Knowledge

@@ -3,7 +3,7 @@ import Atlas.Knowledge.HerbrandQuotient
 import Atlas.Knowledge.HilbertNinety
 
 /-!
-# the unit action of a cyclic Galois group, and its graded pieces
+# unit action of a cyclic Galois group
 
 The action of a finite cyclic Galois group on the units of the extension, at a chosen
 generator, read into the Herbrand vocabulary of `Atlas.Knowledge.herbrandQuotient`: the
@@ -24,6 +24,7 @@ hexagon along the valuation sequence turns `#Ĥ⁰(Lˣ)` into the norm index its
 * `galUnits_ker_norm_le_range_diff` — `Ĥ¹` of the unit action is trivial: Hilbert 90 in the
   graded vocabulary; proved.
 * `card_H0_galUnits` — `#Ĥ⁰` of the unit action is the norm index `#(Kˣ ⧸ N Lˣ)`; proved.
+* `card_H1_galUnits` — `#Ĥ¹` of the unit action is `1`; proved.
 
 ## Implementation notes
 
@@ -51,10 +52,9 @@ variable {K L : Type*} [Field K] [Field L] [Algebra K L] [FiniteDimensional K L]
 
 section UnitsBridge
 
-
 /-- The **unit-level action** of a Galois element: `σ` on `Lˣ`
 ([Serre 1979, Chap. X, §1, p.150][Serre1979]). -/
-noncomputable def galUnits (σ : L ≃ₐ[K] L) : Lˣ ≃* Lˣ :=
+def galUnits (σ : L ≃ₐ[K] L) : Lˣ ≃* Lˣ :=
   Units.mapEquiv σ.toMulEquiv
 
 omit [FiniteDimensional K L] [IsGalois K L] in
@@ -84,7 +84,6 @@ theorem galUnits_pow_coe (σ : L ≃ₐ[K] L) (i : ℕ) :
 theorem herbrandNorm_galUnits (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgroup.zpowers σ) (u : Lˣ) :
     ((HerbrandQuotient.norm (galUnits σ) (orderOf σ) u : Lˣ) : L) =
       algebraMap K L (Algebra.norm K (u : L)) := by
-  rw [Algebra.norm_eq_prod_automorphisms]
   have hcoe : ((HerbrandQuotient.norm (galUnits σ) (orderOf σ) u : Lˣ) : L) =
       ∏ i ∈ Finset.range (orderOf σ), (σ ^ i) (u : L) := by
     rw [HerbrandQuotient.norm_apply]
@@ -93,33 +92,7 @@ theorem herbrandNorm_galUnits (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgro
         map_prod (Units.coeHom L) _ _]
     exact Finset.prod_congr rfl fun i _ => galUnits_pow_coe σ i u
   rw [hcoe]
-  -- the powers of a generator enumerate the group
-  have hfin : IsOfFinOrder σ := isOfFinOrder_of_finite σ
-  have hbij : Function.Bijective (fun i : Fin (orderOf σ) => σ ^ (i : ℕ)) := by
-    constructor
-    · intro i j hij
-      exact Fin.ext (pow_injOn_Iio_orderOf (Set.mem_Iio.mpr i.2) (Set.mem_Iio.mpr j.2) hij)
-    · intro τ
-      obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp (hgen τ)
-      have hpos : 0 < (orderOf σ : ℤ) := by
-        exact_mod_cast hfin.orderOf_pos
-      set m := (k % (orderOf σ : ℤ)).toNat with hm
-      have hmlt : m < orderOf σ := by
-        have h1 : k % (orderOf σ : ℤ) < (orderOf σ : ℤ) := Int.emod_lt_of_pos k hpos
-        have h2 : 0 ≤ k % (orderOf σ : ℤ) := Int.emod_nonneg k hpos.ne'
-        omega
-      refine ⟨⟨m, hmlt⟩, ?_⟩
-      have h3 : σ ^ (m : ℕ) = σ ^ ((m : ℕ) : ℤ) := (zpow_natCast σ m).symm
-      have h4 : ((m : ℕ) : ℤ) = k % (orderOf σ : ℤ) := by
-        rw [hm]
-        exact Int.toNat_of_nonneg (Int.emod_nonneg k hpos.ne')
-      calc σ ^ (m : ℕ) = σ ^ (k % (orderOf σ : ℤ)) := by rw [h3, h4]
-        _ = σ ^ k := zpow_mod_orderOf σ k
-        _ = τ := hk
-  let e : Fin (orderOf σ) ≃ (L ≃ₐ[K] L) := Equiv.ofBijective _ hbij
-  rw [← Fin.prod_univ_eq_prod_range (fun i => (σ ^ i) (u : L)) (orderOf σ)]
-  exact Fintype.prod_equiv e (fun i => (σ ^ (i : ℕ)) (u : L)) (fun τ => τ (u : L))
-    (fun i => rfl)
+  exact prod_pow_apply_eq_norm σ hgen (u : L)
 
 /-- **Hilbert 90 in the graded vocabulary**: on the unit action of a generator, the norm
 kernel lies inside the difference range — `Ĥ¹ (Lˣ)` of
@@ -152,9 +125,22 @@ end UnitsBridge
 
 section FixedPoints
 
+/-- **`Ĥ¹` of the unit action counts `1`**: the quotient collapses once the norm kernel
+sits inside the difference range
+([Serre 1979, Chap. X, §1, Prop. 2, p.150, and Cor., p.151][Serre1979]). -/
+theorem card_H1_galUnits (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgroup.zpowers σ) :
+    Nat.card (HerbrandQuotient.H1 (galUnits σ) (orderOf σ)) = 1 := by
+  haveI : Subsingleton (HerbrandQuotient.H1 (galUnits σ) (orderOf σ)) := by
+    change Subsingleton ((HerbrandQuotient.norm (galUnits σ) (orderOf σ)).ker ⧸
+      (HerbrandQuotient.diff (galUnits σ)).range.subgroupOf
+        (HerbrandQuotient.norm (galUnits σ) (orderOf σ)).ker)
+    rw [Subgroup.subgroupOf_eq_top.mpr (galUnits_ker_norm_le_range_diff σ hgen)]
+    exact QuotientGroup.subsingleton_quotient_top
+  exact Nat.card_unique
+
 /-- The unit image of the base field, as a homomorphism into the difference kernel of the
 unit action ([Serre 1979, Chap. VIII, §4, p.133][Serre1979]). -/
-noncomputable def baseUnitsToKerDiff (σ : L ≃ₐ[K] L) :
+def baseUnitsToKerDiff (σ : L ≃ₐ[K] L) :
     Kˣ →* (HerbrandQuotient.diff (galUnits σ)).ker :=
   MonoidHom.codRestrict (Units.map (algebraMap K L : K →* L)) _ (by
     intro x
@@ -223,7 +209,6 @@ theorem baseUnitsToKerDiff_surjective (σ : L ≃ₐ[K] L)
   refine Subtype.ext (Units.ext ?_)
   exact hk
 
-
 /-- The Herbrand norm range corresponds to the unit-norm range under the base-units
 identification ([Serre 1979, Chap. VIII, §4, p.133][Serre1979]). -/
 theorem baseUnitsToKerDiff_map_norm_range (σ : L ≃ₐ[K] L)
@@ -251,7 +236,8 @@ theorem baseUnitsToKerDiff_map_norm_range (σ : L ≃ₐ[K] L)
 `#Ĥ⁰(Gal, Lˣ) = #(Kˣ ⧸ N Lˣ)`, through the explicit isomorphism of the difference kernel
 with `Kˣ` matching the norm parts
 ([Serre 1979, Chap. VIII, §4, p.133][Serre1979];
-[Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/Main.lean:92`, the `Ĥ⁰` half]
+[Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/Main.lean:92`, whose count this
+identification feeds]
 [Yamaguchi2026]). -/
 theorem card_H0_galUnits (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgroup.zpowers σ) :
     Nat.card (HerbrandQuotient.H0 (galUnits σ) (orderOf σ)) =
@@ -266,6 +252,5 @@ theorem card_H0_galUnits (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgroup.zp
   exact baseUnitsToKerDiff_map_norm_range σ hgen
 
 end FixedPoints
-
 
 end Atlas.Knowledge
