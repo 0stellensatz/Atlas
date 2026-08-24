@@ -40,8 +40,8 @@ subgroup while the conclusion stays the same.
 
 The proof is Tate's, run on the levels `M n`, the fixed fields of `H` intersected with the
 fixing subgroups of a coherent tower of `p`-power roots of unity. An element with the
-transformation law is fixed by `H` meeting the whole tower's stabilizer—the kernel of the
-cyclotomic character, by `cyclotomicCharacter.spec` read in both directions—so the
+transformation law is fixed by `H` meeting the whole tower's stabilizer, which
+`cyclotomicCharacter.spec` places inside the character's kernel, so the
 Ax–Sen–Tate theorem approximates it by algebraic elements, and a compactness argument in the
 profinite group places each approximant at a finite level. At a fixed level the normalized
 trace of the approximants converges; the limit is killed because some level automorphism
@@ -164,34 +164,6 @@ theorem padicCyclotomicCharacter_eq_one {σ : Field.absoluteGaloisGroup ℚ_[p]}
   have huu : u = 1 := Units.ext (PadicInt.ext_of_toZModPow.mp huv)
   change (Units.map (PadicInt.Coe.ringHom (p := p)).toMonoidHom) u = 1
   rw [huu, map_one]
-
-/-- scaffolding: the converse, an automorphism in the kernel of the cyclotomic character
-fixes every `p`-power root of unity. -/
-theorem fix_of_padicCyclotomicCharacter_eq_one {σ : Field.absoluteGaloisGroup ℚ_[p]}
-    (hσ : TateTwist.padicCyclotomicCharacter p ℚ_[p] σ = 1) {t : PadicAlgCl p} {k : ℕ}
-    (ht : t ^ (p ^ k) = 1) : toAlgEquiv σ t = t := by
-  set u : ℤ_[p]ˣ := cyclotomicCharacter (AlgebraicClosure ℚ_[p]) p
-    ((σ : AlgebraicClosure ℚ_[p] ≃ₐ[ℚ_[p]] AlgebraicClosure ℚ_[p]).toRingEquiv) with hu
-  have huu : u = 1 := by
-    have hinj : Function.Injective
-        ((Units.map (PadicInt.Coe.ringHom (p := p)).toMonoidHom)) :=
-      Units.map_injective (fun a b hab => Subtype.coe_injective hab)
-    refine hinj ?_
-    rw [map_one]
-    exact hσ
-  rcases Nat.eq_zero_or_pos k with rfl | hk
-  · have ht1 : t = 1 := by rw [pow_zero, pow_one] at ht; exact ht
-    rw [ht1, map_one]
-  have hspec := cyclotomicCharacter.spec (L := AlgebraicClosure ℚ_[p]) p
-    ((σ : AlgebraicClosure ℚ_[p] ≃ₐ[ℚ_[p]] AlgebraicClosure ℚ_[p]).toRingEquiv) t ht
-  rw [← hu, huu] at hspec
-  have hlt : 1 < p ^ k := Nat.one_lt_pow hk.ne' (Fact.out : p.Prime).one_lt
-  haveI : NeZero (p ^ k) := ⟨by omega⟩
-  haveI : Fact (1 < p ^ k) := ⟨hlt⟩
-  have hval : ((PadicInt.toZModPow k) ((1 : ℤ_[p]ˣ) : ℤ_[p])).val = 1 := by
-    rw [Units.val_one, map_one, ZMod.val_one]
-  rw [hval, pow_one] at hspec
-  exact hspec
 
 set_option maxHeartbeats 800000 in
 -- The conjugate-counting argument elaborates past the default budget: the root-set,

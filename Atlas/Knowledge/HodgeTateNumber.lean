@@ -13,8 +13,8 @@ The **Hodge–Tate numbers** of a `p`-adic representation, and Hodge–Tateness:
 the `H`-invariants of `ℂ_[p] ⊗ V(-i)`—the Galois action of
 `Atlas.Knowledge.PadicComplexGaloisAction` on the left factor tensored against the `(-i)`th
 twist of `ρ` by the cyclotomic character of `Atlas.Knowledge.TateTwist`—and `ρ` is
-**Hodge–Tate** when the numbers sum to the dimension of `V`. The sum never exceeds it, which is
-the recorded claim, and the fixed-field base of the dimension is computed by
+**Hodge–Tate** when the numbers sum to the dimension of `V`. The sum never exceeds it—that
+is `HodgeTateNumber.finsum_le`—and the fixed-field base of the dimension is computed by
 `Atlas.Knowledge.axSenTate`. This is the invariant the source's Section 5 extracts from the
 `m`-step solvable representations `Atlas.Knowledge.IsMStepSolvableRep`.
 
@@ -65,7 +65,10 @@ infinite rank, so each weight contributes an independent family of exactly its n
 weights contribute nothing—and `Atlas.Knowledge.semiInvariantIndependence` makes the union
 independent over `ℂ_[p]`, whose dimension caps the count. The representation hypothesis
 enters only through the finite-dimensionality of `V`; neither the topology on `V` nor the
-continuity of the action plays any role in the bound.
+continuity of the action plays any role in the bound. The finite dimensionality of each
+invariant space over the fixed field—the other half of the source's Lemma 2.3.1—is true
+under the same hypotheses and follows from the same independence bound, but no consumer
+reads it, so it is not recorded.
 
 ## References
 
@@ -226,8 +229,8 @@ namespace HodgeTateNumber
 the space: each weight contributes to `ℂ_[p] ⊗ V` an independent family of size its number,
 distinct weights stay independent by the Serre–Tate lemma, and the `ℂ_[p]`-dimension of
 `ℂ_[p] ⊗ V` is the `ℚ_[p]`-dimension of `V`
-([Brinon–Conrad 2009, Lemma 2.3.1, p.16][BrinonConrad2009], the injectivity of
-`ξ_W` restricted to finitely many summands). -/
+([Brinon–Conrad 2009, Lemma 2.3.1, p.16][BrinonConrad2009], the injectivity of its map
+restricted to finitely many summands). -/
 theorem sum_le (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGaloisGroup ℚ_[p]))
     (hH : IsOpen (H : Set (Field.absoluteGaloisGroup ℚ_[p]))) {V : Type*} [AddCommGroup V]
     [Module ℚ_[p] V] [FiniteDimensional ℚ_[p] V] (ρ : Representation ℚ_[p] ↥H V)

@@ -38,8 +38,7 @@ the cost of scaling a general element into the unit ball, by a power of `p` whos
 reach only the integer powers of `p`. The normalized trace itself is
 `Algebra.normalizedTrace`; `Algebra.normalizedTrace_intermediateField` and
 `Algebra.normalizedTrace_eq_of_finiteDimensional_apply` reduce its computation to the finite
-tower step, and the `Algebra.IsAlgebraic` instance recorded here feeds it the integrality of
-the closure over every intermediate field.
+tower step.
 
 ## References
 
@@ -58,13 +57,6 @@ namespace Atlas.Knowledge
 namespace CyclotomicNormalizedTraceBound
 
 variable {p : ℕ} [Fact p.Prime]
-
-/-- The algebraic closure of `ℚ_[p]` is algebraic over every intermediate field: algebraicity
-ascends from the base of the tower. Recorded as an instance so that
-`Algebra.normalizedTrace` down to an intermediate field elaborates. -/
-instance isAlgebraic (F : IntermediateField ℚ_[p] (PadicAlgCl p)) :
-    Algebra.IsAlgebraic ↥F (PadicAlgCl p) :=
-  Algebra.IsAlgebraic.tower_top (K := ℚ_[p]) ↥F
 
 /-- The norm of `p` in the algebraic closure is `p⁻¹`: the spectral norm extends the `p`-adic
 one. -/
@@ -318,8 +310,9 @@ end CyclotomicNormalizedTraceBound
 `p ^ m`-th root of unity over `ℚ_[p]` and `x` in `ℚ_[p]⟮ζ⟯`, the normalized trace down to
 the level-`n` field `ℚ_[p]⟮ζ ^ p ^ (m - n)⟯` has norm at most `(p : ℝ) * ‖x‖`—an operator
 bound independent of `m`, the analytic input of the Tate–Sen method
-([Brinon–Conrad 2009, §14.1, Lem. 14.1.4, p.238][BrinonConrad2009]). On the unit ball the
-trace loses nothing (`CyclotomicNormalizedTraceBound.norm_normalizedTrace_le_one`); the
+([Brinon–Conrad 2009, §14.1, Lem. 14.1.4, p.238][BrinonConrad2009], recorded in the sharper
+form its proof yields—the explicit constant `p` at every nonzero level). On the unit ball
+the trace loses nothing (`CyclotomicNormalizedTraceBound.norm_normalizedTrace_le_one`); the
 factor `p` is the cost of scaling into the unit ball by a power of `p`. -/
 theorem cyclotomicNormalizedTraceBound (p : ℕ) [Fact p.Prime] {m n : ℕ} {ζ : PadicAlgCl p}
     (hζ : IsPrimitiveRoot ζ (p ^ m)) (hn : n ≠ 0) (hnm : n ≤ m)

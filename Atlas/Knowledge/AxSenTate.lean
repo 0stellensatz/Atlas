@@ -19,8 +19,8 @@ closure of what is already fixed algebraically.
   fixed field.
 * `AxSenTate.fixedPoints_eq_image_of_isOpen` — for an open subgroup the closure collapses:
   the fixed points are exactly the image of the fixed field, which is finite over `ℚ_[p]`
-  and hence closed. This is the form every finite-dimensional consumer reads the theorem
-  through.
+  and hence closed. Its elementwise form `AxSenTate.exists_algebraMap_eq_of_isOpen` is what
+  the finite-dimensional consumers read.
 
 ## Implementation notes
 

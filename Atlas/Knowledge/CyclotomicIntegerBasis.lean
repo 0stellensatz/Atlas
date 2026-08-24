@@ -192,7 +192,7 @@ theorem minpoly_eq_cyclotomic {m : ℕ} {ζ : PadicAlgCl p} (hζ : IsPrimitiveRo
   simpa [Polynomial.comp_assoc] using h3.symm
 
 /-- The cyclotomic extension `ℚ_[p]⟮ζ⟯` of `ℚ_[p]` by a primitive `p ^ m`-th root of unity
-has degree `φ(p ^ m)` ([Serre 1979, Chap. IV, §4, Prop. 17, p.78][Serre1979]). -/
+has degree `(p ^ m).totient` ([Serre 1979, Chap. IV, §4, Prop. 17, p.78][Serre1979]). -/
 theorem finrank_adjoin {m : ℕ} {ζ : PadicAlgCl p} (hζ : IsPrimitiveRoot ζ (p ^ m))
     (hm : m ≠ 0) : Module.finrank ℚ_[p] ↥(ℚ_[p]⟮ζ⟯) = (p ^ m).totient := by
   have hint : IsIntegral ℚ_[p] ζ := ((PadicAlgCl.isAlgebraic p).isAlgebraic ζ).isIntegral

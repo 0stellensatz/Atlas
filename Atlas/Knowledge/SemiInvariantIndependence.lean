@@ -13,8 +13,8 @@ cyclotomic character are linearly independent over `ℂ_[p]`, as soon as, within
 they are independent over the fixed field. The consumer is the twisted tensor representation
 of `Atlas.Knowledge.hodgeTateNumber`: its invariants at weight `i` are the weight-`i`
 semi-invariants of the untwisted action, so this lemma bounds all the Hodge–Tate numbers of
-a representation at once against the `ℂ_[p]`-dimension of `ℂ_[p] ⊗ V`—the finiteness and the
-sum bound recorded there both fall out of the single inequality.
+a representation at once against the `ℂ_[p]`-dimension of the base-changed space—the
+finiteness and the sum bound recorded there both fall out of the single inequality.
 
 ## Main statements
 
