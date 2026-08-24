@@ -1,4 +1,5 @@
 import Mathlib
+import Atlas.Knowledge.ConjugateDiameterBound
 import Atlas.Knowledge.PadicComplexGaloisAction
 
 /-!
@@ -15,9 +16,21 @@ closure of what is already fixed algebraically.
 ## Main statements
 
 * `axSenTate` — the fixed points of a closed subgroup are the closure of the image of its
-  fixed field. Claim recorded ahead of its proof.
+  fixed field.
 
 ## Implementation notes
+
+The proof composes three pieces. The soft inclusion is topology: the fixed-point set is an
+intersection of equalizers of isometries, hence closed, and it contains the image of the fixed
+field by the definition of the action on algebraic points. For the content direction, a fixed
+point is approximated within `ε` by an algebraic `y`; almost-invariance transfers from the
+point to `y` at the cost of doubling `ε`, and the Krull correspondence
+(`InfiniteGalois.fixingSubgroup_fixedField`, where closedness of `H` enters and nowhere else)
+turns the conjugates of `y` over the fixed field into `H`-orbit points, so the whole conjugate
+cluster of `y` has diameter `2 ε`. The descent estimate
+`Atlas.Knowledge.conjugateDiameterBound`—Ax's induction on the degree, run on the zeros of
+Hasse derivatives—then produces an element of the fixed field within `2 ε` times a constant
+depending only on `p`, and `ε` was arbitrary.
 
 The action is `Atlas.Knowledge.PadicComplexGaloisAction`, and the fixed points are stated as a
 set equality: the left side is fixed points of the extended action on the completion, the
@@ -42,12 +55,14 @@ form at this generality is Ax's theorem, whose henselian "local field" covers ev
   (preliminary version)*, available at math.stanford.edu/~conrad/papers/notes.pdf, 2009.
 -/
 
+open Atlas.Knowledge.PadicComplexGaloisAction
+
 namespace Atlas.Knowledge
 
 /-- The **Ax–Sen–Tate theorem**: the fixed points of a closed subgroup of the absolute Galois
-group of `ℚ_[p]` acting on `ℂ_[p]` are the closure of the image of its fixed field. Claim
-recorded ahead of its proof ([Hyeon 2025, §5, p.19][Hyeon2025];
-[Ax 1970, Theorem, p.417][Ax1970]; [Brinon–Conrad 2009, Prop. 2.1.2, p.12][BrinonConrad2009]). -/
+group of `ℚ_[p]` acting on `ℂ_[p]` are the closure of the image of its fixed field
+([Hyeon 2025, §5, p.19][Hyeon2025]; [Ax 1970, Theorem, p.417][Ax1970];
+[Brinon–Conrad 2009, Prop. 2.1.2, p.12][BrinonConrad2009]). -/
 theorem axSenTate (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGaloisGroup ℚ_[p]))
     (hH : IsClosed (H : Set (Field.absoluteGaloisGroup ℚ_[p]))) :
     {x : ℂ_[p] | ∀ σ ∈ H, padicComplexGaloisAction p σ x = x}
@@ -55,6 +70,93 @@ theorem axSenTate (p : ℕ) [Fact p.Prime] (H : Subgroup (Field.absoluteGaloisGr
           (((↑) : PadicAlgCl p → ℂ_[p]) ''
             (IntermediateField.fixedField (PadicComplexGaloisAction.toGalSubgroup H) :
               Set (PadicAlgCl p))) := by
-  sorry
+  set F := IntermediateField.fixedField (toGalSubgroup H) with hF
+  set M : ℝ := (‖(p : PadicAlgCl p)‖⁻¹) ^ ((p : ℝ) / ((p : ℝ) - 1) ^ 2) with hM
+  have hp2 : (2 : ℝ) ≤ p := by exact_mod_cast (Fact.out : p.Prime).two_le
+  have hM1 : (1 : ℝ) ≤ M := by
+    rw [hM]
+    refine Real.one_le_rpow ?_ (by positivity)
+    rw [ConjugateDiameterBound.norm_natCast_self, inv_inv]
+    linarith
+  apply Set.Subset.antisymm
+  · -- the content: a fixed point is a limit of fixed-field elements
+    intro x hx
+    rw [Metric.mem_closure_iff]
+    intro ε hε
+    set δ : ℝ := ε / (2 * (1 + 2 * M)) with hδ
+    have hδ0 : 0 < δ := by
+      rw [hδ]
+      have : (0 : ℝ) < 1 + 2 * M := by linarith
+      positivity
+    obtain ⟨y, hy⟩ : ∃ y : PadicAlgCl p, dist x (y : ℂ_[p]) < δ := by
+      obtain ⟨-, ⟨y, rfl⟩, hy⟩ :=
+        Metric.mem_closure_iff.mp
+          (UniformSpace.Completion.denseRange_coe (α := PadicAlgCl p) x) δ hδ0
+      exact ⟨y, hy⟩
+    -- almost-invariance of the algebraic approximation
+    have horbit : ∀ σ ∈ H, ‖toAlgEquiv σ y - y‖ ≤ 2 * δ := by
+      intro σ hσ
+      have hcoe : ‖toAlgEquiv σ y - y‖
+          = dist (padicComplexGaloisAction p σ (y : ℂ_[p])) (y : ℂ_[p]) := by
+        rw [padicComplexGaloisAction_coe, dist_eq_norm, ← PadicComplex.norm_extends]
+        push_cast
+        rfl
+      rw [hcoe]
+      calc dist (padicComplexGaloisAction p σ (y : ℂ_[p])) (y : ℂ_[p])
+          ≤ dist (padicComplexGaloisAction p σ (y : ℂ_[p]))
+              (padicComplexGaloisAction p σ x) + dist x (y : ℂ_[p]) := by
+            rw [hx σ hσ]
+            exact dist_triangle _ _ _
+        _ = dist (y : ℂ_[p]) x + dist x (y : ℂ_[p]) :=
+            congrArg (· + _) ((isometry_algEquiv σ).dist_eq _ _)
+        _ ≤ 2 * δ := by
+            rw [dist_comm (y : ℂ_[p]) x]
+            linarith
+    -- the whole conjugate cluster of `y` has diameter `2 δ`, through the Krull correspondence
+    have hΔ : ∀ β : PadicAlgCl p, (Polynomial.aeval β) (minpoly ↥F y) = 0 → ‖β - y‖ ≤ 2 * δ := by
+      intro β hβ
+      obtain ⟨σ, hσ⟩ := minpoly.exists_algEquiv_of_root'
+        (Algebra.IsAlgebraic.isAlgebraic (R := ↥F) y) hβ
+      have hKrull : F.fixingSubgroup = toGalSubgroup H :=
+        InfiniteGalois.fixingSubgroup_fixedField ⟨toGalSubgroup H, hH⟩
+      set τ : ↥(F.fixingSubgroup) := (IntermediateField.fixingSubgroupEquiv F).symm σ
+      have hτH : τ.1 ∈ H := (SetLike.ext_iff.mp hKrull _).mp τ.2
+      have hτy : toAlgEquiv τ.1 y = β := by
+        rw [← hσ]
+        rfl
+      rw [← hτy]
+      exact horbit τ.1 hτH
+    obtain ⟨a, haF, ha⟩ := conjugateDiameterBound F y (by positivity) hΔ
+    refine ⟨(a : ℂ_[p]), ⟨a, haF, rfl⟩, ?_⟩
+    have hya : dist (y : ℂ_[p]) (a : ℂ_[p]) = ‖y - a‖ := by
+      rw [dist_eq_norm, ← PadicComplex.norm_extends]
+      push_cast
+      rfl
+    calc dist x (a : ℂ_[p]) ≤ dist x (y : ℂ_[p]) + dist (y : ℂ_[p]) (a : ℂ_[p]) :=
+          dist_triangle _ _ _
+      _ ≤ δ + 2 * δ * M := by
+          rw [hya]
+          exact add_le_add hy.le (le_trans ha (by rw [← hM]))
+      _ < ε := by
+          have hM0 : (0 : ℝ) < M := lt_of_lt_of_le one_pos hM1
+          rw [hδ]
+          have h1 : (0 : ℝ) < 1 + 2 * M := by linarith
+          have h1' : (1 + 2 * M) ≠ 0 := h1.ne'
+          calc ε / (2 * (1 + 2 * M)) + 2 * (ε / (2 * (1 + 2 * M))) * M
+              = ε / 2 := by field_simp
+            _ < ε := by linarith
+  · -- the soft inclusion: the fixed-point set is closed and contains the fixed field
+    refine closure_minimal ?_ ?_
+    · rintro _ ⟨y, hyF, rfl⟩ σ hσ
+      rw [padicComplexGaloisAction_coe]
+      exact congrArg _
+        ((IntermediateField.mem_fixedField_iff (toGalSubgroup H) _).mp hyF (toAlgEquiv σ) hσ)
+    · have h : {x : ℂ_[p] | ∀ σ ∈ H, padicComplexGaloisAction p σ x = x}
+          = ⋂ σ ∈ H, {x | padicComplexGaloisAction p σ x = x} := by
+        ext x
+        simp
+      rw [h]
+      exact isClosed_biInter fun σ _ =>
+        isClosed_eq (isometry_algEquiv σ).continuous continuous_id
 
 end Atlas.Knowledge

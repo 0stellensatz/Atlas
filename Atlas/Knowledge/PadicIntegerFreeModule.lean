@@ -35,11 +35,10 @@ everything is everything. Freeness is then Mathlib's `Module.free_of_finite_type
 over the discrete valuation ring `ℤ_[p]`, and the rank is counted on `𝒪[K] ⧸ p 𝒪[K]`: the
 quotient has `p ^ (rank)` elements through the free structure, and `(p ^ f) ^ e` elements
 through the filtration `p 𝒪[K] = 𝓂[K] ^ e` of
-`Atlas.Knowledge.span_residueCharacteristic_eq_maximalIdeal_pow`,
-the multiplicativity of `Submodule.cardQuot` on powers of the maximal ideal, and the count
-`#𝓀[K] = p ^ f` of `Atlas.Knowledge.AbsoluteInertiaDegree.card_residueField_eq_pow`. The
-inverse of the final map is continuous for free, the source being compact and the target
-Hausdorff.
+`Atlas.Knowledge.span_residueCharacteristic_eq_maximalIdeal_pow`, the multiplicativity of
+`Submodule.cardQuot` on powers of the maximal ideal, and the count `#𝓀[K] = p ^ f` of
+`Atlas.Knowledge.AbsoluteInertiaDegree.card_residueField_eq_pow`. The inverse of the final map is
+continuous for free, the source being compact and the target Hausdorff.
 
 The scaffolding takes the module structure as a variable together with the hypothesis `hsmul`
 spelling its action through a ring morphism `φ`, the same discipline as the norm-variable

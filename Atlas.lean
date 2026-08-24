@@ -29,6 +29,7 @@ import Atlas.Knowledge.CharacterTwist
 import Atlas.Knowledge.ClosedDerivedSeries
 import Atlas.Knowledge.CompletedUnitGroup
 import Atlas.Knowledge.ConductorExponent
+import Atlas.Knowledge.ConjugateDiameterBound
 import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.DeepUnitGroup
@@ -79,6 +80,7 @@ import Atlas.Knowledge.GroupRootOfUnityExponent
 import Atlas.Knowledge.GroupTateModule
 import Atlas.Knowledge.HaarGameMass
 import Atlas.Knowledge.HasseArf
+import Atlas.Knowledge.HasseDerivativeZeros
 import Atlas.Knowledge.HasseNormPrinciple
 import Atlas.Knowledge.HerbrandPhi
 import Atlas.Knowledge.HerbrandPsi

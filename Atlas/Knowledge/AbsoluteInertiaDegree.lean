@@ -30,8 +30,7 @@ outside the local-field situation the encoding takes Mathlib's junk values.
 As with the ramification index, the encoding and the name are connected by a theorem rather
 than left as two assertions: `card_residueField_eq_pow` proves `#𝓀[K] = p_K ^ f_K`, which is
 what every counting argument downstream reads `f_K` as—the well-posedness obligation of this
-item, the `f`-side sibling of
-`Atlas.Knowledge.span_residueCharacteristic_eq_maximalIdeal_pow`.
+item, the `f`-side sibling of `Atlas.Knowledge.span_residueCharacteristic_eq_maximalIdeal_pow`.
 The proof moves the two residue fields of the encoding onto `𝓀[K]` and `ZMod p_K` along the
 canonical maps and counts a finite vector space over its prime field.
 

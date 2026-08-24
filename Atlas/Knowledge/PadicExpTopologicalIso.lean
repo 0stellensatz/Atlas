@@ -29,19 +29,19 @@ The isomorphism is packaged inside `Nonempty` because its sole consumer,
 `Atlas.Knowledge.deepUnitGroup_continuousMulEquiv`, destructures the existence immediately and
 composes the witness away; a consumer that needs the identity of the underlying map—it is the
 exponential—takes it from `Atlas.Knowledge.padicExpIsomorphism`, where the bijection is
-recorded on `NormedSpace.exp` by name. The witness
-is assembled from `Atlas.Knowledge.padicExpIsomorphism`: `Set.BijOn.equiv` turns the bijection
-into an equivalence between the ideal power and the higher unit group,
-`Atlas.Knowledge.PadicExpIsomorphism.exp_add`—pulled from the convergence ideal down to level
-`i` by inclusion—makes it multiplicative, and forward continuity is the norm preservation
-`‖exp a - exp b‖ = ‖a - b‖`: above the threshold the exponential is an isometry, a consequence
-of `exp_add` together with the estimate `‖exp x - 1‖ = ‖x‖` of
+recorded on `NormedSpace.exp` by name. The witness is assembled from
+`Atlas.Knowledge.padicExpIsomorphism`: `Set.BijOn.equiv` turns the bijection into an equivalence
+between the ideal power and the higher unit group,
+`Atlas.Knowledge.PadicExpIsomorphism.exp_add`—pulled from the convergence ideal down to level `i` by
+inclusion—makes it multiplicative, and forward continuity is the norm preservation
+`‖exp a - exp b‖ = ‖a - b‖`: above the threshold the exponential is an isometry, a consequence of
+`exp_add` together with the estimate `‖exp x - 1‖ = ‖x‖` of
 `Atlas.Knowledge.PadicExpIsomorphism.norm_exp_estimates`. The inverse is continuous for free:
-`𝓂 ^ i` is a closed norm ball in the compact ring `𝒪[K]`, so the source is compact, the target
-lives in the Hausdorff group `Kˣ`, and `Continuous.homeoOfEquivCompactToT2` upgrades the
-continuous bijection to a homeomorphism. The statement is about the carrier topology; the proof
-rebuilds the norm through `Valued.toNontriviallyNormedField`, whose topology is definitionally
-the carrier's—the same discipline as the rest of this tranche.
+`𝓂 ^ i` is a closed norm ball in the compact ring `𝒪[K]`, so the source is compact, the target lives
+in the Hausdorff group `Kˣ`, and `Continuous.homeoOfEquivCompactToT2` upgrades the continuous
+bijection to a homeomorphism. The statement is about the carrier topology; the proof rebuilds the
+norm through `Valued.toNontriviallyNormedField`, whose topology is definitionally the carrier's—the
+same discipline as the rest of this tranche.
 
 ## References
 
