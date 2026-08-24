@@ -22,6 +22,8 @@ exactly this statement as an undischarged hypothesis
 ## Main statements
 
 * `unitsFiniteIndexOpen` — a finite-index subgroup of `Kˣ` is open; proved.
+* `isOpen_valuation_le` / `higherUnitGroup_isOpen` — closed balls are open, and so are the
+  unit levels; proved.
 
 ## Implementation notes
 
@@ -34,9 +36,9 @@ here instead runs through the layer's own deep unit groups: on a deep level
 `n` — the span of `n` in each coordinate, open because nonzero ideals of `ℤ_[p]` are
 ideal powers of `p`, hence closed balls of nonzero radius. The image of that sublattice in
 `Kˣ` is then an open subgroup inside `(Kˣ) ^ n`, and a subgroup above an open subgroup is
-open. The openness of the levels `U i (K)` themselves, proved here privately, is the
-ultrametric fact that closed balls are open; it stays private until a second consumer
-appears.
+open. The openness of the levels `U i (K)` themselves is the ultrametric fact that closed
+balls are open; both are public since `Atlas.Knowledge.unitLevelFiniteIndex` consumes them
+on the extension field.
 
 ## References
 
@@ -52,9 +54,10 @@ namespace Atlas.Knowledge
 
 variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
-/- Closed balls about the origin of nonzero radius are open: the ultrametric inequality keeps
-the basic neighborhood of any member inside the ball. -/
-private theorem isOpen_valuation_le {γ : ValueGroupWithZero K} (hγ : γ ≠ 0) :
+/-- **Closed balls about the origin of nonzero radius are open**: the ultrametric
+inequality keeps the basic neighborhood of any member inside the ball
+([Milne 2020, Chap. III, Lemma 2.3, p.104][MilneCFT]). -/
+theorem isOpen_valuation_le {γ : ValueGroupWithZero K} (hγ : γ ≠ 0) :
     IsOpen {y : K | valuation K y ≤ γ} := by
   rw [isOpen_iff_mem_nhds]
   intro x hx
@@ -63,10 +66,11 @@ private theorem isOpen_valuation_le {γ : ValueGroupWithZero K} (hγ : γ ≠ 0)
   _ ≤ max (valuation K (y - x)) (valuation K x) := Valuation.map_add _ _ _
   _ ≤ γ := max_le (le_of_lt hy) hx
 
-/- The higher unit group is the preimage in `Kˣ` of a translated closed ball, hence open:
-its members are the units congruent to `1` modulo the `i`-th ideal power, and that congruence
-reads as a valuation inequality on `x - 1`. -/
-private theorem higherUnitGroup_isOpen (i : ℕ+) :
+/-- **The higher unit group is open**: it is the preimage in `Kˣ` of a translated closed
+ball — its members are the units congruent to `1` modulo the `i`-th ideal power, and that
+congruence reads as a valuation inequality on `x - 1`
+([Milne 2020, Chap. III, Lemma 2.3, p.104][MilneCFT]). -/
+theorem higherUnitGroup_isOpen (i : ℕ+) :
     IsOpen (higherUnitGroup K i : Set Kˣ) := by
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
   have hϖ0 : (ϖ : K) ≠ 0 := fun h0 => hϖ.ne_zero (Subtype.ext h0)

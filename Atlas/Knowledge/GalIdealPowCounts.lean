@@ -2,12 +2,13 @@ import Mathlib
 import Atlas.Knowledge.HerbrandQuotient
 import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.PadicExpEquivariant
+import Atlas.Knowledge.UnitsFiniteIndexOpen
 
 /-!
-# graded counts of a deep ideal power
+# graded counts of an ideal power
 
-The additive Galois module of a deep ideal power of a cyclic extension of
-mixed-characteristic local fields has equal, finite graded Tate counts:
+The additive Galois module of an ideal power of a cyclic extension of mixed-characteristic
+local fields — any exponent, zero included — has equal, finite graded Tate counts:
 `#Ĥ⁰(𝓂[L] ^ i) = #Ĥ¹(𝓂[L] ^ i)` at a generator of the Galois group. This is the lattice
 half of the class field axiom's unit computation — a scaled orbit of Mathlib's
 `IsGalois.normalBasis` spans an open `𝒪[K]`-sublattice of the ideal power isomorphic to
@@ -234,11 +235,10 @@ private theorem gpow_bijective [NeZero (orderOf σ)]
   rw [← hcard]
   exact Subgroup.card_top
 
-/- The orbit-lattice embedding of the co-induced module. -/
+/-! The orbit-lattice embedding of the co-induced module. -/
 
 /- The orbit lattice as a hom from the co-induced module: `f ↦ ∑ f j · W (σ⁻ʲ)`, with
 the orbit `W` handed in as ideal-power elements and coefficients from `𝒪[K]`. -/
-set_option linter.overlappingInstances false in
 private noncomputable def latticeHom [NeZero (orderOf σ)] (i : ℕ)
     (W : (L ≃ₐ[K] L) → ↥(𝓂[L] ^ i : Ideal ↥𝒪[L])) :
     (ZMod (orderOf σ) → Multiplicative ↥𝒪[K]) →*
@@ -324,20 +324,7 @@ private theorem latticeHom_injective [NeZero (orderOf σ)] (i : ℕ)
   have : Multiplicative.toAdd (f j) = 0 := Subtype.ext hcoe
   simpa using congrArg Multiplicative.ofAdd this
 
-/- Topological finiteness of the lattice's index. -/
-
-/- Closed balls about the origin of nonzero radius are open: the ultrametric inequality
-keeps the basic neighborhood of any member inside the ball. Deliberately duplicates the
-private `isOpen_valuation_le` of `Atlas.Knowledge.UnitsFiniteIndexOpen` rather than
-promoting it mid-phase. -/
-private theorem isOpen_val_le {γ : ValueGroupWithZero L} (hγ : γ ≠ 0) :
-    IsOpen {y : L | valuation L y ≤ γ} := by
-  rw [isOpen_iff_mem_nhds]
-  intro x hx
-  refine (IsValuativeTopology.hasBasis_nhds' x).mem_iff.mpr ⟨γ, hγ, fun y hy => ?_⟩
-  calc valuation L y = valuation L ((y - x) + x) := by rw [sub_add_cancel]
-  _ ≤ max (valuation L (y - x)) (valuation L x) := Valuation.map_add _ _ _
-  _ ≤ γ := max_le (le_of_lt hy) hx
+/-! Topological finiteness of the lattice's index. -/
 
 /- Ideal-power membership of an integer is the valuation bound, read off the image
 characterization. -/
@@ -478,18 +465,16 @@ private theorem latticeHom_range_quotient_finite [NeZero (orderOf σ)] (i : ℕ)
   have hϖv0 : valuation L ((ϖ : L)) ≠ 0 := (Valuation.ne_zero_iff _).mpr hϖ0
   have hϖv1 : valuation L ((ϖ : L)) ≤ 1 := (Valuation.mem_integer_iff _ _).mp ϖ.2
   obtain ⟨m, hm⟩ := exists_coord_integral_ball σ bZ hϖ
-  have hr0 : valuation L ((ϖ : L)) ^ (max m i) ≠ 0 := pow_ne_zero _ hϖv0
-  have hrm : valuation L ((ϖ : L)) ^ (max m i) ≤ valuation L ((ϖ : L)) ^ m :=
-    pow_le_pow_right_of_le_one' hϖv1 (le_max_left m i)
+  have hr0 : valuation L ((ϖ : L)) ^ m ≠ 0 := pow_ne_zero _ hϖv0
   -- a small enough element is a lattice point: its coordinates are integral
   have hball : ∀ x : Multiplicative ↥(𝓂[L] ^ i : Ideal ↥𝒪[L]),
       valuation L ((↑(Multiplicative.toAdd x) : ↥𝒪[L]) : L) ≤
-        valuation L ((ϖ : L)) ^ (max m i) →
+        valuation L ((ϖ : L)) ^ m →
       x ∈ (latticeHom σ i W).range := by
     intro x hx
     have hcoords : ∀ j, valuation K
         (bZ.repr ((↑(Multiplicative.toAdd x) : ↥𝒪[L]) : L) j) ≤ 1 :=
-      hm _ (le_trans hx hrm)
+      hm _ hx
     refine ⟨fun j => Multiplicative.ofAdd
       ⟨bZ.repr ((↑(Multiplicative.toAdd x) : ↥𝒪[L]) : L) j,
         (Valuation.mem_integer_iff _ _).mpr (hcoords j)⟩, ?_⟩
@@ -512,13 +497,13 @@ private theorem latticeHom_range_quotient_finite [NeZero (orderOf σ)] (i : ℕ)
     rw [isOpen_iff_mem_nhds]
     intro x hxmem
     have hLopen : IsOpen {w : L | valuation L
-        (w - ((↑(Multiplicative.toAdd x) : ↥𝒪[L]) : L)) ≤ valuation L ((ϖ : L)) ^ (max m i)} := by
+        (w - ((↑(Multiplicative.toAdd x) : ↥𝒪[L]) : L)) ≤ valuation L ((ϖ : L)) ^ m} := by
       have hsubc : Continuous fun w : L =>
           w - ((↑(Multiplicative.toAdd x) : ↥𝒪[L]) : L) := continuous_id.sub continuous_const
-      exact (isOpen_val_le (L := L) hr0).preimage hsubc
+      exact (isOpen_valuation_le L hr0).preimage hsubc
     refine Filter.mem_of_superset (((hLopen.preimage hcval).mem_nhds ?_)) fun z hz => ?_
     · change valuation L (((↑(Multiplicative.toAdd x) : ↥𝒪[L]) : L) -
-        ((↑(Multiplicative.toAdd x) : ↥𝒪[L]) : L)) ≤ valuation L ((ϖ : L)) ^ (max m i)
+        ((↑(Multiplicative.toAdd x) : ↥𝒪[L]) : L)) ≤ valuation L ((ϖ : L)) ^ m
       rw [sub_self, map_zero]
       exact _root_.zero_le
     · have hzx : z / x ∈ (latticeHom σ i W).range := by
@@ -538,7 +523,7 @@ private theorem latticeHom_range_quotient_finite [NeZero (orderOf σ)] (i : ℕ)
       ext x
       simpa using mem_idealPow_iff_val (L := L) hϖ i x
     rw [hset]
-    exact (isOpen_val_le (L := L) (pow_ne_zero _ hϖv0)).preimage continuous_subtype_val
+    exact (isOpen_valuation_le L (pow_ne_zero _ hϖv0)).preimage continuous_subtype_val
   have h𝓂closed : IsClosed (((𝓂[L] ^ i : Ideal ↥𝒪[L]) : Set ↥𝒪[L])) :=
     AddSubgroup.isClosed_of_isOpen (𝓂[L] ^ i : Ideal ↥𝒪[L]).toAddSubgroup h𝓂open
   haveI : CompactSpace ↥(𝓂[L] ^ i : Ideal ↥𝒪[L]) :=
@@ -556,7 +541,7 @@ private theorem latticeHom_range_quotient_finite [NeZero (orderOf σ)] (i : ℕ)
         exact this }
   exact Subgroup.quotient_finite_of_isOpen _ hopen
 
-/- The graded counts of the deep ideal power agree. -/
+/-! The graded counts of the ideal power agree. -/
 
 /- The multiplicative wrapper of the ideal action inherits the generator's order. -/
 omit [IsGalois K L] in
@@ -613,8 +598,6 @@ private theorem finiteIndex_card_eq {A : Type*} [CommGroup A] {σA : A ≃* A} {
 
 /- The counting theorem over handed-in data: the lattice's counts are the co-induced
 module's, both `1`, and the finite index carries them to the ambient ideal power. -/
-set_option maxHeartbeats 1600000 in
--- the instance chains of the concrete subtype carriers overrun the default budget
 omit [IsGalois K L] in
 private theorem card_pieces_idealPow [NeZero (orderOf σ)] (i : ℕ)
     (W : (L ≃ₐ[K] L) → ↥(𝓂[L] ^ i : Ideal ↥𝒪[L])) (b' : L)
@@ -661,12 +644,12 @@ private theorem card_pieces_idealPow [NeZero (orderOf σ)] (i : ℕ)
   have hσAn := galIdealPow_toMultiplicative_pow σ i (pow_orderOf_eq_one σ)
   exact finiteIndex_card_eq hσAn (latticeHom σ i W).range hΛ hΛ' hc0 hc1
 
-set_option maxHeartbeats 1600000 in
--- the instance chains of the concrete subtype carriers overrun the default budget
-/-- **The graded counts of a deep ideal power agree and are finite**: at a generator of
-the cyclic Galois group, the additive action of `Atlas.Knowledge.galIdealPow` on
-`𝓂[L] ^ i` has `#Ĥ⁰ = #Ĥ¹`, both finite — the lattice computation of the class field
-axiom ([Milne 2020, Chap. III, Lemma 2.3, p.104][MilneCFT];
+/-- **The graded counts of an ideal power agree and are finite**: at a generator of the
+cyclic Galois group, the additive action of `Atlas.Knowledge.galIdealPow` on `𝓂[L] ^ i`
+has `#Ĥ⁰ = #Ĥ¹`, both finite — every exponent, zero included; depth enters only where the
+exponential's consumer needs it. The lattice computation of the class field axiom
+([Milne 2020, Chap. III, Lemma 2.3, p.104][MilneCFT]; the multiplicative principal-unit
+counterpart is
 [Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/NormalBasisCohomology.lean:33`]
 [Yamaguchi2026]). -/
 theorem galIdealPowCounts
