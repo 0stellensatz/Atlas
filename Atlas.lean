@@ -88,6 +88,7 @@ import Atlas.Knowledge.HasseDerivativeZeros
 import Atlas.Knowledge.HasseNormPrinciple
 import Atlas.Knowledge.HerbrandPhi
 import Atlas.Knowledge.HerbrandPsi
+import Atlas.Knowledge.HerbrandQuotient
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.HilbertClassField
 import Atlas.Knowledge.HilbertProductFormula
