@@ -23,8 +23,9 @@ negating.
   sign anchor that machine-pins the orientation.
 * `normalizedValuation_eq_zero_of_valuation_eq_one` — units of the integer ring have value `0`.
 * `normalizedValuation_irreducible` — uniformizers have value exactly `1`; proved.
-* `normalizedValuation_surjective` — the value group is all of `ℤ`, recorded ahead of its
-  proof.
+* `normalizedValuation_surjective` — the value group is all of `ℤ`; proved, through the
+  value `1` on a uniformizer and the `zpow` law of the trio `normalizedValuation_one` /
+  `normalizedValuation_inv` / `normalizedValuation_zpow`.
 
 ## Implementation notes
 
@@ -199,10 +200,42 @@ theorem normalizedValuation_irreducible (π : 𝒪[K]) (hπ : Irreducible π) (x
   unfold normalizedValuation
   omega
 
+/-- The unit `1` has normalized valuation `0`
+([Serre 1979, Chap. XIII, §4, p.198][Serre1979]). -/
+theorem normalizedValuation_one : normalizedValuation K 1 = 0 :=
+  normalizedValuation_eq_zero_of_valuation_eq_one K 1 (by simp)
+
+/-- Inversion negates the normalized valuation
+([Serre 1979, Chap. XIII, §4, p.198][Serre1979]). -/
+theorem normalizedValuation_inv (x : Kˣ) :
+    normalizedValuation K x⁻¹ = - normalizedValuation K x := by
+  have h := normalizedValuation_mul K x x⁻¹
+  rw [mul_inv_cancel, normalizedValuation_one] at h
+  omega
+
+/-- Integer powers scale the normalized valuation
+([Serre 1979, Chap. XIII, §4, p.198][Serre1979]). -/
+theorem normalizedValuation_zpow (x : Kˣ) (k : ℤ) :
+    normalizedValuation K (x ^ k) = k * normalizedValuation K x := by
+  induction k using Int.induction_on with
+  | zero => simpa using normalizedValuation_one K
+  | succ n ih =>
+    rw [zpow_add_one, normalizedValuation_mul, ih]
+    ring
+  | pred n ih =>
+    rw [zpow_sub_one, normalizedValuation_mul, ih, normalizedValuation_inv]
+    ring
+
 /-- The normalized valuation is surjective onto `ℤ`: the valuation is discrete and the
-normalization exact, `ord_K` in the split exact sequence `1 → U_K → Kˣ → ℤ → 1`. Claim
-recorded ahead of its proof ([Hyeon 2025, §3, p.10][Hyeon2025]). -/
+normalization exact, `ord_K` in the split exact sequence `1 → U_K → Kˣ → ℤ → 1` — a
+uniformizer unit has value `1`, and its integer powers reach everything
+([Hyeon 2025, §3, p.10][Hyeon2025]). -/
 theorem normalizedValuation_surjective : Function.Surjective (normalizedValuation K) := by
-  sorry
+  intro k
+  obtain ⟨π, hπ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
+  have hπ0 : (π : K) ≠ 0 := fun h0 => hπ.ne_zero (Subtype.ext h0)
+  refine ⟨(Units.mk0 (π : K) hπ0) ^ k, ?_⟩
+  rw [normalizedValuation_zpow,
+    normalizedValuation_irreducible K π hπ (Units.mk0 (π : K) hπ0) rfl, mul_one]
 
 end Atlas.Knowledge
