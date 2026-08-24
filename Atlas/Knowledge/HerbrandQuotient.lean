@@ -34,7 +34,7 @@ group acting on `Lˣ`, will instantiate it.
   module has equal graded pieces, `q = 1`; proved.
 * `herbrandQuotient_mul` — the `ℚ`-valued form of multiplicativity; proved.
 * `HerbrandQuotient.card_identity_of_finiteIndex` — a stable subgroup of finite index has
-  the same graded counts: Serre's Corollary; proved.
+  the same graded counts: the inclusion case of Serre's Corollary; proved.
 * `HerbrandQuotient.card_H0_int` / `HerbrandQuotient.card_H1_int` — the trivial action on
   `ℤ` counts `n` and `1`; proved.
 * `HerbrandQuotient.card_H0_shiftAut` / `HerbrandQuotient.card_H1_shiftAut` — both graded

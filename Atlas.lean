@@ -72,6 +72,7 @@ import Atlas.Knowledge.GameJumpPair
 import Atlas.Knowledge.GameLevelDecomposition
 import Atlas.Knowledge.GamePathMeasure
 import Atlas.Knowledge.GameTransition
+import Atlas.Knowledge.GalUnits
 import Atlas.Knowledge.GaussReciprocity
 import Atlas.Knowledge.GlobalKroneckerWeber
 import Atlas.Knowledge.GlobalReciprocityLaw
@@ -91,6 +92,7 @@ import Atlas.Knowledge.HerbrandPsi
 import Atlas.Knowledge.HerbrandQuotient
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.HilbertClassField
+import Atlas.Knowledge.HilbertNinety
 import Atlas.Knowledge.HilbertProductFormula
 import Atlas.Knowledge.HodgeTateNumber
 import Atlas.Knowledge.IdealPowerResidueSymbol
