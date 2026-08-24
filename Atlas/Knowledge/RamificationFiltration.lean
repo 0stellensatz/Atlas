@@ -1,4 +1,5 @@
 import Mathlib
+import Atlas.Knowledge.ExistsValuativeExtension
 import Atlas.Knowledge.UpperRamificationGroup
 import Atlas.Knowledge.FilteredProfiniteGroup
 
@@ -30,7 +31,7 @@ filtration is described in `Atlas.Knowledge.WildInertiaSubgroup`.
 * `map_ramificationFiltration` — the filtration restricts onto each finite level, recorded
   ahead of its proof.
 * `ramificationFiltration_eq_upperRamificationGroup` — for finite `F` the limit recovers the
-  finite object, recorded ahead of its proof.
+  finite object.
 
 ## Implementation notes
 
@@ -40,9 +41,14 @@ each level is the comap along `AlgEquiv.restrictNormalHom`, and closedness is th
 of that restriction against the discreteness of a finite Galois group. Antitonicity,
 normality, and closedness hold with no hypotheses on `F` beyond `Field F` and `Algebra K F`:
 they are inherited levelwise, and an empty or degenerate index type only makes the infimum
-larger. The two recorded claims are where the mathematics lives—that the levelwise-constrained
-limit really surjects onto each level is the content of the source's inverse-limit
-construction, and needs the local-field hypotheses.
+larger. The finite-level statements need the local-field hypotheses: an intermediate field
+carries no valuative structure of its own, so each application of
+`Atlas.Knowledge.map_upperRamificationGroup` first equips it through
+`Atlas.Knowledge.exists_valuativeExtension`—that is the whole content of
+`ramificationFiltration_eq_upperRamificationGroup`, one Herbrand compatibility per level for
+one inclusion and injectivity of restriction to `⊤` for the other. What stays recorded is
+`map_ramificationFiltration`, the surjectivity of the limit onto each level, the content of
+the source's inverse-limit construction.
 
 ## References
 
@@ -130,11 +136,47 @@ theorem map_ramificationFiltration [TopologicalSpace K] [IsMixedCharLocalField K
   sorry
 
 /-- For a finite Galois extension the inverse-limit filtration recovers the finite-level
-object: `G (v) = G^v`. Claim recorded ahead of its proof
+object: `G (v) = G^v`
 ([Serre 1979, Chap. IV, §3, Rem. 1, p.75][Serre1979]). -/
 theorem ramificationFiltration_eq_upperRamificationGroup [TopologicalSpace K]
     [IsMixedCharLocalField K] [IsGalois K F] [FiniteDimensional K F] (v : ℝ) :
     ramificationFiltration K F v = upperRamificationGroup K F v := by
-  sorry
+  haveI : IsGalois K (⊤ : IntermediateField K F) :=
+    IsGalois.of_algEquiv IntermediateField.topEquiv.symm
+  let T : FiniteGaloisIntermediateField K F := ⟨⊤⟩
+  have hinjT : Function.Injective (AlgEquiv.restrictNormalHom (F := K) (K₁ := F) T) := by
+    intro σ τ h
+    ext x
+    have hσ := AlgEquiv.restrictNormal_commutes σ (T : IntermediateField K F)
+      ⟨x, IntermediateField.mem_top⟩
+    have hτ := AlgEquiv.restrictNormal_commutes τ (T : IntermediateField K F)
+      ⟨x, IntermediateField.mem_top⟩
+    have hval := congrArg (fun ρ : T ≃ₐ[K] T =>
+      (algebraMap (T : IntermediateField K F) F (ρ ⟨x, IntermediateField.mem_top⟩))) h
+    exact hσ.symm.trans (hval.trans hτ)
+  apply le_antisymm
+  · -- the limit constrains the top level, where restriction is injective
+    intro g hg
+    rw [mem_ramificationFiltration_iff] at hg
+    have hT := hg T
+    obtain ⟨vT, hvT⟩ := exists_valuativeExtension K T
+    letI := vT
+    haveI := hvT
+    haveI : FiniteDimensional (T : IntermediateField K F) F :=
+      Module.Finite.right K (T : IntermediateField K F) F
+    rw [← map_upperRamificationGroup K F T v] at hT
+    obtain ⟨g', hg'mem, hg'⟩ := hT
+    exact hinjT hg' ▸ hg'mem
+  · -- Herbrand compatibility pushes the finite object into every level
+    intro g hg
+    rw [mem_ramificationFiltration_iff]
+    intro E
+    obtain ⟨vE, hvE⟩ := exists_valuativeExtension K E
+    letI := vE
+    haveI := hvE
+    haveI : FiniteDimensional (E : IntermediateField K F) F :=
+      Module.Finite.right K (E : IntermediateField K F) F
+    rw [← map_upperRamificationGroup K F E v]
+    exact ⟨g, hg, rfl⟩
 
 end Atlas.Knowledge
