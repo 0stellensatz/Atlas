@@ -12,6 +12,11 @@ the Galois group is almost-membership in the fixed field, with a loss depending 
 `Atlas.Knowledge.axSenTate` consumes it after the Krull correspondence turns almost-invariance
 into a conjugate-diameter bound.
 
+## Main definitions
+
+* `ConjugateDiameterBound.chargeSum` — the accumulated charge of the induction: the sum of
+  the reciprocals `(p ^ i - p ^ (i - 1))⁻¹` over the levels up to `Nat.log p n`.
+
 ## Main statements
 
 * `conjugateDiameterBound` — Ax's Proposition 1: an element of the algebraic closure lies
@@ -32,9 +37,14 @@ by an automorphism over `F` is an isometry, because the norm of the algebraic cl
 spectral norm—and induction produces the fixed-field element near `β`, hence near `α`.
 
 The accumulated charge is bookkept additively in a real exponent: `chargeSum p n` is the sum
-of `(p ^ i - p ^ (i - 1))⁻¹` over `1 ≤ i ≤ Nat.log p n`, the bound of Ax's Lemma 4, and the
-headline relaxes it to the geometric-series bound `p / (p - 1) ^ 2` of his Proposition 1.
-Real powers of `p` carry it multiplicatively.
+of `(p ^ i - p ^ (i - 1))⁻¹` over the levels from `1` to `Nat.log p n`, the bound of Ax's
+Lemma 4, and the headline relaxes it to the geometric-series bound `p / (p - 1) ^ 2` of his
+Proposition 1. Real powers of `p` carry it multiplicatively. The three norm facts about the
+algebraic closure recorded alongside it—integers prime to `p` are units of the norm, `p` has
+norm the reciprocal of `p`, and `ℚ_[p]`-algebra automorphisms are isometric—read the spectral
+norm of `PadicAlgCl` against the base field; they live here rather than in
+`Atlas.Knowledge.PadicComplexGaloisAction` because that item is about the extension of the
+action to the completion, while the descent consumes the norm on the algebraic points.
 
 ## References
 
@@ -49,8 +59,9 @@ namespace Atlas.Knowledge
 namespace ConjugateDiameterBound
 
 /-- The accumulated charge of Ax's induction: the sum of `(p ^ i - p ^ (i - 1))⁻¹` over the
-`p`-power levels `1 ≤ i ≤ log_p n` ([Ax 1970, §2, Lemma 4, p.421][Ax1970], the sum
-`∑ (p^i - p^(i-1))⁻¹ ord p`). -/
+`p`-power levels from `1` to `Nat.log p n` ([Ax 1970, §2, Lemma 4, p.421][Ax1970], whose
+bound subtracts this sum times the valuation of `p`; here the sum stands alone because the
+loss is carried as an exponent of `p`). -/
 noncomputable def chargeSum (p n : ℕ) : ℝ :=
   ∑ i ∈ Finset.Icc 1 (Nat.log p n), ((p : ℝ) ^ i - (p : ℝ) ^ (i - 1))⁻¹
 
@@ -77,7 +88,8 @@ theorem chargeSum_mono (hp : 2 ≤ p) {m n : ℕ} (hmn : m ≤ n) :
   positivity
 
 /-- The inductive charge step: below a full `p`-power, the charge of the derivative's degree
-plus the new level's charge stays within the charge of `p ^ δ`. -/
+plus the new level's charge stays within the charge of `p ^ δ`
+([Ax 1970, §2, proof of Lemma 4, p.422][Ax1970]). -/
 theorem chargeSum_step (hp : 2 ≤ p) {δ m : ℕ} (hδ : 0 < δ)
     (hm : m ≤ p ^ δ - p ^ (δ - 1)) :
     chargeSum p m + ((p : ℝ) ^ δ - (p : ℝ) ^ (δ - 1))⁻¹ ≤ chargeSum p (p ^ δ) := by
@@ -110,7 +122,7 @@ theorem chargeSum_step (hp : 2 ≤ p) {δ m : ℕ} (hδ : 0 < δ)
   linarith
 
 /-- The geometric-series relaxation: the accumulated charge never exceeds `p / (p - 1) ^ 2`
-([Ax 1970, §2, Prop. 1, p.422][Ax1970]). -/
+([Ax 1970, §2, Prop. 1, pp.422–423][Ax1970], the summation identity of its proof). -/
 theorem chargeSum_le (hp : 2 ≤ p) (n : ℕ) :
     chargeSum p n ≤ (p : ℝ) / ((p : ℝ) - 1) ^ 2 := by
   have hp1 : (1 : ℝ) < p := by exact_mod_cast hp
@@ -171,7 +183,7 @@ theorem norm_algEquiv (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (x : Padi
 /-- Passing the diameter bound down a descent step: if `β` lies within `Δ` of `α` and the
 conjugates of `α` over `F` lie within `Δ` of `α`, the conjugates of `β` over `F` lie within
 `Δ` of `β`—conjugation over `F` is an isometry, and both legs of the detour through `α` are
-short. -/
+short ([Ax 1970, §2, proof of Lemma 4, p.421][Ax1970]). -/
 theorem conjugates_le (F : IntermediateField ℚ_[p] (PadicAlgCl p)) {α β : PadicAlgCl p}
     {Δ : ℝ} (hβα : ‖β - α‖ ≤ Δ)
     (hαconj : ∀ γ : PadicAlgCl p, (Polynomial.aeval γ) (minpoly ↥F α) = 0 → ‖γ - α‖ ≤ Δ) :
@@ -197,7 +209,7 @@ theorem conjugates_le (F : IntermediateField ℚ_[p] (PadicAlgCl p)) {α β : Pa
 
 /-- The descent: at minimal-polynomial degree `n` the loss is `p` raised to the accumulated
 charge `chargeSum p n`—strong induction on `n`, alternating the two zero-location lemmas of
-`Atlas.Knowledge.HasseDerivativeZeros` ([Ax 1970, §2, proof of Prop. 1, pp.421–422][Ax1970]). -/
+`Atlas.Knowledge.HasseDerivativeZeros` ([Ax 1970, §2, Lemma 4, pp.421–422][Ax1970]). -/
 private theorem descent (n : ℕ) :
     ∀ (F : IntermediateField ℚ_[p] (PadicAlgCl p)) (α : PadicAlgCl p) (Δ : ℝ), 0 ≤ Δ →
       (minpoly ↥F α).natDegree = n →

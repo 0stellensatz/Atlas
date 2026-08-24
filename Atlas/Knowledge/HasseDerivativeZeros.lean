@@ -9,10 +9,11 @@ nonarchimedean replacement for the Gauss–Lucas theorem, and the two lemmas bel
 form it takes. Which lemma applies is decided by the exact degree. When the degree is
 `p ^ δ * d₁` with `d₁` prime to `p` and larger than `1`, the `p ^ δ`th Hasse derivative already
 has a zero inside the ball, at no cost. When the degree is a bare power `p ^ δ`, no such lemma
-is available—`f = X ^ (p ^ δ)` has all its zeros at the center while every intermediate Hasse
-derivative is a monomial—and the `p ^ (δ - 1)`th Hasse derivative is only guaranteed a zero in
-the ball enlarged by the `(p ^ δ - p ^ (δ - 1))`th root of `‖(p : C)‖⁻¹`. That enlargement is
-where the ramification of the tower enters the Ax–Sen–Tate estimate.
+is available—at `p = 2` the polynomial `X * (X - 1)` has both zeros in the closed unit ball
+while its only first-derivative zero `1 / 2` lies at distance exactly `‖(2 : C)‖⁻¹` from the
+center—and the `p ^ (δ - 1)`th Hasse derivative is only guaranteed a zero in the ball enlarged
+by the `(p ^ δ - p ^ (δ - 1))`th root of `‖(p : C)‖⁻¹`. That enlargement is where the
+ramification of the tower enters the Ax–Sen–Tate estimate.
 
 The derivatives are the divided ones throughout. The iterated derivative satisfies
 `j ! • f.hasseDeriv j = (derivative^[j]) f`, so in residue characteristic `p` the factorial is
@@ -62,7 +63,7 @@ translated, and `HasseDerivativeZeros.hasseDeriv_taylor` transports the Hasse de
 the translation—the source's property (c), which Mathlib does not carry. That last lemma is the
 only piece of Ax's list of properties of the divided derivative that had to be proved here;
 (a), (b) and (d) are `Polynomial.hasseDeriv_coeff`, `Polynomial.factorial_smul_hasseDeriv` and
-`Polynomial.hasseDeriv_comp`.
+`Polynomial.taylor_coeff`.
 
 ## References
 
@@ -119,9 +120,9 @@ theorem hasseDeriv_taylor (k : ℕ) (c : C) (f : C[X]) :
   simp [Nat.choose_symm_add]
 
 omit [CharZero C] in
-/-- scaffolding: every coefficient of a monic polynomial whose roots all lie within `r` of
-`0` is bounded by the corresponding power of `r` (Ax's Lemma 1 in the crude form the two
-zero-location lemmas need) ([Ax 1970, §1, Lemma 1, p.418][Ax1970]). -/
+/-- Every coefficient of a monic polynomial whose roots all lie within `r` of `0` is bounded
+by the corresponding power of `r`—Ax's Lemma 1, in the crude form the two zero-location
+lemmas need ([Ax 1970, §1, Lemma 1, p.418][Ax1970]). -/
 theorem norm_coeff_le (f : Polynomial C) (hf : f.Monic) {r : ℝ} (hr : 0 ≤ r)
     (hroots : ∀ z : C, f.IsRoot z → ‖z‖ ≤ r) {i : ℕ} (hi : i ≤ f.natDegree) :
     ‖f.coeff i‖ ≤ r ^ (f.natDegree - i) := by
