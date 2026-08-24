@@ -232,6 +232,7 @@ import Atlas.Knowledge.TateTwistVanishing
 import Atlas.Knowledge.UnitFiltrationClassification
 import Atlas.Knowledge.UnitFiltrationQuasiFree
 import Atlas.Knowledge.UnitFiniteSupport
+import Atlas.Knowledge.UnitLevelFiniteIndex
 import Atlas.Knowledge.UnitPairFree
 import Atlas.Knowledge.UnitPairIndependence
 import Atlas.Knowledge.UnitPairOrbit

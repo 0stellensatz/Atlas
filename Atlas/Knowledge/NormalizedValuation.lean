@@ -26,6 +26,8 @@ negating.
 * `normalizedValuation_surjective` — the value group is all of `ℤ`; proved, through the
   value `1` on a uniformizer and the `zpow` law of the trio `normalizedValuation_one` /
   `normalizedValuation_inv` / `normalizedValuation_zpow`.
+* `normalizedValuationHom` / `mem_ker_normalizedValuationHom` — the bundled homomorphism
+  and its kernel, the valuation-one units; proved.
 
 ## Implementation notes
 
@@ -237,5 +239,44 @@ theorem normalizedValuation_surjective : Function.Surjective (normalizedValuatio
   refine ⟨(Units.mk0 (π : K) hπ0) ^ k, ?_⟩
   rw [normalizedValuation_zpow,
     normalizedValuation_irreducible K π hπ (Units.mk0 (π : K) hπ0) rfl, mul_one]
+
+/-- The normalized valuation bundled as a homomorphism into `Multiplicative ℤ` — the
+`ord_K` of the exact sequence `1 → U_K → Kˣ → ℤ → 1`, ready for the Herbrand machinery
+([Hyeon 2025, §3, p.10][Hyeon2025]). -/
+noncomputable def normalizedValuationHom : Kˣ →* Multiplicative ℤ :=
+  MonoidHom.mk' (fun x => Multiplicative.ofAdd (normalizedValuation K x))
+    (fun x y => by
+      rw [← ofAdd_add, normalizedValuation_mul])
+
+/-- **The kernel of the normalized valuation is the valuation-one units**: value `0`
+exactly at valuation `1`, by the sign anchor applied to the unit and to its inverse
+([Hyeon 2025, §3, p.10][Hyeon2025]). -/
+theorem mem_ker_normalizedValuationHom (x : Kˣ) :
+    x ∈ (normalizedValuationHom K).ker ↔ valuation K ((x : Kˣ) : K) = 1 := by
+  rw [MonoidHom.mem_ker]
+  constructor
+  · intro h0
+    have hz : normalizedValuation K x = 0 := by
+      have := congrArg Multiplicative.toAdd h0
+      simpa [normalizedValuationHom] using this
+    by_contra hne
+    rcases lt_or_gt_of_ne hne with hlt | hgt
+    · have := normalizedValuation_pos_of_lt_one K x hlt
+      omega
+    · have hxinv : valuation K ((x⁻¹ : Kˣ) : K) < 1 := by
+        have hmul : valuation K ((x : Kˣ) : K) * valuation K ((x⁻¹ : Kˣ) : K) = 1 := by
+          rw [← map_mul]
+          simp
+        have hinv : valuation K ((x⁻¹ : Kˣ) : K) = (valuation K ((x : Kˣ) : K))⁻¹ :=
+          eq_inv_of_mul_eq_one_right hmul
+        rw [hinv]
+        exact inv_lt_one_of_one_lt₀ hgt
+      have hpos := normalizedValuation_pos_of_lt_one K x⁻¹ hxinv
+      rw [normalizedValuation_inv] at hpos
+      omega
+  · intro h1
+    have := normalizedValuation_eq_zero_of_valuation_eq_one K x h1
+    rw [show (1 : Multiplicative ℤ) = Multiplicative.ofAdd 0 from rfl]
+    exact congrArg Multiplicative.ofAdd this
 
 end Atlas.Knowledge

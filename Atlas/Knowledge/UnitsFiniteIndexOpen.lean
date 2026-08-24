@@ -55,8 +55,7 @@ namespace Atlas.Knowledge
 variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
 /-- **Closed balls about the origin of nonzero radius are open**: the ultrametric
-inequality keeps the basic neighborhood of any member inside the ball
-([Milne 2020, Chap. III, Lemma 2.3, p.104][MilneCFT]). -/
+inequality keeps the basic neighborhood of any member inside the ball. -/
 theorem isOpen_valuation_le {γ : ValueGroupWithZero K} (hγ : γ ≠ 0) :
     IsOpen {y : K | valuation K y ≤ γ} := by
   rw [isOpen_iff_mem_nhds]
@@ -68,8 +67,7 @@ theorem isOpen_valuation_le {γ : ValueGroupWithZero K} (hγ : γ ≠ 0) :
 
 /-- **The higher unit group is open**: it is the preimage in `Kˣ` of a translated closed
 ball — its members are the units congruent to `1` modulo the `i`-th ideal power, and that
-congruence reads as a valuation inequality on `x - 1`
-([Milne 2020, Chap. III, Lemma 2.3, p.104][MilneCFT]). -/
+congruence reads as a valuation inequality on `x - 1`. -/
 theorem higherUnitGroup_isOpen (i : ℕ+) :
     IsOpen (higherUnitGroup K i : Set Kˣ) := by
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
