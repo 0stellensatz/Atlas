@@ -155,15 +155,15 @@ private theorem neg_one_le_toAdd_unzero {a : WithZero (Multiplicative ℤ)} (ha 
     simpa using Multiplicative.toAdd_le.mpr hle
 
 /-- Uniformizers — irreducibles of the integer ring, read in `Kˣ` — have normalized valuation
-exactly `1`: the value of an irreducible is nonzero and strictly below one, and it bounds
-from below every value strictly below one, because the maximal ideal is what the irreducible
+exactly `1`: the value of an irreducible is nonzero and strictly below one, and it dominates
+every value strictly below one, because the maximal ideal is what the irreducible
 generates — under the order isomorphism that pins `ofAdd (-1)`, and the normalization negates
 ([Serre 1979, Chap. XIII, §4, Prop. 13, p.197][Serre1979];
 [Yamaguchi 2026, `LocalFieldTheory/NonarchimedeanLocalField/IdealQuotients.lean:204`, sign
 reversed][Yamaguchi2026]). -/
 theorem normalizedValuation_irreducible (π : 𝒪[K]) (hπ : Irreducible π) (x : Kˣ)
     (hx : (x : K) = (π : K)) : normalizedValuation K x = 1 := by
-  set e := IsNonarchimedeanLocalField.valueGroupWithZeroIsoInt K with hedef
+  set e := IsNonarchimedeanLocalField.valueGroupWithZeroIsoInt K
   have hint := Valuation.integer.integers (v := valuation K)
   -- the uniformizer's value sits strictly below one
   have hvlt : valuation K (x : K) < 1 := by

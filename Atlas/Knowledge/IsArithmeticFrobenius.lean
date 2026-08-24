@@ -315,8 +315,7 @@ theorem orderOf_of_isArithmeticFrobenius [FiniteDimensional K L] [IsGalois K L]
 
 /-- The arithmetic Frobenius of a finite Galois unramified extension generates the Galois
 group: its cyclic subgroup has cardinality its order, which is the degree, which is the
-cardinality of the whole group
-([Milne 2020, Chap. I, §1, p.20][MilneCFT];
+cardinality of the whole group ([Milne 2020, Chap. I, §1, p.20][MilneCFT];
 [Yamaguchi 2026, `LocalFieldTheory/NonarchimedeanLocalField/UnramifiedFrobenius.lean:377`]
 [Yamaguchi2026]). -/
 theorem zpowers_of_isArithmeticFrobenius [FiniteDimensional K L] [IsGalois K L]

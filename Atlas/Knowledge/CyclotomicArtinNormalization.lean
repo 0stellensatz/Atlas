@@ -20,7 +20,8 @@ proved from that characterization alone — no reciprocity map is constructed he
 
 ## Main statements
 
-* `cyclotomicArtinNormalization` — proved.
+* `cyclotomicArtinNormalization` — the uniformizer class at `q ∤ m` restricts on the floor
+  to `ζ ↦ ζ ^ q`; proved.
 
 ## Implementation notes
 
@@ -31,23 +32,21 @@ of them, and reduction is injective on `m`-th roots of unity at primes away from
 which pins the `galEquivZMod` class to `[q]`. The proof follows exactly that route, on
 one chosen prime over `q`, with the unramifiedness supplied by the cyclotomic
 ramification theory of the pinned Mathlib and carried from `ℤ` to `𝓞 ℚ` by restriction
-of scalars. The source's transported definition — the
-Frobenius as a `Gal` element built from its own reciprocity map
-(`KroneckerWeber/RationalRayClassFieldCyclotomic.lean:492`) — is subsumed rather than
-ported: the source *constructs* the reciprocity value where Atlas *characterizes* it, as
-`Atlas.Knowledge.IsFinitePlaceHilbertSymbol` does for the local symbol, so the
-characterization-only Artin layer already names the transported automorphism as a
-restriction. The statement's shape moves once against the source: the source computes on
-the concrete `CyclotomicField m ℚ`, where this claim quantifies over the level-`m`
-floors of `ℚ^ab` — the form the restriction vocabulary forces — and neither statement
-implies the other without identifying `CyclotomicField m ℚ` with such a floor. Two
-`letI` bindings sit in statement position because pinned Mathlib fails to *synthesize*
-`Normal` and `NumberField` for a `FiniteGaloisIntermediateField` floor at `K := ℚ`,
-though the instance values themselves typecheck and `FiniteDimensional` synthesizes
-fine; the `NumberField` binding is `Atlas.Knowledge.IsGlobalArtinMap`'s own idiom, which
-at generic `K` needs no other. Milne's Introduction statement restricts `m` to
-be odd or divisible by `4`; `galEquivZMod` needs no such restriction, so neither does
-this statement.
+of scalars. The source's transported definition — the Frobenius as a `Gal` element built
+from its own reciprocity map (`KroneckerWeber/RationalRayClassFieldCyclotomic.lean:492`) —
+is subsumed rather than ported: the source *constructs* the reciprocity value where Atlas
+*characterizes* it, as `Atlas.Knowledge.IsFinitePlaceHilbertSymbol` does for the local
+symbol, so the characterization-only Artin layer already names the transported
+automorphism as a restriction. The statement's shape moves once against the source: the
+source computes on the concrete `CyclotomicField m ℚ`, where this claim quantifies over
+the level-`m` floors of `ℚ^ab` — the form the restriction vocabulary forces — and neither
+statement implies the other without identifying `CyclotomicField m ℚ` with such a floor.
+Two `letI` bindings sit in statement position because pinned Mathlib fails to *synthesize*
+`Normal` and `NumberField` for a `FiniteGaloisIntermediateField` floor at `K := ℚ`, though
+the instance values themselves typecheck and `FiniteDimensional` synthesizes fine; the
+`NumberField` binding is `Atlas.Knowledge.IsGlobalArtinMap`'s own idiom, which at generic
+`K` needs no other. Milne's Introduction statement restricts `m` to be odd or divisible by
+`4`; `galEquivZMod` needs no such restriction, so neither does this statement.
 
 ## References
 
@@ -89,9 +88,6 @@ theorem cyclotomicArtinNormalization
       ZMod.unitOfCoprime q (hq.coprime_iff_not_dvd.mpr hqm) := by
   letI : Normal ℚ L := L.isGalois.to_normal
   letI : NumberField L := NumberField.of_module_finite ℚ L
-  change IsCyclotomicExtension.Rat.galEquivZMod m L
-      (AlgEquiv.restrictNormalHom L (φ (finitePlaceIdeleClass v π))) =
-    ZMod.unitOfCoprime q (hq.coprime_iff_not_dvd.mpr hqm)
   haveI : Fact (Nat.Prime q) := ⟨hq⟩
   -- the base algebra map is an isomorphism, `𝓞 ℚ` being `ℤ` in other clothes
   have halg : Function.Bijective (algebraMap ℤ (𝓞 ℚ)) := by
@@ -124,7 +120,7 @@ theorem cyclotomicArtinNormalization
   haveI := hPprime
   haveI := hPover
   have hPbot : P ≠ ⊥ := Ideal.ne_bot_of_liesOver_of_ne_bot v.ne_bot P
-  set w : IsDedekindDomain.HeightOneSpectrum (𝓞 L) := ⟨P, hPprime, hPbot⟩ with hwdef
+  set w : IsDedekindDomain.HeightOneSpectrum (𝓞 L) := ⟨P, hPprime, hPbot⟩
   -- the Artin value is an arithmetic Frobenius at `w`
   have harith := hφ L v π hπ hunram w hPover
   -- the residue cardinality at the base is `q`
