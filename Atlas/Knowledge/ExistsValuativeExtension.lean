@@ -1,12 +1,11 @@
 import Mathlib
-import Atlas.Knowledge.IsMixedCharLocalField
 
 /-!
 # existence of a valuative extension
 
-The valuation of a mixed-characteristic local field prolongs to any finite extension: on `L`
-finite over `K` there is a valuative relation whose restriction along `algebraMap K L` is the
-relation of `K`—the structure `ValuativeExtension K L` asks for, produced rather than assumed.
+The valuative relation of a field prolongs to any field extension: on `L` over `K` there is a
+valuative relation whose restriction along `algebraMap K L` is the relation of `K`—the
+structure `ValuativeExtension K L` asks for, produced rather than assumed.
 This is what lets the tower statements of `Atlas.Knowledge.HerbrandPhi` and
 `Atlas.Knowledge.UpperRamificationGroup`, which hypothesize `[ValuativeRel E]` and
 `[ValuativeExtension K E]` on an abstract middle field, apply to an intermediate field of a
@@ -16,26 +15,27 @@ at every finite Galois subextension.
 
 ## Main statements
 
-* `exists_valuativeExtension` — a valuative relation extending that of `K` exists on a finite
-  extension of a mixed-characteristic local field.
+* `exists_valuativeExtension` — a valuative relation extending that of `K` exists on any
+  field extension of `K`.
 
 ## Implementation notes
 
-The statement records the existence half of the source's corollary, at the source's
-hypotheses; the uniqueness half is deliberately not recorded, as no consumer compares two
-structures—the same division `Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField` makes for
-the full carrier signature, whose existence form (with the topology conjoined) remains a
-recorded claim there. The proof here is not the source's completeness argument but Chevalley's
-extension theorem, which Mathlib carries as `LocalSubring.exists_le_valuationSubring`: the
-image of `𝒪[K]` in `L` is a local subring, some valuation subring `B` of `L` dominates it,
-and domination forces the trace of `B` on `K` to be `𝒪[K]`—a valuation ring is maximal under
-domination in its fraction field, rendered here elementwise: an `x` with
-`1 < valuation K x` puts `x⁻¹` in the maximal ideal of the image, hence in the maximal ideal
-of `B` by locality of the inclusion, and `algebraMap K L x ∈ B` would make the image of
-`x⁻¹` a unit of `B`. The valuative relation of `B.valuation` then restricts to that of `K`
-by comparing `a / b` against the unit ball on both sides. Completeness and finiteness are
-not consumed; they are kept because the item transcribes the source's statement, not the
-proof's generality.
+The statement records the existence half only; the uniqueness half of the source's corollary
+is deliberately not recorded, as no consumer compares two structures—the same division
+`Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField` makes for the full carrier signature,
+whose existence form (with the topology conjoined) remains a recorded claim there. The
+statement is broader than the source's: the proof is not the source's completeness argument
+but Chevalley's extension theorem, which needs neither completeness nor finiteness nor a
+discrete value group, so the item is recorded in that generality and the source is cited for
+the classical case that motivates it. Mathlib carries the theorem as
+`LocalSubring.exists_le_valuationSubring`: the image of `𝒪[K]` in `L` is a local subring,
+some valuation subring `B` of `L` dominates it, and domination forces the trace of `B` on
+`K` to be `𝒪[K]`—a valuation ring is maximal under domination in its fraction field,
+rendered here elementwise: an `x` with `1 < valuation K x` puts `x⁻¹` in the maximal ideal
+of the image, hence in the maximal ideal of `B` by locality of the inclusion, and
+`algebraMap K L x ∈ B` would make the image of `x⁻¹` a unit of `B`. The valuative relation
+of `B.valuation` then restricts to that of `K` by comparing `a / b` against the unit ball on
+both sides.
 
 ## References
 
@@ -47,11 +47,12 @@ open ValuativeRel
 
 namespace Atlas.Knowledge
 
-/-- The valuation of a mixed-characteristic local field prolongs to a finite extension: a
-valuative relation on `L` restricting along `algebraMap K L` to the relation of `K` exists
-([Serre 1979, Chap. II, §2, Cor. 2, p.29][Serre1979]). -/
-theorem exists_valuativeExtension (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
-    [IsMixedCharLocalField K] (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L] :
+/-- The valuative relation of a field prolongs to any field extension: a valuative relation
+on `L` restricting along `algebraMap K L` to the relation of `K` exists—Chevalley's extension
+theorem, of which the source states the finite-extension case over a complete discretely
+valued field ([Serre 1979, Chap. II, §2, Cor. 2, p.29][Serre1979]). -/
+theorem exists_valuativeExtension (K : Type*) [Field K] [ValuativeRel K] (L : Type*)
+    [Field L] [Algebra K L] :
     ∃ _ : ValuativeRel L, ValuativeExtension K L := by
   have hinj : Function.Injective (algebraMap K L) := (algebraMap K L).injective
   -- the image of `𝒪[K]` in `L` as a local subring, and a valuation subring dominating it
