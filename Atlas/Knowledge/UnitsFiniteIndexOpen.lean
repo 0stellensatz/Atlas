@@ -37,8 +37,8 @@ here instead runs through the layer's own deep unit groups: on a deep level
 ideal powers of `p`, hence closed balls of nonzero radius. The image of that sublattice in
 `Kˣ` is then an open subgroup inside `(Kˣ) ^ n`, and a subgroup above an open subgroup is
 open. The openness of the levels `U i (K)` themselves is the ultrametric fact that closed
-balls are open; both are public since `Atlas.Knowledge.unitLevelFiniteIndex` consumes them
-on the extension field.
+balls are open; both are public — the level openness for
+`Atlas.Knowledge.unitLevelFiniteIndex`, the ball for `Atlas.Knowledge.galIdealPowCounts`.
 
 ## References
 

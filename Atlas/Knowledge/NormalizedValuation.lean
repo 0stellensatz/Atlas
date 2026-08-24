@@ -16,6 +16,10 @@ negating.
 
 * `normalizedValuation` — `v : Kˣ → ℤ`, uniformizer ↦ `+1`.
 
+## Main definitions
+
+* `normalizedValuationHom` — the map bundled as a homomorphism into `Multiplicative ℤ`.
+
 ## Main statements
 
 * `normalizedValuation_mul` — additivity on products.
@@ -26,8 +30,8 @@ negating.
 * `normalizedValuation_surjective` — the value group is all of `ℤ`; proved, through the
   value `1` on a uniformizer and the `zpow` law of the trio `normalizedValuation_one` /
   `normalizedValuation_inv` / `normalizedValuation_zpow`.
-* `normalizedValuationHom` / `mem_ker_normalizedValuationHom` — the bundled homomorphism
-  and its kernel, the valuation-one units; proved.
+* `mem_ker_normalizedValuationHom` / `ker_normalizedValuationHom` — the bundled
+  homomorphism's kernel is the valuation-one units, the unit group of the integers; proved.
 
 ## Implementation notes
 
@@ -40,9 +44,10 @@ readout instead — its `valuationMap`
 uniformizers per `LocalFieldTheory/NonarchimedeanLocalField/IdealQuotients.lean:204`) calls
 itself inverse-standard out loud (`ValuationExactSequence.lean:82`) — so any port of its
 proofs into this vocabulary must compose with negation; the
-convention fork is deliberate and must not be repaired silently from either side. The map is
-kept a bare function with a multiplicativity lemma rather than a bundled `MonoidHom` into
-`Multiplicative ℤ`: every consumer writes `σ ^ v x`, where the bare form reads correctly.
+convention fork is deliberate and must not be repaired silently from either side. The map
+lives twice: as a bare function with a multiplicativity lemma — consumers writing `σ ^ v x`
+read the bare form correctly — and bundled as `normalizedValuationHom` into
+`Multiplicative ℤ` for the consumers that feed it to the Herbrand machinery.
 
 ## References
 
@@ -252,7 +257,7 @@ noncomputable def normalizedValuationHom : Kˣ →* Multiplicative ℤ :=
 exactly at valuation `1`, by the sign anchor applied to the unit and to its inverse
 ([Hyeon 2025, §3, p.10][Hyeon2025]). -/
 theorem mem_ker_normalizedValuationHom (x : Kˣ) :
-    x ∈ (normalizedValuationHom K).ker ↔ valuation K ((x : Kˣ) : K) = 1 := by
+    x ∈ (normalizedValuationHom K).ker ↔ valuation K (x : K) = 1 := by
   rw [MonoidHom.mem_ker]
   constructor
   · intro h0
@@ -278,5 +283,30 @@ theorem mem_ker_normalizedValuationHom (x : Kˣ) :
     have := normalizedValuation_eq_zero_of_valuation_eq_one K x h1
     rw [show (1 : Multiplicative ℤ) = Multiplicative.ofAdd 0 from rfl]
     exact congrArg Multiplicative.ofAdd this
+
+/-- **The kernel is the unit group of the integers**: value `0` exactly on `𝒪[K]ˣ` — the
+identity that makes the classical `U_K` and this kernel the same subgroup of `Kˣ`, not
+merely isomorphic ones ([Hyeon 2025, §3, p.10][Hyeon2025]). -/
+theorem ker_normalizedValuationHom :
+    (normalizedValuationHom K).ker = (𝒪[K].toSubmonoid).units := by
+  ext x
+  have hmul : valuation K (x : K) * valuation K ((x⁻¹ : Kˣ) : K) = 1 := by
+    rw [← map_mul]
+    simp
+  rw [mem_ker_normalizedValuationHom, Submonoid.mem_units_iff]
+  constructor
+  · intro h
+    have hinv : valuation K ((x⁻¹ : Kˣ) : K) = 1 := by
+      rw [h, one_mul] at hmul
+      exact hmul
+    exact ⟨(Valuation.mem_integer_iff _ _).mpr h.le,
+      (Valuation.mem_integer_iff _ _).mpr hinv.le⟩
+  · rintro ⟨h1, h2⟩
+    have h1' : valuation K (x : K) ≤ 1 := (Valuation.mem_integer_iff _ _).mp h1
+    have h2' : valuation K ((x⁻¹ : Kˣ) : K) ≤ 1 := (Valuation.mem_integer_iff _ _).mp h2
+    refine le_antisymm h1' ?_
+    calc (1 : ValueGroupWithZero K)
+        = valuation K (x : K) * valuation K ((x⁻¹ : Kˣ) : K) := hmul.symm
+    _ ≤ valuation K (x : K) := mul_le_of_le_one_right' h2'
 
 end Atlas.Knowledge
