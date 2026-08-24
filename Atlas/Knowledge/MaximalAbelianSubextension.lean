@@ -24,13 +24,12 @@ compositum-of-abelian-is-abelian fact that makes it deserve its name, and what c
 
 Defined by the lattice supremum rather than as a fixed field of the commutator, so that no
 Galois hypothesis on `L/K` enters: Milne's norm limitation (Chap. VIII, Thm. 4.8) takes an
-arbitrary finite extension. The source
-works instead inside a chosen normal closure
+arbitrary finite extension. The source works instead inside a chosen normal closure
 (`AlgebraicNumberTheory/Galois/MaximalAbelianSubextension.lean:47`), fixing the commutator
 together with the fixing subgroup of the embedded field — the same subfield through its
 Galois-closed model. The abelianness proof stays in the lattice: Mathlib's `normal_iSup`
-and `isSeparable_iSup` make the supremum Galois, and commutativity is checked on the
-adjoin generators — each generator lies in an abelian member, which is normal, so both
+and `isSeparable_iSup` make the supremum Galois, and commutativity is checked on the adjoin
+generators — each generator lies in an abelian member, which is normal, so both
 automorphisms restrict to it and commute there.
 
 ## References

@@ -24,7 +24,8 @@ and the order are proved here, and the generation claim is recorded ahead of its
 
 * `isArithmeticFrobenius_unique` / `exists_isArithmeticFrobenius` — over an unramified
   extension (trivial inertia, `G_0 = ⊥`) there is exactly one arithmetic Frobenius; both
-  proved.
+  proved, and only uniqueness uses the unramifiedness — existence carries the hypothesis in
+  its statement alone.
 * `orderOf_of_isArithmeticFrobenius` / `zpowers_of_isArithmeticFrobenius` — its order is the
   degree, proved; and it generates, recorded ahead of its proof.
 
