@@ -14,7 +14,7 @@ definition read literally — no residue-action isomorphism is constructed to st
 is the element the unramified normalization of the Artin map
 (`Atlas.Knowledge.IsFrobeniusNormalized`) points at. Over an unramified extension the
 predicate pins a unique element, which generates the Galois group; existence, uniqueness,
-and the order are proved here, and the generation claim is recorded ahead of its proof.
+the order, and the generation are all proved here.
 
 ## Main definitions
 
@@ -27,7 +27,7 @@ and the order are proved here, and the generation claim is recorded ahead of its
   proved, and only uniqueness uses the unramifiedness — existence carries the hypothesis in
   its statement alone.
 * `orderOf_of_isArithmeticFrobenius` / `zpowers_of_isArithmeticFrobenius` — its order is the
-  degree, proved; and it generates, recorded ahead of its proof.
+  degree and it generates; both proved.
 
 ## Implementation notes
 
@@ -314,13 +314,16 @@ theorem orderOf_of_isArithmeticFrobenius [FiniteDimensional K L] [IsGalois K L]
     IsGalois.card_aut_eq_finrank]
 
 /-- The arithmetic Frobenius of a finite Galois unramified extension generates the Galois
-group. Claim recorded ahead of its proof
+group: its cyclic subgroup has cardinality its order, which is the degree, which is the
+cardinality of the whole group
 ([Milne 2020, Chap. I, §1, p.20][MilneCFT];
 [Yamaguchi 2026, `LocalFieldTheory/NonarchimedeanLocalField/UnramifiedFrobenius.lean:377`]
 [Yamaguchi2026]). -/
 theorem zpowers_of_isArithmeticFrobenius [FiniteDimensional K L] [IsGalois K L]
     (h : lowerRamificationGroup K L 0 = ⊥) {σ : L ≃ₐ[K] L}
     (hσ : IsArithmeticFrobenius K L σ) : Subgroup.zpowers σ = ⊤ := by
-  sorry
+  refine Subgroup.eq_top_of_card_eq _ ?_
+  rw [Nat.card_zpowers, orderOf_of_isArithmeticFrobenius K L h hσ]
+  exact (IsGalois.card_aut_eq_finrank K L).symm
 
 end Atlas.Knowledge

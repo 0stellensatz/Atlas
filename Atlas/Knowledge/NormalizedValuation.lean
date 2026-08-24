@@ -22,8 +22,7 @@ negating.
 * `normalizedValuation_pos_of_lt_one` — elements of valuation `< 1` have positive value: the
   sign anchor that machine-pins the orientation.
 * `normalizedValuation_eq_zero_of_valuation_eq_one` — units of the integer ring have value `0`.
-* `normalizedValuation_irreducible` — uniformizers have value exactly `1`, recorded ahead of
-  its proof.
+* `normalizedValuation_irreducible` — uniformizers have value exactly `1`; proved.
 * `normalizedValuation_surjective` — the value group is all of `ℤ`, recorded ahead of its
   proof.
 
@@ -145,14 +144,60 @@ theorem normalizedValuation_eq_zero_of_valuation_eq_one (x : Kˣ)
   unfold normalizedValuation
   omega
 
+private theorem neg_one_le_toAdd_unzero {a : WithZero (Multiplicative ℤ)} (ha : a ≠ 0)
+    (hle : ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) ≤ a) :
+    -1 ≤ Multiplicative.toAdd (WithZero.unzero ha) := by
+  cases a with
+  | zero => exact absurd rfl ha
+  | coe d =>
+    rw [WithZero.unzero_coe]
+    rw [WithZero.coe_le_coe] at hle
+    simpa using Multiplicative.toAdd_le.mpr hle
+
 /-- Uniformizers — irreducibles of the integer ring, read in `Kˣ` — have normalized valuation
-exactly `1`. Claim recorded ahead of its proof
+exactly `1`: the value of an irreducible is nonzero and strictly below one, and it bounds
+from below every value strictly below one, because the maximal ideal is what the irreducible
+generates — under the order isomorphism that pins `ofAdd (-1)`, and the normalization negates
 ([Serre 1979, Chap. XIII, §4, Prop. 13, p.197][Serre1979];
 [Yamaguchi 2026, `LocalFieldTheory/NonarchimedeanLocalField/IdealQuotients.lean:204`, sign
 reversed][Yamaguchi2026]). -/
 theorem normalizedValuation_irreducible (π : 𝒪[K]) (hπ : Irreducible π) (x : Kˣ)
     (hx : (x : K) = (π : K)) : normalizedValuation K x = 1 := by
-  sorry
+  set e := IsNonarchimedeanLocalField.valueGroupWithZeroIsoInt K with hedef
+  have hint := Valuation.integer.integers (v := valuation K)
+  -- the uniformizer's value sits strictly below one
+  have hvlt : valuation K (x : K) < 1 := by
+    rw [hx]
+    exact hint.valuation_irreducible_lt_one hπ
+  have hglt : e (valuation K (x : K)) < 1 := by
+    have := e.strictMono hvlt
+    rwa [map_one] at this
+  -- an element of value exactly `ofAdd (-1)`, which the uniformizer divides
+  obtain ⟨γ, hγ⟩ := EquivLike.surjective e
+    ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ))
+  obtain ⟨b, rfl⟩ := ValuativeRel.valuation_surjective γ
+  have hblt : valuation K b < 1 := by
+    have h1 : e (valuation K b) < e 1 := by
+      rw [hγ, map_one]
+      exact WithZero.coe_lt_one.mpr (by decide)
+    exact e.strictMono.lt_iff_lt.mp h1
+  have hbmem : b ∈ 𝒪[K] := (Valuation.mem_integer_iff _ _).mpr hblt.le
+  have hdvd : π ∣ (⟨b, hbmem⟩ : 𝒪[K]) := by
+    rw [← Ideal.mem_span_singleton,
+      ← (IsDiscreteValuationRing.irreducible_iff_uniformizer π).mp hπ]
+    exact (IsLocalRing.mem_maximalIdeal _).mpr
+      (mem_nonunits_iff.mpr (Valuation.Integer.not_isUnit_iff_valuation_lt_one.mpr hblt))
+  have hle : valuation K b ≤ valuation K (x : K) := by
+    rw [hx]
+    exact hint.le_iff_dvd.mpr hdvd
+  have hgle : ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) :
+      WithZero (Multiplicative ℤ)) ≤ e (valuation K (x : K)) := by
+    rw [← hγ]
+    exact e.strictMono.le_iff_le.mpr hle
+  have h1 := toAdd_unzero_lt_zero (a := e (valuation K (x : K))) (by simp) hglt
+  have h2 := neg_one_le_toAdd_unzero (a := e (valuation K (x : K))) (by simp) hgle
+  unfold normalizedValuation
+  omega
 
 /-- The normalized valuation is surjective onto `ℤ`: the valuation is discrete and the
 normalization exact, `ord_K` in the split exact sequence `1 → U_K → Kˣ → ℤ → 1`. Claim
