@@ -166,6 +166,7 @@ import Atlas.Knowledge.MonogenicIntegralClosure
 import Atlas.Knowledge.NormLimitation
 import Atlas.Knowledge.NormOneIdeleClassIsCompact
 import Atlas.Knowledge.NormalizedValuation
+import Atlas.Knowledge.NormalizedValuationAlgEquiv
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.PadicCoefficientEmbedding
 import Atlas.Knowledge.PadicComplexGaloisAction

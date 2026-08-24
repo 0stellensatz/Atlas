@@ -20,6 +20,9 @@ group acting on `Lˣ`, will instantiate it.
 * `HerbrandQuotient.norm`, `HerbrandQuotient.diff` — the two arrows of the action.
 * `HerbrandQuotient.H0`, `HerbrandQuotient.H1` — the mod-2 graded Tate pieces of the action.
 * `herbrandQuotient` — their cardinality ratio in `ℚ`.
+* `HerbrandQuotient.stableRestrict` / `HerbrandQuotient.stableQuotient` — the action on a
+  stable subgroup and on its quotient.
+* `HerbrandQuotient.shiftAut` — the shift of the co-induced module `ZMod n → M`.
 
 ## Main statements
 
@@ -30,6 +33,13 @@ group acting on `Lˣ`, will instantiate it.
 * `HerbrandQuotient.card_H0_eq_card_H1_of_finite` / `herbrandQuotient_finite` — a finite
   module has equal graded pieces, `q = 1`; proved.
 * `herbrandQuotient_mul` — the `ℚ`-valued form of multiplicativity; proved.
+* `HerbrandQuotient.card_identity_of_finiteIndex` — a stable subgroup of finite index has
+  the same graded counts: Serre's Corollary; proved.
+* `HerbrandQuotient.card_H0_int` / `HerbrandQuotient.card_H1_int` — the trivial action on
+  `ℤ` counts `n` and `1`; proved.
+* `HerbrandQuotient.shiftAut_norm_range_eq_top` /
+  `HerbrandQuotient.shiftAut_ker_norm_le_range_diff` — both graded pieces of the co-induced
+  module are trivial; proved.
 
 ## Implementation notes
 
@@ -49,8 +59,10 @@ Tate and group cohomology deliberately: the pinned
 isomorphisms pointwise but not their naturality, which is what the count needs, and the
 elementary route keeps the eventual consumer on `Lˣ` multiplicatively, with no
 `Rep`/`Additive` transport. The source proves the same count through Mathlib's homology
-long exact sequence over its own periodic complex instead; the trivial-`ℤ` computation that
-completes Serre's toolkit is deliberately left to the tranche phase that consumes it.
+long exact sequence over its own periodic complex instead. The toolkit closes with the
+stability layer, the trivial-`ℤ` counts, and the co-induced module's vanishing — the four
+inputs the norm-index computation of the class field axiom will consume, staged here so
+that the consuming phase carries only the arithmetic.
 
 ## References
 
@@ -691,6 +703,382 @@ theorem card_H0_eq_card_H1_of_finite (hσ : σ ^ n = 1) [Finite A] :
   exact Nat.eq_of_mul_eq_mul_right (Nat.mul_pos Nat.card_pos Nat.card_pos) key
 
 end Finiteness
+
+/-!
+Stability: a subgroup preserved by the action carries the restricted automorphism, its
+quotient the descended one, and a stable subgroup of finite index leaves the graded counts
+unchanged — Serre's Corollary to Propositions 7 and 8.
+-/
+
+/-- The restriction of the action to a stable subgroup. Stability is asked in both
+directions because `σ ^ n = 1` is not data here; at `n = 0` the inverse direction is not a
+consequence ([Serre 1979, Chap. VIII, §4, p.134][Serre1979]). -/
+def stableRestrict (σ : A ≃* A) (N : Subgroup A) (hN : ∀ x ∈ N, σ x ∈ N)
+    (hN' : ∀ x ∈ N, σ.symm x ∈ N) : ↥N ≃* ↥N where
+  toFun x := ⟨σ x, hN x x.2⟩
+  invFun x := ⟨σ.symm x, hN' x x.2⟩
+  left_inv x := Subtype.ext (σ.symm_apply_apply (x : A))
+  right_inv x := Subtype.ext (σ.apply_symm_apply (x : A))
+  map_mul' x y := Subtype.ext (map_mul σ (x : A) (y : A))
+
+/-- The descent of the action to the quotient by a stable subgroup
+([Serre 1979, Chap. VIII, §4, p.134][Serre1979]). -/
+noncomputable def stableQuotient (σ : A ≃* A) (N : Subgroup A) (hN : ∀ x ∈ N, σ x ∈ N)
+    (hN' : ∀ x ∈ N, σ.symm x ∈ N) : (A ⧸ N) ≃* (A ⧸ N) := by
+  refine MonoidHom.toMulEquiv
+    (QuotientGroup.map N N (σ : A →* A) (fun x hx => hN x hx))
+    (QuotientGroup.map N N (σ.symm : A →* A) (fun x hx => hN' x hx)) ?_ ?_
+  · ext a
+    simp
+  · ext a
+    simp
+
+/-- The restricted action inherits `σ ^ n = 1`. -/
+theorem stableRestrict_pow (σ : A ≃* A) {n : ℕ} (hσ : σ ^ n = 1) (N : Subgroup A)
+    (hN : ∀ x ∈ N, σ x ∈ N) (hN' : ∀ x ∈ N, σ.symm x ∈ N) :
+    stableRestrict σ N hN hN' ^ n = 1 := by
+  ext x
+  have hpow : ∀ (k : ℕ) (y : ↥N),
+      ((stableRestrict σ N hN hN' ^ k) y : A) = (σ ^ k) (y : A) := by
+    intro k
+    induction k with
+    | zero => intro y; rfl
+    | succ m ih =>
+      intro y
+      have h1 : (stableRestrict σ N hN hN' ^ (m + 1)) y =
+          (stableRestrict σ N hN hN' ^ m) (stableRestrict σ N hN hN' y) := by
+        rw [pow_succ]
+        rfl
+      have h2 : (σ ^ (m + 1) : A ≃* A) (y : A) = (σ ^ m : A ≃* A) (σ (y : A)) := by
+        rw [pow_succ]
+        rfl
+      rw [h1, h2, ih (stableRestrict σ N hN hN' y)]
+      rfl
+  have := hpow n x
+  rw [hσ] at this
+  exact this
+
+/-- The descended action inherits `σ ^ n = 1`. -/
+theorem stableQuotient_pow (σ : A ≃* A) {n : ℕ} (hσ : σ ^ n = 1) (N : Subgroup A)
+    (hN : ∀ x ∈ N, σ x ∈ N) (hN' : ∀ x ∈ N, σ.symm x ∈ N) :
+    stableQuotient σ N hN hN' ^ n = 1 := by
+  have hpow : ∀ (k : ℕ) (b : A), ((stableQuotient σ N hN hN' ^ k)
+      (QuotientGroup.mk b) : A ⧸ N) = QuotientGroup.mk ((σ ^ k : A ≃* A) b) := by
+    intro k
+    induction k with
+    | zero => intro b; rfl
+    | succ m ih =>
+      intro b
+      have h1 : (stableQuotient σ N hN hN' ^ (m + 1)) (QuotientGroup.mk b) =
+          (stableQuotient σ N hN hN' ^ m)
+            (stableQuotient σ N hN hN' (QuotientGroup.mk b)) := by
+        rw [pow_succ]
+        rfl
+      have h2 : stableQuotient σ N hN hN' (QuotientGroup.mk b) =
+          QuotientGroup.mk (σ b) := rfl
+      have h3 : (σ ^ (m + 1) : A ≃* A) b = (σ ^ m : A ≃* A) (σ b) := by
+        rw [pow_succ]
+        rfl
+      rw [h1, h2, ih (σ b), h3]
+  ext x
+  induction x using QuotientGroup.induction_on with
+  | H a =>
+    have := hpow n a
+    rw [hσ] at this
+    exact this
+
+/-- **A stable subgroup of finite index has the same graded counts**: Serre's Corollary in
+counting form, `#Ĥ⁰(A) ⬝ #Ĥ¹(N) = #Ĥ⁰(N) ⬝ #Ĥ¹(A)` — the sequence `1 → N → A → A ⧸ N → 1`
+against `Atlas.Knowledge.HerbrandQuotient.card_identity_of_exact`, with the finite
+quotient's two pieces cancelling by
+`Atlas.Knowledge.HerbrandQuotient.card_H0_eq_card_H1_of_finite`
+([Serre 1979, Chap. VIII, §4, Corollary, p.134][Serre1979]). -/
+theorem card_identity_of_finiteIndex
+    {σ : A ≃* A} {n : ℕ} (hσ : σ ^ n = 1) (N : Subgroup A)
+    (hN : ∀ x ∈ N, σ x ∈ N) (hN' : ∀ x ∈ N, σ.symm x ∈ N)
+    [Finite (A ⧸ N)]
+    [Finite (H0 (stableRestrict σ N hN hN') n)]
+    [Finite (H1 (stableRestrict σ N hN hN') n)]
+    [Finite (H0 σ n)] [Finite (H1 σ n)] :
+    Nat.card (H0 σ n) * Nat.card (H1 (stableRestrict σ N hN hN') n) =
+      Nat.card (H0 (stableRestrict σ N hN hN') n) * Nat.card (H1 σ n) := by
+  have hexact : (QuotientGroup.mk' N).ker = N.subtype.range := by
+    rw [QuotientGroup.ker_mk', Subgroup.range_subtype]
+  have hcard := card_identity_of_exact
+    (σA := stableRestrict σ N hN hN') (σB := σ) (σC := stableQuotient σ N hN hN')
+    (stableRestrict_pow σ hσ N hN hN') hσ
+    (f := N.subtype) (g := QuotientGroup.mk' N)
+    (fun x => rfl) (fun b => rfl)
+    N.subtype_injective (QuotientGroup.mk'_surjective N) hexact
+  have hCeq := card_H0_eq_card_H1_of_finite
+    (σ := stableQuotient σ N hN hN') (stableQuotient_pow σ hσ N hN hN')
+  rw [hCeq] at hcard
+  have hpos : 0 < Nat.card (H1 (stableQuotient σ N hN hN') n) := Nat.card_pos
+  have h1 : Nat.card (H0 σ n) * Nat.card (H1 (stableRestrict σ N hN hN') n) *
+      Nat.card (H1 (stableQuotient σ N hN hN') n) =
+      Nat.card (H0 (stableRestrict σ N hN hN') n) * Nat.card (H1 σ n) *
+        Nat.card (H1 (stableQuotient σ N hN hN') n) :=
+    hcard.trans (by ring)
+  exact Nat.eq_of_mul_eq_mul_right hpos h1
+
+/-!
+The trivial module `ℤ`: the graded pieces of the trivial action on `Multiplicative ℤ` count
+`n` and `1` — the value the norm-index computation reads off the valuation sequence.
+-/
+
+private theorem norm_refl_int (n : ℕ) (a : Multiplicative ℤ) :
+    norm (MulEquiv.refl (Multiplicative ℤ)) n a = a ^ n := by
+  rw [norm_apply]
+  have h : ∀ i, ((MulEquiv.refl (Multiplicative ℤ)) ^ i) a = a := by
+    intro i
+    induction i with
+    | zero => rfl
+    | succ k ih => rw [pow_succ]; exact ih
+  simp [h, Finset.prod_const]
+
+/-- **`Ĥ⁰` of the trivial action on `ℤ` counts `n`**: the difference kernel is everything,
+the norms are the `n`-th powers, and reduction to `ZMod n` is onto with kernel exactly them
+([Serre 1979, Chap. VIII, §4, p.133][Serre1979];
+[Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/ValueGroupCohomology.lean:132`][Yamaguchi2026]). -/
+theorem card_H0_int (n : ℕ) :
+    Nat.card (H0 (MulEquiv.refl (Multiplicative ℤ)) n) = n := by
+  set D := diff (MulEquiv.refl (Multiplicative ℤ)) with hD
+  set N := norm (MulEquiv.refl (Multiplicative ℤ)) n with hN
+  let f : Multiplicative ℤ →* Multiplicative (ZMod n) :=
+    AddMonoidHom.toMultiplicative (Int.castAddHom (ZMod n))
+  let φ : D.ker →* Multiplicative (ZMod n) := f.comp D.ker.subtype
+  have hφ : ∀ x : D.ker, Multiplicative.toAdd (φ x) =
+      ((Multiplicative.toAdd (x : Multiplicative ℤ) : ℤ) : ZMod n) :=
+    fun x => rfl
+  have hsurj : Function.Surjective φ := by
+    intro z
+    refine ⟨⟨Multiplicative.ofAdd (Multiplicative.toAdd z).cast, ?_⟩, ?_⟩
+    · rw [hD, MonoidHom.mem_ker]
+      apply Multiplicative.toAdd.injective
+      simp [diff_apply]
+    · apply Multiplicative.toAdd.injective
+      rw [hφ]
+      simp only [toAdd_ofAdd]
+      exact ZMod.intCast_zmod_cast (Multiplicative.toAdd z)
+  have hker : φ.ker = N.range.subgroupOf D.ker := by
+    ext x
+    rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
+    constructor
+    · intro hx
+      have h0 : ((Multiplicative.toAdd (x : Multiplicative ℤ) : ℤ) : ZMod n) = 0 := by
+        rw [← hφ, hx, toAdd_one]
+      obtain ⟨c, hc⟩ := (ZMod.intCast_zmod_eq_zero_iff_dvd _ _).mp h0
+      refine ⟨Multiplicative.ofAdd c, ?_⟩
+      rw [hN, norm_refl_int]
+      apply Multiplicative.toAdd.injective
+      rw [toAdd_pow, toAdd_ofAdd, hc, nsmul_eq_mul]
+    · rintro ⟨a, ha⟩
+      rw [hN, norm_refl_int] at ha
+      have hdvd : (n : ℤ) ∣ Multiplicative.toAdd (x : Multiplicative ℤ) := by
+        refine ⟨Multiplicative.toAdd a, ?_⟩
+        have := congrArg Multiplicative.toAdd ha
+        rw [toAdd_pow, nsmul_eq_mul] at this
+        exact this.symm
+      apply Multiplicative.toAdd.injective
+      rw [hφ, toAdd_one]
+      exact (ZMod.intCast_zmod_eq_zero_iff_dvd _ _).mpr hdvd
+  have hcongr := Nat.card_congr
+    (QuotientGroup.quotientKerEquivOfSurjective φ hsurj).toEquiv
+  rw [hker] at hcongr
+  have hfinal : Nat.card (H0 (MulEquiv.refl (Multiplicative ℤ)) n) =
+      Nat.card (Multiplicative (ZMod n)) := hcongr
+  rw [hfinal, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
+
+/-- **`Ĥ¹` of the trivial action on `ℤ` is trivial**: the norm is the injective `n`-th
+power ([Serre 1979, Chap. VIII, §4, p.133][Serre1979];
+[Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/ValueGroupCohomology.lean:155`][Yamaguchi2026]). -/
+theorem card_H1_int (n : ℕ) (hn : n ≠ 0) :
+    Nat.card (H1 (MulEquiv.refl (Multiplicative ℤ)) n) = 1 := by
+  have hker : (norm (MulEquiv.refl (Multiplicative ℤ)) n).ker = ⊥ := by
+    rw [Subgroup.eq_bot_iff_forall]
+    intro x hx
+    rw [MonoidHom.mem_ker, norm_refl_int] at hx
+    have h1 : (n : ℤ) * Multiplicative.toAdd x = 0 := by
+      have := congrArg Multiplicative.toAdd hx
+      rwa [toAdd_pow, toAdd_one, nsmul_eq_mul] at this
+    have hx0 : Multiplicative.toAdd x = 0 := by
+      rcases mul_eq_zero.mp h1 with h | h
+      · exact absurd (by exact_mod_cast h) hn
+      · exact h
+    apply Multiplicative.toAdd.injective
+    simpa using hx0
+  haveI : Subsingleton ((norm (MulEquiv.refl (Multiplicative ℤ)) n).ker) := by
+    rw [hker]
+    infer_instance
+  haveI : Subsingleton (H1 (MulEquiv.refl (Multiplicative ℤ)) n) := by
+    unfold H1
+    exact Quotient.instSubsingletonQuotient _
+  exact Nat.card_unique
+
+/-!
+The co-induced module: the shift action on `ZMod n → M` has both graded pieces trivial —
+the elementary cyclic instance of "a co-induced module has vanishing cohomology", which is
+what a normal-basis lattice will be measured against.
+-/
+
+variable {M : Type*} [CommGroup M] (n : ℕ)
+
+/-- The **shift** of the co-induced module `ZMod n → M`: precomposition with `+1`
+([Serre 1979, Chap. VII, §5, Exercise, pp.116–117][Serre1979]). -/
+def shiftAut : (ZMod n → M) ≃* (ZMod n → M) where
+  toFun f := fun j => f (j + 1)
+  invFun f := fun j => f (j - 1)
+  left_inv f := by funext j; simp
+  right_inv f := by funext j; simp
+  map_mul' f g := rfl
+
+/-- Iterated shifts translate the argument. -/
+theorem shiftAut_pow_apply (k : ℕ) :
+    ∀ f : ZMod n → M, ((shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) ^ k) f =
+      fun j => f (j + k) := by
+  induction k with
+  | zero => intro f; funext j; simp
+  | succ m ih =>
+    intro f
+    have h : ((shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) ^ (m + 1)) f =
+        ((shiftAut n) ^ m) (shiftAut n f) := by
+      rw [pow_succ]
+      rfl
+    rw [h, ih (shiftAut n f)]
+    funext j
+    change f (j + m + 1) = f (j + (m + 1 : ℕ))
+    congr 1
+    push_cast
+    ring
+
+/-- The shift has order dividing `n`. -/
+theorem shiftAut_pow_n : (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) ^ n = 1 := by
+  ext f j
+  rw [shiftAut_pow_apply n n f]
+  change f (j + (n : ZMod n)) = f j
+  rw [ZMod.natCast_self, add_zero]
+
+/-- The norm of the shift action, pointwise: the product over the translates. -/
+theorem norm_shiftAut_apply (f : ZMod n → M) (j : ZMod n) :
+    norm (shiftAut n) n f j = ∏ i ∈ Finset.range n, f (j + i) := by
+  rw [norm_apply]
+  rw [show (∏ i ∈ Finset.range n, ((shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) ^ i) f) j =
+    ∏ i ∈ Finset.range n, (((shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) ^ i) f) j from by
+      simp [Finset.prod_apply]]
+  exact Finset.prod_congr rfl fun i _ => by rw [shiftAut_pow_apply n i f]
+
+/-- A member of the difference kernel of the shift is constant. -/
+theorem diff_shiftAut_ker [NeZero n] (f : ZMod n → M)
+    (hf : f ∈ (diff (shiftAut n)).ker) (j : ZMod n) :
+    f j = f 0 := by
+  rw [MonoidHom.mem_ker] at hf
+  have hstep : ∀ j : ZMod n, f (j + 1) = f j := by
+    intro j
+    have := congrFun (congrArg (fun h => h * f) hf) j
+    simpa [diff_apply, shiftAut] using this
+  obtain ⟨k, rfl⟩ := ZMod.natCast_zmod_surjective (n := n) j
+  induction k with
+  | zero => norm_num
+  | succ m ih =>
+    rw [show ((m + 1 : ℕ) : ZMod n) = (m : ZMod n) + 1 by push_cast; ring, hstep]
+    exact ih
+
+/-- **`Ĥ⁰` of the co-induced module is trivial**: every difference-kernel member is the
+norm of the delta function at its constant value
+([Serre 1979, Chap. VII, §5, Exercise, pp.116–117][Serre1979];
+[Yamaguchi 2026, `CyclicCohomology/Herbrand/Induced.lean:703`, specialized at the trivial
+subgroup][Yamaguchi2026]). -/
+theorem shiftAut_norm_range_eq_top [NeZero n] :
+    (norm (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n).range.subgroupOf
+      (diff (shiftAut n : (ZMod n → M) ≃* (ZMod n → M))).ker = ⊤ := by
+  rw [Subgroup.eq_top_iff']
+  rintro ⟨f, hf⟩
+  rw [Subgroup.mem_subgroupOf]
+  set c := f 0 with hc
+  refine ⟨fun j => if j = 0 then c else 1, ?_⟩
+  funext j
+  rw [norm_shiftAut_apply]
+  have hval : ((-j).val : ZMod n) = -j := ZMod.natCast_rightInverse (-j)
+  have hmem : (-j).val ∈ Finset.range n := Finset.mem_range.mpr (ZMod.val_lt (-j))
+  rw [Finset.prod_eq_single ((-j).val)
+    (fun i hi hne => by
+      have hjz : j + (i : ZMod n) ≠ 0 := by
+        intro h0
+        have hi' : (i : ZMod n) = -j := by linear_combination h0
+        have : (-j).val = i := by
+          rw [← hi', ZMod.val_cast_of_lt (Finset.mem_range.mp hi)]
+        exact hne this.symm
+      simp [hjz])
+    (fun habs => absurd hmem habs)]
+  have hzero : j + ((-j).val : ZMod n) = 0 := by
+    rw [hval]
+    ring
+  rw [hzero]
+  simp only [reduceIte]
+  exact (diff_shiftAut_ker n f hf j).symm
+
+/-- **`Ĥ¹` of the co-induced module is trivial**: a norm-kernel member telescopes into a
+difference through its running products
+([Serre 1979, Chap. VII, §5, Exercise, pp.116–117][Serre1979];
+[Yamaguchi 2026, `CyclicCohomology/Herbrand/Induced.lean:1095`, specialized at the trivial
+subgroup][Yamaguchi2026]). -/
+theorem shiftAut_ker_norm_le_range_diff [NeZero n] :
+    (norm (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n).ker ≤
+      (diff (shiftAut n : (ZMod n → M) ≃* (ZMod n → M))).range := by
+  intro f hf
+  rw [MonoidHom.mem_ker] at hf
+  have hprod : ∏ i ∈ Finset.range n, f (i : ZMod n) = 1 := by
+    have h0 := congrFun hf (0 : ZMod n)
+    rw [show ((norm (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n) f) (0 : ZMod n) =
+      ∏ i ∈ Finset.range n, f ((0 : ZMod n) + i) from norm_shiftAut_apply n f 0] at h0
+    simpa using h0
+  rcases eq_or_ne n 1 with rfl | hn1
+  · have hf1 : f = 1 := by
+      funext j
+      have hj := congrFun hf j
+      rw [show ((norm (shiftAut 1 : (ZMod 1 → M) ≃* (ZMod 1 → M)) 1) f) j =
+        ∏ i ∈ Finset.range 1, f (j + i) from norm_shiftAut_apply 1 f j] at hj
+      simpa using hj
+    exact ⟨1, by rw [map_one, hf1]⟩
+  have hn2 : 1 < n := by
+    have := NeZero.pos n
+    omega
+  set g : ZMod n → M := fun j => ∏ i ∈ Finset.range j.val, f (i : ZMod n) with hg
+  refine ⟨g, ?_⟩
+  funext j
+  rw [diff_apply]
+  change (shiftAut n) g j * g⁻¹ j = f j
+  rw [show (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) g j = g (j + 1) from rfl,
+    show g⁻¹ j = (g j)⁻¹ from rfl]
+  haveI : Fact (1 < n) := ⟨hn2⟩
+  have hjval : (j + 1).val = (j.val + 1) % n := by
+    rw [ZMod.val_add, ZMod.val_one n]
+  by_cases hj : j.val + 1 < n
+  · have hval : (j + 1).val = j.val + 1 := by
+      rw [hjval, Nat.mod_eq_of_lt hj]
+    rw [hg]
+    simp only [hval, Finset.prod_range_succ]
+    rw [ZMod.natCast_rightInverse j,
+      mul_comm (∏ x ∈ Finset.range j.val, f (x : ZMod n)) (f j), mul_assoc,
+      mul_inv_cancel, mul_one]
+  · have hjtop : j.val + 1 = n := by
+      have := ZMod.val_lt j
+      omega
+    have hval : (j + 1).val = 0 := by
+      rw [hjval, hjtop, Nat.mod_self]
+    have hsplit : (∏ i ∈ Finset.range j.val, f (i : ZMod n)) *
+        f ((j.val : ℕ) : ZMod n) = 1 := by
+      rw [← Finset.prod_range_succ, hjtop]
+      exact hprod
+    have hlast : f (((j.val : ℕ) : ZMod n)) = f j := by
+      rw [ZMod.natCast_rightInverse j]
+    rw [hg]
+    simp only [hval, Finset.range_zero, Finset.prod_empty]
+    rw [hlast] at hsplit
+    rw [one_mul]
+    exact inv_eq_of_mul_eq_one_right hsplit
 
 end HerbrandQuotient
 
