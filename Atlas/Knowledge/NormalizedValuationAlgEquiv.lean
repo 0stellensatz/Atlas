@@ -34,10 +34,12 @@ The carrier is the tower idiom of `Atlas.Knowledge.FiniteExtensionIsMixedCharLoc
 the mixed-characteristic structure of `L` enters the main statement as an instance rather
 than through the existence theorem — the section's `[IsValuativeTopology L]` is omitted
 from the statements it would duplicate, since the mixed-characteristic instance carries
-it. The proof never touches the topology: it runs
-through `Atlas.Knowledge.mem_integer_iff_isIntegral` and the factorization of a unit into a
-unit of the integers times an irreducible power, whose value the trio of
-`Atlas.Knowledge.normalizedValuation_mul` computes on both sides.
+it. The valuation statements never touch the topology: they run through
+`Atlas.Knowledge.mem_integer_iff_isIntegral` and the factorization of a unit into a unit of
+the integers times an irreducible power, whose value the trio of
+`Atlas.Knowledge.normalizedValuation_mul` computes on both sides. Only
+`continuous_algEquiv` touches it, reading the invariance back through the valuative
+neighborhood basis.
 
 ## References
 
@@ -109,7 +111,6 @@ theorem valuation_algEquiv (σ : L ≃ₐ[K] L) (x : L) :
   rcases eq_or_ne x 0 with rfl | hx0
   · rw [map_zero, map_zero]
   -- both sides factor through the same integer power of an irreducible
-  have hσx0 : σ x ≠ 0 := fun h0 => hx0 (by simpa using σ.injective (h0.trans (map_zero σ).symm))
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[L])
   obtain ⟨n, u, hu⟩ := IsDiscreteValuationRing.exists_units_eq_smul_zpow_of_irreducible hϖ
     (hx0 : x ≠ 0)
@@ -143,7 +144,6 @@ theorem valuation_algEquiv (σ : L ≃ₐ[K] L) (x : L) :
 neighborhood of zero, and it is additive
 ([Serre 1979, Chap. II, §2, Cor. 2–3, p.29][Serre1979]). -/
 theorem continuous_algEquiv (σ : L ≃ₐ[K] L) : Continuous (σ : L → L) := by
-  haveI : IsValuativeTopology L := inferInstance
   refine continuous_of_continuousAt_zero σ.toAlgHom.toAddMonoidHom ?_
   rw [ContinuousAt, map_zero]
   rw [(IsValuativeTopology.hasBasis_nhds_zero' L).tendsto_iff

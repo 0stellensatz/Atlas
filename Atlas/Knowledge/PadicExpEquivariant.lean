@@ -29,6 +29,10 @@ coefficients.
   additive action; proved.
 * `algEquivIntegerRestrict_mem_pow` / `galUnits_mem_higherUnitGroup` — the automorphism
   preserves the ideal powers and the unit levels; proved.
+* `algEquivIntegerRestrict_map_maximalIdeal` — the automorphism fixes the maximal ideal;
+  proved.
+* `deep_le_threshold` — a deep level lies inside the exponential's convergence ideal;
+  proved.
 
 ## Implementation notes
 
@@ -218,8 +222,9 @@ theorem galUnits_mem_higherUnitGroup (σ : L ≃ₐ[K] L) (i : ℕ+) {u : Lˣ}
   exact hσ1
 
 set_option linter.overlappingInstances false in
--- The section's `[IsValuativeTopology L]` is implied by `[IsMixedCharLocalField L]` here;
--- `omit` does not register on a `where`-definition, so the linter is silenced instead.
+-- The section's `[IsValuativeTopology L]` is implied by `[IsMixedCharLocalField L]` here, and
+-- Lean already prunes the unused binder from the signature; the linter reads the section's
+-- binder list and fires regardless of `omit`, so it is silenced instead.
 /-- The additive action of a `K`-automorphism on a deep ideal power. -/
 noncomputable def galIdealPow (σ : L ≃ₐ[K] L) (i : ℕ) :
     ↥(𝓂[L] ^ i : Ideal ↥𝒪[L]) ≃+ ↥(𝓂[L] ^ i : Ideal ↥𝒪[L]) where
