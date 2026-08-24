@@ -10,13 +10,14 @@ graded pieces are `Ĥ⁰ = ker D ⧸ im N` and `Ĥ¹ = ker N ⧸ im D`, and the 
 `q = #Ĥ⁰ / #Ĥ¹` is multiplicative along short exact sequences and `1` on finite modules.
 This is the counting engine of the first inequality of local class field theory: with the
 value `n` on the trivial module `ℤ` it computes the norm index `(Kˣ : N Lˣ) = [L : K]` of a
-cyclic extension. The generator is carried as data — the groups do not depend on the choice,
-the identifications do — and no group `G` appears: the action enters only through `σ`, which
-is how the consumer, a chosen generator of a cyclic Galois group acting on `Lˣ`, will
-instantiate it.
+cyclic extension. The generator and its order are carried as data, and no group `G`
+appears: the pieces are those of the `ZMod n`-action through `σ`, Serre's groups when `σ`
+has order exactly `n`, which is how the consumer, a chosen generator of a cyclic Galois
+group acting on `Lˣ`, will instantiate it.
 
 ## Main definitions
 
+* `HerbrandQuotient.norm`, `HerbrandQuotient.diff` — the two arrows of the action.
 * `HerbrandQuotient.H0`, `HerbrandQuotient.H1` — the mod-2 graded Tate pieces of the action.
 * `herbrandQuotient` — their cardinality ratio in `ℚ`.
 
@@ -24,6 +25,8 @@ instantiate it.
 
 * `HerbrandQuotient.card_identity_of_exact` — division-free multiplicativity along an
   equivariant short exact sequence: the exact hexagon, counted; proved.
+* `HerbrandQuotient.finite_of_exact` — finiteness of the outer pieces propagates to the
+  middle; the consumed half of Serre's "two of three defined"; proved.
 * `HerbrandQuotient.card_H0_eq_card_H1_of_finite` / `herbrandQuotient_finite` — a finite
   module has equal graded pieces, `q = 1`; proved.
 * `herbrandQuotient_mul` — the `ℚ`-valued form of multiplicativity; proved.
@@ -350,7 +353,6 @@ private theorem pieceδ_exact_left :
 
 end Exactness
 
-
 section Count
 
 private theorem card_ker_mul_card_range' {X Y : Type*} [Group X] [Group Y] [Finite X]
@@ -416,11 +418,30 @@ private theorem piece_card_identity
     (pieceMap_exact_right hAuv hBuv hBvu hfv hfu hgv hgu hinj hsurj hexact)
     (pieceδ_exact_left hAuv hBuv hBvu hfv hfu hgv hgu hinj hsurj hexact)
 
+/- Finiteness propagates to the middle node: its map to the `C`-piece has kernel the image
+of a finite piece and range inside a finite piece, and a group is finite when a homomorphism
+out of it has finite kernel and finite range. -/
+private theorem piece_finite_middle
+    (hBuv : ∀ b : B, uB (vB b) = 1)
+    (hfu : ∀ a, f (uA a) = uB (f a)) (hfv : ∀ a, f (vA a) = vB (f a))
+    (hgu : ∀ b, g (uB b) = uC (g b)) (hgv : ∀ b, g (vB b) = vC (g b))
+    (hinj : Function.Injective f) (hsurj : Function.Surjective g)
+    (hexact : g.ker = f.range)
+    [Finite (piece uA vA)] [Finite (piece uC vC)] : Finite (piece uB vB) := by
+  haveI h1 : Finite (pieceMap g hgu hgv :
+      piece uB vB →* piece uC vC).ker := by
+    rw [← pieceMap_exact_middle hBuv hfu hfv hgu hgv hinj hsurj hexact]
+    exact Set.Finite.to_subtype (Set.finite_range _)
+  haveI h2 : Finite (piece uB vB ⧸ (pieceMap g hgu hgv :
+      piece uB vB →* piece uC vC).ker) :=
+    Finite.of_equiv _ (QuotientGroup.quotientKerEquivRange _).symm.toEquiv
+  exact Finite.of_equiv _
+    (Subgroup.groupEquivQuotientProdSubgroup
+      (s := (pieceMap g hgu hgv : piece uB vB →* piece uC vC).ker)).symm
+
 end Assembly
 
-
 section Concrete
-
 
 variable {A B : Type*} [CommGroup A] [CommGroup B]
 
@@ -495,8 +516,9 @@ theorem norm_diff_apply {σ : A ≃* A} {n : ℕ} (hσ : σ ^ n = 1) (a : A) :
   rw [diff_apply, map_mul, map_inv, norm_apply_smul hσ]
   group
 
-/- Equivariance transports: a hom commuting with the generators commutes with the powers,
+/-! Equivariance transports: a hom commuting with the generators commutes with the powers,
 the norm, and the difference. -/
+
 /-- A hom commuting with the generators commutes with their powers. -/
 theorem map_pow_comm {σA : A ≃* A} {σB : B ≃* B} {f : A →* B}
     (hf : ∀ a, f (σA a) = σB (f a)) (i : ℕ) :
@@ -527,11 +549,16 @@ theorem map_diff_comm {σA : A ≃* A} {σB : B ≃* B} {f : A →* B}
     f (diff σA a) = diff σB (f a) := by
   rw [diff_apply, diff_apply, map_mul, map_inv, hf]
 
-/-- The even graded Tate piece `Ĥ⁰ = ker D ⧸ im N` — fixed points modulo norms
+/-- The even graded Tate piece `Ĥ⁰ = ker D ⧸ im N` of the `ZMod n`-action through `σ`:
+fixed points of `σ` modulo norms. Serre's `A^G/NA` reads off when `σ` has order exactly
+`n`, so that `⟨σ⟩` is cyclic of order `n`; at a proper divisor order the piece is that of
+the `ZMod n`-action, not of `⟨σ⟩`
 ([Serre 1979, Chap. VIII, §4, p.133][Serre1979]). -/
 def H0 (σ : A ≃* A) (n : ℕ) : Type _ := piece (diff σ) (norm σ n)
 
-/-- The odd graded Tate piece `Ĥ¹ = ker N ⧸ im D` — the norm kernel modulo differences
+/-- The odd graded Tate piece `Ĥ¹ = ker N ⧸ im D` of the `ZMod n`-action through `σ`: the
+norm kernel modulo differences — Serre's own `_N A/DA`, with the same order-exactly-`n`
+reading as `Atlas.Knowledge.HerbrandQuotient.H0`
 ([Serre 1979, Chap. VIII, §4, p.133][Serre1979]). -/
 def H1 (σ : A ≃* A) (n : ℕ) : Type _ := piece (norm σ n) (diff σ)
 
@@ -540,6 +567,12 @@ noncomputable instance (σ : A ≃* A) (n : ℕ) : CommGroup (H0 σ n) :=
 
 noncomputable instance (σ : A ≃* A) (n : ℕ) : CommGroup (H1 σ n) :=
   inferInstanceAs (CommGroup (piece (norm σ n) (diff σ)))
+
+instance (σ : A ≃* A) (n : ℕ) [Finite A] : Finite (H0 σ n) :=
+  inferInstanceAs (Finite ((diff σ).ker ⧸ (norm σ n).range.subgroupOf (diff σ).ker))
+
+instance (σ : A ≃* A) (n : ℕ) [Finite A] : Finite (H1 σ n) :=
+  inferInstanceAs (Finite ((norm σ n).ker ⧸ (diff σ).range.subgroupOf (norm σ n).ker))
 
 /-- **Multiplicativity along a short exact sequence**, division-free: for an equivariant
 short exact sequence `1 → A → B → C → 1` of cyclic actions at one order `n`, with all six
@@ -575,6 +608,36 @@ theorem card_identity_of_exact
     (fun b => map_diff_comm hg b) (fun b => map_norm_comm hg n b)
     hinj hsurj hexact
   exact habs.symm
+
+/-- **Finiteness propagates to the middle** of an equivariant short exact sequence: with
+both graded pieces of `A` and of `C` finite, both graded pieces of `B` are finite — the
+half of Serre's "two of the three defined implies the third" that the norm-index
+computation consumes, since there the middle piece's finiteness is the thing being
+computed; the remaining two thirds of the proposition are deliberately not stated here
+([Serre 1979, Chap. VIII, §4, Prop. 7, p.134][Serre1979]). -/
+theorem finite_of_exact
+    {C : Type*} [CommGroup C]
+    {σA : A ≃* A} {σB : B ≃* B} {σC : C ≃* C} {n : ℕ}
+    (hσB : σB ^ n = 1)
+    {f : A →* B} {g : B →* C}
+    (hf : ∀ a, f (σA a) = σB (f a)) (hg : ∀ b, g (σB b) = σC (g b))
+    (hinj : Function.Injective f) (hsurj : Function.Surjective g)
+    (hexact : g.ker = f.range)
+    [Finite (H0 σA n)] [Finite (H1 σA n)] [Finite (H0 σC n)] [Finite (H1 σC n)] :
+    Finite (H0 σB n) ∧ Finite (H1 σB n) := by
+  haveI : Finite (piece (diff σA) (norm σA n)) := ‹Finite (H0 σA n)›
+  haveI : Finite (piece (norm σA n) (diff σA)) := ‹Finite (H1 σA n)›
+  haveI : Finite (piece (diff σC) (norm σC n)) := ‹Finite (H0 σC n)›
+  haveI : Finite (piece (norm σC n) (diff σC)) := ‹Finite (H1 σC n)›
+  constructor
+  · exact piece_finite_middle (diff_norm_apply hσB)
+      (fun a => map_diff_comm hf a) (fun a => map_norm_comm hf n a)
+      (fun b => map_diff_comm hg b) (fun b => map_norm_comm hg n b)
+      hinj hsurj hexact
+  · exact piece_finite_middle (norm_diff_apply hσB)
+      (fun a => map_norm_comm hf n a) (fun a => map_diff_comm hf a)
+      (fun b => map_norm_comm hg n b) (fun b => map_diff_comm hg b)
+      hinj hsurj hexact
 
 end Concrete
 
@@ -643,9 +706,6 @@ noncomputable def herbrandQuotient {A : Type*} [CommGroup A] (σ : A ≃* A) (n 
 ([Serre 1979, Chap. VIII, §4, Prop. 8, p.134][Serre1979]). -/
 theorem herbrandQuotient_finite {A : Type*} [CommGroup A] {σ : A ≃* A} {n : ℕ}
     (hσ : σ ^ n = 1) [Finite A] : herbrandQuotient σ n = 1 := by
-  haveI : Finite (HerbrandQuotient.H1 σ n) :=
-    inferInstanceAs (Finite ((HerbrandQuotient.norm σ n).ker ⧸
-      (HerbrandQuotient.diff σ).range.subgroupOf (HerbrandQuotient.norm σ n).ker))
   unfold herbrandQuotient
   rw [HerbrandQuotient.card_H0_eq_card_H1_of_finite hσ]
   exact div_self (Nat.cast_ne_zero.mpr Nat.card_pos.ne')
