@@ -15,8 +15,8 @@ of unity of the residue field.
 
 ## Main statements
 
-* `commutator_mem_lowerRamificationGroup` — for `s`, `t` in `G_0`, the commutator
-  `s * t * s⁻¹ * t⁻¹` lies in `G_1`.
+* `commutator_mem_lowerRamificationGroup` — for `s`, `t` in `lowerRamificationGroup K L 0`,
+  the commutator `s * t * s⁻¹ * t⁻¹` lies in `lowerRamificationGroup K L 1`.
 
 ## Implementation notes
 
@@ -32,8 +32,7 @@ an element of the maximal ideal, `q` the cardinality of the finite residue field
 `q`-th powers the difference of the two automorphism values factors through the geometric sum
 of `geom_sum₂_mul`, whose residue is `q` copies of one power of a residue and vanishes
 because `q` does in the residue field. Nothing beyond the integral closure, its finite
-residue field, and the principal maximal ideal enters; in particular the argument never
-chooses a compatible valuation on an intermediate field.
+residue field, and the principal maximal ideal enters.
 
 ## References
 
@@ -143,8 +142,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] (L : Type*) [Field L] [Algebra K
 
 /-- For `s` and `t` in the zeroth lower-numbering ramification group of a finite extension of
 a mixed-characteristic local field, the commutator `s * t * s⁻¹ * t⁻¹` lies in the first—the
-abelianness of the tame quotient `G_0 / G_1`, which the source derives from the embedding
-`θ_0` of `G_0 / G_1` into the roots of unity of the residue field
+abelianness of the tame quotient, which the source derives from its residue embedding into
+the roots of unity of the residue field
 ([Serre 1979, Chap. IV, §2, Prop. 7 and Cor. 1, p.67][Serre1979]). -/
 theorem commutator_mem_lowerRamificationGroup [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K L] {s t : L ≃ₐ[K] L}
