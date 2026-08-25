@@ -223,6 +223,7 @@ import Atlas.Knowledge.ShiftTStar
 import Atlas.Knowledge.SolvabilityDegree
 import Atlas.Knowledge.SpanOfOpenUnitSubgroup
 import Atlas.Knowledge.StandardFiltered
+import Atlas.Knowledge.StandardLubinTateCompositum
 import Atlas.Knowledge.StandardLubinTateConjugateCeiling
 import Atlas.Knowledge.StandardLubinTateDerivativeValuation
 import Atlas.Knowledge.StandardLubinTateDisplacement
