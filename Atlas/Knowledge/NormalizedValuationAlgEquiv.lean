@@ -1,6 +1,7 @@
 import Mathlib
-import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.IntegerIsIntegralClosure
+import Atlas.Knowledge.IntegerValuation
+import Atlas.Knowledge.NormalizedValuation
 
 /-!
 # Galois invariance of the normalized valuation
@@ -24,6 +25,8 @@ outer terms trivial and restricted respectively.
 
 * `valuation_algEquiv` / `normalizedValuation_algEquiv` — `v ∘ σ = v`, multiplicatively on
   `L` and normalized on `Lˣ`; proved.
+* `integerValuation_algEquivIntegerRestrict` — the invariance read on the integer ring;
+  proved.
 * `continuous_algEquiv` — a `K`-automorphism is continuous; proved.
 * `algEquiv_mem_integer` — the automorphism preserves the integers; proved.
 * `value_unit_mul_zpow` — the value of a unit of the integers times an irreducible power
@@ -202,6 +205,39 @@ theorem normalizedValuation_algEquiv (σ : L ≃ₐ[K] L) (x : Lˣ) :
   rw [hmapeq, hxeq, value_unit_mul_zpow (L := L) ϖ hϖ u hu0 hϖ0 n,
     value_unit_mul_zpow (L := L) (σO ϖ)
       (algEquivIntegerRestrict_irreducible K L σ hϖ) σu hσu0 hσϖ0 n]
+
+/-- **A `K`-automorphism preserves the integer valuation** — the integer-level reading
+of `Atlas.Knowledge.valuation_algEquiv`
+([Serre 1979, Chap. II, §2, Prop. 3, p.28, and Cor. 2–3, p.29][Serre1979]). -/
+theorem integerValuation_algEquivIntegerRestrict (σ : L ≃ₐ[K] L) (z : ↥𝒪[L]) :
+    integerValuation L (algEquivIntegerRestrict K L σ z) = integerValuation L z := by
+  rcases eq_or_ne z 0 with rfl | hz
+  · rw [map_zero]
+  · have hz' : algebraMap ↥𝒪[L] L z ≠ 0 := by
+      intro h0
+      exact hz (Subtype.ext h0)
+    have hσz : algEquivIntegerRestrict K L σ z ≠ 0 := by
+      intro h0
+      exact hz (by simpa using congrArg (algEquivIntegerRestrict K L σ).symm h0)
+    have hσz' : algebraMap ↥𝒪[L] L (algEquivIntegerRestrict K L σ z) ≠ 0 := by
+      intro h0
+      exact hσz (Subtype.ext h0)
+    rw [integerValuation_of_ne_zero L hz', integerValuation_of_ne_zero L hσz']
+    have hval : valuation L (algebraMap ↥𝒪[L] L (algEquivIntegerRestrict K L σ z)) =
+        valuation L (algebraMap ↥𝒪[L] L z) := by
+      have hcoe : algebraMap ↥𝒪[L] L (algEquivIntegerRestrict K L σ z) =
+          σ (algebraMap ↥𝒪[L] L z) := rfl
+      rw [hcoe]
+      exact valuation_algEquiv K L σ _
+    rcases lt_trichotomy
+        (normalizedValuation L (Units.mk0 (algebraMap ↥𝒪[L] L
+          (algEquivIntegerRestrict K L σ z)) hσz'))
+        (normalizedValuation L (Units.mk0 (algebraMap ↥𝒪[L] L z) hz')) with h1 | h1 | h1
+    · exact absurd ((normalizedValuation_lt_iff L _ _).mp h1)
+        (by simp only [Units.val_mk0]; rw [hval]; exact lt_irrefl _)
+    · exact h1
+    · exact absurd ((normalizedValuation_lt_iff L _ _).mp h1)
+        (by simp only [Units.val_mk0]; rw [hval]; exact lt_irrefl _)
 
 end MixedL
 

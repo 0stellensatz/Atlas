@@ -32,6 +32,7 @@ proves the extension Galois, through the automorphism count.
 
 * `nonempty_standardLubinTateGaloisDescription` — `𝒪ˣ/U^{(n+1)} ≃* Gal(Lₙ/K)`; proved.
 * `standardLubinTateLevelField_isAbelianGalois` — proved.
+* `standardLubinTateLevelField_isGalois` — the plain Galois weakening; proved.
 * `aeval_levelGeneratorInteger` — the level generator is an integral primitive root;
   proved.
 
@@ -557,5 +558,11 @@ theorem standardLubinTateLevelField_isAbelianGalois {π : 𝒪[K]} (hπ : Irredu
   haveI := isGalois_level K hπ n
   haveI := isMulCommutative_level K hπ n
   constructor
+
+/-- The level field is **Galois** over the base — the abelian description, weakened to
+the plain Galois statement the compositum machinery consumes. -/
+theorem standardLubinTateLevelField_isGalois {π : 𝒪[K]} (hπ : Irreducible π) (n : ℕ) :
+    IsGalois K ↥(standardLubinTateLevelField K hπ n) :=
+  (standardLubinTateLevelField_isAbelianGalois K hπ n).toIsGalois
 
 end Atlas.Knowledge

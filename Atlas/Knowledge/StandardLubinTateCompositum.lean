@@ -1,5 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.IntegerIsIntegralClosure
+import Atlas.Knowledge.StandardLubinTateGaloisDescription
 import Atlas.Knowledge.StandardLubinTateLevelField
 
 /-!
@@ -26,6 +27,8 @@ simultaneously — the Krasner argument's stage.
 ## Main statements
 
 * `standardLubinTateCompositum_finiteDimensional` — finite over the base; proved.
+* `standardLubinTateCompositum_isGalois` — the join of two Galois intermediates is
+  Galois; proved.
 * `aeval_compositumGenerator_field` / `aeval_compositumGenerator'_field` — the
   field-level annihilations; proved.
 * `val_compositumGenerator` / `val_compositumGenerator'` — the way back to the chosen
@@ -71,6 +74,20 @@ instance standardLubinTateCompositum_finiteDimensional :
     FiniteDimensional K ↥(standardLubinTateCompositum K hπ hπ' n) := by
   unfold standardLubinTateCompositum
   infer_instance
+
+/-- **The compositum is Galois over the base**: the join of two Galois intermediates of
+the separable closure ([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT] — each
+level is abelian, so the join is Galois;
+[Yamaguchi 2026, `LubinTate/FiniteLevel/ChangedLevelCompositum.lean:85`]
+[Yamaguchi2026]). -/
+theorem standardLubinTateCompositum_isGalois :
+    IsGalois K ↥(standardLubinTateCompositum K hπ hπ' n) := by
+  haveI h1 := standardLubinTateLevelField_isGalois K hπ n
+  haveI h2 := standardLubinTateLevelField_isGalois K hπ' n
+  haveI : Normal K ↥(standardLubinTateLevelField K hπ n) := h1.to_normal
+  haveI : Normal K ↥(standardLubinTateLevelField K hπ' n) := h2.to_normal
+  unfold standardLubinTateCompositum
+  constructor
 
 /-- The first level generator, read in the compositum. -/
 noncomputable def compositumGenerator :
