@@ -345,7 +345,7 @@ theorem integerValuation_lubinTateSMul_sub_self (e : LubinTateSeries ↥𝒪[K] 
 
 /-- **The displacement spectrum at a primitive root**: a scalar whose distance from
 one has depth exactly `j ≤ n` displaces the root by value `qʲ ν(x)`
-([Milne 2020, Chap. I, §3, the proof of Thm. 3.6 (b), p.39][MilneCFT] — the tower
+([Milne 2020, Chap. I, §3, the proof of Thm. 3.6 (a), (b), pp.38–39][MilneCFT] — the tower
 structure behind the conjugate distances;
 [Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveDisplacement.lean:494`]
 [Yamaguchi2026]). -/
