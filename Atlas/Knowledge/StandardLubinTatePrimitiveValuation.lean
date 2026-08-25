@@ -20,7 +20,6 @@ the derivative-valuation computation ahead.
 * `standardLubinTatePrimitiveValuation` — `(q − 1) qⁿ ν(x) = ν(π)`; proved.
 * `le_integerValuation_algebraMap_pi` — the lower half of the pin,
   `(q − 1) qⁿ ≤ ν(π)`; proved.
-* `algebraMap_pi_ne_zero` — the uniformizer's image upstairs is nonzero; proved.
 
 ## Implementation notes
 
@@ -113,16 +112,6 @@ private theorem aeval_iterate_top_pow
   have h := hroot
   rw [standardLubinTatePrimitivePolynomial, map_add, map_pow, Polynomial.aeval_C] at h
   exact eq_neg_of_add_eq_zero_left h
-
-omit [TopologicalSpace K] [IsMixedCharLocalField K] [TopologicalSpace E]
-  [IsMixedCharLocalField E] in
-include hπ in
-/-- The image of the uniformizer upstairs is nonzero — the nonvanishing every valuation
-computation at a carrier consumes. -/
-theorem algebraMap_pi_ne_zero : algebraMap ↥𝒪[K] ↥𝒪[E] π ≠ 0 := by
-  intro h0
-  exact hπ.ne_zero (FaithfulSMul.algebraMap_injective ↥𝒪[K] ↥𝒪[E]
-    (by rw [h0, map_zero]))
 
 include hπ in
 /-- The descending bound: a controlled level forces a strictly controlled level below —

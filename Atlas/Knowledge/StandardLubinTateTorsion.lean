@@ -24,8 +24,8 @@ out on one generator, the engine behind the Galois description of the level fiel
 * `standardLubinTateSMul_eq_zero_iff` — the annihilator; proved.
 * `mem_maximalIdeal_of_aeval_primitive` — primitive roots lie in the maximal ideal;
   proved.
-* `algebraMap_irreducible_mem_maximalIdeal` — the uniformizer's image lies in the
-  maximal ideal upstairs; proved.
+* `algebraMap_irreducible_mem_maximalIdeal` / `algebraMap_pi_ne_zero` — the
+  uniformizer's image lies in the maximal ideal upstairs and is nonzero; proved.
 * `standardLubinTateSMul_eq_iff` — scalar congruence; proved.
 * `standardLubinTateSMul_isRoot` — the unit orbit; proved.
 
@@ -134,6 +134,15 @@ theorem algebraMap_irreducible_mem_maximalIdeal (hπ : Irreducible π) :
     rw [hx] at hy
     exact hy.symm
   rwa [hbase]
+omit [TopologicalSpace K] [IsMixedCharLocalField K] [TopologicalSpace E]
+  [IsMixedCharLocalField E] in
+/-- **The image of the uniformizer upstairs is nonzero** — the nonvanishing every
+valuation computation at a carrier consumes; injectivity of the integer algebra map. -/
+theorem algebraMap_pi_ne_zero (hπ : Irreducible π) :
+    algebraMap ↥𝒪[K] ↥𝒪[E] π ≠ 0 := by
+  intro h0
+  refine hπ.ne_zero (FaithfulSMul.algebraMap_injective ↥𝒪[K] ↥𝒪[E] ?_)
+  rw [h0, map_zero]
 
 /-- **A root of the primitive polynomial among the integers lies in the maximal
 ideal**: descending through the tower, each iterate value is a maximal-ideal element
@@ -209,10 +218,7 @@ theorem aeval_standardLubinTatePolynomialIterate_ne_zero
   rw [standardLubinTatePrimitivePolynomial, map_add, map_pow, h0, Polynomial.aeval_C,
     zero_pow (by omega : Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) - 1 ≠ 0),
     zero_add] at hthis
-  refine (?_ : algebraMap ↥𝒪[K] ↥𝒪[E] π ≠ 0) hthis
-  rw [← map_zero (algebraMap ↥𝒪[K] ↥𝒪[E])]
-  exact fun hcontra =>
-    hπ.ne_zero (FaithfulSMul.algebraMap_injective ↥𝒪[K] ↥𝒪[E] hcontra)
+  exact algebraMap_pi_ne_zero K E hπ hthis
 
 /-- **The `n`-th scalar of a primitive root does not vanish**
 ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, p.39][MilneCFT]). -/

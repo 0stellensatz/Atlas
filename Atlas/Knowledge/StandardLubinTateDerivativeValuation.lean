@@ -26,9 +26,10 @@ The statement is abstract-carrier, like the torsion and valuation items it exten
 transfer to an arbitrary root of the mapped polynomial — the source proves every root
 has the same derivative value, through a `K`-automorphism moving the distinguished root
 — is deferred to the Krasner step that consumes it, where
-`Atlas.Knowledge.valuation_algEquiv` already waits. The nonvanishing thread through the
-induction is carried inside a conjunction rather than as a separate lemma: the factor is
-nonzero because its value equals `ν(π)`, and zero would junk-value to `0 < ν(π)`.
+`Atlas.Knowledge.valuation_algEquiv` already waits. The derivative iterate's
+nonvanishing rides inside the induction's conjunction rather than as a separate lemma;
+the factor's nonvanishing is a separate two-line step — its value equals `ν(π)`, and
+zero would junk-value to `0 < ν(π)`.
 
 ## References
 
@@ -63,37 +64,28 @@ private theorem aeval_derivative_iterate_succ (i : ℕ) :
     Polynomial.aeval_mul, Polynomial.aeval_comp, standardLubinTatePolynomial]
   rw [Polynomial.derivative_add, Polynomial.derivative_pow, Polynomial.derivative_X,
     Polynomial.derivative_mul, Polynomial.derivative_C, Polynomial.derivative_X]
-  ring_nf
   simp only [map_add, map_mul, map_pow, Polynomial.aeval_X, Polynomial.aeval_C,
-    map_natCast]
+    map_natCast, map_one, map_zero]
   ring
+
+/-- The residue cardinality vanishes in the residue field. -/
+private theorem natCast_card_residue_eq_zero : (Nat.card 𝓀[K] : 𝓀[K]) = 0 := by
+  letI := Fintype.ofFinite 𝓀[K]
+  rw [Nat.card_eq_fintype_card]
+  exact Nat.cast_card_eq_zero 𝓀[K]
 
 /-- The residue-cardinality cast lies in the maximal ideal downstairs. -/
 private theorem natCast_card_mem_maximalIdeal :
     (Nat.card 𝓀[K] : ↥𝒪[K]) ∈ 𝓂[K] := by
-  have hres : IsLocalRing.residue ↥𝒪[K] (Nat.card 𝓀[K] : ↥𝒪[K]) = 0 := by
-    rw [map_natCast]
-    letI := Fintype.ofFinite 𝓀[K]
-    rw [Nat.card_eq_fintype_card]
-    exact Nat.cast_card_eq_zero 𝓀[K]
-  rwa [← IsLocalRing.residue_eq_zero_iff]
+  rw [← IsLocalRing.residue_eq_zero_iff, map_natCast]
+  exact natCast_card_residue_eq_zero K
 
 /-- The residue-cardinality predecessor is a unit downstairs. -/
 private theorem isUnit_natCast_card_sub_one :
     IsUnit ((Nat.card 𝓀[K] - 1 : ℕ) : ↥𝒪[K]) := by
-  by_contra hne
-  have hmem : ((Nat.card 𝓀[K] - 1 : ℕ) : ↥𝒪[K]) ∈ 𝓂[K] :=
-    (IsLocalRing.mem_maximalIdeal _).mpr (mem_nonunits_iff.mpr hne)
-  rw [← IsLocalRing.residue_eq_zero_iff] at hmem
-  rw [map_natCast] at hmem
-  letI := Fintype.ofFinite 𝓀[K]
-  have hq : 1 ≤ Nat.card 𝓀[K] := le_of_lt Finite.one_lt_card
-  rw [Nat.cast_sub hq] at hmem
-  have hcard : (Nat.card 𝓀[K] : 𝓀[K]) = 0 := by
-    rw [Nat.card_eq_fintype_card]
-    exact Nat.cast_card_eq_zero 𝓀[K]
-  rw [hcard, zero_sub, neg_eq_zero, Nat.cast_one] at hmem
-  exact one_ne_zero hmem
+  rw [← IsLocalRing.notMem_maximalIdeal, ← IsLocalRing.residue_eq_zero_iff, map_natCast,
+    Nat.cast_sub (le_of_lt Finite.one_lt_card), natCast_card_residue_eq_zero K]
+  simp
 
 include hπ in
 /-- Iterate values at a primitive root stay in the maximal ideal. -/
@@ -142,14 +134,9 @@ private theorem integerValuation_derivative_factor
   have hunit : IsUnit (1 + algebraMap ↥𝒪[K] ↥𝒪[E] c *
       Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π i) ^
         (Nat.card 𝓀[K] - 1)) := by
-    by_contra hne
-    have hmem : (1 : ↥𝒪[E]) + _ ∈ 𝓂[E] :=
-      (IsLocalRing.mem_maximalIdeal _).mpr (mem_nonunits_iff.mpr hne)
-    have hone : (1 : ↥𝒪[E]) ∈ 𝓂[E] := by
-      have := Ideal.sub_mem _ hmem hzmem
-      simp at this
-    exact (IsLocalRing.maximalIdeal.isMaximal _).ne_top (Ideal.eq_top_of_isUnit_mem _
-      hone isUnit_one)
+    have h := IsLocalRing.isUnit_one_sub_self_of_mem_nonunits _
+      ((IsLocalRing.mem_maximalIdeal _).mp (neg_mem hzmem))
+    rwa [sub_neg_eq_add] at h
   -- factor and take values
   have hfactor : (Nat.card 𝓀[K] : ↥𝒪[E]) *
       Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π i) ^
@@ -163,14 +150,7 @@ private theorem integerValuation_derivative_factor
       rw [← map_mul, ← hc, map_natCast]
     rw [hq]
     ring
-  have hπE : algebraMap ↥𝒪[K] ↥𝒪[E] π ≠ 0 := algebraMap_pi_ne_zero K E hπ
-  have hune : (1 + algebraMap ↥𝒪[K] ↥𝒪[E] c *
-      Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π i) ^
-        (Nat.card 𝓀[K] - 1)) ≠ 0 := by
-    rintro h0
-    rw [h0] at hunit
-    exact not_isUnit_zero hunit
-  rw [hfactor, integerValuation_mul E hπE hune,
+  rw [hfactor, integerValuation_mul E (algebraMap_pi_ne_zero K E hπ) hunit.ne_zero,
     integerValuation_eq_zero_of_isUnit E hunit, add_zero]
 
 include hπ in
@@ -239,14 +219,10 @@ theorem standardLubinTateDerivativeValuation
   have hheadunit : IsUnit ((Nat.card 𝓀[K] - 1 : ℕ) : ↥𝒪[E]) := by
     rw [hcast]
     exact (isUnit_natCast_card_sub_one K).map _
-  have hheadne : ((Nat.card 𝓀[K] - 1 : ℕ) : ↥𝒪[E]) ≠ 0 := by
-    rintro h0
-    rw [h0] at hheadunit
-    exact not_isUnit_zero hheadunit
   have hpowne : Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π n) ^
       (Nat.card 𝓀[K] - 1 - 1) ≠ 0 := pow_ne_zero _ htn
-  rw [integerValuation_mul E (mul_ne_zero hheadne hpowne) hDne,
-    integerValuation_mul E hheadne hpowne,
+  rw [integerValuation_mul E (mul_ne_zero hheadunit.ne_zero hpowne) hDne,
+    integerValuation_mul E hheadunit.ne_zero hpowne,
     integerValuation_eq_zero_of_isUnit E hheadunit,
     integerValuation_pow E _ (Nat.card 𝓀[K] - 1 - 1),
     integerValuation_aeval_standardLubinTatePolynomialIterate K E hπ hroot le_rfl,
