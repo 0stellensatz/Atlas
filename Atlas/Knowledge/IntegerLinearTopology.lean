@@ -43,10 +43,6 @@ namespace Atlas.Knowledge
 
 variable (E : Type*) [Field E] [ValuativeRel E] [TopologicalSpace E] [IsMixedCharLocalField E]
 
-/- Maximal-ideal elements of the integers are topologically nilpotent: powers sink below
-every valuative ball. -/
-/- Maximal-ideal elements of the integers are topologically nilpotent: powers sink below
-every valuative ball. -/
 /-- **Maximal-ideal elements of the integers are topologically nilpotent**: powers sink
 below every valuative ball ([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
 theorem isTopologicallyNilpotent_of_mem_maximalIdeal {x : ↥𝒪[E]}
@@ -130,6 +126,5 @@ instance : T2Space ↥𝒪[E] := by
 theorem powerSeries_hasEval_of_mem_maximalIdeal {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E]) :
     PowerSeries.HasEval x :=
   (PowerSeries.hasEval_def x).mpr (isTopologicallyNilpotent_of_mem_maximalIdeal E hx)
-
 
 end Atlas.Knowledge
