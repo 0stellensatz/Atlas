@@ -24,6 +24,8 @@ out on one generator, the engine behind the Galois description of the level fiel
 * `standardLubinTateSMul_eq_zero_iff` — the annihilator; proved.
 * `mem_maximalIdeal_of_aeval_primitive` — primitive roots lie in the maximal ideal;
   proved.
+* `algebraMap_irreducible_mem_maximalIdeal` — the uniformizer's image lies in the
+  maximal ideal upstairs; proved.
 * `standardLubinTateSMul_eq_iff` — scalar congruence; proved.
 * `standardLubinTateSMul_isRoot` — the unit orbit; proved.
 
@@ -138,13 +140,11 @@ ideal**: descending through the tower, each iterate value is a maximal-ideal ele
 because the next one is, the ideal is prime, and the top value's `q − 1`-st power is
 `−π` — the membership half of the source's exact valuation
 ([Milne 2020, Chap. I, §3, the proof of Prop. 3.4, p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:518`]
+[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:517`]
 [Yamaguchi2026]). -/
 theorem mem_maximalIdeal_of_aeval_primitive (hπ : Irreducible π) {n : ℕ} {x : ↥𝒪[E]}
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
     x ∈ 𝓂[E] := by
-  have hq : 1 < Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) :=
-    Finite.one_lt_card (α := IsLocalRing.ResidueField ↥𝒪[K])
   haveI hprime : (𝓂[E] : Ideal ↥𝒪[E]).IsPrime :=
     (IsLocalRing.maximalIdeal.isMaximal ↥𝒪[E]).isPrime
   have hpi : algebraMap ↥𝒪[K] ↥𝒪[E] π ∈ 𝓂[E] :=

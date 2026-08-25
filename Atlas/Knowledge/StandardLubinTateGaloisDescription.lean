@@ -41,11 +41,10 @@ is not data either: each proof obtains it from
 `Atlas.Knowledge.exists_extension_isMixedCharLocalField`, which is why the torsion
 theory of `Atlas.Knowledge.StandardLubinTateTorsion` is stated over an abstract carrier
 extension. The abelianness stays a plain theorem rather than an `instance`, keeping the
-recorded statement unchanged now that its proof has landed. Two instance seams are
+recorded statement unchanged now that its proof has landed. One instance seam is
 handled by hand: the integer scalar tower `𝒪[K] → 𝒪[L] → L` is supplied as
-`Valuation.HasExtension.instIsScalarTowerInteger` at the two valuations where search
-fails to find it at the level field, and the integrality step carries a raised
-synthesis budget for the same search.
+`Valuation.HasExtension.instIsScalarTowerInteger` at the two valuations, where instance
+search at the level field runs into the ambient separable closure and fails.
 
 ## References
 
@@ -100,8 +99,6 @@ private theorem aeval_generator_field :
         (Polynomial.aeval_map_algebraMap _ _ _).symm
     _ = 0 := hfield
 
-set_option synthInstance.maxHeartbeats 400000 in
--- instance search below the level field wanders through the ambient separable closure
 omit [TopologicalSpace ↥(standardLubinTateLevelField K hπ n)]
   [IsMixedCharLocalField ↥(standardLubinTateLevelField K hπ n)] in
 /-- The level generator is an integer of the level field. -/
@@ -113,15 +110,11 @@ private theorem generator_mem_integer :
     standardLubinTatePrimitivePolynomial_monic ↥𝒪[K] π n,
     by rw [← Polynomial.aeval_def]; exact aeval_generator_field K hπ n⟩
 
-set_option synthInstance.maxHeartbeats 400000 in
--- instance search below the level field wanders through the ambient separable closure
 /-- The level generator as an integer of the level field. -/
 private noncomputable def generatorInteger :
     ↥𝒪[↥(standardLubinTateLevelField K hπ n)] :=
   ⟨standardLubinTateLevelGenerator K hπ n, generator_mem_integer K hπ n⟩
 
-set_option synthInstance.maxHeartbeats 400000 in
--- instance search below the level field wanders through the ambient separable closure
 omit [TopologicalSpace ↥(standardLubinTateLevelField K hπ n)]
   [IsMixedCharLocalField ↥(standardLubinTateLevelField K hπ n)] in
 /-- The integral primitive-root identity at integer level. -/
@@ -142,8 +135,6 @@ private theorem aeval_generatorInteger :
   rw [← Polynomial.aeval_algHom_apply, ZeroMemClass.coe_zero]
   exact aeval_generator_field K hπ n
 
-set_option synthInstance.maxHeartbeats 400000 in
--- instance search below the level field wanders through the ambient separable closure
 /-- The level generator lies in the maximal ideal of the level integers. -/
 private theorem generatorInteger_mem_maximalIdeal :
     generatorInteger K hπ n ∈ 𝓂[↥(standardLubinTateLevelField K hπ n)] :=
@@ -530,7 +521,7 @@ theorem nonempty_standardLubinTateGaloisDescription {π : 𝒪[K]} (hπ : Irredu
     Nonempty ((𝒪[K]ˣ ⧸ integerHigherUnitGroup K (n + 1)) ≃*
       (standardLubinTateLevelField K hπ n ≃ₐ[K]
         standardLubinTateLevelField K hπ n)) := by
-  obtain ⟨vL, tL, hVE, hVT, hMCL⟩ :=
+  obtain ⟨vL, tL, hVE, _, hMCL⟩ :=
     exists_extension_isMixedCharLocalField K ↥(standardLubinTateLevelField K hπ n)
   letI := vL
   letI := tL
@@ -544,7 +535,7 @@ theorem nonempty_standardLubinTateGaloisDescription {π : 𝒪[K]} (hπ : Irredu
 theorem standardLubinTateLevelField_isAbelianGalois {π : 𝒪[K]} (hπ : Irreducible π)
     (n : ℕ) :
     IsAbelianGalois K (standardLubinTateLevelField K hπ n) := by
-  obtain ⟨vL, tL, hVE, hVT, hMCL⟩ :=
+  obtain ⟨vL, tL, hVE, _, hMCL⟩ :=
     exists_extension_isMixedCharLocalField K ↥(standardLubinTateLevelField K hπ n)
   letI := vL
   letI := tL
