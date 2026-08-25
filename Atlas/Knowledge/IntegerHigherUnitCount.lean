@@ -7,9 +7,9 @@ import Atlas.Knowledge.StandardLubinTateGaloisDescription
 The unit-parameter count of the level filtration: the quotient of the integer units by
 the `m`-th higher unit group `1 + 𝔪^m` is the unit group of `𝒪/𝔪^m`, of cardinality
 `(q − 1) · q ^ (m − 1)`. The computation is the graded filtration read off in one pass —
-`𝒪/𝔪^m` has `q ^ m` elements because each step of the tower is a residue-field's worth,
-by multiplication with `π ^ m`; the units of that finite local ring are the complement of
-its maximal ideal; and the reduction of units is surjective with kernel exactly `1 + 𝔪^m`.
+`𝒪/𝔪^m` has `q ^ m` elements because each step of the tower is a residue-field's worth;
+the units of that finite local ring are the complement of its maximal ideal; and the
+reduction of units is surjective with kernel exactly `1 + 𝔪^m`.
 This is the group the Galois description of the standard level fields counts against.
 
 ## Main definitions
