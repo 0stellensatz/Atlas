@@ -226,6 +226,7 @@ import Atlas.Knowledge.StandardLubinTateNormSubgroup
 import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTatePolynomial
 import Atlas.Knowledge.StandardLubinTateSeries
+import Atlas.Knowledge.StandardLubinTateTorsion
 import Atlas.Knowledge.StandardLubinTateUpperRamification
 import Atlas.Knowledge.StoppedGameJumpPair
 import Atlas.Knowledge.StronglyEisensteinExtremal
