@@ -18,6 +18,8 @@ simultaneously — the Krasner argument's stage.
 
 * `standardLubinTateCompositum` — the join, as an intermediate field of the separable
   closure.
+* `compositumGenerator` / `compositumGenerator'` — the two level generators read in the
+  compositum.
 * `compositumGeneratorInteger` / `compositumGeneratorInteger'` — the two generators as
   integers of the compositum.
 
@@ -26,6 +28,8 @@ simultaneously — the Krasner argument's stage.
 * `standardLubinTateCompositum_finiteDimensional` — finite over the base; proved.
 * `aeval_compositumGenerator_field` / `aeval_compositumGenerator'_field` — the
   field-level annihilations; proved.
+* `val_compositumGenerator` / `val_compositumGenerator'` — the way back to the chosen
+  roots of the separable closure; proved.
 * `aeval_compositumGeneratorInteger` / `aeval_compositumGeneratorInteger'` — the
   integral primitive-root identities; proved.
 
@@ -63,7 +67,7 @@ noncomputable def standardLubinTateCompositum : IntermediateField K (SeparableCl
   standardLubinTateLevelField K hπ n ⊔ standardLubinTateLevelField K hπ' n
 
 /-- The compositum is finite over the base. -/
-theorem standardLubinTateCompositum_finiteDimensional :
+instance standardLubinTateCompositum_finiteDimensional :
     FiniteDimensional K ↥(standardLubinTateCompositum K hπ hπ' n) := by
   unfold standardLubinTateCompositum
   infer_instance
@@ -88,12 +92,6 @@ theorem aeval_compositumGenerator_field :
     (standardLubinTateCompositum K hπ hπ' n).val.toRingHom.injective
   apply hinj
   rw [map_zero, ← Polynomial.aeval_algHom_apply]
-  have hcoe : (standardLubinTateCompositum K hπ hπ' n).val
-      (compositumGenerator K hπ hπ' n) =
-      chosenStandardLubinTatePrimitiveRoot K hπ n := by
-    rw [compositumGenerator]
-    rfl
-  rw [hcoe]
   exact hroot
 
 /-- The second generator satisfies its primitive polynomial over the base field. -/
@@ -106,13 +104,17 @@ theorem aeval_compositumGenerator'_field :
     (standardLubinTateCompositum K hπ hπ' n).val.toRingHom.injective
   apply hinj
   rw [map_zero, ← Polynomial.aeval_algHom_apply]
-  have hcoe : (standardLubinTateCompositum K hπ hπ' n).val
-      (compositumGenerator' K hπ hπ' n) =
-      chosenStandardLubinTatePrimitiveRoot K hπ' n := by
-    rw [compositumGenerator']
-    rfl
-  rw [hcoe]
   exact hroot
+
+/-- The way out of the carrier: the first generator reads back to the chosen root. -/
+theorem val_compositumGenerator :
+    (standardLubinTateCompositum K hπ hπ' n).val (compositumGenerator K hπ hπ' n) =
+      chosenStandardLubinTatePrimitiveRoot K hπ n := rfl
+
+/-- The way out of the carrier: the second generator reads back to the chosen root. -/
+theorem val_compositumGenerator' :
+    (standardLubinTateCompositum K hπ hπ' n).val (compositumGenerator' K hπ hπ' n) =
+      chosenStandardLubinTatePrimitiveRoot K hπ' n := rfl
 
 section Integer
 
@@ -126,7 +128,6 @@ omit [TopologicalSpace ↥(standardLubinTateCompositum K hπ hπ' n)]
 /-- The first generator is an integer of the compositum. -/
 theorem compositumGenerator_mem_integer :
     compositumGenerator K hπ hπ' n ∈ 𝒪[↥(standardLubinTateCompositum K hπ hπ' n)] := by
-  haveI := standardLubinTateCompositum_finiteDimensional K hπ hπ' n
   rw [mem_integer_iff_isIntegral K]
   exact ⟨standardLubinTatePrimitivePolynomial ↥𝒪[K] π n,
     standardLubinTatePrimitivePolynomial_monic ↥𝒪[K] π n,
@@ -140,7 +141,6 @@ omit [TopologicalSpace ↥(standardLubinTateCompositum K hπ hπ' n)]
 /-- The second generator is an integer of the compositum. -/
 theorem compositumGenerator'_mem_integer :
     compositumGenerator' K hπ hπ' n ∈ 𝒪[↥(standardLubinTateCompositum K hπ hπ' n)] := by
-  haveI := standardLubinTateCompositum_finiteDimensional K hπ hπ' n
   rw [mem_integer_iff_isIntegral K]
   exact ⟨standardLubinTatePrimitivePolynomial ↥𝒪[K] π' n,
     standardLubinTatePrimitivePolynomial_monic ↥𝒪[K] π' n,
