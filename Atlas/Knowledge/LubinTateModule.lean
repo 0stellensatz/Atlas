@@ -33,13 +33,15 @@ of local class field theory.
   / `lubinTateAdd_neg` / `lubinTateAdd_right_cancel` — the evaluated abelian-group laws;
   proved.
 * `lubinTateSMul_smul` / `lubinTateSMul_add` / `lubinTateSMul_lubinTateAdd` /
-  `lubinTateSMul_one` / `lubinTateSMul_zero` / `lubinTateSMul_map_zero` — the evaluated
+  `lubinTateSMul_one` / `zero_lubinTateSMul` / `lubinTateSMul_zero` — the evaluated
   module laws; proved.
 * `lubinTateSMul_eq_zero_iff` / `lubinTateSMul_sub_eq_zero` — unit scalars kill nothing,
   and coincident scalars differ by an annihilator; proved.
 * `eval₂_algEquiv` — the `K`-automorphisms commute with evaluation; proved.
 * `eval₂_subst_collapse` — evaluation of a substituted series collapses to evaluation at
   the evaluated family; proved.
+* `eval₂_apply_zero` — evaluation of a constant-term-zero series at the zero family is
+  zero; proved.
 * `hasEval_of_mem_maximalIdeal` — a finite maximal-ideal family is an evaluation family;
   proved.
 
@@ -178,6 +180,39 @@ theorem eval₂_mem_maximalIdeal {σ : Type*} [Finite σ]
   refine hclosed.mem_of_tendsto hsum ?_
   exact Filter.Eventually.of_forall fun s => sum_mem fun d _ => hterm d
 
+omit [TopologicalSpace K] [IsMixedCharLocalField K] [FiniteDimensional K E] in
+/-- Evaluation of the zero series is zero, through `eval₂`'s polynomial branch. -/
+private theorem eval₂_zero_series {σ : Type*} (v : σ → ↥𝒪[E]) :
+    (letI : UniformSpace ↥𝒪[K] := ⊥
+     letI : UniformSpace ↥𝒪[E] := IsTopologicalAddGroup.rightUniformSpace _
+     MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E]) v (0 : MvPowerSeries σ ↥𝒪[K])) = 0 := by
+  letI : UniformSpace ↥𝒪[K] := ⊥
+  letI : UniformSpace ↥𝒪[E] := IsTopologicalAddGroup.rightUniformSpace ↥𝒪[E]
+  rw [← map_zero (MvPowerSeries.C : ↥𝒪[K] →+* MvPowerSeries σ ↥𝒪[K]),
+    MvPowerSeries.eval₂_C, map_zero]
+
+omit [TopologicalSpace K] [IsMixedCharLocalField K] [FiniteDimensional K E] in
+/-- **Evaluation of a constant-term-zero series at the zero family is zero**: the
+substitution of the zero family collapses the series to its constant term. -/
+theorem eval₂_apply_zero {σ : Type*} [Finite σ] {F : MvPowerSeries σ ↥𝒪[K]}
+    (hF : MvPowerSeries.constantCoeff F = 0) :
+    (letI : UniformSpace ↥𝒪[K] := ⊥
+     letI : UniformSpace ↥𝒪[E] := IsTopologicalAddGroup.rightUniformSpace _
+     MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E]) (fun _ : σ => (0 : ↥𝒪[E])) F) = 0 := by
+  have hv : ∀ s : Unit, (fun _ : Unit => (0 : ↥𝒪[E])) s ∈ 𝓂[E] := fun _ => Ideal.zero_mem _
+  have hcol := eval₂_subst_collapse K E (v := fun _ : Unit => (0 : ↥𝒪[E])) hv
+    (fun _ : σ => (0 : MvPowerSeries Unit ↥𝒪[K])) (fun _ => map_zero _) F
+  letI : UniformSpace ↥𝒪[K] := ⊥
+  letI : UniformSpace ↥𝒪[E] := IsTopologicalAddGroup.rightUniformSpace ↥𝒪[E]
+  have hzero : MvPowerSeries.subst (fun _ : σ => (0 : MvPowerSeries Unit ↥𝒪[K])) F = 0 := by
+    rw [show (fun _ : σ => (0 : MvPowerSeries Unit ↥𝒪[K])) = 0 from rfl]
+    exact MvPowerSeries.subst_zero_of_constantCoeff_zero hF
+  rw [hzero] at hcol
+  have h0 := eval₂_zero_series K E (fun _ : Unit => (0 : ↥𝒪[E]))
+  simp only [h0] at hcol
+  exact hcol.symm
+
+
 omit [FiniteDimensional K E] in
 /-- **The evaluated addition stays in the maximal ideal**
 ([Milne 2020, Chap. I, §2, the remark after Cor. 2.17, p.34][MilneCFT]). -/
@@ -198,30 +233,6 @@ theorem lubinTateSMul_mem_maximalIdeal (hπ : Irreducible π) (e : LubinTateSeri
     (lubinTateScalar_hasLinearTerm hπ e a).constantCoeff_eq_zero
     (fun _ => hx)
 
-omit [TopologicalSpace K] [IsMixedCharLocalField K] [FiniteDimensional K E] in
-/-- **Evaluation of a constant-term-zero series at the zero family is zero**: the
-substitution of the zero family collapses the series to its constant term
-([Milne 2020, Chap. I, §2, the remark after Cor. 2.17, p.34][MilneCFT]). -/
-theorem eval₂_apply_zero {σ : Type*} [Finite σ] {F : MvPowerSeries σ ↥𝒪[K]}
-    (hF : MvPowerSeries.constantCoeff F = 0) :
-    (letI : UniformSpace ↥𝒪[K] := ⊥
-     letI : UniformSpace ↥𝒪[E] := IsTopologicalAddGroup.rightUniformSpace _
-     MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E]) (fun _ : σ => (0 : ↥𝒪[E])) F) = 0 := by
-  have hv : ∀ s : Unit, (fun _ : Unit => (0 : ↥𝒪[E])) s ∈ 𝓂[E] := fun _ => Ideal.zero_mem _
-  have hcol := eval₂_subst_collapse K E (v := fun _ : Unit => (0 : ↥𝒪[E])) hv
-    (fun _ : σ => (0 : MvPowerSeries Unit ↥𝒪[K])) (fun _ => map_zero _) F
-  letI : UniformSpace ↥𝒪[K] := ⊥
-  letI : UniformSpace ↥𝒪[E] := IsTopologicalAddGroup.rightUniformSpace ↥𝒪[E]
-  have hzero : MvPowerSeries.subst (fun _ : σ => (0 : MvPowerSeries Unit ↥𝒪[K])) F = 0 := by
-    rw [show (fun _ : σ => (0 : MvPowerSeries Unit ↥𝒪[K])) = 0 from rfl]
-    exact MvPowerSeries.subst_zero_of_constantCoeff_zero hF
-  rw [hzero] at hcol
-  have h0 : MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E]) (fun _ : Unit => (0 : ↥𝒪[E]))
-      (0 : MvPowerSeries Unit ↥𝒪[K]) = 0 := by
-    rw [← map_zero (MvPowerSeries.C : ↥𝒪[K] →+* MvPowerSeries Unit ↥𝒪[K]),
-      MvPowerSeries.eval₂_C, map_zero]
-  simp only [h0] at hcol
-  exact hcol.symm
 
 omit [FiniteDimensional K E] in
 /-- **Commutativity of the evaluated addition**
@@ -404,8 +415,7 @@ theorem lubinTateAdd_zero (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K]
         rw [MvPowerSeries.eval₂_X]
       · change (0 : ↥𝒪[E]) = MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E])
           (fun _ : Unit => x) 0
-        rw [← map_zero (MvPowerSeries.C : ↥𝒪[K] →+* MvPowerSeries Unit ↥𝒪[K]),
-          MvPowerSeries.eval₂_C, map_zero]
+        exact (eval₂_zero_series K E (fun _ : Unit => x)).symm
   _ = MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E]) (fun _ : Unit => x)
         (MvPowerSeries.subst
           (![MvPowerSeries.X (), 0] : Fin 2 → MvPowerSeries Unit ↥𝒪[K])
@@ -553,20 +563,19 @@ omit [FiniteDimensional K E] in
 /-- **The evaluated scalar of the zero scalar is zero**: `[0] x = 0` with no membership
 hypothesis — the scalar series itself is zero
 ([Milne 2020, Chap. I, §2, the remark after Cor. 2.17, p.34][MilneCFT]). -/
-theorem lubinTateSMul_zero (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K] π)
+theorem zero_lubinTateSMul (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K] π)
     (x : ↥𝒪[E]) :
     lubinTateSMul K E hπ e 0 x = 0 := by
   unfold lubinTateSMul
   letI : UniformSpace ↥𝒪[K] := ⊥
   letI : UniformSpace ↥𝒪[E] := IsTopologicalAddGroup.rightUniformSpace ↥𝒪[E]
   rw [lubinTateScalar_zero hπ e]
-  rw [← map_zero (MvPowerSeries.C : ↥𝒪[K] →+* MvPowerSeries Unit ↥𝒪[K]),
-    MvPowerSeries.eval₂_C, map_zero]
+  exact eval₂_zero_series K E (fun _ : Unit => x)
 
 omit [FiniteDimensional K E] in
 /-- **The evaluated scalar of the zero point is zero**: `[a] 0 = 0`
 ([Milne 2020, Chap. I, §2, the remark after Cor. 2.17, p.34][MilneCFT]). -/
-theorem lubinTateSMul_map_zero (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K] π)
+theorem lubinTateSMul_zero (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K] π)
     (a : ↥𝒪[K]) :
     lubinTateSMul K E hπ e a 0 = 0 := by
   unfold lubinTateSMul
@@ -627,7 +636,7 @@ theorem lubinTateAdd_neg (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K] 
         (lubinTateSMul K E hπ e (-1) x) := by
     rw [lubinTateSMul_one K E hπ e x]
   rw [h1, ← lubinTateSMul_add K E hπ e 1 (-1) hx, add_neg_cancel,
-    lubinTateSMul_zero K E hπ e x]
+    zero_lubinTateSMul K E hπ e x]
 
 omit [FiniteDimensional K E] in
 /-- **Right cancellation of the evaluated addition**, through the negation
@@ -653,8 +662,9 @@ theorem lubinTateAdd_right_cancel (hπ : Irreducible π) (e : LubinTateSeries �
   _ = y := lubinTateAdd_zero K E hπ e hy
 
 omit [FiniteDimensional K E] in
-/-- **Unit scalars kill nothing**: for a unit scalar `a`, `[a] x = 0` iff `x = 0`
-([Milne 2020, Chap. I, §2, the remark after Cor. 2.17, p.34][MilneCFT]). -/
+/-- **Unit scalars kill nothing**: for a unit scalar `a`, `[a] x = 0` iff `x = 0` —
+`[a⁻¹]` undoes `[a]`
+([Milne 2020, Chap. I, §2, the proof of Cor. 2.16, p.34][MilneCFT]). -/
 theorem lubinTateSMul_eq_zero_iff (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K] π)
     {a : ↥𝒪[K]} (ha : IsUnit a) {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E]) :
     lubinTateSMul K E hπ e a x = 0 ↔ x = 0 := by
@@ -662,11 +672,11 @@ theorem lubinTateSMul_eq_zero_iff (hπ : Irreducible π) (e : LubinTateSeries �
   · intro h0
     obtain ⟨u, rfl⟩ := ha
     have hchain := lubinTateSMul_smul K E hπ e (↑u⁻¹) (↑u) hx
-    rw [h0, lubinTateSMul_map_zero K E hπ e (↑u⁻¹ : ↥𝒪[K]), Units.inv_mul,
+    rw [h0, lubinTateSMul_zero K E hπ e (↑u⁻¹ : ↥𝒪[K]), Units.inv_mul,
       lubinTateSMul_one K E hπ e x] at hchain
     exact hchain.symm
   · rintro rfl
-    exact lubinTateSMul_map_zero K E hπ e a
+    exact lubinTateSMul_zero K E hπ e a
 
 omit [FiniteDimensional K E] in
 /-- **Coincident scalars differ by an annihilator**: `[a] x = [b] x` forces
