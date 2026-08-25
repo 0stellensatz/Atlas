@@ -35,7 +35,11 @@ of the recorded Galois claims, and stating the torsion facts abstractly is what 
 them be read there. The bridge from series to polynomial is `eval₂`'s polynomial branch
 — `PowerSeries.eval₂_coe` needs neither continuity nor an evaluation family — and the
 primitive-root hypothesis enters as the bare polynomial equation `Qₙ (x) = 0`, the form
-the level generator satisfies by construction.
+the level generator satisfies by construction. The indexing follows the tree, one step
+off Milne's: his bracketed `f^[n + 1] = (f/T) ∘ f ∘ ⋯ ∘ f` is
+`Atlas.Knowledge.standardLubinTatePrimitivePolynomial` at level `n`, his plain iterate
+`f⁽ⁿ⁾` the `standardLubinTatePolynomialIterate`, and his `Λ_n ≅ A/(πⁿ)` is this file's
+annihilator `𝔪 ^ (n + 1)` at level `n`.
 
 ## References
 
@@ -189,8 +193,8 @@ theorem standardLubinTateSMul_eq_zero_iff (hx : x ∈ 𝓂[E])
       standardLubinTateSMul_pi_pow_succ_eq_zero K E hπ hx hroot, lubinTateSMul_zero]
 
 /-- **Two scalars agree on a primitive root iff they are congruent mod `𝔪 ^ (n + 1)`**
-— stated additively on ring elements, where the source states it multiplicatively on
-units, so this is the more general form
+— stated additively on ring elements, where the Lean counterpart states it
+multiplicatively on units, so this is the more general form
 ([Milne 2020, Chap. I, §3, Prop. 3.4, p.38][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:545`][Yamaguchi2026]). -/
 theorem standardLubinTateSMul_eq_iff (hx : x ∈ 𝓂[E])
