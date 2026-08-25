@@ -15,8 +15,8 @@ factorizations carry the whole file: the formal group's right displacement `F �
 unit scalar changes a value, and the module law `[u] x = [u − 1] x +[e] x` hands the
 displacement to the iterate valuations of
 `Atlas.Knowledge.integerValuation_aeval_standardLubinTatePolynomialIterate`. This is
-the conjugate-distance input of the root-product/Krasner comparison ahead: the orbit of
-a primitive root sits at distances `qʲ ν(x)`, `j ≤ n`, and nothing sits closer.
+the conjugate-distance input of the root-product/Krasner comparison ahead: the orbit
+of a primitive root sits at distances `qʲ ν(x)`, `j ≤ n`.
 
 ## Main statements
 
@@ -58,7 +58,7 @@ variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
   [Finite (IsLocalRing.ResidueField A)] {π : A}
 
 /-- The formal group collapses to the identity in its first variable. -/
-private theorem subst_X_zero_formalGroup (hπ : Irreducible π) (e : LubinTateSeries A π) :
+private theorem formalGroup_subst_X_zero (hπ : Irreducible π) (e : LubinTateSeries A π) :
     MvPowerSeries.subst
         (![(PowerSeries.X : MvPowerSeries Unit A), 0] : Fin 2 → MvPowerSeries Unit A)
         (lubinTateFormalGroupPowerSeries hπ e) =
@@ -98,17 +98,13 @@ private theorem formalGroup_rightDisplacement_dvd (hπ : Irreducible π)
   rw [MvPowerSeries.X_dvd_iff]
   intro d hd
   have hhas : MvPowerSeries.HasSubst
-      (![(PowerSeries.X : MvPowerSeries Unit A), 0] : Fin 2 → MvPowerSeries Unit A) := by
-    apply MvPowerSeries.hasSubst_of_constantCoeff_zero
-    intro i
-    fin_cases i
-    · exact MvPowerSeries.constantCoeff_X (R := A) ()
-    · simp
+      (![(PowerSeries.X : MvPowerSeries Unit A), 0] : Fin 2 → MvPowerSeries Unit A) :=
+    MvPowerSeries.HasSubst.X_zero
   have hsubst :
       MvPowerSeries.subst
           (![(PowerSeries.X : MvPowerSeries Unit A), 0] : Fin 2 → MvPowerSeries Unit A)
           (lubinTateFormalGroupPowerSeries hπ e - MvPowerSeries.X (0 : Fin 2)) = 0 := by
-    rw [MvPowerSeries.subst_sub hhas, subst_X_zero_formalGroup hπ e,
+    rw [MvPowerSeries.subst_sub hhas, formalGroup_subst_X_zero hπ e,
       MvPowerSeries.subst_X hhas]
     simp
   have hcoeff := congrArg (PowerSeries.coeff (d 0)) hsubst
@@ -347,11 +343,11 @@ theorem integerValuation_lubinTateSMul_sub_self (e : LubinTateSeries ↥𝒪[K] 
   rw [hlaw, lubinTateAdd_comm K E hπ e hz hx]
   exact integerValuation_lubinTateAdd_sub_left K E hπ e hx hz
 
-/-- **The displacement spectrum at a primitive root**: a unit whose first nontrivial
-layer is `j ≤ n` displaces the root by value `qʲ ν(x)`
-([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, pp.38–39][MilneCFT] — the tower
+/-- **The displacement spectrum at a primitive root**: a scalar whose distance from
+one has depth exactly `j ≤ n` displaces the root by value `qʲ ν(x)`
+([Milne 2020, Chap. I, §3, the proof of Thm. 3.6 (b), p.39][MilneCFT] — the tower
 structure behind the conjugate distances;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveDisplacement.lean:817`]
+[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveDisplacement.lean:494`]
 [Yamaguchi2026]). -/
 theorem integerValuation_standardLubinTateSMul_sub_self
     {n : ℕ} {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E])
@@ -362,8 +358,6 @@ theorem integerValuation_standardLubinTateSMul_sub_self
         (lubinTateSMul K E hπ (standardLubinTateSeries hπ) u x - x) =
       (Nat.card 𝓀[K] : ℤ) ^ j * integerValuation E x := by
   rw [integerValuation_lubinTateSMul_sub_self K E hπ _ u hx, hu]
-  have hwz : lubinTateSMul K E hπ (standardLubinTateSeries hπ) w x ∈ 𝓂[E] :=
-    lubinTateSMul_mem_maximalIdeal K E hπ _ _ hx
   rw [mul_comm (π ^ j) w, ← lubinTateSMul_smul K E hπ _ w (π ^ j) hx]
   rw [integerValuation_lubinTateSMul_isUnit K E hπ _ hw
     (lubinTateSMul_mem_maximalIdeal K E hπ _ _ hx)]
