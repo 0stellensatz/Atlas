@@ -1,4 +1,5 @@
 import Mathlib
+import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.IsMixedCharLocalField
 
 /-!
@@ -8,11 +9,19 @@ The higher unit filtration on the integer units: `1 + 𝔪ⁿ` as a subgroup of 
 unit-parameter side of the level tower's Galois description, and the group whose
 quotients `Atlas.Knowledge.integerHigherUnitCount` counts. The subgroup is on integer
 units where `Atlas.Knowledge.higherUnitGroup` is on field units — the two sit on
-opposite sides of `𝒪ˣ → Kˣ`, and this item does not identify them.
+opposite sides of `𝒪ˣ → Kˣ`, and this item records the identification: the field-side
+filtration is exactly the image of this subgroup, in a `ℕ+`-shaped form and in the
+`ℕ`-shaped form whose left side is what consumer goals spell.
 
 ## Main definitions
 
 * `integerHigherUnitGroup` — `1 + 𝔪ⁿ` as a subgroup of `𝒪[K]ˣ`.
+
+## Main statements
+
+* `higherUnitGroup_eq_map_integerHigherUnitGroup` /
+  `map_integerHigherUnitGroup_eq_higherUnitGroup` — the two spellings of `U^{(i)}` in
+  `Kˣ` are one subgroup; proved.
 
 ## References
 
@@ -55,5 +64,27 @@ def integerHigherUnitGroup (n : ℕ) : Subgroup 𝒪[K]ˣ where
       ring
     rw [Set.mem_setOf_eq, key]
     exact neg_mem (Ideal.mul_mem_left _ _ hu)
+
+/-- **The filtration is the image of the integer higher units**: the translate-set
+subgroup of `Atlas.Knowledge.higherUnitGroup` and the mapped subgroup here are one
+subgroup of `Kˣ` ([Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/PrincipalUnits.lean:18`][Yamaguchi2026] —
+the source keeps the filtration on the integer side, so the `Kˣ`-level identity is the
+bridging this layer adds). -/
+theorem higherUnitGroup_eq_map_integerHigherUnitGroup (i : ℕ+) :
+    higherUnitGroup K i =
+      (integerHigherUnitGroup K (i : ℕ)).map
+        (Units.map (algebraMap 𝒪[K] K).toMonoidHom) := by
+  ext x
+  rw [mem_higherUnitGroup_iff]
+  rfl
+
+/-- The identification in the `ℕ`-shaped orientation consumers rewrite with: the
+integer side on the left, at a nonzero natural level. -/
+theorem map_integerHigherUnitGroup_eq_higherUnitGroup (n : ℕ) (hn : n ≠ 0) :
+    (integerHigherUnitGroup K n).map
+        (Units.map (algebraMap 𝒪[K] K).toMonoidHom) =
+      higherUnitGroup K ⟨n, Nat.pos_of_ne_zero hn⟩ :=
+  (higherUnitGroup_eq_map_integerHigherUnitGroup K ⟨n, Nat.pos_of_ne_zero hn⟩).symm
 
 end Atlas.Knowledge

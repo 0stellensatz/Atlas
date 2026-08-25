@@ -1,5 +1,4 @@
 import Mathlib
-import Atlas.Knowledge.IntegerHigherUnitGroup
 
 /-!
 # higher unit group
@@ -20,8 +19,6 @@ makes those shifts the ones relevant to local fields.
   what the real-indexed wrapper `Atlas.Knowledge.RealHigherUnitGroup` passes along.
 * `mem_higherUnitGroup_iff` — membership through the units of the integer ring: the
   translate-set carrier identified with the mapped-subgroup presentation.
-* `higherUnitGroup_eq_map_integerHigherUnitGroup` — the same identification at subgroup
-  level: the filtration is the image of `Atlas.Knowledge.integerHigherUnitGroup`.
 
 ## Implementation notes
 
@@ -122,24 +119,5 @@ theorem mem_higherUnitGroup_iff (K : Type*) [Field K] [ValuativeRel K] (i : ℕ+
     push_cast
     rw [Units.coe_map]
     simp
-
-/-- **The filtration is the image of the integer higher units**: the two spellings of
-`U^{(i)}` in `Kˣ` — the translate-set subgroup here and the mapped
-`Atlas.Knowledge.integerHigherUnitGroup` of the norm computation — are one subgroup
-([Yamaguchi 2026,
-`LocalFieldTheory/NonarchimedeanLocalField/PrincipalUnits.lean:18`][Yamaguchi2026]). -/
-theorem higherUnitGroup_eq_map_integerHigherUnitGroup (K : Type*) [Field K]
-    [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K] (i : ℕ+) :
-    higherUnitGroup K i =
-      (integerHigherUnitGroup K (i : ℕ)).map
-        (Units.map (algebraMap 𝒪[K] K).toMonoidHom) := by
-  have hhom : (algebraMap 𝒪[K] K).toMonoidHom = (𝒪[K].subtype : ↥𝒪[K] →* K) := rfl
-  ext x
-  rw [mem_higherUnitGroup_iff, hhom]
-  constructor
-  · rintro ⟨u, hu, hux⟩
-    exact ⟨u, hu, hux⟩
-  · rintro ⟨u, hu, rfl⟩
-    exact ⟨u, hu, rfl⟩
 
 end Atlas.Knowledge
