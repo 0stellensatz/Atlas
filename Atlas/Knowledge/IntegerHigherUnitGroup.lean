@@ -79,8 +79,10 @@ theorem higherUnitGroup_eq_map_integerHigherUnitGroup (i : ℕ+) :
   rw [mem_higherUnitGroup_iff]
   rfl
 
-/-- The identification in the `ℕ`-shaped orientation consumers rewrite with: the
-integer side on the left, at a nonzero natural level. -/
+/-- **The identification in the `ℕ`-shaped orientation** consumers rewrite with: the
+integer side on the left, at a nonzero natural level
+([Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/PrincipalUnits.lean:18`][Yamaguchi2026]). -/
 theorem map_integerHigherUnitGroup_eq_higherUnitGroup (n : ℕ) (hn : n ≠ 0) :
     (integerHigherUnitGroup K n).map
         (Units.map (algebraMap 𝒪[K] K).toMonoidHom) =
