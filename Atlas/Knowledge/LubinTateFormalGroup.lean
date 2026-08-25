@@ -17,14 +17,16 @@ local class field theory.
 
 ## Main definitions
 
-* `lubinTateFormalGroup` — the group law `F_e`, linear term `X + Y`.
+* `lubinTateFormalGroupPowerSeries` — the group law `F_e`, linear term `X + Y`.
 * `lubinTateScalar` — the scalar series `[a]`, linear term `a X`.
+* `lubinTateFormalGroup` — the law bundled into Mathlib's `FormalGroup`, with its
+  `IsComm` instance.
 
 ## Main statements
 
-* `lubinTateFormalGroup_comm` / `lubinTateFormalGroup_assoc` — the group-law identities;
-  proved.
-* `lubinTateScalar_comp` / `lubinTateScalar_add` / `lubinTateScalar_lubinTateFormalGroup`
+* `lubinTateFormalGroupPowerSeries_comm` / `lubinTateFormalGroupPowerSeries_assoc` — the
+  group-law identities; proved.
+* `lubinTateScalar_comp` / `lubinTateScalar_add` / `lubinTateScalar_lubinTateFormalGroupPowerSeries`
   — the module identities; proved.
 * `lubinTateScalar_one` / `lubinTateScalar_pi` — the normalizations `[1] = X`, `[π] = e`;
   proved.
@@ -61,7 +63,7 @@ variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
 /-- The **Lubin–Tate formal group law**: the unique self-intertwiner of `e` with linear
 term `X + Y` ([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:497`][Yamaguchi2026]). -/
-noncomputable def lubinTateFormalGroup (hπ : Irreducible π) (e : LubinTateSeries A π) :
+noncomputable def lubinTateFormalGroupPowerSeries (hπ : Irreducible π) (e : LubinTateSeries A π) :
     MvPowerSeries (Fin 2) A :=
   lubinTateIntertwiner hπ e e (fun _ => 1)
 
@@ -72,12 +74,13 @@ noncomputable def lubinTateScalar (hπ : Irreducible π) (e : LubinTateSeries A 
     PowerSeries A :=
   lubinTateIntertwiner hπ e e (fun _ : Unit => a)
 
-theorem lubinTateFormalGroup_hasLinearTerm (hπ : Irreducible π) (e : LubinTateSeries A π) :
-    LubinTateHasLinearTerm (lubinTateFormalGroup hπ e) (fun _ => 1) :=
+theorem lubinTateFormalGroupPowerSeries_hasLinearTerm (hπ : Irreducible π)
+    (e : LubinTateSeries A π) :
+    LubinTateHasLinearTerm (lubinTateFormalGroupPowerSeries hπ e) (fun _ => 1) :=
   lubinTateIntertwiner_hasLinearTerm hπ e e _
 
-theorem lubinTateFormalGroup_intertwines (hπ : Irreducible π) (e : LubinTateSeries A π) :
-    LubinTateIntertwines e e (lubinTateFormalGroup hπ e) :=
+theorem lubinTateFormalGroupPowerSeries_intertwines (hπ : Irreducible π) (e : LubinTateSeries A π) :
+    LubinTateIntertwines e e (lubinTateFormalGroupPowerSeries hπ e) :=
   lubinTateIntertwiner_intertwines hπ e e _
 
 theorem lubinTateScalar_hasLinearTerm (hπ : Irreducible π) (e : LubinTateSeries A π)
@@ -141,18 +144,6 @@ omit [Finite (IsLocalRing.ResidueField A)] in
 /-- The Lubin–Tate series intertwines itself with itself: both sides are `e ∘ e`. -/
 theorem toPowerSeries_intertwines (e : LubinTateSeries A π) :
     LubinTateIntertwines e e (e.toPowerSeries : MvPowerSeries Unit A) := by
-  have h2 : (fun _ : Unit => (MvPowerSeries.X (() : Unit) : MvPowerSeries Unit A)) =
-      (MvPowerSeries.X : Unit → MvPowerSeries Unit A) := by
-    funext u
-    cases u
-    rfl
-  have hvar : lubinTateInVariable (σ := Unit) e () =
-      (e.toPowerSeries : MvPowerSeries Unit A) := by
-    have h1 : lubinTateInVariable (σ := Unit) e () =
-        PowerSeries.subst (MvPowerSeries.X (() : Unit) : MvPowerSeries Unit A)
-          e.toPowerSeries := rfl
-    rw [h1, PowerSeries.subst_def, h2, MvPowerSeries.subst_self]
-    rfl
   change PowerSeries.subst (e.toPowerSeries : MvPowerSeries Unit A) e.toPowerSeries =
     MvPowerSeries.subst (fun i : Unit => lubinTateInVariable e i)
       (e.toPowerSeries : MvPowerSeries Unit A)
@@ -160,71 +151,7 @@ theorem toPowerSeries_intertwines (e : LubinTateSeries A π) :
   congr 1
   funext u
   cases u
-  exact hvar.symm
-
-omit [IsDomain A] [IsDiscreteValuationRing A] [Finite (IsLocalRing.ResidueField A)] in
-/-- The variable itself, over the one-variable index: linear term `X`. -/
-theorem X_hasLinearTerm :
-    LubinTateHasLinearTerm (PowerSeries.X : MvPowerSeries Unit A) (fun _ : Unit => 1) := by
-  refine MvPowerSeries.le_order ?_
-  intro d hd
-  have hdeg : d.degree < 2 := by exact_mod_cast hd
-  have hsingle : d = Finsupp.single () (d ()) := by
-    refine Finsupp.ext fun u => ?_
-    cases u
-    simp
-  have hd0 : d.degree = d () := by
-    conv_lhs => rw [hsingle]
-    rw [Finsupp.degree_single]
-  have hval : d () < 2 := hd0 ▸ hdeg
-  have hcases : d = 0 ∨ d = Finsupp.single () 1 := by
-    rcases (by omega : d () = 0 ∨ d () = 1) with h0 | h1
-    · left
-      refine Finsupp.ext fun u => ?_
-      cases u
-      simpa using h0
-    · right
-      refine Finsupp.ext fun u => ?_
-      cases u
-      simp [h1]
-  have hXcoe : (PowerSeries.X : MvPowerSeries Unit A) = MvPowerSeries.X () := rfl
-  rcases hcases with rfl | rfl
-  · rw [map_sub, sub_eq_zero, MvPowerSeries.coeff_zero_eq_constantCoeff_apply,
-      MvPowerSeries.coeff_zero_eq_constantCoeff_apply, constantCoeff_lubinTateLinearForm,
-      hXcoe]
-    simp
-  · rw [map_sub, sub_eq_zero, coeff_lubinTateLinearForm_single, hXcoe]
-    simp [MvPowerSeries.coeff_X]
-
-omit [Finite (IsLocalRing.ResidueField A)] in
-/-- The variable intertwines `e` with itself: both sides are `e`. -/
-theorem X_intertwines (e : LubinTateSeries A π) :
-    LubinTateIntertwines e e (PowerSeries.X : MvPowerSeries Unit A) := by
-  have h2 : (fun _ : Unit => (MvPowerSeries.X (() : Unit) : MvPowerSeries Unit A)) =
-      (MvPowerSeries.X : Unit → MvPowerSeries Unit A) := by
-    funext u
-    cases u
-    rfl
-  change PowerSeries.subst (PowerSeries.X : MvPowerSeries Unit A) e.toPowerSeries =
-    MvPowerSeries.subst (fun i : Unit => lubinTateInVariable e i)
-      (PowerSeries.X : MvPowerSeries Unit A)
-  have hL : PowerSeries.subst (PowerSeries.X : MvPowerSeries Unit A) e.toPowerSeries =
-      lubinTateInVariable (σ := Unit) e () := rfl
-  rw [hL]
-  have hR : MvPowerSeries.subst (fun i : Unit => lubinTateInVariable e i)
-      (PowerSeries.X : MvPowerSeries Unit A) = lubinTateInVariable (σ := Unit) e () := by
-    have hX : (PowerSeries.X : MvPowerSeries Unit A) = MvPowerSeries.X () := rfl
-    rw [hX, MvPowerSeries.subst_X]
-    exact (hasSubst_lubinTateInVariable e)
-  rw [hR]
-
-/-- **Multiplication by one is the identity**: both sides have linear term `X` and
-intertwine `e` with itself ([Milne 2020, Chap. I, §2, Cor. 2.17, p.34][MilneCFT]). -/
-theorem lubinTateScalar_one (hπ : Irreducible π) (e : LubinTateSeries A π) :
-    lubinTateScalar hπ e 1 = PowerSeries.X :=
-  LubinTateIntertwines.eq_of_hasLinearTerm hπ
-    (lubinTateScalar_hasLinearTerm hπ e 1) (lubinTateScalar_intertwines hπ e 1)
-    X_hasLinearTerm (X_intertwines e)
+  exact (lubinTateInVariable_unit e).symm
 
 /-- **Multiplication by `π` is the Lubin–Tate series itself**: both have linear term
 `π X` and intertwine `e` with itself
@@ -240,132 +167,17 @@ section Composition
 variable {σ : Type*}
 
 omit [IsDomain A] [IsDiscreteValuationRing A] [Finite (IsLocalRing.ResidueField A)] in
-/-- Substituting a linear-term-`L` series into a linear-term-`c` one-variable series has
-linear term `c • L`: the linear parts compose, and everything else has order two
-([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT]). -/
-theorem hasLinearTerm_powerSeries_subst [Fintype σ]
-    {H : PowerSeries A} {c : A}
-    (hH : LubinTateHasLinearTerm (H : MvPowerSeries Unit A) (fun _ : Unit => c))
-    {G : MvPowerSeries σ A} {L : σ → A} (hG : LubinTateHasLinearTerm G L) :
-    LubinTateHasLinearTerm (PowerSeries.subst G H) (fun i => c * L i) := by
-  classical
-  have hG0 : MvPowerSeries.constantCoeff G = 0 := hG.constantCoeff_eq_zero
-  have hGs : MvPowerSeries.HasSubst (fun _ : Unit => G) :=
-    PowerSeries.hasSubst_iff.mp (PowerSeries.HasSubst.of_constantCoeff_zero hG0)
-  have hlin : lubinTateLinearForm (fun _ : Unit => c) =
-      MvPowerSeries.C c * MvPowerSeries.X (() : Unit) := by
-    rw [lubinTateLinearForm]
-    simp
-  have hsub : PowerSeries.subst G H =
-      MvPowerSeries.C c * G +
-        MvPowerSeries.subst (fun _ : Unit => G)
-          ((H : MvPowerSeries Unit A) - lubinTateLinearForm (fun _ : Unit => c)) := by
-    rw [PowerSeries.subst_def]
-    conv_lhs => rw [show (H : MvPowerSeries Unit A) =
-      lubinTateLinearForm (fun _ : Unit => c) +
-        ((H : MvPowerSeries Unit A) - lubinTateLinearForm (fun _ : Unit => c)) by ring]
-    rw [MvPowerSeries.subst_add hGs, hlin, MvPowerSeries.subst_mul hGs,
-      MvPowerSeries.subst_C, MvPowerSeries.subst_X hGs]
-  have hclin : MvPowerSeries.C c * lubinTateLinearForm L =
-      lubinTateLinearForm (fun i => c * L i) := by
-    rw [lubinTateLinearForm, lubinTateLinearForm, Finset.mul_sum]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [← mul_assoc, ← map_mul]
-  have harr : PowerSeries.subst G H - lubinTateLinearForm (fun i => c * L i) =
-      MvPowerSeries.C c * (G - lubinTateLinearForm L) +
-        MvPowerSeries.subst (fun _ : Unit => G)
-          ((H : MvPowerSeries Unit A) - lubinTateLinearForm (fun _ : Unit => c)) := by
-    rw [hsub, ← hclin]
-    ring
-  rw [LubinTateHasLinearTerm, harr]
-  refine le_trans (le_min ?_ ?_) MvPowerSeries.min_order_le_add
-  · refine le_trans ?_ MvPowerSeries.le_order_mul
-    calc (2 : ℕ∞) ≤ (G - lubinTateLinearForm L).order := hG
-    _ ≤ (MvPowerSeries.C c : MvPowerSeries σ A).order + (G - lubinTateLinearForm L).order :=
-        le_add_self
-  · have h1 : (1 : ℕ∞) ≤ ⨅ _ : Unit, MvPowerSeries.order G := by
-      refine le_iInf fun _ => ?_
-      exact hG.one_le_order
-    have h2 := hH
-    rw [LubinTateHasLinearTerm] at h2
-    calc (2 : ℕ∞) = 1 * 2 := (one_mul _).symm
-    _ ≤ (⨅ _ : Unit, MvPowerSeries.order G) *
-        MvPowerSeries.order ((H : MvPowerSeries Unit A) -
-          lubinTateLinearForm (fun _ : Unit => c)) := mul_le_mul' h1 h2
-    _ ≤ _ := MvPowerSeries.le_order_subst hGs
-        ((H : MvPowerSeries Unit A) - lubinTateLinearForm (fun _ : Unit => c))
-
-omit [Finite (IsLocalRing.ResidueField A)] in
-/-- Substituting an intertwining series into an intertwining one-variable series
-intertwines: the five-step substitution shuffle
-([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT]). -/
-theorem intertwines_powerSeries_subst [Finite σ] {e : LubinTateSeries A π}
-    {H : PowerSeries A}
-    (hHI : LubinTateIntertwines e e (H : MvPowerSeries Unit A))
-    (hH0 : MvPowerSeries.constantCoeff (H : MvPowerSeries Unit A) = 0)
-    {G : MvPowerSeries σ A} (hGI : LubinTateIntertwines e e G)
-    (hG0 : MvPowerSeries.constantCoeff G = 0) :
-    LubinTateIntertwines e e (PowerSeries.subst G H) := by
-  classical
-  have hGs : MvPowerSeries.HasSubst (fun _ : Unit => G) :=
-    PowerSeries.hasSubst_iff.mp (PowerSeries.HasSubst.of_constantCoeff_zero hG0)
-  have hHs : MvPowerSeries.HasSubst (fun _ : Unit => (H : MvPowerSeries Unit A)) :=
-    PowerSeries.hasSubst_iff.mp (PowerSeries.HasSubst.of_constantCoeff_zero hH0)
-  have hEs : MvPowerSeries.HasSubst (fun i : σ => lubinTateInVariable e i) :=
-    hasSubst_lubinTateInVariable e
-  have hEsU : MvPowerSeries.HasSubst
-      (fun i : Unit => lubinTateInVariable (σ := Unit) e i) :=
-    hasSubst_lubinTateInVariable e
-  change PowerSeries.subst (PowerSeries.subst G H) e.toPowerSeries =
-    MvPowerSeries.subst (fun i : σ => lubinTateInVariable e i) (PowerSeries.subst G H)
-  calc PowerSeries.subst (PowerSeries.subst G H) e.toPowerSeries
-      = MvPowerSeries.subst (fun _ : Unit => G)
-          (PowerSeries.subst (H : MvPowerSeries Unit A) e.toPowerSeries) := by
-        simp only [PowerSeries.subst_def]
-        rw [MvPowerSeries.subst_comp_subst_apply hHs hGs]
-  _ = MvPowerSeries.subst (fun _ : Unit => G)
-        (MvPowerSeries.subst (fun i : Unit => lubinTateInVariable e i)
-          (H : MvPowerSeries Unit A)) := by rw [hHI]
-  _ = MvPowerSeries.subst (fun _ : Unit => PowerSeries.subst G e.toPowerSeries)
-        (H : MvPowerSeries Unit A) := by
-        rw [MvPowerSeries.subst_comp_subst_apply hEsU hGs]
-        congr 1
-        funext u
-        cases u
-        rw [lubinTateInVariable_unit, PowerSeries.subst_def]
-  _ = MvPowerSeries.subst (fun _ : Unit =>
-        MvPowerSeries.subst (fun i : σ => lubinTateInVariable e i) G)
-        (H : MvPowerSeries Unit A) := by
-        congr 1
-        funext u
-        cases u
-        exact hGI
-  _ = MvPowerSeries.subst (fun i : σ => lubinTateInVariable e i)
-        (MvPowerSeries.subst (fun _ : Unit => G) (H : MvPowerSeries Unit A)) := by
-        rw [MvPowerSeries.subst_comp_subst_apply hGs hEs]
-  _ = MvPowerSeries.subst (fun i : σ => lubinTateInVariable e i)
-        (PowerSeries.subst G H) := by rw [PowerSeries.subst_def]
+/-- Transport of the prescribed linear term along an equality of linear forms. -/
+theorem LubinTateHasLinearTerm.congr [Fintype σ] {H : MvPowerSeries σ A}
+    {L L' : σ → A} (h : LubinTateHasLinearTerm H L) (hLL : L = L') :
+    LubinTateHasLinearTerm H L' := hLL ▸ h
 
 variable {τ : Type*}
 
-/- Order of a finite sum is at least the common lower bound. -/
-omit [IsDomain A] [IsDiscreteValuationRing A] [Finite (IsLocalRing.ResidueField A)] in
-private theorem le_order_sum {ι : Type*} (s : Finset ι) (f : ι → MvPowerSeries σ A)
-    {n : ℕ∞} (h : ∀ i ∈ s, n ≤ (f i).order) : n ≤ (∑ i ∈ s, f i).order := by
-  classical
-  induction s using Finset.induction_on with
-  | empty =>
-    rw [Finset.sum_empty, MvPowerSeries.order_zero]
-    exact le_top
-  | insert a t ha ih =>
-    rw [Finset.sum_insert ha]
-    refine le_trans (le_min (h a (Finset.mem_insert_self a t)) ?_)
-      MvPowerSeries.min_order_le_add
-    exact ih fun i hi => h i (Finset.mem_insert_of_mem hi)
-
 omit [IsDomain A] [IsDiscreteValuationRing A] [Finite (IsLocalRing.ResidueField A)] in
 /-- The multivariable composite of linear-term series has the composed linear term
-([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT]). -/
+([Milne 2020, Chap. I, §2, the closure computations inside Props. 2.12 and 2.14,
+pp.33–34][MilneCFT]). -/
 theorem hasLinearTerm_subst [Fintype σ] [Fintype τ]
     {F : MvPowerSeries τ A} {M : τ → A} (hF : LubinTateHasLinearTerm F M)
     {fam : τ → MvPowerSeries σ A} {L : τ → σ → A}
@@ -414,7 +226,7 @@ theorem hasLinearTerm_subst [Fintype σ] [Fintype τ]
     rw [mul_sub]
   rw [LubinTateHasLinearTerm, harr]
   refine le_trans (le_min ?_ ?_) MvPowerSeries.min_order_le_add
-  · refine le_order_sum _ _ fun t _ => ?_
+  · refine le_order_finset_sum _ _ _ fun t _ => ?_
     refine le_trans ?_ MvPowerSeries.le_order_mul
     calc (2 : ℕ∞) ≤ (fam t - lubinTateLinearForm (L t)).order := hfam t
     _ ≤ (MvPowerSeries.C (M t) : MvPowerSeries σ A).order +
@@ -431,7 +243,8 @@ theorem hasLinearTerm_subst [Fintype σ] [Fintype τ]
 
 omit [Finite (IsLocalRing.ResidueField A)] in
 /-- The multivariable composite of intertwining series intertwines
-([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT]). -/
+([Milne 2020, Chap. I, §2, the closure computations inside Props. 2.12 and 2.14,
+pp.33–34][MilneCFT]). -/
 theorem intertwines_subst [Finite σ] [Finite τ] {e : LubinTateSeries A π}
     {F : MvPowerSeries τ A} (hFI : LubinTateIntertwines e e F)
     (hF0 : MvPowerSeries.constantCoeff F = 0)
@@ -485,6 +298,37 @@ theorem intertwines_subst [Finite σ] [Finite τ] {e : LubinTateSeries A π}
         rw [MvPowerSeries.subst_comp_subst_apply hfs hEsS]
 
 omit [IsDomain A] [IsDiscreteValuationRing A] [Finite (IsLocalRing.ResidueField A)] in
+/-- The one-variable face of `Atlas.Knowledge.hasLinearTerm_subst`: substituting a
+linear-term-`L` series into a linear-term-`c` one-variable series has linear term `c • L`
+([Milne 2020, Chap. I, §2, the closure computations inside Props. 2.12 and 2.14,
+pp.33–34][MilneCFT]). -/
+theorem hasLinearTerm_powerSeries_subst [Fintype σ]
+    {H : PowerSeries A} {c : A}
+    (hH : LubinTateHasLinearTerm (H : MvPowerSeries Unit A) (fun _ : Unit => c))
+    {G : MvPowerSeries σ A} {L : σ → A} (hG : LubinTateHasLinearTerm G L) :
+    LubinTateHasLinearTerm (PowerSeries.subst G H) (fun i => c * L i) := by
+  have h := hasLinearTerm_subst hH (fam := fun _ : Unit => G) (L := fun _ : Unit => L)
+    (fun _ => hG)
+  rw [PowerSeries.subst_def]
+  exact h.congr (funext fun i => by simp)
+
+omit [Finite (IsLocalRing.ResidueField A)] in
+/-- The one-variable face of `Atlas.Knowledge.intertwines_subst`
+([Milne 2020, Chap. I, §2, the closure computations inside Props. 2.12 and 2.14,
+pp.33–34][MilneCFT]). -/
+theorem intertwines_powerSeries_subst [Finite σ] {e : LubinTateSeries A π}
+    {H : PowerSeries A}
+    (hHI : LubinTateIntertwines e e (H : MvPowerSeries Unit A))
+    (hH0 : MvPowerSeries.constantCoeff (H : MvPowerSeries Unit A) = 0)
+    {G : MvPowerSeries σ A} (hGI : LubinTateIntertwines e e G)
+    (hG0 : MvPowerSeries.constantCoeff G = 0) :
+    LubinTateIntertwines e e (PowerSeries.subst G H) := by
+  have h := intertwines_subst (e := e) hHI hH0 (fam := fun _ : Unit => G)
+    (fun _ => hGI) (fun _ => hG0)
+  rw [PowerSeries.subst_def]
+  exact h
+
+omit [IsDomain A] [IsDiscreteValuationRing A] [Finite (IsLocalRing.ResidueField A)] in
 /-- A variable has the indicator linear term: it is that linear form. -/
 theorem X_hasLinearTerm_mv [Fintype σ] [DecidableEq σ] (j : σ) :
     LubinTateHasLinearTerm (MvPowerSeries.X j : MvPowerSeries σ A)
@@ -517,17 +361,18 @@ section Laws
 term and intertwines, so uniqueness closes
 ([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:625`][Yamaguchi2026]). -/
-theorem lubinTateFormalGroup_comm (hπ : Irreducible π) (e : LubinTateSeries A π) :
+theorem lubinTateFormalGroupPowerSeries_comm (hπ : Irreducible π) (e : LubinTateSeries A π) :
     MvPowerSeries.subst (![MvPowerSeries.X 1, MvPowerSeries.X 0] :
-      Fin 2 → MvPowerSeries (Fin 2) A) (lubinTateFormalGroup hπ e) = lubinTateFormalGroup hπ e := by
-  have hlin := hasLinearTerm_subst (lubinTateFormalGroup_hasLinearTerm hπ e)
+      Fin 2 → MvPowerSeries (Fin 2) A) (lubinTateFormalGroupPowerSeries hπ e) =
+      lubinTateFormalGroupPowerSeries hπ e := by
+  have hlin := hasLinearTerm_subst (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e)
     (fam := (![MvPowerSeries.X 1, MvPowerSeries.X 0] :
       Fin 2 → MvPowerSeries (Fin 2) A))
     (L := (![fun i => if i = 1 then 1 else 0, fun i => if i = 0 then 1 else 0] :
       Fin 2 → Fin 2 → A))
     (fun t => by fin_cases t <;> exact X_hasLinearTerm_mv _)
-  have hI := intertwines_subst (e := e) (lubinTateFormalGroup_intertwines hπ e)
-    (lubinTateFormalGroup_hasLinearTerm hπ e).constantCoeff_eq_zero
+  have hI := intertwines_subst (e := e) (lubinTateFormalGroupPowerSeries_intertwines hπ e)
+    (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).constantCoeff_eq_zero
     (fam := (![MvPowerSeries.X 1, MvPowerSeries.X 0] :
       Fin 2 → MvPowerSeries (Fin 2) A))
     (fun t => by fin_cases t <;> exact X_intertwines_mv e _)
@@ -539,7 +384,8 @@ theorem lubinTateFormalGroup_comm (hπ : Irreducible π) (e : LubinTateSeries A 
     fin_cases i <;> simp [Fin.sum_univ_two]
   rw [hfun] at hlin
   exact LubinTateIntertwines.eq_of_hasLinearTerm hπ hlin hI
-    (lubinTateFormalGroup_hasLinearTerm hπ e) (lubinTateFormalGroup_intertwines hπ e)
+    (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e)
+    (lubinTateFormalGroupPowerSeries_intertwines hπ e)
 
 /-- **Composition of scalars multiplies**: `[a] ∘ [b] = [a b]`
 ([Milne 2020, Chap. I, §2, Prop. 2.15, p.34][MilneCFT]). -/
@@ -563,17 +409,17 @@ theorem lubinTateScalar_add (hπ : Irreducible π) (e : LubinTateSeries A π) (a
     MvPowerSeries.subst
       (![(lubinTateScalar hπ e a : MvPowerSeries Unit A),
          (lubinTateScalar hπ e b : MvPowerSeries Unit A)] :
-        Fin 2 → MvPowerSeries Unit A) (lubinTateFormalGroup hπ e) =
+        Fin 2 → MvPowerSeries Unit A) (lubinTateFormalGroupPowerSeries hπ e) =
       lubinTateScalar hπ e (a + b) := by
-  have hlin := hasLinearTerm_subst (lubinTateFormalGroup_hasLinearTerm hπ e)
+  have hlin := hasLinearTerm_subst (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e)
     (fam := (![(lubinTateScalar hπ e a : MvPowerSeries Unit A),
       (lubinTateScalar hπ e b : MvPowerSeries Unit A)] : Fin 2 → MvPowerSeries Unit A))
     (L := (![fun _ : Unit => a, fun _ : Unit => b] : Fin 2 → Unit → A))
     (fun t => by fin_cases t <;>
       [exact lubinTateScalar_hasLinearTerm hπ e a;
        exact lubinTateScalar_hasLinearTerm hπ e b])
-  have hI := intertwines_subst (e := e) (lubinTateFormalGroup_intertwines hπ e)
-    (lubinTateFormalGroup_hasLinearTerm hπ e).constantCoeff_eq_zero
+  have hI := intertwines_subst (e := e) (lubinTateFormalGroupPowerSeries_intertwines hπ e)
+    (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).constantCoeff_eq_zero
     (fam := (![(lubinTateScalar hπ e a : MvPowerSeries Unit A),
       (lubinTateScalar hπ e b : MvPowerSeries Unit A)] : Fin 2 → MvPowerSeries Unit A))
     (fun t => by fin_cases t <;>
@@ -594,20 +440,21 @@ theorem lubinTateScalar_add (hπ : Irreducible π) (e : LubinTateSeries A π) (a
 
 /-- **Scalars distribute over the law**: `[c] (F (X, Y)) = F ([c] X, [c] Y)` — the
 endomorphism property ([Milne 2020, Chap. I, §2, Prop. 2.14, p.34][MilneCFT]). -/
-theorem lubinTateScalar_lubinTateFormalGroup (hπ : Irreducible π) (e : LubinTateSeries A π)
+theorem lubinTateScalar_lubinTateFormalGroupPowerSeries (hπ : Irreducible π)
+    (e : LubinTateSeries A π)
     (c : A) :
-    PowerSeries.subst (lubinTateFormalGroup hπ e) (lubinTateScalar hπ e c) =
+    PowerSeries.subst (lubinTateFormalGroupPowerSeries hπ e) (lubinTateScalar hπ e c) =
       MvPowerSeries.subst
         (fun t : Fin 2 => PowerSeries.subst
           (MvPowerSeries.X t : MvPowerSeries (Fin 2) A) (lubinTateScalar hπ e c))
-        (lubinTateFormalGroup hπ e) := by
+        (lubinTateFormalGroupPowerSeries hπ e) := by
   have hlinL := hasLinearTerm_powerSeries_subst
-    (lubinTateScalar_hasLinearTerm hπ e c) (lubinTateFormalGroup_hasLinearTerm hπ e)
+    (lubinTateScalar_hasLinearTerm hπ e c) (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e)
   have hIL := intertwines_powerSeries_subst
     (lubinTateScalar_intertwines hπ e c)
     (lubinTateScalar_hasLinearTerm hπ e c).constantCoeff_eq_zero
-    (lubinTateFormalGroup_intertwines hπ e)
-    (lubinTateFormalGroup_hasLinearTerm hπ e).constantCoeff_eq_zero
+    (lubinTateFormalGroupPowerSeries_intertwines hπ e)
+    (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).constantCoeff_eq_zero
   have hfamlin : ∀ t : Fin 2, LubinTateHasLinearTerm
       (PowerSeries.subst (MvPowerSeries.X t : MvPowerSeries (Fin 2) A)
         (lubinTateScalar hπ e c)) (fun i => c * (if i = t then 1 else 0)) :=
@@ -621,12 +468,12 @@ theorem lubinTateScalar_lubinTateFormalGroup (hπ : Irreducible π) (e : LubinTa
       (lubinTateScalar_hasLinearTerm hπ e c).constantCoeff_eq_zero
       (X_intertwines_mv e t)
       (by simp)
-  have hlinR := hasLinearTerm_subst (lubinTateFormalGroup_hasLinearTerm hπ e)
+  have hlinR := hasLinearTerm_subst (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e)
     (fam := fun t : Fin 2 => PowerSeries.subst
       (MvPowerSeries.X t : MvPowerSeries (Fin 2) A) (lubinTateScalar hπ e c))
     (L := fun t i => c * (if i = t then 1 else 0)) hfamlin
-  have hIR := intertwines_subst (e := e) (lubinTateFormalGroup_intertwines hπ e)
-    (lubinTateFormalGroup_hasLinearTerm hπ e).constantCoeff_eq_zero
+  have hIR := intertwines_subst (e := e) (lubinTateFormalGroupPowerSeries_intertwines hπ e)
+    (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).constantCoeff_eq_zero
     (fam := fun t : Fin 2 => PowerSeries.subst
       (MvPowerSeries.X t : MvPowerSeries (Fin 2) A) (lubinTateScalar hπ e c))
     hfamI (fun t => (hfamlin t).constantCoeff_eq_zero)
@@ -646,40 +493,40 @@ theorem lubinTateScalar_lubinTateFormalGroup (hπ : Irreducible π) (e : LubinTa
 `X₀ + X₁ + X₂` and intertwine
 ([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:497`][Yamaguchi2026]). -/
-theorem lubinTateFormalGroup_assoc (hπ : Irreducible π) (e : LubinTateSeries A π) :
+theorem lubinTateFormalGroupPowerSeries_assoc (hπ : Irreducible π) (e : LubinTateSeries A π) :
     MvPowerSeries.subst
       (![MvPowerSeries.subst (![MvPowerSeries.X 0, MvPowerSeries.X 1] :
-          Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroup hπ e),
+          Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroupPowerSeries hπ e),
         MvPowerSeries.X 2] : Fin 2 → MvPowerSeries (Fin 3) A)
-      (lubinTateFormalGroup hπ e) =
+      (lubinTateFormalGroupPowerSeries hπ e) =
     MvPowerSeries.subst
       (![MvPowerSeries.X 0,
         MvPowerSeries.subst (![MvPowerSeries.X 1, MvPowerSeries.X 2] :
-          Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroup hπ e)] :
+          Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroupPowerSeries hπ e)] :
         Fin 2 → MvPowerSeries (Fin 3) A)
-      (lubinTateFormalGroup hπ e) := by
+      (lubinTateFormalGroupPowerSeries hπ e) := by
   classical
   have hXlin : ∀ j : Fin 3, LubinTateHasLinearTerm
       (MvPowerSeries.X j : MvPowerSeries (Fin 3) A)
       (fun i => if i = j then 1 else 0) := fun j => X_hasLinearTerm_mv j
   have hpairlin : ∀ j k : Fin 3, LubinTateHasLinearTerm
       (MvPowerSeries.subst (![MvPowerSeries.X j, MvPowerSeries.X k] :
-        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroup hπ e))
+        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroupPowerSeries hπ e))
       (fun i => ∑ t : Fin 2, 1 *
         (![fun i => if i = j then 1 else 0, fun i => if i = k then 1 else 0] :
           Fin 2 → Fin 3 → A) t i) :=
-    fun j k => hasLinearTerm_subst (lubinTateFormalGroup_hasLinearTerm hπ e)
+    fun j k => hasLinearTerm_subst (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e)
       (fun t => by fin_cases t <;> exact X_hasLinearTerm_mv _)
   have hpairI : ∀ j k : Fin 3, LubinTateIntertwines e e
       (MvPowerSeries.subst (![MvPowerSeries.X j, MvPowerSeries.X k] :
-        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroup hπ e)) :=
-    fun j k => intertwines_subst (e := e) (lubinTateFormalGroup_intertwines hπ e)
-      (lubinTateFormalGroup_hasLinearTerm hπ e).constantCoeff_eq_zero
+        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroupPowerSeries hπ e)) :=
+    fun j k => intertwines_subst (e := e) (lubinTateFormalGroupPowerSeries_intertwines hπ e)
+      (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).constantCoeff_eq_zero
       (fun t => by fin_cases t <;> exact X_intertwines_mv e _)
       (fun t => by fin_cases t <;> simp)
-  have hlinL := hasLinearTerm_subst (lubinTateFormalGroup_hasLinearTerm hπ e)
+  have hlinL := hasLinearTerm_subst (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e)
     (fam := (![MvPowerSeries.subst (![MvPowerSeries.X 0, MvPowerSeries.X 1] :
-        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroup hπ e),
+        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroupPowerSeries hπ e),
       MvPowerSeries.X 2] : Fin 2 → MvPowerSeries (Fin 3) A))
     (L := (![fun i : Fin 3 => ∑ t : Fin 2, 1 *
         (![fun i => if i = (0 : Fin 3) then 1 else 0,
@@ -687,18 +534,18 @@ theorem lubinTateFormalGroup_assoc (hπ : Irreducible π) (e : LubinTateSeries A
       fun i : Fin 3 => if i = 2 then 1 else 0] : Fin 2 → Fin 3 → A))
     (fun t => by fin_cases t <;>
       [exact hpairlin 0 1; exact X_hasLinearTerm_mv 2])
-  have hIL := intertwines_subst (e := e) (lubinTateFormalGroup_intertwines hπ e)
-    (lubinTateFormalGroup_hasLinearTerm hπ e).constantCoeff_eq_zero
+  have hIL := intertwines_subst (e := e) (lubinTateFormalGroupPowerSeries_intertwines hπ e)
+    (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).constantCoeff_eq_zero
     (fam := (![MvPowerSeries.subst (![MvPowerSeries.X 0, MvPowerSeries.X 1] :
-        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroup hπ e),
+        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroupPowerSeries hπ e),
       MvPowerSeries.X 2] : Fin 2 → MvPowerSeries (Fin 3) A))
     (fun t => by fin_cases t <;> [exact hpairI 0 1; exact X_intertwines_mv e 2])
     (fun t => by fin_cases t <;>
       [exact (hpairlin 0 1).constantCoeff_eq_zero; simp])
-  have hlinR := hasLinearTerm_subst (lubinTateFormalGroup_hasLinearTerm hπ e)
+  have hlinR := hasLinearTerm_subst (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e)
     (fam := (![MvPowerSeries.X 0,
       MvPowerSeries.subst (![MvPowerSeries.X 1, MvPowerSeries.X 2] :
-        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroup hπ e)] :
+        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroupPowerSeries hπ e)] :
         Fin 2 → MvPowerSeries (Fin 3) A))
     (L := (![fun i : Fin 3 => if i = 0 then 1 else 0,
       fun i : Fin 3 => ∑ t : Fin 2, 1 *
@@ -707,11 +554,11 @@ theorem lubinTateFormalGroup_assoc (hπ : Irreducible π) (e : LubinTateSeries A
         Fin 2 → Fin 3 → A))
     (fun t => by fin_cases t <;>
       [exact X_hasLinearTerm_mv 0; exact hpairlin 1 2])
-  have hIR := intertwines_subst (e := e) (lubinTateFormalGroup_intertwines hπ e)
-    (lubinTateFormalGroup_hasLinearTerm hπ e).constantCoeff_eq_zero
+  have hIR := intertwines_subst (e := e) (lubinTateFormalGroupPowerSeries_intertwines hπ e)
+    (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).constantCoeff_eq_zero
     (fam := (![MvPowerSeries.X 0,
       MvPowerSeries.subst (![MvPowerSeries.X 1, MvPowerSeries.X 2] :
-        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroup hπ e)] :
+        Fin 2 → MvPowerSeries (Fin 3) A) (lubinTateFormalGroupPowerSeries hπ e)] :
         Fin 2 → MvPowerSeries (Fin 3) A))
     (fun t => by fin_cases t <;> [exact X_intertwines_mv e 0; exact hpairI 1 2])
     (fun t => by fin_cases t <;>
@@ -736,6 +583,51 @@ theorem lubinTateFormalGroup_assoc (hπ : Irreducible π) (e : LubinTateSeries A
   rw [hfunR] at hlinR
   exact LubinTateIntertwines.eq_of_hasLinearTerm hπ hlinL hIL hlinR hIR
 
+/-- **Multiplication by one is the identity**: the variable has linear term `X` and
+intertwines `e` with itself ([Milne 2020, Chap. I, §2, Cor. 2.17, p.34][MilneCFT]). -/
+theorem lubinTateScalar_one (hπ : Irreducible π) (e : LubinTateSeries A π) :
+    lubinTateScalar hπ e 1 = PowerSeries.X := by
+  have hXlin : LubinTateHasLinearTerm (PowerSeries.X : MvPowerSeries Unit A)
+      (fun _ : Unit => (1 : A)) :=
+    (X_hasLinearTerm_mv (σ := Unit) ()).congr (funext fun i => by simp)
+  have hXI : LubinTateIntertwines e e (PowerSeries.X : MvPowerSeries Unit A) :=
+    X_intertwines_mv e ()
+  exact LubinTateIntertwines.eq_of_hasLinearTerm hπ
+    (lubinTateScalar_hasLinearTerm hπ e 1) (lubinTateScalar_intertwines hπ e 1)
+    hXlin hXI
+
 end Laws
+
+section Bundle
+
+/-- The **Lubin–Tate formal group**, in Mathlib's own `FormalGroup`: the group law
+bundled with its associativity
+([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
+[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:497`][Yamaguchi2026]). -/
+noncomputable def lubinTateFormalGroup (hπ : Irreducible π) (e : LubinTateSeries A π) :
+    FormalGroup A where
+  toPowerSeries := lubinTateFormalGroupPowerSeries hπ e
+  zero_constantCoeff :=
+    (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).constantCoeff_eq_zero
+  lin_coeff_X := by
+    have := (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).coeff_single 0
+    simpa using this
+  lin_coeff_Y := by
+    have := (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).coeff_single 1
+    simpa using this
+  assoc := by
+    have := lubinTateFormalGroupPowerSeries_assoc hπ e
+    simpa using this
+
+/-- The Lubin–Tate formal group is **commutative**
+([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
+[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:625`][Yamaguchi2026]). -/
+instance lubinTateFormalGroup_isComm (hπ : Irreducible π) (e : LubinTateSeries A π) :
+    (lubinTateFormalGroup hπ e).IsComm where
+  comm := by
+    have := lubinTateFormalGroupPowerSeries_comm hπ e
+    simpa [lubinTateFormalGroup] using this.symm
+
+end Bundle
 
 end Atlas.Knowledge

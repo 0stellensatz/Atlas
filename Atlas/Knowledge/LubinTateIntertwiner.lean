@@ -26,6 +26,8 @@ stabilize into the intertwiner. Uniqueness runs the same computation in reverse.
   construction solves the problem.
 * `LubinTateIntertwines.eq_of_hasLinearTerm` — two solutions with one linear term agree.
 * `existsUnique_lubinTateIntertwiner` — the fundamental lemma.
+* `le_order_finset_sum` — order of a finite sum against a common bound; the utility the
+  formal-group files share.
 
 ## Implementation notes
 
@@ -206,7 +208,9 @@ section Perturbation
 
 variable {A : Type*} [CommRing A] {σ : Type*}
 
-private theorem le_order_finset_sum {ι : Type*} (s : Finset ι)
+/-- The order of a finite sum is at least any common lower bound of the summands'
+orders — the sum-shaped face of `MvPowerSeries.min_order_le_add`, absent from Mathlib. -/
+theorem le_order_finset_sum {ι : Type*} (s : Finset ι)
     (f : ι → MvPowerSeries σ A) (n : ℕ∞) (h : ∀ i ∈ s, n ≤ (f i).order) :
     n ≤ (∑ i ∈ s, f i).order := by
   classical
