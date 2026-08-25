@@ -7,25 +7,31 @@ import Atlas.Knowledge.StandardLubinTateTorsion
 
 The primitive polynomial splits over the integers of the carrier extension: at a
 primitive root, the unit-parameter orbit provides as many distinct integral roots as the
-degree — the roots multiset is full. Distinctness is the scalar congruence of
-`Atlas.Knowledge.StandardLubinTateTorsion` read through the multiplicative–additive
-bridge of `Atlas.Knowledge.IntegerHigherUnitGroup`, and the count is
-`Atlas.Knowledge.integerHigherUnitCount` against the degree. This is the first step of
-the analytic direction of the norm computation: the changed-uniformizer argument ahead
-finds its roots inside this splitting.
+degree — the roots multiset is full and has no repetition. Distinctness is the scalar
+congruence of `Atlas.Knowledge.StandardLubinTateTorsion` read through the
+multiplicative–additive bridge of `Atlas.Knowledge.IntegerHigherUnitGroup`, and the
+count is `Atlas.Knowledge.integerHigherUnitCount` against the degree. This is the first
+step of the analytic direction of the norm computation: the changed-uniformizer argument
+ahead finds its roots inside this splitting.
 
 ## Main statements
 
-* `standardLubinTateSplitting` — the roots multiset over `𝒪[E]` has full cardinality;
-  proved.
+* `standardLubinTateSplitting` — the roots multiset over `𝒪[E]` has full cardinality
+  and no duplicate; proved.
+* `standardLubinTatePrimitivePolynomial_map_splits` — the same fact in Mathlib's
+  `Polynomial.Splits` form; proved.
 
 ## Implementation notes
 
-The statement counts the roots multiset over the integer ring — a domain, so the
-multiset is well-behaved — rather than asserting `Polynomial.Splits`, which lives over a
-field; the level consumer can read either form off the cardinality. The injection is
-indexed by the unit-parameter quotient through `Quotient.out`, so no system of
-representatives is chosen by hand, and both bounds meet at the degree by `omega`.
+The counting form is the engine — the cardinality is what the index computation of the
+norm subgroup consumes — and `Polynomial.Splits`, a one-argument predicate over any
+semiring whose `Polynomial.splits_iff_card_roots` characterization holds over the
+integer domain, is one `iff` away; the corollary records that reading, which is also the
+counterpart source's spelling. Distinctness rides along as `Multiset.Nodup` because the
+injection pins the deduplicated count as well, and a `Finset` phrasing would demand a
+`DecidableEq` the statement should not carry. The injection is indexed by the
+unit-parameter quotient through `Quotient.out`, so no system of representatives is
+chosen by hand, and all bounds meet at the degree by `omega`.
 
 ## References
 
@@ -45,20 +51,23 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 section Splitting
 
 variable (E : Type*) [Field E] [ValuativeRel E] [TopologicalSpace E] [Algebra K E]
-  [ValuativeExtension K E] [FiniteDimensional K E] [IsMixedCharLocalField E]
+  [ValuativeExtension K E] [IsMixedCharLocalField E]
 
-omit [FiniteDimensional K E] in
 /-- **The primitive polynomial splits over the integers of the carrier**: at a primitive
-root, the unit-parameter orbit provides as many distinct integral roots as the degree
+root, the unit-parameter orbit provides as many distinct integral roots as the degree —
+the roots multiset is full and duplicate-free
 ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, p.39][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:55`][Yamaguchi2026]). -/
 theorem standardLubinTateSplitting {π : 𝒪[K]} (hπ : Irreducible π) {n : ℕ}
-    {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E])
+    {x : ↥𝒪[E]}
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
     ((standardLubinTatePrimitivePolynomial ↥𝒪[K] π n).map
         (algebraMap ↥𝒪[K] ↥𝒪[E])).roots.card =
-      (Nat.card 𝓀[K] - 1) * Nat.card 𝓀[K] ^ n := by
+      (Nat.card 𝓀[K] - 1) * Nat.card 𝓀[K] ^ n ∧
+    ((standardLubinTatePrimitivePolynomial ↥𝒪[K] π n).map
+        (algebraMap ↥𝒪[K] ↥𝒪[E])).roots.Nodup := by
   classical
+  have hx : x ∈ 𝓂[E] := mem_maximalIdeal_of_aeval_primitive K E hπ hroot
   have hmonic : ((standardLubinTatePrimitivePolynomial ↥𝒪[K] π n).map
       (algebraMap ↥𝒪[K] ↥𝒪[E])).Monic :=
     (standardLubinTatePrimitivePolynomial_monic ↥𝒪[K] π n).map _
@@ -106,7 +115,26 @@ theorem standardLubinTateSplitting {π : 𝒪[K]} (hπ : Irreducible π) {n : �
   have hub := Polynomial.card_roots'
     ((standardLubinTatePrimitivePolynomial ↥𝒪[K] π n).map
       (algebraMap ↥𝒪[K] ↥𝒪[E]))
-  omega
+  refine ⟨by omega, ?_⟩
+  set r := ((standardLubinTatePrimitivePolynomial ↥𝒪[K] π n).map
+    (algebraMap ↥𝒪[K] ↥𝒪[E])).roots with hr
+  have hdd : r.toFinset.card = Multiset.card r.dedup := rfl
+  exact Multiset.dedup_eq_self.mp
+    (Multiset.eq_of_le_of_card_le (Multiset.dedup_le r) (by omega))
+
+/-- **The splitting in Mathlib's predicate form**: over the integers of the carrier the
+mapped primitive polynomial satisfies `Polynomial.Splits` — the counterpart source's
+spelling, read off the cardinality
+([Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:55`][Yamaguchi2026]). -/
+theorem standardLubinTatePrimitivePolynomial_map_splits {π : 𝒪[K]} (hπ : Irreducible π)
+    {n : ℕ} {x : ↥𝒪[E]}
+    (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
+    ((standardLubinTatePrimitivePolynomial ↥𝒪[K] π n).map
+        (algebraMap ↥𝒪[K] ↥𝒪[E])).Splits :=
+  Polynomial.splits_iff_card_roots.mpr <| by
+    rw [(standardLubinTateSplitting K E hπ hroot).1,
+      (standardLubinTatePrimitivePolynomial_monic ↥𝒪[K] π n).natDegree_map,
+      standardLubinTatePrimitivePolynomial_natDegree]
 
 end Splitting
 

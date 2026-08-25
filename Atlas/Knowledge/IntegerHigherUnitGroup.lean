@@ -98,29 +98,12 @@ theorem sub_mem_iff_div_mem_integerHigherUnitGroup (m : ℕ) (u v : 𝒪[K]ˣ) :
       u⁻¹ * v ∈ integerHigherUnitGroup K m := by
   have hmem : u⁻¹ * v ∈ integerHigherUnitGroup K m ↔
       ((u⁻¹ * v : 𝒪[K]ˣ) : ↥𝒪[K]) - 1 ∈ (𝓂[K] ^ m : Ideal ↥𝒪[K]) := Iff.rfl
-  rw [hmem]
-  constructor
-  · intro h
-    have key : ((u⁻¹ * v : 𝒪[K]ˣ) : ↥𝒪[K]) - 1 =
-        ((u⁻¹ : 𝒪[K]ˣ) : ↥𝒪[K]) * ((v : ↥𝒪[K]) - (u : ↥𝒪[K])) := by
-      push_cast
-      rw [mul_sub]
-      have hinv : ((u⁻¹ : 𝒪[K]ˣ) : ↥𝒪[K]) * (u : ↥𝒪[K]) = 1 := by
-        rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
-      rw [hinv]
-    rw [key]
-    refine Ideal.mul_mem_left _ _ ?_
-    have := neg_mem h
-    rwa [neg_sub] at this
-  · intro h
-    have key : (u : ↥𝒪[K]) - (v : ↥𝒪[K]) =
-        -((u : ↥𝒪[K]) * (((u⁻¹ * v : 𝒪[K]ˣ) : ↥𝒪[K]) - 1)) := by
-      push_cast
-      have hinv : (u : ↥𝒪[K]) * ((u⁻¹ : 𝒪[K]ˣ) : ↥𝒪[K]) = 1 := by
-        rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
-      rw [mul_sub, ← mul_assoc, hinv]
-      ring
-    rw [key]
-    exact neg_mem (Ideal.mul_mem_left _ _ h)
+  have key : ((u⁻¹ * v : 𝒪[K]ˣ) : ↥𝒪[K]) - 1 =
+      ((u⁻¹ : 𝒪[K]ˣ) : ↥𝒪[K]) * ((v : ↥𝒪[K]) - (u : ↥𝒪[K])) := by
+    have hinv : ((u⁻¹ : 𝒪[K]ˣ) : ↥𝒪[K]) * (u : ↥𝒪[K]) = 1 := by
+      rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
+    push_cast
+    rw [mul_sub, hinv]
+  rw [hmem, key, Ideal.unit_mul_mem_iff_mem _ (u⁻¹).isUnit, ← neg_sub, neg_mem_iff]
 
 end Atlas.Knowledge

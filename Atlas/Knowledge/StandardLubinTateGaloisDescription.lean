@@ -23,10 +23,17 @@ unit group, and the count of `Atlas.Knowledge.integerHigherUnitCount` against th
 degree squeezes the descended injection into an isomorphism — the same count that
 proves the extension Galois, through the automorphism count.
 
+## Main definitions
+
+* `levelGeneratorInteger` — the level generator as an integer of the level field, the
+  witness instantiating the abstract-carrier torsion and splitting statements.
+
 ## Main statements
 
 * `nonempty_standardLubinTateGaloisDescription` — `𝒪ˣ/U^{(n+1)} ≃* Gal(Lₙ/K)`; proved.
 * `standardLubinTateLevelField_isAbelianGalois` — proved.
+* `aeval_levelGeneratorInteger` — the level generator is an integral primitive root;
+  proved.
 
 ## Implementation notes
 
@@ -110,16 +117,22 @@ private theorem generator_mem_integer :
     standardLubinTatePrimitivePolynomial_monic ↥𝒪[K] π n,
     by rw [← Polynomial.aeval_def]; exact aeval_generator_field K hπ n⟩
 
-/-- The level generator as an integer of the level field. -/
-private noncomputable def generatorInteger :
+/-- The **level generator as an integer of the level field** — the witness that
+instantiates the abstract-carrier torsion and splitting statements at the level tower.
+Integrality is forced by the monic integral primitive polynomial; the generator itself,
+`Atlas.Knowledge.standardLubinTateLevelGenerator`, carries the source pinpoint. -/
+noncomputable def levelGeneratorInteger :
     ↥𝒪[↥(standardLubinTateLevelField K hπ n)] :=
   ⟨standardLubinTateLevelGenerator K hπ n, generator_mem_integer K hπ n⟩
 
 omit [TopologicalSpace ↥(standardLubinTateLevelField K hπ n)]
   [IsMixedCharLocalField ↥(standardLubinTateLevelField K hπ n)] in
-/-- The integral primitive-root identity at integer level. -/
-private theorem aeval_generatorInteger :
-    Polynomial.aeval (generatorInteger K hπ n)
+/-- **The integral primitive-root identity at integer level**: the level generator,
+read as an integer, is a root of the integral primitive polynomial — the hypothesis
+shape the abstract-carrier torsion and splitting statements consume, e.g.
+`Atlas.Knowledge.standardLubinTateSplitting`. -/
+theorem aeval_levelGeneratorInteger :
+    Polynomial.aeval (levelGeneratorInteger K hπ n)
       (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0 := by
   letI : IsScalarTower ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)]
       ↥(standardLubinTateLevelField K hπ n) :=
@@ -128,7 +141,7 @@ private theorem aeval_generatorInteger :
   apply Subtype.ext
   change (IsScalarTower.toAlgHom ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)]
       ↥(standardLubinTateLevelField K hπ n))
-    ((Polynomial.aeval (generatorInteger K hπ n))
+    ((Polynomial.aeval (levelGeneratorInteger K hπ n))
       (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n)) =
     ((0 : ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) :
       ↥(standardLubinTateLevelField K hπ n))
@@ -136,9 +149,9 @@ private theorem aeval_generatorInteger :
   exact aeval_generator_field K hπ n
 
 /-- The level generator lies in the maximal ideal of the level integers. -/
-private theorem generatorInteger_mem_maximalIdeal :
-    generatorInteger K hπ n ∈ 𝓂[↥(standardLubinTateLevelField K hπ n)] :=
-  mem_maximalIdeal_of_aeval_primitive K _ hπ (aeval_generatorInteger K hπ n)
+private theorem levelGeneratorInteger_mem_maximalIdeal :
+    levelGeneratorInteger K hπ n ∈ 𝓂[↥(standardLubinTateLevelField K hπ n)] :=
+  mem_maximalIdeal_of_aeval_primitive K _ hπ (aeval_levelGeneratorInteger K hπ n)
 
 /-- The power basis of the level field at the chosen root. -/
 private noncomputable def levelPowerBasis :
@@ -163,7 +176,7 @@ private theorem minpoly_levelPowerBasis_gen :
 private theorem aeval_orbit (u : 𝒪[K]ˣ) :
     Polynomial.aeval
       ((lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
-          (standardLubinTateSeries hπ) (↑u) (generatorInteger K hπ n) :
+          (standardLubinTateSeries hπ) (↑u) (levelGeneratorInteger K hπ n) :
         ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) :
         ↥(standardLubinTateLevelField K hπ n))
       (minpoly K (levelPowerBasis K hπ n).gen) = 0 := by
@@ -174,12 +187,12 @@ private theorem aeval_orbit (u : 𝒪[K]ˣ) :
       (vR := valuation K) (vA := valuation ↥(standardLubinTateLevelField K hπ n))
   have hint := standardLubinTateSMul_isRoot K
     ↥(standardLubinTateLevelField K hπ n) hπ
-    (generatorInteger_mem_maximalIdeal K hπ n) (aeval_generatorInteger K hπ n) u
+    (levelGeneratorInteger_mem_maximalIdeal K hπ n) (aeval_levelGeneratorInteger K hπ n) u
   have hpush := Polynomial.aeval_algHom_apply
     (IsScalarTower.toAlgHom ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)]
       ↥(standardLubinTateLevelField K hπ n))
     (lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
-      (standardLubinTateSeries hπ) (↑u) (generatorInteger K hπ n))
+      (standardLubinTateSeries hπ) (↑u) (levelGeneratorInteger K hπ n))
     (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n)
   rw [hint, map_zero] at hpush
   rw [standardLubinTatePrimitivePolynomialOverField, Polynomial.aeval_map_algebraMap]
@@ -194,7 +207,7 @@ private noncomputable def orbitHom (u : 𝒪[K]ˣ) :
 private theorem orbitHom_gen (u : 𝒪[K]ˣ) :
     orbitHom K hπ n u (standardLubinTateLevelGenerator K hπ n) =
       ((lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
-          (standardLubinTateSeries hπ) (↑u) (generatorInteger K hπ n) :
+          (standardLubinTateSeries hπ) (↑u) (levelGeneratorInteger K hπ n) :
         ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) :
         ↥(standardLubinTateLevelField K hπ n)) :=
   PowerBasis.lift_gen _ _ _
@@ -214,9 +227,9 @@ private noncomputable def orbitAut (u : 𝒪[K]ˣ) :
 /-- The restricted orbit automorphism moves the generator by the scalar. -/
 private theorem restrict_orbitAut_generator (u : 𝒪[K]ˣ) :
     algEquivIntegerRestrict K ↥(standardLubinTateLevelField K hπ n)
-      (orbitAut K hπ n u) (generatorInteger K hπ n) =
+      (orbitAut K hπ n u) (levelGeneratorInteger K hπ n) =
     lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
-      (standardLubinTateSeries hπ) (↑u) (generatorInteger K hπ n) := by
+      (standardLubinTateSeries hπ) (↑u) (levelGeneratorInteger K hπ n) := by
   apply Subtype.ext
   exact orbitHom_gen K hπ n u
 
@@ -240,7 +253,7 @@ private theorem restrict_smul (σ : ↥(standardLubinTateLevelField K hπ n) ≃
 /-- The orbit map is multiplicative. -/
 private theorem orbitAut_mul (u v : 𝒪[K]ˣ) :
     orbitAut K hπ n (u * v) = orbitAut K hπ n u * orbitAut K hπ n v := by
-  have hgenmem := generatorInteger_mem_maximalIdeal K hπ n
+  have hgenmem := levelGeneratorInteger_mem_maximalIdeal K hπ n
   have hext : (orbitAut K hπ n (u * v)).toAlgHom =
       (orbitAut K hπ n u * orbitAut K hπ n v).toAlgHom := by
     apply (levelPowerBasis K hπ n).algHom_ext
@@ -249,27 +262,27 @@ private theorem orbitAut_mul (u v : 𝒪[K]ˣ) :
     have hL : orbitAut K hπ n (u * v) (levelPowerBasis K hπ n).gen =
         ((lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
             (standardLubinTateSeries hπ) ((↑u : ↥𝒪[K]) * ↑v)
-            (generatorInteger K hπ n) :
+            (levelGeneratorInteger K hπ n) :
           ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) :
           ↥(standardLubinTateLevelField K hπ n)) := by
       have := orbitHom_gen K hπ n (u * v)
       rwa [Units.val_mul] at this
     have hv : orbitAut K hπ n v (levelPowerBasis K hπ n).gen =
         ((lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
-            (standardLubinTateSeries hπ) (↑v) (generatorInteger K hπ n) :
+            (standardLubinTateSeries hπ) (↑v) (levelGeneratorInteger K hπ n) :
           ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) :
           ↥(standardLubinTateLevelField K hπ n)) :=
       orbitHom_gen K hπ n v
     rw [hL, hv]
     have hcoe : (orbitAut K hπ n u)
         ((lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
-            (standardLubinTateSeries hπ) (↑v) (generatorInteger K hπ n) :
+            (standardLubinTateSeries hπ) (↑v) (levelGeneratorInteger K hπ n) :
           ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) :
           ↥(standardLubinTateLevelField K hπ n)) =
         ((algEquivIntegerRestrict K ↥(standardLubinTateLevelField K hπ n)
             (orbitAut K hπ n u)
             (lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
-              (standardLubinTateSeries hπ) (↑v) (generatorInteger K hπ n)) :
+              (standardLubinTateSeries hπ) (↑v) (levelGeneratorInteger K hπ n)) :
           ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) :
           ↥(standardLubinTateLevelField K hπ n)) := rfl
     rw [hcoe, restrict_smul K hπ n _ _ hgenmem,
@@ -283,10 +296,10 @@ private theorem orbitAut_mul (u v : 𝒪[K]ˣ) :
 private theorem orbitAut_eq_one_iff (u : 𝒪[K]ˣ) :
     orbitAut K hπ n u = 1 ↔
       (u : ↥𝒪[K]) - 1 ∈ (𝓂[K] ^ (n + 1) : Ideal ↥𝒪[K]) := by
-  have hgenmem := generatorInteger_mem_maximalIdeal K hπ n
+  have hgenmem := levelGeneratorInteger_mem_maximalIdeal K hπ n
   have hiff := standardLubinTateSMul_eq_iff K
     ↥(standardLubinTateLevelField K hπ n) hπ hgenmem
-    (aeval_generatorInteger K hπ n) (↑u) 1
+    (aeval_levelGeneratorInteger K hπ n) (↑u) 1
   rw [lubinTateSMul_one] at hiff
   constructor
   · intro h1
@@ -296,14 +309,14 @@ private theorem orbitAut_eq_one_iff (u : 𝒪[K]ˣ) :
     simp only [AlgEquiv.one_apply] at happ
     rw [show (orbitAut K hπ n u) (standardLubinTateLevelGenerator K hπ n) =
         ((lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
-            (standardLubinTateSeries hπ) (↑u) (generatorInteger K hπ n) :
+            (standardLubinTateSeries hπ) (↑u) (levelGeneratorInteger K hπ n) :
           ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) :
           ↥(standardLubinTateLevelField K hπ n)) from orbitHom_gen K hπ n u] at happ
     exact hiff.mp (Subtype.coe_injective happ)
   · intro hmem
     have heq : lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
-        (standardLubinTateSeries hπ) (↑u) (generatorInteger K hπ n) =
-        generatorInteger K hπ n := hiff.mpr hmem
+        (standardLubinTateSeries hπ) (↑u) (levelGeneratorInteger K hπ n) =
+        levelGeneratorInteger K hπ n := hiff.mpr hmem
     have hext : (orbitAut K hπ n u).toAlgHom =
         (1 : ↥(standardLubinTateLevelField K hπ n) ≃ₐ[K]
           ↥(standardLubinTateLevelField K hπ n)).toAlgHom := by
@@ -313,7 +326,7 @@ private theorem orbitAut_eq_one_iff (u : 𝒪[K]ˣ) :
           ↥(standardLubinTateLevelField K hπ n)) (levelPowerBasis K hπ n).gen
       rw [show orbitAut K hπ n u (levelPowerBasis K hπ n).gen =
           ((lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
-              (standardLubinTateSeries hπ) (↑u) (generatorInteger K hπ n) :
+              (standardLubinTateSeries hπ) (↑u) (levelGeneratorInteger K hπ n) :
             ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) :
             ↥(standardLubinTateLevelField K hπ n)) from orbitHom_gen K hπ n u,
         heq]
