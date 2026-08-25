@@ -41,8 +41,6 @@ equality.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
-* [Hyeon2025] S.-H. Hyeon, *The m-step solvable anabelian geometry of mixed-characteristic
-  local fields*, J. London Math. Soc. **112** (2025), e70402.
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
   in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
 -/
@@ -73,8 +71,6 @@ private theorem map_congr_fn {R S : Type*} [Semiring R] [Semiring S]
 
 /- The unramified ideal identity on the layer's own carriers: with trivial inertia, the
 maximal ideal of the base generates the maximal ideal upstairs. -/
-set_option maxHeartbeats 1000000 in
--- the ideal transport across the two carrier identifications overruns the default budget
 private theorem map_maximalIdeal_of_unramified
     (h : lowerRamificationGroup K L 0 = ⊥) :
     Ideal.map (algebraMap ↥𝒪[K] ↥𝒪[L]) 𝓂[K] = 𝓂[L] := by
@@ -142,9 +138,9 @@ private theorem irreducible_algebraMap_of_unramified
   rw [← map_maximalIdeal_of_unramified K L h, hπ, Ideal.map_span]
   simp
 
-/-- **The unramified embedding preserves the normalized valuation** — `e = 1`: a base
-uniformizer stays a uniformizer, and units of the integers stay units
-([Serre 1979, Chap. V, §2, Prop. 3, p.82][Serre1979]). -/
+/-- **The unramified embedding preserves the normalized valuation** — the
+`v_𝔓 (x) = e_𝔓 v_p (x)` formula at `e = 1`: a base uniformizer stays a uniformizer, and
+units of the integers stay units ([Serre 1979, Chap. I, §4, p.15][Serre1979]). -/
 theorem normalizedValuation_algebraMap_of_unramified
     (h : lowerRamificationGroup K L 0 = ⊥) (x : Kˣ) :
     normalizedValuation L (Units.map ((algebraMap K L) : K →* L) x) =
@@ -193,10 +189,10 @@ theorem normalizedValuation_algebraMap_of_unramified
     value_unit_mul_zpow (L := L) (algebraMap ↥𝒪[K] ↥𝒪[L] π) hπL
       (Units.map ((algebraMap ↥𝒪[K] ↥𝒪[L]) : ↥𝒪[K] →* ↥𝒪[L]) u) huL0 hπL0 n]
 
-/-- **A norm's value is the degree times the value upstairs**: the norm is the full
-product of conjugates, each of the same value by
-`Atlas.Knowledge.normalizedValuation_algEquiv`
-([Serre 1979, Chap. V, §2, Prop. 3, p.82][Serre1979]). -/
+/-- **A norm's value is the degree times the value upstairs** — the element form of
+`N (𝔓) = p ^ f` at `f = n`: the norm is the full product of conjugates, each of the same
+value by `Atlas.Knowledge.normalizedValuation_algEquiv`
+([Serre 1979, Chap. I, §5, p.16][Serre1979]). -/
 theorem normalizedValuation_norm_of_unramified
     (h : lowerRamificationGroup K L 0 = ⊥) (y : Lˣ) :
     normalizedValuation K (Units.map ((Algebra.norm K) : L →* K) y) =

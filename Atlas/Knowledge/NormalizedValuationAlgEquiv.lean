@@ -26,6 +26,8 @@ outer terms trivial and restricted respectively.
   `L` and normalized on `Lˣ`; proved.
 * `continuous_algEquiv` — a `K`-automorphism is continuous; proved.
 * `algEquiv_mem_integer` — the automorphism preserves the integers; proved.
+* `value_unit_mul_zpow` — the value of a unit of the integers times an irreducible power
+  is the exponent; proved.
 
 ## Implementation notes
 
@@ -45,6 +47,8 @@ neighborhood basis.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
+* [Hyeon2025] S.-H. Hyeon, *The m-step solvable anabelian geometry of mixed-characteristic
+  local fields*, J. London Math. Soc. **112** (2025), e70402.
 -/
 
 open ValuativeRel
