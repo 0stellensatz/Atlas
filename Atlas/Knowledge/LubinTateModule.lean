@@ -8,9 +8,10 @@ import Atlas.Knowledge.NormalizedValuationAlgEquiv
 
 The formal module, evaluated: on the integers of a finite extension of the base local
 field, the Lubin–Tate group law and scalars evaluate through
-`MvPowerSeries.eval₂` at maximal-ideal points, and the maximal ideal becomes a module
-over the base integers — the addition `x +[e] y = F_e (x, y)`, the scalars
-`[a] x`, closure in the ideal, commutativity, associativity, `[a] ([b] x) = [a b] x`,
+`MvPowerSeries.eval₂` at maximal-ideal points, giving the operations from which the
+module structure on the maximal ideal is assembled — the addition
+`x +[e] y = F_e (x, y)`, the scalars `[a] x`, closure in the ideal, commutativity,
+associativity, the identity `x +[e] 0 = x`, `[a] ([b] x) = [a b] x`,
 `[a] (x + y) = [a] x + [a] y`, `[a + b] x = [a] x + [b] x`, `[1] x = x` — with every law
 the evaluation of the corresponding series identity of
 `Atlas.Knowledge.lubinTateFormalGroupPowerSeries`, and the whole structure equivariant
@@ -25,12 +26,17 @@ of local class field theory.
 
 * `eval₂_mem_maximalIdeal` — evaluation of a constant-term-zero series at maximal-ideal
   points lands in the maximal ideal; proved.
-* `lubinTateAdd_comm` / `lubinTateAdd_assoc` — the evaluated group laws; proved.
+* `lubinTateAdd_mem_maximalIdeal` / `lubinTateSMul_mem_maximalIdeal` — the evaluated
+  operations stay in the maximal ideal; proved.
+* `lubinTateAdd_comm` / `lubinTateAdd_assoc` / `lubinTateAdd_zero` — the evaluated group
+  laws; proved.
 * `lubinTateSMul_smul` / `lubinTateSMul_add` / `lubinTateSMul_lubinTateAdd` /
   `lubinTateSMul_one` — the evaluated module laws; proved.
 * `eval₂_algEquiv` — the `K`-automorphisms commute with evaluation; proved.
 * `eval₂_subst_collapse` — evaluation of a substituted series collapses to evaluation at
   the evaluated family; proved.
+* `hasEval_of_mem_maximalIdeal` — a finite maximal-ideal family is an evaluation family;
+  proved.
 
 ## Implementation notes
 
@@ -44,7 +50,11 @@ against named `letI`s. Membership in the maximal ideal follows the sum: every ev
 monomial of positive degree carries an ideal factor, the constant one vanishes, and the
 ideal is closed because it is open. The equivariance is Mathlib's
 `MvPowerSeries.comp_eval₂` at the restricted automorphism, whose coefficient side is the
-tower identity `σ ∘ algebraMap = algebraMap`.
+tower identity `σ ∘ algebraMap = algebraMap`. The tree's other substitution-value
+transfer, `Atlas.Knowledge.PowerSeriesCompositionValue`, lives across a real boundary —
+rational coefficients over a complete normed field, where that item's implementation
+notes record that Mathlib's `eval₂` is unusable and the value is a `tsum` — so the two
+theorems are correctly separate, not one general lemma awaiting unification.
 
 ## References
 
@@ -88,10 +98,7 @@ omit [FiniteDimensional K E] in
 theorem hasEval_of_mem_maximalIdeal {σ : Type*} [Finite σ] {v : σ → ↥𝒪[E]}
     (hv : ∀ s, v s ∈ 𝓂[E]) : MvPowerSeries.HasEval v where
   hpow s := isTopologicallyNilpotent_of_mem_maximalIdeal E (hv s)
-  tendsto_zero := by
-    haveI : Finite σ := inferInstance
-    simp [Filter.cofinite_eq_bot]
-
+  tendsto_zero := by simp [Filter.cofinite_eq_bot]
 
 omit [TopologicalSpace K] [IsMixedCharLocalField K] [FiniteDimensional K E] in
 /-- The **evaluation of a substituted series** at maximal-ideal points **collapses** to
@@ -155,19 +162,36 @@ theorem eval₂_mem_maximalIdeal {σ : Type*} [Finite σ]
     · rw [show MvPowerSeries.coeff (0 : σ →₀ ℕ) F =
         MvPowerSeries.constantCoeff F from rfl, hF, map_zero, zero_mul]
       exact Ideal.zero_mem _
-    · obtain ⟨s, hs⟩ : ∃ s, d s ≠ 0 := by
-        by_contra hall
-        push Not at hall
-        exact hd0 (Finsupp.ext fun s => hall s)
+    · obtain ⟨s, hs⟩ := d.support_nonempty_iff.mpr hd0
       refine Ideal.mul_mem_left _ _ ?_
       have hmem : (v s) ^ (d s) ∈ 𝓂[E] :=
-        Ideal.pow_mem_of_mem _ (hv s) _ (Nat.pos_of_ne_zero hs)
+        Ideal.pow_mem_of_mem _ (hv s) _
+          (Nat.pos_of_ne_zero (Finsupp.mem_support_iff.mp hs))
       classical
-      rw [Finsupp.prod,
-        ← Finset.prod_erase_mul _ _ (Finsupp.mem_support_iff.mpr hs)]
+      rw [Finsupp.prod, ← Finset.prod_erase_mul _ _ hs]
       exact Ideal.mul_mem_left _ _ hmem
   refine hclosed.mem_of_tendsto hsum ?_
   exact Filter.Eventually.of_forall fun s => sum_mem fun d _ => hterm d
+
+omit [FiniteDimensional K E] in
+/-- **The evaluated addition stays in the maximal ideal**
+([Milne 2020, Chap. I, §2, the remark after Cor. 2.17, p.34][MilneCFT]). -/
+theorem lubinTateAdd_mem_maximalIdeal (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K] π)
+    {x y : ↥𝒪[E]} (hx : x ∈ 𝓂[E]) (hy : y ∈ 𝓂[E]) :
+    lubinTateAdd K E hπ e x y ∈ 𝓂[E] :=
+  eval₂_mem_maximalIdeal K E
+    (lubinTateFormalGroupPowerSeries_hasLinearTerm hπ e).constantCoeff_eq_zero
+    (fun s => by fin_cases s <;> assumption)
+
+omit [FiniteDimensional K E] in
+/-- **The evaluated scalar stays in the maximal ideal**
+([Milne 2020, Chap. I, §2, the remark after Cor. 2.17, p.34][MilneCFT]). -/
+theorem lubinTateSMul_mem_maximalIdeal (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K] π)
+    (a : ↥𝒪[K]) {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E]) :
+    lubinTateSMul K E hπ e a x ∈ 𝓂[E] :=
+  eval₂_mem_maximalIdeal K E
+    (lubinTateScalar_hasLinearTerm hπ e a).constantCoeff_eq_zero
+    (fun _ => hx)
 
 omit [FiniteDimensional K E] in
 /-- **Commutativity of the evaluated addition**
@@ -191,7 +215,6 @@ theorem lubinTateAdd_comm (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K]
         Fin 2 → MvPowerSeries (Fin 2) ↥𝒪[K]) :=
     MvPowerSeries.hasSubst_of_constantCoeff_zero (fun t => by fin_cases t <;> simp)
   conv_lhs => rw [← lubinTateFormalGroupPowerSeries_comm hπ e]
-  rw [show (algebraMap ↥𝒪[K] ↥𝒪[E]) = algebraMap ↥𝒪[K] ↥𝒪[E] from rfl]
   rw [MvPowerSeries.eval₂_subst hswap hb]
   congr 1
   funext t
@@ -313,6 +336,53 @@ theorem lubinTateAdd_assoc (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K
         congr 1
         funext j
         fin_cases j <;> simp [MvPowerSeries.eval₂_X]
+
+omit [FiniteDimensional K E] in
+/-- **Zero is the identity of the evaluated addition**: the series identity is the
+`FormalGroup.add_zero` of the bundled group
+([Milne 2020, Chap. I, §2, the remark after Cor. 2.17, p.34][MilneCFT]). -/
+theorem lubinTateAdd_zero (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K] π)
+    {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E]) :
+    lubinTateAdd K E hπ e x 0 = x := by
+  have hv : ∀ s : Unit, (fun _ : Unit => x) s ∈ 𝓂[E] := fun _ => hx
+  have hg0 : ∀ i : Fin 2, MvPowerSeries.constantCoeff
+      ((![MvPowerSeries.X (), 0] : Fin 2 → MvPowerSeries Unit ↥𝒪[K]) i) = 0 := by
+    intro i
+    fin_cases i <;> simp
+  have hcol := eval₂_subst_collapse K E (v := fun _ : Unit => x) hv
+    (![MvPowerSeries.X (), 0] : Fin 2 → MvPowerSeries Unit ↥𝒪[K]) hg0
+    (lubinTateFormalGroupPowerSeries hπ e)
+  have hzero : MvPowerSeries.subst
+      (![MvPowerSeries.X (), 0] : Fin 2 → MvPowerSeries Unit ↥𝒪[K])
+      (lubinTateFormalGroupPowerSeries hπ e) = MvPowerSeries.X () :=
+    (lubinTateFormalGroup hπ e).add_zero
+      (PowerSeries.HasSubst.of_constantCoeff_zero (by simp))
+  unfold lubinTateAdd
+  letI : UniformSpace ↥𝒪[K] := ⊥
+  letI : UniformSpace ↥𝒪[E] := IsTopologicalAddGroup.rightUniformSpace ↥𝒪[E]
+  calc _ = _ := rfl
+  _ = MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E])
+        (fun i : Fin 2 => MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E])
+          (fun _ : Unit => x)
+          ((![MvPowerSeries.X (), 0] : Fin 2 → MvPowerSeries Unit ↥𝒪[K]) i))
+        (lubinTateFormalGroupPowerSeries hπ e) := by
+      congr 1
+      funext i
+      fin_cases i
+      · change x = MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E]) (fun _ : Unit => x)
+          (MvPowerSeries.X ())
+        rw [MvPowerSeries.eval₂_X]
+      · change (0 : ↥𝒪[E]) = MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E])
+          (fun _ : Unit => x) 0
+        rw [← map_zero (MvPowerSeries.C : ↥𝒪[K] →+* MvPowerSeries Unit ↥𝒪[K]),
+          MvPowerSeries.eval₂_C, map_zero]
+  _ = MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E]) (fun _ : Unit => x)
+        (MvPowerSeries.subst
+          (![MvPowerSeries.X (), 0] : Fin 2 → MvPowerSeries Unit ↥𝒪[K])
+          (lubinTateFormalGroupPowerSeries hπ e)) := hcol.symm
+  _ = MvPowerSeries.eval₂ (algebraMap ↥𝒪[K] ↥𝒪[E]) (fun _ : Unit => x)
+        (MvPowerSeries.X ()) := by rw [hzero]
+  _ = x := by rw [MvPowerSeries.eval₂_X]
 
 omit [FiniteDimensional K E] in
 /-- **Composition of the evaluated scalars**: `[a] ([b] x) = [a b] x`
@@ -487,7 +557,7 @@ theorem lubinTateSMul_add (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K]
 /-- **The `K`-automorphisms commute with evaluation**: the coefficients are fixed and
 the evaluation points transported
 ([Milne 2020, Chap. I, §3, Lem. 3.5, p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/CompletedEvaluation.lean:109`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `LubinTate/FiniteLevel/LevelAutomorphisms.lean:362`][Yamaguchi2026]). -/
 theorem eval₂_algEquiv (σ : E ≃ₐ[K] E) {τ : Type*} [Finite τ]
     {v : τ → ↥𝒪[E]} (hv : ∀ s, v s ∈ 𝓂[E]) (F : MvPowerSeries τ ↥𝒪[K]) :
     algEquivIntegerRestrict K E σ
