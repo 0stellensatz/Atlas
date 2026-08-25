@@ -30,6 +30,8 @@ here.
 * `integerValuation_irreducible` — irreducibles have value one; proved.
 * `integerValuation_add_of_lt` / `min_le_integerValuation_add` — the ultrametric
   equality and inequality; proved.
+* `normalizedValuation_lt_iff` — the order-reversing bridge between the normalized and
+  the multiplicative comparison; proved.
 
 ## Implementation notes
 
@@ -37,10 +39,11 @@ The carrier is `ℤ` and the junk value is `0` — where [Serre1979] sets `v(0) 
 Mathlib's `IsDiscreteValuationRing.addVal` junks at `⊤` in `ℕ∞` — because the `ℤ`
 arithmetic is the point: subtraction does not truncate and `omega` closes the
 bookkeeping, which an `ℕ∞` carrier would not survive; every lemma that needs
-nonvanishing carries it as a hypothesis. The order-reversing
-bridge between the multiplicative valuation and the normalized value — strict
-comparison flips — is kept private: consumers reason in `ℤ`, and the bridge is the
-device that lets them.
+nonvanishing carries it as a hypothesis. The order-reversing bridge between the
+multiplicative valuation and the normalized value — strict comparison flips — is
+exported as `normalizedValuation_lt_iff` for the consumers that must convert a `ℤ`
+comparison back into a valuation comparison; the equal-values congruence stays
+private.
 
 ## References
 
@@ -110,8 +113,11 @@ private theorem algebraMap_integer_ne_zero {y : ↥𝒪[K]} (hy : y ≠ 0) :
   intro h0
   exact hy (Subtype.ext h0)
 
-/-- The order bridge: the normalized valuation reverses the multiplicative comparison. -/
-private theorem normalizedValuation_lt_iff (x y : Kˣ) :
+/-- **The order bridge**: the normalized valuation reverses the multiplicative
+comparison — strict inequality of values is strict inequality of valuations, flipped
+([Hyeon 2025, §3, p.10][Hyeon2025]; the orientation is
+`Atlas.Knowledge.normalizedValuation`'s). -/
+theorem normalizedValuation_lt_iff (x y : Kˣ) :
     normalizedValuation K x < normalizedValuation K y ↔
       valuation K (y : K) < valuation K (x : K) := by
   unfold normalizedValuation

@@ -198,7 +198,6 @@ private theorem descending_bound
   have hq2' : (2 : ℤ) ≤ (q : ℤ) := by exact_mod_cast hq2
   nlinarith [hπEpos]
 
-include hπ in
 /-- The exact top level: `(q − 1) ν(t_n) = ν(π)`. -/
 private theorem top_level_eq
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
@@ -206,8 +205,6 @@ private theorem top_level_eq
         integerValuation E (Polynomial.aeval x
           (standardLubinTatePolynomialIterate ↥𝒪[K] π n)) =
       integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) := by
-  have htn : Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π n) ≠ 0 :=
-    aeval_iterate_ne_zero_of_le K E hπ hroot le_rfl
   have h2 : integerValuation E (Polynomial.aeval x
       (standardLubinTatePolynomialIterate ↥𝒪[K] π n) ^ (Nat.card 𝓀[K] - 1)) =
       integerValuation E (-(algebraMap ↥𝒪[K] ↥𝒪[E] π)) := by
@@ -236,7 +233,7 @@ private theorem level_bound
     induction k with
     | zero =>
       intro _
-      simpa using le_of_eq (top_level_eq K E hπ hroot)
+      simpa using le_of_eq (top_level_eq K E hroot)
     | succ k ih =>
       intro hk
       have hik := ih (by omega)
@@ -307,7 +304,7 @@ theorem standardLubinTatePrimitiveValuation
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
     ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n * integerValuation E x =
       integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) := by
-  have h1 := top_level_eq K E hπ hroot
+  have h1 := top_level_eq K E hroot
   rw [integerValuation_aeval_standardLubinTatePolynomialIterate K E hπ hroot le_rfl,
     ← mul_assoc] at h1
   exact h1

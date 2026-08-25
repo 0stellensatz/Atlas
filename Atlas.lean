@@ -196,6 +196,7 @@ import Atlas.Knowledge.PrimeIdealPowerResidueSymbol
 import Atlas.Knowledge.PrincipalIdele
 import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.QuasiFreeTorsion
+import Atlas.Knowledge.RamificationBound
 import Atlas.Knowledge.RamificationFiltration
 import Atlas.Knowledge.RamificationNumber
 import Atlas.Knowledge.RamificationNumberEqAddVal
