@@ -105,6 +105,7 @@ import Atlas.Knowledge.IdeleContent
 import Atlas.Knowledge.IdeleGroup
 import Atlas.Knowledge.InfinitePlaceHilbertSymbol
 import Atlas.Knowledge.IntegerIsIntegralClosure
+import Atlas.Knowledge.IntegerLinearTopology
 import Atlas.Knowledge.IntegralClosureDVR
 import Atlas.Knowledge.IsAdmissibleJumpPair
 import Atlas.Knowledge.IsArithmeticFrobenius

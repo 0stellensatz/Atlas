@@ -22,6 +22,9 @@ trivial counts to the ambient ideal power.
   the additive action `Atlas.Knowledge.galIdealPow` on `𝓂[L] ^ i` are finite of equal
   cardinality at `n = orderOf σ`; proved.
 
+* `exists_pow_le` / `mem_idealPow_image_iff` / `mem_idealPow_iff_val` — the valuative
+  utilities of the construction, public for the evaluation layer; proved.
+
 ## Implementation notes
 
 The lattice is `∑ 𝒪[K] · σ⁻ʲ(c · b)` over `j : ZMod (orderOf σ)`, with `b` the
@@ -54,8 +57,9 @@ variable (L : Type*) [Field L] [ValuativeRel L] [TopologicalSpace L] [Algebra K 
   [ValuativeExtension K L] [FiniteDimensional K L] [IsMixedCharLocalField L]
   [IsGalois K L]
 
-/- Powers of a value strictly below one sink below any nonzero value. -/
-private theorem exists_pow_le (γ δ : ValueGroupWithZero L) (hγ1 : γ < 1) (hγ0 : γ ≠ 0)
+/-- **Powers of a value strictly below one sink below any nonzero value**: the discrete
+value group's coinitiality, read through its integer model. -/
+theorem exists_pow_le (γ δ : ValueGroupWithZero L) (hγ1 : γ < 1) (hγ0 : γ ≠ 0)
     (hδ0 : δ ≠ 0) : ∃ N : ℕ, γ ^ N ≤ δ := by
   set e := IsNonarchimedeanLocalField.valueGroupWithZeroIsoInt L
   have hγe : e γ < 1 := by
@@ -88,8 +92,8 @@ private theorem exists_pow_le (γ δ : ValueGroupWithZero L) (hγ1 : γ < 1) (h�
     · nlinarith [Int.natCast_nonneg (Int.natAbs u)]
   exact this
 
-/- Membership in the ideal power's field image is a valuation bound. -/
-private theorem mem_idealPow_image_iff {ϖ : ↥𝒪[L]} (hϖ : Irreducible ϖ) (i : ℕ) (y : L) :
+/-- Membership in the ideal power's field image is a valuation bound. -/
+theorem mem_idealPow_image_iff {ϖ : ↥𝒪[L]} (hϖ : Irreducible ϖ) (i : ℕ) (y : L) :
     y ∈ ((↑) : ↥𝒪[L] → L) '' ((𝓂[L] ^ i : Ideal ↥𝒪[L]) : Set ↥𝒪[L]) ↔
       valuation L y ≤ valuation L ((ϖ : L)) ^ i := by
   constructor
@@ -326,9 +330,9 @@ private theorem latticeHom_injective [NeZero (orderOf σ)] (i : ℕ)
 
 /-! Topological finiteness of the lattice's index. -/
 
-/- Ideal-power membership of an integer is the valuation bound, read off the image
+/-- **Ideal-power membership of an integer is a valuation bound**, read off the image
 characterization. -/
-private theorem mem_idealPow_iff_val {ϖ : ↥𝒪[L]} (hϖ : Irreducible ϖ) (i : ℕ)
+theorem mem_idealPow_iff_val {ϖ : ↥𝒪[L]} (hϖ : Irreducible ϖ) (i : ℕ)
     (x : ↥𝒪[L]) : x ∈ (𝓂[L] ^ i : Ideal ↥𝒪[L]) ↔
       valuation L ((x : ↥𝒪[L]) : L) ≤ valuation L ((ϖ : L)) ^ i := by
   rw [← mem_idealPow_image_iff L hϖ i ((x : ↥𝒪[L]) : L)]
