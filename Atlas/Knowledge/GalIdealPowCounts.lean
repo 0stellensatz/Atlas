@@ -570,8 +570,8 @@ private theorem galIdealPow_toMultiplicative_pow (i : ℕ) {n : ℕ} (hσn : σ 
   rw [hvalpow n x, hσn]
   rfl
 
-/- Serre's Corollary packaged: a stable finite-index subgroup with trivial graded counts
-forces the ambient counts to be finite and equal. Stated over an opaque carrier. -/
+/- Serre's Corollary packaged for trivial subgroup counts: the `= 1` specialization of
+`Atlas.Knowledge.HerbrandQuotient.card_H0_eq_card_H1_of_finiteIndex`. -/
 private theorem finiteIndex_card_eq {A : Type*} [CommGroup A] {σA : A ≃* A} {n : ℕ}
     (hσ : σA ^ n = 1) (N : Subgroup A)
     (hN : ∀ x ∈ N, σA x ∈ N) (hN' : ∀ x ∈ N, σA.symm x ∈ N)
@@ -585,16 +585,7 @@ private theorem finiteIndex_card_eq {A : Type*} [CommGroup A] {σA : A ≃* A} {
     (Nat.card_eq_one_iff_unique.mp hc1).1
   haveI : Finite (H0 (stableRestrict σA N hN hN') n) := Finite.of_subsingleton
   haveI : Finite (H1 (stableRestrict σA N hN hN') n) := Finite.of_subsingleton
-  have hexact : (QuotientGroup.mk' N).ker = N.subtype.range := by
-    rw [QuotientGroup.ker_mk', Subgroup.range_subtype]
-  have hfinB := finite_of_exact (σA := stableRestrict σA N hN hN') (σB := σA)
-    (σC := stableQuotient σA N hN hN') hσ (f := N.subtype) (g := QuotientGroup.mk' N)
-    (fun x => rfl) (fun b => rfl) N.subtype_injective (QuotientGroup.mk'_surjective N) hexact
-  haveI := hfinB.1
-  haveI := hfinB.2
-  have hid := card_identity_of_finiteIndex hσ N hN hN'
-  rw [hc0, hc1] at hid
-  exact ⟨by simpa using hid, hfinB.1, hfinB.2⟩
+  exact card_H0_eq_card_H1_of_finiteIndex hσ N hN hN' (hc0.trans hc1.symm)
 
 /- The counting theorem over handed-in data: the lattice's counts are the co-induced
 module's, both `1`, and the finite index carries them to the ambient ideal power. -/

@@ -35,6 +35,8 @@ group acting on `Lˣ`, will instantiate it.
 * `herbrandQuotient_mul` — the `ℚ`-valued form of multiplicativity; proved.
 * `HerbrandQuotient.card_identity_of_finiteIndex` — a stable subgroup of finite index has
   the same graded counts: the inclusion case of Serre's Corollary; proved.
+* `HerbrandQuotient.card_H0_eq_card_H1_of_finiteIndex` — the corollary climbed: equal
+  finite counts on the subgroup force equal finite counts on the ambient group; proved.
 * `HerbrandQuotient.card_H0_int` / `HerbrandQuotient.card_H1_int` — the trivial action on
   `ℤ` counts `n` and `1`; proved.
 * `HerbrandQuotient.card_H0_shiftAut` / `HerbrandQuotient.card_H1_shiftAut` — both graded
@@ -887,6 +889,35 @@ theorem card_identity_of_finiteIndex
         Nat.card (H1 (stableQuotient σ N hN hN') n) :=
     hcard.trans (by ring)
   exact Nat.eq_of_mul_eq_mul_right hpos h1
+
+/-- **Serre's Corollary, climbed**: a stable finite-index subgroup whose two graded counts
+are finite and equal forces the ambient counts to be finite and equal — the identity of
+`Atlas.Knowledge.HerbrandQuotient.card_identity_of_finiteIndex`, with the subgroup's
+common count cancelled, and the ambient finiteness from
+`Atlas.Knowledge.HerbrandQuotient.finite_of_exact`
+([Serre 1979, Chap. VIII, §4, Corollary, p.134][Serre1979]). -/
+theorem card_H0_eq_card_H1_of_finiteIndex
+    {σ : A ≃* A} {n : ℕ} (hσ : σ ^ n = 1) (N : Subgroup A)
+    (hN : ∀ x ∈ N, σ x ∈ N) (hN' : ∀ x ∈ N, σ.symm x ∈ N)
+    [Finite (A ⧸ N)]
+    [Finite (H0 (stableRestrict σ N hN hN') n)]
+    [Finite (H1 (stableRestrict σ N hN hN') n)]
+    (hc : Nat.card (H0 (stableRestrict σ N hN hN') n) =
+      Nat.card (H1 (stableRestrict σ N hN hN') n)) :
+    (Nat.card (H0 σ n) = Nat.card (H1 σ n)) ∧ Finite (H0 σ n) ∧ Finite (H1 σ n) := by
+  have hexact : (QuotientGroup.mk' N).ker = N.subtype.range := by
+    rw [QuotientGroup.ker_mk', Subgroup.range_subtype]
+  have hfinB := finite_of_exact (σA := stableRestrict σ N hN hN') (σB := σ)
+    (σC := stableQuotient σ N hN hN') hσ (f := N.subtype) (g := QuotientGroup.mk' N)
+    (fun x => rfl) (fun b => rfl) N.subtype_injective (QuotientGroup.mk'_surjective N) hexact
+  haveI := hfinB.1
+  haveI := hfinB.2
+  have hid := card_identity_of_finiteIndex hσ N hN hN'
+  rw [hc] at hid
+  have hpos : 0 < Nat.card (H1 (stableRestrict σ N hN hN') n) := Nat.card_pos
+  refine ⟨?_, hfinB.1, hfinB.2⟩
+  rw [mul_comm (Nat.card (H1 (stableRestrict σ N hN hN') n)) (Nat.card (H1 σ n))] at hid
+  exact Nat.eq_of_mul_eq_mul_right hpos hid
 
 /-!
 The trivial module `ℤ`: the graded pieces of the trivial action on `Multiplicative ℤ` count

@@ -23,16 +23,16 @@ identification converts the surviving `Ĥ⁰`-count into the norm index.
 
 ## Implementation notes
 
-Two applications of the Herbrand toolkit are packaged over opaque carriers —
-`finiteIndex_card_eq'` (Serre's corollary in equal-counts form) and
-`card_of_exact_with_int` (the count along `1 → A → B → ℤ → 1`) — because instantiating
+The sequence count `card_of_exact_with_int` (along `1 → A → B → ℤ → 1`) is packaged over
+opaque carriers, because instantiating
 `Atlas.Knowledge.HerbrandQuotient.finite_of_exact` directly at the concrete subtype
-carriers deadlocks the elaborator's postponed unification; the generic statements
-elaborate in the toolkit's own context and their instantiations are plain applications.
-Finiteness rides every cardinality transport through `Nat.finite_of_card_ne_zero`: the
-graded pieces are groups, hence nonempty, so equal `Nat.card` moves `Finite` without an
-equivalence. The counts of the trivial `ℤ`-module are proved here privately — `Ĥ⁰`
-through reduction to `ZMod n`, `Ĥ¹` from the injectivity of the `n`-th power.
+carriers deadlocks the elaborator's postponed unification; the generic statement
+elaborates in the toolkit's own context and its instantiation is a plain application.
+The finite-index climb and the trivial-`ℤ` counts are the toolkit's own
+`Atlas.Knowledge.HerbrandQuotient.card_H0_eq_card_H1_of_finiteIndex` and
+`Atlas.Knowledge.HerbrandQuotient.card_H0_int` / `card_H1_int`. Finiteness rides every
+cardinality transport through `Nat.finite_of_card_ne_zero`: the graded pieces are groups,
+hence nonempty, so equal `Nat.card` moves `Finite` without an equivalence.
 
 ## References
 
@@ -47,38 +47,6 @@ open ValuativeRel
 namespace Atlas.Knowledge
 
 open HerbrandQuotient
-
-section Generic
-
-variable {A : Type*} [CommGroup A]
-
-/- Serre's Corollary, equal-counts form over an opaque carrier: a stable finite-index
-subgroup with equal finite graded counts forces the ambient counts to be finite and
-equal. -/
-private theorem finiteIndex_card_eq' {σA : A ≃* A} {n : ℕ}
-    (hσ : σA ^ n = 1) (N : Subgroup A)
-    (hN : ∀ x ∈ N, σA x ∈ N) (hN' : ∀ x ∈ N, σA.symm x ∈ N)
-    [Finite (A ⧸ N)]
-    [Finite (H0 (stableRestrict σA N hN hN') n)]
-    [Finite (H1 (stableRestrict σA N hN hN') n)]
-    (hc : Nat.card (H0 (stableRestrict σA N hN hN') n) =
-      Nat.card (H1 (stableRestrict σA N hN hN') n)) :
-    (Nat.card (H0 σA n) = Nat.card (H1 σA n)) ∧ Finite (H0 σA n) ∧ Finite (H1 σA n) := by
-  have hexact : (QuotientGroup.mk' N).ker = N.subtype.range := by
-    rw [QuotientGroup.ker_mk', Subgroup.range_subtype]
-  have hfinB := finite_of_exact (σA := stableRestrict σA N hN hN') (σB := σA)
-    (σC := stableQuotient σA N hN hN') hσ (f := N.subtype) (g := QuotientGroup.mk' N)
-    (fun x => rfl) (fun b => rfl) N.subtype_injective (QuotientGroup.mk'_surjective N) hexact
-  haveI := hfinB.1
-  haveI := hfinB.2
-  have hid := card_identity_of_finiteIndex hσ N hN hN'
-  rw [hc] at hid
-  have hpos : 0 < Nat.card (H1 (stableRestrict σA N hN hN') n) := Nat.card_pos
-  refine ⟨?_, hfinB.1, hfinB.2⟩
-  rw [mul_comm (Nat.card (H1 (stableRestrict σA N hN hN') n)) (Nat.card (H1 σA n))] at hid
-  exact Nat.eq_of_mul_eq_mul_right hpos hid
-
-end Generic
 
 variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 variable (L : Type*) [Field L] [ValuativeRel L] [TopologicalSpace L] [Algebra K L]
@@ -196,101 +164,11 @@ private theorem card_units_ker (σ : L ≃ₐ[K] L)
       (orderOf σ)) :=
     Nat.finite_of_card_ne_zero (by rw [h1]; exact Nat.card_pos.ne')
   haveI := unitLevelFiniteIndex L i
-  exact finiteIndex_card_eq'
+  exact card_H0_eq_card_H1_of_finiteIndex
     (stableRestrict_pow (galUnits σ) (galUnits_pow_orderOf σ)
       (normalizedValuationHom L).ker hk hk')
     ((higherUnitGroup L i).subgroupOf (normalizedValuationHom L).ker) hNstab hNstab'
     (by rw [h0, h1]; exact hUeq)
-
-section IntCounts
-
-/- The Herbrand norm of the trivial action on `Multiplicative ℤ` is the `n`-th power. -/
-private theorem norm_refl_int (n : ℕ) (a : Multiplicative ℤ) :
-    HerbrandQuotient.norm (MulEquiv.refl (Multiplicative ℤ)) n a = a ^ n := by
-  rw [HerbrandQuotient.norm_apply]
-  have h : ∀ i, ((MulEquiv.refl (Multiplicative ℤ)) ^ i) a = a := by
-    intro i
-    induction i with
-    | zero => rfl
-    | succ k ih => rw [pow_succ]; exact ih
-  simp [h, Finset.prod_const]
-
-/- `Ĥ¹` of the trivial `ℤ`-module is trivial: the norm is the injective `n`-th power. -/
-private theorem card_H1_int (n : ℕ) (hn : n ≠ 0) :
-    Nat.card (H1 (MulEquiv.refl (Multiplicative ℤ)) n) = 1 := by
-  have hker : (HerbrandQuotient.norm (MulEquiv.refl (Multiplicative ℤ)) n).ker = ⊥ := by
-    rw [Subgroup.eq_bot_iff_forall]
-    intro x hx
-    rw [MonoidHom.mem_ker, norm_refl_int] at hx
-    have hmul : (n : ℤ) * Multiplicative.toAdd x = 0 := by
-      have := congrArg Multiplicative.toAdd hx
-      rwa [toAdd_pow, toAdd_one, nsmul_eq_mul] at this
-    have hx0 : Multiplicative.toAdd x = 0 := by
-      rcases mul_eq_zero.mp hmul with h | h
-      · exact absurd (by exact_mod_cast h) hn
-      · exact h
-    apply Multiplicative.toAdd.injective
-    simpa using hx0
-  haveI : Subsingleton
-      ((HerbrandQuotient.norm (MulEquiv.refl (Multiplicative ℤ)) n).ker) := by
-    rw [hker]
-    infer_instance
-  haveI : Subsingleton (H1 (MulEquiv.refl (Multiplicative ℤ)) n) := by
-    unfold H1
-    exact Quotient.instSubsingletonQuotient _
-  exact Nat.card_unique
-
-/- `Ĥ⁰` of the trivial `ℤ`-module counts `n`: the difference kernel is everything and the
-norm range is `nℤ`, read through reduction. -/
-private theorem card_H0_int (n : ℕ) :
-    Nat.card (H0 (MulEquiv.refl (Multiplicative ℤ)) n) = n := by
-  set D := HerbrandQuotient.diff (MulEquiv.refl (Multiplicative ℤ)) with hD
-  set N := HerbrandQuotient.norm (MulEquiv.refl (Multiplicative ℤ)) n with hN
-  let f : Multiplicative ℤ →* Multiplicative (ZMod n) :=
-    AddMonoidHom.toMultiplicative (Int.castAddHom (ZMod n))
-  let φ : D.ker →* Multiplicative (ZMod n) := f.comp D.ker.subtype
-  have hφ : ∀ x : D.ker, Multiplicative.toAdd (φ x) =
-      ((Multiplicative.toAdd (x : Multiplicative ℤ) : ℤ) : ZMod n) :=
-    fun x => rfl
-  have hsurj : Function.Surjective φ := by
-    intro z
-    refine ⟨⟨Multiplicative.ofAdd (Multiplicative.toAdd z).cast, ?_⟩, ?_⟩
-    · rw [hD, MonoidHom.mem_ker]
-      apply Multiplicative.toAdd.injective
-      simp [HerbrandQuotient.diff_apply]
-    · apply Multiplicative.toAdd.injective
-      rw [hφ]
-      exact ZMod.intCast_zmod_cast (Multiplicative.toAdd z)
-  have hker : φ.ker = N.range.subgroupOf D.ker := by
-    ext x
-    rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
-    constructor
-    · intro hx
-      have h0 : ((Multiplicative.toAdd (x : Multiplicative ℤ) : ℤ) : ZMod n) = 0 := by
-        rw [← hφ, hx, toAdd_one]
-      obtain ⟨c, hc⟩ := (ZMod.intCast_zmod_eq_zero_iff_dvd _ _).mp h0
-      refine ⟨Multiplicative.ofAdd c, ?_⟩
-      rw [hN, norm_refl_int]
-      apply Multiplicative.toAdd.injective
-      rw [toAdd_pow, toAdd_ofAdd, hc, nsmul_eq_mul]
-    · rintro ⟨a, ha⟩
-      rw [hN, norm_refl_int] at ha
-      have hdvd : (n : ℤ) ∣ Multiplicative.toAdd (x : Multiplicative ℤ) := by
-        refine ⟨Multiplicative.toAdd a, ?_⟩
-        have := congrArg Multiplicative.toAdd ha
-        rw [toAdd_pow, nsmul_eq_mul] at this
-        exact this.symm
-      apply Multiplicative.toAdd.injective
-      rw [hφ, toAdd_one]
-      exact (ZMod.intCast_zmod_eq_zero_iff_dvd _ _).mpr hdvd
-  have hcongr := Nat.card_congr
-    (QuotientGroup.quotientKerEquivOfSurjective φ hsurj).toEquiv
-  rw [hker] at hcongr
-  have hfinal : Nat.card (H0 (MulEquiv.refl (Multiplicative ℤ)) n) =
-      Nat.card (Multiplicative (ZMod n)) := hcongr
-  rw [hfinal, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
-
-end IntCounts
 
 section ExactWithInt
 
@@ -325,21 +203,19 @@ private theorem card_of_exact_with_int
   rw [card_H1_int n hn, card_H0_int n, hAeq, h1B, mul_one, mul_one] at hcard
   have hpos : 0 < Nat.card (H1 σA n) := Nat.card_pos
   rw [mul_comm (Nat.card (H1 σA n)) n] at hcard
-  exact Nat.eq_of_mul_eq_mul_right hpos (by rw [hcard, mul_comm n _])
+  exact Nat.eq_of_mul_eq_mul_right hpos hcard
 
 end ExactWithInt
 
 /-- **The norm index of a cyclic extension is its degree** — the class field axiom of
 local class field theory, at a generator of the Galois group:
 `h(Lˣ) = h(U_L) · h(ℤ) = n` with `Ĥ¹(Lˣ)` trivial, so `#Ĥ⁰(Lˣ) = #(Kˣ ⧸ N Lˣ) = n`
-([Milne 2020, Chap. III, Lemma 2.5, p.105][MilneCFT];
+([Milne 2020, Chap. III, Lemma 2.5, pp.104–105][MilneCFT];
 [Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/Main.lean:92`, stated there as the
 Tate-cohomology count][Yamaguchi2026]). -/
 theorem normIndexCyclic (σ : L ≃ₐ[K] L)
     (hgen : ∀ τ : L ≃ₐ[K] L, τ ∈ Subgroup.zpowers σ) :
     Nat.card (Kˣ ⧸ (Units.map (Algebra.norm K : L →* K)).range) = Module.finrank K L := by
-  classical
-  haveI : Finite (L ≃ₐ[K] L) := inferInstance
   haveI : NeZero (orderOf σ) := ⟨(orderOf_pos σ).ne'⟩
   have hval : ∀ (τ : L ≃ₐ[K] L) (u : Lˣ),
       normalizedValuationHom L (galUnits (K := K) τ u) = normalizedValuationHom L u := by
