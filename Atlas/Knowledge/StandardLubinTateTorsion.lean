@@ -134,6 +134,7 @@ theorem algebraMap_irreducible_mem_maximalIdeal (hπ : Irreducible π) :
     rw [hx] at hy
     exact hy.symm
   rwa [hbase]
+
 omit [TopologicalSpace K] [IsMixedCharLocalField K] [TopologicalSpace E]
   [IsMixedCharLocalField E] in
 /-- **The image of the uniformizer upstairs is nonzero** — the nonvanishing every

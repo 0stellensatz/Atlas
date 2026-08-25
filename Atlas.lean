@@ -230,6 +230,7 @@ import Atlas.Knowledge.StandardLubinTateLevelField
 import Atlas.Knowledge.StandardLubinTateLevelUniformizer
 import Atlas.Knowledge.StandardLubinTateNormSubgroup
 import Atlas.Knowledge.StandardLubinTateNormUniformizer
+import Atlas.Knowledge.StandardLubinTateParameterCongruence
 import Atlas.Knowledge.StandardLubinTatePolynomial
 import Atlas.Knowledge.StandardLubinTatePrimitiveValuation
 import Atlas.Knowledge.StandardLubinTateSeries

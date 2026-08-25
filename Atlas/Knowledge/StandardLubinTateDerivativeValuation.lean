@@ -28,7 +28,7 @@ has the same derivative value, through a `K`-automorphism moving the distinguish
 — is deferred to the Krasner step that consumes it, where
 `Atlas.Knowledge.valuation_algEquiv` already waits. The derivative iterate's
 nonvanishing rides inside the induction's conjunction rather than as a separate lemma;
-the factor's nonvanishing is a separate two-line step — its value equals `ν(π)`, and
+the factor's nonvanishing is a separate short step — its value equals `ν(π)`, and
 zero would junk-value to `0 < ν(π)`.
 
 ## References
