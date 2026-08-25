@@ -154,6 +154,7 @@ import Atlas.Knowledge.LocalTateDuality
 import Atlas.Knowledge.LowerRamificationGroup
 import Atlas.Knowledge.LubinTateFormalGroup
 import Atlas.Knowledge.LubinTateIntertwiner
+import Atlas.Knowledge.LubinTateModule
 import Atlas.Knowledge.LubinTateSeries
 import Atlas.Knowledge.MStepSolvableCenterBound
 import Atlas.Knowledge.MStepSolvableCenterFree
