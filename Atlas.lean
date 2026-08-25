@@ -226,6 +226,7 @@ import Atlas.Knowledge.StandardFiltered
 import Atlas.Knowledge.StandardLubinTateFormalGroup
 import Atlas.Knowledge.StandardLubinTateGaloisDescription
 import Atlas.Knowledge.StandardLubinTateLevelField
+import Atlas.Knowledge.StandardLubinTateLevelUniformizer
 import Atlas.Knowledge.StandardLubinTateNormSubgroup
 import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTatePolynomial

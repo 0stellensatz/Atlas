@@ -29,7 +29,9 @@ here.
   exactly on the maximal ideal; proved.
 * `integerValuation_mul` / `integerValuation_pow` / `integerValuation_neg` — the
   multiplicative laws; proved.
-* `integerValuation_irreducible` — irreducibles have value one; proved.
+* `integerValuation_irreducible` / `irreducible_of_integerValuation_eq_one` — value
+  one characterizes the irreducibles; proved.
+* `integerValuation_eq_zero_of_isUnit` — units have value zero; proved.
 * `integerValuation_add_of_lt` / `min_le_integerValuation_add` — the ultrametric
   equality and inequality; proved.
 
@@ -215,6 +217,42 @@ theorem integerValuation_irreducible {y : ↥𝒪[K]} (hy : Irreducible y) :
   have hy' := algebraMap_integer_ne_zero K hy.ne_zero
   rw [integerValuation_of_ne_zero K hy']
   exact normalizedValuation_irreducible K y hy _ rfl
+
+/-- Units of the integers have value zero. -/
+theorem integerValuation_eq_zero_of_isUnit {y : ↥𝒪[K]} (hy : IsUnit y) :
+    integerValuation K y = 0 := by
+  have hne : y ≠ 0 := by
+    rintro rfl
+    exact not_isUnit_zero hy
+  have hnn := integerValuation_nonneg K y
+  have hnp : ¬ 0 < integerValuation K y := by
+    rw [integerValuation_pos_iff K hne]
+    intro hmem
+    rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff] at hmem
+    exact hmem hy
+  omega
+
+/-- **Value one forces irreducibility** — the converse of
+`integerValuation_irreducible`: value one leaves a unit times a first power of the
+uniformizer ([Serre 1979, Chap. I, §1, p.5][Serre1979], the order of `x = πⁿu`). -/
+theorem irreducible_of_integerValuation_eq_one {y : ↥𝒪[K]}
+    (h : integerValuation K y = 1) : Irreducible y := by
+  have hy : y ≠ 0 := by
+    rintro rfl
+    rw [integerValuation_zero] at h
+    omega
+  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
+  obtain ⟨k, u, hu⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hy hϖ
+  have hune : (u : ↥𝒪[K]) ≠ 0 := Units.ne_zero u
+  have hk : integerValuation K y = k := by
+    rw [hu, integerValuation_mul K hune (pow_ne_zero k hϖ.ne_zero),
+      integerValuation_eq_zero_of_isUnit K u.isUnit,
+      integerValuation_pow K ϖ k, integerValuation_irreducible K hϖ]
+    ring
+  rw [h] at hk
+  have hk1 : k = 1 := by omega
+  rw [hu, hk1, pow_one]
+  exact (Associated.irreducible_iff ⟨u, by rw [mul_comm]⟩).mp hϖ
 
 /-- **The ultrametric equality**: when the values differ, the sum takes the smaller
 value ([Serre 1979, Chap. I, §1, p.5][Serre1979], property b) of the valuation, read

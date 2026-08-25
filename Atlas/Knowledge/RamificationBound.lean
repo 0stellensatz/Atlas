@@ -143,9 +143,9 @@ include hπ in
 upstairs is at most the degree, because the powers of the uniformizer upstairs
 strictly under that value are linearly independent over the base
 ([Serre 1979, Chap. I, §4, Prop. 10, p.14][Serre1979] — the `e ≤ n` half of the
-fundamental identity; [Yamaguchi 2026,
-`ValuationTheory/DiscreteValuationField/FiniteIntegralClosure.lean:625`][Yamaguchi2026]
-— the source carries the full identity). -/
+fundamental identity;
+[Yamaguchi 2026, `ValuationTheory/DiscreteValuationField/FiniteIntegralClosure.lean:625`]
+[Yamaguchi2026] — the source carries the full identity). -/
 theorem ramificationBound [FiniteDimensional K E] :
     integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) ≤ (Module.finrank K E : ℤ) := by
   classical
