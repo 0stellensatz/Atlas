@@ -19,7 +19,9 @@ exponent — every root of the changed polynomial being itself `πu`-primitive.
 
 ## Main statements
 
-* `standardLubinTateRootProximity` — the Krasner-gap root; proved.
+* `standardLubinTateRootProximity` — the Krasner-gap root, with its primitivity;
+  proved.
+* `standardLubinTateRootProximity_lt` — the strict, Krasner-ready form; proved.
 
 ## Implementation notes
 
@@ -35,8 +37,6 @@ to `qⁿ⁺¹ ν(x)`.
 
 ## References
 
-* [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
-  2020.
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
   in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
 -/
@@ -84,8 +84,7 @@ include hπ in
 `πu`-primitive root `y` in a common carrier, some root of the changed primitive
 polynomial lies within the Krasner gap of `x` — equal to `x`, or at value at least
 `qⁿ⁺¹ ν(x)`, strictly above the conjugate ceiling `qⁿ ν(x)`
-([Yamaguchi 2026,
-`LocalFieldTheory/DiscreteValuationField/PolynomialRootProximity.lean:56`]
+([Yamaguchi 2026, `LocalFieldTheory/DiscreteValuationField/PolynomialRootProximity.lean:56`]
 [Yamaguchi2026] — the general maximal-root estimate this proof fuses with its
 Lubin–Tate instantiation). -/
 theorem standardLubinTateRootProximity
@@ -96,8 +95,10 @@ theorem standardLubinTateRootProximity
       (standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n) = 0) :
     ∃ r ∈ ((standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n).map
         (algebraMap ↥𝒪[K] ↥𝒪[E])).roots,
-      x = r ∨ (Nat.card 𝓀[K] : ℤ) ^ (n + 1) * integerValuation E x ≤
-        integerValuation E (x - r) := by
+      Polynomial.aeval r
+          (standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n) = 0 ∧
+        (x = r ∨ (Nat.card 𝓀[K] : ℤ) ^ (n + 1) * integerValuation E x ≤
+          integerValuation E (x - r)) := by
   classical
   have hπ' : Irreducible (π * (u : ↥𝒪[K])) :=
     (Associated.irreducible_iff ⟨u, rfl⟩).mp hπ
@@ -109,10 +110,15 @@ theorem standardLubinTateRootProximity
     standardLubinTatePrimitivePolynomial_map_splits K E hπ' hrooty
   have hcard := (standardLubinTateSplitting K E hπ' hrooty).1
   have hnodup := (standardLubinTateSplitting K E hπ' hrooty).2
+  have hprim : ∀ r ∈ p.roots, Polynomial.aeval r
+      (standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n) = 0 := by
+    intro r hr
+    have := (Polynomial.mem_roots hmonic.ne_zero).mp hr
+    rwa [Polynomial.IsRoot, Polynomial.eval_map, ← Polynomial.aeval_def] at this
   -- either `x` is itself a root, or every difference is nonzero
   by_cases hxroot : ∃ r ∈ p.roots, x = r
   · obtain ⟨r, hr, hxr⟩ := hxroot
-    exact ⟨r, hr, Or.inl hxr⟩
+    exact ⟨r, hr, hprim r hr, Or.inl hxr⟩
   have hne0 : ∀ r ∈ p.roots, x - r ≠ 0 := by
     intro r hr h0
     exact hxroot ⟨r, hr, by linear_combination h0⟩
@@ -141,7 +147,7 @@ theorem standardLubinTateRootProximity
       obtain ⟨r, hr, rfl⟩ := Multiset.mem_map.mp hz
       exact hne0 r hr)] at h1
     push_cast at h1
-    convert h1 using 2
+    exact h1
   -- the closest root
   have hD2 : 2 ≤ Nat.card 𝓀[K] := Finite.one_lt_card
   have hrootsne : p.roots ≠ 0 := by
@@ -150,13 +156,9 @@ theorem standardLubinTateRootProximity
     have : 0 < (Nat.card 𝓀[K] - 1) * Nat.card 𝓀[K] ^ n :=
       Nat.mul_pos (by omega) (pow_pos (by omega) n)
     omega
-  obtain ⟨r₀, hr₀, hmax⟩ := Finset.exists_max_image p.roots.toFinset
-    (fun r => integerValuation E (x - r)) (by
-      rw [Finset.nonempty_iff_ne_empty]
-      intro h0
-      exact hrootsne (Multiset.toFinset_eq_empty.mp h0))
-  have hr₀mem : r₀ ∈ p.roots := Multiset.mem_toFinset.mp hr₀
-  refine ⟨r₀, hr₀mem, Or.inr ?_⟩
+  obtain ⟨r₀, hr₀mem, hmax⟩ := Multiset.exists_max_image (s := p.roots)
+    (fun r => integerValuation E (x - r)) hrootsne
+  refine ⟨r₀, hr₀mem, hprim r₀ hr₀mem, Or.inr ?_⟩
   -- split the total at `r₀`
   have hsplitsum : ((p.roots.map (x - ·)).map (integerValuation E)).sum =
       integerValuation E (x - r₀) +
@@ -169,8 +171,6 @@ theorem standardLubinTateRootProximity
     intro r hr
     have hrne : r ≠ r₀ := (hnodup.mem_erase_iff.mp hr).1
     have hrmem : r ∈ p.roots := (hnodup.mem_erase_iff.mp hr).2
-    have hd1 : x - r₀ ≠ 0 := hne0 r₀ hr₀mem
-    have hd2 : x - r ≠ 0 := hne0 r hrmem
     have hd3 : r₀ - r ≠ 0 := sub_ne_zero.mpr (Ne.symm hrne)
     have hkey : r₀ - r = (r₀ - x) + (x - r) := by ring
     have hmin := min_le_integerValuation_add E (y := r₀ - x) (z := x - r)
@@ -179,7 +179,7 @@ theorem standardLubinTateRootProximity
     have hneg : integerValuation E (r₀ - x) = integerValuation E (x - r₀) := by
       rw [show r₀ - x = -(x - r₀) by ring, integerValuation_neg]
     rw [hneg] at hmin
-    have hmaxr := hmax r (Multiset.mem_toFinset.mpr hrmem)
+    have hmaxr := hmax r hrmem
     omega
   have hsumbound :
       (((p.roots.erase r₀).map (x - ·)).map (integerValuation E)).sum ≤
@@ -187,10 +187,7 @@ theorem standardLubinTateRootProximity
     rw [Multiset.map_map, Multiset.map_map]
     exact Multiset.sum_map_le_sum_map _ _ hclusterbound
   -- the cluster sum is the derivative value at `r₀`
-  have hr₀root : Polynomial.aeval r₀
-      (standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n) = 0 := by
-    have := (Polynomial.mem_roots hmonic.ne_zero).mp hr₀mem
-    rwa [Polynomial.IsRoot, Polynomial.eval_map, ← Polynomial.aeval_def] at this
+  have hr₀root := hprim r₀ hr₀mem
   have hderiv : integerValuation E (Polynomial.aeval r₀ (Polynomial.derivative
       (standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n))) =
       (((p.roots.erase r₀).map (r₀ - ·)).map (integerValuation E)).sum := by
@@ -230,6 +227,44 @@ theorem standardLubinTateRootProximity
     rw [← hidx]
     ring
   linarith [htotal, hsplitsum, hsumbound, hderiv, hexp, hfinal]
+
+include hπ in
+/-- **The Krasner-ready form**: the root sits strictly beyond the conjugate ceiling
+`qⁿ ν(x)` — the strict comparison the Krasner argument consumes
+([Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:838`]
+[Yamaguchi2026] — the source's instantiated strict form). -/
+theorem standardLubinTateRootProximity_lt
+    {u : (↥𝒪[K])ˣ} (hu : u ∈ integerHigherUnitGroup K (n + 1))
+    {x y : ↥𝒪[E]}
+    (hrootx : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)
+    (hrooty : Polynomial.aeval y
+      (standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n) = 0) :
+    ∃ r ∈ ((standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n).map
+        (algebraMap ↥𝒪[K] ↥𝒪[E])).roots,
+      Polynomial.aeval r
+          (standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n) = 0 ∧
+        (x = r ∨ (Nat.card 𝓀[K] : ℤ) ^ n * integerValuation E x <
+          integerValuation E (x - r)) := by
+  obtain ⟨r, hr, hrprim, hcase⟩ := standardLubinTateRootProximity K E hπ hu hrootx hrooty
+  refine ⟨r, hr, hrprim, hcase.imp id fun h => ?_⟩
+  have hq : (2 : ℤ) ≤ (Nat.card 𝓀[K] : ℤ) := by
+    exact_mod_cast (Finite.one_lt_card : 1 < Nat.card 𝓀[K])
+  have hπpos : 0 < integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) :=
+    (integerValuation_pos_iff E (algebraMap_pi_ne_zero K E hπ)).mpr
+      (algebraMap_irreducible_mem_maximalIdeal K E hπ)
+  have hidx := standardLubinTatePrimitiveValuation K E hπ hrootx
+  have hpn : (0 : ℤ) < (Nat.card 𝓀[K] : ℤ) ^ n := pow_pos (by omega) n
+  have hd : (0 : ℤ) < ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n :=
+    mul_pos (by omega) hpn
+  have hxpos : 0 < integerValuation E x := by
+    by_contra hle
+    rw [not_lt] at hle
+    nlinarith [hidx, hπpos, hd, hle]
+  have : (Nat.card 𝓀[K] : ℤ) ^ n * integerValuation E x <
+      (Nat.card 𝓀[K] : ℤ) ^ (n + 1) * integerValuation E x := by
+    rw [pow_succ]
+    nlinarith
+  linarith
 
 end Proximity
 
