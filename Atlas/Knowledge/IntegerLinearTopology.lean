@@ -47,42 +47,8 @@ variable (E : Type*) [Field E] [ValuativeRel E] [TopologicalSpace E] [IsMixedCha
 every valuative ball. -/
 /- Maximal-ideal elements of the integers are topologically nilpotent: powers sink below
 every valuative ball. -/
-/- Local copy of GalIdealPowCounts' private exists_pow_le — promote there at PR time. -/
-private theorem exists_pow_le' (γ δ : ValueGroupWithZero E) (hγ1 : γ < 1) (hγ0 : γ ≠ 0)
-    (hδ0 : δ ≠ 0) : ∃ N : ℕ, γ ^ N ≤ δ := by
-  set e := IsNonarchimedeanLocalField.valueGroupWithZeroIsoInt E
-  have hγe : e γ < 1 := by
-    have := e.strictMono hγ1
-    rwa [map_one] at this
-  have hγe0 : e γ ≠ 0 := by simp [hγ0]
-  have hδe0 : e δ ≠ 0 := by simp [hδ0]
-  obtain ⟨a, ha⟩ := WithZero.ne_zero_iff_exists.mp hγe0
-  obtain ⟨d, hd⟩ := WithZero.ne_zero_iff_exists.mp hδe0
-  have haneg : Multiplicative.toAdd a ≤ -1 := by
-    have h1 : (a : WithZero (Multiplicative ℤ)) < 1 := by
-      rw [ha]
-      exact hγe
-    rw [← WithZero.coe_one, WithZero.coe_lt_coe] at h1
-    have h2 : Multiplicative.toAdd a < Multiplicative.toAdd (1 : Multiplicative ℤ) :=
-      Multiplicative.toAdd_lt.mpr h1
-    simp only [toAdd_one] at h2
-    omega
-  refine ⟨(Multiplicative.toAdd d).natAbs, ?_⟩
-  have hmono := e.strictMono.le_iff_le (a := γ ^ (Multiplicative.toAdd d).natAbs) (b := δ)
-  rw [← hmono, map_pow, ← ha, ← hd, ← WithZero.coe_pow, WithZero.coe_le_coe]
-  rw [← Multiplicative.toAdd_le, _root_.toAdd_pow, nsmul_eq_mul]
-  set t := Multiplicative.toAdd a
-  set u := Multiplicative.toAdd d
-  have hprod : ((Int.natAbs u : ℤ)) * (t + 1) ≤ 0 :=
-    mul_nonpos_of_nonneg_of_nonpos (Int.natCast_nonneg _) (by omega)
-  have : ((Int.natAbs u : ℤ)) * t ≤ u := by
-    rcases Int.natAbs_eq u with hu | hu
-    · nlinarith [Int.natCast_nonneg (Int.natAbs u)]
-    · nlinarith [Int.natCast_nonneg (Int.natAbs u)]
-  exact this
-
-/- Maximal-ideal elements of the integers are topologically nilpotent: powers sink below
-every valuative ball. -/
+/-- **Maximal-ideal elements of the integers are topologically nilpotent**: powers sink
+below every valuative ball ([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
 theorem isTopologicallyNilpotent_of_mem_maximalIdeal {x : ↥𝒪[E]}
     (hx : x ∈ 𝓂[E]) : IsTopologicallyNilpotent x := by
   have hxv : valuation E ((x : ↥𝒪[E]) : E) < 1 := by
@@ -99,8 +65,6 @@ theorem isTopologicallyNilpotent_of_mem_maximalIdeal {x : ↥𝒪[E]}
   rintro γ -
   rcases eq_or_ne (valuation E ((x : ↥𝒪[E]) : E)) 0 with hx0 | hx0
   · refine Filter.eventually_atTop.mpr ⟨1, fun n hn => ?_⟩
-    have hz : valuation E (((x : ↥𝒪[E]) : E) ^ n) = 0 := by
-      rw [map_pow, hx0, zero_pow (by omega)]
     simp only [Set.mem_setOf_eq, map_pow, hx0, zero_pow (show n ≠ 0 by omega)]
     exact zero_lt_iff.mpr γ.ne_zero
   · obtain ⟨N, hN⟩ := exists_pow_le E (valuation E ((x : ↥𝒪[E]) : E))
@@ -114,8 +78,9 @@ theorem isTopologicallyNilpotent_of_mem_maximalIdeal {x : ↥𝒪[E]}
           pow_lt_pow_right_of_lt_one₀ (zero_lt_iff.mpr hx0) hxv (Nat.lt_succ_self N)
     _ ≤ (γ : ValueGroupWithZero E) := hN
 
-/- The maximal-ideal powers are a neighborhood basis of zero in the integers: the
-valuative balls restrict to them. -/
+/-- **The maximal-ideal powers are a neighborhood basis of zero in the integers** — "the
+ideals `π^n A` form a base for the neighborhoods of zero in `K`, hence also in `A`"
+([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
 theorem hasBasis_nhds_zero_integer :
     (nhds (0 : ↥𝒪[E])).HasBasis (fun _ : ℕ => True)
       (fun n => ((𝓂[E] ^ n : Ideal ↥𝒪[E]) : Set ↥𝒪[E])) := by
@@ -144,34 +109,27 @@ theorem hasBasis_nhds_zero_integer :
     simp only [Set.mem_preimage, Set.mem_setOf_eq] at hx
     exact (mem_idealPow_iff_val hϖ n x).mpr (le_of_lt hx)
 
-/- The integers are linearly topologized: the ideal-power basis. -/
+/-- **The integers are linearly topologized**: the ideal-power basis, packaged
+([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
 instance : IsLinearTopology ↥𝒪[E] ↥𝒪[E] := by
   refine IsLinearTopology.mk_of_hasBasis' (R := ↥𝒪[E]) (S := Ideal ↥𝒪[E])
     (hasBasis_nhds_zero_integer E) ?_
   intro s r m hm
   exact Ideal.mul_mem_left s r hm
 
-section Uniform
-
-/- The integers are Hausdorff: the field is, under the rank-one norm its topology
-carries. -/
+/-- **The integers are Hausdorff**: the field is, under the uniformity its topology
+carries ([Serre 1979, Chap. II, §1, pp.26–27][Serre1979]). -/
 instance : T2Space ↥𝒪[E] := by
   letI : UniformSpace E := IsTopologicalAddGroup.rightUniformSpace E
   haveI : IsUniformAddGroup E := isUniformAddGroup_of_addCommGroup
-  letI : (Valued.v (R := E)).RankOne :=
-    { hom' := IsRankLeOne.nonempty.some.emb (R := E).comp
-        MonoidWithZeroHom.ValueGroup₀.embedding
-      strictMono' := IsRankLeOne.nonempty.some.strictMono.comp
-        MonoidWithZeroHom.ValueGroup₀.embedding_strictMono }
-  letI : NontriviallyNormedField E := Valued.toNontriviallyNormedField E (ValueGroupWithZero E)
   haveI : T2Space E := inferInstance
   infer_instance
 
-/- Maximal-ideal elements evaluate power series: they are topologically nilpotent. -/
+/-- **Maximal-ideal elements evaluate power series**: they are topologically nilpotent
+([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
 theorem powerSeries_hasEval_of_mem_maximalIdeal {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E]) :
     PowerSeries.HasEval x :=
   (PowerSeries.hasEval_def x).mpr (isTopologicallyNilpotent_of_mem_maximalIdeal E hx)
 
-end Uniform
 
 end Atlas.Knowledge
