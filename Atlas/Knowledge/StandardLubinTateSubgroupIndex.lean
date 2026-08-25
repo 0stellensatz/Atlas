@@ -26,9 +26,9 @@ computation `Atlas.Knowledge.standardLubinTateNormSubgroup_eq` records.
 The engine is a character `Kˣ →* 𝒪[K]ˣ ⧸ U^{(n+1)}` rather than an isomorphism
 `Kˣ ≅ ℤ × 𝒪ˣ`: the unit part `x · (π^{v(x)})⁻¹` is a homomorphism because the group is
 commutative, it lands in the valuation kernel by the section identity `v ∘ π^• = id`,
-and the kernel equivalence to `𝒪[K]ˣ` is written with both directions explicit — the
-inverse reads the integrality of a valuation-one unit and of its inverse off
-`mem_ker_normalizedValuationHom` — so no choice enters. The kernel of the character is
+and the kernel equivalence to `𝒪[K]ˣ` is Mathlib's `Submonoid.unitsEquivUnitsType`
+carried across `ker_normalizedValuationHom`, so its underlying value is the unit's image
+on the nose and the `rfl`-steps downstream keep firing. The kernel of the character is
 computed by `le_antisymm`: one inclusion decomposes a field unit as uniformizer power
 times unit part, the other checks the two generators of the join separately, and the
 index is then `Subgroup.index_ker` against the count. The normalized valuation takes
@@ -51,7 +51,7 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
 /-- The normalized valuation of the uniformizer unit is one. -/
-private theorem nu_uniformizer {π : 𝒪[K]} (hπ : Irreducible π) :
+private theorem normalizedValuationHom_uniformizerUnit {π : 𝒪[K]} (hπ : Irreducible π) :
     normalizedValuationHom K (standardLubinTateUniformizerUnit K hπ) =
       Multiplicative.ofAdd (1 : ℤ) := by
   have h := normalizedValuation_irreducible K π hπ
@@ -61,10 +61,11 @@ private theorem nu_uniformizer {π : 𝒪[K]} (hπ : Irreducible π) :
         (normalizedValuation K (standardLubinTateUniformizerUnit K hπ)) from rfl, h]
 
 /-- The valuation retracts the uniformizer section. -/
-private theorem nu_section {π : 𝒪[K]} (hπ : Irreducible π) (m : Multiplicative ℤ) :
+private theorem normalizedValuationHom_section {π : 𝒪[K]} (hπ : Irreducible π)
+    (m : Multiplicative ℤ) :
     normalizedValuationHom K
       (zpowersHom Kˣ (standardLubinTateUniformizerUnit K hπ) m) = m := by
-  rw [zpowersHom_apply, map_zpow, nu_uniformizer K hπ, ← ofAdd_zsmul]
+  rw [zpowersHom_apply, map_zpow, normalizedValuationHom_uniformizerUnit K hπ, ← ofAdd_zsmul]
   simp
 
 /-- The unit part of a field unit: divide off the uniformizer power. -/
@@ -80,7 +81,7 @@ private noncomputable def unitPart {π : 𝒪[K]} (hπ : Irreducible π) : Kˣ �
 private theorem unitPart_mem_ker {π : 𝒪[K]} (hπ : Irreducible π) (x : Kˣ) :
     unitPart K hπ x ∈ (normalizedValuationHom K).ker := by
   rw [MonoidHom.mem_ker, unitPart, MonoidHom.mk'_apply, map_mul, map_inv,
-    nu_section K hπ, mul_inv_cancel]
+    normalizedValuationHom_section K hπ, mul_inv_cancel]
 
 /-- The unit part of a member of the kernel is itself. -/
 private theorem unitPart_of_mem_ker {π : 𝒪[K]} (hπ : Irreducible π) {x : Kˣ}
@@ -100,26 +101,9 @@ private theorem eq_zpow_mul_unitPart {π : 𝒪[K]} (hπ : Irreducible π) (x : 
   rw [mul_comm x, mul_inv_cancel_left]
 
 /-- The integer units are the kernel of the normalized valuation, as an equivalence. -/
-private noncomputable def kerEquiv : 𝒪[K]ˣ ≃* (normalizedValuationHom K).ker where
-  toFun u := ⟨Units.map ((algebraMap 𝒪[K] K).toMonoidHom) u, by
-    rw [ker_normalizedValuationHom, Submonoid.mem_units_iff]
-    exact ⟨(u : ↥𝒪[K]).2, ((u⁻¹ : 𝒪[K]ˣ) : ↥𝒪[K]).2⟩⟩
-  invFun x :=
-    { val := ⟨((x : Kˣ) : K), (Valuation.mem_integer_iff _ _).mpr
-        ((mem_ker_normalizedValuationHom K _).mp x.2).le⟩
-      inv := ⟨(((x : Kˣ)⁻¹ : Kˣ) : K), (Valuation.mem_integer_iff _ _).mpr
-        ((mem_ker_normalizedValuationHom K _).mp (inv_mem x.2)).le⟩
-      val_inv := Subtype.ext (Units.mul_inv (x : Kˣ))
-      inv_val := Subtype.ext (Units.inv_mul (x : Kˣ)) }
-  left_inv u := by
-    ext
-    rfl
-  right_inv x := by
-    ext
-    rfl
-  map_mul' u v := by
-    ext
-    rfl
+private noncomputable def kerEquiv : 𝒪[K]ˣ ≃* (normalizedValuationHom K).ker :=
+  (Submonoid.unitsEquivUnitsType (𝒪[K].toSubmonoid)).symm.trans
+    (MulEquiv.subgroupCongr (ker_normalizedValuationHom K).symm)
 
 /-- The unit part, restricted to the kernel. -/
 private noncomputable def unitPartKer {π : 𝒪[K]} (hπ : Irreducible π) :
@@ -186,7 +170,7 @@ private theorem fieldCharacter_ker {π : 𝒪[K]} (hπ : Irreducible π) (n : �
       have hup : unitPartKer K hπ (standardLubinTateUniformizerUnit K hπ) = 1 := by
         apply Subtype.ext
         change unitPart K hπ (standardLubinTateUniformizerUnit K hπ) = 1
-        rw [unitPart, MonoidHom.mk'_apply, nu_uniformizer,
+        rw [unitPart, MonoidHom.mk'_apply, normalizedValuationHom_uniformizerUnit,
           show zpowersHom Kˣ (standardLubinTateUniformizerUnit K hπ)
               (Multiplicative.ofAdd 1) =
             (standardLubinTateUniformizerUnit K hπ) ^
@@ -218,12 +202,8 @@ theorem standardLubinTateSubgroupIndex {π : 𝒪[K]} (hπ : Irreducible π) (n 
       (integerHigherUnitGroup K (n + 1)).map
         (Units.map (algebraMap 𝒪[K] K).toMonoidHom)).index =
       (Nat.card 𝓀[K] - 1) * Nat.card 𝓀[K] ^ n := by
-  rw [← fieldCharacter_ker K hπ n, Subgroup.index_ker]
-  rw [MonoidHom.range_eq_top.mpr (fieldCharacter_surjective K hπ n)]
-  rw [show Nat.card ((⊤ : Subgroup (𝒪[K]ˣ ⧸ integerHigherUnitGroup K (n + 1)))) =
-    Nat.card (𝒪[K]ˣ ⧸ integerHigherUnitGroup K (n + 1)) from
-    Nat.card_congr Subgroup.topEquiv.toEquiv]
-  have := integerHigherUnitCount K (n + 1) (Nat.succ_ne_zero n)
-  simpa using this
+  rw [← fieldCharacter_ker K hπ n, Subgroup.index_ker,
+    MonoidHom.range_eq_top.mpr (fieldCharacter_surjective K hπ n), Subgroup.card_top]
+  simpa using integerHigherUnitCount K (n + 1) (Nat.succ_ne_zero n)
 
 end Atlas.Knowledge
