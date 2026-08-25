@@ -19,8 +19,8 @@ out on one generator, the engine behind the Galois description of the level fiel
 
 * `standardLubinTateSMul_pi` / `standardLubinTateSMul_pi_pow` — the polynomial bridge;
   proved.
-* `standardLubinTateSMul_pi_pow_succ_eq_zero` /
-  `standardLubinTateSMul_pi_pow_ne_zero_of_le` — exact torsion; proved.
+* `standardLubinTateSMul_pi_pow_succ_eq_zero` / `standardLubinTateSMul_pi_pow_ne_zero`
+  / `standardLubinTateSMul_pi_pow_ne_zero_of_le` — exact torsion; proved.
 * `standardLubinTateSMul_eq_zero_iff` — the annihilator; proved.
 * `standardLubinTateSMul_eq_iff` — scalar congruence; proved.
 * `standardLubinTateSMul_isRoot` — the unit orbit; proved.
@@ -55,24 +55,12 @@ variable (E : Type*) [Field E] [ValuativeRel E] [TopologicalSpace E] [Algebra K 
 
 variable {π : ↥𝒪[K]}
 
-omit [TopologicalSpace K] [IsMixedCharLocalField K] [TopologicalSpace E]
-  [IsMixedCharLocalField E] [FiniteDimensional K E] in
-/-- The integer-level algebra map is injective: it restricts the field embedding. -/
-private theorem algebraMap_integer_injective :
-    Function.Injective (algebraMap ↥𝒪[K] ↥𝒪[E]) := by
-  intro a b h
-  have h1 : (algebraMap ↥𝒪[K] E) a = (algebraMap ↥𝒪[K] E) b := by
-    rw [IsScalarTower.algebraMap_apply ↥𝒪[K] ↥𝒪[E] E, h,
-      ← IsScalarTower.algebraMap_apply ↥𝒪[K] ↥𝒪[E] E]
-  rw [IsScalarTower.algebraMap_apply ↥𝒪[K] K E,
-    IsScalarTower.algebraMap_apply ↥𝒪[K] K E (x := b)] at h1
-  exact IsFractionRing.injective ↥𝒪[K] K ((algebraMap K E).injective h1)
+omit [FiniteDimensional K E]
 
-omit [FiniteDimensional K E] in
 /-- **Multiplication by `π` is evaluation of the standard polynomial**: `[π] = e` read
 through `eval₂`'s polynomial branch
 ([Milne 2020, Chap. I, §2, Rem. 2.19 (a), p.35][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveTorsion.lean:74`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:60`][Yamaguchi2026]). -/
 theorem standardLubinTateSMul_pi (hπ : Irreducible π) (x : ↥𝒪[E]) :
     lubinTateSMul K E hπ (standardLubinTateSeries hπ) π x =
       Polynomial.aeval x (standardLubinTatePolynomial ↥𝒪[K] π) := by
@@ -86,9 +74,8 @@ theorem standardLubinTateSMul_pi (hπ : Irreducible π) (x : ↥𝒪[E]) :
       ((standardLubinTatePolynomial ↥𝒪[K] π : Polynomial ↥𝒪[K]) : PowerSeries ↥𝒪[K]) from rfl]
   rw [PowerSeries.eval₂_coe, Polynomial.aeval_def]
 
-omit [FiniteDimensional K E] in
 /-- **Multiplication by `π ^ k` is evaluation of the `k`-th iterate**
-([Milne 2020, Chap. I, §3, the proof of Thm. 3.6 (c), p.39][MilneCFT];
+([Milne 2020, Chap. I, §3, p.37][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveTorsion.lean:74`][Yamaguchi2026]). -/
 theorem standardLubinTateSMul_pi_pow (hπ : Irreducible π) {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E])
     (k : ℕ) :
@@ -119,7 +106,7 @@ section PrimitiveRoot
 
 variable (hπ : Irreducible π) {n : ℕ} {x : ↥𝒪[E]}
 
-omit [TopologicalSpace E] [IsMixedCharLocalField E] [FiniteDimensional K E] in
+omit [TopologicalSpace E] [IsMixedCharLocalField E] in
 include hπ in
 /-- At a primitive root, the `n`-th iterate does not vanish: its `q − 1`-st power is
 `−π` ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, pp.38–39][MilneCFT];
@@ -137,18 +124,16 @@ theorem aeval_standardLubinTatePolynomialIterate_ne_zero
   refine (?_ : algebraMap ↥𝒪[K] ↥𝒪[E] π ≠ 0) hthis
   rw [← map_zero (algebraMap ↥𝒪[K] ↥𝒪[E])]
   exact fun hcontra =>
-    hπ.ne_zero (algebraMap_integer_injective K E hcontra)
+    hπ.ne_zero (FaithfulSMul.algebraMap_injective ↥𝒪[K] ↥𝒪[E] hcontra)
 
-omit [FiniteDimensional K E] in
 /-- **The `n`-th scalar of a primitive root does not vanish**
-([Milne 2020, Chap. I, §3, the proof of Prop. 3.4, p.38][MilneCFT]). -/
+([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, p.39][MilneCFT]). -/
 theorem standardLubinTateSMul_pi_pow_ne_zero (hx : x ∈ 𝓂[E])
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
     lubinTateSMul K E hπ (standardLubinTateSeries hπ) (π ^ n) x ≠ 0 := by
   rw [standardLubinTateSMul_pi_pow K E hπ hx n]
   exact aeval_standardLubinTatePolynomialIterate_ne_zero K E hπ hroot
 
-omit [FiniteDimensional K E] in
 /-- **A primitive root is `π ^ (n + 1)`-torsion**
 ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, pp.38–39][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveTorsion.lean:170`][Yamaguchi2026]). -/
@@ -158,9 +143,8 @@ theorem standardLubinTateSMul_pi_pow_succ_eq_zero (hx : x ∈ 𝓂[E])
   rw [standardLubinTateSMul_pi_pow K E hπ hx (n + 1),
     standardLubinTatePolynomialIterate_succ_factor, map_mul, hroot, mul_zero]
 
-omit [FiniteDimensional K E] in
 /-- Below the level, no iterate scalar vanishes
-([Milne 2020, Chap. I, §3, the proof of Prop. 3.4, p.38][MilneCFT]). -/
+([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, p.39][MilneCFT]). -/
 theorem standardLubinTateSMul_pi_pow_ne_zero_of_le (hx : x ∈ 𝓂[E])
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)
     {k : ℕ} (hk : k ≤ n) :
@@ -171,16 +155,16 @@ theorem standardLubinTateSMul_pi_pow_ne_zero_of_le (hx : x ∈ 𝓂[E])
     ← lubinTateSMul_smul K E hπ (standardLubinTateSeries hπ) (π ^ (n - k)) (π ^ k) hx,
     h0, lubinTateSMul_zero]
 
-omit [FiniteDimensional K E] in
 /-- **The annihilator of a primitive root is exactly `𝔪 ^ (n + 1)`**: the module the
 root generates is `A ⧸ 𝔪 ^ (n + 1)`
-([Milne 2020, Chap. I, §3, the proof of Prop. 3.4, p.38][MilneCFT]). -/
+([Milne 2020, Chap. I, §3, Prop. 3.4 and Lem. 3.3, pp.37–38][MilneCFT];
+[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:360`][Yamaguchi2026]). -/
 theorem standardLubinTateSMul_eq_zero_iff (hx : x ∈ 𝓂[E])
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)
     (w : ↥𝒪[K]) :
     lubinTateSMul K E hπ (standardLubinTateSeries hπ) w x = 0 ↔
-      w ∈ IsLocalRing.maximalIdeal ↥𝒪[K] ^ (n + 1) := by
-  have hmax : IsLocalRing.maximalIdeal ↥𝒪[K] ^ (n + 1) =
+      w ∈ (𝓂[K] ^ (n + 1) : Ideal ↥𝒪[K]) := by
+  have hmax : (𝓂[K] ^ (n + 1) : Ideal ↥𝒪[K]) =
       Ideal.span {π ^ (n + 1)} := by
     rw [hπ.maximalIdeal_eq, Ideal.span_singleton_pow]
   constructor
@@ -204,16 +188,17 @@ theorem standardLubinTateSMul_eq_zero_iff (hx : x ∈ 𝓂[E])
     rw [mul_comm, ← lubinTateSMul_smul K E hπ (standardLubinTateSeries hπ) c (π ^ (n + 1)) hx,
       standardLubinTateSMul_pi_pow_succ_eq_zero K E hπ hx hroot, lubinTateSMul_zero]
 
-omit [FiniteDimensional K E] in
 /-- **Two scalars agree on a primitive root iff they are congruent mod `𝔪 ^ (n + 1)`**
+— stated additively on ring elements, where the source states it multiplicatively on
+units, so this is the more general form
 ([Milne 2020, Chap. I, §3, Prop. 3.4, p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:706`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:545`][Yamaguchi2026]). -/
 theorem standardLubinTateSMul_eq_iff (hx : x ∈ 𝓂[E])
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)
     (u v : ↥𝒪[K]) :
     lubinTateSMul K E hπ (standardLubinTateSeries hπ) u x =
         lubinTateSMul K E hπ (standardLubinTateSeries hπ) v x ↔
-      u - v ∈ IsLocalRing.maximalIdeal ↥𝒪[K] ^ (n + 1) := by
+      u - v ∈ (𝓂[K] ^ (n + 1) : Ideal ↥𝒪[K]) := by
   constructor
   · intro h
     exact (standardLubinTateSMul_eq_zero_iff K E hπ hx hroot _).mp
@@ -233,7 +218,6 @@ theorem standardLubinTateSMul_eq_iff (hx : x ∈ 𝓂[E])
           exact zero_lubinTateAdd K E hπ (standardLubinTateSeries hπ)
             (lubinTateSMul_mem_maximalIdeal K E hπ (standardLubinTateSeries hπ) v hx)
 
-omit [FiniteDimensional K E] in
 /-- **The unit orbit of a primitive root consists of primitive roots**
 ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, p.39][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:755`][Yamaguchi2026]). -/
