@@ -26,18 +26,23 @@ This is the group the Galois description of the standard level fields counts aga
 
 ## Implementation notes
 
-The ring-side count needs no finiteness hypothesis: with an infinite residue field both
-sides of `|A/𝔪^m| = q^m` vanish under `Nat.card`'s junk value, so the statement holds of
-every discrete valuation ring and the finite-residue instance enters only at the units.
-The graded step is an additive-group first-isomorphism argument — multiplication by
-`π ^ m` maps `A` onto `𝔪^m/𝔪^{m+1}` with kernel `𝔪` — rather than a valuation
-computation, and the units complement is counted by `Fintype.card_subtype_compl` after
-identifying the residue field of `𝒪/𝔪^m` with that of `𝒪` through
-`IsLocalRing.ResidueField.map`, which avoids identifying the quotient's maximal ideal
-with the image ideal.
+The ring-side count is Mathlib's `cardQuot_pow_of_prime` read at the maximal ideal — the
+Dedekind prime-power count, which unlike the `cardQuot` multiplicativity needs no
+`ℤ`-basis — and it carries no finiteness hypothesis: with an infinite residue field both
+sides of `|A/𝔪^m| = q^m` vanish under `Nat.card`'s junk value for `m ≥ 1` and are `1` at
+`m = 0`, so the statement holds of every discrete valuation ring and the finite-residue
+instance enters only at the units. The units complement is counted by
+`Fintype.card_subtype_compl` after identifying the residue field of `𝒪/𝔪^m` with that
+of `𝒪` through `IsLocalRing.ResidueField.map`, which avoids identifying the quotient's
+maximal ideal with the image ideal. Of the neighboring items,
+`Atlas.Knowledge.UnitLevelFiniteIndex` proves finiteness of the field-unit-side level
+quotient by compactness where this file counts the integer-unit side exactly, and
+`Atlas.Knowledge.AbsoluteInertiaDegree` reads the residue field itself.
 
 ## References
 
+* [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
+  2020.
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
@@ -55,81 +60,18 @@ variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
 
 omit [Finite (IsLocalRing.ResidueField A)] in
 /-- **The quotient by the `m`-th power of the maximal ideal has cardinality `q ^ m`**:
-each step of the tower is one residue field, by multiplication with `π ^ m`
+Mathlib's Dedekind prime-power count at the maximal ideal
 ([Serre 1979, Chap. IV, §2, Prop. 6 (b), p.66][Serre1979]). -/
 theorem card_quotient_maximalIdeal_pow (m : ℕ) :
     Nat.card (A ⧸ IsLocalRing.maximalIdeal A ^ m) =
       Nat.card (IsLocalRing.ResidueField A) ^ m := by
-  obtain ⟨π, hπ⟩ := IsDiscreteValuationRing.exists_irreducible A
-  induction m with
-  | zero =>
-    rw [pow_zero, pow_zero, Ideal.one_eq_top]
-    have : Subsingleton (A ⧸ (⊤ : Ideal A)) :=
-      Submodule.Quotient.subsingleton_iff.mpr rfl
-    exact Nat.card_of_subsingleton (Submodule.Quotient.mk 0)
-  | succ m IH =>
-    have hle : IsLocalRing.maximalIdeal A ^ (m + 1) ≤ IsLocalRing.maximalIdeal A ^ m :=
-      Ideal.pow_le_pow_right (Nat.le_succ m)
-    set I : Ideal A := IsLocalRing.maximalIdeal A ^ (m + 1) with hI
-    set J : Ideal A := IsLocalRing.maximalIdeal A ^ m with hJ
-    have hcard := AddSubgroup.card_eq_card_quotient_mul_card_addSubgroup
-      ((J.map (Ideal.Quotient.mk I)).toAddSubgroup)
-    have hquot : Nat.card
-        ((A ⧸ I) ⧸ (J.map (Ideal.Quotient.mk I)).toAddSubgroup) =
-        Nat.card (A ⧸ J) :=
-      Nat.card_congr (DoubleQuot.quotQuotEquivQuotOfLE hle).toEquiv
-    have hsub : Nat.card ((J.map (Ideal.Quotient.mk I)).toAddSubgroup) =
-        Nat.card (IsLocalRing.ResidueField A) := by
-      let ψ : A →+ A ⧸ I :=
-        (Ideal.Quotient.mk I).toAddMonoidHom.comp (AddMonoidHom.mulLeft (π ^ m))
-      have hψ : ∀ x : A, ψ x = Ideal.Quotient.mk I (π ^ m * x) := fun x => rfl
-      have hrange : ψ.range = (J.map (Ideal.Quotient.mk I)).toAddSubgroup := by
-        ext y
-        constructor
-        · rintro ⟨x, rfl⟩
-          rw [Submodule.mem_toAddSubgroup, hψ]
-          refine Ideal.mem_map_of_mem _ ?_
-          rw [hJ, hπ.maximalIdeal_eq, Ideal.span_singleton_pow, Ideal.mem_span_singleton]
-          exact Dvd.intro x rfl
-        · intro hy
-          rw [Submodule.mem_toAddSubgroup] at hy
-          obtain ⟨z, hz, rfl⟩ :=
-            (Ideal.mem_map_iff_of_surjective _ Ideal.Quotient.mk_surjective).mp hy
-          rw [hJ, hπ.maximalIdeal_eq, Ideal.span_singleton_pow,
-            Ideal.mem_span_singleton] at hz
-          obtain ⟨c, rfl⟩ := hz
-          exact ⟨c, rfl⟩
-      have hker : ψ.ker = (IsLocalRing.maximalIdeal A).toAddSubgroup := by
-        ext x
-        rw [AddMonoidHom.mem_ker, Submodule.mem_toAddSubgroup, hπ.maximalIdeal_eq,
-          Ideal.mem_span_singleton, hψ,
-          show (Ideal.Quotient.mk I (π ^ m * x) = 0) ↔ π ^ m * x ∈ I from
-            Ideal.Quotient.eq_zero_iff_mem,
-          hI, hπ.maximalIdeal_eq, Ideal.span_singleton_pow, Ideal.mem_span_singleton]
-        constructor
-        · intro hdvd
-          exact (mul_dvd_mul_iff_left (pow_ne_zero m hπ.ne_zero)).mp
-            (by rwa [pow_succ] at hdvd)
-        · intro hdvd
-          rw [pow_succ]
-          exact mul_dvd_mul_left _ hdvd
-      calc Nat.card ((J.map (Ideal.Quotient.mk I)).toAddSubgroup)
-          = Nat.card ψ.range := by rw [hrange]
-        _ = Nat.card (A ⧸ ψ.ker) :=
-            (Nat.card_congr (QuotientAddGroup.quotientKerEquivRange ψ).toEquiv).symm
-        _ = Nat.card (IsLocalRing.ResidueField A) := by rw [hker]; rfl
-    calc Nat.card (A ⧸ I)
-        = Nat.card ((A ⧸ I) ⧸ (J.map (Ideal.Quotient.mk I)).toAddSubgroup) *
-            Nat.card ((J.map (Ideal.Quotient.mk I)).toAddSubgroup) := hcard
-      _ = Nat.card (A ⧸ J) * Nat.card (IsLocalRing.ResidueField A) := by
-          rw [hquot, hsub]
-      _ = Nat.card (IsLocalRing.ResidueField A) ^ m *
-            Nat.card (IsLocalRing.ResidueField A) := by rw [IH]
-      _ = Nat.card (IsLocalRing.ResidueField A) ^ (m + 1) := (pow_succ _ _).symm
+  have h := cardQuot_pow_of_prime (S := A) (P := IsLocalRing.maximalIdeal A)
+    (IsDiscreteValuationRing.not_a_field A) (i := m)
+  rwa [Submodule.cardQuot_apply, Submodule.cardQuot_apply] at h
 
 /-- **The unit count of the quotient ring**: `(q − 1) · q ^ (m − 1)` units — the
 complement of the maximal ideal of a finite local ring
-([Serre 1979, Chap. IV, §2, Prop. 6, p.66][Serre1979]). -/
+([Milne 2020, Chap. I, §3, Prop. 3.4 and Thm. 3.6 (b), p.38][MilneCFT]). -/
 theorem card_units_quotient_maximalIdeal_pow (m : ℕ) (hm : m ≠ 0) :
     Nat.card (A ⧸ IsLocalRing.maximalIdeal A ^ m)ˣ =
       (Nat.card (IsLocalRing.ResidueField A) - 1) *
@@ -212,7 +154,7 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 private theorem integerHigherUnitGroup_eq_ker (m : ℕ) :
     integerHigherUnitGroup K m =
       (Units.map (Ideal.Quotient.mk
-        (IsLocalRing.maximalIdeal ↥𝒪[K] ^ m)).toMonoidHom).ker := by
+        (𝓂[K] ^ m : Ideal ↥𝒪[K])).toMonoidHom).ker := by
   ext u
   rw [MonoidHom.mem_ker, Units.ext_iff, Units.coe_map, Units.val_one]
   change ((u : ↥𝒪[K]) - 1 ∈ IsLocalRing.maximalIdeal ↥𝒪[K] ^ m) ↔ _
@@ -244,10 +186,10 @@ private theorem units_map_mk_surjective (m : ℕ) (hm : m ≠ 0) :
 
 /-- **The unit-parameter quotient is the unit group of the level quotient ring**:
 `𝒪ˣ/U^(m) ≃* (𝒪/𝔪^m)ˣ`, reduction with kernel exactly `1 + 𝔪^m`
-([Serre 1979, Chap. IV, §2, Prop. 6, p.66][Serre1979]). -/
+([Milne 2020, Chap. I, §3, Prop. 3.4 and Thm. 3.6 (b), p.38][MilneCFT]). -/
 noncomputable def integerHigherUnitGroupQuotientEquiv (m : ℕ) (hm : m ≠ 0) :
     (𝒪[K]ˣ ⧸ integerHigherUnitGroup K m) ≃*
-      (↥𝒪[K] ⧸ IsLocalRing.maximalIdeal ↥𝒪[K] ^ m)ˣ :=
+      (↥𝒪[K] ⧸ (𝓂[K] ^ m : Ideal ↥𝒪[K]))ˣ :=
   (QuotientGroup.quotientMulEquivOfEq (integerHigherUnitGroup_eq_ker K m)).trans
     (QuotientGroup.quotientKerEquivOfSurjective _ (units_map_mk_surjective K m hm))
 
@@ -256,20 +198,27 @@ noncomputable def integerHigherUnitGroupQuotientEquiv (m : ℕ) (hm : m ≠ 0) :
 [Yamaguchi 2026, `LubinTate/FiniteLevel/FiniteParameters.lean:108`][Yamaguchi2026]). -/
 theorem integerHigherUnitCount (m : ℕ) (hm : m ≠ 0) :
     Nat.card (𝒪[K]ˣ ⧸ integerHigherUnitGroup K m) =
-      (Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) - 1) *
-        Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) ^ (m - 1) := by
+      (Nat.card 𝓀[K] - 1) * Nat.card 𝓀[K] ^ (m - 1) := by
   rw [Nat.card_congr (integerHigherUnitGroupQuotientEquiv K m hm).toEquiv]
   exact card_units_quotient_maximalIdeal_pow m hm
 
-/-- The unit-parameter quotient is **finite**
+/-- The unit-parameter quotient is **finite**, at every level
 ([Yamaguchi 2026, `LubinTate/FiniteLevel/FiniteParameters.lean:59`][Yamaguchi2026]). -/
-theorem finite_integerHigherUnitGroup_quotient (m : ℕ) (hm : m ≠ 0) :
+instance finite_integerHigherUnitGroup_quotient (m : ℕ) :
     Finite (𝒪[K]ˣ ⧸ integerHigherUnitGroup K m) := by
-  refine Nat.finite_of_card_ne_zero ?_
-  rw [integerHigherUnitCount K m hm]
-  have hq : 1 < Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) :=
-    Finite.one_lt_card (α := IsLocalRing.ResidueField ↥𝒪[K])
-  exact Nat.mul_ne_zero (by omega) (pow_ne_zero _ (by omega))
+  match m with
+  | 0 =>
+    have htop : integerHigherUnitGroup K 0 = ⊤ := by
+      ext u
+      simp [integerHigherUnitGroup]
+    rw [htop]
+    infer_instance
+  | (n + 1) =>
+    refine Nat.finite_of_card_ne_zero ?_
+    rw [integerHigherUnitCount K (n + 1) (Nat.succ_ne_zero n)]
+    have hq : 1 < Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) :=
+      Finite.one_lt_card (α := IsLocalRing.ResidueField ↥𝒪[K])
+    exact Nat.mul_ne_zero (by omega) (pow_ne_zero _ (by omega))
 
 end LocalField
 
