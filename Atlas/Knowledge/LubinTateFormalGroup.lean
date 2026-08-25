@@ -28,8 +28,8 @@ local class field theory.
   group-law identities; proved.
 * `lubinTateScalar_comp` / `lubinTateScalar_add` / `lubinTateScalar_lubinTateFormalGroupPowerSeries`
   — the module identities; proved.
-* `lubinTateScalar_one` / `lubinTateScalar_pi` — the normalizations `[1] = X`, `[π] = e`;
-  proved.
+* `lubinTateScalar_one` / `lubinTateScalar_pi` / `lubinTateScalar_zero` — the
+  normalizations `[1] = X`, `[π] = e`, `[0] = 0`; proved.
 * `hasLinearTerm_subst` / `intertwines_subst` — the composition engine: substitution
   composes linear terms and preserves intertwining; proved.
 
@@ -68,7 +68,7 @@ noncomputable def lubinTateFormalGroupPowerSeries (hπ : Irreducible π) (e : Lu
   lubinTateIntertwiner hπ e e (fun _ => 1)
 
 /-- The **scalar series** `[a]`: the unique self-intertwiner of `e` with linear term
-`a X` ([Milne 2020, Chap. I, §2, Prop. 2.14, p.34][MilneCFT];
+`a X` — Milne's `[a]_f` ([Milne 2020, Chap. I, §2, Cor. 2.17, p.34][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:901`][Yamaguchi2026]). -/
 noncomputable def lubinTateScalar (hπ : Irreducible π) (e : LubinTateSeries A π) (a : A) :
     PowerSeries A :=
@@ -154,13 +154,43 @@ theorem toPowerSeries_intertwines (e : LubinTateSeries A π) :
   exact (lubinTateInVariable_unit e).symm
 
 /-- **Multiplication by `π` is the Lubin–Tate series itself**: both have linear term
-`π X` and intertwine `e` with itself
-([Milne 2020, Chap. I, §2, Cor. 2.17, p.34][MilneCFT]). -/
+`π X` and intertwine `e` with itself, so they agree by the uniqueness of
+[Milne 2020, Chap. I, §2, Cor. 2.17, p.34][MilneCFT] — the corollary does not state the
+identity itself. -/
 theorem lubinTateScalar_pi (hπ : Irreducible π) (e : LubinTateSeries A π) :
     lubinTateScalar hπ e π = e.toPowerSeries :=
   LubinTateIntertwines.eq_of_hasLinearTerm hπ
     (lubinTateScalar_hasLinearTerm hπ e π) (lubinTateScalar_intertwines hπ e π)
     (toPowerSeries_hasLinearTerm e) (toPowerSeries_intertwines e)
+
+omit [IsDomain A] [IsDiscreteValuationRing A] [Finite (IsLocalRing.ResidueField A)] in
+/-- The zero series has linear term `0 · X`. -/
+private theorem zero_hasLinearTerm :
+    LubinTateHasLinearTerm (0 : MvPowerSeries Unit A) (fun _ : Unit => (0 : A)) := by
+  unfold LubinTateHasLinearTerm
+  have h0 : lubinTateLinearForm (fun _ : Unit => (0 : A)) = 0 := by
+    simp [lubinTateLinearForm]
+  rw [h0, sub_zero, MvPowerSeries.order_zero]
+  exact le_top
+
+omit [Finite (IsLocalRing.ResidueField A)] in
+/-- The zero series intertwines `e` with itself: both sides collapse to zero. -/
+private theorem zero_intertwines (e : LubinTateSeries A π) :
+    LubinTateIntertwines e e (0 : MvPowerSeries Unit A) := by
+  unfold LubinTateIntertwines
+  rw [PowerSeries.subst_def]
+  rw [show (fun _ : Unit => (0 : MvPowerSeries Unit A)) = 0 from rfl,
+    MvPowerSeries.subst_zero_of_constantCoeff_zero e.constantCoeff_eq_zero,
+    ← MvPowerSeries.coe_substAlgHom (hasSubst_lubinTateInVariable e), map_zero]
+
+/-- **The scalar of zero is the zero series**: the zero series has linear term `0 · X`
+and intertwines `e` with itself, so it is `[0]` by the uniqueness of
+[Milne 2020, Chap. I, §2, Cor. 2.17, p.34][MilneCFT]. -/
+theorem lubinTateScalar_zero (hπ : Irreducible π) (e : LubinTateSeries A π) :
+    lubinTateScalar hπ e 0 = 0 :=
+  LubinTateIntertwines.eq_of_hasLinearTerm hπ
+    (lubinTateScalar_hasLinearTerm hπ e 0) (lubinTateScalar_intertwines hπ e 0)
+    zero_hasLinearTerm (zero_intertwines e)
 
 section Composition
 
