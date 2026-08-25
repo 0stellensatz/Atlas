@@ -29,11 +29,12 @@ the derivative computation ahead consumes.
 
 The local-field structure on the level field is hypothesized, as in
 `Atlas.Knowledge.StandardLubinTateGaloisDescription`, and the statements are consumed
-after obtaining it from `Atlas.Knowledge.exists_extension_isMixedCharLocalField`. Two
-instance seams are handled by hand: `FiniteDimensional` comes from the adjoin power
-basis by `letI`, and the nonvanishing of images routes through the injectivity of the
-field-level `algebraMap` — `FaithfulSMul` between the integer rings does not synthesize
-at the level field.
+after obtaining it from `Atlas.Knowledge.exists_extension_isMixedCharLocalField`. The
+proof consumes the two halves the arc prepared: the lower bound is
+`Atlas.Knowledge.le_integerValuation_algebraMap_pi`, the upper is
+`Atlas.Knowledge.ramificationBound` at the level degree, and cancellation leaves
+`ν(λ) = 1`. A consumer needing the generator's nonvanishing reads it off
+`levelGeneratorInteger_irreducible` as `.ne_zero`.
 
 ## References
 
@@ -55,48 +56,6 @@ variable [ValuativeRel ↥(standardLubinTateLevelField K hπ n)]
   [ValuativeExtension K ↥(standardLubinTateLevelField K hπ n)]
   [IsMixedCharLocalField ↥(standardLubinTateLevelField K hπ n)]
 
-omit [TopologicalSpace ↥(standardLubinTateLevelField K hπ n)]
-  [IsMixedCharLocalField ↥(standardLubinTateLevelField K hπ n)] in
-/-- Evaluation of the iterate at zero vanishes. -/
-private theorem aeval_zero_iterate (m : ℕ) :
-    Polynomial.aeval (0 : ↥𝒪[↥(standardLubinTateLevelField K hπ n)])
-      (standardLubinTatePolynomialIterate ↥𝒪[K] π m) = 0 := by
-  induction m with
-  | zero => simp [standardLubinTatePolynomialIterate_zero]
-  | succ m ih =>
-    rw [standardLubinTatePolynomialIterate_succ, Polynomial.aeval_comp,
-      standardLubinTatePolynomial]
-    rw [map_add, map_pow, map_mul, Polynomial.aeval_C, Polynomial.aeval_X, ih]
-    have hq : Nat.card 𝓀[K] ≠ 0 := by
-      have : 1 < Nat.card 𝓀[K] := Finite.one_lt_card
-      omega
-    simp [hq]
-
-omit [TopologicalSpace ↥(standardLubinTateLevelField K hπ n)]
-  [IsMixedCharLocalField ↥(standardLubinTateLevelField K hπ n)] in
-/-- The level generator is a nonzero integer. -/
-private theorem levelGeneratorInteger_ne_zero :
-    levelGeneratorInteger K hπ n ≠ 0 := by
-  intro h0
-  have hroot := aeval_levelGeneratorInteger K hπ n
-  rw [h0, standardLubinTatePrimitivePolynomial, map_add, map_pow, Polynomial.aeval_C,
-    aeval_zero_iterate K hπ n] at hroot
-  have hq : Nat.card 𝓀[K] - 1 ≠ 0 := by
-    have : 1 < Nat.card 𝓀[K] := Finite.one_lt_card
-    omega
-  rw [zero_pow hq, zero_add] at hroot
-  refine hπ.ne_zero ?_
-  have h1 : algebraMap K ↥(standardLubinTateLevelField K hπ n) (π : K) = 0 := by
-    have hcoe : ((algebraMap ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)] π :
-        ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) :
-          ↥(standardLubinTateLevelField K hπ n)) =
-        algebraMap K ↥(standardLubinTateLevelField K hπ n) (π : K) := rfl
-    rw [← hcoe, hroot, ZeroMemClass.coe_zero]
-  have h2 : (π : K) = 0 := by
-    refine (algebraMap K ↥(standardLubinTateLevelField K hπ n)).injective ?_
-    rw [h1, map_zero]
-  exact Subtype.ext h2
-
 /-- **The level generator is a uniformizer**: its integer valuation is one — the
 squeeze of `Atlas.Knowledge.standardLubinTatePrimitiveValuation` against
 `Atlas.Knowledge.ramificationBound` at the level degree
@@ -108,45 +67,21 @@ theorem integerValuation_levelGeneratorInteger :
   have hroot := aeval_levelGeneratorInteger K hπ n
   have hid := standardLubinTatePrimitiveValuation K
     ↥(standardLubinTateLevelField K hπ n) hπ hroot
-  letI : FiniteDimensional K ↥(standardLubinTateLevelField K hπ n) := by
-    rw [standardLubinTateLevelField]
-    exact IntermediateField.adjoin.finiteDimensional
-      (chosenStandardLubinTatePrimitiveRoot_isIntegral K hπ n)
+  have hlow := le_integerValuation_algebraMap_pi K
+    ↥(standardLubinTateLevelField K hπ n) hπ hroot
   have hbound := ramificationBound K ↥(standardLubinTateLevelField K hπ n) hπ
-  have hrank := standardLubinTateLevelField_finrank (A := ↥𝒪[K]) (K := K) hπ n
-  rw [hrank] at hbound
+  rw [standardLubinTateLevelField_finrank (A := ↥𝒪[K]) (K := K) hπ n] at hbound
+  have hq1 : 1 ≤ Nat.card 𝓀[K] := le_of_lt Finite.one_lt_card
+  rw [Nat.cast_mul, Nat.cast_sub hq1, Nat.cast_pow, Nat.cast_one] at hbound
   have hpos : (0 : ℤ) < ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n := by
     have hq : (2 : ℤ) ≤ (Nat.card 𝓀[K] : ℤ) := by
       exact_mod_cast (Finite.one_lt_card : 1 < Nat.card 𝓀[K])
     exact mul_pos (by omega) (pow_pos (by omega) n)
-  have hge : 1 ≤ integerValuation ↥(standardLubinTateLevelField K hπ n)
-      (levelGeneratorInteger K hπ n) := by
-    have hmem := mem_maximalIdeal_of_aeval_primitive K
-      ↥(standardLubinTateLevelField K hπ n) hπ hroot
-    have := (integerValuation_pos_iff ↥(standardLubinTateLevelField K hπ n)
-      (levelGeneratorInteger_ne_zero K hπ n)).mpr hmem
+  refine le_antisymm (le_of_mul_le_mul_left ?_ hpos) (le_of_mul_le_mul_left ?_ hpos)
+  · rw [mul_one, hid]
     omega
-  -- the squeeze: `D · ν(λ) = ν(π) ≤ D` with `ν(λ) ≥ 1` and `D > 0`
-  have hq1 : 1 ≤ Nat.card 𝓀[K] := le_of_lt Finite.one_lt_card
-  have hbound' : integerValuation ↥(standardLubinTateLevelField K hπ n)
-      (algebraMap ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)] π) ≤
-      ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n := by
-    refine le_trans hbound (le_of_eq ?_)
-    push_cast [Nat.cast_sub hq1]
-    ring
-  have h1 : (((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n) *
-      integerValuation ↥(standardLubinTateLevelField K hπ n)
-        (levelGeneratorInteger K hπ n) ≤
-      (((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n) * 1 := by
-    rw [mul_one]
-    calc (((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n) *
-        integerValuation ↥(standardLubinTateLevelField K hπ n)
-          (levelGeneratorInteger K hπ n) =
-        integerValuation ↥(standardLubinTateLevelField K hπ n)
-          (algebraMap ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)] π) := hid
-      _ ≤ _ := hbound'
-  have hle := le_of_mul_le_mul_left h1 hpos
-  omega
+  · rw [mul_one, hid]
+    omega
 
 /-- **The level generator is irreducible in the level integers** — the uniformizer
 statement in ring form ([Milne 2020, Chap. I, §3, Summary 3.7, p.39][MilneCFT] —
@@ -160,7 +95,8 @@ theorem levelGeneratorInteger_irreducible :
 /-- **The level tower is totally ramified**: the base uniformizer's value at level
 `n + 1` is exactly the degree `(q − 1) qⁿ`
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (a), pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:760`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:760` and `:811`]
+[Yamaguchi2026]). -/
 theorem integerValuation_algebraMap_levelField :
     integerValuation ↥(standardLubinTateLevelField K hπ n)
       (algebraMap ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)] π) =

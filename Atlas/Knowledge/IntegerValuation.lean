@@ -29,9 +29,10 @@ here.
   exactly on the maximal ideal; proved.
 * `integerValuation_mul` / `integerValuation_pow` / `integerValuation_neg` — the
   multiplicative laws; proved.
-* `integerValuation_irreducible` / `irreducible_of_integerValuation_eq_one` — value
-  one characterizes the irreducibles; proved.
+* `integerValuation_irreducible` — irreducibles have value one; proved.
 * `integerValuation_eq_zero_of_isUnit` — units have value zero; proved.
+* `irreducible_of_integerValuation_eq_one` — value one forces irreducibility: the
+  converse; proved.
 * `integerValuation_add_of_lt` / `min_le_integerValuation_add` — the ultrametric
   equality and inequality; proved.
 
