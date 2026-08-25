@@ -20,6 +20,7 @@ the derivative-valuation computation ahead.
 * `standardLubinTatePrimitiveValuation` — `(q − 1) qⁿ ν(x) = ν(π)`; proved.
 * `le_integerValuation_algebraMap_pi` — the lower half of the pin,
   `(q − 1) qⁿ ≤ ν(π)`; proved.
+* `algebraMap_pi_ne_zero` — the uniformizer's image upstairs is nonzero; proved.
 
 ## Implementation notes
 
@@ -116,8 +117,9 @@ private theorem aeval_iterate_top_pow
 omit [TopologicalSpace K] [IsMixedCharLocalField K] [TopologicalSpace E]
   [IsMixedCharLocalField E] in
 include hπ in
-/-- The image of the uniformizer is nonzero. -/
-private theorem algebraMap_pi_ne_zero : algebraMap ↥𝒪[K] ↥𝒪[E] π ≠ 0 := by
+/-- The image of the uniformizer upstairs is nonzero — the nonvanishing every valuation
+computation at a carrier consumes. -/
+theorem algebraMap_pi_ne_zero : algebraMap ↥𝒪[K] ↥𝒪[E] π ≠ 0 := by
   intro h0
   exact hπ.ne_zero (FaithfulSMul.algebraMap_injective ↥𝒪[K] ↥𝒪[E]
     (by rw [h0, map_zero]))

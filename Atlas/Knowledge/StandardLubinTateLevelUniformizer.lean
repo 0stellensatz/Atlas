@@ -11,8 +11,9 @@ so it is irreducible in the level integers, and the base uniformizer's value is 
 the degree `(q − 1) qⁿ` — the level tower is totally ramified. The proof is the squeeze
 this arc was built for: `Atlas.Knowledge.standardLubinTatePrimitiveValuation` gives
 `(q − 1) qⁿ ν(λ) = ν(π)`, `Atlas.Knowledge.ramificationBound` caps `ν(π)` by the degree,
-and `Atlas.Knowledge.standardLubinTateLevelField_finrank` says the degree is `(q − 1) qⁿ`
-— so `ν(λ) = 1` with everything else forced. The Eisenstein facts themselves — the
+`Atlas.Knowledge.standardLubinTateLevelField_finrank` says the degree is `(q − 1) qⁿ`,
+and `Atlas.Knowledge.le_integerValuation_algebraMap_pi` supplies the matching lower
+bound — so `ν(λ) = 1` with everything else forced. The Eisenstein facts themselves — the
 irreducibility of the primitive polynomial and the level degree — were already recorded
 in `Atlas.Knowledge.StandardLubinTateLevelField`; this item adds the valuation readings
 the derivative computation ahead consumes.
