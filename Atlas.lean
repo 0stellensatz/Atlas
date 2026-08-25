@@ -104,6 +104,7 @@ import Atlas.Knowledge.IdeleComponent
 import Atlas.Knowledge.IdeleContent
 import Atlas.Knowledge.IdeleGroup
 import Atlas.Knowledge.InfinitePlaceHilbertSymbol
+import Atlas.Knowledge.IntegerHigherUnitCount
 import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.IntegerLinearTopology
 import Atlas.Knowledge.IntegralClosureDVR
