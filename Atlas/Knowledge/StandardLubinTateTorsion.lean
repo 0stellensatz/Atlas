@@ -22,6 +22,8 @@ out on one generator, the engine behind the Galois description of the level fiel
 * `standardLubinTateSMul_pi_pow_succ_eq_zero` / `standardLubinTateSMul_pi_pow_ne_zero`
   / `standardLubinTateSMul_pi_pow_ne_zero_of_le` — exact torsion; proved.
 * `standardLubinTateSMul_eq_zero_iff` — the annihilator; proved.
+* `mem_maximalIdeal_of_aeval_primitive` — primitive roots lie in the maximal ideal;
+  proved.
 * `standardLubinTateSMul_eq_iff` — scalar congruence; proved.
 * `standardLubinTateSMul_isRoot` — the unit orbit; proved.
 
@@ -45,6 +47,8 @@ annihilator `𝔪 ^ (n + 1)` at level `n`.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
+* [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
+  York, 1979.
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
   in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
 -/
@@ -105,6 +109,86 @@ theorem standardLubinTateSMul_pi_pow (hπ : Irreducible π) {x : ↥𝒪[E]} (hx
             (standardLubinTatePolynomial ↥𝒪[K] π) := by rw [IH]
       _ = Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π (k + 1)) := by
           rw [standardLubinTatePolynomialIterate_succ, Polynomial.aeval_comp]
+
+omit [TopologicalSpace K] [IsMixedCharLocalField K] in
+/-- **The image of the uniformizer lies in the maximal ideal upstairs**: the strict
+valuative inequality transports along the extension
+([Serre 1979, Chap. II, §2, Prop. 3, pp.28–29][Serre1979]). -/
+theorem algebraMap_irreducible_mem_maximalIdeal (hπ : Irreducible π) :
+    algebraMap ↥𝒪[K] ↥𝒪[E] π ∈ 𝓂[E] := by
+  rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff,
+    Valuation.Integer.not_isUnit_iff_valuation_lt_one]
+  have hK : valuation K (π : K) < 1 := by
+    have hnu : ¬IsUnit π := hπ.not_isUnit
+    rwa [Valuation.Integer.not_isUnit_iff_valuation_lt_one] at hnu
+  have h1 : ((π : K)) <ᵥ 1 := (Valuation.vlt_one_iff _).mpr hK
+  have h2 := (ValuativeExtension.vlt_iff_vlt (A := K) (B := E)
+    (a := (π : K)) (b := 1)).mpr h1
+  rw [map_one] at h2
+  have h3 : valuation E (algebraMap K E (π : K)) < 1 := (Valuation.vlt_one_iff _).mp h2
+  have hbase : ((algebraMap ↥𝒪[K] ↥𝒪[E] π : ↥𝒪[E]) : E) = algebraMap K E (π : K) := by
+    have hx := IsScalarTower.algebraMap_apply ↥𝒪[K] ↥𝒪[E] E π
+    have hy := IsScalarTower.algebraMap_apply ↥𝒪[K] K E π
+    rw [hx] at hy
+    exact hy.symm
+  rwa [hbase]
+
+/-- **A root of the primitive polynomial among the integers lies in the maximal
+ideal**: descending through the tower, each iterate value is a maximal-ideal element
+because the next one is, the ideal is prime, and the top value's `q − 1`-st power is
+`−π` — the membership half of the source's exact valuation
+([Milne 2020, Chap. I, §3, the proof of Prop. 3.4, p.38][MilneCFT];
+[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:518`]
+[Yamaguchi2026]). -/
+theorem mem_maximalIdeal_of_aeval_primitive (hπ : Irreducible π) {n : ℕ} {x : ↥𝒪[E]}
+    (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
+    x ∈ 𝓂[E] := by
+  have hq : 1 < Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) :=
+    Finite.one_lt_card (α := IsLocalRing.ResidueField ↥𝒪[K])
+  haveI hprime : (𝓂[E] : Ideal ↥𝒪[E]).IsPrime :=
+    (IsLocalRing.maximalIdeal.isMaximal ↥𝒪[E]).isPrime
+  have hpi : algebraMap ↥𝒪[K] ↥𝒪[E] π ∈ 𝓂[E] :=
+    algebraMap_irreducible_mem_maximalIdeal K E hπ
+  have htop : Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π n) ∈ 𝓂[E] := by
+    have hpow : Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π n) ^
+        (Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) - 1) =
+        -(algebraMap ↥𝒪[K] ↥𝒪[E] π) := by
+      have h := hroot
+      rw [standardLubinTatePrimitivePolynomial, map_add, map_pow, Polynomial.aeval_C,
+        add_eq_zero_iff_eq_neg] at h
+      exact h
+    refine hprime.mem_of_pow_mem _ (hpow ▸ neg_mem hpi)
+  have hstep : ∀ k : ℕ,
+      Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π (k + 1)) ∈ 𝓂[E] →
+      Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π k) ∈ 𝓂[E] := by
+    intro k hk
+    rw [standardLubinTatePolynomialIterate_succ, Polynomial.aeval_comp,
+      standardLubinTatePolynomial] at hk
+    set t := Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π k) with ht
+    have hval : Polynomial.aeval t
+        (Polynomial.X ^ Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) +
+          Polynomial.C π * Polynomial.X) =
+        t ^ Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) +
+          algebraMap ↥𝒪[K] ↥𝒪[E] π * t := by
+      simp
+    rw [hval] at hk
+    have hXq : t ^ Nat.card (IsLocalRing.ResidueField ↥𝒪[K]) ∈ 𝓂[E] := by
+      have := Ideal.sub_mem _ hk (Ideal.mul_mem_right t _ hpi)
+      simpa using this
+    exact hprime.mem_of_pow_mem _ hXq
+  have hall : ∀ j : ℕ,
+      Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π (n - j)) ∈ 𝓂[E] := by
+    intro j
+    induction j with
+    | zero => simpa using htop
+    | succ j IH =>
+      rcases Nat.eq_zero_or_pos (n - j) with hnj | hnj
+      · rwa [show n - (j + 1) = n - j from by omega]
+      · have : n - j = (n - (j + 1)) + 1 := by omega
+        rw [this] at IH
+        exact hstep _ IH
+  have h0 := hall n
+  rwa [Nat.sub_self, standardLubinTatePolynomialIterate_zero, Polynomial.aeval_X] at h0
 
 section PrimitiveRoot
 

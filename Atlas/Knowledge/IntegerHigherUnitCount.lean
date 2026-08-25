@@ -1,5 +1,5 @@
 import Mathlib
-import Atlas.Knowledge.StandardLubinTateGaloisDescription
+import Atlas.Knowledge.IntegerHigherUnitGroup
 
 /-!
 # integer higher unit count
