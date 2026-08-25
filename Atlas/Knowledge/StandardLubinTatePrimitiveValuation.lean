@@ -18,11 +18,17 @@ the derivative-valuation computation ahead.
 * `integerValuation_aeval_standardLubinTatePolynomialIterate` — `ν(t_i) = qⁱ ν(x)` at
   every level `i ≤ n`; proved.
 * `standardLubinTatePrimitiveValuation` — `(q − 1) qⁿ ν(x) = ν(π)`; proved.
+* `le_integerValuation_algebraMap_pi` — the lower half of the pin,
+  `(q − 1) qⁿ ≤ ν(π)`; proved.
 
 ## Implementation notes
 
-The source reaches these values through the Eisenstein tower — each step of
-`K[π_n] ⊃ ⋯ ⊃ K` an Eisenstein extension. This item replaces that route with a
+The source reaches these values through the Eisenstein polynomial itself: the
+primitive polynomial is Eisenstein at `𝔪`, hence irreducible, and the level field is
+the one simple extension it cuts out; the valuation of the generator is then forced by
+comparing the constant coefficient's filtration depth against the middle ones, with the
+fundamental identity supplying the degree — Milne's tower `K[π_n] ⊃ ⋯ ⊃ K` is the
+book's route, not the source's. This item replaces the coefficient comparison with a
 self-contained ultrametric squeeze on the recursion `t_{i+1} = t_i^q + π t_i`: a level
 whose `(q − 1)`-multiple is bounded by `ν(π)` forces a strictly bounded level below —
 otherwise both summands sit too high and the exact top level is overshot — so the bound
@@ -30,7 +36,9 @@ descends from the top identity to every level, and the recursion then reads off
 `ν(t_{i+1}) = q ν(t_i)` exactly. No Eisenstein middle coefficients are ever computed,
 in the same spirit as the prime-descent membership of
 `Atlas.Knowledge.mem_maximalIdeal_of_aeval_primitive`. The identity is stated over the
-abstract carrier, where `ν(x)` is a free parameter; pinning `ν(x) = 1` needs the
+abstract carrier, where `ν(x)` is a free parameter; the lower half of the pin —
+`(q − 1) qⁿ ≤ ν(π)`, at least total ramification — is free here as
+`le_integerValuation_algebraMap_pi`, while pinning `ν(x) = 1` exactly needs the
 fundamental inequality against the level degree and arrives with the level-field
 instantiation.
 
@@ -147,7 +155,7 @@ private theorem descending_bound
       (standardLubinTatePolynomialIterate ↥𝒪[K] π i) ^ q) =
       q * integerValuation E (Polynomial.aeval x
         (standardLubinTatePolynomialIterate ↥𝒪[K] π i)) :=
-    integerValuation_pow E hti q
+    integerValuation_pow E _ q
   have hmul : integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π *
       Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π i)) =
       integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) +
@@ -155,23 +163,22 @@ private theorem descending_bound
           (standardLubinTatePolynomialIterate ↥𝒪[K] π i)) :=
     integerValuation_mul E hπE hti
   have hmin := min_le_integerValuation_add E
-    (pow_ne_zero q hti) (mul_ne_zero hπE hti)
     (by rw [← aeval_iterate_succ K E]; exact hti1)
   rw [hpow, hmul, ← aeval_iterate_succ K E] at hmin
   -- the successor level is at least `ν(t_i) + ν(π)`, so its multiple exceeds `ν(π)`
   have hits : integerValuation E (Polynomial.aeval x
-      (standardLubinTatePolynomialIterate ↥𝒪[K] π (i + 1))) ≥
-      integerValuation E (Polynomial.aeval x
         (standardLubinTatePolynomialIterate ↥𝒪[K] π i)) +
-        integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) := by
+        integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) ≤
+      integerValuation E (Polynomial.aeval x
+        (standardLubinTatePolynomialIterate ↥𝒪[K] π (i + 1))) := by
     have hq1 : (1 : ℤ) ≤ (q : ℤ) - 1 := by
       have : (2 : ℤ) ≤ (q : ℤ) := by exact_mod_cast hq2
       omega
-    have hqmul : (q : ℤ) * integerValuation E (Polynomial.aeval x
-        (standardLubinTatePolynomialIterate ↥𝒪[K] π i)) ≥
-        integerValuation E (Polynomial.aeval x
+    have hqmul : integerValuation E (Polynomial.aeval x
           (standardLubinTatePolynomialIterate ↥𝒪[K] π i)) +
-          integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) := by
+          integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) ≤
+        (q : ℤ) * integerValuation E (Polynomial.aeval x
+          (standardLubinTatePolynomialIterate ↥𝒪[K] π i)) := by
       have hsplit : (q : ℤ) * integerValuation E (Polynomial.aeval x
           (standardLubinTatePolynomialIterate ↥𝒪[K] π i)) =
           integerValuation E (Polynomial.aeval x
@@ -205,7 +212,7 @@ private theorem top_level_eq
       (standardLubinTatePolynomialIterate ↥𝒪[K] π n) ^ (Nat.card 𝓀[K] - 1)) =
       integerValuation E (-(algebraMap ↥𝒪[K] ↥𝒪[E] π)) := by
     rw [aeval_iterate_top_pow K E hroot]
-  rw [integerValuation_pow E htn, integerValuation_neg] at h2
+  rw [integerValuation_pow E _, integerValuation_neg] at h2
   have hq2 : 1 < Nat.card 𝓀[K] := Finite.one_lt_card
   rw [Nat.cast_sub (by omega : 1 ≤ Nat.card 𝓀[K])] at h2
   push_cast at h2 ⊢
@@ -276,7 +283,7 @@ theorem integerValuation_aeval_standardLubinTatePolynomialIterate
         (standardLubinTatePolynomialIterate ↥𝒪[K] π i) ^ Nat.card 𝓀[K]) <
         integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π *
           Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π i)) := by
-      rw [integerValuation_pow E hti, integerValuation_mul E hπE hti]
+      rw [integerValuation_pow E _, integerValuation_mul E hπE hti]
       have hsplit : (Nat.card 𝓀[K] : ℤ) * integerValuation E (Polynomial.aeval x
           (standardLubinTatePolynomialIterate ↥𝒪[K] π i)) =
           integerValuation E (Polynomial.aeval x
@@ -286,8 +293,8 @@ theorem integerValuation_aeval_standardLubinTatePolynomialIterate
         ring
       linarith [hsplit, hstrict]
     rw [aeval_iterate_succ K E,
-      integerValuation_add_of_lt E (pow_ne_zero _ hti) (mul_ne_zero hπE hti) hlt,
-      integerValuation_pow E hti, ih (by omega)]
+      integerValuation_add_of_lt E (pow_ne_zero _ hti) hlt,
+      integerValuation_pow E _, ih (by omega)]
     ring
 
 include hπ in
@@ -304,6 +311,36 @@ theorem standardLubinTatePrimitiveValuation
   rw [integerValuation_aeval_standardLubinTatePolynomialIterate K E hπ hroot le_rfl,
     ← mul_assoc] at h1
   exact h1
+
+include hπ in
+/-- **The lower half of the pin**: `(q − 1) qⁿ ≤ ν(π)` — the extension carrying a
+level-`n + 1` primitive root is at least totally ramified, read off the identity and
+`ν(x) ≥ 1` ([Milne 2020, Chap. I, §3, Thm. 3.6 (a), pp.38–39][MilneCFT]). -/
+theorem le_integerValuation_algebraMap_pi
+    (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
+    ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n ≤
+      integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) := by
+  have hπE : algebraMap ↥𝒪[K] ↥𝒪[E] π ≠ 0 := algebraMap_pi_ne_zero K E hπ
+  have hπpos : 0 < integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) :=
+    (integerValuation_pos_iff E hπE).mpr (algebraMap_irreducible_mem_maximalIdeal K E hπ)
+  have hq : (2 : ℤ) ≤ (Nat.card 𝓀[K] : ℤ) := by
+    exact_mod_cast (Finite.one_lt_card : 1 < Nat.card 𝓀[K])
+  have hD : (0 : ℤ) < ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n :=
+    mul_pos (by omega) (pow_pos (by omega) n)
+  have hid := standardLubinTatePrimitiveValuation K E hπ hroot
+  have hx1 : 1 ≤ integerValuation E x := by
+    by_contra hcon
+    rw [not_le] at hcon
+    have hnp : ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n *
+        integerValuation E x ≤ 0 :=
+      mul_nonpos_of_nonneg_of_nonpos hD.le (by omega)
+    rw [hid] at hnp
+    omega
+  calc ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n
+      = ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n * 1 := by ring
+    _ ≤ ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n * integerValuation E x :=
+        mul_le_mul_of_nonneg_left hx1 hD.le
+    _ = integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) := hid
 
 end PrimitiveValuation
 

@@ -8,10 +8,10 @@ The normalized valuation of `Atlas.Knowledge.normalizedValuation`, read on the i
 ring: `ν : 𝒪[K] → ℤ` with junk value `0` at zero, nonnegative, additive on products,
 value `1` on irreducibles, positive exactly on the maximal ideal, and ultrametric — the
 `ord` of an integer element, packaged so that valuation bookkeeping over the integers
-needs no `Units.mk0` plumbing at the use site. The `𝔪`-adic order of the discrete
-valuation ring and this reading agree; consumers doing induction on valuations — the
-Lubin–Tate valuation bootstrap of `Atlas.Knowledge.standardLubinTatePrimitiveValuation`
-is the motivating one — work here.
+needs no `Units.mk0` plumbing at the use site. Consumers doing induction on
+valuations — the Lubin–Tate valuation bootstrap of
+`Atlas.Knowledge.standardLubinTatePrimitiveValuation` is the motivating one — work
+here.
 
 ## Main definitions
 
@@ -21,6 +21,8 @@ is the motivating one — work here.
 ## Main statements
 
 * `integerValuation_of_ne_zero` — the unfolding to `normalizedValuation`; proved.
+* `integerValuation_zero` / `integerValuation_one` — the junk value and the unit value;
+  proved.
 * `integerValuation_nonneg` / `integerValuation_pos_iff` — nonnegative, positive
   exactly on the maximal ideal; proved.
 * `integerValuation_mul` / `integerValuation_pow` / `integerValuation_neg` — the
@@ -31,8 +33,11 @@ is the motivating one — work here.
 
 ## Implementation notes
 
-The junk value keeps the carrier total, in Mathlib's convention for partial operations;
-every lemma that needs nonvanishing carries it as a hypothesis. The order-reversing
+The carrier is `ℤ` and the junk value is `0` — where [Serre1979] sets `v(0) = +∞` and
+Mathlib's `IsDiscreteValuationRing.addVal` junks at `⊤` in `ℕ∞` — because the `ℤ`
+arithmetic is the point: subtraction does not truncate and `omega` closes the
+bookkeeping, which an `ℕ∞` carrier would not survive; every lemma that needs
+nonvanishing carries it as a hypothesis. The order-reversing
 bridge between the multiplicative valuation and the normalized value — strict
 comparison flips — is kept private: consumers reason in `ℤ`, and the bridge is the
 device that lets them.
@@ -85,6 +90,20 @@ theorem integerValuation_of_ne_zero {y : ↥𝒪[K]} (h : algebraMap ↥𝒪[K] 
     integerValuation K y = normalizedValuation K (Units.mk0 (algebraMap ↥𝒪[K] K y) h) := by
   rw [integerValuation, dif_neg h]
 
+/-- The junk value: zero valuates to zero. -/
+@[simp]
+theorem integerValuation_zero : integerValuation K (0 : ↥𝒪[K]) = 0 := by
+  rw [integerValuation, dif_pos (by simp)]
+
+/-- The unit value: one valuates to zero. -/
+@[simp]
+theorem integerValuation_one : integerValuation K (1 : ↥𝒪[K]) = 0 := by
+  have h1 : algebraMap ↥𝒪[K] K (1 : ↥𝒪[K]) ≠ 0 := by
+    rw [map_one]; exact one_ne_zero
+  rw [integerValuation_of_ne_zero K h1,
+    show Units.mk0 (algebraMap ↥𝒪[K] K (1 : ↥𝒪[K])) h1 = 1 by ext; simp,
+    normalizedValuation_one]
+
 omit [TopologicalSpace K] [IsMixedCharLocalField K] in
 private theorem algebraMap_integer_ne_zero {y : ↥𝒪[K]} (hy : y ≠ 0) :
     algebraMap ↥𝒪[K] K y ≠ 0 := by
@@ -134,16 +153,14 @@ theorem integerValuation_mul {y z : ↥𝒪[K]} (hy : y ≠ 0) (hz : z ≠ 0) :
   exact normalizedValuation_mul K _ _
 
 /-- Powers scale the integer valuation. -/
-theorem integerValuation_pow {y : ↥𝒪[K]} (hy : y ≠ 0) (k : ℕ) :
+theorem integerValuation_pow (y : ↥𝒪[K]) (k : ℕ) :
     integerValuation K (y ^ k) = k * integerValuation K y := by
+  rcases eq_or_ne y 0 with rfl | hy
+  · rcases Nat.eq_zero_or_pos k with rfl | hk
+    · simp
+    · rw [zero_pow (by omega : k ≠ 0), integerValuation_zero, mul_zero]
   induction k with
-  | zero =>
-    simp only [pow_zero, Nat.cast_zero, zero_mul]
-    have h1 : algebraMap ↥𝒪[K] K (1 : ↥𝒪[K]) ≠ 0 := by
-      rw [map_one]; exact one_ne_zero
-    rw [integerValuation_of_ne_zero K h1]
-    have : Units.mk0 (algebraMap ↥𝒪[K] K (1 : ↥𝒪[K])) h1 = 1 := by ext; simp
-    rw [this, normalizedValuation_one]
+  | zero => simp
   | succ k ih =>
     rw [pow_succ, integerValuation_mul K (pow_ne_zero k hy) hy, ih]
     push_cast
@@ -196,9 +213,13 @@ theorem integerValuation_irreducible {y : ↥𝒪[K]} (hy : Irreducible y) :
 /-- **The ultrametric equality**: when the values differ, the sum takes the smaller
 value ([Serre 1979, Chap. I, §1, p.5][Serre1979], property b) of the valuation, read
 through the normalization). -/
-theorem integerValuation_add_of_lt {y z : ↥𝒪[K]} (hy : y ≠ 0) (hz : z ≠ 0)
+theorem integerValuation_add_of_lt {y z : ↥𝒪[K]} (hy : y ≠ 0)
     (h : integerValuation K y < integerValuation K z) :
     integerValuation K (y + z) = integerValuation K y := by
+  have hz : z ≠ 0 := by
+    rintro rfl
+    rw [integerValuation_zero] at h
+    exact absurd h (not_lt.mpr (integerValuation_nonneg K y))
   have hy' := algebraMap_integer_ne_zero K hy
   have hz' := algebraMap_integer_ne_zero K hz
   have hvlt : valuation K (algebraMap ↥𝒪[K] K z) < valuation K (algebraMap ↥𝒪[K] K y) := by
@@ -217,14 +238,19 @@ theorem integerValuation_add_of_lt {y z : ↥𝒪[K]} (hy : y ≠ 0) (hz : z ≠
 
 /-- **The ultrametric inequality**: a nonvanishing sum is at least the smaller value
 ([Serre 1979, Chap. I, §1, p.5][Serre1979], property b) of the valuation). -/
-theorem min_le_integerValuation_add {y z : ↥𝒪[K]} (hy : y ≠ 0) (hz : z ≠ 0)
-    (hsum : y + z ≠ 0) :
+theorem min_le_integerValuation_add {y z : ↥𝒪[K]} (hsum : y + z ≠ 0) :
     min (integerValuation K y) (integerValuation K z) ≤ integerValuation K (y + z) := by
+  rcases eq_or_ne y 0 with rfl | hy
+  · rw [zero_add]
+    exact min_le_right _ _
+  rcases eq_or_ne z 0 with rfl | hz
+  · rw [add_zero]
+    exact min_le_left _ _
   have hy' := algebraMap_integer_ne_zero K hy
   have hz' := algebraMap_integer_ne_zero K hz
   have hsum' := algebraMap_integer_ne_zero K hsum
   rcases lt_trichotomy (integerValuation K y) (integerValuation K z) with hlt | heq | hgt
-  · rw [integerValuation_add_of_lt K hy hz hlt]
+  · rw [integerValuation_add_of_lt K hy hlt]
     exact min_le_left _ _
   · by_contra hcon
     rw [heq, min_self, not_le] at hcon
@@ -253,7 +279,7 @@ theorem min_le_integerValuation_add {y z : ↥𝒪[K]} (hy : y ≠ 0) (hz : z �
       exact ⟨hveq.le, le_refl _⟩
     exact absurd hvle (not_le.mpr hvzlt)
   · rw [add_comm] at hsum ⊢
-    rw [integerValuation_add_of_lt K hz hy hgt]
+    rw [integerValuation_add_of_lt K hz hgt]
     exact min_le_right _ _
 
 end Atlas.Knowledge
