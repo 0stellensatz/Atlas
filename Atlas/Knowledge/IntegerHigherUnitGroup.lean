@@ -22,6 +22,8 @@ filtration is exactly the image of this subgroup, in a `ℕ+`-shaped form and in
 * `higherUnitGroup_eq_map_integerHigherUnitGroup` /
   `map_integerHigherUnitGroup_eq_higherUnitGroup` — the two spellings of `U^{(i)}` in
   `Kˣ` are one subgroup; proved.
+* `sub_mem_iff_div_mem_integerHigherUnitGroup` — the multiplicative–additive congruence
+  bridge; proved.
 
 ## References
 
@@ -88,5 +90,37 @@ theorem map_integerHigherUnitGroup_eq_higherUnitGroup (n : ℕ) (hn : n ≠ 0) :
         (Units.map (algebraMap 𝒪[K] K).toMonoidHom) =
       higherUnitGroup K ⟨n, Nat.pos_of_ne_zero hn⟩ :=
   (higherUnitGroup_eq_map_integerHigherUnitGroup K ⟨n, Nat.pos_of_ne_zero hn⟩).symm
+
+/-- Multiplicative–additive bridge for the higher unit congruence: two integer units
+are congruent modulo `𝔪 ^ m` exactly when their ratio is a higher unit. -/
+theorem sub_mem_iff_div_mem_integerHigherUnitGroup (m : ℕ) (u v : 𝒪[K]ˣ) :
+    ((u : ↥𝒪[K]) - v ∈ (𝓂[K] ^ m : Ideal ↥𝒪[K])) ↔
+      u⁻¹ * v ∈ integerHigherUnitGroup K m := by
+  have hmem : u⁻¹ * v ∈ integerHigherUnitGroup K m ↔
+      ((u⁻¹ * v : 𝒪[K]ˣ) : ↥𝒪[K]) - 1 ∈ (𝓂[K] ^ m : Ideal ↥𝒪[K]) := Iff.rfl
+  rw [hmem]
+  constructor
+  · intro h
+    have key : ((u⁻¹ * v : 𝒪[K]ˣ) : ↥𝒪[K]) - 1 =
+        ((u⁻¹ : 𝒪[K]ˣ) : ↥𝒪[K]) * ((v : ↥𝒪[K]) - (u : ↥𝒪[K])) := by
+      push_cast
+      rw [mul_sub]
+      have hinv : ((u⁻¹ : 𝒪[K]ˣ) : ↥𝒪[K]) * (u : ↥𝒪[K]) = 1 := by
+        rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
+      rw [hinv]
+    rw [key]
+    refine Ideal.mul_mem_left _ _ ?_
+    have := neg_mem h
+    rwa [neg_sub] at this
+  · intro h
+    have key : (u : ↥𝒪[K]) - (v : ↥𝒪[K]) =
+        -((u : ↥𝒪[K]) * (((u⁻¹ * v : 𝒪[K]ˣ) : ↥𝒪[K]) - 1)) := by
+      push_cast
+      have hinv : (u : ↥𝒪[K]) * ((u⁻¹ : 𝒪[K]ˣ) : ↥𝒪[K]) = 1 := by
+        rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
+      rw [mul_sub, ← mul_assoc, hinv]
+      ring
+    rw [key]
+    exact neg_mem (Ideal.mul_mem_left _ _ h)
 
 end Atlas.Knowledge

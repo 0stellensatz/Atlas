@@ -228,6 +228,7 @@ import Atlas.Knowledge.StandardLubinTateNormSubgroup
 import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTatePolynomial
 import Atlas.Knowledge.StandardLubinTateSeries
+import Atlas.Knowledge.StandardLubinTateSplitting
 import Atlas.Knowledge.StandardLubinTateSubgroupIndex
 import Atlas.Knowledge.StandardLubinTateTorsion
 import Atlas.Knowledge.StandardLubinTateUpperRamification
