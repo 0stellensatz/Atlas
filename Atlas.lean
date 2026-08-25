@@ -108,6 +108,7 @@ import Atlas.Knowledge.IntegerHigherUnitCount
 import Atlas.Knowledge.IntegerHigherUnitGroup
 import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.IntegerLinearTopology
+import Atlas.Knowledge.IntegerValuation
 import Atlas.Knowledge.IntegralClosureDVR
 import Atlas.Knowledge.IsAdmissibleJumpPair
 import Atlas.Knowledge.IsArithmeticFrobenius
@@ -227,6 +228,7 @@ import Atlas.Knowledge.StandardLubinTateLevelField
 import Atlas.Knowledge.StandardLubinTateNormSubgroup
 import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTatePolynomial
+import Atlas.Knowledge.StandardLubinTatePrimitiveValuation
 import Atlas.Knowledge.StandardLubinTateSeries
 import Atlas.Knowledge.StandardLubinTateSplitting
 import Atlas.Knowledge.StandardLubinTateSubgroupIndex
