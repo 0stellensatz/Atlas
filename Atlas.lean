@@ -234,6 +234,7 @@ import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTateParameterCongruence
 import Atlas.Knowledge.StandardLubinTatePolynomial
 import Atlas.Knowledge.StandardLubinTatePrimitiveValuation
+import Atlas.Knowledge.StandardLubinTateRootProximity
 import Atlas.Knowledge.StandardLubinTateSeries
 import Atlas.Knowledge.StandardLubinTateSplitting
 import Atlas.Knowledge.StandardLubinTateSubgroupIndex
