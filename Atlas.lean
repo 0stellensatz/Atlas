@@ -238,6 +238,7 @@ import Atlas.Knowledge.UnitPairFree
 import Atlas.Knowledge.UnitPairIndependence
 import Atlas.Knowledge.UnitPairOrbit
 import Atlas.Knowledge.UnitsFiniteIndexOpen
+import Atlas.Knowledge.UnramifiedNormRange
 import Atlas.Knowledge.UpperRamificationGroup
 import Atlas.Knowledge.WildBaseChange
 import Atlas.Knowledge.WildInertiaSubgroup

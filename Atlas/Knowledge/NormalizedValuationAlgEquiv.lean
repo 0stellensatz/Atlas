@@ -86,8 +86,11 @@ section MixedL
 variable [IsMixedCharLocalField L]
 omit [IsValuativeTopology L]
 
-/- The value of a unit-times-irreducible-power: `v (u * π ^ n) = n`. -/
-private theorem value_unit_mul_zpow
+/-- **The value of a unit of the integers times a power of an irreducible** is the
+exponent, `v (u * π ^ n) = n`: the factorization computes the normalized valuation — the
+workhorse behind the invariance statements of this layer and the unramified norm theory
+([Hyeon 2025, §3, p.10][Hyeon2025]). -/
+theorem value_unit_mul_zpow
     (π : ↥𝒪[L]) (hπ : Irreducible π) (u : (↥𝒪[L])ˣ)
     (h1 : algebraMap ↥𝒪[L] L (u : ↥𝒪[L]) ≠ 0) (h2 : algebraMap ↥𝒪[L] L π ≠ 0) (n : ℤ) :
     normalizedValuation L (Units.mk0 (algebraMap ↥𝒪[L] L (u : ↥𝒪[L])) h1 *
