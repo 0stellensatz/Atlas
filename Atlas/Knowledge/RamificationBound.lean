@@ -1,14 +1,14 @@
 import Mathlib
 import Atlas.Knowledge.IntegerValuation
-import Atlas.Knowledge.StandardLubinTateTorsion
+import Atlas.Knowledge.IntegerIsIntegralClosure
 
 /-!
 # ramification bound
 
 The fundamental inequality of a finite extension of mixed-characteristic local fields:
-the value of a base uniformizer downstairs — the ramification index — is at most the
+the value upstairs of a base uniformizer — the ramification index — is at most the
 degree, `ν_E(π) ≤ [E : K]`. The proof is the classical independence argument: the powers
-`ϖ⁰, …, ϖ^{e−1}` of a uniformizer downstairs are linearly independent over the base,
+`ϖ⁰, …, ϖ^{e−1}` of the uniformizer upstairs are linearly independent over the base,
 because a base coefficient moves a value only by a multiple of `e`, so the nonzero terms
 of a combination have pairwise distinct values and their sum cannot vanish. This is the
 upper half that pins the Lubin–Tate primitive valuation: against
@@ -61,15 +61,10 @@ private theorem sum_ne_zero_of_valuation_distinct {ι : Type*} (s : Finset ι)
   classical
   obtain ⟨b, hb, hmax⟩ := Finset.exists_max_image s (fun i => valuation K (f i)) hs
   have hvb : valuation K (f b) ≠ 0 := (valuation K).ne_zero_iff.mpr (h0 b hb)
-  have hrest : valuation K (∑ i ∈ s.erase b, f i) < valuation K (f b) := by
-    refine Valuation.map_sum_lt _ hvb ?_
-    intro i hi
-    have hib : i ≠ b := Finset.ne_of_mem_erase hi
-    have his : i ∈ s := Finset.mem_of_mem_erase hi
-    exact lt_of_le_of_ne (hmax i his) (hdist i his b hb hib)
-  have hsum : valuation K (∑ i ∈ s, f i) = valuation K (f b) := by
-    rw [← Finset.add_sum_erase s f hb]
-    exact Valuation.map_add_eq_of_lt_left _ hrest
+  have hsum : valuation K (∑ i ∈ s, f i) = valuation K (f b) :=
+    Valuation.map_sum_eq_of_lt _ hb fun i hi => by
+      have h := Finset.mem_sdiff.mp hi
+      exact lt_of_le_of_ne (hmax i h.1) (hdist i h.1 b hb (by simpa using h.2))
   intro hzero
   rw [hzero, map_zero] at hsum
   exact hvb hsum.symm
@@ -109,8 +104,8 @@ private theorem valuation_algebraMap_eq_one {c : K} (h : valuation K c = 1) :
 variable {π : ↥𝒪[K]} (hπ : Irreducible π)
 
 include hπ in
-/-- The normalized value downstairs of a base-field element is a multiple of the
-uniformizer's value: factor through the discrete valuation upstairs. -/
+/-- The normalized value upstairs of a base-field element is a multiple of the
+uniformizer's value: factor through the discrete valuation downstairs. -/
 private theorem exists_nv_algebraMap {c : K} (hc : c ≠ 0)
     (himg : algebraMap K E c ≠ 0) (hπimg : algebraMap K E ((π : ↥𝒪[K]) : K) ≠ 0) :
     ∃ k : ℤ, normalizedValuation E (Units.mk0 (algebraMap K E c) himg) =
@@ -145,12 +140,12 @@ private theorem exists_nv_algebraMap {c : K} (hc : c ≠ 0)
 
 include hπ in
 /-- **The ramification bound** `ν_E(π) ≤ [E : K]`: a base uniformizer's value
-downstairs is at most the degree, because the powers of a uniformizer downstairs
+upstairs is at most the degree, because the powers of the uniformizer upstairs
 strictly under that value are linearly independent over the base
 ([Serre 1979, Chap. I, §4, Prop. 10, p.14][Serre1979] — the `e ≤ n` half of the
 fundamental identity; [Yamaguchi 2026,
-`ValuationTheory/DiscreteValuationField/FiniteIntegralClosure.lean:625`, which carries
-the full identity][Yamaguchi2026]). -/
+`ValuationTheory/DiscreteValuationField/FiniteIntegralClosure.lean:625`][Yamaguchi2026]
+— the source carries the full identity). -/
 theorem ramificationBound [FiniteDimensional K E] :
     integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) ≤ (Module.finrank K E : ℤ) := by
   classical
@@ -163,14 +158,13 @@ theorem ramificationBound [FiniteDimensional K E] :
   have hecoe : integerValuation E (algebraMap ↥𝒪[K] ↥𝒪[E] π) = e := by
     rw [integerValuation_of_ne_zero E hπimg]
     rfl
-  have hπEint : algebraMap ↥𝒪[K] ↥𝒪[E] π ≠ 0 := by
-    intro h0
-    refine hπ.ne_zero (FaithfulSMul.algebraMap_injective ↥𝒪[K] ↥𝒪[E] ?_)
-    rw [h0, map_zero]
   have epos : 0 < e := by
-    rw [← hecoe]
-    exact (integerValuation_pos_iff E hπEint).mpr
-      (algebraMap_irreducible_mem_maximalIdeal K E hπ)
+    rw [he]
+    refine normalizedValuation_pos_of_lt_one E _ ?_
+    have hK : valuation K ((π : ↥𝒪[K]) : K) < 1 := by
+      have hnu : ¬IsUnit π := hπ.not_isUnit
+      rwa [Valuation.Integer.not_isUnit_iff_valuation_lt_one] at hnu
+    simpa using (valuation_algebraMap_lt_iff K E ((π : ↥𝒪[K]) : K) 1).mpr (by simpa using hK)
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[E])
   have hϖE : ((ϖ : ↥𝒪[E]) : E) ≠ 0 := fun h => hϖ.ne_zero (Subtype.ext h)
   have hϖν : normalizedValuation E (Units.mk0 ((ϖ : ↥𝒪[E]) : E) hϖE) = 1 :=

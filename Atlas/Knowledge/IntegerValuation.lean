@@ -23,6 +23,8 @@ here.
 * `integerValuation_of_ne_zero` — the unfolding to `normalizedValuation`; proved.
 * `integerValuation_zero` / `integerValuation_one` — the junk value and the unit value;
   proved.
+* `normalizedValuation_lt_iff` — the order-reversing bridge between the normalized and
+  the multiplicative comparison; proved.
 * `integerValuation_nonneg` / `integerValuation_pos_iff` — nonnegative, positive
   exactly on the maximal ideal; proved.
 * `integerValuation_mul` / `integerValuation_pow` / `integerValuation_neg` — the
@@ -30,8 +32,6 @@ here.
 * `integerValuation_irreducible` — irreducibles have value one; proved.
 * `integerValuation_add_of_lt` / `min_le_integerValuation_add` — the ultrametric
   equality and inequality; proved.
-* `normalizedValuation_lt_iff` — the order-reversing bridge between the normalized and
-  the multiplicative comparison; proved.
 
 ## Implementation notes
 
