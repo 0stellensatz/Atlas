@@ -212,7 +212,6 @@ theorem eval₂_apply_zero {σ : Type*} [Finite σ] {F : MvPowerSeries σ ↥�
   simp only [h0] at hcol
   exact hcol.symm
 
-
 omit [FiniteDimensional K E] in
 /-- **The evaluated addition stays in the maximal ideal**
 ([Milne 2020, Chap. I, §2, the remark after Cor. 2.17, p.34][MilneCFT]). -/
@@ -232,7 +231,6 @@ theorem lubinTateSMul_mem_maximalIdeal (hπ : Irreducible π) (e : LubinTateSeri
   eval₂_mem_maximalIdeal K E
     (lubinTateScalar_hasLinearTerm hπ e a).constantCoeff_eq_zero
     (fun _ => hx)
-
 
 omit [FiniteDimensional K E] in
 /-- **Commutativity of the evaluated addition**

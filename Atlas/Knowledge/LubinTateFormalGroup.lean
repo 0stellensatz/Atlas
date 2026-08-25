@@ -11,9 +11,9 @@ module structure, each law a uniqueness instance of the fundamental lemma
 self-intertwiner with linear term `X + Y`, the scalar `[a]` the one with linear term
 `a X`, and every identity — commutativity, associativity, `[a] ∘ [b] = [a b]`,
 `[a + b] = F ([a], [b])`, `[c] ∘ F = F ([c], [c])`, `[1] = X`, `[π] = e`,
-`[0] = 0` — holds because both sides carry the same linear term and intertwine. This is the algebra that makes the
-maximal ideal of a complete extension an `A`-module, the carrier of the torsion towers of
-local class field theory.
+`[0] = 0` — holds because both sides carry the same linear term and intertwine. This is
+the algebra that makes the maximal ideal of a complete extension an `A`-module, the
+carrier of the torsion towers of local class field theory.
 
 ## Main definitions
 
