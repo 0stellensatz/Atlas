@@ -1,6 +1,7 @@
 import Mathlib
 import Atlas.Knowledge.IntegerHigherUnitGroup
-import Atlas.Knowledge.StandardLubinTatePrimitiveValuation
+import Atlas.Knowledge.IntegerIsIntegralClosure
+import Atlas.Knowledge.StandardLubinTatePolynomial
 
 /-!
 # standard Lubin–Tate parameter congruence
@@ -25,8 +26,10 @@ collapses to one.
 
 The exports are divisibility statements, not valuation bounds: `ν(Φ_{πu}(x)) ≥
 (n + 2) ν(π)` is false at the junk value when the changed evaluation happens to vanish,
-and the consumer that knows nonvanishing recovers the bound in one
-`Atlas.Knowledge.integerValuation_mul` step. The source states the depth in its
+and the consumer that knows nonvanishing recovers the bound from the divisibility
+through `Atlas.Knowledge.integerValuation_mul` and nonnegativity. The source's
+`ℕ∞`-valued order junks to `⊤`, where the bound survives vacuously; the `ℤ` carrier
+does not, which is what forces the design. The source states the depth in its
 completed valuation vocabulary and keeps the congruence over an arbitrary
 ideal; here the ideal is the principal one the DVR provides, so the depth is a
 divisibility by `π^{n+2}` and no ideal-membership plumbing survives to the statement.
@@ -68,7 +71,7 @@ private theorem map_standardLubinTatePolynomialIterate_eq {π π' : A} (h : g π
 
 /-- Equal parameters give equal mapped primitive polynomials. -/
 private theorem map_standardLubinTatePrimitivePolynomial_eq {π π' : A} (h : g π = g π')
-    [Finite (IsLocalRing.ResidueField A)] (m : ℕ) :
+    (m : ℕ) :
     (standardLubinTatePrimitivePolynomial A π m).map g =
       (standardLubinTatePrimitivePolynomial A π' m).map g := by
   simp only [standardLubinTatePrimitivePolynomial, Polynomial.map_add,
@@ -95,13 +98,12 @@ theorem sub_dvd_aeval_standardLubinTatePrimitivePolynomial_sub
     algebraMap ↥𝒪[K] ↥𝒪[E] (π' - π) ∣
       (Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π' n) -
         Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n)) := by
-  set I : Ideal ↥𝒪[E] := Ideal.span {algebraMap ↥𝒪[K] ↥𝒪[E] (π' - π)} with hI
+  set I : Ideal ↥𝒪[E] := Ideal.span {algebraMap ↥𝒪[K] ↥𝒪[E] (π' - π)}
   rw [← Ideal.mem_span_singleton]
   set g : ↥𝒪[K] →+* ↥𝒪[E] ⧸ I :=
     (Ideal.Quotient.mk I).comp (algebraMap ↥𝒪[K] ↥𝒪[E]) with hg
   have hparam : g π' = g π := by
-    rw [hg]
-    simp only [RingHom.comp_apply]
+    simp only [hg, RingHom.comp_apply]
     rw [Ideal.Quotient.mk_eq_mk_iff_sub_mem, ← map_sub]
     exact Ideal.subset_span rfl
   have heval : Ideal.Quotient.mk I
@@ -122,8 +124,10 @@ theorem sub_dvd_aeval_standardLubinTatePrimitivePolynomial_sub
 omit [TopologicalSpace E] [IsMixedCharLocalField E] in
 /-- **The changed-uniformizer evaluation depth**: at a `π`-primitive root, a unit
 change of depth `n + 1` evaluates the changed primitive polynomial into
-`π^{n + 2} 𝒪[E]` ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6 (c), p.39][MilneCFT]
-— the congruence behind `f^{[n]}(π_n) = π_{n−1}` under a changed uniformizer;
+`π^{n + 2} 𝒪[E]` ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6 (a), p.38][MilneCFT]
+— the tower recursion `f(π_n) = π_{n−1}` that a changed uniformizer perturbs; Milne's own
+independence-of-`π` argument is Thm. 3.9 and Prop. 3.10, pp.40–41, and runs through a
+formal-group isomorphism over `K^un`'s completion rather than through this congruence;
 [Yamaguchi 2026, `LubinTate/FiniteLevel/ChangedPrimitiveEvaluation.lean:46` and
 `:114`][Yamaguchi2026]). -/
 theorem pow_dvd_aeval_changed_standardLubinTatePrimitivePolynomial
@@ -134,7 +138,7 @@ theorem pow_dvd_aeval_changed_standardLubinTatePrimitivePolynomial
       Polynomial.aeval x
         (standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n) := by
   -- the parameter difference is divisible by `π^{n+2}`
-  have hmem : ((u : ↥𝒪[K]) : ↥𝒪[K]) - 1 ∈
+  have hmem : (u : ↥𝒪[K]) - 1 ∈
       IsLocalRing.maximalIdeal ↥𝒪[K] ^ (n + 1) := hu
   have hspan : IsLocalRing.maximalIdeal ↥𝒪[K] ^ (n + 1) =
       Ideal.span {π ^ (n + 1)} := by
