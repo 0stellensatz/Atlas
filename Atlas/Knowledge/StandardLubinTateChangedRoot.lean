@@ -1,4 +1,7 @@
 import Mathlib
+import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
+import Atlas.Knowledge.IntegerValuation
+import Atlas.Knowledge.NormalizedValuationAlgEquiv
 import Atlas.Knowledge.StandardLubinTateCompositum
 import Atlas.Knowledge.StandardLubinTateConjugateCeiling
 import Atlas.Knowledge.StandardLubinTateRootProximity
@@ -14,13 +17,14 @@ any automorphism over `K⟮ρ⟯` fixing `ρ` would displace `ξ` by at most the
 ceiling while moving it by at least the gap, so every such automorphism fixes `ξ` and
 `ξ ∈ K⟮ρ⟯`; the degree squeeze — `[K⟮ξ⟯ : K]` is the full level degree while
 `[K⟮ρ⟯ : K]` is at most it — turns the inclusion around, and the compositum embedding
-carries the root back into the level field of the separable closure. The statement is
-unconditional: every valuative instance is obtained inside the proof.
+carries the root back into the level field of the separable closure, together with the
+fact that it generates it. The statement is unconditional: every valuative instance is
+obtained inside the proof.
 
 ## Main statements
 
-* `exists_changedRoot_levelField` — a `πu`-primitive root inside the `π`-level field;
-  proved.
+* `exists_standardLubinTateChangedRoot` — a `πu`-primitive root inside the `π`-level
+  field, generating it; proved.
 
 ## Implementation notes
 
@@ -32,7 +36,8 @@ packaging step turning the restricted automorphism into an `↥𝒪[K]`-algebra 
 primitive polynomial transports along it. The exit to the level field is the
 `Atlas.Knowledge.val_compositumGenerator` bridge: the image of `K⟮ξ⟯` under the
 compositum embedding is the adjoin of the chosen root, which is the level field by
-definition.
+definition — one identification serving both the membership and the generation
+conjunct.
 
 ## References
 
@@ -52,23 +57,28 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 variable {π : ↥𝒪[K]} (hπ : Irreducible π) {n : ℕ}
 
+set_option maxHeartbeats 800000 in
 -- every step at the compositum re-elaborates the join of two adjoins; the default
 -- heartbeat budget drowns in `whnf` on that carrier
-set_option maxHeartbeats 1600000 in
 /-- **The changed primitive root lives in the original level field**: a depth-`n + 1`
-unit change of the uniformizer has a primitive root already inside the `π`-level field
-— Krasner's argument at the compositum, closed by the degree squeeze
-([Milne 2020, Chap. I, §3, Thm. 3.9 and Prop. 3.10, pp.40–43][MilneCFT] — Milne reaches
-the same independence through a formal-group isomorphism over the completion of
-`K^{un}`; [Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:1363`]
-[Yamaguchi2026] — the source's changed-level equivalence, of which this root existence
-is the field-level content). -/
-theorem exists_changedRoot_levelField {u : (↥𝒪[K])ˣ}
+unit change of the uniformizer has a primitive root already inside the `π`-level
+field, and the root generates it — Krasner's argument at the compositum, closed by the
+degree squeeze
+([Milne 2020, Chap. I, §3, Thm. 3.9 and Prop. 3.10, pp.40–43][MilneCFT] — Milne's
+Thm. 3.9 gives the independence only after composing with `K^{un}` and for every unit,
+through the formal-group isomorphism of Prop. 3.10 over the completion of `K^{un}`;
+the depth-`n + 1` restriction here is what buys the equality at finite level;
+[Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:1363`]
+[Yamaguchi2026] — the source's changed-level equivalence, whose field-level input this
+root existence is). -/
+theorem exists_standardLubinTateChangedRoot {u : (↥𝒪[K])ˣ}
     (hu : u ∈ integerHigherUnitGroup K (n + 1)) :
     ∃ z : ↥(standardLubinTateLevelField K hπ n),
       Polynomial.aeval z
         (standardLubinTatePrimitivePolynomialOverField ↥𝒪[K] K (π * (u : ↥𝒪[K])) n)
-        = 0 := by
+        = 0 ∧
+      IntermediateField.adjoin K {((standardLubinTateLevelField K hπ n).val z)} =
+        standardLubinTateLevelField K hπ n := by
   classical
   have hπ' : Irreducible (π * (u : ↥𝒪[K])) :=
     (Associated.irreducible_iff ⟨u, rfl⟩).mp hπ
@@ -80,22 +90,21 @@ theorem exists_changedRoot_levelField {u : (↥𝒪[K])ˣ}
   haveI := hVE
   haveI := hMCL
   -- the two primitive roots in the compositum
-  set x := compositumGeneratorInteger K hπ hπ' n with hx
-  set y := compositumGeneratorInteger' K hπ hπ' n with hy
+  set x := compositumGeneratorInteger K hπ hπ' n
+  set y := compositumGeneratorInteger' K hπ hπ' n
   have hrx : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0 :=
     aeval_compositumGeneratorInteger K hπ hπ' n
   have hry : Polynomial.aeval y
       (standardLubinTatePrimitivePolynomial ↥𝒪[K] (π * (u : ↥𝒪[K])) n) = 0 :=
     aeval_compositumGeneratorInteger' K hπ hπ' n
   -- the Krasner-gap root of the changed polynomial
-  obtain ⟨r, hrmem, hrprim, hcase⟩ :=
+  obtain ⟨r, -, hrprim, hcase⟩ :=
     standardLubinTateRootProximity_lt K ↥(standardLubinTateCompositum K hπ hπ' n)
       hπ hu hrx hry
   -- the two field-level points
   set ξ := (x : ↥(standardLubinTateCompositum K hπ hπ' n)) with hξ
   set ρ := (r : ↥(standardLubinTateCompositum K hπ hπ' n)) with hρ
   -- the Krasner claim: `ξ` lies in `K⟮ρ⟯`
-  haveI hGal := standardLubinTateCompositum_isGalois K hπ hπ' n
   have hmem : ξ ∈ IntermediateField.adjoin K {ρ} := by
     rcases hcase with heq | hgap
     · rw [hξ, hρ, ← heq]
@@ -106,9 +115,9 @@ theorem exists_changedRoot_levelField {u : (↥𝒪[K])ˣ}
           ↥(standardLubinTateCompositum K hπ hπ' n), σ ξ = ξ := by
         intro σ
         by_contra hne
-        set σK := σ.restrictScalars K with hσK
+        set σK := σ.restrictScalars K
         set σO := algEquivIntegerRestrict K
-          ↥(standardLubinTateCompositum K hπ hπ' n) σK with hσO
+          ↥(standardLubinTateCompositum K hπ hπ' n) σK
         -- the automorphism image is again a primitive root
         have hcomm : ∀ c : ↥𝒪[K],
             σO (algebraMap ↥𝒪[K] ↥𝒪[↥(standardLubinTateCompositum K hπ hπ' n)] c) =
@@ -128,19 +137,14 @@ theorem exists_changedRoot_levelField {u : (↥𝒪[K])ˣ}
           exact σK.commutes (c : K)
         set σA : ↥𝒪[↥(standardLubinTateCompositum K hπ hπ' n)] →ₐ[↥𝒪[K]]
             ↥𝒪[↥(standardLubinTateCompositum K hπ hπ' n)] :=
-          ⟨σO.toRingHom, hcomm⟩ with hσA
+          ⟨σO.toRingHom, hcomm⟩
         have hσx_root : Polynomial.aeval (σO x)
             (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0 := by
           have h := Polynomial.aeval_algHom_apply σA x
             (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n)
           rw [hrx, map_zero] at h
           exact h
-        have hσx_ne : σO x ≠ x := by
-          intro h0
-          refine hne ?_
-          have : (σO x : ↥(standardLubinTateCompositum K hπ hπ' n)) =
-              (x : ↥(standardLubinTateCompositum K hπ hπ' n)) := by rw [h0]
-          exact this
+        have hσx_ne : σO x ≠ x := fun h0 => hne (congrArg Subtype.val h0)
         -- the ceiling caps the displacement, the gap exceeds it
         have hceil := standardLubinTateConjugateCeiling K
           ↥(standardLubinTateCompositum K hπ hπ' n) hπ hrx hσx_root hσx_ne
@@ -230,6 +234,9 @@ theorem exists_changedRoot_levelField {u : (↥𝒪[K])ˣ}
     rw [heqF]
     exact IntermediateField.mem_adjoin_simple_self K ρ
   -- push into the separable closure through the compositum embedding
+  have hvalξ : (standardLubinTateCompositum K hπ hπ' n).val ξ =
+      chosenStandardLubinTatePrimitiveRoot K hπ n :=
+    val_compositumGenerator K hπ hπ' n
   have hmap : (standardLubinTateCompositum K hπ hπ' n).val ρ ∈
       standardLubinTateLevelField K hπ n := by
     have h1 : (standardLubinTateCompositum K hπ hπ' n).val ρ ∈
@@ -237,12 +244,19 @@ theorem exists_changedRoot_levelField {u : (↥𝒪[K])ˣ}
           (standardLubinTateCompositum K hπ hπ' n).val :=
       ⟨ρ, hρmem, rfl⟩
     rw [IntermediateField.adjoin_map, Set.image_singleton] at h1
-    have hvalξ : (standardLubinTateCompositum K hπ hπ' n).val ξ =
-        chosenStandardLubinTatePrimitiveRoot K hπ n :=
-      val_compositumGenerator K hπ hπ' n
     rw [hvalξ] at h1
     exact h1
-  refine ⟨⟨(standardLubinTateCompositum K hπ hπ' n).val ρ, hmap⟩, ?_⟩
+  -- the image of `K⟮ξ⟯ = K⟮ρ⟯` is the level field, which is the generation conjunct
+  have hgen : IntermediateField.adjoin K
+      {((standardLubinTateCompositum K hπ hπ' n).val ρ)} =
+      standardLubinTateLevelField K hπ n := by
+    have h3 := congrArg
+      (IntermediateField.map (standardLubinTateCompositum K hπ hπ' n).val) heqF
+    rw [IntermediateField.adjoin_map, IntermediateField.adjoin_map,
+      Set.image_singleton, Set.image_singleton] at h3
+    rw [hvalξ] at h3
+    exact h3.symm
+  refine ⟨⟨(standardLubinTateCompositum K hπ hπ' n).val ρ, hmap⟩, ?_, hgen⟩
   have hinjL : Function.Injective (standardLubinTateLevelField K hπ n).val :=
     (standardLubinTateLevelField K hπ n).val.toRingHom.injective
   apply hinjL
