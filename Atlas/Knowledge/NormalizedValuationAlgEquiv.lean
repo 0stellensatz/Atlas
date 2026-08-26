@@ -207,37 +207,19 @@ theorem normalizedValuation_algEquiv (σ : L ≃ₐ[K] L) (x : Lˣ) :
       (algEquivIntegerRestrict_irreducible K L σ hϖ) σu hσu0 hσϖ0 n]
 
 /-- **A `K`-automorphism preserves the integer valuation** — the integer-level reading
-of `Atlas.Knowledge.valuation_algEquiv`
+of `Atlas.Knowledge.normalizedValuation_algEquiv`
 ([Serre 1979, Chap. II, §2, Prop. 3, p.28, and Cor. 2–3, p.29][Serre1979]). -/
 theorem integerValuation_algEquivIntegerRestrict (σ : L ≃ₐ[K] L) (z : ↥𝒪[L]) :
     integerValuation L (algEquivIntegerRestrict K L σ z) = integerValuation L z := by
   rcases eq_or_ne z 0 with rfl | hz
   · rw [map_zero]
-  · have hz' : algebraMap ↥𝒪[L] L z ≠ 0 := by
-      intro h0
-      exact hz (Subtype.ext h0)
-    have hσz : algEquivIntegerRestrict K L σ z ≠ 0 := by
-      intro h0
-      exact hz (by simpa using congrArg (algEquivIntegerRestrict K L σ).symm h0)
-    have hσz' : algebraMap ↥𝒪[L] L (algEquivIntegerRestrict K L σ z) ≠ 0 := by
-      intro h0
-      exact hσz (Subtype.ext h0)
-    rw [integerValuation_of_ne_zero L hz', integerValuation_of_ne_zero L hσz']
-    have hval : valuation L (algebraMap ↥𝒪[L] L (algEquivIntegerRestrict K L σ z)) =
-        valuation L (algebraMap ↥𝒪[L] L z) := by
-      have hcoe : algebraMap ↥𝒪[L] L (algEquivIntegerRestrict K L σ z) =
-          σ (algebraMap ↥𝒪[L] L z) := rfl
-      rw [hcoe]
-      exact valuation_algEquiv K L σ _
-    rcases lt_trichotomy
-        (normalizedValuation L (Units.mk0 (algebraMap ↥𝒪[L] L
-          (algEquivIntegerRestrict K L σ z)) hσz'))
-        (normalizedValuation L (Units.mk0 (algebraMap ↥𝒪[L] L z) hz')) with h1 | h1 | h1
-    · exact absurd ((normalizedValuation_lt_iff L _ _).mp h1)
-        (by simp only [Units.val_mk0]; rw [hval]; exact lt_irrefl _)
-    · exact h1
-    · exact absurd ((normalizedValuation_lt_iff L _ _).mp h1)
-        (by simp only [Units.val_mk0]; rw [hval]; exact lt_irrefl _)
+  · have hz' : algebraMap ↥𝒪[L] L z ≠ 0 := fun h0 => hz (Subtype.ext h0)
+    have hσz' : algebraMap ↥𝒪[L] L (algEquivIntegerRestrict K L σ z) ≠ 0 :=
+      fun h0 => hz' (σ.injective (by rw [map_zero]; exact h0))
+    rw [integerValuation_of_ne_zero L hz', integerValuation_of_ne_zero L hσz',
+      show Units.mk0 (algebraMap ↥𝒪[L] L (algEquivIntegerRestrict K L σ z)) hσz' =
+        Units.map (σ : L →* L) (Units.mk0 (algebraMap ↥𝒪[L] L z) hz') from Units.ext rfl,
+      normalizedValuation_algEquiv K L σ]
 
 end MixedL
 

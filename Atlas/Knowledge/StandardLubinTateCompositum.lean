@@ -48,6 +48,8 @@ statements need none of it. The integer scalar tower is supplied by hand as
 
 ## References
 
+* [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
+  2020.
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
   in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
 -/
@@ -80,14 +82,10 @@ the separable closure ([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT] 
 level is abelian, so the join is Galois;
 [Yamaguchi 2026, `LubinTate/FiniteLevel/ChangedLevelCompositum.lean:85`]
 [Yamaguchi2026]). -/
-theorem standardLubinTateCompositum_isGalois :
+instance standardLubinTateCompositum_isGalois :
     IsGalois K ↥(standardLubinTateCompositum K hπ hπ' n) := by
-  haveI h1 := standardLubinTateLevelField_isGalois K hπ n
-  haveI h2 := standardLubinTateLevelField_isGalois K hπ' n
-  haveI : Normal K ↥(standardLubinTateLevelField K hπ n) := h1.to_normal
-  haveI : Normal K ↥(standardLubinTateLevelField K hπ' n) := h2.to_normal
   unfold standardLubinTateCompositum
-  constructor
+  infer_instance
 
 /-- The first level generator, read in the compositum. -/
 noncomputable def compositumGenerator :

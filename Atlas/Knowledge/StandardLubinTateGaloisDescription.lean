@@ -561,7 +561,7 @@ theorem standardLubinTateLevelField_isAbelianGalois {π : 𝒪[K]} (hπ : Irredu
 
 /-- The level field is **Galois** over the base — the abelian description, weakened to
 the plain Galois statement the compositum machinery consumes. -/
-theorem standardLubinTateLevelField_isGalois {π : 𝒪[K]} (hπ : Irreducible π) (n : ℕ) :
+instance standardLubinTateLevelField_isGalois {π : 𝒪[K]} (hπ : Irreducible π) (n : ℕ) :
     IsGalois K ↥(standardLubinTateLevelField K hπ n) :=
   (standardLubinTateLevelField_isAbelianGalois K hπ n).toIsGalois
 
