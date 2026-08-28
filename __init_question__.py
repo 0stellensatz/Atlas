@@ -1,31 +1,35 @@
 #!/usr/bin/env python3
 """__init_question__.py — pose a question in the Lake project this script sits in.
 
-A day's questions are a unit: `<Project>/Questions/YYYYMMDD/Challenge.lean` states them
-and leaves each one `sorry`, and `Development.lean` carries the identical declaration list
-with the bodies filled in.  The two files are what `__check__.py` compares, and they are
-only worth comparing if they started out agreeing — so this script is what writes to them,
-rather than a pair of hand edits that have to be kept in step by attention alone.
+One topic's questions are a unit: `<Project>/Questions/YYYYMMDD<Topic>/Challenge.lean`
+states them and leaves each one `sorry`, and `Development.lean` carries the identical
+declaration list with the bodies filled in.  The two files are what `__check__.py` compares,
+and they are only worth comparing if they started out agreeing — so this script is what
+writes to them, rather than a pair of hand edits kept in step by attention alone.
+
+The directory says what the unit is about — `20260813LegendreFormula`, the day it was posed
+and the subject it is on.  A day that turns to a second, unrelated subject gets a second unit
+sharing the date prefix, rather than a second question filed under the first one's name.
 
 Two modes:
 
-    python3 __init_question__.py [YYYYMMDD]
-        Scaffold the day: both files, with the same namespace and no declarations, plus
+    python3 __init_question__.py <Topic> [YYYYMMDD]
+        Scaffold the unit: both files, with the same namespace and no declarations, plus
         the root module's `import ...Development` line placed in date order.  A file that
         already exists is never overwritten, with one exception: one that is empty (or
         only whitespace) is filled, since a `touch`ed placeholder holds nothing to lose.
 
-    python3 __init_question__.py [YYYYMMDD] --append --doc "..." < signature
+    python3 __init_question__.py <Topic> [YYYYMMDD] --append --doc "..." < signature
         Append one question to *both* files, identically: the docstring, the next free
-        letter in `question_YYYYMMDD_<letter>`, the signature read from stdin, and a
-        `sorry` body.  The signature is everything between the name and the `:=` —
-        binders and the type — and may span lines.
+        letter in `question_<letter>`, the signature read from stdin, and a `sorry` body.
+        The signature is everything between the name and the `:=` — binders and the type —
+        and may span lines.
 
 Writing the same declaration into two files is precisely the operation `__check__.py`'s
 fourth check exists to police, so doing it here turns a check-after-the-fact into a
 can't-happen.  What the script cannot do is judge the statement: a question that does not
 *elaborate* is not yet a question, and `sorry` closes a proof, never a hole in what is
-being asked.  Build the day after appending.
+being asked.  Build the unit after appending.
 
     python3 __init_question__.py --selftest
 """
@@ -43,14 +47,19 @@ from typing import NoReturn
 PROJECT = Path(__file__).resolve().parent          # the project root
 NAME = PROJECT.name                                # the Lake package / library name
 LIB_DIR = PROJECT / NAME                           # the library source tree
-QUESTIONS = LIB_DIR / "Questions"                  # one directory per day posed
+QUESTIONS = LIB_DIR / "Questions"                  # one directory per unit posed
 ROOT_MODULE = PROJECT / f"{NAME}.lean"             # the root all-import module
 
-# `20260813` is not an identifier, so a day is imported — and its namespace named — in
-# French quotes.  The root module carries Development only: Challenge shares its namespace.
+# `20260813LegendreFormula` is not an identifier, opening with a digit, so a unit is
+# imported — and its namespace named — in French quotes.  The root module carries Development
+# only: Challenge shares its namespace.
 DEV_IMPORT_RE = re.compile(
-    r"^import\s+" + re.escape(NAME) + r"\.Questions\.«(\d{8})»\.Development\s*$"
+    r"^import\s+" + re.escape(NAME) + r"\.Questions\.«(\d{8}[A-Z][A-Za-z0-9]*)»\.Development\s*$"
 )
+
+# A unit's topic, spelled as the module component it becomes: UpperCamelCase, like every other
+# module name in the tree.  ASCII, since the directory only has to sort and grep.
+TOPIC_RE = re.compile(r"^[A-Z][A-Za-z0-9]*$")
 
 
 def die(msg) -> NoReturn:
@@ -59,23 +68,24 @@ def die(msg) -> NoReturn:
 
 
 def namespace(stem):
-    """The comparator namespace of one day, shared by both its files.
+    """The comparator namespace of one unit, shared by both its files.
 
     Per unit rather than one project-wide `<Project>Challenge`: the root module holds
-    every `Development.lean` at once, so a shared namespace would make any two days that
+    every `Development.lean` at once, so a shared namespace would make any two units that
     clone the same definition declare one name twice.
     """
     return f"{NAME}Challenge.«{stem}»"
 
 
-def challenge_skeleton(stem, date_str):
+def challenge_skeleton(stem, date_str, topic):
     ns = namespace(stem)
     return f"""import Mathlib
 
 /-!
-# Questions posed on {date_str}
+# Questions posed on {date_str}: {topic}
 
-TODO: one paragraph on what is being asked and why.
+TODO: rewrite `{topic}` in the title above as the topic in prose---here and in
+`Development.lean`---then one paragraph on what is being asked and why.
 
 ## Implementation notes
 
@@ -90,12 +100,12 @@ end {ns}
 """
 
 
-def development_skeleton(stem, date_str):
+def development_skeleton(stem, date_str, topic):
     ns = namespace(stem)
     return f"""import Mathlib
 
 /-!
-# Questions posed on {date_str}, answered
+# Questions posed on {date_str}: {topic}, answered
 
 The statements, what they are about, and the knowledge items they draw on are in
 `Challenge.lean` and are not repeated here. This file carries the same declaration list
@@ -133,21 +143,24 @@ def header_end(lines):
 
 
 def insert_dev_import(text, stem):
-    """Return `text` with the day's Development import inserted, in date order.
+    """Return `text` with the unit's Development import inserted, in date order.
 
     Returns the text unchanged when the line is already there.
     """
     lines = text.splitlines()
-    days = [(i, m.group(1)) for i, m in ((i, DEV_IMPORT_RE.match(l)) for i, l in enumerate(lines)) if m]
-    if any(existing == stem for _, existing in days):
+    matched = ((i, DEV_IMPORT_RE.match(l)) for i, l in enumerate(lines))
+    units = [(i, m.group(1)) for i, m in matched if m]
+    if any(existing == stem for _, existing in units):
         return text
 
     new_line = f"import {NAME}.Questions.«{stem}».Development"
-    if days:
-        later = [i for i, existing in days if existing > stem]
-        at = later[0] if later else days[-1][0] + 1
+    if units:
+        # A stem is the date then the topic, so a plain string compare is date order, and
+        # two units of one day sort together under it.
+        later = [i for i, existing in units if existing > stem]
+        at = later[0] if later else units[-1][0] + 1
     else:
-        # The first day of the project. Questions sort after Knowledge, so the end of the
+        # The first unit of the project. Questions sort after Knowledge, so the end of the
         # header is the right place, and a blank line keeps the two blocks apart.
         at = header_end(lines)
         if at > 0 and lines[at - 1].strip() != "":
@@ -157,18 +170,22 @@ def insert_dev_import(text, stem):
     return "\n".join(lines) + "\n"
 
 
-def next_letter(text, stem):
-    """The next free letter of `question_<stem>_<letter>` in `text`.
+def next_letter(text):
+    """The next free letter of `question_<letter>` in `text`.
 
     Lettered in the order posed, so this is one past the highest already used rather than
-    the first gap: a letter is not reused once a question has carried it.
+    the first gap: a letter is not reused once a question has carried it.  Matched at the
+    start of a line, so a docstring naming a target cannot advance the letter.
+
+    The date is not in the name: the unit's namespace already carries it, and the letters
+    restart with each unit.
     """
-    used = set(re.findall(r"\bquestion_" + re.escape(stem) + r"_([a-z])\b", text))
+    used = set(re.findall(r"^theorem question_([a-z])\b", text, re.M))
     if not used:
         return "a"
     nxt = string.ascii_lowercase.index(max(used)) + 1
     if nxt >= len(string.ascii_lowercase):
-        die(f"the day {stem} already has 26 questions; start another day")
+        die("this unit already has 26 questions; pose the rest as a unit of their own")
     return string.ascii_lowercase[nxt]
 
 
@@ -205,7 +222,7 @@ def append_declaration(text, stem, letter, doc, signature):
     if at is None:
         die(f"no closing `{end_line}` to append before; was the file edited by hand?")
 
-    block = wrap_docstring(doc) + [f"theorem question_{stem}_{letter} {signature} := sorry"]
+    block = wrap_docstring(doc) + [f"theorem question_{letter} {signature} := sorry"]
     # A blank line separates this question from whatever precedes it, and the scaffold
     # already leaves one before the closing `end`.
     if at > 0 and lines[at - 1].strip() != "":
@@ -224,13 +241,13 @@ def write_if_absent(path, body):
     return "filled empty" if refilled else "created"
 
 
-def do_scaffold(stem, date_str):
+def do_scaffold(stem, date_str, topic):
     unit = QUESTIONS / stem
     unit.mkdir(parents=True, exist_ok=True)
 
     wrote = False
-    for fname, body in (("Challenge.lean", challenge_skeleton(stem, date_str)),
-                        ("Development.lean", development_skeleton(stem, date_str))):
+    for fname, body in (("Challenge.lean", challenge_skeleton(stem, date_str, topic)),
+                        ("Development.lean", development_skeleton(stem, date_str, topic))):
         verb = write_if_absent(unit / fname, body)
         print(f"  {unit.relative_to(PROJECT)}/{fname}: "
               + (f"{verb}" if verb else "already exists, left alone"))
@@ -242,10 +259,10 @@ def do_scaffold(stem, date_str):
         ROOT_MODULE.write_text(after, encoding="utf-8")
         print(f"  {ROOT_MODULE.name}: import {NAME}.Questions.«{stem}».Development added")
     else:
-        print(f"  {ROOT_MODULE.name}: already imports the day")
+        print(f"  {ROOT_MODULE.name}: already imports the unit")
 
     if wrote:
-        print(f"\nNext: state the questions with --append, then build the day:\n"
+        print(f"\nNext: state the questions with --append, then build the unit:\n"
               f"  lake build '{NAME}.Questions.«{stem}».Challenge'")
     return 0
 
@@ -255,15 +272,14 @@ def do_append(stem, doc, signature):
     challenge, development = unit / "Challenge.lean", unit / "Development.lean"
     for path in (challenge, development):
         if not path.is_file():
-            die(f"the day is not scaffolded yet: {path.relative_to(PROJECT)} is missing")
+            die(f"the unit is not scaffolded yet: {path.relative_to(PROJECT)} is missing")
 
-    letter = next_letter(challenge.read_text(encoding="utf-8"), stem)
+    letter = next_letter(challenge.read_text(encoding="utf-8"))
     for path in (challenge, development):
         text = path.read_text(encoding="utf-8")
         path.write_text(append_declaration(text, stem, letter, doc, signature), encoding="utf-8")
 
-    print(f"Appended question_{stem}_{letter} to both files of "
-          f"{unit.relative_to(PROJECT)}.")
+    print(f"Appended question_{letter} to both files of {unit.relative_to(PROJECT)}.")
     print(f"\nIt will not elaborate until the statement is right, which is where the work "
           f"of posing\na question goes. Check it:\n"
           f"  lake build '{NAME}.Questions.«{stem}».Challenge'\n"
@@ -272,16 +288,25 @@ def do_append(stem, doc, signature):
 
 
 def selftest():
-    stem = "20260813"
+    stem, topic = "20260813LegendreFormula", "LegendreFormula"
     ns = namespace(stem)
-    assert ns == f"{NAME}Challenge.«20260813»", ns
+    assert ns == f"{NAME}Challenge.«20260813LegendreFormula»", ns
+    assert stem == "20260813" + topic, stem
+
+    # A topic is UpperCamelCase and nothing else: no kebab slug, no leading digit of its own.
+    assert TOPIC_RE.match("LegendreFormula") and TOPIC_RE.match("Q2")
+    assert not TOPIC_RE.match("legendre-formula")
+    assert not TOPIC_RE.match("Legendre_Formula")
+    assert not TOPIC_RE.match("")
 
     # next_letter: empty, then one past the highest used, never filling a gap.
-    assert next_letter("", stem) == "a"
-    assert next_letter(f"theorem question_{stem}_a : True := sorry", stem) == "b"
-    assert next_letter(f"question_{stem}_a question_{stem}_c", stem) == "d"
-    # Another day's questions do not advance this one's letter.
-    assert next_letter(f"question_20260101_f", stem) == "a"
+    assert next_letter("") == "a"
+    assert next_letter("theorem question_a : True := sorry") == "b"
+    assert next_letter("theorem question_a : True := sorry\n"
+                       "theorem question_c : True := sorry") == "d"
+    # Matched at the start of a line, so prose naming a target does not advance the letter.
+    assert next_letter("/-- Compare `question_f` of another unit. -/") == "a"
+    # Letters restart with each unit: another unit's file says nothing about this one.
 
     # Docstrings wrap to 100 columns and never break inside a code span.
     long_doc = ("Legendre's formula: `(p - 1)` times the `p`-adic valuation of `n !` is `n` "
@@ -294,15 +319,20 @@ def selftest():
     # A short docstring stays on one line, delimiters and all.
     assert wrap_docstring("A prime above every bound.") == ["/-- A prime above every bound. -/"]
 
+    # The skeletons carry the topic in their titles, and the same namespace.
+    challenge = challenge_skeleton(stem, "August 13, 2026", topic)
+    development = development_skeleton(stem, "August 13, 2026", topic)
+    assert f"# Questions posed on August 13, 2026: {topic}\n" in challenge, challenge
+    assert f"# Questions posed on August 13, 2026: {topic}, answered\n" in development, development
+    assert challenge.count(f"namespace {ns}") == development.count(f"namespace {ns}") == 1
+
     # append_declaration lands before the closing `end`, in both files identically.
-    body = challenge_skeleton(stem, "August 13, 2026")
-    out = append_declaration(body, stem, "a", "A prime above every bound.",
+    out = append_declaration(challenge, stem, "a", "A prime above every bound.",
                              "(n : ℕ) : ∃ p, n < p ∧ Nat.Prime p")
-    assert f"theorem question_{stem}_a (n : ℕ) : ∃ p, n < p ∧ Nat.Prime p := sorry" in out
+    assert "theorem question_a (n : ℕ) : ∃ p, n < p ∧ Nat.Prime p := sorry" in out
     assert out.index("theorem question_") < out.index(f"end {ns}")
     assert out.rstrip().endswith(f"end {ns}")
-    assert append_declaration(development_skeleton(stem, "August 13, 2026"), stem, "a",
-                              "A prime above every bound.",
+    assert append_declaration(development, stem, "a", "A prime above every bound.",
                               "(n : ℕ) : ∃ p, n < p ∧ Nat.Prime p").count("question_") == 1
 
     # A second question is separated from the first by a blank line.
@@ -310,18 +340,27 @@ def selftest():
     lines_two = two.splitlines()
     at_b = next(i for i, l in enumerate(lines_two) if l.startswith("/-- Another."))
     assert lines_two[at_b - 1].strip() == "", lines_two[at_b - 3:at_b + 1]
-    assert lines_two[at_b - 2].startswith(f"theorem question_{stem}_a"), lines_two[at_b - 2]
+    assert lines_two[at_b - 2].startswith("theorem question_a"), lines_two[at_b - 2]
 
-    # Root import: date order among days, idempotent, and after the Knowledge block.
-    root = f"import {NAME}.Knowledge.JumpSet\nimport {NAME}.Questions.«20260101».Development\n"
+    # Root import: date order among units, idempotent, and after the Knowledge block.
+    root = (f"import {NAME}.Knowledge.JumpSet\n"
+            f"import {NAME}.Questions.«20260101Earlier».Development\n")
     added = insert_dev_import(root, stem)
     assert added.splitlines()[-1] == f"import {NAME}.Questions.«{stem}».Development", added
     assert insert_dev_import(added, stem) == added
-    earlier = insert_dev_import(f"import {NAME}.Questions.«20270101».Development\n", stem)
+    earlier = insert_dev_import(f"import {NAME}.Questions.«20270101Later».Development\n", stem)
     assert earlier.splitlines()[0] == f"import {NAME}.Questions.«{stem}».Development", earlier
     fresh = insert_dev_import(f"import {NAME}.Knowledge.JumpSet\n", stem)
     assert fresh.splitlines() == [f"import {NAME}.Knowledge.JumpSet", "",
                                   f"import {NAME}.Questions.«{stem}».Development"], fresh
+
+    # A second unit of the same day sorts beside the first, by topic.
+    sibling = insert_dev_import(added, "20260813MassFormula")
+    assert sibling.splitlines()[-1] == (
+        f"import {NAME}.Questions.«20260813MassFormula».Development"), sibling
+    before = insert_dev_import(added, "20260813Digits")
+    assert before.splitlines()[-2] == (
+        f"import {NAME}.Questions.«20260813Digits».Development"), before
 
     print("selftest ok")
     return 0
@@ -332,6 +371,8 @@ def main(argv):
         prog="__init_question__.py",
         description=f"Pose a question in the {NAME} project, writing to both files of its unit.",
     )
+    parser.add_argument("topic", nargs="?",
+                        help="the unit's topic, UpperCamelCase (e.g. LegendreFormula)")
     parser.add_argument("date", nargs="?", help="YYYYMMDD; defaults to today")
     parser.add_argument("-a", "--append", action="store_true",
                         help="append one question, reading its signature from stdin")
@@ -347,6 +388,13 @@ def main(argv):
     if not ROOT_MODULE.is_file():
         die(f"the root module is missing: {ROOT_MODULE.name}")
 
+    # A unit is named for what it is about, so the topic is not optional---it is what makes
+    # `ls Atlas/Questions/` an index rather than a run of dates.
+    if not args.topic:
+        die("give the unit's topic, UpperCamelCase: __init_question__.py <Topic> [YYYYMMDD]")
+    if not TOPIC_RE.match(args.topic):
+        die(f"the topic must be UpperCamelCase ({TOPIC_RE.pattern}): {args.topic}")
+
     if args.date:
         try:
             day = datetime.datetime.strptime(args.date, "%Y%m%d").date()
@@ -354,12 +402,12 @@ def main(argv):
             die(f"invalid date (expected YYYYMMDD): {args.date}")
     else:
         day = datetime.date.today()
-    stem = day.strftime("%Y%m%d")
+    stem = day.strftime("%Y%m%d") + args.topic
     date_str = day.strftime("%B %-d, %Y")
 
     if not args.append:
-        print(f"Questions posed on {date_str}:")
-        return do_scaffold(stem, date_str)
+        print(f"Questions posed on {date_str}, on {args.topic}:")
+        return do_scaffold(stem, date_str, args.topic)
 
     if not args.doc:
         die("--append needs --doc: every question carries a docstring saying what it asks")

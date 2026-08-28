@@ -8,7 +8,7 @@
 # the point: an `import` is a prerequisite, and a backticked fully-qualified name in a
 # docstring is the softer reference, which may name an item that has not been written yet.
 #
-# Prerequisites are drawn above their dependents. A knowledge item is a box; a day's
+# Prerequisites are drawn above their dependents. A knowledge item is a box; a unit's
 # questions is an ellipse, so the two layers are told apart at a glance. An item that is
 # referred to but has no file is drawn in red, so the picture is the backlog as well---
 # those red nodes are the whole of what tracks it.
@@ -43,7 +43,7 @@ src=$(
                 printf '    "%s";\n' "$node"
                 ;;
             Questions/*)
-                # One node per day, not per file: Challenge and Development are two faces
+                # One node per unit, not per file: Challenge and Development are two faces
                 # of one unit, and both reach the same layer.
                 node=${rel#Questions/}; node=${node%%/*}
                 printf '    "%s" [shape=ellipse, style=filled, fillcolor=gray92];\n' "$node"

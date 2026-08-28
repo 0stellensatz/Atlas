@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# Questions posed on August 13, 2026
+# Questions posed on August 13, 2026: Legendre's formula
 
 Two questions about Legendre's formula for the `p`-adic valuation of a factorial, asked in the
 form that keeps the right-hand side closed—`n` less the sum of the base-`p` digits of `n`,
@@ -21,16 +21,16 @@ What the answers are about: `Atlas.Knowledge.LegendreFormula`, which carries the
 expansion of a prime power, which would be `Atlas.Knowledge.DigitsOfPrimePow`.
 -/
 
-namespace AtlasChallenge.«20260813»
+namespace AtlasChallenge.«20260813LegendreFormula»
 
 /-- Legendre's formula: `(p - 1)` times the `p`-adic valuation of `n !` is `n` less the sum of
 the base-`p` digits of `n`. -/
-theorem question_20260813_a (p n : ℕ) [Fact p.Prime] :
+theorem question_a (p n : ℕ) [Fact p.Prime] :
     (p - 1) * padicValNat p n.factorial = n - (p.digits n).sum := sorry
 
 /-- The prime-power case: the base-`p` digits of `p ^ k` sum to `1`, so Legendre's formula should
 collapse to `p ^ k - 1` on the right. -/
-theorem question_20260813_b (p k : ℕ) [Fact p.Prime] :
+theorem question_b (p k : ℕ) [Fact p.Prime] :
     (p - 1) * padicValNat p (p ^ k).factorial = p ^ k - 1 := sorry
 
-end AtlasChallenge.«20260813»
+end AtlasChallenge.«20260813LegendreFormula»

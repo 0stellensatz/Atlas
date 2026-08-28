@@ -37,9 +37,9 @@ jobs:
       # same namespace as the `Development.lean` beside them, so they cannot
       # enter one environment and the root module does not import them. They are
       # built by name instead. A project that has none of them builds nothing
-      # here, and the step passes. Numeric path components (the `YYYYMMDD` unit
-      # directories) are not identifiers and must be French-quoted in the
-      # module name, or Lake fails to resolve it.
+      # here, and the step passes. A unit directory (`20260813LegendreFormula`)
+      # opens with a digit and so is not an identifier: its module component must
+      # be French-quoted, or Lake fails to resolve the target.
       - name: Build the comparator files
         run: |
           set -euo pipefail
@@ -48,7 +48,7 @@ jobs:
           while read -r file; do
             module="${file#./}"
             module="${module%.lean}"
-            module=$(printf '%s' "$module" | sed -E 's|/([0-9]+)/|/«\1»/|g')
+            module=$(printf '%s' "$module" | sed -E 's|/([0-9][^/]*)/|/«\1»/|g')
             lake build "${module//\//.}"
           done
 

@@ -2,9 +2,9 @@
 
 These rules govern the shape of this package: a standing body of formalized mathematics, and a run of dated question units stated against it.
 
-**Atlas is bound to no source.** The questions are its own—posed rather than transcribed—so nothing here mirrors a paper's sectioning, and there is no exposition being worked through. A *unit* is one day's questions, in the directory `Atlas/Questions/YYYYMMDD/`, and the date is the only thing that groups its contents: questions posed on one day share a directory whether or not they share a subject. That a unit is a directory holding one comparator pair is what `__check__.py` fixes, since it pairs the files by the directory they share; that the directory is a date is this project's own choice.
+**Atlas is bound to no source.** The questions are its own—posed rather than transcribed—so nothing here mirrors a paper's sectioning, and there is no exposition being worked through. A *unit* is one topic's questions, in the directory `Atlas/Questions/YYYYMMDD<Topic>/`—`20260813LegendreFormula`, the day they were posed and the subject they are on. The directory names the subject because otherwise nothing does: `ls Atlas/Questions/` would be a run of dates, where `ls Atlas/Knowledge/` is an index. Questions posed on one day but on unrelated subjects are therefore separate units sharing a date prefix, which still sort and list together. That a unit is a directory holding one comparator pair is what `__check__.py` fixes, since it pairs the files by the directory they share; what the directory is *named* is this project's own choice.
 
-Two things about that spelling are load-bearing. `20260813` is not an identifier, so the module `Atlas.Questions.«20260813».Challenge`, the namespace, and the root module's import line all need the French quotes. And targets are named `question_YYYYMMDD_a`, `_b`, … lettered in the order they were posed, so a name carries its own day and no two days collide.
+Three things about that spelling are load-bearing. `<Topic>` is UpperCamelCase—a directory component here is a Lean module component, and every other one in the tree is spelled that way. A name opening with a digit is not an identifier, so the module `Atlas.Questions.«20260813LegendreFormula».Challenge`, the namespace, and the root module's import line all need the French quotes. And targets are named `question_a`, `_b`, … lettered in the order they were posed and restarting with each unit: the unit's namespace already carries the date, so repeating it in the target name would say nothing the full name does not.
 
 Two companion documents carry the parts not repeated here: `./rules-comparator.md` (the Challenge / Development pair—the specification-versus-proof split that these rules assume throughout) and `./rules-documentation.md` (module and declaration docstrings, and citations).
 
@@ -32,10 +32,10 @@ Module names mirror file paths under the package root: `<Project>/<Unit>/Foo.lea
 
 A unit is two files and nothing else.
 
-- **`Challenge.lean` — the frozen statement of the day's questions**, one declaration per question, each proved by `sorry`, and stated in Mathlib's vocabulary (`./rules-comparator.md`). It imports only Mathlib, and it is the file that does *not* change when an answer is found. A `sorry` here is permanent: it is the question, not a gap.
+- **`Challenge.lean` — the frozen statement of the unit's questions**, one declaration per question, each proved by `sorry`, and stated in Mathlib's vocabulary (`./rules-comparator.md`). It imports only Mathlib, and it is the file that does *not* change when an answer is found. A `sorry` here is permanent: it is the question, not a gap.
 - **`Development.lean` — the same declarations, answered**, by importing what the answer needs from `Atlas.Knowledge` and delegating to it. This is where an agent works, and the only file of the two it may edit.
 
-**There is no per-unit production code, no `Defs.lean`, and no per-unit proof file.** The template puts the definitions and proofs a unit is stated over beside that unit; here they sit in one project-wide layer that every unit draws on, because a day is a bad place to leave anything meant to be reused, and reuse is the point.
+**There is no per-unit production code, no `Defs.lean`, and no per-unit proof file.** The template puts the definitions and proofs a unit is stated over beside that unit; here they sit in one project-wide layer that every unit draws on, because a unit is a bad place to leave anything meant to be reused, and reuse is the point.
 
 ## The knowledge layer
 
@@ -71,12 +71,12 @@ Mathlib  ←  Challenge.lean
 
 - **A `Knowledge/` file imports Mathlib and other `Knowledge/` files, and nothing else.** It never imports a question, in either direction and at any remove. A genuine mutual dependency between two items is resolved by demoting one direction to a docstring reference, which is what the soft link is for.
 - **`Challenge.lean` sits outside the graph entirely**—Mathlib alone (`./rules-comparator.md`).
-- **No `Questions/` directory imports another.** Days are independent, and a day is finished when it is. **What a second day also wants moves up into `Knowledge/`** rather than being reached for sideways—that rule is what makes the knowledge layer grow from use instead of becoming a place things are filed.
+- **No `Questions/` directory imports another.** Units are independent, and a unit is finished when it is. **What a second unit also wants moves up into `Knowledge/`** rather than being reached for sideways—that rule is what makes the knowledge layer grow from use instead of becoming a place things are filed.
 - When a `Knowledge/` definition carries a proof obligation, prove the obligation in place when it is short; if it grows, split it into a prerequisite item imported *by* the one holding the definition. Never leave a `sorry` underneath a definition—a definition that does not elaborate takes everything downstream of it with it.
 
 ## Workflow
 
-1. **Pose.** Scaffold the day with `__init_question__.py`, then add each question with its `--append` mode, which writes the identical declaration into both files so the two cannot start out of step. State it in Mathlib's vocabulary, unfolding any `Knowledge/` notion it is about. **A statement that will not elaborate is not yet a question**—`sorry` closes a proof, never a hole in what is being asked, so getting the statement to elaborate is where most of the work of posing one goes. Name in the Challenge's `## Implementation notes` the `Knowledge/` items the question is about, as backticked fully-qualified names; that is the pointer an agent follows, and it costs nothing, being a docstring rather than an import.
+1. **Pose.** Scaffold the unit with `__init_question__.py <Topic>`, then add each question with its `--append` mode, which writes the identical declaration into both files so the two cannot start out of step. State it in Mathlib's vocabulary, unfolding any `Knowledge/` notion it is about. **A statement that will not elaborate is not yet a question**—`sorry` closes a proof, never a hole in what is being asked, so getting the statement to elaborate is where most of the work of posing one goes. Name in the Challenge's `## Implementation notes` the `Knowledge/` items the question is about, as backticked fully-qualified names; that is the pointer an agent follows, and it costs nothing, being a docstring rather than an import.
 2. **Answer.** In `Development.lean` only, replace a `sorry` with a proof, importing from `Atlas.Knowledge` whatever it draws on. **The statement never changes at this step, only its body**, and `Challenge.lean` is not touched at all.
 3. **Promote.** Anything the answer needed that a second question would also want—a definition, a lemma worth a name—moves into `Knowledge/` as an item of its own rather than staying inline in a body. This is the step that is easy to skip and the one that makes the layer worth having.
 
@@ -125,12 +125,12 @@ All of these are run from the project directory (from elsewhere, wrap the change
 ```bash
 lake build                                          # the knowledge layer and every Development
 lake build Atlas.Knowledge.JumpSet                  # one knowledge item
-lake build 'Atlas.Questions.«20260813».Development'  # one day's answers
-lake build 'Atlas.Questions.«20260813».Challenge'    # its questions, which the root module omits
+lake build 'Atlas.Questions.«20260813LegendreFormula».Development'  # one unit's answers
+lake build 'Atlas.Questions.«20260813LegendreFormula».Challenge'    # its questions, omitted by the root
 ./__graph__.sh                                      # the knowledge web, and what is promised but unwritten
 ```
 
-The French quotes in a day's module name have to survive the shell, so quote the argument. Every Challenge at once is the loop in `./rules-comparator.md`.
+The French quotes in a unit's module name have to survive the shell, so quote the argument. Every Challenge at once is the loop in `./rules-comparator.md`.
 
 A fresh checkout of a project needs `lake exe cache get` **before** the first build—otherwise Lean compiles Mathlib from source, which takes hours. Alongside the build, run the project's own structural check (`./rules-comparator.md`):
 
