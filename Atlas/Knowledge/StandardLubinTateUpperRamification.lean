@@ -35,8 +35,8 @@ does not clone them — the statement policy forbids duplicating what Phase 1's 
 already provides, so both computations are stated directly against
 `Atlas.Knowledge.upperRamificationGroup` at the level field, and the proofs run
 through the layer's own filtration items rather than the source's packaged
-definitions. The exponent
-convention matches the source's `standardLubinTateRealUpperRamificationGroup_natCard`
+definitions. The exponent convention matches the source's
+`standardLubinTateRealUpperRamificationGroup_natCard`
 (`LubinTate/FiniteLevel/HerbrandFormula.lean:284`): at `k = n + 1` the group is trivial,
 at `k = 1` it is the full wild part of order `qⁿ`.
 
@@ -77,14 +77,8 @@ theorem standardLubinTateUpperRamification {π : 𝒪[K]} (hπ : Irreducible π)
   set k := ⌈t⌉₊ with hkdef
   have hk1 : 1 ≤ k := h1
   have hpk1 : (1 : ℕ) ≤ Nat.card 𝓀[K] ^ (k - 1) := Nat.one_le_pow _ _ (by omega)
-  have hpkk : Nat.card 𝓀[K] ^ (k - 1) ≤ Nat.card 𝓀[K] ^ k - 1 := by
-    have hstep : Nat.card 𝓀[K] ^ (k - 1) * 2 ≤ Nat.card 𝓀[K] ^ k := by
-      calc Nat.card 𝓀[K] ^ (k - 1) * 2 ≤
-          Nat.card 𝓀[K] ^ (k - 1) * Nat.card 𝓀[K] :=
-            Nat.mul_le_mul_left _ (by omega)
-        _ = Nat.card 𝓀[K] ^ k := by
-            rw [← pow_succ, show k - 1 + 1 = k by omega]
-    omega
+  have hpkk : Nat.card 𝓀[K] ^ (k - 1) ≤ Nat.card 𝓀[K] ^ k - 1 :=
+    Nat.le_sub_one_of_lt (Nat.pow_lt_pow_right hq1 (by omega))
   have ht_le : t ≤ (k : ℝ) := Nat.le_ceil t
   have ht_gt : ((k - 1 : ℕ) : ℝ) < t := by
     have := Nat.lt_ceil (n := k - 1) (a := t) |>.mp (by omega)
@@ -109,7 +103,7 @@ theorem standardLubinTateUpperRamification {π : 𝒪[K]} (hπ : Irreducible π)
     realLowerRamificationGroup,
     standardLubinTateHerbrandPsi_natCast K hπ n (by omega : k ≤ n + 1),
     Int.ceil_natCast]
-  set m := ⌈herbrandPsi K ↥(standardLubinTateLevelField K hπ n) t⌉ with hmdef
+  set m := ⌈herbrandPsi K ↥(standardLubinTateLevelField K hπ n) t⌉
   have hm0 : 0 ≤ m := by omega
   have hml : Nat.card 𝓀[K] ^ (k - 1) ≤ m.toNat := by omega
   have hmr : m.toNat < Nat.card 𝓀[K] ^ k := by omega
@@ -136,17 +130,10 @@ theorem standardLubinTateUpperRamification_natCard {π : 𝒪[K]} (hπ : Irreduc
   haveI := hVE
   haveI := hMCL
   have hq1 : 1 < Nat.card 𝓀[K] := Finite.one_lt_card
-  have hpkk : Nat.card 𝓀[K] ^ (k - 1) ≤ Nat.card 𝓀[K] ^ k - 1 := by
-    have hstep : Nat.card 𝓀[K] ^ (k - 1) * 2 ≤ Nat.card 𝓀[K] ^ k := by
-      calc Nat.card 𝓀[K] ^ (k - 1) * 2 ≤
-          Nat.card 𝓀[K] ^ (k - 1) * Nat.card 𝓀[K] :=
-            Nat.mul_le_mul_left _ (by omega)
-        _ = Nat.card 𝓀[K] ^ k := by
-            rw [← pow_succ, show k - 1 + 1 = k by omega]
-    omega
+  have hpkk : Nat.card 𝓀[K] ^ (k - 1) ≤ Nat.card 𝓀[K] ^ k - 1 :=
+    Nat.le_sub_one_of_lt (Nat.pow_lt_pow_right hq1 (by omega))
   have hp1 : 1 ≤ Nat.card 𝓀[K] ^ k := Nat.one_le_pow _ _ (by omega)
-  rw [show ((k : ℕ) : ℝ) = ((⌈((k : ℕ) : ℝ)⌉₊ : ℕ) : ℝ) by rw [Nat.ceil_natCast]]
-  rw [upperRamificationGroup, realLowerRamificationGroup, Nat.ceil_natCast,
+  rw [upperRamificationGroup, realLowerRamificationGroup,
     standardLubinTateHerbrandPsi_natCast K hπ n hkn, Int.ceil_natCast]
   exact standardLubinTateLowerRamification_natCard K hπ n hk hkn hpkk
     (by omega : Nat.card 𝓀[K] ^ k - 1 < Nat.card 𝓀[K] ^ k)

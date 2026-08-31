@@ -12,7 +12,8 @@ one power interval of the lower filtration — over `[qᵏ, q^(k+1))` the group 
 constant order `q^(n−k)`, so the interval's `(q−1)qᵏ` summands contribute one full
 `|G_0| = (q−1)qⁿ` to the partial sums of `Atlas.Knowledge.herbrandPhi_natCast`. These
 are the two identities the upper-numbering description of the level tower reads off:
-the upper jumps are the integers `1, …, n + 1`.
+the upper jumps of the tower are integers, and the identities hold across the whole
+visible range `k ≤ n + 1`.
 
 ## Main statements
 
@@ -100,9 +101,10 @@ private theorem sum_card_lowerRamificationGroup {k : ℕ} (hk : k ≤ n + 1) :
 
 /-- **The Herbrand function at the lower breaks**: `φ(qᵏ − 1) = k` — each unit of upper
 index consumes one power interval of the lower filtration
-([Serre 1979, Chap. IV, §4, pp.78–79][Serre1979] — "`φ_{L/K}(pᵏ − 1) = k`, which is
+([Serre 1979, Chap. IV, §4, p.79][Serre1979] — "`φ_{L/K}(pᵏ − 1) = k`, which is
 easy", the line after Prop. 18's corollary, done here for the general tower;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/HerbrandFormula.lean:215`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `LubinTate/FiniteLevel/HerbrandFormula.lean:215`,
+`standardLubinTateHerbrandFunction_pow_sub_one`][Yamaguchi2026]). -/
 theorem standardLubinTateHerbrandPhi_pow_sub_one {k : ℕ} (hk : k ≤ n + 1) :
     herbrandPhi K ↥(standardLubinTateLevelField K hπ n)
       ((Nat.card 𝓀[K] ^ k - 1 : ℕ) : ℝ) = k := by
@@ -123,7 +125,8 @@ theorem standardLubinTateHerbrandPhi_pow_sub_one {k : ℕ} (hk : k ≤ n + 1) :
 jumps of the level tower sit at the integers, over the lower breaks
 ([Serre 1979, Chap. IV, §4, Cor. to Prop. 18, p.79][Serre1979] — "the jumps in the
 filtration `(Gᵛ)` are integers";
-[Yamaguchi 2026, `LubinTate/FiniteLevel/HerbrandFormula.lean:233`][Yamaguchi2026]). -/
+[Yamaguchi 2026, `LubinTate/FiniteLevel/HerbrandFormula.lean:233`,
+`standardLubinTateInverseHerbrandFunction_nat_eq_pow_sub_one`][Yamaguchi2026]). -/
 theorem standardLubinTateHerbrandPsi_natCast {k : ℕ} (hk : k ≤ n + 1) :
     herbrandPsi K ↥(standardLubinTateLevelField K hπ n) (k : ℝ) =
       ((Nat.card 𝓀[K] ^ k - 1 : ℕ) : ℝ) := by
