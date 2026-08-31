@@ -65,10 +65,15 @@ import Atlas.Knowledge.FilteredModule
 import Atlas.Knowledge.FilteredModulePi
 import Atlas.Knowledge.FilteredProfiniteGroup
 import Atlas.Knowledge.FilteredRhoMap
+import Atlas.Knowledge.FiniteAbstractExtension
+import Atlas.Knowledge.FiniteAbstractField
+import Atlas.Knowledge.FiniteAbstractFieldExtension
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
 import Atlas.Knowledge.FinitePlaceIdele
+import Atlas.Knowledge.FiniteResidueAbstractExtension
 import Atlas.Knowledge.FiniteResidueAbstractField
+import Atlas.Knowledge.FiniteTower
 import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FormalLogPow
 import Atlas.Knowledge.FreeCharacterJumpSets
