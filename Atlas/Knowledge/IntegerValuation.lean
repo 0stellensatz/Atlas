@@ -37,6 +37,8 @@ here.
   equality and inequality; proved.
 * `span_singleton_eq_pow_maximalIdeal` — the principal-ideal reading of the value;
   proved.
+* `addVal_eq_toNat_integerValuation` — Mathlib's additive valuation is the `ℕ∞`-cast of
+  the value; proved.
 
 ## Implementation notes
 
@@ -345,5 +347,22 @@ theorem span_singleton_eq_pow_maximalIdeal {y : ↥𝒪[K]} (hy : y ≠ 0) :
       from Ideal.span_singleton_eq_span_singleton.mpr
         (associated_unit_mul_left _ _ u.isUnit),
     ← Ideal.span_singleton_pow, hϖ.maximalIdeal_eq]
+
+/-- **Mathlib's additive valuation is the value**: on a nonzero integer,
+`IsDiscreteValuationRing.addVal` is the `ℕ∞`-cast of the integer valuation — the bridge
+between the layer's `ℤ` carrier and the `ℕ∞` order the ramification numbers live in
+([Serre 1979, Chap. I, §1, p.5][Serre1979] — the same order function, in the two
+normalizations). -/
+theorem addVal_eq_toNat_integerValuation {y : ↥𝒪[K]} (hy : y ≠ 0) :
+    IsDiscreteValuationRing.addVal ↥𝒪[K] y =
+      ((integerValuation K y).toNat : ℕ∞) := by
+  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible ↥𝒪[K]
+  obtain ⟨m, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hy hϖ
+  have hν : integerValuation K ((u : ↥𝒪[K]) * ϖ ^ m) = m := by
+    rw [integerValuation_mul K (Units.ne_zero u) (pow_ne_zero _ hϖ.ne_zero),
+      integerValuation_eq_zero_of_isUnit K u.isUnit, integerValuation_pow,
+      integerValuation_irreducible K hϖ, zero_add, mul_one]
+  rw [hν, Int.toNat_natCast]
+  exact IsDiscreteValuationRing.addVal_def _ u hϖ m rfl
 
 end Atlas.Knowledge

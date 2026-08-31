@@ -17,6 +17,8 @@ valuation ring `integralClosure 𝒪[K] L`.
 
 * `ramificationNumber_eq_addVal` — `i_G (σ) = v_L (σ x - x)` at a generator `x` of the
   integral closure, with `v_L` the additive valuation `IsDiscreteValuationRing.addVal`.
+* `RamificationNumberEqAddVal.addVal_ringEquiv` — the additive valuation transports
+  along a ring isomorphism; proved.
 
 ## Implementation notes
 
@@ -58,6 +60,25 @@ theorem RamificationNumberEqAddVal.mem_maximalIdeal_pow_iff {R : Type*} [CommRin
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible R
   rw [hϖ.maximalIdeal_eq, Ideal.span_singleton_pow, Ideal.mem_span_singleton,
     ← IsDiscreteValuationRing.addVal_le_iff_dvd, hϖ.addVal_pow]
+
+/-- The additive valuation transports along a ring isomorphism of discrete valuation
+rings: both sides read the exponent of the same unit-times-power normal form — generic
+discrete-valuation-ring material named here beside its sibling, as the module docstring
+records. -/
+theorem RamificationNumberEqAddVal.addVal_ringEquiv {R S : Type*} [CommRing R]
+    [IsDomain R] [IsDiscreteValuationRing R] [CommRing S] [IsDomain S]
+    [IsDiscreteValuationRing S] (e : R ≃+* S) (z : R) :
+    IsDiscreteValuationRing.addVal S (e z) = IsDiscreteValuationRing.addVal R z := by
+  rcases eq_or_ne z 0 with rfl | hz
+  · rw [map_zero, IsDiscreteValuationRing.addVal_zero,
+      IsDiscreteValuationRing.addVal_zero]
+  · obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible R
+    obtain ⟨m, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hz hϖ
+    have hϖ' : Irreducible (e ϖ) := hϖ.map e.toMulEquiv
+    rw [IsDiscreteValuationRing.addVal_def ((u : R) * ϖ ^ m) u hϖ m rfl,
+      IsDiscreteValuationRing.addVal_def (e ((u : R) * ϖ ^ m))
+        (Units.map (e : R →* S) u) hϖ' m
+        (by rw [map_mul, map_pow]; rfl)]
 
 /-- The source's definition of the ramification number, read literally: at a generator `x` of
 the integral closure, `i_G (σ) = v_L (σ x - x)` with `v_L` the additive valuation

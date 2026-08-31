@@ -15,6 +15,8 @@ written in.
 * `mem_integer_iff_isIntegral` — membership in `𝒪[E]` is integrality over `𝒪[K]`.
 * `integerIsIntegralClosure` — `𝒪[E]` is the integral closure of `𝒪[K]` in `E`.
 * `integer_isIntegral` — the integer tower `𝒪[K] → 𝒪[E]` is integral.
+* `integerEquivIntegralClosure` — the identification as a ring isomorphism, with its
+  coercion identity and structure-map square.
 
 ## Implementation notes
 
@@ -155,5 +157,35 @@ instance integerIsIntegralClosure [TopologicalSpace K] [IsMixedCharLocalField K]
 instance integer_isIntegral [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K E] : Algebra.IsIntegral 𝒪[K] 𝒪[E] :=
   IsIntegralClosure.isIntegral_algebra 𝒪[K] E
+
+/-- The identification of the extension's integers with the integral closure of the base
+integers — `Atlas.Knowledge.integerIsIntegralClosure` read as a ring isomorphism, the
+form the closure-carrier statements are transported along. -/
+noncomputable def integerEquivIntegralClosure [TopologicalSpace K]
+    [IsMixedCharLocalField K] [FiniteDimensional K E] :
+    integralClosure 𝒪[K] E ≃+* 𝒪[E] :=
+  (IsIntegralClosure.equiv 𝒪[K] (integralClosure 𝒪[K] E) E 𝒪[E]).toRingEquiv
+
+/-- The identification acts as the identity through the field: the image of a closure
+element has the same coercion. -/
+theorem coe_integerEquivIntegralClosure [TopologicalSpace K] [IsMixedCharLocalField K]
+    [FiniteDimensional K E] (z : integralClosure 𝒪[K] E) :
+    ((integerEquivIntegralClosure K E z : 𝒪[E]) : E) =
+      algebraMap (integralClosure 𝒪[K] E) E z :=
+  IsIntegralClosure.algebraMap_equiv 𝒪[K] (integralClosure 𝒪[K] E) E 𝒪[E] z
+
+/-- The commuting square: the closure's structure map is the integers' through the
+identification. -/
+theorem integerEquivIntegralClosure_symm_algebraMap [TopologicalSpace K]
+    [IsMixedCharLocalField K] [FiniteDimensional K E] (c : 𝒪[K]) :
+    (integerEquivIntegralClosure K E).symm (algebraMap 𝒪[K] 𝒪[E] c) =
+      algebraMap 𝒪[K] (integralClosure 𝒪[K] E) c := by
+  apply (integerEquivIntegralClosure K E).injective
+  rw [RingEquiv.apply_symm_apply]
+  apply Subtype.ext
+  rw [coe_integerEquivIntegralClosure,
+    ← IsScalarTower.algebraMap_apply 𝒪[K] (integralClosure 𝒪[K] E) E,
+    IsScalarTower.algebraMap_apply 𝒪[K] 𝒪[E] E]
+  rfl
 
 end Atlas.Knowledge

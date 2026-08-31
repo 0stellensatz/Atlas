@@ -26,8 +26,8 @@ consumes, whose generator is a specific torsion point.
 
 Total ramification enters as the ideal identity
 `(𝓂[K]) · 𝒪 = 𝓂 ^ [L : K]` on the layer's own carriers `𝒪[K] → 𝒪[L]`, and is carried
-to the integral-closure carrier along the `IsIntegralClosure.equiv` identification, as
-in `Atlas.Knowledge.UnramifiedNormRange`; the statement never mentions the closure of a
+to the integral-closure carrier along
+`Atlas.Knowledge.integerEquivIntegralClosure`; the statement never mentions the closure of a
 concrete field, which keeps it applicable wholesale. The inertia degree is computed
 through Mathlib's `Ideal.ramificationIdx_mul_inertiaDeg_of_isLocalRing` — the local
 case of the fundamental identity — against the exponent read off the identity by
@@ -136,28 +136,6 @@ private theorem adjoin_eq_top_of_irreducible_of_residue [Algebra.IsAlgebraic K L
   rw [Submodule.restrictScalars_mem, hmm]
   exact hzy
 
-/- The identification of the extension's integers with the integral closure of the base
-integers, as in `Atlas.Knowledge.UnramifiedNormRange`. -/
-private noncomputable def extEquiv : integralClosure ↥𝒪[K] L ≃+* ↥𝒪[L] :=
-  (IsIntegralClosure.equiv ↥𝒪[K] (integralClosure ↥𝒪[K] L) L ↥𝒪[L]).toRingEquiv
-
-omit [TopologicalSpace L] [IsMixedCharLocalField L] in
-/- The commuting square: the closure's structure map is the integers' through the
-identification. -/
-private theorem extEquiv_symm_algebraMap (c : ↥𝒪[K]) :
-    (extEquiv K L).symm (algebraMap ↥𝒪[K] ↥𝒪[L] c) =
-      algebraMap ↥𝒪[K] (integralClosure ↥𝒪[K] L) c := by
-  apply (extEquiv K L).injective
-  rw [RingEquiv.apply_symm_apply]
-  apply Subtype.ext
-  have h1 : ((extEquiv K L (algebraMap ↥𝒪[K] (integralClosure ↥𝒪[K] L) c) :
-      ↥𝒪[L]) : L) = algebraMap (integralClosure ↥𝒪[K] L) L
-        (algebraMap ↥𝒪[K] (integralClosure ↥𝒪[K] L) c) :=
-    IsIntegralClosure.algebraMap_equiv ↥𝒪[K] (integralClosure ↥𝒪[K] L) L ↥𝒪[L] _
-  rw [h1, ← IsScalarTower.algebraMap_apply ↥𝒪[K] (integralClosure ↥𝒪[K] L) L,
-    IsScalarTower.algebraMap_apply ↥𝒪[K] ↥𝒪[L] L]
-  rfl
-
 end TotallyRamifiedMonogenic
 
 open TotallyRamifiedMonogenic in
@@ -181,13 +159,14 @@ theorem totallyRamifiedMonogenic
   have hcl : Ideal.map (algebraMap ↥𝒪[K] (integralClosure ↥𝒪[K] L)) 𝓂[K] =
       IsLocalRing.maximalIdeal (integralClosure ↥𝒪[K] L) ^ Module.finrank K L := by
     have hcomp : algebraMap ↥𝒪[K] (integralClosure ↥𝒪[K] L) =
-        ((extEquiv K L).symm : ↥𝒪[L] →+* integralClosure ↥𝒪[K] L).comp
+        ((integerEquivIntegralClosure K L).symm : ↥𝒪[L] →+* integralClosure ↥𝒪[K] L).comp
           (algebraMap ↥𝒪[K] ↥𝒪[L]) := by
       ext c
       rw [RingHom.comp_apply]
-      exact congrArg Subtype.val (extEquiv_symm_algebraMap K L c).symm
+      exact congrArg Subtype.val (integerEquivIntegralClosure_symm_algebraMap K L c).symm
     rw [hcomp, ← Ideal.map_map, h𝒪, Ideal.map_pow,
-      MapMaximalIdealEqPowCardInertia.map_maximalIdeal_ringEquiv (extEquiv K L).symm]
+      MapMaximalIdealEqPowCardInertia.map_maximalIdeal_ringEquiv
+        (integerEquivIntegralClosure K L).symm]
   -- the fundamental identity forces a trivial inertia degree
   have he := MapMaximalIdealEqPowCardInertia.ramificationIdx'_eq_of_map_eq_pow hcl
   haveI : Module.Finite ↥𝒪[K] (integralClosure ↥𝒪[K] L) :=

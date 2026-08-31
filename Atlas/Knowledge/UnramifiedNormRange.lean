@@ -30,7 +30,8 @@ is the unramified floor of the reciprocity map: on it the Frobenius-normalized m
 The unramified input enters once, as the ideal identity
 `Atlas.Knowledge.map_maximalIdeal_eq_pow_card_inertia` read at `E = K` with the inertia
 group trivial, transported to the layer's own carriers `𝒪[K] → 𝒪[L]` along the
-`IsIntegralClosure.equiv` identifications — `Ideal.map` only depends on the underlying
+`Atlas.Knowledge.integerEquivIntegralClosure` identification and its base analogue —
+`Ideal.map` only depends on the underlying
 function, which the private `map_congr_fn` records. The trivial self-extension
 `ValuativeExtension K K` is not an instance at the pin and is provided inline. The final
 counting runs through the reduction of `Kˣ` to `ZMod n` along the bundled valuation, and
@@ -57,11 +58,6 @@ variable (L : Type*) [Field L] [ValuativeRel L] [TopologicalSpace L] [Algebra K 
 private noncomputable def baseEquiv : integralClosure ↥𝒪[K] K ≃+* ↥𝒪[K] :=
   (IsIntegralClosure.equiv ↥𝒪[K] (integralClosure ↥𝒪[K] K) K ↥𝒪[K]).toRingEquiv
 
-/- The identification of the extension's integers with the integral closure of the base
-integers, `Atlas.Knowledge.integerIsIntegralClosure` read as a ring isomorphism. -/
-private noncomputable def extEquiv : integralClosure ↥𝒪[K] L ≃+* ↥𝒪[L] :=
-  (IsIntegralClosure.equiv ↥𝒪[K] (integralClosure ↥𝒪[K] L) L ↥𝒪[L]).toRingEquiv
-
 /- Ideal images depend only on the underlying function of the map. -/
 private theorem map_congr_fn {R S : Type*} [Semiring R] [Semiring S]
     {F G : Type*} [FunLike F R S] [FunLike G R S] (f : F) (g : G)
@@ -86,14 +82,16 @@ private theorem map_maximalIdeal_of_unramified
     exact h2.symm
   have hfn : ∀ z : integralClosure ↥𝒪[K] K,
       algebraMap ↥𝒪[K] ↥𝒪[L] (baseEquiv K z) =
-        extEquiv K L (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L) z) := by
+        integerEquivIntegralClosure K L
+          (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L) z) := by
     intro z
     refine Subtype.ext ?_
     rw [hbase]
     have hK : ((baseEquiv K z : ↥𝒪[K]) : K) = algebraMap (integralClosure ↥𝒪[K] K) K z := by
       have h := IsIntegralClosure.algebraMap_equiv ↥𝒪[K] (integralClosure ↥𝒪[K] K) K ↥𝒪[K] z
       exact h
-    have hL : ((extEquiv K L (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L) z) :
+    have hL : ((integerEquivIntegralClosure K L
+        (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L) z) :
         ↥𝒪[L]) : L) =
         algebraMap (integralClosure ↥𝒪[K] L) L
           (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L) z) := by
@@ -110,25 +108,26 @@ private theorem map_maximalIdeal_of_unramified
   _ = Ideal.map ((algebraMap ↥𝒪[K] ↥𝒪[L]).comp (baseEquiv K : integralClosure ↥𝒪[K] K →+* ↥𝒪[K]))
         (IsLocalRing.maximalIdeal (integralClosure ↥𝒪[K] K)) :=
       Ideal.map_map _ _
-  _ = Ideal.map ((extEquiv K L : integralClosure ↥𝒪[K] L →+* ↥𝒪[L]).comp
+  _ = Ideal.map ((integerEquivIntegralClosure K L : integralClosure ↥𝒪[K] L →+* ↥𝒪[L]).comp
         ((AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L)) :
           integralClosure ↥𝒪[K] K →+* integralClosure ↥𝒪[K] L))
         (IsLocalRing.maximalIdeal (integralClosure ↥𝒪[K] K)) := by
       refine map_congr_fn _ _ (funext fun z => ?_) _
       exact hfn z
-  _ = Ideal.map (extEquiv K L : integralClosure ↥𝒪[K] L →+* ↥𝒪[L]) (Ideal.map
+  _ = Ideal.map (integerEquivIntegralClosure K L : integralClosure ↥𝒪[K] L →+* ↥𝒪[L]) (Ideal.map
         ((AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L)) :
           integralClosure ↥𝒪[K] K →+* integralClosure ↥𝒪[K] L)
         (IsLocalRing.maximalIdeal (integralClosure ↥𝒪[K] K))) := (Ideal.map_map _ _).symm
-  _ = Ideal.map (extEquiv K L : integralClosure ↥𝒪[K] L →+* ↥𝒪[L]) (Ideal.map
+  _ = Ideal.map (integerEquivIntegralClosure K L : integralClosure ↥𝒪[K] L →+* ↥𝒪[L]) (Ideal.map
         (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L))
         (IsLocalRing.maximalIdeal (integralClosure ↥𝒪[K] K))) := by
       refine congrArg _ (map_congr_fn _ _ rfl _)
-  _ = Ideal.map (extEquiv K L : integralClosure ↥𝒪[K] L →+* ↥𝒪[L])
+  _ = Ideal.map (integerEquivIntegralClosure K L : integralClosure ↥𝒪[K] L →+* ↥𝒪[L])
         (IsLocalRing.maximalIdeal (integralClosure ↥𝒪[K] L)) := by
       rw [hKL]
   _ = 𝓂[L] := by
-      rw [MapMaximalIdealEqPowCardInertia.map_maximalIdeal_ringEquiv (extEquiv K L)]
+      rw [MapMaximalIdealEqPowCardInertia.map_maximalIdeal_ringEquiv
+        (integerEquivIntegralClosure K L)]
 
 /- With trivial inertia a base uniformizer stays irreducible upstairs. -/
 private theorem irreducible_algebraMap_of_unramified

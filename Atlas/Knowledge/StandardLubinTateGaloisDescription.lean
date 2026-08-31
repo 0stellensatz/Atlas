@@ -27,10 +27,16 @@ proves the extension Galois, through the automorphism count.
 
 * `levelGeneratorInteger` — the level generator as an integer of the level field, the
   witness instantiating the abstract-carrier torsion and splitting statements.
+* `levelCharacter` — the untwisted unit character `u ↦ σ_u`, the ramification layer's
+  handle on the Galois group.
 
 ## Main statements
 
 * `nonempty_standardLubinTateGaloisDescription` — `𝒪ˣ/U^{(n+1)} ≃* Gal(Lₙ/K)`; proved.
+* `algEquivIntegerRestrict_levelCharacter` — `σ_u` moves the generator by the `[u]`
+  scalar; proved.
+* `levelCharacter_ker` / `levelCharacter_surjective` — kernel exactly the higher unit
+  group, image everything; proved.
 * `standardLubinTateLevelField_isAbelianGalois` — proved.
 * `standardLubinTateLevelField_isGalois` — the plain Galois weakening; proved.
 * `aeval_levelGeneratorInteger` — the level generator is an integral primitive root;
@@ -42,14 +48,17 @@ proves the extension Galois, through the automorphism count.
 sending the unit parameter `u` to the automorphism moving the chosen torsion point by
 `[u⁻¹]` (`LubinTate/FiniteLevel/LevelAbelian.lean:53`; the twist is Milne's
 `φ_π(a)(λ) = [u⁻¹]_f(λ)` on p.40, two pages past the bare isomorphism). Atlas proves
-abstract isomorphy and the abelianness — the character constructed inside the proof
-sends `u` to the untwisted `[u]`-action — and a refinement that pins the action would
-replace this claim rather than extend it. The local-field structure on the level field
-is not data either: each proof obtains it from
+abstract isomorphy and the abelianness — the exported `levelCharacter` sends `u` to
+the untwisted `[u]`-action, with its kernel, surjectivity, and generator action beside
+it for the ramification filtration to consume — and a refinement that pins the action
+*inside the recorded claim* would replace that claim rather than extend it. The
+local-field structure on the level field is not data either: each proof obtains it from
 `Atlas.Knowledge.exists_extension_isMixedCharLocalField`, which is why the torsion
 theory of `Atlas.Knowledge.StandardLubinTateTorsion` is stated over an abstract carrier
 extension. The abelianness stays a plain theorem rather than an `instance`, keeping the
-recorded statement unchanged now that its proof has landed. One instance seam is
+recorded statement unchanged now that its proof has landed; only its plain-Galois
+weakening at the bottom of the file is an instance, the head the compositum machinery
+synthesizes. One instance seam is
 handled by hand: the integer scalar tower `𝒪[K] → 𝒪[L] → L` is supplied as
 `Valuation.HasExtension.instIsScalarTowerInteger` at the two valuations, where instance
 search at the level field runs into the ambient separable closure and fails.
@@ -334,14 +343,22 @@ private theorem orbitAut_eq_one_iff (u : 𝒪[K]ˣ) :
       rfl
     exact AlgEquiv.ext fun x => DFunLike.congr_fun hext x
 
-/-- The level character: units acting on the generator's orbit. -/
-private noncomputable def levelCharacter :
+/-- The **level character**: the unit `u` acting on the generator's orbit through the
+untwisted `[u]` scalar — the concrete homomorphism behind the abstract description,
+exported for the ramification filtration
+([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT];
+[Yamaguchi 2026, `LubinTate/FiniteLevel/LevelAutomorphisms.lean:530`][Yamaguchi2026]
+— the source's map twists by `u⁻¹`, the reciprocity normalization this layer does not
+fix). -/
+noncomputable def levelCharacter :
     𝒪[K]ˣ →* (↥(standardLubinTateLevelField K hπ n) ≃ₐ[K]
       ↥(standardLubinTateLevelField K hπ n)) :=
   MonoidHom.mk' (orbitAut K hπ n) (orbitAut_mul K hπ n)
 
-/-- The character's kernel is the higher unit group. -/
-private theorem levelCharacter_ker :
+/-- **The character's kernel is the higher unit group** — the depth-`n + 1` congruence
+is exactly triviality of the action
+([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT]). -/
+theorem levelCharacter_ker :
     (levelCharacter K hπ n).ker = integerHigherUnitGroup K (n + 1) := by
   ext u
   rw [MonoidHom.mem_ker,
@@ -461,6 +478,16 @@ private theorem levelParameterHom_injective :
   (QuotientGroup.kerLift_injective (levelCharacter K hπ n)).comp
     (QuotientGroup.quotientMulEquivOfEq (levelCharacter_ker K hπ n).symm).injective
 
+/-- **The character moves the generator by the scalar**: restricted to the integers,
+`σ_u` sends the level generator to its `[u]`-orbit point — the identity that feeds the
+displacement spectrum into the ramification filtration. -/
+theorem algEquivIntegerRestrict_levelCharacter (u : 𝒪[K]ˣ) :
+    algEquivIntegerRestrict K ↥(standardLubinTateLevelField K hπ n)
+      (levelCharacter K hπ n u) (levelGeneratorInteger K hπ n) =
+    lubinTateSMul K ↥(standardLubinTateLevelField K hπ n) hπ
+      (standardLubinTateSeries hπ) (↑u) (levelGeneratorInteger K hπ n) :=
+  restrict_orbitAut_generator K hπ n u
+
 /-- The squeeze: the automorphism count equals the unit-parameter count. -/
 private theorem card_aut_eq :
     Nat.card (↥(standardLubinTateLevelField K hπ n) ≃ₐ[K]
@@ -480,6 +507,22 @@ private theorem card_aut_eq :
     (A₂ := ↥(standardLubinTateLevelField K hπ n)))
   have hAH := card_algHom_le K hπ n
   omega
+
+/-- **The character is surjective**: every automorphism of the level field is a unit
+action — the descended injection fills the automorphism count
+([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT]). -/
+theorem levelCharacter_surjective : Function.Surjective ⇑(levelCharacter K hπ n) := by
+  haveI := finite_aut K hπ n
+  have hbij : Function.Bijective (levelParameterHom K hπ n) := by
+    rw [Nat.bijective_iff_injective_and_card]
+    refine ⟨levelParameterHom_injective K hπ n, ?_⟩
+    rw [card_aut_eq K hπ n]
+    have := integerHigherUnitCount K (n + 1) (Nat.succ_ne_zero n)
+    simpa using this
+  intro σ
+  obtain ⟨q, hq⟩ := hbij.2 σ
+  obtain ⟨u, rfl⟩ := QuotientGroup.mk_surjective q
+  exact ⟨u, by rw [← hq]; rfl⟩
 
 /-- The unit-parameter description, under the hypothesized carrier. -/
 private theorem nonempty_description :
