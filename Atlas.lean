@@ -179,6 +179,7 @@ import Atlas.Knowledge.NormOneIdeleClassIsCompact
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.NormalizedValuationAlgEquiv
 import Atlas.Knowledge.NormalizedValuationNorm
+import Atlas.Knowledge.NormalizedValuationNormSeparable
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.PadicCoefficientEmbedding
 import Atlas.Knowledge.PadicComplexGaloisAction
