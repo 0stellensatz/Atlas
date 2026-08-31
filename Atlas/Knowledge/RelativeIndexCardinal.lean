@@ -160,8 +160,7 @@ noncomputable def intersectionIndexCardinal (L K : Subgroup G) : Cardinal :=
   Cardinal.mk (K ⧸ L.subgroupOf K)
 
 /-- **The cardinal relative index of an inclusion**: the coset-type cardinality,
-with the inclusion recorded in the domain — an infinite index stays an infinite
-cardinal
+with the inclusion recorded in the domain — an infinite index stays an infinite cardinal
 ([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:132`][Yamaguchi2026]). -/
 noncomputable def relativeIndexCardinal {L K : Subgroup G} (_ : L ≤ K) : Cardinal :=
   intersectionIndexCardinal L K
