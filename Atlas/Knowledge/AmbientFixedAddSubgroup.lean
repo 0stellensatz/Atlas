@@ -21,11 +21,11 @@ live.
 ## Implementation notes
 
 The subgroup is defined by its carrier rather than through
-`Representation.invariants` of the restricted representation: the restriction lands
-in Mathlib's `ModuleCat` plumbing, whose module instance on the carrier does not
-match the one `Representation` expects, and the two-line carrier avoids the
-friction. The closedness of `H` is not used by the definition; it is carried
-because the engine's fields are closed subgroups and every consumer supplies one.
+`Representation.invariants`: over `ℤ` the invariants route hits the integer-module
+diamond — the carrier's `AddCommGroup.toIntModule` is not the `Rep`'s own `A.hV2`
+instance — and the explicit carrier avoids the friction. The closedness of `H` is
+not used by the definition; it is carried because the engine's fields are closed
+subgroups and every consumer supplies one.
 
 ## References
 

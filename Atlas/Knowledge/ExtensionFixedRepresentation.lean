@@ -18,9 +18,10 @@ axiom constrains, level by level.
 The containment `G_L ≤ G_K` enters only as a semantic guard — the construction
 reads `G_L` inside `G_K` through Mathlib's `Subgroup.subgroupOf`, which is
 well-defined regardless — and normality of the induced subgroup is what carries the
-quotient action, through Mathlib's `Rep.quotientToInvariants`. The ambient group
-stays in an arbitrary universe; only the engine's own instantiation pins it to
-`Type 0`.
+quotient action, through Mathlib's `Rep.quotientToInvariants`. The source's
+`extensionSubgroup` abbreviation is deliberately not ported: it is definitionally
+`Subgroup.subgroupOf`, which this layer spells directly. The ambient group stays in
+an arbitrary universe; only the engine's own instantiation pins it to `Type 0`.
 
 ## References
 
