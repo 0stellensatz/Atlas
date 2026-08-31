@@ -15,6 +15,7 @@ import Atlas.Knowledge.AbsoluteInertiaDegree
 import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
 import Atlas.Knowledge.AbsoluteRamificationIndex
+import Atlas.Knowledge.AbstractExtension
 import Atlas.Knowledge.AddValMapIntegralClosure
 import Atlas.Knowledge.AdicCompletionIsMixedCharLocalField
 import Atlas.Knowledge.AmbientFixedAddSubgroup
@@ -37,6 +38,7 @@ import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.CyclotomicIntegerBasis
 import Atlas.Knowledge.CyclotomicNormalizedTraceBound
 import Atlas.Knowledge.DeepUnitGroup
+import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.DigitSum
 import Atlas.Knowledge.EisensteinFieldInvariant
 import Atlas.Knowledge.EisensteinGraph
@@ -66,12 +68,14 @@ import Atlas.Knowledge.FilteredRhoMap
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
 import Atlas.Knowledge.FinitePlaceIdele
+import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FormalLogPow
 import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.GalIdealPowCounts
 import Atlas.Knowledge.GalUnits
+import Atlas.Knowledge.GaloisSubextension
 import Atlas.Knowledge.GameJumpPair
 import Atlas.Knowledge.GameLevelDecomposition
 import Atlas.Knowledge.GamePathMeasure
