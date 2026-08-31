@@ -172,6 +172,7 @@ import Atlas.Knowledge.MaximalAbelianSubextension
 import Atlas.Knowledge.MinpolyMapEqCharpoly
 import Atlas.Knowledge.Modulus
 import Atlas.Knowledge.MonogenicIntegralClosure
+import Atlas.Knowledge.NormIndexAbelian
 import Atlas.Knowledge.NormIndexCyclic
 import Atlas.Knowledge.NormLimitation
 import Atlas.Knowledge.NormOneIdeleClassIsCompact
@@ -245,6 +246,7 @@ import Atlas.Knowledge.StandardLubinTateSeries
 import Atlas.Knowledge.StandardLubinTateSplitting
 import Atlas.Knowledge.StandardLubinTateSubgroupIndex
 import Atlas.Knowledge.StandardLubinTateTorsion
+import Atlas.Knowledge.StandardLubinTateUniformizerUnit
 import Atlas.Knowledge.StandardLubinTateUpperRamification
 import Atlas.Knowledge.StoppedGameJumpPair
 import Atlas.Knowledge.StronglyEisensteinExtremal

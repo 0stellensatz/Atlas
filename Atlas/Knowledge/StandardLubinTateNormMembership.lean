@@ -2,7 +2,7 @@ import Mathlib
 import Atlas.Knowledge.IntegerHigherUnitGroup
 import Atlas.Knowledge.StandardLubinTateChangedRoot
 import Atlas.Knowledge.StandardLubinTateLevelField
-import Atlas.Knowledge.StandardLubinTateNormSubgroup
+import Atlas.Knowledge.StandardLubinTateUniformizerUnit
 import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTatePolynomial
 

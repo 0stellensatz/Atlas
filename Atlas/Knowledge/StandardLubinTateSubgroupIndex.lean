@@ -1,7 +1,7 @@
 import Mathlib
 import Atlas.Knowledge.IntegerHigherUnitCount
 import Atlas.Knowledge.NormalizedValuation
-import Atlas.Knowledge.StandardLubinTateNormSubgroup
+import Atlas.Knowledge.StandardLubinTateUniformizerUnit
 
 /-!
 # standard Lubin–Tate subgroup index
