@@ -10,8 +10,9 @@ import Atlas.Knowledge.NormalizedValuationAlgEquiv
 
 The inertia-degree form of the norm law, for every finite *separable* extension of
 mixed-characteristic local fields, normal or not: `v_K(N y) = f · v_L(y)` with
-`f = Ideal.inertiaDeg 𝓂[L] 𝒪[K]` the residue degree. This is the exact shape of the
-reciprocity engine's `norm_range` axiom (#104), the brick the Galois `e`-form of
+`f = Ideal.inertiaDeg 𝓂[L] 𝒪[K]` the residue degree. This is the pointwise law the
+reciprocity engine's `norm_range` axiom is discharged from (#104), the brick the
+Galois `e`-form of
 `Atlas.Knowledge.NormalizedValuationNorm` stops one short of. The crux is Serre's
 `N(𝔓) = 𝔭^f` read at one element — Mathlib's `Ideal.relNorm_eq_pow_of_isMaximal`
 carries the ideal identity without any normality hypothesis — and the law follows by
@@ -22,22 +23,23 @@ uniformizer decomposition, conjugates never entering.
 * `integerValuation_intNorm_of_irreducible` — the norm of a uniformizer has value the
   inertia degree; proved.
 * `normalizedValuation_norm_of_isSeparable` — `v_K(N y) = f · v_L(y)`; proved.
+* `inertiaDeg_eq_finrank_residueField` — the inertia degree read on residue fields;
+  proved.
 
 ## Implementation notes
 
 The residue degree is spelled `Ideal.inertiaDeg 𝓂[L] ↥𝒪[K]`, the vocabulary of
-`Atlas.Knowledge.AbsoluteInertiaDegree`; `Ideal.inertiaDeg_eq_of_isMaximal` converts
-it to a rank of residue fields when a consumer wants that reading. The crux runs
-`Ideal.relNorm` along a uniformizer's principal ideal — `Ideal.relNorm_singleton`
-turns the ideal norm into `Algebra.intNorm`, whose square with `Algebra.norm K` is
-`Algebra.algebraMap_intNorm` — and compares exponents through
-`Atlas.Knowledge.span_singleton_eq_pow_maximalIdeal`. The needed instances all
-synthesize from the layer's own: `Module.Finite 𝒪[K] 𝒪[L]` is
+`Atlas.Knowledge.AbsoluteInertiaDegree`; the recorded bridge
+`inertiaDeg_eq_finrank_residueField` hands a consumer the residue-field reading. The
+crux runs `Ideal.relNorm` along a uniformizer's principal ideal —
+`Ideal.relNorm_singleton` turns the ideal norm into `Algebra.intNorm`, whose square
+with `Algebra.norm K` is `Algebra.algebraMap_intNorm` — and compares exponents
+through `Atlas.Knowledge.span_singleton_eq_pow_maximalIdeal`. The needed instances
+all synthesize from the layer's own: `Module.Finite 𝒪[K] 𝒪[L]` is
 `IsIntegralClosure.finite` over `Atlas.Knowledge.integerIsIntegralClosure` (this is
-where separability enters), the fraction-field data ride Mathlib's
-`FractionRing.liftAlgebra` as a file-local instance, and `𝓂[L]` lies over `𝓂[K]`
-because an integral extension of local domains pulls the maximal ideal back to a
-maximal ideal.
+where separability enters), and `𝓂[L]` lies over `𝓂[K]` by Mathlib's
+valuation-extension instances, reached through the layer's
+`Atlas.Knowledge.IntegerIsIntegralClosure.hasExtension`.
 
 ## References
 
@@ -50,8 +52,6 @@ maximal ideal.
 open ValuativeRel
 
 namespace Atlas.Knowledge
-
-attribute [local instance] FractionRing.liftAlgebra
 
 section SeparableNormLaw
 
@@ -69,10 +69,6 @@ theorem integerValuation_intNorm_of_irreducible {ϖ : ↥𝒪[L]} (hϖ : Irreduc
     integerValuation K (Algebra.intNorm ↥𝒪[K] ↥𝒪[L] ϖ) =
       (Ideal.inertiaDeg (𝓂[L] : Ideal ↥𝒪[L]) ↥𝒪[K] : ℤ) := by
   haveI : Module.Finite ↥𝒪[K] ↥𝒪[L] := IsIntegralClosure.finite ↥𝒪[K] K L ↥𝒪[L]
-  haveI : (𝓂[L] : Ideal ↥𝒪[L]).LiesOver (𝓂[K] : Ideal ↥𝒪[K]) := by
-    constructor
-    exact (IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := ↥𝒪[K]) 𝓂[L])).symm
   have hspan : Ideal.span {ϖ} = (𝓂[L] : Ideal ↥𝒪[L]) :=
     ((IsDiscreteValuationRing.irreducible_iff_uniformizer ϖ).mp hϖ).symm
   have h1 : Ideal.relNorm ↥𝒪[K] (𝓂[L] : Ideal ↥𝒪[L]) =
@@ -93,7 +89,7 @@ theorem integerValuation_intNorm_of_irreducible {ϖ : ↥𝒪[L]} (hϖ : Irreduc
 /-- **A norm's value is the inertia degree times the value upstairs**, for every finite
 separable extension: `v_K(N y) = f · v_L(y)` — a uniformizer decomposition of `y`, the
 norm of an integer unit landing at value zero and the norm of the uniformizer at `f`.
-The exact shape of the reciprocity engine's `norm_range` axiom
+The pointwise law the reciprocity engine's `norm_range` axiom is discharged from
 ([Serre 1979, Chap. I, §5, p.16][Serre1979];
 [Yamaguchi 2026, `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableNormValuation.lean:513`,
 `v_normUnits_eq_residue_finrank_mul_of_isSeparable`][Yamaguchi2026]). -/
@@ -151,6 +147,13 @@ theorem normalizedValuation_norm_of_isSeparable (y : Lˣ) :
   rw [hvL, hyeq, map_mul, map_zpow, normalizedValuation_mul, normalizedValuation_zpow,
     hmapu, hmapϖ, hvalu, hvalϖ]
   ring
+
+omit [FiniteDimensional K L] in
+/-- **The inertia degree read on residue fields**: the `f` of the two laws above is
+the degree of the residue extension, the source's spelling of the norm law. -/
+theorem inertiaDeg_eq_finrank_residueField :
+    Ideal.inertiaDeg (𝓂[L] : Ideal ↥𝒪[L]) ↥𝒪[K] = Module.finrank 𝓀[K] 𝓀[L] :=
+  Ideal.inertiaDeg_eq_of_isMaximal _ _
 
 end SeparableNormLaw
 

@@ -38,14 +38,13 @@ directly. The integer law is a double reading of
 `IsLocalization.surj` fraction; the norm law is the unramified sibling's
 conjugate-product argument with the `e`-scaling replacing the value-preservation. The
 `e`-form and the Galois scope are what the conjugate product gives; the reciprocity
-engine's own axiom shape is stronger — `v_K(N y) = f · v_L(y)` for every finite
-*separable* extension, normal or not, which
+engine's `norm_range` axiom is discharged from the stronger pointwise law
+`v_K(N y) = f · v_L(y)` for every finite *separable* extension, normal or not, which
 `Atlas.Knowledge.normalizedValuation_norm_of_isSeparable` reaches by uniformizer
-decomposition rather than conjugates, not by a division from this one. The unramified
-siblings
-`Atlas.Knowledge.normalizedValuation_algebraMap_of_unramified` and
-`Atlas.Knowledge.normalizedValuation_norm_of_unramified` are the `e = 1` instances and
-now read through these laws.
+decomposition rather than conjugates, not by a division from this one. The
+unramified siblings `Atlas.Knowledge.normalizedValuation_algebraMap_of_unramified`
+and `Atlas.Knowledge.normalizedValuation_norm_of_unramified` are the `e = 1`
+instances and now read through these laws.
 
 ## References
 
