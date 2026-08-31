@@ -1,4 +1,5 @@
 import Mathlib
+import Atlas.Knowledge.AddValMapIntegralClosure
 import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.IntegralClosureDVR
 import Atlas.Knowledge.LowerRamificationGroup
@@ -114,11 +115,8 @@ theorem MapMaximalIdealEqPowCardInertia.ramificationIdx'_eq_of_map_eq_pow
     Ideal.ramificationIdx' p (IsLocalRing.maximalIdeal S) = n := by
   refine Ideal.ramificationIdx'_spec (le_of_eq h) fun hle => ?_
   rw [h] at hle
-  have heq : IsLocalRing.maximalIdeal S ^ n = IsLocalRing.maximalIdeal S ^ (n + 1) :=
-    le_antisymm hle (Ideal.pow_le_pow_right n.le_succ)
-  have hco := congrArg Order.coheight heq
-  rw [IsDiscreteValuationRing.coheight_pow_maximalIdeal,
-    IsDiscreteValuationRing.coheight_pow_maximalIdeal, Nat.cast_inj] at hco
+  have heq := AddValMapIntegralClosure.maximalIdeal_pow_injective
+    (le_antisymm hle (Ideal.pow_le_pow_right n.le_succ))
   omega
 
 set_option synthInstance.maxHeartbeats 80000 in

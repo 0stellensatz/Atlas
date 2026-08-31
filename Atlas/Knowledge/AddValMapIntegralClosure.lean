@@ -16,6 +16,8 @@ to the ramification index times the valuation there.
   power of the maximal ideal of the closure in `L`: the ideal identity whose exponent is the
   ramification index.
 * `map_maximalIdeal_eq_pow_unique` — that exponent is unique.
+* `AddValMapIntegralClosure.maximalIdeal_pow_injective` — the generic form: powers of
+  a discrete valuation ring's maximal ideal are injective in the exponent.
 * `ne_zero_of_map_maximalIdeal_eq_pow` — any exponent satisfying the identity is nonzero, the
   fact the degenerate `ℕ∞` arithmetic of every consumer turns on.
 * `addVal_mapIntegralClosure` — with `e` that exponent, the order of the image of `z` is `e`
@@ -115,6 +117,17 @@ theorem exists_map_maximalIdeal_eq_pow [TopologicalSpace K] [IsMixedCharLocalFie
     rw [he, hϖ.maximalIdeal_eq, Ideal.span_singleton_pow]
   exact ⟨e, ne_zero_of_map_maximalIdeal_eq_pow K L E hepow, hepow⟩
 
+/-- Powers of the maximal ideal of a discrete valuation ring are injective in the
+exponent: the coheight separates them — the generic uniqueness every ideal identity in
+the layer reads its exponent through. -/
+theorem AddValMapIntegralClosure.maximalIdeal_pow_injective {R : Type*} [CommRing R]
+    [IsDomain R] [IsDiscreteValuationRing R] {a b : ℕ}
+    (h : (IsLocalRing.maximalIdeal R) ^ a = (IsLocalRing.maximalIdeal R) ^ b) :
+    a = b := by
+  have hco := congrArg Order.coheight h
+  rwa [IsDiscreteValuationRing.coheight_pow_maximalIdeal,
+    IsDiscreteValuationRing.coheight_pow_maximalIdeal, Nat.cast_inj] at hco
+
 /-- The exponent of `Atlas.Knowledge.exists_map_maximalIdeal_eq_pow` is unique: distinct powers
 of the maximal ideal of a discrete valuation ring are distinct ideals
 ([Serre 1979, Chap. I, §4, p.14][Serre1979]). -/
@@ -125,10 +138,8 @@ theorem map_maximalIdeal_eq_pow_unique [TopologicalSpace K] [IsMixedCharLocalFie
       IsLocalRing.maximalIdeal (integralClosure 𝒪[K] L) ^ e)
     (he' : Ideal.map (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom 𝒪[K] E L))
         (IsLocalRing.maximalIdeal (integralClosure 𝒪[K] E)) =
-      IsLocalRing.maximalIdeal (integralClosure 𝒪[K] L) ^ e') : e = e' := by
-  have h := congrArg Order.coheight (he.symm.trans he')
-  rwa [IsDiscreteValuationRing.coheight_pow_maximalIdeal,
-    IsDiscreteValuationRing.coheight_pow_maximalIdeal, Nat.cast_inj] at h
+      IsLocalRing.maximalIdeal (integralClosure 𝒪[K] L) ^ e') : e = e' :=
+  AddValMapIntegralClosure.maximalIdeal_pow_injective (he.symm.trans he')
 
 /-- Pushing an integral element of `E` into the integral closure in `L` multiplies its order by
 the ramification index: with `e` the exponent of the ideal identity, taken here as a

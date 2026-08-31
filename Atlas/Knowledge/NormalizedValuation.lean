@@ -30,6 +30,7 @@ negating.
 * `normalizedValuation_surjective` — the value group is all of `ℤ`; proved, through the
   value `1` on a uniformizer and the `zpow` law of the trio `normalizedValuation_one` /
   `normalizedValuation_inv` / `normalizedValuation_zpow`.
+* `toAdd_normalizedValuationHom` — the additive reading of the bundled map; proved.
 * `mem_ker_normalizedValuationHom` / `ker_normalizedValuationHom` — the bundled
   homomorphism's kernel is the valuation-one units, the unit group of the integers; proved.
 
@@ -252,6 +253,11 @@ noncomputable def normalizedValuationHom : Kˣ →* Multiplicative ℤ :=
   MonoidHom.mk' (fun x => Multiplicative.ofAdd (normalizedValuation K x))
     (fun x y => by
       rw [← ofAdd_add, normalizedValuation_mul])
+
+@[simp]
+theorem toAdd_normalizedValuationHom (x : Kˣ) :
+    Multiplicative.toAdd (normalizedValuationHom K x) = normalizedValuation K x :=
+  rfl
 
 /-- **The kernel of the normalized valuation is the valuation-one units**: value `0`
 exactly at valuation `1`, by the sign anchor applied to the unit and to its inverse

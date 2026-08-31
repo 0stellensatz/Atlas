@@ -4,15 +4,17 @@ import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
 import Atlas.Knowledge.NormIndexCyclic
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.NormalizedValuationAlgEquiv
+import Atlas.Knowledge.NormalizedValuationNorm
 
 /-!
 # norm range of an unramified extension
 
 The norm subgroup of a finite Galois unramified extension of mixed-characteristic local
 fields is the full preimage of the degree's multiples under the normalized valuation:
-`N Lˣ = v⁻¹ (n ℤ)`. With trivial inertia a base uniformizer stays a uniformizer, so the
-embedding preserves the normalized valuation and a norm's value is the degree times the
-value upstairs; the containment then closes by index counting against the class field
+`N Lˣ = v⁻¹ (n ℤ)`. With trivial inertia the base maximal ideal generates the maximal
+ideal upstairs, so the embedding preserves the normalized valuation and a norm's value
+is the degree times the value upstairs; the containment then closes by index counting
+against the class field
 axiom `Atlas.Knowledge.normIndexCyclic`, both sides having index exactly the degree. This
 is the unramified floor of the reciprocity map: on it the Frobenius-normalized map
 `x ↦ σ ^ v (x)` of `Atlas.Knowledge.IsFrobeniusNormalized` has the right kernel.
@@ -32,7 +34,8 @@ The unramified input enters once, as the ideal identity
 group trivial, transported to the layer's own carriers `𝒪[K] → 𝒪[L]` along the
 `Atlas.Knowledge.integerEquivIntegralClosure` identification and its base analogue —
 `Ideal.map` only depends on the underlying function, which the private `map_congr_fn`
-records. The trivial self-extension
+records. The two valuation laws are the `e = 1` corollaries of the exponent-pinned laws
+of `Atlas.Knowledge.NormalizedValuationNorm`. The trivial self-extension
 `ValuativeExtension K K` is not an instance at the pin and is provided inline. The final
 counting runs through the reduction of `Kˣ` to `ZMod n` along the bundled valuation, and
 `Subgroup.relIndex_mul_index` turns equal finite indices plus one containment into
@@ -123,106 +126,33 @@ private theorem map_maximalIdeal_of_unramified
       rw [MapMaximalIdealEqPowCardInertia.map_maximalIdeal_ringEquiv
         (integerEquivIntegralClosure K L)]
 
-/- With trivial inertia a base uniformizer stays irreducible upstairs. -/
-private theorem irreducible_algebraMap_of_unramified
-    (h : lowerRamificationGroup K L 0 = ⊥) {π : ↥𝒪[K]} (hπ : Irreducible π) :
-    Irreducible (algebraMap ↥𝒪[K] ↥𝒪[L] π) := by
-  rw [IsDiscreteValuationRing.irreducible_iff_uniformizer] at hπ ⊢
-  rw [← map_maximalIdeal_of_unramified K L h, hπ, Ideal.map_span]
-  simp
-
 /-- **The unramified embedding preserves the normalized valuation** — the
-`v_𝔓 (x) = e_𝔓 v_p (x)` formula at `e = 1`: a base uniformizer stays a uniformizer, and
-units of the integers stay units ([Serre 1979, Chap. I, §4, p.15][Serre1979]). -/
+`v_𝔓 (x) = e_𝔓 v_p (x)` formula at `e = 1`
+([Serre 1979, Chap. I, §4, p.15][Serre1979]). -/
 theorem normalizedValuation_algebraMap_of_unramified
     (h : lowerRamificationGroup K L 0 = ⊥) (x : Kˣ) :
     normalizedValuation L (Units.map ((algebraMap K L) : K →* L) x) =
       normalizedValuation K x := by
-  obtain ⟨π, hπ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
-  have hx0 : (x : K) ≠ 0 := Units.ne_zero x
-  obtain ⟨n, u, hu⟩ := IsDiscreteValuationRing.exists_units_eq_smul_zpow_of_irreducible hπ hx0
-  have hinjK : Function.Injective (algebraMap ↥𝒪[K] K) := IsFractionRing.injective ↥𝒪[K] K
-  have hneK : ∀ a : ↥𝒪[K], a ≠ 0 → algebraMap ↥𝒪[K] K a ≠ 0 := fun a ha h0 =>
-    ha (hinjK (by rwa [map_zero]))
-  have hπ0 : algebraMap ↥𝒪[K] K π ≠ 0 := hneK π hπ.ne_zero
-  have hu0 : algebraMap ↥𝒪[K] K (u : ↥𝒪[K]) ≠ 0 := hneK _ (Units.ne_zero u)
-  have hxeq : x = Units.mk0 (algebraMap ↥𝒪[K] K (u : ↥𝒪[K])) hu0 *
-      (Units.mk0 (algebraMap ↥𝒪[K] K π) hπ0) ^ n := by
-    ext
-    push_cast [hu, Units.smul_def, Algebra.smul_def]
-    rfl
-  have hinjL : Function.Injective (algebraMap ↥𝒪[L] L) := IsFractionRing.injective ↥𝒪[L] L
-  have hneL : ∀ a : ↥𝒪[L], a ≠ 0 → algebraMap ↥𝒪[L] L a ≠ 0 := fun a ha h0 =>
-    ha (hinjL (by rwa [map_zero]))
-  have hπL := irreducible_algebraMap_of_unramified K L h hπ
-  have hπL0 : algebraMap ↥𝒪[L] L (algebraMap ↥𝒪[K] ↥𝒪[L] π) ≠ 0 :=
-    hneL _ hπL.ne_zero
-  have huL0 : algebraMap ↥𝒪[L] L
-      ((Units.map ((algebraMap ↥𝒪[K] ↥𝒪[L]) : ↥𝒪[K] →* ↥𝒪[L]) u : (↥𝒪[L])ˣ) : ↥𝒪[L]) ≠ 0 :=
-    hneL _ (Units.ne_zero _)
-  have hbase' : ∀ r : ↥𝒪[K], algebraMap K L (algebraMap ↥𝒪[K] K r) =
-      algebraMap ↥𝒪[L] L (algebraMap ↥𝒪[K] ↥𝒪[L] r) := by
-    intro r
-    rw [← IsScalarTower.algebraMap_apply ↥𝒪[K] K L,
-      IsScalarTower.algebraMap_apply ↥𝒪[K] ↥𝒪[L] L]
-  have hxval : (x : K) = algebraMap ↥𝒪[K] K (u : ↥𝒪[K]) * (algebraMap ↥𝒪[K] K π) ^ n := by
-    rw [hu, Units.smul_def, Algebra.smul_def]
-  have hmapeq : Units.map ((algebraMap K L) : K →* L) x =
-      Units.mk0 (algebraMap ↥𝒪[L] L
-        ((Units.map ((algebraMap ↥𝒪[K] ↥𝒪[L]) : ↥𝒪[K] →* ↥𝒪[L]) u : (↥𝒪[L])ˣ) : ↥𝒪[L]))
-        huL0 *
-      (Units.mk0 (algebraMap ↥𝒪[L] L (algebraMap ↥𝒪[K] ↥𝒪[L] π)) hπL0) ^ n := by
-    ext
-    change algebraMap K L (x : K) = _
-    rw [hxval, map_mul, map_zpow₀, hbase', hbase']
-    push_cast
-    rfl
-  rw [hmapeq, hxeq,
-    value_unit_mul_zpow (L := K) π hπ u hu0 hπ0 n,
-    value_unit_mul_zpow (L := L) (algebraMap ↥𝒪[K] ↥𝒪[L] π) hπL
-      (Units.map ((algebraMap ↥𝒪[K] ↥𝒪[L]) : ↥𝒪[K] →* ↥𝒪[L]) u) huL0 hπL0 n]
+  have he : Ideal.map (algebraMap ↥𝒪[K] ↥𝒪[L]) 𝓂[K] = 𝓂[L] ^ 1 := by
+    rw [pow_one]
+    exact map_maximalIdeal_of_unramified K L h
+  rw [normalizedValuation_map_algebraMap_of_map_eq_pow K L he x]
+  push_cast
+  ring
 
 /-- **A norm's value is the degree times the value upstairs** — the element form of
-`N (𝔓) = p ^ f` at `f = n`: the norm is the full product of conjugates, each of the same
-value by `Atlas.Knowledge.normalizedValuation_algEquiv`
+`N (𝔓) = p ^ f` at `f = n`
 ([Serre 1979, Chap. I, §5, p.16][Serre1979]). -/
 theorem normalizedValuation_norm_of_unramified
     (h : lowerRamificationGroup K L 0 = ⊥) (y : Lˣ) :
     normalizedValuation K (Units.map ((Algebra.norm K) : L →* K) y) =
       (Module.finrank K L : ℤ) * normalizedValuation L y := by
-  have hunit : Units.map ((algebraMap K L) : K →* L)
-      (Units.map ((Algebra.norm K) : L →* K) y) =
-      ∏ σ : L ≃ₐ[K] L, Units.map (σ : L →* L) y := by
-    ext
-    rw [show ((∏ σ : L ≃ₐ[K] L, Units.map (σ : L →* L) y : Lˣ) : L) =
-      ∏ σ : L ≃ₐ[K] L, ((Units.map (σ : L →* L) y : Lˣ) : L) from
-        map_prod (Units.coeHom L) _ _]
-    change algebraMap K L (Algebra.norm K ((y : Lˣ) : L)) = _
-    rw [Algebra.norm_eq_prod_automorphisms]
-    rfl
-  have hv := congrArg (normalizedValuationHom L) hunit
-  rw [map_prod] at hv
-  have hterm : ∀ σ : L ≃ₐ[K] L,
-      normalizedValuationHom L (Units.map (σ : L →* L) y) =
-        Multiplicative.ofAdd (normalizedValuation L y) := by
-    intro σ
-    calc normalizedValuationHom L (Units.map (σ : L →* L) y)
-        = Multiplicative.ofAdd (normalizedValuation L (Units.map (σ : L →* L) y)) := rfl
-    _ = Multiplicative.ofAdd (normalizedValuation L y) := by
-        rw [normalizedValuation_algEquiv (K := K) (L := L)]
-  rw [Finset.prod_congr rfl fun σ _ => hterm σ, Finset.prod_const] at hv
-  have hcard : (Finset.univ : Finset (L ≃ₐ[K] L)).card = Module.finrank K L := by
-    rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
-    exact IsGalois.card_aut_eq_finrank K L
-  rw [hcard] at hv
-  have hfinal := congrArg Multiplicative.toAdd hv
-  have hLHS : Multiplicative.toAdd (normalizedValuationHom L
-      (Units.map ((algebraMap K L) : K →* L) (Units.map ((Algebra.norm K) : L →* K) y))) =
-      normalizedValuation K (Units.map ((Algebra.norm K) : L →* K) y) :=
-    normalizedValuation_algebraMap_of_unramified K L h _
-  rw [hLHS] at hfinal
-  rw [hfinal, _root_.toAdd_pow]
-  simp
+  have he : Ideal.map (algebraMap ↥𝒪[K] ↥𝒪[L]) 𝓂[K] = 𝓂[L] ^ 1 := by
+    rw [pow_one]
+    exact map_maximalIdeal_of_unramified K L h
+  have hlaw := normalizedValuation_norm_of_map_eq_pow K L he y
+  push_cast at hlaw
+  linarith
 
 /-- **The norm subgroup of an unramified extension is the preimage of the degree's
 powers**: both it and the preimage have index the degree — the class field axiom on one

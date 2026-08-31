@@ -39,6 +39,8 @@ here.
   proved.
 * `addVal_eq_toNat_integerValuation` — Mathlib's additive valuation is the `ℕ∞`-cast of
   the value; proved.
+* `algebraMap_integer_ne_zero` — a nonzero integer stays nonzero in the fraction field;
+  proved.
 
 ## Implementation notes
 
@@ -115,7 +117,8 @@ theorem integerValuation_one : integerValuation K (1 : ↥𝒪[K]) = 0 := by
     normalizedValuation_one]
 
 omit [TopologicalSpace K] [IsMixedCharLocalField K] in
-private theorem algebraMap_integer_ne_zero {y : ↥𝒪[K]} (hy : y ≠ 0) :
+/-- A nonzero integer stays nonzero in the fraction field. -/
+theorem algebraMap_integer_ne_zero {y : ↥𝒪[K]} (hy : y ≠ 0) :
     algebraMap ↥𝒪[K] K y ≠ 0 := by
   intro h0
   exact hy (Subtype.ext h0)
