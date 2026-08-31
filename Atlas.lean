@@ -230,6 +230,7 @@ import Atlas.Knowledge.StandardLubinTateDerivativeValuation
 import Atlas.Knowledge.StandardLubinTateDisplacement
 import Atlas.Knowledge.StandardLubinTateFormalGroup
 import Atlas.Knowledge.StandardLubinTateGaloisDescription
+import Atlas.Knowledge.StandardLubinTateHerbrand
 import Atlas.Knowledge.StandardLubinTateLevelField
 import Atlas.Knowledge.StandardLubinTateLevelUniformizer
 import Atlas.Knowledge.StandardLubinTateLowerRamification
