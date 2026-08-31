@@ -31,6 +31,8 @@ ramification number `q^j`, a deep one is the identity, and the interval pins the
 * `standardLubinTateLowerRamification_zero_eq_top` — `G_0` is everything; proved.
 * `standardLubinTateLowerRamification_natCard` — order `q^(n+1−k)` on the interval;
   proved.
+* `standardLubinTateLowerRamification_zero_natCard` — `G_0` has the full level degree;
+  proved.
 
 ## Implementation notes
 
@@ -41,9 +43,10 @@ so the ramification number of any automorphism is the integer valuation of its
 displacement of the level generator, through
 `Atlas.Knowledge.ramificationNumber_eq_addVal` and the additive-valuation bridges. The
 statements are phrased at the hypothesized local-field structure on the level field, as
-in `Atlas.Knowledge.StandardLubinTateLevelUniformizer`, and never mention the integral
-closure of the concrete carrier; the closure enters only inside proofs, instantiated
-wholesale. The card is the relative index of the higher unit groups, carried through
+in `Atlas.Knowledge.StandardLubinTateLevelUniformizer` — consumers obtain it from
+`Atlas.Knowledge.exists_extension_isMixedCharLocalField` — and never mention the
+integral closure of the concrete carrier; the closure enters only inside proofs,
+instantiated wholesale. The card is the relative index of the higher unit groups, carried through
 the character's kernel by the first isomorphism theorem.
 
 ## References
@@ -99,7 +102,7 @@ private theorem ramificationNumber_eq_integerValuation
         (algEquivIntegerRestrict K ↥(standardLubinTateLevelField K hπ n) σ
           (levelGeneratorInteger K hπ n) -
             levelGeneratorInteger K hπ n)).toNat : ℕ∞) := by
-  set e := integerEquivIntegralClosure K ↥(standardLubinTateLevelField K hπ n) with he
+  set e := integerEquivIntegralClosure K ↥(standardLubinTateLevelField K hπ n)
   rw [ramificationNumber_eq_addVal K ↥(standardLubinTateLevelField K hπ n)
       (adjoin_levelGenerator_eq_top K hπ n) σ,
     ← RamificationNumberEqAddVal.addVal_ringEquiv e,
@@ -107,8 +110,6 @@ private theorem ramificationNumber_eq_integerValuation
     RingEquiv.apply_symm_apply,
     addVal_eq_toNat_integerValuation ↥(standardLubinTateLevelField K hπ n) hne]
 
-set_option synthInstance.maxHeartbeats 400000 in
--- the chain lemma's rewrite works at the same concrete carrier and inherits its budget
 /- A character value of exact depth `j ≤ n` has ramification number `q^j`: the
 displacement spectrum at the level generator, whose value is one. -/
 private theorem ramificationNumber_levelCharacter {u : 𝒪[K]ˣ} {j : ℕ} (hjn : j ≤ n)
@@ -154,27 +155,10 @@ exponent reaches `k`. -/
 private theorem pow_mul_unit_mem_maximalIdeal_pow_iff {j k : ℕ} {w : ↥𝒪[K]}
     (hw : IsUnit w) :
     π ^ j * w ∈ (𝓂[K] ^ k : Ideal ↥𝒪[K]) ↔ k ≤ j := by
-  rw [hπ.maximalIdeal_eq, Ideal.span_singleton_pow, Ideal.mem_span_singleton]
-  constructor
-  · rintro ⟨c, hc⟩
-    by_contra hlt
-    have hjk : j < k := by omega
-    have h1 : π ^ j * w = π ^ j * (π ^ (k - j) * c) := by
-      rw [hc, ← mul_assoc, ← pow_add]
-      congr 2
-      omega
-    have h2 : w = π ^ (k - j) * c := mul_left_cancel₀ (pow_ne_zero _ hπ.ne_zero) h1
-    have hdvd : π ∣ w := by
-      refine ⟨π ^ (k - j - 1) * c, ?_⟩
-      rw [h2, ← mul_assoc, ← pow_succ']
-      congr 2
-      omega
-    exact hπ.not_isUnit (isUnit_of_dvd_unit hdvd hw)
-  · intro hkj
-    exact ⟨π ^ (j - k) * w, by rw [← mul_assoc, ← pow_add]; congr 2; omega⟩
+  rw [RamificationNumberEqAddVal.mem_maximalIdeal_pow_iff, AddValuation.map_mul,
+    hπ.addVal_pow, IsDiscreteValuationRing.addVal_eq_zero_iff.mpr hw, add_zero,
+    Nat.cast_le]
 
-set_option synthInstance.maxHeartbeats 400000 in
--- the character-value rewrites work at the same concrete carrier as the chain
 /- The interval membership: a character value lies in `G_r` on the `k`-th power
 interval exactly when its parameter is a `k`-th higher unit. -/
 private theorem levelCharacter_mem_lowerRamificationGroup_iff {u : 𝒪[K]ˣ} {k r : ℕ}
@@ -355,6 +339,18 @@ theorem standardLubinTateLowerRamification_natCard {k r : ℕ}
       Nat.card 𝓀[K] ^ (n + 1 - k) := by
   rw [standardLubinTateLowerRamification_eq K hπ n hk1 hkn hr1 hr2]
   exact card_map_levelCharacter K hπ n hk1 hkn
+
+/-- **The order of the inertia end**: `G_0` has the full level degree `(q − 1) qⁿ` —
+the denominator of every Herbrand slope
+([Serre 1979, Chap. IV, §4, Prop. 18, pp.78–79][Serre1979] — the `G_0 = G` line, with
+the degree of `Atlas.Knowledge.standardLubinTateLevelField_finrank`). -/
+theorem standardLubinTateLowerRamification_zero_natCard :
+    Nat.card (lowerRamificationGroup K
+        ↥(standardLubinTateLevelField K hπ n) 0) =
+      (Nat.card 𝓀[K] - 1) * Nat.card 𝓀[K] ^ n := by
+  rw [standardLubinTateLowerRamification_zero_eq_top K hπ n, Subgroup.card_top,
+    IsGalois.card_aut_eq_finrank,
+    standardLubinTateLevelField_finrank (A := ↥𝒪[K]) (K := K) hπ n]
 
 end LowerRamification
 
