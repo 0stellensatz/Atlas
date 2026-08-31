@@ -31,6 +31,7 @@ the Frobenius, and the engine's Frobenius bookkeeping is arithmetic in this ring
 * `ProfiniteInteger.denseRange_intCast` — `ℤ` is dense; proved.
 * `ProfiniteInteger.reduction_intCast` — reduction computes on integer casts;
   proved.
+* `ProfiniteInteger.reduction_surjective` — each reduction is onto; proved.
 * `ProfiniteInteger.natCast_mem_nonZeroDivisors` — a positive integer is a
   non-zero-divisor; proved.
 * `ProfiniteInteger.isClosed_span_singleton` — every principal ideal is closed;
@@ -44,19 +45,18 @@ the Frobenius, and the engine's Frobenius bookkeeping is arithmetic in this ring
 
 The carrier is a `def` wrapping the closure subring, so clients read it through the
 reduction maps and the instances rather than the closure subtype; the algebraic and
-topological instances are transported by `change`, while compactness closes along
-the closed embedding into the ambient product and characteristic zero reads off the
-reductions. The reduction is bundled as a plain `RingHom` with
-continuity recorded separately, where the source works with bundled continuous
-additive maps — the projection is multiplicative for free, and consumers can restrict.
-The lattice laws are stated ring-theoretically (`Ideal.span`, `RingHom.ker`,
-`nonZeroDivisors`) rather than on additive subgroups, and the index of `n·ℤ̂` is
-carried by `quotientKerReductionEquiv` instead of a bare cardinality. The two
-closure arguments — the transition law and `ker ⊆ span` — are `Set.EqOn.closure`
-and density-of-`ℤ` against an open kernel and a compact-image ideal, following the
-source construction. The source's classification of the finite-index additive
-subgroups is deferred to the brick that consumes it; `index_span_natCast` is the
-`ℤ̂`-specific input it needs.
+topological instances are transported by `change`, while compactness closes along the
+closed embedding into the ambient product and characteristic zero reads off the
+reductions. The reduction is bundled as a plain `RingHom` with continuity recorded
+separately, where the source works with bundled continuous additive maps — the projection
+is multiplicative for free, and consumers can restrict. The lattice laws are stated
+ring-theoretically (`Ideal.span`, `RingHom.ker`, `nonZeroDivisors`) rather than on
+additive subgroups, and the index of `n·ℤ̂` is carried by `quotientKerReductionEquiv`
+instead of a bare cardinality. The two closure arguments — the transition law and
+`ker ⊆ span` — are `Set.EqOn.closure` and density-of-`ℤ` against an open kernel and a
+compact-image ideal, following the source construction. The source's classification of the
+finite-index additive subgroups is deferred to the brick that consumes it;
+`index_span_natCast` is the `ℤ̂`-specific input it needs.
 
 ## References
 
@@ -155,6 +155,47 @@ theorem castHom_comp_reduction {m n : ℕ} [NeZero m] [NeZero n] (hmn : m ∣ n)
       (continuous_apply (⟨n, Nat.pos_of_ne_zero (NeZero.ne n)⟩ : ℕ+)))
     (continuous_apply (⟨m, Nat.pos_of_ne_zero (NeZero.ne m)⟩ : ℕ+))
     x.property
+
+/-- **Every compatible family of residues is a unique profinite integer** — the
+closure of the diagonal is the full inverse limit: a basic neighborhood of a
+compatible family constrains finitely many coordinates, and an integer congruent to
+the family at the least common modulus realizes them all
+([Milne 2020, Chap. I, Appendix A, p.55][MilneCFT]). -/
+theorem existsUnique_of_compatible (x : ∀ n : ℕ+, ZMod n)
+    (hx : ∀ (m n : ℕ+) (h : (m : ℕ) ∣ (n : ℕ)),
+      ZMod.castHom h (ZMod m) (x n) = x m) :
+    ∃! z : ProfiniteInteger, ∀ n : ℕ+, reduction n z = x n := by
+  have hX : (x : ProfiniteIntegerAmbient) ∈
+      closure (profiniteIntegerDiagonal.range : Set ProfiniteIntegerAmbient) := by
+    rw [mem_closure_iff]
+    intro U hU hXU
+    obtain ⟨I, u, hu, hI⟩ := isOpen_pi_iff.mp hU x hXU
+    set N : ℕ := I.lcm (fun i => (i : ℕ))
+    have hN0 : N ≠ 0 := by
+      intro h0
+      rcases (Finset.lcm_eq_zero_iff).mp h0 with ⟨i, hi, h⟩
+      exact (NeZero.ne (i : ℕ)) h
+    set NN : ℕ+ := ⟨N, Nat.pos_of_ne_zero hN0⟩
+    obtain ⟨a, ha⟩ := ZMod.intCast_surjective (x NN)
+    refine ⟨profiniteIntegerDiagonal a, ?_, ⟨a, rfl⟩⟩
+    apply hI
+    intro i hi
+    have hdvd : (i : ℕ) ∣ (NN : ℕ) := Finset.dvd_lcm hi
+    have hcoord : ((a : ZMod (i : ℕ))) = x i := by
+      calc ((a : ZMod (i : ℕ)))
+          = ZMod.castHom hdvd (ZMod (i : ℕ)) ((a : ZMod (NN : ℕ))) :=
+            (map_intCast (ZMod.castHom hdvd (ZMod (i : ℕ))) a).symm
+        _ = ZMod.castHom hdvd (ZMod (i : ℕ)) (x NN) :=
+            congrArg (ZMod.castHom hdvd (ZMod (i : ℕ))) ha
+        _ = x i := hx i NN hdvd
+    change profiniteIntegerDiagonal a i ∈ u i
+    have hdiag : profiniteIntegerDiagonal a i = ((a : ZMod (i : ℕ))) := rfl
+    rw [hdiag, hcoord]
+    exact (hu i hi).2
+  refine ⟨show ProfiniteInteger from ⟨x, hX⟩, fun n => rfl, ?_⟩
+  intro z hz
+  ext n
+  exact hz ⟨n, Nat.pos_of_ne_zero (NeZero.ne n)⟩
 
 /-- **The integers are dense in their profinite completion** — by construction: the
 completion is the closure of the diagonal. -/
@@ -298,49 +339,6 @@ theorem index_span_natCast (n : ℕ) [NeZero n] :
   rw [h, AddSubgroup.index_ker, AddMonoidHom.range_eq_top_of_surjective _
     (reduction_surjective n)]
   simp
-
-/-- **Every compatible family of residues is a unique profinite integer** — the
-closure of the diagonal is the full inverse limit: a basic neighborhood of a
-compatible family constrains finitely many coordinates, and an integer congruent to
-the family at the least common modulus realizes them all
-([Milne 2020, Chap. I, Appendix A, p.55][MilneCFT]). -/
-theorem existsUnique_of_compatible (x : ∀ n : ℕ+, ZMod n)
-    (hx : ∀ (m n : ℕ+) (h : (m : ℕ) ∣ (n : ℕ)),
-      ZMod.castHom h (ZMod m) (x n) = x m) :
-    ∃! z : ProfiniteInteger, ∀ n : ℕ+, reduction n z = x n := by
-  have hX : (x : ProfiniteIntegerAmbient) ∈
-      closure (profiniteIntegerDiagonal.range : Set ProfiniteIntegerAmbient) := by
-    rw [mem_closure_iff]
-    intro U hU hXU
-    obtain ⟨I, u, hu, hI⟩ := isOpen_pi_iff.mp hU x hXU
-    set N : ℕ := I.lcm (fun i => (i : ℕ)) with hNdef
-    have hN0 : N ≠ 0 := by
-      rw [hNdef]
-      intro h0
-      rcases (Finset.lcm_eq_zero_iff).mp h0 with ⟨i, hi, h⟩
-      exact (NeZero.ne (i : ℕ)) h
-    haveI : NeZero N := ⟨hN0⟩
-    set NN : ℕ+ := ⟨N, Nat.pos_of_ne_zero hN0⟩ with hNN
-    obtain ⟨a, ha⟩ := ZMod.intCast_surjective (x NN)
-    refine ⟨profiniteIntegerDiagonal a, ?_, ⟨a, rfl⟩⟩
-    apply hI
-    intro i hi
-    have hdvd : (i : ℕ) ∣ (NN : ℕ) := Finset.dvd_lcm hi
-    have hcoord : ((a : ZMod (i : ℕ))) = x i := by
-      calc ((a : ZMod (i : ℕ)))
-          = ZMod.castHom hdvd (ZMod (i : ℕ)) ((a : ZMod (NN : ℕ))) :=
-            (map_intCast (ZMod.castHom hdvd (ZMod (i : ℕ))) a).symm
-        _ = ZMod.castHom hdvd (ZMod (i : ℕ)) (x NN) :=
-            congrArg (ZMod.castHom hdvd (ZMod (i : ℕ))) ha
-        _ = x i := hx i NN hdvd
-    change profiniteIntegerDiagonal a i ∈ u i
-    have hdiag : profiniteIntegerDiagonal a i = ((a : ZMod (i : ℕ))) := rfl
-    rw [hdiag, hcoord]
-    exact (hu i hi).2
-  refine ⟨show ProfiniteInteger from ⟨x, hX⟩, fun n => rfl, ?_⟩
-  intro z hz
-  ext n
-  exact hz ⟨n, Nat.pos_of_ne_zero (NeZero.ne n)⟩
 
 end ProfiniteInteger
 
