@@ -232,6 +232,7 @@ import Atlas.Knowledge.StandardLubinTateFormalGroup
 import Atlas.Knowledge.StandardLubinTateGaloisDescription
 import Atlas.Knowledge.StandardLubinTateLevelField
 import Atlas.Knowledge.StandardLubinTateLevelUniformizer
+import Atlas.Knowledge.StandardLubinTateNormMembership
 import Atlas.Knowledge.StandardLubinTateNormSubgroup
 import Atlas.Knowledge.StandardLubinTateNormUniformizer
 import Atlas.Knowledge.StandardLubinTateParameterCongruence

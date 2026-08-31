@@ -19,6 +19,8 @@ and needs no completeness, so it landed proved.
 ## Main statements
 
 * `standardLubinTate_norm_neg_levelGenerator` — `N(−λₙ) = π` in `K`.
+* `algebraNorm_neg` — the norm of a negation carries the sign `(−1)^{[L:K]}`, the
+  general field step the level computations consume.
 
 ## Implementation notes
 
@@ -45,7 +47,9 @@ variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
   [Finite (IsLocalRing.ResidueField A)]
   (K : Type*) [Field K] [Algebra A K] [IsFractionRing A K]
 
-private theorem norm_neg' {L : Type*} [Field L] [Algebra K L] [FiniteDimensional K L]
+/-- The **norm of a negation** carries the sign `(−1)^{[L:K]}` — the general field step
+behind the level norm computations. -/
+theorem algebraNorm_neg {L : Type*} [Field L] [Algebra K L] [FiniteDimensional K L]
     (x : L) :
     Algebra.norm K (-x) = (-1 : K) ^ Module.finrank K L * Algebra.norm K x := by
   rw [show (-x : L) = (-1 : L) * x by ring, map_mul]
@@ -75,7 +79,7 @@ theorem standardLubinTate_norm_neg_levelGenerator {π : A} (hπ : Irreducible π
     IntermediateField.adjoin.finiteDimensional hint
   change Algebra.norm K (-(IntermediateField.adjoin.powerBasis hint).gen) =
     algebraMap A K π
-  rw [norm_neg', key, ← mul_assoc, ← pow_add,
+  rw [algebraNorm_neg, key, ← mul_assoc, ← pow_add,
     (IntermediateField.adjoin.powerBasis hint).finrank,
     Even.neg_one_pow ⟨_, rfl⟩, one_mul]
 
