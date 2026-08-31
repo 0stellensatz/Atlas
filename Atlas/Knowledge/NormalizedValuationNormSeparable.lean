@@ -10,13 +10,12 @@ import Atlas.Knowledge.NormalizedValuationAlgEquiv
 
 The inertia-degree form of the norm law, for every finite *separable* extension of
 mixed-characteristic local fields, normal or not: `v_K(N y) = f · v_L(y)` with
-`f = Ideal.inertiaDeg 𝓂[L] 𝒪[K]` the residue degree. This is the pointwise law the
-reciprocity engine's `norm_range` axiom is discharged from (#104), the brick the
-Galois `e`-form of
-`Atlas.Knowledge.NormalizedValuationNorm` stops one short of. The crux is Serre's
-`N(𝔓) = 𝔭^f` read at one element — Mathlib's `Ideal.relNorm_eq_pow_of_isMaximal`
-carries the ideal identity without any normality hypothesis — and the law follows by
-uniformizer decomposition, conjugates never entering.
+`f = Ideal.inertiaDeg 𝓂[L] 𝒪[K]` the residue degree. This is the pointwise law the reciprocity
+engine's `norm_range` axiom is discharged from (#104), the brick the Galois `e`-form of
+`Atlas.Knowledge.NormalizedValuationNorm` stops one short of. The crux is Serre's `N(𝔓) = 𝔭^f` read
+at one element — Mathlib's `Ideal.relNorm_eq_pow_of_isMaximal` carries the ideal identity without
+any normality hypothesis — and the law follows by uniformizer decomposition, conjugates never
+entering.
 
 ## Main statements
 
