@@ -39,6 +39,8 @@ is the whole of what the approximation lemma asks.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
+* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
+  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -53,22 +55,6 @@ variable (L : Type*) [Field L] [ValuativeRel L] [TopologicalSpace L] [Algebra K 
 namespace TotallyRamifiedMonogenic
 
 omit [ValuativeRel L] [TopologicalSpace L] [ValuativeExtension K L]
-  [IsMixedCharLocalField L] [TopologicalSpace K] [IsMixedCharLocalField K]
-  [FiniteDimensional K L] in
-/- The base integers act faithfully on the closure: the structure map factors through the
-injective inclusions into the fraction fields. -/
-private theorem faithfulSMul_integralClosure :
-    FaithfulSMul ↥𝒪[K] (integralClosure ↥𝒪[K] L) :=
-  (faithfulSMul_iff_algebraMap_injective ↥𝒪[K] (integralClosure ↥𝒪[K] L)).mpr
-    fun a b hab => by
-      have h := congrArg (algebraMap (integralClosure ↥𝒪[K] L) L) hab
-      rw [← IsScalarTower.algebraMap_apply ↥𝒪[K] (integralClosure ↥𝒪[K] L) L,
-        ← IsScalarTower.algebraMap_apply ↥𝒪[K] (integralClosure ↥𝒪[K] L) L,
-        IsScalarTower.algebraMap_apply ↥𝒪[K] K L,
-        IsScalarTower.algebraMap_apply ↥𝒪[K] K L] at h
-      exact IsFractionRing.injective ↥𝒪[K] K ((algebraMap K L).injective h)
-
-omit [ValuativeRel L] [TopologicalSpace L] [ValuativeExtension K L]
   [IsMixedCharLocalField L] in
 /- The closure's maximal ideal lies over the base maximal ideal: the contraction of a
 maximal ideal along an integral extension of a local domain is the maximal ideal. -/
@@ -77,7 +63,7 @@ private theorem liesOver_maximalIdeal [Algebra.IsAlgebraic K L] :
   haveI := integralClosureDVR K L
   haveI := integralClosure_isLocalRing K L
   haveI : Algebra.IsIntegral ↥𝒪[K] (integralClosure ↥𝒪[K] L) := inferInstance
-  haveI := faithfulSMul_integralClosure K L
+  haveI := MonogenicIntegralClosure.faithfulSMul_integralClosure K L
   constructor
   exact (IsLocalRing.eq_maximalIdeal
     (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal
@@ -95,7 +81,7 @@ private theorem residue_surjective_of_inertiaDeg_eq_one [Algebra.IsAlgebraic K L
       (algebraMap ↥𝒪[K] (integralClosure ↥𝒪[K] L) c) = z := by
   haveI := integralClosureDVR K L
   haveI := integralClosure_isLocalRing K L
-  haveI := faithfulSMul_integralClosure K L
+  haveI := MonogenicIntegralClosure.faithfulSMul_integralClosure K L
   haveI : IsLocalHom (algebraMap ↥𝒪[K] (integralClosure ↥𝒪[K] L)) :=
     Algebra.IsIntegral.isLocalHom ↥𝒪[K] (integralClosure ↥𝒪[K] L)
   haveI := liesOver_maximalIdeal K L
@@ -124,7 +110,7 @@ private theorem adjoin_eq_top_of_irreducible_of_residue [Algebra.IsAlgebraic K L
     Algebra.adjoin ↥𝒪[K] {x} = ⊤ := by
   haveI := integralClosureDVR K L
   haveI := integralClosure_isLocalRing K L
-  haveI := faithfulSMul_integralClosure K L
+  haveI := MonogenicIntegralClosure.faithfulSMul_integralClosure K L
   haveI : IsLocalHom (algebraMap ↥𝒪[K] (integralClosure ↥𝒪[K] L)) :=
     Algebra.IsIntegral.isLocalHom ↥𝒪[K] (integralClosure ↥𝒪[K] L)
   haveI : Module.Finite ↥𝒪[K] (integralClosure ↥𝒪[K] L) :=
@@ -136,14 +122,8 @@ private theorem adjoin_eq_top_of_irreducible_of_residue [Algebra.IsAlgebraic K L
     obtain ⟨c, hc⟩ := hres z
     rw [← hc, ← IsLocalRing.ResidueField.algebraMap_residue]
     exact Subalgebra.algebraMap_mem _ _
-  have hmapbot : Ideal.map (algebraMap ↥𝒪[K] (integralClosure ↥𝒪[K] L)) 𝓂[K] ≠ ⊥ :=
-    fun h => IsDiscreteValuationRing.not_a_field ↥𝒪[K]
-      ((Ideal.map_eq_bot_iff_of_injective
-        (FaithfulSMul.algebraMap_injective ↥𝒪[K] (integralClosure ↥𝒪[K] L))).mp h)
-  obtain ⟨m, hm⟩ := IsDiscreteValuationRing.ideal_eq_span_pow_irreducible hmapbot hx
-  have hmm : Ideal.map (algebraMap ↥𝒪[K] (integralClosure ↥𝒪[K] L)) 𝓂[K] =
-      IsLocalRing.maximalIdeal (integralClosure ↥𝒪[K] L) ^ m := by
-    rw [hm, hx.maximalIdeal_eq, Ideal.span_singleton_pow]
+  obtain ⟨m, hmm⟩ := MapMaximalIdealEqPowCardInertia.exists_map_maximalIdeal_eq_pow
+    (FaithfulSMul.algebraMap_injective ↥𝒪[K] (integralClosure ↥𝒪[K] L))
   refine Algebra.toSubmodule_eq_top.mp (top_le_iff.mp ?_)
   refine Submodule.le_of_le_smul_of_le_jacobson_bot (Module.finite_def.mp inferInstance)
     (IsLocalRing.maximalIdeal_le_jacobson ⊥) ?_
@@ -186,7 +166,10 @@ maximal ideal generates the full-degree power of the maximal ideal upstairs, the
 adjoin of any irreducible of the integral closure is everything
 ([Serre 1979, Chap. I, §6, Prop. 18, p.19][Serre1979] — Serre states the isomorphism
 `B_f ≅ B` for the Eisenstein characteristic polynomial of a uniformizer, of which the
-generation is the substance). -/
+generation is the substance;
+[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:394`][Yamaguchi2026]
+— the source proves the adjoin conclusion at its level tower only, where this statement
+is the abstract totally ramified fact). -/
 theorem totallyRamifiedMonogenic
     (h𝒪 : Ideal.map (algebraMap ↥𝒪[K] ↥𝒪[L]) 𝓂[K] = 𝓂[L] ^ Module.finrank K L)
     {x : integralClosure ↥𝒪[K] L} (hx : Irreducible x) :

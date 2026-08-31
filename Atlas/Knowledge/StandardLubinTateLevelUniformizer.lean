@@ -114,9 +114,7 @@ full-degree power of the maximal ideal of the level integers — the value state
 `Atlas.Knowledge.integerValuation_algebraMap_levelField` read through the
 principal-ideal form of `Atlas.Knowledge.span_singleton_eq_pow_maximalIdeal`, the
 hypothesis shape `Atlas.Knowledge.totallyRamifiedMonogenic` consumes
-([Milne 2020, Chap. I, §3, Thm. 3.6 (a), pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:394`][Yamaguchi2026]
-— the source consumes total ramification through the same monogenic conclusion). -/
+([Milne 2020, Chap. I, §3, Thm. 3.6 (a), pp.38–39][MilneCFT]). -/
 theorem map_maximalIdeal_levelField :
     Ideal.map (algebraMap ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) 𝓂[K] =
       𝓂[↥(standardLubinTateLevelField K hπ n)] ^

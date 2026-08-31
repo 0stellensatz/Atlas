@@ -164,8 +164,8 @@ theorem exists_isArithmeticFrobenius [FiniteDimensional K L] [IsGalois K L]
   rwa [natCard_quotient_under K L] at hx
 
 set_option maxHeartbeats 800000 in
--- the residue-side instance chain (quotient field, algebra, module, Galois) is synthesized
--- through the `LiesOver` tower and exceeds the default limits
+-- The residue-side instance chain (quotient field, algebra, module, Galois) is synthesized
+-- through the `LiesOver` tower and exceeds the default limits.
 set_option synthInstance.maxHeartbeats 80000 in
 /-- The arithmetic Frobenius of a finite Galois unramified extension has order the degree —
 the Galois group is cyclic of order `[L : K]`, carried by the residue extension: with the

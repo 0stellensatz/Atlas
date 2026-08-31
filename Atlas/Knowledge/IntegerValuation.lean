@@ -343,7 +343,7 @@ theorem span_singleton_eq_pow_maximalIdeal {y : ↥𝒪[K]} (hy : y ≠ 0) :
       integerValuation_irreducible K hϖ, zero_add, mul_one]
   rw [hν, Int.toNat_natCast, show Ideal.span {(u : ↥𝒪[K]) * ϖ ^ m} = Ideal.span {ϖ ^ m}
       from Ideal.span_singleton_eq_span_singleton.mpr
-        ((associated_unit_mul_left _ _ u.isUnit).symm).symm,
+        (associated_unit_mul_left _ _ u.isUnit),
     ← Ideal.span_singleton_pow, hϖ.maximalIdeal_eq]
 
 end Atlas.Knowledge
