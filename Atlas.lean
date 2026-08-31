@@ -17,6 +17,7 @@ import Atlas.Knowledge.AbsoluteInertiaSubgroup
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.AddValMapIntegralClosure
 import Atlas.Knowledge.AdicCompletionIsMixedCharLocalField
+import Atlas.Knowledge.AmbientFixedAddSubgroup
 import Atlas.Knowledge.ArtinMapNormNaturality
 import Atlas.Knowledge.ArtinMapProfiniteTransferNaturality
 import Atlas.Knowledge.ArtinRamificationCompatibility
@@ -47,6 +48,7 @@ import Atlas.Knowledge.ExistsValuativeExtension
 import Atlas.Knowledge.ExtendedGameJumpPair
 import Atlas.Knowledge.ExtendedGameMeasure
 import Atlas.Knowledge.ExtendedGameTransition
+import Atlas.Knowledge.ExtensionFixedRepresentation
 import Atlas.Knowledge.FieldJumpsBelowE
 import Atlas.Knowledge.FiltAut
 import Atlas.Knowledge.FiltOrd
@@ -200,6 +202,7 @@ import Atlas.Knowledge.PrincipalIdele
 import Atlas.Knowledge.ProfiniteInteger
 import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.QuasiFreeTorsion
+import Atlas.Knowledge.QuotientTowerEquiv
 import Atlas.Knowledge.RamificationBound
 import Atlas.Knowledge.RamificationFiltration
 import Atlas.Knowledge.RamificationNumber
@@ -255,8 +258,10 @@ import Atlas.Knowledge.StoppedGameJumpPair
 import Atlas.Knowledge.StronglyEisensteinExtremal
 import Atlas.Knowledge.TRhoEP
 import Atlas.Knowledge.TameBaseChange
+import Atlas.Knowledge.TateCohomologyFiniteCyclic
 import Atlas.Knowledge.TateTwist
 import Atlas.Knowledge.TateTwistVanishing
+import Atlas.Knowledge.TateVanishingNormKernel
 import Atlas.Knowledge.TotallyRamifiedMonogenic
 import Atlas.Knowledge.UnitFiltrationClassification
 import Atlas.Knowledge.UnitFiltrationQuasiFree
