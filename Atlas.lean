@@ -214,6 +214,7 @@ import Atlas.Knowledge.RayClassField
 import Atlas.Knowledge.RayClassGroup
 import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
+import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
