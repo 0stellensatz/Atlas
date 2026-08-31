@@ -143,8 +143,7 @@ theorem map_maximalIdeal_eq_pow_card_inertia [TopologicalSpace K] [IsMixedCharLo
   haveI : FiniteDimensional E L := Module.Finite.right K E L
   haveI : CharZero E := charZero_of_injective_algebraMap (algebraMap K E).injective
   -- the two carrier identifications
-  let ε : integralClosure 𝒪[K] E ≃+* 𝒪[E] :=
-    (IsIntegralClosure.equiv 𝒪[K] (integralClosure 𝒪[K] E) E 𝒪[E]).toRingEquiv
+  let ε : integralClosure 𝒪[K] E ≃+* 𝒪[E] := integerEquivIntegralClosure K E
   have hsub : (integralClosure 𝒪[E] L).toSubring = (integralClosure 𝒪[K] L).toSubring :=
     SetLike.ext fun z => by
       rw [Subalgebra.mem_toSubring, Subalgebra.mem_toSubring]

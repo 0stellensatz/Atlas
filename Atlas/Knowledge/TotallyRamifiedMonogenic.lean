@@ -26,9 +26,9 @@ consumes, whose generator is a specific torsion point.
 
 Total ramification enters as the ideal identity
 `(𝓂[K]) · 𝒪 = 𝓂 ^ [L : K]` on the layer's own carriers `𝒪[K] → 𝒪[L]`, and is carried
-to the integral-closure carrier along
-`Atlas.Knowledge.integerEquivIntegralClosure`; the statement never mentions the closure of a
-concrete field, which keeps it applicable wholesale. The inertia degree is computed
+to the integral-closure carrier along `Atlas.Knowledge.integerEquivIntegralClosure`;
+the statement never mentions the closure of a concrete field, which keeps it
+applicable wholesale. The inertia degree is computed
 through Mathlib's `Ideal.ramificationIdx_mul_inertiaDeg_of_isLocalRing` — the local
 case of the fundamental identity — against the exponent read off the identity by
 `Atlas.Knowledge.MapMaximalIdealEqPowCardInertia.ramificationIdx'_eq_of_map_eq_pow`,

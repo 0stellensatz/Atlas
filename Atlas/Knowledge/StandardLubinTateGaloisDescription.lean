@@ -44,24 +44,27 @@ proves the extension Galois, through the automorphism count.
 
 ## Implementation notes
 
-**Deliberate weakening, kept:** the source's description is *data* — the specific action
-sending the unit parameter `u` to the automorphism moving the chosen torsion point by
-`[u⁻¹]` (`LubinTate/FiniteLevel/LevelAbelian.lean:53`; the twist is Milne's
-`φ_π(a)(λ) = [u⁻¹]_f(λ)` on p.40, two pages past the bare isomorphism). Atlas proves
-abstract isomorphy and the abelianness — the exported `levelCharacter` sends `u` to
-the untwisted `[u]`-action, with its kernel, surjectivity, and generator action beside
-it for the ramification filtration to consume — and a refinement that pins the action
-*inside the recorded claim* would replace that claim rather than extend it. The
-local-field structure on the level field is not data either: each proof obtains it from
+**Deliberate weakening, kept:** the source's description is *data* — the specific
+untwisted `[u]`-action on the chosen torsion point
+(`LubinTate/FiniteLevel/LevelAbelian.lean:53`; the inverse twist appears only in its
+Artin-map preparation, `LevelAbelian.lean:84`, and in Milne's reciprocity map
+`φ_π(a)(λ) = [u⁻¹]_f(λ)` on p.40 — a different map from the Thm. 3.6 (b) isomorphism).
+Atlas records abstract isomorphy: the exported `levelCharacter` is the same untwisted
+action, with its kernel, surjectivity, and generator action beside it for the
+ramification filtration to consume, but it lives inside the hypothesized-carrier
+section and carries the level field's four valuative instances, so a top-level claim
+naming it cannot even be stated — the structural reason the recorded claim stays a
+`Nonempty` at `K` alone, obtaining the instances inside its proof. The local-field
+structure on the level field is not data either: each proof obtains it from
 `Atlas.Knowledge.exists_extension_isMixedCharLocalField`, which is why the torsion
 theory of `Atlas.Knowledge.StandardLubinTateTorsion` is stated over an abstract carrier
 extension. The abelianness stays a plain theorem rather than an `instance`, keeping the
 recorded statement unchanged now that its proof has landed; only its plain-Galois
 weakening at the bottom of the file is an instance, the head the compositum machinery
-synthesizes. One instance seam is
-handled by hand: the integer scalar tower `𝒪[K] → 𝒪[L] → L` is supplied as
-`Valuation.HasExtension.instIsScalarTowerInteger` at the two valuations, where instance
-search at the level field runs into the ambient separable closure and fails.
+synthesizes. One instance seam is handled by hand: the integer scalar tower
+`𝒪[K] → 𝒪[L] → L` is supplied as `Valuation.HasExtension.instIsScalarTowerInteger` at
+the two valuations, where instance search at the level field runs into the ambient
+separable closure and fails.
 
 ## References
 
@@ -348,8 +351,8 @@ untwisted `[u]` scalar — the concrete homomorphism behind the abstract descrip
 exported for the ramification filtration
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/LevelAutomorphisms.lean:530`][Yamaguchi2026]
-— the source's map twists by `u⁻¹`, the reciprocity normalization this layer does not
-fix). -/
+— the source's map is the same untwisted action; the `u⁻¹` twist belongs to Milne's
+reciprocity map `φ_π` on p.40, which a later Artin identification must insert). -/
 noncomputable def levelCharacter :
     𝒪[K]ˣ →* (↥(standardLubinTateLevelField K hπ n) ≃ₐ[K]
       ↥(standardLubinTateLevelField K hπ n)) :=
@@ -508,19 +511,23 @@ private theorem card_aut_eq :
   have hAH := card_algHom_le K hπ n
   omega
 
+/-- The descended character fills the automorphism count: the squeeze shared by the
+description, the commutativity, and the surjectivity. -/
+private theorem levelParameterHom_bijective :
+    Function.Bijective (levelParameterHom K hπ n) := by
+  haveI := finite_aut K hπ n
+  rw [Nat.bijective_iff_injective_and_card]
+  refine ⟨levelParameterHom_injective K hπ n, ?_⟩
+  rw [card_aut_eq K hπ n]
+  have := integerHigherUnitCount K (n + 1) (Nat.succ_ne_zero n)
+  simpa using this
+
 /-- **The character is surjective**: every automorphism of the level field is a unit
 action — the descended injection fills the automorphism count
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT]). -/
 theorem levelCharacter_surjective : Function.Surjective ⇑(levelCharacter K hπ n) := by
-  haveI := finite_aut K hπ n
-  have hbij : Function.Bijective (levelParameterHom K hπ n) := by
-    rw [Nat.bijective_iff_injective_and_card]
-    refine ⟨levelParameterHom_injective K hπ n, ?_⟩
-    rw [card_aut_eq K hπ n]
-    have := integerHigherUnitCount K (n + 1) (Nat.succ_ne_zero n)
-    simpa using this
   intro σ
-  obtain ⟨q, hq⟩ := hbij.2 σ
+  obtain ⟨q, hq⟩ := (levelParameterHom_bijective K hπ n).2 σ
   obtain ⟨u, rfl⟩ := QuotientGroup.mk_surjective q
   exact ⟨u, by rw [← hq]; rfl⟩
 
@@ -529,13 +536,8 @@ private theorem nonempty_description :
     Nonempty ((𝒪[K]ˣ ⧸ integerHigherUnitGroup K (n + 1)) ≃*
       (↥(standardLubinTateLevelField K hπ n) ≃ₐ[K]
         ↥(standardLubinTateLevelField K hπ n))) := by
-  haveI := finite_aut K hπ n
-  refine ⟨MulEquiv.ofBijective (levelParameterHom K hπ n) ?_⟩
-  rw [Nat.bijective_iff_injective_and_card]
-  refine ⟨levelParameterHom_injective K hπ n, ?_⟩
-  rw [card_aut_eq K hπ n]
-  have := integerHigherUnitCount K (n + 1) (Nat.succ_ne_zero n)
-  simpa using this
+  exact ⟨MulEquiv.ofBijective (levelParameterHom K hπ n)
+    (levelParameterHom_bijective K hπ n)⟩
 
 /-- The level field is Galois, by the automorphism count. -/
 private theorem isGalois_level :
@@ -548,13 +550,7 @@ private theorem isGalois_level :
 private theorem isMulCommutative_level :
     IsMulCommutative (↥(standardLubinTateLevelField K hπ n) ≃ₐ[K]
       ↥(standardLubinTateLevelField K hπ n)) := by
-  haveI := finite_aut K hπ n
-  have hbij : Function.Bijective (levelParameterHom K hπ n) := by
-    rw [Nat.bijective_iff_injective_and_card]
-    refine ⟨levelParameterHom_injective K hπ n, ?_⟩
-    rw [card_aut_eq K hπ n]
-    have := integerHigherUnitCount K (n + 1) (Nat.succ_ne_zero n)
-    simpa using this
+  have hbij := levelParameterHom_bijective K hπ n
   constructor
   constructor
   intro σ τ
@@ -569,7 +565,7 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-- The **unit-parameter description of the level Galois group**:
 `𝒪ˣ/U^{(n+1)} ≃* Gal(Lₙ/K)` — deliberately weaker than the source, which constructs
-the specific `[u⁻¹]`-action on the chosen torsion point
+the specific untwisted `[u]`-action on the chosen torsion point
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT];
 [Yamaguchi 2026, `LubinTate/FiniteLevel/LevelAbelian.lean:53`,
 `standardLubinTateUnitParameterEquivGal`][Yamaguchi2026]). -/

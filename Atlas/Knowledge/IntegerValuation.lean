@@ -331,6 +331,13 @@ theorem min_le_integerValuation_add {y z : ↥𝒪[K]} (hsum : y + z ≠ 0) :
     rw [integerValuation_add_of_lt K hz hgt]
     exact min_le_right _ _
 
+/-- The value of a unit-times-power normal form is the exponent. -/
+private theorem integerValuation_unit_mul_pow {ϖ : ↥𝒪[K]} (hϖ : Irreducible ϖ)
+    (u : (↥𝒪[K])ˣ) (m : ℕ) : integerValuation K ((u : ↥𝒪[K]) * ϖ ^ m) = m := by
+  rw [integerValuation_mul K (Units.ne_zero u) (pow_ne_zero _ hϖ.ne_zero),
+    integerValuation_eq_zero_of_isUnit K u.isUnit, integerValuation_pow,
+    integerValuation_irreducible K hϖ, zero_add, mul_one]
+
 /-- **The principal-ideal reading of the value**: a nonzero integer generates the
 `ν`-th power of the maximal ideal ([Serre 1979, Chap. I, §1, Prop. 1, p.6][Serre1979]
 — the proof's "every non-zero ideal of `A` is of the form `πⁿA`", read at one
@@ -339,11 +346,8 @@ theorem span_singleton_eq_pow_maximalIdeal {y : ↥𝒪[K]} (hy : y ≠ 0) :
     Ideal.span {y} = 𝓂[K] ^ (integerValuation K y).toNat := by
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible ↥𝒪[K]
   obtain ⟨m, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hy hϖ
-  have hν : integerValuation K ((u : ↥𝒪[K]) * ϖ ^ m) = m := by
-    rw [integerValuation_mul K (Units.ne_zero u) (pow_ne_zero _ hϖ.ne_zero),
-      integerValuation_eq_zero_of_isUnit K u.isUnit, integerValuation_pow,
-      integerValuation_irreducible K hϖ, zero_add, mul_one]
-  rw [hν, Int.toNat_natCast, show Ideal.span {(u : ↥𝒪[K]) * ϖ ^ m} = Ideal.span {ϖ ^ m}
+  rw [integerValuation_unit_mul_pow K hϖ u m, Int.toNat_natCast,
+    show Ideal.span {(u : ↥𝒪[K]) * ϖ ^ m} = Ideal.span {ϖ ^ m}
       from Ideal.span_singleton_eq_span_singleton.mpr
         (associated_unit_mul_left _ _ u.isUnit),
     ← Ideal.span_singleton_pow, hϖ.maximalIdeal_eq]
@@ -351,18 +355,14 @@ theorem span_singleton_eq_pow_maximalIdeal {y : ↥𝒪[K]} (hy : y ≠ 0) :
 /-- **Mathlib's additive valuation is the value**: on a nonzero integer,
 `IsDiscreteValuationRing.addVal` is the `ℕ∞`-cast of the integer valuation — the bridge
 between the layer's `ℤ` carrier and the `ℕ∞` order the ramification numbers live in
-([Serre 1979, Chap. I, §1, p.5][Serre1979] — the same order function, in the two
-normalizations). -/
+([Serre 1979, Chap. I, §1, p.5][Serre1979] — the same order function, on the two
+carriers with their two junk conventions). -/
 theorem addVal_eq_toNat_integerValuation {y : ↥𝒪[K]} (hy : y ≠ 0) :
     IsDiscreteValuationRing.addVal ↥𝒪[K] y =
       ((integerValuation K y).toNat : ℕ∞) := by
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible ↥𝒪[K]
   obtain ⟨m, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hy hϖ
-  have hν : integerValuation K ((u : ↥𝒪[K]) * ϖ ^ m) = m := by
-    rw [integerValuation_mul K (Units.ne_zero u) (pow_ne_zero _ hϖ.ne_zero),
-      integerValuation_eq_zero_of_isUnit K u.isUnit, integerValuation_pow,
-      integerValuation_irreducible K hϖ, zero_add, mul_one]
-  rw [hν, Int.toNat_natCast]
+  rw [integerValuation_unit_mul_pow K hϖ u m, Int.toNat_natCast]
   exact IsDiscreteValuationRing.addVal_def _ u hϖ m rfl
 
 end Atlas.Knowledge

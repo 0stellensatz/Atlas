@@ -27,6 +27,8 @@ outer terms trivial and restricted respectively.
   `L` and normalized on `Lˣ`; proved.
 * `integerValuation_algEquivIntegerRestrict` — the invariance read on the integer ring;
   proved.
+* `integerEquivIntegralClosure_galRestrict` — the closure identification intertwines the
+  two integer restrictions of an automorphism; proved.
 * `continuous_algEquiv` — a `K`-automorphism is continuous; proved.
 * `algEquiv_mem_integer` — the automorphism preserves the integers; proved.
 * `value_unit_mul_zpow` — the value of a unit of the integers times an irreducible power
@@ -222,5 +224,19 @@ theorem integerValuation_algEquivIntegerRestrict (σ : L ≃ₐ[K] L) (z : ↥�
       normalizedValuation_algEquiv K L σ]
 
 end MixedL
+
+omit [TopologicalSpace L] [IsValuativeTopology L] in
+/-- **The identification intertwines the two integer restrictions** of an automorphism:
+Mathlib's `galRestrict` on the closure carrier and `Atlas.Knowledge.algEquivIntegerRestrict`
+on the integers agree through `Atlas.Knowledge.integerEquivIntegralClosure` — the operator
+bridge between the ramification numbers and the valuation layer. -/
+theorem integerEquivIntegralClosure_galRestrict (σ : L ≃ₐ[K] L)
+    (x : integralClosure ↥𝒪[K] L) :
+    integerEquivIntegralClosure K L
+        (galRestrict ↥𝒪[K] K L (integralClosure ↥𝒪[K] L) σ x) =
+      algEquivIntegerRestrict K L σ (integerEquivIntegralClosure K L x) := by
+  apply Subtype.ext
+  rw [coe_integerEquivIntegralClosure, algebraMap_galRestrict_apply]
+  exact congrArg σ (coe_integerEquivIntegralClosure K L x).symm
 
 end Atlas.Knowledge

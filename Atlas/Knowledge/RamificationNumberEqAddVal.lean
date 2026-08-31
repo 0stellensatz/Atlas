@@ -33,9 +33,11 @@ The last identification is generic discrete-valuation-ring material that Mathlib
 inline—the rewrite chain of its `IsHausdorff (IsLocalRing.maximalIdeal R) R` instance in
 `Mathlib.RingTheory.DiscreteValuationRing.Basic`—so it is named here, as
 `RamificationNumberEqAddVal.mem_maximalIdeal_pow_iff`, generic over a discrete valuation
-ring. The scaffolding is dot-named `RamificationNumberEqAddVal.…` rather than wrapped in a
-`namespace` block, the layer's prefix style for a file whose declarations share a variable
-block.
+ring; the transport of the additive valuation along a ring isomorphism is material of the
+same kind and sits beside it. The dot-prefix `RamificationNumberEqAddVal.…` marks that
+generic discrete-valuation-ring material — named exports, not privacy — rather than
+wrapping a `namespace` block, the layer's prefix style for a file whose declarations share
+a variable block.
 
 ## References
 
@@ -63,7 +65,7 @@ theorem RamificationNumberEqAddVal.mem_maximalIdeal_pow_iff {R : Type*} [CommRin
 
 /-- The additive valuation transports along a ring isomorphism of discrete valuation
 rings: both sides read the exponent of the same unit-times-power normal form — generic
-discrete-valuation-ring material named here beside its sibling, as the module docstring
+discrete-valuation-ring material named beside its sibling, as the module docstring
 records. -/
 theorem RamificationNumberEqAddVal.addVal_ringEquiv {R S : Type*} [CommRing R]
     [IsDomain R] [IsDiscreteValuationRing R] [CommRing S] [IsDomain S]

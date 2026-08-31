@@ -15,8 +15,14 @@ written in.
 * `mem_integer_iff_isIntegral` — membership in `𝒪[E]` is integrality over `𝒪[K]`.
 * `integerIsIntegralClosure` — `𝒪[E]` is the integral closure of `𝒪[K]` in `E`.
 * `integer_isIntegral` — the integer tower `𝒪[K] → 𝒪[E]` is integral.
-* `integerEquivIntegralClosure` — the identification as a ring isomorphism, with its
-  coercion identity and structure-map square.
+* `coe_integerEquivIntegralClosure` — the identification acts as the identity through
+  the field.
+* `integerEquivIntegralClosure_symm_algebraMap` — the structure-map square.
+
+## Main definitions
+
+* `integerEquivIntegralClosure` — the identification of
+  `Atlas.Knowledge.integerIsIntegralClosure`, read as a ring isomorphism.
 
 ## Implementation notes
 

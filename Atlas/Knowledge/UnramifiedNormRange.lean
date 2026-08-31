@@ -31,8 +31,8 @@ The unramified input enters once, as the ideal identity
 `Atlas.Knowledge.map_maximalIdeal_eq_pow_card_inertia` read at `E = K` with the inertia
 group trivial, transported to the layer's own carriers `𝒪[K] → 𝒪[L]` along the
 `Atlas.Knowledge.integerEquivIntegralClosure` identification and its base analogue —
-`Ideal.map` only depends on the underlying
-function, which the private `map_congr_fn` records. The trivial self-extension
+`Ideal.map` only depends on the underlying function, which the private `map_congr_fn`
+records. The trivial self-extension
 `ValuativeExtension K K` is not an instance at the pin and is provided inline. The final
 counting runs through the reduction of `Kˣ` to `ZMod n` along the bundled valuation, and
 `Subgroup.relIndex_mul_index` turns equal finite indices plus one containment into
@@ -90,14 +90,8 @@ private theorem map_maximalIdeal_of_unramified
     have hK : ((baseEquiv K z : ↥𝒪[K]) : K) = algebraMap (integralClosure ↥𝒪[K] K) K z := by
       have h := IsIntegralClosure.algebraMap_equiv ↥𝒪[K] (integralClosure ↥𝒪[K] K) K ↥𝒪[K] z
       exact h
-    have hL : ((integerEquivIntegralClosure K L
-        (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L) z) :
-        ↥𝒪[L]) : L) =
-        algebraMap (integralClosure ↥𝒪[K] L) L
-          (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L) z) := by
-      have h := IsIntegralClosure.algebraMap_equiv ↥𝒪[K] (integralClosure ↥𝒪[K] L) L ↥𝒪[L]
-        (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L) z)
-      exact h
+    have hL := coe_integerEquivIntegralClosure K L
+      (AlgHom.mapIntegralClosure (IsScalarTower.toAlgHom ↥𝒪[K] K L) z)
     rw [hK, hL]
     rfl
   calc Ideal.map (algebraMap ↥𝒪[K] ↥𝒪[L]) 𝓂[K]
