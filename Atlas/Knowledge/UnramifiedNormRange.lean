@@ -3,7 +3,6 @@ import Atlas.Knowledge.IsArithmeticFrobenius
 import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
 import Atlas.Knowledge.NormIndexCyclic
 import Atlas.Knowledge.NormalizedValuation
-import Atlas.Knowledge.NormalizedValuationAlgEquiv
 import Atlas.Knowledge.NormalizedValuationNorm
 
 /-!

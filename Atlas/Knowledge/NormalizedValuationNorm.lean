@@ -14,8 +14,8 @@ by the exponent of the ideal identity `𝓂[K]·𝒪 = 𝓂[L]^e`: the embedding
 by `e` — on integers and on units — and, for a Galois extension, a norm's value
 satisfies `e · v_K(N y) = [L : K] · v_L(y)`, the conjugate-product computation of the
 unramified case freed of its `e = 1` hypothesis. These are the valuation half of the
-reciprocity engine's ambient data (#104): the source's `norm_range` axiom is this law
-read at `f = [L : K]/e`.
+reciprocity engine's ambient data (#104), one brick short of its `norm_range` axiom's
+shape — the `f`-form for every finite separable extension.
 
 ## Main statements
 
@@ -181,9 +181,10 @@ theorem normalizedValuation_map_algebraMap_of_map_eq_pow {e : ℕ}
 `𝓂[K]·𝒪 = 𝓂[L]^e`, `e · v_K(N y) = [L : K] · v_L(y)` — the norm is the full conjugate
 product, each conjugate of the same value, and the embedding scales by `e`
 ([Serre 1979, Chap. I, §5, p.16][Serre1979] — `N(𝔓) = 𝔭^f`, the element form at
-`f = [L : K]/e`; the source's counterpart is the `norm_range` field of
-[Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:153`,
-`ValuationData`][Yamaguchi2026]). -/
+`f = [L : K]/e`; the source's pointwise law, already in `f`-form and for every finite
+separable extension, is
+[Yamaguchi 2026, `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableNormValuation.lean:513`,
+`v_normUnits_eq_residue_finrank_mul_of_isSeparable`][Yamaguchi2026]). -/
 theorem normalizedValuation_norm_of_map_eq_pow [IsGalois K L] {e : ℕ}
     (he : Ideal.map (algebraMap ↥𝒪[K] ↥𝒪[L]) 𝓂[K] = 𝓂[L] ^ e) (y : Lˣ) :
     (e : ℤ) * normalizedValuation K (Units.map ((Algebra.norm K) : L →* K) y) =
