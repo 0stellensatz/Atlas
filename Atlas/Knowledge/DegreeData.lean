@@ -54,8 +54,8 @@ namespace Atlas.Knowledge
 universe u
 
 /-- **The profinite integers written multiplicatively**: multiplication here is
-addition in `ℤ̂` ([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:25`]
-[Yamaguchi2026]). -/
+addition in `ℤ̂`
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:25`][Yamaguchi2026]). -/
 abbrev ProfiniteIntegerMul : Type := Multiplicative ProfiniteInteger
 
 /-- **The degree datum**: a continuous surjection `d : G →ₜ* ℤ̂` on a topological
@@ -89,8 +89,8 @@ theorem le_baseField (K : ClosedSubgroup G) :
 namespace DegreeData
 
 /-- **The inertia group** `I = ker d`, closed because the degree is continuous
-into a Hausdorff target ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/Fields.lean:59`][Yamaguchi2026]). -/
+into a Hausdorff target
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:59`][Yamaguchi2026]). -/
 def inertia (D : DegreeData G) : ClosedSubgroup G where
   toSubgroup := D.degree.toMonoidHom.ker
   isClosed' := by
