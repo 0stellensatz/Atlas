@@ -25,6 +25,8 @@ the derivative computation ahead consumes.
   proved.
 * `integerValuation_algebraMap_levelField` — `ν(π) = (q − 1) qⁿ` at the level: total
   ramification; proved.
+* `map_maximalIdeal_levelField` — the ideal form: the base maximal ideal generates the
+  full-degree power; proved.
 
 ## Implementation notes
 
@@ -106,5 +108,32 @@ theorem integerValuation_algebraMap_levelField :
     ↥(standardLubinTateLevelField K hπ n) hπ (aeval_levelGeneratorInteger K hπ n)
   rw [integerValuation_levelGeneratorInteger K hπ n, mul_one] at hid
   exact hid.symm
+
+/-- **The ideal form of total ramification**: the base maximal ideal generates the
+full-degree power of the maximal ideal of the level integers — the value statement of
+`Atlas.Knowledge.integerValuation_algebraMap_levelField` read through the
+principal-ideal form of `Atlas.Knowledge.span_singleton_eq_pow_maximalIdeal`, the
+hypothesis shape `Atlas.Knowledge.totallyRamifiedMonogenic` consumes
+([Milne 2020, Chap. I, §3, Thm. 3.6 (a), pp.38–39][MilneCFT];
+[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:394`][Yamaguchi2026]
+— the source consumes total ramification through the same monogenic conclusion). -/
+theorem map_maximalIdeal_levelField :
+    Ideal.map (algebraMap ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)]) 𝓂[K] =
+      𝓂[↥(standardLubinTateLevelField K hπ n)] ^
+        Module.finrank K ↥(standardLubinTateLevelField K hπ n) := by
+  have hπ0 : algebraMap ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)] π ≠ 0 :=
+    algebraMap_pi_ne_zero K ↥(standardLubinTateLevelField K hπ n) hπ
+  have h3a := span_singleton_eq_pow_maximalIdeal
+    ↥(standardLubinTateLevelField K hπ n) hπ0
+  have hν := integerValuation_algebraMap_levelField K hπ n
+  have hq1 : 1 ≤ Nat.card 𝓀[K] := le_of_lt Finite.one_lt_card
+  have htoNat : (integerValuation ↥(standardLubinTateLevelField K hπ n)
+      (algebraMap ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)] π)).toNat =
+      Module.finrank K ↥(standardLubinTateLevelField K hπ n) := by
+    rw [hν, standardLubinTateLevelField_finrank (A := ↥𝒪[K]) (K := K) hπ n,
+      show ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n =
+        (((Nat.card 𝓀[K] - 1) * Nat.card 𝓀[K] ^ n : ℕ) : ℤ) by push_cast [hq1]; ring,
+      Int.toNat_natCast]
+  rw [hπ.maximalIdeal_eq, Ideal.map_span, Set.image_singleton, h3a, htoNat]
 
 end Atlas.Knowledge
