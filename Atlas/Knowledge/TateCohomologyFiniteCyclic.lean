@@ -41,8 +41,7 @@ open CategoryTheory
 
 /-- **Degree-zero Tate cohomology is boundary short-complex homology**: for every
 finite group, `Ĥ⁰(G, A)` is the homology of `A —N→ A —d₀₁→ C¹(G, A)`
-([Serre 1979, Chap. VIII, §1, p.127][Serre1979] — `Ĥ⁰ = A^G/NA` with
-`N = Σ_{s ∈ G} s`;
+([Serre 1979, Chap. VIII, §1, p.127][Serre1979] — `Ĥ⁰ = A^G/NA` with `N = Σ_{s ∈ G} s`;
 [Yamaguchi 2026, `CyclicCohomology/TateComparison.lean:22`][Yamaguchi2026]). -/
 noncomputable def tateCohomologyIsoZeroBoundary {R G : Type u} [CommRing R]
     [Group G] [Fintype G] (A : Rep R G) :
