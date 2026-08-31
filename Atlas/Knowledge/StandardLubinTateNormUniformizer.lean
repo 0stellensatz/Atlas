@@ -12,9 +12,8 @@ the two cancel. This is the input half of the norm-subgroup description of the t
 the canonical uniformizer is a norm from every level. Negating the generator is not
 cosmetic: Milne's un-negated computation carries `(−1)^{(q−1)q^{n−1}}` and needs an
 "unless `q = 2` and `n = 1`" escape, where `N(−λₙ) = π` is uniformly true. Everything
-here is proved — the
-route banked this item as recorded, but the argument is pure minimal-polynomial algebra
-and needs no completeness, so it landed proved.
+here is proved — the route banked this item as recorded, but the argument is pure
+minimal-polynomial algebra and needs no completeness, so it landed proved.
 
 ## Main statements
 
@@ -43,18 +42,19 @@ open Polynomial
 
 namespace Atlas.Knowledge
 
-variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
-  [Finite (IsLocalRing.ResidueField A)]
-  (K : Type*) [Field K] [Algebra A K] [IsFractionRing A K]
-
 /-- The **norm of a negation** carries the sign `(−1)^{[L:K]}` — the general field step
-behind the level norm computations. -/
-theorem algebraNorm_neg {L : Type*} [Field L] [Algebra K L] [FiniteDimensional K L]
-    (x : L) :
+behind the level norm computations
+([Yamaguchi 2026, `LubinTate/FiniteLevel/NormUniformizer.lean:25`][Yamaguchi2026]). -/
+theorem algebraNorm_neg (K : Type*) [Field K] {L : Type*} [Field L] [Algebra K L]
+    [FiniteDimensional K L] (x : L) :
     Algebra.norm K (-x) = (-1 : K) ^ Module.finrank K L * Algebra.norm K x := by
   rw [show (-x : L) = (-1 : L) * x by ring, map_mul]
   congr 1
   rw [show (-1 : L) = algebraMap K L (-1) by simp, Algebra.norm_algebraMap]
+
+variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
+  [Finite (IsLocalRing.ResidueField A)]
+  (K : Type*) [Field K] [Algebra A K] [IsFractionRing A K]
 
 /-- The **norm of the negated level generator is the uniformizer**: `N(−λₙ) = π`
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (c), p.38, proof p.39][MilneCFT];

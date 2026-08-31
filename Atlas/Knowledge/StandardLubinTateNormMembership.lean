@@ -23,7 +23,7 @@ the two negated roots.
 
 * `exists_standardLubinTate_norm_neg_eq_changedUniformizer` — `N(−z) = πu` for some
   `z` in the level field; proved.
-* `standardLubinTateNormMembership` — `⟨π⟩ ⊔ U^{(n+1)} ≤ Nm(Lₙˣ)`; proved.
+* `standardLubinTateNormMembership_le` — `⟨π⟩ ⊔ U^{(n+1)} ≤ Nm(Lₙˣ)`; proved.
 
 ## Implementation notes
 
@@ -60,8 +60,10 @@ variable {π : ↥𝒪[K]} (hπ : Irreducible π)
 `πu` is the norm of a negated element of the `π`-level field
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (c), p.38, proof p.39][MilneCFT] — Milne's
 computation is the `u = 1` case, and the changed parameter needs the depth-`n + 1`
-root; [Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:1393`]
-[Yamaguchi2026]). -/
+root;
+[Yamaguchi 2026, `LubinTate/FiniteLevel/ChangedUniformizer.lean:147`][Yamaguchi2026]
+— the source computes the norm over the changed level field and reaches the `π`-level
+only through its changed-level equivalence, where the power basis lands directly). -/
 theorem exists_standardLubinTate_norm_neg_eq_changedUniformizer {n : ℕ}
     {u : (↥𝒪[K])ˣ} (hu : u ∈ integerHigherUnitGroup K (n + 1)) :
     ∃ z : ↥(standardLubinTateLevelField K hπ n),
@@ -78,7 +80,7 @@ theorem exists_standardLubinTate_norm_neg_eq_changedUniformizer {n : ℕ}
     (minpoly.eq_of_irreducible_of_monic
       (standardLubinTatePrimitivePolynomialOverField_irreducible K hπ' n)
       hzroot hmonicF).symm
-  -- the root's image is integral over `K`, and its adjoin is the level field
+  -- the root's image is integral over `K`
   have hvroot : Polynomial.aeval ((standardLubinTateLevelField K hπ n).val z)
       (standardLubinTatePrimitivePolynomialOverField ↥𝒪[K] K
         (π * (u : ↥𝒪[K])) n) = 0 := by
@@ -90,7 +92,7 @@ theorem exists_standardLubinTate_norm_neg_eq_changedUniformizer {n : ℕ}
     ⟨_, hmonicF, by rw [← Polynomial.aeval_def]; exact hvroot⟩
   -- the power basis with generator `z`, transported through the generation conjunct
   set pb := (IntermediateField.adjoin.powerBasis hvint).map
-    (IntermediateField.equivOfEq hzgen) with hpb
+    (IntermediateField.equivOfEq hzgen)
   have hgen_eq : pb.gen = z := by
     apply Subtype.ext
     rfl
@@ -115,10 +117,9 @@ private theorem neg_ne_zero_of_norm_eq {n : ℕ} {c : ↥𝒪[K]} (hc : c ≠ 0)
 uniformizer and the `(n+1)`-st higher units lies inside the norms from level `n` —
 the containment half of the norm-subgroup description
 ([Milne 2020, Chap. I, §1, p.25][MilneCFT] — the containment half of
-`Nm(K_{π,n}) = (1 + 𝔪ⁿ)·π^ℤ`;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:1393`]
-[Yamaguchi2026]). -/
-theorem standardLubinTateNormMembership (n : ℕ) :
+`Nm(K_{π,n+1}ˣ) = (1 + 𝔪^{n+1}) · π^ℤ`, rendered at Atlas level `n`;
+[Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:1393`][Yamaguchi2026]). -/
+theorem standardLubinTateNormMembership_le (n : ℕ) :
     Subgroup.zpowers (standardLubinTateUniformizerUnit K hπ) ⊔
         (integerHigherUnitGroup K (n + 1)).map
           (Units.map (algebraMap 𝒪[K] K).toMonoidHom) ≤
@@ -137,15 +138,14 @@ theorem standardLubinTateNormMembership (n : ℕ) :
     rfl
   · rw [Subgroup.map_le_iff_le_comap]
     intro v hv
-    have hπv : Irreducible (π * (v : ↥𝒪[K])) :=
-      (Associated.irreducible_iff ⟨v, rfl⟩).mp hπ
     obtain ⟨z, hz⟩ := exists_standardLubinTate_norm_neg_eq_changedUniformizer K hπ hv
-    have hzne : (-z) ≠ 0 := neg_ne_zero_of_norm_eq K hπ hπv.ne_zero hz
+    have hzne : (-z) ≠ 0 :=
+      neg_ne_zero_of_norm_eq K hπ (mul_ne_zero hπ.ne_zero v.ne_zero) hz
     rw [Subgroup.mem_comap]
     refine ⟨Units.mk0 _ hzne * (Units.mk0 _ hpine)⁻¹, ?_⟩
     ext
-    have hpi0 : algebraMap ↥𝒪[K] K π ≠ 0 := fun h0 =>
-      hπ.ne_zero (IsFractionRing.injective ↥𝒪[K] K (by rw [h0, map_zero]))
+    have hpi0 : algebraMap ↥𝒪[K] K π ≠ 0 :=
+      (standardLubinTateUniformizerUnit K hπ).ne_zero
     simp only [map_mul, map_inv, Units.coe_map, Units.val_mul, Units.val_inv_eq_inv_val,
       Units.val_mk0]
     rw [hz, hpix, map_mul, mul_comm (algebraMap ↥𝒪[K] K π), mul_inv_cancel_right₀ hpi0]
