@@ -19,7 +19,8 @@ conditions on a natural-valued index. Towers multiply all three invariants.
   `relativeResidueDegreeCardinal`, `relativeRamificationIndexCardinal`.
 * `AbstractExtension.IsUnramified` / `AbstractExtension.IsTotallyRamified` —
   inertia contained in the field / degree images equal.
-* `Tower` — three fields, two containments; the composable tower.
+* `AbstractExtension.Tower` — three fields, two containments; the composable
+  tower.
 
 ## Main statements
 
@@ -58,8 +59,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 /-- **An abstract field extension**: the two closed subgroups and the containment
 that makes `L / K` meaningful — keeping the proof in the object prevents
 extension predicates from forming over unrelated subgroups
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:219`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:219`][Yamaguchi2026]). -/
 structure AbstractExtension (G : Type*) [Group G] [TopologicalSpace G] where
   /-- The closed subgroup contravariantly representing the extension field. -/
   field : ClosedSubgroup G
@@ -80,8 +80,7 @@ def quotient (E : AbstractExtension G) : Type u :=
 
 /-- **The cardinal degree**: the size of the coset space — infinity is not
 encoded as zero
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:241`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:241`][Yamaguchi2026]). -/
 noncomputable def degreeCardinal (E : AbstractExtension G) : Cardinal :=
   relativeIndexCardinal E.below
 
@@ -92,16 +91,14 @@ noncomputable def degreeCardinal (E : AbstractExtension G) : Cardinal :=
 
 /-- **The relative residue degree as a cardinal**: the index of the degree
 images
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:252`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:252`][Yamaguchi2026]). -/
 noncomputable def relativeResidueDegreeCardinal
     (E : AbstractExtension G) (D : DegreeData G) : Cardinal :=
   relativeIndexCardinal (Subgroup.map_mono (f := D.degree.toMonoidHom) E.below)
 
 /-- **The relative ramification index as a cardinal**: the index inside the
 degree kernel
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:259`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:259`][Yamaguchi2026]). -/
 noncomputable def relativeRamificationIndexCardinal
     (E : AbstractExtension G) (D : DegreeData G) : Cardinal :=
   relativeIndexCardinal
@@ -111,8 +108,7 @@ noncomputable def relativeRamificationIndexCardinal
 
 /-- **The cardinal fundamental identity** `[L : K] = f · e`: the residue factor
 lifted from `ℤ̂`'s universe, no finiteness or infinite-index convention involved
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:269`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:269`][Yamaguchi2026]). -/
 theorem degreeCardinal_eq_relativeResidueDegreeCardinal_mul_relativeRamificationIndexCardinal
     (E : AbstractExtension G) (D : DegreeData G) :
     E.degreeCardinal =
@@ -125,8 +121,7 @@ theorem degreeCardinal_eq_relativeResidueDegreeCardinal_mul_relativeRamification
 
 /-- **Frobenius residue compatibility**: the relative residue cardinal times the
 absolute residue cardinal of the base is the absolute residue cardinal of the
-field ([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:282`]
-[Yamaguchi2026]). -/
+field ([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:282`][Yamaguchi2026]). -/
 theorem relativeResidueDegreeCardinal_mul_residueDegreeCardinal
     (E : AbstractExtension G) (D : DegreeData G) :
     E.relativeResidueDegreeCardinal D * D.residueDegreeCardinal E.base =
@@ -148,15 +143,13 @@ theorem relativeResidueDegreeCardinal_mul_residueDegreeCardinal
 
 /-- **Unramifiedness**: the base's inertia is already contained in the field's
 subgroup — a containment, never a condition on a natural-valued index
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:372`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:372`][Yamaguchi2026]). -/
 def IsUnramified (E : AbstractExtension G) (D : DegreeData G) : Prop :=
   E.base.toSubgroup ⊓ D.degree.toMonoidHom.ker ≤ E.field.toSubgroup
 
 /-- **Total ramification**: the degree image of the base is contained in the
 degree image of the field
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:377`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:377`][Yamaguchi2026]). -/
 def IsTotallyRamified (E : AbstractExtension G) (D : DegreeData G) : Prop :=
   E.base.toSubgroup.map D.degree.toMonoidHom ≤
     E.field.toSubgroup.map D.degree.toMonoidHom
@@ -229,12 +222,9 @@ theorem degreeCardinal_eq_relativeRamificationIndexCardinal_of_isTotallyRamified
     E.relativeResidueDegreeCardinal_eq_one_of_isTotallyRamified D hE]
   simp
 
-end AbstractExtension
-
 /-- **A tower of abstract extensions**: three closed subgroups and the two
 adjacent containments
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:302`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:302`][Yamaguchi2026]). -/
 structure Tower (G : Type*) [Group G] [TopologicalSpace G] where
   /-- The closed subgroup representing the top field. -/
   top : ClosedSubgroup G
@@ -270,8 +260,7 @@ def totalExtension : AbstractExtension G where
   below := T.top_le_middle.trans T.middle_le_base
 
 /-- **Cardinal degrees multiply in a tower**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:326`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:337`][Yamaguchi2026]). -/
 theorem degreeCardinal_mul :
     T.topExtension.degreeCardinal * T.baseExtension.degreeCardinal =
       T.totalExtension.degreeCardinal :=
@@ -300,5 +289,7 @@ theorem relativeRamificationIndexCardinal_mul (D : DegreeData G) :
         inf_le_inf T.middle_le_base le_rfl)
 
 end Tower
+
+end AbstractExtension
 
 end Atlas.Knowledge

@@ -38,7 +38,10 @@ Profinite hypotheses belong to the ambient group and are requested only by the
 results that use them, never duplicated as fields of the datum. The membership
 rules are `Iff.rfl`-level and marked `@[simp]`; the residue cardinal is the
 `Atlas.Knowledge.relativeIndexCardinal` of the degree image in `⊤`, so the index
-calculus applies to it verbatim.
+calculus applies to it verbatim, and its unfolding to the quotient's cardinality
+is deliberately not a `simp` lemma — as one it would pre-empt the two computed
+values. The residue quotient is stated before the cardinal that sizes it,
+swapping the source's order.
 
 ## References
 
@@ -57,8 +60,7 @@ abbrev ProfiniteIntegerMul : Type := Multiplicative ProfiniteInteger
 
 /-- **The degree datum**: a continuous surjection `d : G →ₜ* ℤ̂` on a topological
 group — the opening datum of abstract class field theory
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:31`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:31`][Yamaguchi2026]). -/
 structure DegreeData (G : Type*) [Group G] [TopologicalSpace G] where
   /-- The continuous degree homomorphism to the profinite integers. -/
   degree : G →ₜ* ProfiniteIntegerMul
@@ -68,8 +70,7 @@ structure DegreeData (G : Type*) [Group G] [TopologicalSpace G] where
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **The base field**: represented contravariantly by the full ambient group
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:41`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:41`][Yamaguchi2026]). -/
 def baseField (G : Type u) [Group G] [TopologicalSpace G] : ClosedSubgroup G where
   toSubgroup := ⊤
   isClosed' := isClosed_univ
@@ -115,8 +116,7 @@ theorem restrictedDegree_apply (D : DegreeData G) (K : ClosedSubgroup G)
   rfl
 
 /-- **The degree image** `d(G_K)` in `ℤ̂`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:84`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:84`][Yamaguchi2026]). -/
 def fieldImage (D : DegreeData G) (K : ClosedSubgroup G) :
     Subgroup ProfiniteIntegerMul :=
   (D.restrictedDegree K).toMonoidHom.range
@@ -132,8 +132,7 @@ theorem fieldImage_eq_map (D : DegreeData G) (K : ClosedSubgroup G) :
     exact ⟨⟨g, hg⟩, rfl⟩
 
 /-- **The inertia group of a field** `I_K = G_K ⊓ I`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:98`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:98`][Yamaguchi2026]). -/
 def fieldInertia (D : DegreeData G) (K : ClosedSubgroup G) : ClosedSubgroup G :=
   K ⊓ D.inertia
 
@@ -161,29 +160,26 @@ theorem mem_fieldInertiaWithin_iff (D : DegreeData G) (K : ClosedSubgroup G)
   Iff.rfl
 
 /-- **The absolute residue quotient** of a field: `ℤ̂` modulo the degree image
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:132`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:132`][Yamaguchi2026]). -/
 def residueQuotient (D : DegreeData G) (K : ClosedSubgroup G) : Type :=
   (⊤ : Subgroup ProfiniteIntegerMul) ⧸ (D.fieldImage K).subgroupOf ⊤
 
 /-- **The absolute residue degree as a cardinal**: the index of the degree image
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:126`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:126`][Yamaguchi2026]). -/
 noncomputable def residueDegreeCardinal (D : DegreeData G)
     (K : ClosedSubgroup G) : Cardinal :=
   relativeIndexCardinal
     (show D.fieldImage K ≤ (⊤ : Subgroup ProfiniteIntegerMul) from le_top)
 
 /-- The cardinal residue degree is the size of the residue quotient. -/
-@[simp] theorem residueDegreeCardinal_eq_mk_residueQuotient
+theorem residueDegreeCardinal_eq_mk_residueQuotient
     (D : DegreeData G) (K : ClosedSubgroup G) :
     D.residueDegreeCardinal K = Cardinal.mk (D.residueQuotient K) :=
   rfl
 
 /-- **The base field has absolute residue degree one**: the degree is surjective,
 so its image is everything
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:143`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:143`][Yamaguchi2026]). -/
 @[simp] theorem residueDegreeCardinal_baseField (D : DegreeData G) :
     D.residueDegreeCardinal (baseField G) = 1 := by
   change

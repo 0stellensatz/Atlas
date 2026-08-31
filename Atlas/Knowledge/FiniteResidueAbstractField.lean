@@ -22,6 +22,13 @@ the engine's cardinal residue data becomes the `f_K : ℕ+` the valuation axiom'
 * `FiniteResidueAbstractField.residueDegreeCardinal_eq_coe` — the cardinal
   specializes to it at the finite boundary; proved.
 
+## Implementation notes
+
+The source marks `toSubgroup` `@[implicit_reducible]` — Lean core's
+instances-transparency attribute; it is dropped here because no Atlas consumer
+unfolds through the projection yet, and it can be restored at the consumer that
+first needs it.
+
 ## References
 
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
@@ -37,8 +44,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 /-- **An abstract field of finite residue degree**: the field together with
 finiteness of its residue quotient, making the numerical residue degree
 genuinely positive
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:163`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:163`][Yamaguchi2026]). -/
 structure FiniteResidueAbstractField (D : DegreeData G) where
   /-- The closed subgroup representing the abstract field. -/
   field : ClosedSubgroup G
@@ -66,8 +72,7 @@ instance (K : FiniteResidueAbstractField D) :
   K.finiteResidueQuotient
 
 /-- **The positive absolute residue degree**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:192`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:192`][Yamaguchi2026]). -/
 noncomputable def residueDegree (K : FiniteResidueAbstractField D) : ℕ+ := by
   letI : Nonempty (D.residueQuotient K.field) := ⟨QuotientGroup.mk 1⟩
   exact ⟨Nat.card (D.residueQuotient K.field), Nat.card_pos⟩
