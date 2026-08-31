@@ -9,8 +9,11 @@ cardinality of the actual coset type, never encoding an infinite index as zero �
 together with the two laws the reciprocity engine's degree bookkeeping rests on
 (#104): relative indices multiply in every tower, and along a homomorphism an
 index splits into the index of the images times the relative index inside the
-kernel. The natural-valued forms of the splitting are recorded beside the
-cardinal ones; Mathlib's `Subgroup.relIndex` carries none of this.
+kernel. Mathlib has the natural-valued tower law and mapped indices, but no
+cardinal-valued index and no kernel-intersection splitting at either value type;
+the splitting's cardinal form is what lets the engine derive finiteness of its
+residue and ramification quotients from finiteness of a degree — an argument the
+zero-convention form cannot make, since `0 = 0 * 0`.
 
 ## Main definitions
 
@@ -38,7 +41,7 @@ cosets against the same saturated part through the comap reading — so every
 identity descends from an equivalence of the actual types and no finiteness
 enters. The universe lifts in the cardinal splitting are forced by the image
 living over the codomain's universe. Chosen representatives occur only inside
-the private equivalences.
+the equivalences, never in the index laws.
 
 ## References
 
@@ -108,9 +111,8 @@ private theorem kernelCosetToSaturationCoset_surjective (d : G →* D) {L K : Su
 
 /-- **The kernel cosets are the cosets of the kernel-saturated part**: for `L ≤ K`,
 the coset type of `L ⊓ ker d` in `K ⊓ ker d` is the coset type of `L` in
-`K ⊓ (L ⊔ ker d)` — the set-level second-isomorphism argument, with no normality
-of `L` ([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:76`]
-[Yamaguchi2026]). -/
+`K ⊓ (L ⊔ ker d)` — the set-level second-isomorphism argument, with no normality of `L`
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:76`][Yamaguchi2026]). -/
 noncomputable def kernelCosetEquivSaturation (d : G →* D) {L K : Subgroup G}
     (hLK : L ≤ K) :
     (↑(K ⊓ d.ker) ⧸ (L ⊓ d.ker).subgroupOf (K ⊓ d.ker)) ≃
@@ -140,8 +142,7 @@ theorem map_relIndex_eq_saturation_relIndex (d : G →* D)
 index is the relative index of the images times the relative index inside the
 kernel — valid with no finiteness assumption, under Mathlib's convention that an
 infinite relative index is zero
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:106`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:106`][Yamaguchi2026]). -/
 theorem relIndex_eq_map_relIndex_mul_inf_ker_relIndex (d : G →* D) {L K : Subgroup G}
     (hLK : L ≤ K) :
     L.relIndex K =
@@ -152,16 +153,16 @@ theorem relIndex_eq_map_relIndex_mul_inf_ker_relIndex (d : G →* D) {L K : Subg
     (fun x hx ↦ ⟨hLK hx, (show L ≤ L ⊔ d.ker from le_sup_left) hx⟩) inf_le_left).symm
 
 /-- **The intersection index as a cardinal**: the cardinality of the coset type,
-for arbitrary subgroups
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:128`]
-[Yamaguchi2026]). -/
+for arbitrary subgroups; for the index of an inclusion, `relativeIndexCardinal`
+records the containment in its domain
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:128`][Yamaguchi2026]). -/
 noncomputable def intersectionIndexCardinal (L K : Subgroup G) : Cardinal :=
   Cardinal.mk (K ⧸ L.subgroupOf K)
 
 /-- **The cardinal relative index of an inclusion**: the coset-type cardinality,
 with the inclusion recorded in the domain — an infinite index stays an infinite
-cardinal ([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:132`]
-[Yamaguchi2026]). -/
+cardinal
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:132`][Yamaguchi2026]). -/
 noncomputable def relativeIndexCardinal {L K : Subgroup G} (_ : L ≤ K) : Cardinal :=
   intersectionIndexCardinal L K
 
@@ -192,8 +193,7 @@ theorem relativeIndexCardinal_eq_index_of_finite {L K : Subgroup G} (hLK : L ≤
 
 /-- **Relative cardinal indices multiply in every subgroup tower** —
 `Atlas.Knowledge.quotientTowerEquiv` read through `Cardinal.mk_congr`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:160`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:160`][Yamaguchi2026]). -/
 theorem relativeIndexCardinal_mul {M L K : Subgroup G}
     (hML : M ≤ L) (hLK : L ≤ K) :
     relativeIndexCardinal hML * relativeIndexCardinal hLK =
@@ -299,8 +299,7 @@ theorem relativeIndexCardinal_kernel_eq_saturation (d : G →* D)
 relative index of an inclusion is the index of the images times the relative index
 inside the kernel — every factor an actual coset-type cardinality, so the identity
 holds with no finiteness assumption
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:263`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:263`][Yamaguchi2026]). -/
 theorem relativeIndexCardinal_eq_map_mul_inf_ker (d : G →* D)
     {L K : Subgroup G} (hLK : L ≤ K) :
     Cardinal.lift.{v} (relativeIndexCardinal hLK) =
