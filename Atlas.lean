@@ -197,6 +197,7 @@ import Atlas.Knowledge.PowerResidueReciprocity
 import Atlas.Knowledge.PowerSeriesCompositionValue
 import Atlas.Knowledge.PrimeIdealPowerResidueSymbol
 import Atlas.Knowledge.PrincipalIdele
+import Atlas.Knowledge.ProfiniteInteger
 import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.QuasiFreeTorsion
 import Atlas.Knowledge.RamificationBound

@@ -1,0 +1,278 @@
+import Mathlib
+
+/-!
+# profinite integers
+
+The profinite completion `ℤ̂ = lim ℤ/nℤ`, realized as the topological closure of the
+diagonal image of `ℤ` in the product of all positive cyclic quotients: a compact,
+Hausdorff, totally disconnected commutative ring in which `ℤ` is dense, carrying one
+continuous reduction `ℤ̂ →+* ℤ/nℤ` per modulus with `n·ℤ̂` exactly its kernel. This is
+the value ring of the reciprocity engine's degree map (#104): the Galois group of the
+maximal unramified extension of a local field is a free rank-one `ℤ̂`-object, and the
+engine's Frobenius bookkeeping is arithmetic in this ring.
+
+## Main definitions
+
+* `ProfiniteInteger` — the completion, with its ring, topology, compactness,
+  Hausdorff, total-disconnectedness, and characteristic-zero instances.
+* `ProfiniteInteger.reduction` — the reduction `ℤ̂ →+* ℤ/nℤ`; continuous and
+  surjective.
+* `ProfiniteInteger.quotientKerReductionEquiv` — `ℤ̂ ⧸ ker (reduction n) ≃+* ℤ/nℤ`.
+
+## Main statements
+
+* `ProfiniteInteger.ext` — profinite integers are determined by their reductions;
+  proved.
+* `ProfiniteInteger.castHom_comp_reduction` — reductions are compatible along
+  divisibility; proved.
+* `ProfiniteInteger.denseRange_intCast` — `ℤ` is dense; proved.
+* `ProfiniteInteger.natCast_mem_nonZeroDivisors` — a positive integer is a
+  non-zero-divisor (the ring itself has zero divisors); proved.
+* `ProfiniteInteger.span_natCast_eq_ker_reduction` — `n·ℤ̂ = ker (reduction n)`;
+  proved.
+
+## Implementation notes
+
+The carrier is a `def` wrapping the closure subring, so clients read it through the
+reduction maps and the instances rather than the closure subtype; the instances are
+transported by `change`. The reduction is bundled as a plain `RingHom` with
+continuity recorded separately, where the source works with bundled continuous
+additive maps — the projection is multiplicative for free, and consumers can restrict.
+The lattice laws are stated ring-theoretically (`Ideal.span`, `RingHom.ker`,
+`nonZeroDivisors`) rather than on additive subgroups, and the index of `n·ℤ̂` is
+carried by `quotientKerReductionEquiv` instead of a bare cardinality. The two
+closure arguments — the transition law and `ker ⊆ span` — are `Set.EqOn.closure`
+and density-of-`ℤ` against an open kernel and a compact-image ideal, following the
+source construction.
+
+## References
+
+* [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
+  2020.
+* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
+  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+-/
+
+namespace Atlas.Knowledge
+
+/- The ambient product of all positive cyclic quotients. -/
+private abbrev ProfiniteIntegerAmbient : Type := ∀ n : ℕ+, ZMod n
+
+/- The diagonal embedding of the integers. -/
+private def profiniteIntegerDiagonal : ℤ →+* ProfiniteIntegerAmbient :=
+  RingHom.pi fun n => Int.castRingHom (ZMod n)
+
+/- The closure subring the completion wraps. -/
+private abbrev ProfiniteIntegerModel : Type :=
+  profiniteIntegerDiagonal.range.topologicalClosure
+
+/-- **The profinite integers** `ℤ̂ = lim ℤ/nℤ`: the topological closure of the
+diagonal image of `ℤ` in the product of all positive cyclic quotients
+([Milne 2020, Chap. I, Appendix A, p.55][MilneCFT] — "`ℤ̂ = lim ℤ/mℤ`";
+[Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteIntegerCore.lean:59`]
+[Yamaguchi2026]). -/
+def ProfiniteInteger : Type := ProfiniteIntegerModel
+
+instance : CommRing ProfiniteInteger := by
+  change CommRing ProfiniteIntegerModel; infer_instance
+
+instance : TopologicalSpace ProfiniteInteger := by
+  change TopologicalSpace ProfiniteIntegerModel; infer_instance
+
+instance : IsTopologicalRing ProfiniteInteger := by
+  change IsTopologicalRing ProfiniteIntegerModel; infer_instance
+
+instance : T2Space ProfiniteInteger := by
+  change T2Space ProfiniteIntegerModel; infer_instance
+
+instance : TotallyDisconnectedSpace ProfiniteInteger := by
+  change TotallyDisconnectedSpace ProfiniteIntegerModel; infer_instance
+
+instance : CompactSpace ProfiniteInteger :=
+  Topology.IsClosedEmbedding.compactSpace
+    (Subring.isClosed_topologicalClosure
+      profiniteIntegerDiagonal.range).isClosedEmbedding_subtypeVal
+
+namespace ProfiniteInteger
+
+/-- The reduction `ℤ̂ →+* ℤ/nℤ`: evaluation of the closure model at the modulus. -/
+def reduction (n : ℕ) [NeZero n] : ProfiniteInteger →+* ZMod n where
+  toFun x := (show ProfiniteIntegerModel from x).1 ⟨n, Nat.pos_of_ne_zero (NeZero.ne n)⟩
+  map_zero' := rfl
+  map_one' := rfl
+  map_add' _ _ := rfl
+  map_mul' _ _ := rfl
+
+/-- The reduction is continuous: it is a coordinate of the ambient product. -/
+theorem continuous_reduction (n : ℕ) [NeZero n] : Continuous (reduction n) :=
+  (continuous_apply (⟨n, Nat.pos_of_ne_zero (NeZero.ne n)⟩ : ℕ+)).comp
+    continuous_subtype_val
+
+/-- Reduction agrees with the integer cast — the public computation rule. -/
+@[simp]
+theorem reduction_intCast (n : ℕ) [NeZero n] (a : ℤ) :
+    reduction n (a : ProfiniteInteger) = (a : ZMod n) :=
+  rfl
+
+/-- **Profinite integers are determined by their reductions.** -/
+@[ext]
+theorem ext {x y : ProfiniteInteger}
+    (h : ∀ (n : ℕ) [NeZero n], reduction n x = reduction n y) : x = y := by
+  apply Subtype.ext
+  funext i
+  haveI : NeZero (i : ℕ) := ⟨i.pos.ne'⟩
+  exact h i
+
+/-- **Reductions are compatible along divisibility**: reducing mod `n` and then
+casting down to a divisor `m` is the reduction mod `m` — the identity holds on the
+dense diagonal and both sides are continuous into a discrete target. -/
+theorem castHom_comp_reduction {m n : ℕ} [NeZero m] [NeZero n] (hmn : m ∣ n) :
+    (ZMod.castHom hmn (ZMod m)).comp (reduction n) = reduction m := by
+  ext1 x
+  have hfg : Set.EqOn
+      (fun z : ProfiniteIntegerAmbient => ZMod.castHom hmn (ZMod m)
+        (z ⟨n, Nat.pos_of_ne_zero (NeZero.ne n)⟩))
+      (fun z : ProfiniteIntegerAmbient => z ⟨m, Nat.pos_of_ne_zero (NeZero.ne m)⟩)
+      (profiniteIntegerDiagonal.range : Set ProfiniteIntegerAmbient) := by
+    rintro _ ⟨a, rfl⟩
+    exact map_intCast (ZMod.castHom hmn (ZMod m)) a
+  exact hfg.closure
+    (continuous_of_discreteTopology.comp
+      (continuous_apply (⟨n, Nat.pos_of_ne_zero (NeZero.ne n)⟩ : ℕ+)))
+    (continuous_apply (⟨m, Nat.pos_of_ne_zero (NeZero.ne m)⟩ : ℕ+))
+    x.property
+
+/-- **The integers are dense in their profinite completion** — by construction: the
+completion is the closure of the diagonal. -/
+theorem denseRange_intCast : DenseRange (Int.castRingHom ProfiniteInteger) := by
+  have hinclusion : DenseRange
+      (Set.inclusion (Subring.le_topologicalClosure profiniteIntegerDiagonal.range)) := by
+    rw [denseRange_inclusion_iff]
+    exact Set.Subset.rfl
+  have hdiagonal : DenseRange profiniteIntegerDiagonal.rangeRestrict :=
+    profiniteIntegerDiagonal.rangeRestrict_surjective.denseRange
+  have hcomp := hinclusion.comp hdiagonal
+    (continuous_inclusion (Subring.le_topologicalClosure profiniteIntegerDiagonal.range))
+  have heq : Set.inclusion (Subring.le_topologicalClosure profiniteIntegerDiagonal.range) ∘
+      profiniteIntegerDiagonal.rangeRestrict =
+      fun a : ℤ => Int.castRingHom ProfiniteInteger a := by
+    funext a
+    apply Subtype.ext
+    rfl
+  rwa [heq] at hcomp
+
+/-- The reduction is surjective: already the diagonal integers cover `ℤ/nℤ`. -/
+theorem reduction_surjective (n : ℕ) [NeZero n] :
+    Function.Surjective (reduction n) := fun a => by
+  rcases ZMod.intCast_surjective a with ⟨a, rfl⟩
+  exact ⟨(a : ProfiniteInteger), rfl⟩
+
+instance : CharZero ProfiniteInteger where
+  cast_injective a b hab := by
+    have h := congrArg (reduction (a + b + 1)) hab
+    simp only [← Int.cast_natCast (R := ProfiniteInteger), reduction_intCast] at h
+    have := (ZMod.natCast_eq_natCast_iff a b (a + b + 1)).mp (by exact_mod_cast h)
+    exact this.eq_of_lt_of_lt (by omega) (by omega)
+
+/- Multiplication by `n` in `ℤ/nmℤ` determines the class modulo `m`. -/
+private theorem castHom_eq_castHom_of_mul_eq {n m : ℕ} (hn : n ≠ 0)
+    {a b : ZMod (n * m)} (h : (n : ZMod (n * m)) * a = (n : ZMod (n * m)) * b) :
+    ZMod.castHom (dvd_mul_left m n) (ZMod m) a =
+      ZMod.castHom (dvd_mul_left m n) (ZMod m) b := by
+  rcases ZMod.intCast_surjective a with ⟨a, rfl⟩
+  rcases ZMod.intCast_surjective b with ⟨b, rfl⟩
+  rw [ZMod.castHom_apply, ZMod.castHom_apply,
+    ZMod.cast_intCast (dvd_mul_left m n) a,
+    ZMod.cast_intCast (dvd_mul_left m n) b,
+    ← sub_eq_zero, ← Int.cast_sub, ZMod.intCast_zmod_eq_zero_iff_dvd]
+  have hdiv : ((n * m : ℕ) : ℤ) ∣ (n : ℤ) * (a - b) := by
+    rw [← ZMod.intCast_zmod_eq_zero_iff_dvd]
+    push_cast
+    rw [mul_sub, h, sub_self]
+  have hn0 : (n : ℤ) ≠ 0 := by exact_mod_cast hn
+  apply (mul_dvd_mul_iff_left hn0).mp
+  simpa [Nat.cast_mul] using hdiv
+
+/-- **A positive integer is a non-zero-divisor of `ℤ̂`** — genuine content, as the
+ring itself has zero divisors: killing `n·x` mod `nm` pins `x` mod `m` for every
+`m`. -/
+theorem natCast_mem_nonZeroDivisors {n : ℕ} (hn : n ≠ 0) :
+    (n : ProfiniteInteger) ∈ nonZeroDivisors ProfiniteInteger := by
+  have hcore : ∀ x : ProfiniteInteger, (n : ProfiniteInteger) * x = 0 → x = 0 := by
+    intro x hx
+    ext m
+    have hnm : NeZero (n * m) := ⟨Nat.mul_ne_zero hn (NeZero.ne m)⟩
+    have h := congrArg (reduction (n * m)) hx
+    rw [map_mul, map_zero] at h
+    have hcast := castHom_eq_castHom_of_mul_eq hn
+      (a := reduction (n * m) x) (b := 0) (by simpa using h)
+    rw [map_zero] at hcast
+    have hred := RingHom.congr_fun (castHom_comp_reduction (dvd_mul_left m n)) x
+    rw [RingHom.comp_apply] at hred
+    rw [map_zero, ← hred]
+    exact hcast
+  rw [mem_nonZeroDivisors_iff]
+  exact ⟨hcore, fun x hx => hcore x (by rwa [mul_comm] at hx)⟩
+
+/-- The multiples of an integer form a closed ideal: the continuous image of a
+compact space. -/
+theorem isClosed_span_natCast (n : ℕ) :
+    IsClosed ((Ideal.span {(n : ProfiniteInteger)} : Ideal ProfiniteInteger) :
+      Set ProfiniteInteger) := by
+  have hset : ((Ideal.span {(n : ProfiniteInteger)} : Ideal ProfiniteInteger) :
+      Set ProfiniteInteger) = Set.range (fun x => (n : ProfiniteInteger) * x) := by
+    ext y
+    simp only [SetLike.mem_coe, Ideal.mem_span_singleton', Set.mem_range]
+    exact ⟨fun ⟨a, ha⟩ => ⟨a, by rw [← ha]; ring⟩,
+      fun ⟨a, ha⟩ => ⟨a, by rw [← ha]; ring⟩⟩
+  rw [hset]
+  exact (isCompact_range (by fun_prop)).isClosed
+
+/-- **The multiples of `n` are exactly the kernel of reduction mod `n`**: the kernel
+is open, the integers are dense in it relatively, and the ideal is closed
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:131`]
+[Yamaguchi2026]). -/
+theorem span_natCast_eq_ker_reduction (n : ℕ) [NeZero n] :
+    Ideal.span {(n : ProfiniteInteger)} = RingHom.ker (reduction n) := by
+  apply le_antisymm
+  · rw [Ideal.span_le, Set.singleton_subset_iff]
+    change reduction n (n : ProfiniteInteger) = 0
+    rw [← Int.cast_natCast, reduction_intCast]
+    push_cast
+    exact ZMod.natCast_self n
+  · intro y hy
+    have hKopen : IsOpen ((RingHom.ker (reduction n) : Ideal ProfiniteInteger) :
+        Set ProfiniteInteger) := by
+      have : ((RingHom.ker (reduction n) : Ideal ProfiniteInteger) :
+          Set ProfiniteInteger) = reduction n ⁻¹' {0} := by
+        ext z
+        simp [RingHom.mem_ker]
+      rw [this]
+      exact (isOpen_discrete _).preimage (continuous_reduction n)
+    have hKD : ((RingHom.ker (reduction n) : Ideal ProfiniteInteger) :
+          Set ProfiniteInteger) ∩ Set.range (Int.castRingHom ProfiniteInteger) ⊆
+        ((Ideal.span {(n : ProfiniteInteger)} : Ideal ProfiniteInteger) :
+          Set ProfiniteInteger) := by
+      rintro _ ⟨hzK, a, rfl⟩
+      have ha0 : (a : ZMod n) = 0 := by
+        simpa [RingHom.mem_ker] using hzK
+      have hna : (n : ℤ) ∣ a := (ZMod.intCast_zmod_eq_zero_iff_dvd a n).mp ha0
+      rcases hna with ⟨b, rfl⟩
+      simp only [SetLike.mem_coe, Ideal.mem_span_singleton]
+      refine ⟨(b : ProfiniteInteger), ?_⟩
+      simp only [map_mul, map_natCast, eq_intCast]
+    have hyClosure : y ∈ closure
+        (((RingHom.ker (reduction n) : Ideal ProfiniteInteger) :
+          Set ProfiniteInteger) ∩ Set.range (Int.castRingHom ProfiniteInteger)) :=
+      (denseRange_intCast.open_subset_closure_inter hKopen) hy
+    exact closure_minimal hKD (isClosed_span_natCast n) hyClosure
+
+/-- **The quotient of `ℤ̂` by `ker (reduction n)` is the cyclic quotient** — the
+index of `n·ℤ̂` carried as an equivalence rather than a cardinality. -/
+noncomputable def quotientKerReductionEquiv (n : ℕ) [NeZero n] :
+    (ProfiniteInteger ⧸ RingHom.ker (reduction n)) ≃+* ZMod n :=
+  RingHom.quotientKerEquivOfSurjective (reduction_surjective n)
+
+end ProfiniteInteger
+
+end Atlas.Knowledge
