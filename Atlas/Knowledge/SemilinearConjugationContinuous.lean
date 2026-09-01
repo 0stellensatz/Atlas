@@ -3,13 +3,12 @@ import Mathlib
 /-!
 # continuity of semilinear conjugation
 
-Conjugation of Krull-topologized Galois groups by a semilinear ring equivalence
-of the ambient extensions is continuous: a basic fixing-subgroup neighbourhood
-pulls back to the fixing subgroup of the semilinear preimage of its finite
-intermediate field, and that preimage is again finite-dimensional. This is the
-one Krull-topology fact the residue-side degree datum's choice-independence
-rests on (#104) — relocated here from the source's ramification block, which it
-never actually needs.
+Conjugation of Krull-topologized Galois groups by a semilinear ring equivalence of the
+ambient extensions is continuous: a basic fixing-subgroup neighbourhood pulls back to the
+fixing subgroup of the semilinear preimage of its finite intermediate field, and that
+preimage is again finite-dimensional. This is the one Krull-topology fact the residue-side
+degree datum's choice-independence rests on (#104), relocated here because the source
+keeps it in a ramification block whose valuation theory it never touches.
 
 ## Main definitions
 
@@ -25,13 +24,10 @@ never actually needs.
 
 ## Implementation notes
 
-The semilinear base action is recorded by the explicit compatibility `he`, and
-the group homomorphism is constrained only through its conjugation formula on
-underlying ring equivalences — no topology on the base fields enters. The
-finiteness transport is a semilinear surjection hitting the pullback, read
-through `Submodule.FG`. The source path is itself longer than the line budget,
-so the citations here wrap inside their brackets — the one place the layer's
-whole-line citation rule physically cannot hold.
+The semilinear base action is recorded by the explicit compatibility `he`, and the group
+homomorphism is constrained only through its conjugation formula on underlying ring
+equivalences — no topology on the base fields enters. The finiteness transport is a
+semilinear surjection hitting the pullback, read through `Submodule.FG`.
 
 ## References
 
@@ -45,13 +41,11 @@ noncomputable section
 
 universe u v w z
 
-open scoped Topology Pointwise
-
 /-- **The semilinear pullback of an intermediate field**: the preimage under a
 ring equivalence of the ambient extensions that is semilinear over a base-field
 equivalence
 ([Yamaguchi 2026,
-`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:115`]
+`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:114`]
 [Yamaguchi2026]). -/
 def semilinearRingEquivPreimageIntermediateField
     {F : Type u} {F' : Type w} {Ω : Type v} {Ω' : Type z}
@@ -110,7 +104,7 @@ theorem semilinearRingEquivPreimageIntermediateField_symm_mem
 /-- **The semilinear pullback of a finite intermediate field is finite**: a
 semilinear surjection onto it transports finite generation
 ([Yamaguchi 2026,
-`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:170`]
+`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:169`]
 [Yamaguchi2026]). -/
 theorem finiteDimensional_semilinearRingEquivPreimageIntermediateField
     {F : Type u} {F' : Type w} {Ω : Type v} {Ω' : Type z}
@@ -168,7 +162,7 @@ theorem finiteDimensional_semilinearRingEquivPreimageIntermediateField
 
 /-- **Conjugation by a semilinear equivalence is continuous** for the Krull
 topologies: a fixing-subgroup neighbourhood pulls back to the fixing subgroup
-of the semilinear preimage of its finite field
+of the semilinear preimage of its finite-dimensional intermediate field
 ([Yamaguchi 2026,
 `RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:227`]
 [Yamaguchi2026]). -/
