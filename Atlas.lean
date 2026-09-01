@@ -95,6 +95,7 @@ import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
+import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.FrobeniusFixedField
 import Atlas.Knowledge.FrobeniusSemigroup
 import Atlas.Knowledge.GalIdealPowCounts
