@@ -44,6 +44,7 @@ import Atlas.Knowledge.CompletedUnitGroup
 import Atlas.Knowledge.ConductorExponent
 import Atlas.Knowledge.ConjugateDiameterBound
 import Atlas.Knowledge.ConjugatePrimeNorm
+import Atlas.Knowledge.CorrectionSum
 import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.CyclotomicIntegerBasis
@@ -115,6 +116,7 @@ import Atlas.Knowledge.FrobeniusFixedFieldTower
 import Atlas.Knowledge.FrobeniusNormCosetDecomposition
 import Atlas.Knowledge.FrobeniusNormIdentities
 import Atlas.Knowledge.FrobeniusPowerFixedField
+import Atlas.Knowledge.FrobeniusPowerSumRelation
 import Atlas.Knowledge.FrobeniusQuotientAction
 import Atlas.Knowledge.FrobeniusQuotientDescent
 import Atlas.Knowledge.FrobeniusSemigroup
