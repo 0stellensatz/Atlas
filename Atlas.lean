@@ -95,6 +95,7 @@ import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FiniteResidueAbstractExtension
 import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FiniteResidueFrobenius
+import Atlas.Knowledge.FiniteStageCorrections
 import Atlas.Knowledge.FiniteTower
 import Atlas.Knowledge.FiniteUnramifiedCyclicExtension
 import Atlas.Knowledge.FixedFieldInclusion
