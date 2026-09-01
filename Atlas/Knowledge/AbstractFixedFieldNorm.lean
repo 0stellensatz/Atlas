@@ -19,8 +19,8 @@ valuation upstairs, which is the layer's separable norm law (#104).
 
 * `normToBase_abstractFixedFieldUnit_val_of_isSeparable` — the engine's norm
   from an abstract fixed field is the field norm; proved.
-* `localBaseValuation_normToBase_abstractFixedFieldUnit` — the base
-  valuation of the engine's norm through the normalized valuation; proved.
+* `localBaseValuation_normToBase_abstractFixedFieldUnit` — the base valuation
+  of the engine's norm through the normalized valuation; proved.
 * `localBaseValuation_comp_normToBase_range_eq_residueFinrank` — the range
   of the base valuation after the norm is `f·Z`; proved.
 
