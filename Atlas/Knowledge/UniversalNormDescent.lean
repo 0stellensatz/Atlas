@@ -37,8 +37,7 @@ the conjugate extension's finiteness instance takes no containment, as
 twins `tateVanishingNormSurjectivity` and `tateVanishingNormKernel`. The
 ambient group is `Type` because `Rep ℤ` pins its group to the ring's
 universe, exactly as in the layer's Tate items; the source's
-`open scoped BigOperators` is a no-op in current Mathlib and is
-dropped.
+`open scoped BigOperators`, a no-op in current Mathlib, is dropped.
 
 ## References
 
@@ -160,7 +159,7 @@ theorem conjugateStableAction_coe
   exact transport_fixed_coe B _ F hF _
 
 /-- **The relative norm is equivariant for a conjugation stabilizing both fields**
-([Yamaguchi 2026,
+in the tower ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:109`]
 [Yamaguchi2026]). -/
 theorem relativeNorm_conjugateStableAction
