@@ -6,6 +6,7 @@ import Atlas.Knowledge.ConjugatePrimeNorm
 import Atlas.Knowledge.CorrectionSum
 import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbstractField
+import Atlas.Knowledge.FiniteFieldUnitMaps
 import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FiniteStageCorrections
 import Atlas.Knowledge.FixedFieldInclusion
@@ -27,6 +28,7 @@ import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.UnitCohomologyAxiom
 import Atlas.Knowledge.UniversalNormDescentLemma
+import Atlas.Knowledge.ValuationData
 
 /-!
 # Reciprocity-map multiplicativity
@@ -45,12 +47,17 @@ reciprocity map on Frobenius elements (#104).
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 and the ambient group is `Type` after the `Type`-pinned quotient-action
-chain. The source's `letI` bridges for the two enrichment instances are
-dropped entirely — here the instances thread through by defeq — the
-`maximalUnramifiedExtension_finite` call site drops the containment
-argument, since the layer's form is instance-supplied, and the theorem
-sheds the source's `[T2Space G]`, Hausdorff being instance-derivable
-from the remaining binders. The citation names this file by bare
+chain. Four further departures: the source's `letI` bridges for the two
+enrichment instances are dropped entirely, the instances threading
+through by defeq; the `maximalUnramifiedExtension_finite` call site
+drops the containment argument, since the layer's form is
+instance-supplied; the theorem sheds the source's `[T2Space G]`,
+Hausdorff being instance-derivable from the remaining binders; and the
+local containment the source bound as `hEI` goes, its only use having
+been the argument the relative-subgroup spelling drops. The
+`FiniteFieldUnitMaps` import is referenced by no name: it carries the
+transport instances that let the Frobenius-element binders synthesize
+across the residue enrichment. The citation names this file by bare
 basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
 in the source. The source's `open`s go — the layer keeps everything in
@@ -149,7 +156,6 @@ theorem reciprocityMap_mul
       phi sigma2 m pi2 hpi2
   let E := D.maximalUnramifiedField L
   let I := D.maximalUnramifiedField KR.field
-  let hEI := D.maximalUnramifiedField_mono hLK
   let p1 := fixedFieldInclusion A S1 E
     (D.fieldInertia_le_frobeniusFixedField KR L hLK sigma1) pi1
   let p3 := fixedFieldInclusion A S3 E
