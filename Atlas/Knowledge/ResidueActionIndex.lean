@@ -32,10 +32,18 @@ map of the reciprocity engine's instantiation (#104).
 
 The full-decomposition hypothesis is carried as an explicit equality
 `decompositionGroup K A = ⊤` rather than an instance, matching the source; it
-is discharged for a local field's Chevalley valuation by Henselian uniqueness,
-which lives with the local datum, not here. The index comparison reads
+is discharged for a local field's extension valuation with the local datum,
+not here. The ambient Galois field stays generic for the same reason the
+source keeps it so: the source instantiates at the separable closure, which
+over an imperfect local field is not the algebraic closure — the purely
+inseparable residue comparison of
+`Atlas.Knowledge.ResidueOfAlgebraicallyClosed` is the bridge that reading
+uses — while Atlas's mixed-characteristic consumer takes the algebraic
+closure itself. The index comparison reads
 `Atlas.Knowledge.residueDatumIn_fieldImage_index_closedFixingSubgroup`
-through `DegreeData.fieldImage_eq_map`.
+through `Atlas.Knowledge.DegreeData.fieldImage_eq_map`, whose embedded
+closure instances make any local replication here dead weight, so the
+source's scope instances are not replicated.
 
 ## References
 
@@ -112,12 +120,6 @@ section FiniteImageIndex
 variable (k : Type u) [Field k] [Fintype k]
 variable (Omega : Type v) [Field Omega] [Algebra k Omega]
   [Algebra.IsAlgebraic k Omega] [IsAlgClosed Omega]
-
-local instance : IsAlgClosure k Omega :=
-  ⟨inferInstance, inferInstance⟩
-
-set_option linter.unusedFintypeInType false in
-local instance : IsGalois k Omega := inferInstance
 
 /-- **A subgroup whose residue-action image is a finite fixing subgroup has
 degree image of index the residue degree** ([Yamaguchi 2026,

@@ -26,6 +26,19 @@ engine's local-side instantiation (#104).
   inseparable ambient extension is purely inseparable on residue fields;
   proved.
 
+## Implementation notes
+
+The two halves stay together because they are one source file with one theme —
+what residue fields look like above an algebraically closed or purely
+inseparable ambient extension — and the comap machinery serves both. The
+source's separable-closure reading consumes the purely inseparable half;
+Atlas's mixed-characteristic route does not, and the half stands as knowledge
+ahead of an equal-characteristic consumer. The single universe of the comap
+section is the source's. One proof deviates: the source builds the
+`Valuation.Integers` structure by hand to pull an integral root into the
+valuation ring, where Mathlib now supplies `IsIntegrallyClosed` on a valuation
+subring, so the root comes back through `IsIntegrallyClosed.isIntegral_iff`.
+
 ## References
 
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
@@ -71,15 +84,8 @@ theorem valuationSubring_residueField_isAlgClosed
     change Polynomial.eval₂ A.subtype x q = 0
     simpa [Polynomial.eval_map] using hxroot
   have hxA : x ∈ A := by
-    let hAIntegers : A.valuation.Integers A :=
-      { hom_inj := A.subtype_injective
-        map_le_one := fun a =>
-          (A.valuation_le_one_iff (a : Omega)).mpr a.property
-        exists_of_le_one := fun {r} hr =>
-          ⟨⟨r, (A.valuation_le_one_iff r).mp hr⟩, rfl⟩ }
-    have hxValuation : A.valuation x ≤ 1 :=
-      (hAIntegers.isIntegral_iff_v_le_one).mp hxIntegral
-    exact (A.valuation_le_one_iff x).mp hxValuation
+    obtain ⟨y, hy⟩ := IsIntegrallyClosed.isIntegral_iff.mp hxIntegral
+    exact hy ▸ y.property
   let xA : A := ⟨x, hxA⟩
   have hxrootEval₂ : Polynomial.eval₂ A.subtype x q = 0 := by
     rw [← Polynomial.eval_map]
