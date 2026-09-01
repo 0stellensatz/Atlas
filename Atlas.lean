@@ -95,6 +95,8 @@ import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
+import Atlas.Knowledge.FrobeniusFixedField
+import Atlas.Knowledge.FrobeniusSemigroup
 import Atlas.Knowledge.GalIdealPowCounts
 import Atlas.Knowledge.GalUnits
 import Atlas.Knowledge.GaloisExtensionQuotient
@@ -242,6 +244,7 @@ import Atlas.Knowledge.ProfiniteInteger
 import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.QuasiFreeTorsion
 import Atlas.Knowledge.QuotientNormalOfProfinite
+import Atlas.Knowledge.QuotientTotallyDisconnectedOfProfinite
 import Atlas.Knowledge.QuotientTowerEquiv
 import Atlas.Knowledge.RamificationBound
 import Atlas.Knowledge.RamificationFiltration
