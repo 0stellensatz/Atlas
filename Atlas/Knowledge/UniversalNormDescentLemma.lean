@@ -54,14 +54,18 @@ two (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, the
-relocated names are the layer's
+The item is named for the lemma because the source's bare `Universal`
+says nothing and `UniversalNormDescent` already names the calculation
+item. The relative subgroup is the layer's `Subgroup.subgroupOf`
+spelling, the relocated names are the layer's
 (`subgroupOf_maximalUnramifiedField_normal`, top-level `FiniteTower`,
-containment-free `maximalUnramifiedExtension_finite`), the ambient group
-is `Type` after the whole chain, the source's no-op `open`s are dropped,
-and one `simpa` bridge for the normed unit `yP` is the plain
-definitionally-equal term, as in the unit-norm item — the layer's simp
-set over-reduces the unit group to its subtype.
+containment-free `maximalUnramifiedExtension_finite`, and
+`finite_extension_of_le` in its two-argument instance-supplied form),
+the ambient group is `Type` after the whole chain, the source's no-op
+`open`s are dropped, the Hausdorff binders on both big theorems are
+instance-derivable and go, and one `simpa` bridge for the normed unit
+`yP` is the plain definitionally-equal term, as in the unit-norm item —
+the layer's simp set over-reduces the unit group to its subtype.
 
 ## References
 
@@ -133,7 +137,7 @@ prescribed finite intermediate field ([Yamaguchi 2026,
 [Yamaguchi2026]). -/
 theorem universalNormDescent_mem_finiteUnitNormRange
     (v : ValuationData D A)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -671,7 +675,7 @@ field ([Yamaguchi 2026,
 [Yamaguchi2026]). -/
 theorem universalNormDescent
     (v : ValuationData D A)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
