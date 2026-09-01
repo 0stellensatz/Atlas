@@ -100,6 +100,8 @@ import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.FrobeniusFixedField
+import Atlas.Knowledge.FrobeniusNormCosetDecomposition
+import Atlas.Knowledge.FrobeniusNormIdentities
 import Atlas.Knowledge.FrobeniusQuotientAction
 import Atlas.Knowledge.FrobeniusSemigroup
 import Atlas.Knowledge.GalIdealPowCounts
