@@ -9,13 +9,11 @@ import Atlas.Knowledge.FixedFieldInclusion
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.NormalizedDegree
-import Atlas.Knowledge.NormalizedValuation
+import Atlas.Knowledge.NormalizedValuationLaws
 import Atlas.Knowledge.PrimeElement
 import Atlas.Knowledge.ProfiniteInteger
 import Atlas.Knowledge.RelativeNorm
-import Atlas.Knowledge.RelativeNormLaws
 import Atlas.Knowledge.UnitCohomologyAxiom
-import Atlas.Knowledge.UnitRepresentation
 import Atlas.Knowledge.UnramifiedQuotientGenerator
 import Atlas.Knowledge.ValuationData
 
@@ -51,7 +49,10 @@ quotient (#104).
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `ZHat` is `ProfiniteInteger` with `zHatReduction n hn` the layer's
-`ProfiniteInteger.reduction n` under `NeZero`, and the whole
+`ProfiniteInteger.reduction n` under `NeZero`,
+`proCIntegerOne_pow_nat_injective` is
+`ProfiniteInteger.ofAdd_one_pow_injective`, positivity projections read
+`.pos` for the source's `.property`, and the whole
 `valueModulo` apparatus likewise runs on `NeZero` instances rather than
 the source's positivity arguments — each big proof registers the
 degree's instance once. `AbstractExtension` sits at the layer's top
@@ -208,7 +209,6 @@ end unramifiedFrobenius
 
 section valuationQuotient
 
-
 variable {G : Type} [Group G] [TopologicalSpace G]
 variable {D : DegreeData G} {A : Rep ℤ G}
 
@@ -241,7 +241,7 @@ private theorem valueModulo_eq_zero_iff
     rw [hq, map_zero]
 
 /- The valuation reduced modulo the degree ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:186`]
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:174`]
 [Yamaguchi2026]). -/
 private def unramifiedValuationHom
     (v : ValuationData D A) (K : FiniteAbstractField G)
@@ -259,7 +259,7 @@ private def unramifiedValuationHom
 
 /- Norms die modulo the degree — the norm–valuation tower read through
 unramifiedness ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:215`]
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:186`]
 [Yamaguchi2026]). -/
 private theorem finiteNormSubgroup_le_unramifiedValuationHom_ker
     (v : ValuationData D A)
@@ -292,7 +292,7 @@ private theorem finiteNormSubgroup_le_unramifiedValuationHom_ker
 
 /-- The valuation map induced on the finite norm quotient
 ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:233`]
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:215`]
 [Yamaguchi2026]). -/
 def unramifiedNormQuotientValuation
     (v : ValuationData D A)
@@ -408,9 +408,6 @@ theorem unramifiedNormQuotientValuation_injective
     obtain ⟨g, hg⟩ :=
       D.exists_quotient_generator_of_unramified
         KR L hLK hUnramified
-    letI : Fintype
-        (K.field.toSubgroup ⧸ L.toSubgroup.subgroupOf K.field.toSubgroup) :=
-      Fintype.ofFinite _
     let Euc : FiniteUnramifiedCyclicExtension D K :=
       { field := L
         below := hLK
@@ -480,7 +477,6 @@ theorem primeClass_addOrderOf
     exact hUnramified
   let g : FiniteNormQuotient A K.field L hLK :=
     finiteNormClass A K.field L hLK π
-  have hn : 0 < n := E.degree.pos
   have hng : n • g = 0 := by
     change n • finiteNormClass A K.field L hLK π = 0
     rw [← finiteNormClass_nsmul]
