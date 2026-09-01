@@ -34,8 +34,7 @@ The relative subgroup is the `subgroupOf` spelling, as across the arc, and
 seven of the source's statements carry their containment `L ≤ K` only
 inside the source's `extensionSubgroup` spelling, so the hypothesis drops
 out of them here; the conjugate extension's normality stays an instance,
-its head fully determined without it. The layer's `QuotientGroup.congr`
-and `congr_mk'` take the subgroups explicitly and are called accordingly.
+its head fully determined without it.
 
 ## References
 
