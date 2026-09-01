@@ -43,10 +43,10 @@ the Frobenius, and the engine's Frobenius bookkeeping is arithmetic in this ring
   proved.
 * `ProfiniteInteger.index_span_natCast` — the additive index of `n·ℤ̂` is `n`;
   proved.
-* `ProfiniteInteger.natCast_mul_left_injective` — multiplication by a nonzero
-  natural is injective; proved.
 * `ProfiniteInteger.addSubgroup_eq_spanAddSubgroup_of_index_ne_zero` — every
   finite-index additive subgroup of `ℤ̂` is the span of its index; proved.
+* `ProfiniteInteger.mul_divide` / `ProfiniteInteger.divide_mul` — the two
+  inverse laws of the division; proved.
 
 ## Implementation notes
 
@@ -66,7 +66,8 @@ finite-index additive subgroups — once deferred — now lives here with the di
 apparatus its consumers need: the quotient is abelian, so its cardinality annihilates
 every class, and comparison of indices forces equality, with no closedness of the
 subgroup entering; the compact-to-Hausdorff trick upgrades multiplication by `n` to a
-homeomorphism.
+homeomorphism. The source's index-explicit and finite-quotient restatements of the
+classification are one-liners from it and are not ported.
 
 ## References
 
@@ -353,6 +354,7 @@ theorem index_span_natCast (n : ℕ) [NeZero n] :
 abbrev spanAddSubgroup (n : ℕ) : AddSubgroup ProfiniteInteger :=
   (Ideal.span {(n : ProfiniteInteger)}).toAddSubgroup
 
+/-- Membership in `n·ℤ̂` is being a multiple of `n`. -/
 theorem mem_spanAddSubgroup_iff {n : ℕ} (y : ProfiniteInteger) :
     y ∈ spanAddSubgroup n ↔ ∃ x, (n : ProfiniteInteger) * x = y := by
   rw [spanAddSubgroup, Submodule.mem_toAddSubgroup, Ideal.mem_span_singleton']
@@ -374,15 +376,9 @@ theorem nsmul_left_injective {n : ℕ} (hn : n ≠ 0) :
     Function.Injective fun x : ProfiniteInteger => n • x := by
   simpa [nsmul_eq_mul] using natCast_mul_left_injective hn
 
-/-- The index of `n·ℤ̂` as an AddSubgroup. -/
-theorem index_spanAddSubgroup (n : ℕ) [NeZero n] :
-    (spanAddSubgroup n).index = n := by
-  have := index_span_natCast n
-  simpa [spanAddSubgroup] using this
-
 /-- **Every finite-index additive subgroup of `ℤ̂` is the span of its index**:
 the quotient is abelian, so its cardinality annihilates every class, and the
-indices compare — closedness is never used
+indices compare — no closedness of the subgroup enters
 ([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:188`][Yamaguchi2026]). -/
 theorem addSubgroup_eq_spanAddSubgroup_of_index_ne_zero
     (H : AddSubgroup ProfiniteInteger) (hH : H.index ≠ 0) :
@@ -394,7 +390,7 @@ theorem addSubgroup_eq_spanAddSubgroup_of_index_ne_zero
     have := H.nsmul_index_mem x
     rwa [nsmul_eq_mul] at this
   have hrangeIndex : (spanAddSubgroup H.index).index = H.index :=
-    index_spanAddSubgroup H.index
+    index_span_natCast H.index
   have hrel : (spanAddSubgroup H.index).relIndex H = 1 := by
     have heq : (spanAddSubgroup H.index).relIndex H * H.index = H.index :=
       (AddSubgroup.relIndex_mul_index hle).trans hrangeIndex
@@ -438,6 +434,7 @@ noncomputable def divide (n : ℕ) [NeZero n] :
     ContinuousAddMonoidHom (spanAddSubgroup n) ProfiniteInteger :=
   (mulNatHomeomorph n).symm
 
+/-- Multiplying the divided value recovers the element — the first inverse law. -/
 @[simp]
 theorem mul_divide (n : ℕ) [NeZero n] (y : spanAddSubgroup n) :
     (n : ProfiniteInteger) * divide n y = y.1 := by
@@ -445,6 +442,7 @@ theorem mul_divide (n : ℕ) [NeZero n] (y : spanAddSubgroup n) :
     ((mulNatHomeomorph n).symm y)).1 = y.1
   exact congrArg Subtype.val ((mulNatHomeomorph n).apply_symm_apply y)
 
+/-- Dividing a multiple recovers the factor — the second inverse law. -/
 @[simp]
 theorem divide_mul (n : ℕ) [NeZero n] (x : ProfiniteInteger) :
     divide n ⟨(n : ProfiniteInteger) * x,
