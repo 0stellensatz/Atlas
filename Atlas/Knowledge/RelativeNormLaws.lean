@@ -18,6 +18,7 @@ arguments consume (#104).
 
 * `conjugateClosedSubgroup` / `conjugateFixedElement` — the conjugate field
   and the conjugate of a fixed element.
+* `absoluteConjugateCosetEquiv` — conjugation on the absolute coset space.
 * `normalExtensionAction` — the `G_K`-action on `A_L` for Galois `L | K`.
 * `FiniteTower.totalExtension` — the composite of a finite tower, finite.
 
@@ -27,7 +28,10 @@ arguments consume (#104).
   conjugation; proved.
 * `relativeNorm_normalExtensionAction` — the norm is action-invariant;
   proved.
+* `relativeTowerQuotientFinite` — finiteness composes in a tower; proved.
 * `FiniteTower.norm_trans` — norms compose along a finite tower; proved.
+* `FiniteTower.totalQuotientFinite` — the composite's finiteness, as an
+  instance; proved.
 
 ## Implementation notes
 
@@ -36,7 +40,10 @@ the left action of the representation realizes `a^σ` as `ρ(σ⁻¹) a` and the
 conjugate subgroup is `σ⁻¹ G_K σ`. The engine's relative subgroup is
 `Subgroup.subgroupOf` as across the layer — the source's separate membership
 lemma at the base is the definitional unfolding here and is not ported — and
-the tower reindexing is `Atlas.Knowledge.quotientTowerEquiv`.
+the tower reindexing is `Atlas.Knowledge.quotientTowerEquiv`. The source
+works around a stale universe restriction on `Rep` with a dedicated
+acting-group type; the restriction is gone and the file is
+universe-polymorphic like the rest of the engine layer.
 
 ## References
 
@@ -150,10 +157,10 @@ def absoluteConjugateCosetEquiv [ContinuousMul G]
       (σ * x.1 * σ⁻¹)⁻¹ * (σ * y.1 * σ⁻¹) ∈ K.toSubgroup
     simp [mul_assoc])
 
-/-- The conjugate coset equivalence acts on representatives
-([Yamaguchi 2026,
+/-- The conjugate coset equivalence acts on representatives — not a simp
+lemma here: the base subgroup rewrites to `⊤` under the layer's simp set, so
+the left-hand side is not normal ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Degree/NormLaws.lean:129`][Yamaguchi2026]). -/
-@[simp]
 theorem absoluteConjugateCosetEquiv_mk [ContinuousMul G]
     (K : ClosedSubgroup G) (σ : G)
     (x : (baseField G).toSubgroup) :
@@ -460,8 +467,8 @@ theorem norm_trans_apply (A : Rep ℤ G)
     relativeNorm A T.base T.middle T.middle_le_base
         (relativeNorm A T.middle T.top T.top_le_middle a) =
       relativeNorm A T.base T.top
-        (T.top_le_middle.trans T.middle_le_base) a := by
-  exact finiteTowerNormTransApplyAux A T.base T.middle T.top
+        (T.top_le_middle.trans T.middle_le_base) a :=
+  finiteTowerNormTransApplyAux A T.base T.middle T.top
     T.top_le_middle T.middle_le_base a
 
 /-- **Norm transitivity, in homomorphism form** ([Yamaguchi 2026,
