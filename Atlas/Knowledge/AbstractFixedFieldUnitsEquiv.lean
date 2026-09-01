@@ -13,8 +13,8 @@ the valuation datum's norm-range computation consumes (#104).
 
 ## Main definitions
 
-* `abstractFixedFieldUnitsEquivGaloisFixed` — the equivalence
-  `(fixed field of H)ˣ ≃ A^H`.
+* `abstractFixedFieldUnitsEquivGaloisFixed` — the units of the fixed field
+  of `H`, identified with `A^H`.
 
 ## References
 
@@ -38,7 +38,7 @@ it fixes** ([Yamaguchi 2026,
 def abstractFixedFieldUnitsEquivGaloisFixed
     (H : ClosedSubgroup (Ω ≃ₐ[k] Ω)) :
     Additive (abstractFixedField k Ω H)ˣ ≃+
-      ambientFixedAddSubgroup (Rep.ofAlgebraAutOnUnits k Ω) H where
+      ambientFixedAddSubgroup (galoisAmbientUnitsRep k Ω) H where
   toFun x := ⟨intermediateFieldUnitsToGaloisAmbient k Ω
       (abstractFixedField k Ω H) x, by
     intro σ

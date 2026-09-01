@@ -15,6 +15,9 @@ abstract extensions instantiate to (#104).
 
 ## Main definitions
 
+* `galoisAmbientUnitsRep` — the Galois representation on the ambient units.
+* `intermediateFieldUnitsToGaloisAmbient` — the inclusion of `Eˣ` into the
+  ambient units.
 * `intermediateFieldUnitsEquivGaloisFixed` — `Eˣ ≃ A^{Gal(Ω/E)}`.
 * `embeddedFieldUnitsEquivGaloisFixed` — the same along an embedding.
 
@@ -27,11 +30,14 @@ abstract extensions instantiate to (#104).
 
 ## Implementation notes
 
-The source names the representation `galoisAmbientUnitsRep`, an abbreviation
-of Mathlib's `Rep.ofAlgebraAutOnUnits`; the layer spells the Mathlib name.
-The source works over `Type` and notes Mathlib's `Rep` once fixed the acting
-group to universe zero; that restriction is gone, and the file is
-universe-polymorphic like the rest of the engine layer.
+The representation is Mathlib's `Rep.ofAlgebraAutOnUnits`, but Mathlib tags
+that `def` itself `@[simp]`, so it is not a simp-normal spelling — a plain
+`simp` rewrites it away and every later `rw` against these statements would
+miss. The source's reducible abbreviation `galoisAmbientUnitsRep` is what
+keeps the dictionary stable under simp, so it is kept, with the statements
+phrased through it. The source works over `Type` and notes Mathlib's `Rep`
+once fixed the acting group to universe zero; that restriction is gone, and
+the file is universe-polymorphic like the rest of the engine layer.
 
 ## References
 
@@ -46,6 +52,14 @@ noncomputable section
 universe u v w
 
 variable (K : Type u) (Ω : Type v) [Field K] [Field Ω] [Algebra K Ω]
+
+/-- **The Galois representation on the ambient units**, written additively for
+the group-cohomology API — Mathlib's `Rep.ofAlgebraAutOnUnits` behind a
+reducible name that simp does not unfold ([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:29`]
+[Yamaguchi2026]). -/
+abbrev galoisAmbientUnitsRep : Rep ℤ (Ω ≃ₐ[K] Ω) :=
+  Rep.ofAlgebraAutOnUnits K Ω
 
 /-- Inclusion of the units of an intermediate field into the ambient units,
 in additive notation ([Yamaguchi 2026,
@@ -75,12 +89,12 @@ variable [IsGalois K Ω]
 theorem mem_galoisAmbientUnits_fixed_iff
     (E : IntermediateField K Ω)
     (x : Additive Ωˣ) :
-    x ∈ ambientFixedAddSubgroup (Rep.ofAlgebraAutOnUnits K Ω)
+    x ∈ ambientFixedAddSubgroup (galoisAmbientUnitsRep K Ω)
         (closedFixingSubgroup E) ↔
       ((Additive.toMul x : Ωˣ) : Ω) ∈ E := by
   change
-    (show Rep.ofAlgebraAutOnUnits K Ω from x) ∈
-        ambientFixedAddSubgroup (Rep.ofAlgebraAutOnUnits K Ω)
+    (show galoisAmbientUnitsRep K Ω from x) ∈
+        ambientFixedAddSubgroup (galoisAmbientUnitsRep K Ω)
           (closedFixingSubgroup E) ↔
       ((Additive.toMul x : Ωˣ) : Ω) ∈ E
   rw [mem_ambientFixedAddSubgroup_iff]
@@ -90,8 +104,7 @@ theorem mem_galoisAmbientUnits_fixed_iff
       IntermediateField.mem_fixedField_iff]
     intro σ hσ
     have hσclosed :
-        σ ∈ (closedFixingSubgroup E).toSubgroup := by
-      simpa only [closedFixingSubgroup] using hσ
+        σ ∈ (closedFixingSubgroup E).toSubgroup := hσ
     have hfixed := hx ⟨σ, hσclosed⟩
     have hρ :
         (Rep.ofAlgebraAutOnUnits K Ω).ρ σ x =
@@ -104,8 +117,7 @@ theorem mem_galoisAmbientUnits_fixed_iff
     convert hval using 1
     rfl
   · intro hx σ
-    have hσE : σ.1 ∈ E.fixingSubgroup := by
-      simpa only [closedFixingSubgroup] using σ.2
+    have hσE : σ.1 ∈ E.fixingSubgroup := σ.2
     have hρ :
         (Rep.ofAlgebraAutOnUnits K Ω).ρ
             (σ : Ω ≃ₐ[K] Ω) x =
@@ -127,16 +139,16 @@ engine attaches to `E` ([Yamaguchi 2026,
 theorem intermediateFieldUnitsToGaloisAmbient_range
     (E : IntermediateField K Ω) :
     (intermediateFieldUnitsToGaloisAmbient K Ω E).range =
-      ambientFixedAddSubgroup (Rep.ofAlgebraAutOnUnits K Ω)
+      ambientFixedAddSubgroup (galoisAmbientUnitsRep K Ω)
         (closedFixingSubgroup E) := by
   apply AddSubgroup.ext
   intro x
   constructor
   · rintro ⟨y, rfl⟩
     change
-      (show Rep.ofAlgebraAutOnUnits K Ω from
+      (show galoisAmbientUnitsRep K Ω from
         intermediateFieldUnitsToGaloisAmbient K Ω E y) ∈
-        ambientFixedAddSubgroup (Rep.ofAlgebraAutOnUnits K Ω)
+        ambientFixedAddSubgroup (galoisAmbientUnitsRep K Ω)
           (closedFixingSubgroup E)
     apply (mem_galoisAmbientUnits_fixed_iff K Ω E _).2
     rw [← ofMul_toMul y, intermediateFieldUnitsToGaloisAmbient_apply,
@@ -169,7 +181,7 @@ ambient-unit representation ([Yamaguchi 2026,
 [Yamaguchi2026]). -/
 def intermediateFieldUnitsEquivGaloisFixed
     (E : IntermediateField K Ω) :
-    Additive Eˣ ≃+ ambientFixedAddSubgroup (Rep.ofAlgebraAutOnUnits K Ω)
+    Additive Eˣ ≃+ ambientFixedAddSubgroup (galoisAmbientUnitsRep K Ω)
       (closedFixingSubgroup E) := by
   let eRange : Additive Eˣ ≃+
       (intermediateFieldUnitsToGaloisAmbient K Ω E).range :=
@@ -199,7 +211,7 @@ group**: the form the engine's realized finite extensions use
 def embeddedFieldUnitsEquivGaloisFixed
     (L : Type w) [Field L] [Algebra K L]
     (i : L →ₐ[K] Ω) :
-    Additive Lˣ ≃+ ambientFixedAddSubgroup (Rep.ofAlgebraAutOnUnits K Ω)
+    Additive Lˣ ≃+ ambientFixedAddSubgroup (galoisAmbientUnitsRep K Ω)
       (closedFixingSubgroup (AlgHom.fieldRange i)) :=
   (MulEquiv.toAdditive
     (Units.mapEquiv (AlgEquiv.ofInjectiveField i).toMulEquiv)).trans
