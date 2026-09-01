@@ -30,14 +30,12 @@ commute with conjugation: `N_{L^s|K^s}(a^s) = N_{L|K}(a)^s` (#104).
 
 ## Implementation notes
 
-The relative subgroup is the `subgroupOf` spelling, as
-across the arc — with two consequences. Six of the source's statements
-carry the containment `L ≤ K` only inside that spelling, so here it drops
-out of them. And the source registers the conjugate extension's normality
-as an instance, inferable there because its `extensionSubgroup` spelling
-keeps the containment in the instance head; here it is a theorem, and the
-multiplicative identification carries the conjugate normality as an
-instance binder its callers discharge with it.
+The relative subgroup is the `subgroupOf` spelling, as across the arc, and
+seven of the source's statements carry their containment `L ≤ K` only
+inside the source's `extensionSubgroup` spelling, so the hypothesis drops
+out of them here; the conjugate extension's normality stays an instance,
+its head fully determined without it. The layer's `QuotientGroup.congr`
+and `congr_mk'` take the subgroups explicitly and are called accordingly.
 
 ## References
 
@@ -48,8 +46,6 @@ instance binder its callers discharge with it.
 namespace Atlas.Knowledge
 
 noncomputable section
-
-open scoped BigOperators
 
 universe u
 
@@ -69,8 +65,8 @@ theorem conjugateClosedSubgroup_mono [ContinuousMul G]
   rw [conjugateClosedSubgroup_mem] at hx ⊢
   exact hLK hx
 
-/-- **Conjugation by `s⁻¹` identifies a field's subgroup with its right
-conjugate's** ([Yamaguchi 2026,
+/-- **Conjugation identifies a field's subgroup with its right conjugate's**
+by `k ↦ s⁻¹ks` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Degree/NormConjugation.lean:41`]
 [Yamaguchi2026]). -/
 def conjugateSubgroupEquiv [ContinuousMul G]
@@ -163,13 +159,10 @@ theorem relativeConjugateCosetEquiv_mk [ContinuousMul G]
       QuotientGroup.mk (conjugateSubgroupEquiv K s k) :=
   rfl
 
-/-- **A conjugate of a Galois extension is Galois** — an instance in the
-source, whose `extensionSubgroup` spelling keeps the containment in the
-head; the `subgroupOf` spelling does not, so synthesis cannot recover it
-and the layer states a theorem ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormConjugation.lean:145`]
+/-- **A conjugate of a Galois extension is Galois** ([Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormConjugation.lean:136`]
 [Yamaguchi2026]). -/
-theorem conjugateExtension_normal [ContinuousMul G]
+instance conjugateExtension_normal [ContinuousMul G]
     (K L : ClosedSubgroup G) (s : G)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal] :
     ((conjugateClosedSubgroup L s).toSubgroup.subgroupOf
@@ -185,9 +178,7 @@ theorem conjugateExtension_normal [ContinuousMul G]
 [Yamaguchi2026]). -/
 noncomputable def finiteReciprocityNaturalityConjugation
     [ContinuousMul G] (K L : ClosedSubgroup G) (s : G)
-    [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
-    [hCnormal : ((conjugateClosedSubgroup L s).toSubgroup.subgroupOf
-      (conjugateClosedSubgroup K s).toSubgroup).Normal] :
+    [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal] :
     (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup) ≃*
       ((conjugateClosedSubgroup K s).toSubgroup ⧸
         (conjugateClosedSubgroup L s).toSubgroup.subgroupOf
@@ -201,14 +192,11 @@ noncomputable def finiteReciprocityNaturalityConjugation
 theorem finiteReciprocityNaturalityConjugation_mk [ContinuousMul G]
     (K L : ClosedSubgroup G) (s : G)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
-    [hCnormal : ((conjugateClosedSubgroup L s).toSubgroup.subgroupOf
-      (conjugateClosedSubgroup K s).toSubgroup).Normal]
     (k : K.toSubgroup) :
     finiteReciprocityNaturalityConjugation K L s
         (QuotientGroup.mk k) =
-      QuotientGroup.mk (conjugateSubgroupEquiv K s k) := by
-  exact QuotientGroup.congr_mk' _ _ (conjugateSubgroupEquiv K s)
-    (map_extensionSubgroup_conjugate K L s) k
+      QuotientGroup.mk (conjugateSubgroupEquiv K s k) :=
+  rfl
 
 /-- **A conjugate of a finite extension is finite** ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Degree/NormConjugation.lean:182`]

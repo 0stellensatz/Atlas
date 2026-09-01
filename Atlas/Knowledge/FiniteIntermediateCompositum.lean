@@ -21,6 +21,12 @@ a base finite over the global base is itself finite over the global base
 * `FiniteIntermediateField.absoluteFinite` — a finite intermediate field
   over a finite base is finite over the global base; proved.
 
+## Implementation notes
+
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
+the compositum's finiteness over the base is #136's generalized form,
+called without the containment the source passes.
+
 ## References
 
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
@@ -39,7 +45,7 @@ namespace FiniteIntermediateField
 
 /-- **The compositum of two finite intermediate fields of `E | K`**
 ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:22`]
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:21`]
 [Yamaguchi2026]). -/
 def compositum {E K : ClosedSubgroup G}
     (M N : FiniteIntermediateField E K) :
@@ -55,7 +61,7 @@ def compositum {E K : ClosedSubgroup G}
     exact M.compositumWith_finite_over_base N.field
 
 /-- The compositum lies below its left input ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:35`]
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:34`]
 [Yamaguchi2026]). -/
 theorem compositum_le_left {E K : ClosedSubgroup G}
     (M N : FiniteIntermediateField E K) :
@@ -63,16 +69,16 @@ theorem compositum_le_left {E K : ClosedSubgroup G}
   inf_le_left
 
 /-- The compositum lies below its right input ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:41`]
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:40`]
 [Yamaguchi2026]). -/
 theorem compositum_le_right {E K : ClosedSubgroup G}
     (M N : FiniteIntermediateField E K) :
     (M.compositum N).field.toSubgroup ≤ N.field.toSubgroup :=
   inf_le_right
 
-/-- **A finite intermediate field over a finite base is finite over the
-global base** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:48`]
+/-- **A finite intermediate field over a finite base is finite absolutely**
+([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:47`]
 [Yamaguchi2026]). -/
 theorem absoluteFinite {E K : ClosedSubgroup G}
     [hKfinite : Finite ((baseField G).toSubgroup ⧸
