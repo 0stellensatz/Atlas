@@ -41,7 +41,9 @@ it private: the residue-field bundles in the sibling files consume it across
 the file boundary the source does not have; its ramification sibling stays
 private. The relative subgroup is `Subgroup.subgroupOf`, as across the layer,
 and the source's `extensionSubgroup_index_eq_degree` is named
-`subgroup_index_eq_degree` for it.
+`subgroup_index_eq_degree` for it. The additive reading of the Galois
+quotient's order, `additiveExtensionQuotient_card`, lives here with the
+degree it computes, though the source keeps it beside the norm quotients.
 
 ## References
 
@@ -397,5 +399,36 @@ theorem ramificationIndex_eq_degree_of_isTotallyRamified (D : DegreeData G)
   exact (Nat.cast_card).symm
 
 end FiniteAbstractExtension
+
+/-- **The additive Galois quotient has the degree as its order**
+([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:537`]
+[Yamaguchi2026]). -/
+theorem additiveExtensionQuotient_card
+    (E : FiniteAbstractExtension G) :
+    Nat.card
+        (Additive
+          (E.base.toSubgroup ⧸
+            E.field.toSubgroup.subgroupOf E.base.toSubgroup)) =
+      (E.degree : ℕ) := by
+  calc
+    Nat.card
+        (Additive
+          (E.base.toSubgroup ⧸
+            E.field.toSubgroup.subgroupOf E.base.toSubgroup)) =
+        Nat.card
+          (E.base.toSubgroup ⧸
+            E.field.toSubgroup.subgroupOf E.base.toSubgroup) :=
+      (Nat.card_congr
+        (Additive.ofMul :
+          (E.base.toSubgroup ⧸
+              E.field.toSubgroup.subgroupOf E.base.toSubgroup) ≃
+            Additive
+              (E.base.toSubgroup ⧸
+                E.field.toSubgroup.subgroupOf E.base.toSubgroup))).symm
+    _ = (E.field.toSubgroup.subgroupOf E.base.toSubgroup).index :=
+      (Subgroup.index_eq_card
+        (E.field.toSubgroup.subgroupOf E.base.toSubgroup)).symm
+    _ = (E.degree : ℕ) := E.subgroup_index_eq_degree
 
 end Atlas.Knowledge

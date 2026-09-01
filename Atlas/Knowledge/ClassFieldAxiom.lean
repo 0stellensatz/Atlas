@@ -21,6 +21,8 @@ consequence lemmas the reciprocity construction consumes (#104).
 
 ## Main statements
 
+* `finiteNormQuotient_finite_of_classFieldAxiom` — the norm quotient is
+  finite; proved from the axiom.
 * `finiteNormQuotient_card_of_classFieldAxiom` — the norm quotient has the
   degree as cardinality; proved from the axiom.
 * `abstractReciprocity_exists_hMinusOne_primitive` — a vanishing norm is a
@@ -29,19 +31,26 @@ consequence lemmas the reciprocity construction consumes (#104).
 ## Implementation notes
 
 The source states the axiom through Mathlib's Tate cohomology of the
-descended representation and recovers the two facts above by the cyclic
-comparison equivalences; the reciprocity construction consumes the axiom
-exclusively through those facts. The layer states them directly: the
-cohomological and the elementary forms carry the same content for a cyclic
-extension — `Ĥ⁰` is the norm quotient and `Ĥ⁻¹` vanishes exactly when norm
-kernels are `σ − 1`-differences, which is the comparison recorded in
-`Atlas.Knowledge.TateCohomologyFiniteCyclic` — and the elementary form is
-what the layer's local instances (`Atlas.Knowledge.normIndexCyclic`,
-`Atlas.Knowledge.GalUnits`) prove. It also keeps the acting group
-universe-polymorphic, where Mathlib's `tateCohomology` would pin it to
-`Type 0` against the layer's `Type*` carrier. The consequence lemmas keep
-the source's names and signatures, so their consumers port unchanged; here
-they are projections.
+descended representation. Its projections have five consuming declarations:
+the three consequence lemmas below, and the two unramified-unit-cohomology
+halves at `Reciprocity/Core.lean:46` and `:170`, whose sole consumer is the
+derivation at `Core.lean:413` — which the layer replaces wholesale by a
+direct local discharge, so those two are deliberately unprovided (the first
+would follow from the primitive at `u := 0`; the second would not, absent a
+recorded bridge from `Ĥ⁰` to the norm quotient). The layer states the
+consumed facts directly. Classically the forms agree for a cyclic
+extension — `Ĥ⁰` is the norm quotient, and vanishing of `Ĥ⁻¹` yields the
+primitive, the direction `Atlas.Knowledge.TateVanishingNormKernel` records
+over the generic comparisons of
+`Atlas.Knowledge.TateCohomologyFiniteCyclic` — but no formal equivalence is
+recorded or needed: the axiom is an interface, and what the construction
+consumes fixes its meaning. The elementary form is what the layer's local
+instances (`Atlas.Knowledge.normIndexCyclic`, `Atlas.Knowledge.GalUnits`)
+prove, and it keeps the acting group universe-polymorphic, where Mathlib's
+`tateCohomology` would pin it to `Type 0` against the layer's `Type*`
+carrier. The consequence lemmas keep the source's names and signatures, so
+their consumers port unchanged; here they are projections. The finiteness
+field mirrors the source's, stored before either cardinality is formed.
 
 ## References
 
@@ -59,7 +68,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **The class-field axiom at one finite cyclic extension**: the norm
 quotient is finite of cardinality the degree, and a vanishing norm is a
-`σ − 1`-difference ([Yamaguchi 2026,
+`σ − 1`-difference — stated elementarily where the source asserts the two
+Tate-cohomology cardinalities ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/ClassFieldAxiom.lean:30`]
 [Yamaguchi2026]). -/
 structure ClassFieldAxiomData (A : Rep ℤ G) (K : FiniteAbstractField G)
@@ -83,7 +93,8 @@ structure ClassFieldAxiomData (A : Rep ℤ G) (K : FiniteAbstractField G)
           E.normal).symm (w - u)
 
 /-- **The class-field axiom**: the data above at every finite cyclic
-extension of every finite abstract field ([Yamaguchi 2026,
+extension of every finite abstract field — the source's name, for the
+elementary reformulation the notes record ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/ClassFieldAxiom.lean:52`]
 [Yamaguchi2026]). -/
 def SatisfiesClassFieldAxiom (A : Rep ℤ G) : Prop :=
@@ -134,37 +145,6 @@ theorem finiteNormQuotient_card_of_classFieldAxiom
       finite := E.finiteQuotient
       generator := g
       generates := hg }).card_finiteNormQuotient
-
-/-- **The additive Galois quotient has the degree as its order**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:546`]
-[Yamaguchi2026]). -/
-theorem additiveExtensionQuotient_card
-    (E : FiniteAbstractExtension G) :
-    Nat.card
-        (Additive
-          (E.base.toSubgroup ⧸
-            E.field.toSubgroup.subgroupOf E.base.toSubgroup)) =
-      (E.degree : ℕ) := by
-  calc
-    Nat.card
-        (Additive
-          (E.base.toSubgroup ⧸
-            E.field.toSubgroup.subgroupOf E.base.toSubgroup)) =
-        Nat.card
-          (E.base.toSubgroup ⧸
-            E.field.toSubgroup.subgroupOf E.base.toSubgroup) :=
-      (Nat.card_congr
-        (Additive.ofMul :
-          (E.base.toSubgroup ⧸
-              E.field.toSubgroup.subgroupOf E.base.toSubgroup) ≃
-            Additive
-              (E.base.toSubgroup ⧸
-                E.field.toSubgroup.subgroupOf E.base.toSubgroup))).symm
-    _ = (E.field.toSubgroup.subgroupOf E.base.toSubgroup).index :=
-      (Subgroup.index_eq_card
-        (E.field.toSubgroup.subgroupOf E.base.toSubgroup)).symm
-    _ = (E.degree : ℕ) := E.subgroup_index_eq_degree
 
 /-- **The cyclic Galois quotient and the norm quotient have the same order**
 under the axiom ([Yamaguchi 2026,
