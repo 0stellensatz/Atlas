@@ -41,9 +41,11 @@ The identity the source names `extensionSubgroup_normalCoreField` is
 the #133 precedent. The source's membership lemma at the relative subgroup
 is Mathlib's `Subgroup.mem_subgroupOf`, and its closedness helper is the
 inline preimage along the subtype inclusion. Two containment hypotheses the
-source carries — the base containment in the compositum's finiteness over
-the base, and the outer containment in `finite_extension_of_le` — are
-unused in the `subgroupOf` spelling and dropped.
+source carries are dropped: the outer containment in
+`finite_extension_of_le` is derivable from the other two, and the base
+containment in the compositum's finiteness over the base is not needed at
+all in the `subgroupOf` spelling — that statement is now more general than
+the source's, specializing back to it.
 
 ## References
 
@@ -269,9 +271,9 @@ theorem compositumWith_normal
   exact S.toSubgroup.mul_mem
       (S.toSubgroup.mul_mem s.2 p.2) (S.toSubgroup.inv_mem s.2)
 
-/-- **The compositum of two finite extensions of the base is finite over
-the base** — contravariantly, the finite-index theorem for an intersection
-([Yamaguchi 2026,
+/-- **The compositum with a finite extension of the base is finite over the base**
+— contravariantly, the finite-index theorem for an intersection; no
+containment of the second input enters ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:211`]
 [Yamaguchi2026]). -/
 theorem compositumWith_finite_over_base
@@ -300,8 +302,8 @@ theorem compositumWith_finite_over_base
   simpa only [Subgroup.relIndex] using
     Subgroup.relIndex_inf_ne_zero hMindex hSindex
 
-/-- **A finite extension of the base is finite over any intermediate
-field** ([Yamaguchi 2026,
+/-- **A finite extension of the base is finite over any intermediate field**
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:240`]
 [Yamaguchi2026]). -/
 theorem finite_extension_of_le

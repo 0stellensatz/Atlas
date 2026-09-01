@@ -25,9 +25,11 @@ finite intermediate field of the maximal unramified extension (#104).
 
 Where the source destructures the axiom into two Tate-vanishing facts and
 feeds the `Ĥ⁰` eliminator, the layer's elementary axiom hands the norm
-witness directly, at the same bundle and generator. The instance bridges
-across the residue enrichment are plain terms, as in
-`Atlas.Knowledge.ReciprocityMap`.
+witness directly, at the same bundle and generator. The bridges across the
+residue enrichment — the instance transports and the explicit
+unramifiedness argument alike — are plain terms, as in
+`Atlas.Knowledge.ReciprocityMap`, and three of the source's locals die in
+this spelling and are not carried.
 
 ## References
 
@@ -45,9 +47,9 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
-/-- **Independence of the prime element**: assuming the unit-cohomology
-axiom, the reciprocity value at any prime of the Frobenius fixed field is
-the reciprocity map's value ([Yamaguchi 2026,
+/-- **Independence of the prime element**: assuming the unit-cohomology axiom,
+the reciprocity value at any prime of the Frobenius fixed field is the
+reciprocity map's value ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:369`]
 [Yamaguchi2026]). -/
 theorem reciprocityValueOfPrime_eq_reciprocityMap
@@ -111,16 +113,11 @@ theorem reciprocityValueOfPrime_eq_reciprocityMap
     D.subgroupOf_maximalUnramifiedField_normal K.field L hLK
   let R := M.galoisRefinement
   let P := R.compositumWith S
-  have hES : E.toSubgroup ≤ S.toSubgroup :=
-    D.fieldInertia_le_frobeniusFixedField KR L hLK σ
   have hPS : P.toSubgroup ≤ S.toSubgroup :=
     R.compositumWith_le_right S
   have hPK : P.toSubgroup ≤ K.field.toSubgroup := hPS.trans hSK
   have hPM : P.toSubgroup ≤ M.field.toSubgroup :=
     (R.compositumWith_le_left S).trans M.galoisRefinement_le_field
-  letI hRnormal :
-      (R.field.toSubgroup.subgroupOf K.field.toSubgroup).Normal :=
-    inferInstance
   letI hPSnormal :
       (P.toSubgroup.subgroupOf S.toSubgroup).Normal :=
     FiniteIntermediateField.compositumWith_normal R S hSK
@@ -152,9 +149,6 @@ theorem reciprocityValueOfPrime_eq_reciprocityMap
   obtain ⟨g, hg⟩ :=
     D.exists_quotient_generator_of_unramified
       Sresidue P hPS hPSunramified
-  letI hPabsolute : Finite ((baseField G).toSubgroup ⧸
-      P.toSubgroup.subgroupOf (baseField G).toSubgroup) :=
-    relativeTowerQuotientFinite (baseField G) S P hPS (le_baseField S)
   letI : Fintype (S.toSubgroup ⧸ P.toSubgroup.subgroupOf S.toSubgroup) :=
     Fintype.ofFinite _
   let Euc : FiniteUnramifiedCyclicExtension D Sigma :=
