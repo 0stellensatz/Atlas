@@ -252,6 +252,7 @@ import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
+import Atlas.Knowledge.RelativeNormLaws
 import Atlas.Knowledge.ResidueAbsoluteDegreeIn
 import Atlas.Knowledge.ResidueAbsoluteFrobenius
 import Atlas.Knowledge.ResidueActionIndex
