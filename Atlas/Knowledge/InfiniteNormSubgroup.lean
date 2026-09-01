@@ -29,6 +29,13 @@ lift, never through the concrete quotient representation (#104).
   `InfiniteNormQuotient.induction_on` — the class map's kernel and
   surjectivity, and the induction principle; proved.
 
+## Implementation notes
+
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, as
+across the arc, and the base field's finiteness closes by
+`Subgroup.subgroupOf_self` where the source builds the top identity by
+hand.
+
 ## References
 
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
@@ -182,7 +189,6 @@ theorem infiniteNormClass_surjective
     (A : Rep ℤ G) (E K : ClosedSubgroup G) :
     Function.Surjective (infiniteNormClass A E K) := by
   intro q
-  change ambientFixedAddSubgroup A K ⧸ infiniteNormSubgroup A E K at q
   obtain ⟨a, rfl⟩ :=
     QuotientAddGroup.mk'_surjective (infiniteNormSubgroup A E K) q
   exact ⟨a, rfl⟩

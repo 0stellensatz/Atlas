@@ -36,8 +36,11 @@ Instance search does not unfold the residue enrichment
 `K.toFiniteResidueAbstractField D`, so the normality and finiteness
 instances are transported by hand on both sides of the definition, as in
 the source — but where the source transports them with `simpa` bridges,
-the layer passes the hypotheses as plain terms: the enrichment's field
-projection is definitional, and the ascribed `letI` accepts it directly.
+the layer passes the hypotheses as plain terms: the mismatch sits in an
+instance argument the simp set does not rewrite, while the enrichment's
+field projection is definitional, so the ascribed `letI` accepts the bare
+hypothesis. The source's statement-level `simpa` in the chosen-prime
+representation, which rewrites an explicit argument, stays as written.
 
 ## References
 
@@ -60,7 +63,7 @@ namespace DegreeData
 `AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:33`]
 [Yamaguchi2026]). -/
 def frobeniusFixedIntermediateField (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
@@ -78,7 +81,7 @@ def frobeniusFixedIntermediateField (D : DegreeData G)
 `AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:48`]
 [Yamaguchi2026]). -/
 theorem frobeniusFixedField_absoluteFinite (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
@@ -109,7 +112,7 @@ theorem frobeniusFixedField_absoluteFinite (D : DegreeData G)
 `AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:94`]
 [Yamaguchi2026]). -/
 def reciprocityValueOfPrime (D : DegreeData G) (A : Rep ℤ G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
@@ -135,7 +138,7 @@ theorem identifies this value with the formula for every prime element
 [Yamaguchi2026]). -/
 def reciprocityMap (D : DegreeData G) (A : Rep ℤ G)
     (v : ValuationData D A)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
@@ -167,7 +170,7 @@ chosen prime element of its fixed field** ([Yamaguchi 2026,
 [Yamaguchi2026]). -/
 theorem reciprocityMap_eq_chosenPrime (D : DegreeData G) (A : Rep ℤ G)
     (v : ValuationData D A)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
@@ -189,8 +192,10 @@ theorem reciprocityMap_eq_chosenPrime (D : DegreeData G) (A : Rep ℤ G)
         D.frobeniusFixedField_absoluteFinite K L hLK σ
       let Sigma : FiniteAbstractField G :=
         ⟨D.frobeniusFixedField KR L hLK σ, inferInstance⟩
-      exact D.reciprocityValueOfPrime A KR L hLK σ
-        (v.chosenPrimeElement Sigma) :=
+      simpa only [Sigma, KR,
+          FiniteAbstractField.toFiniteResidueAbstractField] using
+        (D.reciprocityValueOfPrime A KR L hLK σ
+          (v.chosenPrimeElement Sigma)) :=
   rfl
 
 end DegreeData

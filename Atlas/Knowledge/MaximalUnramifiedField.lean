@@ -247,7 +247,6 @@ theorem maximalUnramifiedNormClass_surjective
     (D : DegreeData G) (A : Rep ℤ G) (K L : ClosedSubgroup G) :
     Function.Surjective (D.maximalUnramifiedNormClass A K L) := by
   intro q
-  change InfiniteNormQuotient A (D.maximalUnramifiedField L) K at q
   obtain ⟨a, ha⟩ :=
     infiniteNormClass_surjective A (D.maximalUnramifiedField L) K q
   exact ⟨a, ha⟩
