@@ -246,7 +246,8 @@ theorem canonicalUnramifiedNormQuotientValuation_injective
           (QuotientAddGroup.mk' (nsmulWithin v.valueGroup n)
             (v.valuationAt E.base a)) =
         v.canonicalValueQuotientHom n 0
-      rw [v.canonicalValueQuotientHom_mk, ha, map_zero]
+      rw [QuotientAddGroup.mk'_apply, v.canonicalValueQuotientHom_mk,
+        ha, map_zero]
     obtain ⟨z, haz⟩ :=
       (QuotientAddGroup.eq_zero_iff (v.valuationAt E.base a)).1 hqValue
     have haz' : v.valuationAt E.base a = n • z := haz.symm
