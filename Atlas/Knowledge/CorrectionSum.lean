@@ -9,8 +9,8 @@ import Atlas.Knowledge.FrobeniusExponent
 The three correction coefficients and action elements of reciprocity
 multiplicativity: their packaging, the degree-zero property of all three
 actions, and the identification of the three-term difference expression
-with the correction sum, the explicit left-action form of the group-ring
-identity (#104).
+with the correction sum — the explicit left-action form of the
+group-ring identity (#104).
 
 ## Main definitions
 
