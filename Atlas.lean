@@ -102,6 +102,7 @@ import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.FrobeniusFixedField
+import Atlas.Knowledge.FrobeniusFixedFieldAction
 import Atlas.Knowledge.FrobeniusFixedFieldTower
 import Atlas.Knowledge.FrobeniusNormCosetDecomposition
 import Atlas.Knowledge.FrobeniusNormIdentities
