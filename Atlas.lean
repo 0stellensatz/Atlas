@@ -43,6 +43,7 @@ import Atlas.Knowledge.CommutatorMemLowerRamificationGroup
 import Atlas.Knowledge.CompletedUnitGroup
 import Atlas.Knowledge.ConductorExponent
 import Atlas.Knowledge.ConjugateDiameterBound
+import Atlas.Knowledge.ConjugatePrimeNorm
 import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.CyclotomicIntegerBasis
@@ -264,6 +265,7 @@ import Atlas.Knowledge.PowerResidueReciprocity
 import Atlas.Knowledge.PowerSeriesCompositionValue
 import Atlas.Knowledge.PrimeElement
 import Atlas.Knowledge.PrimeIdealPowerResidueSymbol
+import Atlas.Knowledge.PrimeUnitDifferences
 import Atlas.Knowledge.PrincipalIdele
 import Atlas.Knowledge.ProfiniteInteger
 import Atlas.Knowledge.QuasiFreeFiltered
