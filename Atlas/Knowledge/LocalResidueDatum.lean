@@ -6,7 +6,7 @@ import Atlas.Knowledge.ResidueActionIndex
 import Atlas.Knowledge.ResidueDatumIn
 
 /-!
-# the local residue degree datum
+# local residue degree datum
 
 The degree datum of a mixed-characteristic local field: the absolute Galois
 group acts on the selected residue field of the absolute extension valuation
@@ -32,9 +32,9 @@ datum `d` of the reciprocity engine, instantiated (#104).
 
 The source works over the separable closure; in mixed characteristic that is
 the algebraic closure, so the datum lands directly on
-`Field.absoluteGaloisGroup K` — the carrier of
-`Atlas.Knowledge.IsLocalReciprocity` — and the `Separable` name segment is
-dropped. The full-decomposition hypothesis the whole-group action needs is
+`Field.absoluteGaloisGroup K` — the group whose abelianization
+`Atlas.Knowledge.IsLocalReciprocity` is stated over — and the `Separable`
+name segment is dropped. The full-decomposition hypothesis the whole-group action needs is
 `Atlas.Knowledge.localAbsoluteDecompositionGroup_eq_top`, and the residue
 coordinates come from the finite decomposition residue field through
 `Atlas.Knowledge.residueAbsoluteDegreeIn`.

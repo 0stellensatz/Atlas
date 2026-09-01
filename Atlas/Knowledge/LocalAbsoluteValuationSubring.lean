@@ -5,7 +5,7 @@ import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.ResidueOfAlgebraicallyClosed
 
 /-!
-# the absolute extension valuation of a local field
+# absolute extension valuation of a local field
 
 The canonical extension of a mixed-characteristic local field's valuation to
 its algebraic closure, as a valuation subring: the integral closure of `𝒪[K]`.
@@ -31,6 +31,8 @@ instantiation (#104).
   valuation ring; proved.
 * `localAbsoluteValuationSubring_pullback` — the pullback to `K` is `𝒪[K]`;
   proved.
+* `localAbsoluteValuationSubring_restrict` — the restriction to any finite
+  subextension is its canonical integer ring; proved.
 
 ## Implementation notes
 
@@ -42,12 +44,15 @@ integral closure of `𝒪[K]` as the carrier instead: on a finite subextension
 whose integers are the integral closure of `𝒪[K]` by
 `Atlas.Knowledge.mem_integer_iff_isIntegral`, which gives the dichotomy — and
 Galois stability is integrality transport, so
-`localAbsoluteDecompositionGroup_eq_top` needs no uniqueness input. Mixed
-characteristic makes the separable closure the algebraic closure, so the
-source's purely inseparable descent to the separable closure and its residue
-comparison vanish, and the names drop the `Separable`/`Absolute` split. The
-subring-to-decomposition-field equivalence is private plumbing as in the
-source.
+`localAbsoluteDecompositionGroup_eq_top` needs no uniqueness input, and the
+source's `HasExtension` packaging of the chosen rings goes with it — Mathlib's
+class serves at the finite level inside the dichotomy. Mixed characteristic
+makes the separable closure the algebraic closure, so the source's purely
+inseparable descent to the separable closure and its residue comparison
+vanish, and the source's separable/absolute pair of chosen rings collapses to
+the single absolute object. The subring-to-decomposition-field equivalence is
+private plumbing as in the source; the naturality square stays public for the
+fixed-field local data downstream, which reads residue degrees through it.
 
 ## References
 
@@ -69,12 +74,11 @@ field: the integral closure of `𝒪[K]` in the algebraic closure, a valuation
 subring because on each finite subextension it is the integer ring of a
 Chevalley extension of the valuation ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:52`
-and `:80`] [Yamaguchi2026]). -/
+and `:80`]
+[Yamaguchi2026]). -/
 def localAbsoluteValuationSubring : ValuationSubring (AlgebraicClosure K) where
   toSubring := (integralClosure 𝒪[K] (AlgebraicClosure K)).toSubring
   mem_or_inv_mem' x := by
-    rcases eq_or_ne x 0 with rfl | hx
-    · exact Or.inl (Subalgebra.zero_mem _)
     let E : IntermediateField K (AlgebraicClosure K) :=
       IntermediateField.adjoin K {x}
     letI : FiniteDimensional K E :=
@@ -102,9 +106,25 @@ theorem mem_localAbsoluteValuationSubring_iff {x : AlgebraicClosure K} :
     x ∈ localAbsoluteValuationSubring K ↔ IsIntegral 𝒪[K] x :=
   Iff.rfl
 
+/-- **The restriction to any finite subextension is its canonical integer
+ring**, for every compatible valuative structure — the choice-independence the
+source obtains from Henselian uniqueness, here the integrality reading of the
+carrier ([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:108`]
+[Yamaguchi2026]). -/
+theorem localAbsoluteValuationSubring_restrict
+    (E : IntermediateField K (AlgebraicClosure K)) [FiniteDimensional K E]
+    [ValuativeRel E] [ValuativeExtension K E] (z : E) :
+    (z : AlgebraicClosure K) ∈ localAbsoluteValuationSubring K ↔ z ∈ 𝒪[E] := by
+  letI : IsScalarTower 𝒪[K] E (AlgebraicClosure K) :=
+    IsScalarTower.of_algebraMap_eq fun _ => rfl
+  rw [mem_localAbsoluteValuationSubring_iff, mem_integer_iff_isIntegral K E]
+  exact isIntegral_algHom_iff (IsScalarTower.toAlgHom 𝒪[K] E (AlgebraicClosure K))
+    (IntermediateField.val E).injective (x := z)
+
 /-- **The pullback of the absolute valuation ring to `K` is `𝒪[K]`**: an
 element of `K` integral over `𝒪[K]` already lies in it ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:86`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:60`]
 [Yamaguchi2026]). -/
 theorem localAbsoluteValuationSubring_pullback (x : K) :
     algebraMap K (AlgebraicClosure K) x ∈ localAbsoluteValuationSubring K ↔
