@@ -233,6 +233,7 @@ import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.SemiInvariantIndependence
+import Atlas.Knowledge.SemilinearConjugationContinuous
 import Atlas.Knowledge.SerreMass
 import Atlas.Knowledge.Shift
 import Atlas.Knowledge.ShiftDepth
