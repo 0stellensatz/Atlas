@@ -1,8 +1,13 @@
 import Mathlib
+import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
 import Atlas.Knowledge.FiniteGaloisSubextension
+import Atlas.Knowledge.FiniteResidueAbstractField
+import Atlas.Knowledge.FrobeniusElements
+import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
+import Atlas.Knowledge.FrobeniusFixedField
 import Atlas.Knowledge.FrobeniusPowerFixedField
 import Atlas.Knowledge.GaloisSubextension
 
@@ -27,6 +32,8 @@ inclusions and quotient instances independently (#104).
 * `DegreeData.FrobeniusPowerFixedFieldTower` — the power tower fixed by
   `φⁿ² ≤ φⁿ`, from which inclusion, normality, and commutation are
   consequences.
+* `DegreeData.FrobeniusPowerFixedFieldTower.toFrobeniusFixedFieldTower` —
+  the power construction as the canonical tower bundle.
 
 ## Implementation notes
 
@@ -53,9 +60,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
-/-- **The Frobenius fixed field bundled with its proved absolute
-finiteness** — the field object used by valuation and unit APIs
-([Yamaguchi 2026,
+/-- **The Frobenius fixed field bundled with its proved absolute finiteness**
+— the field object used by valuation and unit APIs ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:24`]
 [Yamaguchi2026]). -/
 noncomputable def frobeniusFixedAbstractField
@@ -259,8 +265,8 @@ instance fieldAbsoluteFiniteInstance (T : FrobeniusFixedFieldTower D) :
 
 end FrobeniusFixedFieldTower
 
-/-- **A Frobenius fixed-field tower whose ambient Galois extension is
-finite** — the additional finiteness lives on the opaque quotient object
+/-- **A Frobenius fixed-field tower whose ambient Galois extension is finite**
+— the additional finiteness lives on the opaque quotient object
 `GaloisSubextension` exposes ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:221`]
 [Yamaguchi2026]). -/

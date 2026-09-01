@@ -23,7 +23,9 @@ The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
 the normality instance is `subgroupOf_normalInstance`, after the layer's
 `GaloisSubextension` item renamed its sibling the same way. The source
 file's remaining API — the projection lemmas, the predicates, the
-composita — waits for its consumers.
+composita — waits for its consumers, and of the two forgetful bridges
+only the Galois one has a consumer yet; the abstract-extension bridge is
+the canonical entry to the degree API and rides along.
 
 ## References
 
@@ -79,8 +81,8 @@ def toFiniteAbstractExtension (L : FiniteGaloisSubextension K) :
   below := L.below
   finiteQuotient := L.finite
 
-/-- **The actual finite quotient `G(L/K)`, kept behind a named object
-boundary** ([Yamaguchi 2026,
+/-- **The actual finite quotient `G(L/K)`, kept behind a named object boundary**
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:59`]
 [Yamaguchi2026]). -/
 def extensionQuotient (L : FiniteGaloisSubextension K) : Type u :=
