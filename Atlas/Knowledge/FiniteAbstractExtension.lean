@@ -15,7 +15,7 @@ invariants specialize to the positive naturals at this boundary.
 ## Main definitions
 
 * `FiniteAbstractExtension` — the extension with its finiteness certificate,
-  and `FiniteAbstractExtension.ofInclusion` to bundle one.
+  its `quotient`, and `FiniteAbstractExtension.ofInclusion` to bundle one.
 * `FiniteAbstractExtension.degree` / `FiniteAbstractExtension.residueDegree` /
   `FiniteAbstractExtension.ramificationIndex` — the three positive invariants.
 * `FiniteAbstractExtension.IsUnramified` /
