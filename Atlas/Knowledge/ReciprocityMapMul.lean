@@ -43,15 +43,18 @@ reciprocity map on Frobenius elements (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
-the ambient group is `Type` after the `Type`-pinned quotient-action
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
+and the ambient group is `Type` after the `Type`-pinned quotient-action
 chain. The source's `letI` bridges for the two enrichment instances are
-dropped entirely — here the instances thread through by defeq — and the
+dropped entirely — here the instances thread through by defeq — the
 `maximalUnramifiedExtension_finite` call site drops the containment
-argument, since the layer's form is instance-supplied. The citation
-names this file by bare basename; it lives at
+argument, since the layer's form is instance-supplied, and the theorem
+sheds the source's `[T2Space G]`, Hausdorff being instance-derivable
+from the remaining binders. The citation names this file by bare
+basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
-in the source. The source's no-op opens go.
+in the source. The source's `open`s go — the layer keeps everything in
+one namespace.
 
 ## References
 
@@ -75,7 +78,7 @@ lemma, whose universal-unit norm descends the resulting norm relation
 to `K` ([Yamaguchi 2026, `ReciprocityMapMul.lean:43`][Yamaguchi2026]). -/
 theorem reciprocityMap_mul
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology D)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
