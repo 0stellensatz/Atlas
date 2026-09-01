@@ -168,6 +168,8 @@ import Atlas.Knowledge.KummerCharacterEquiv
 import Atlas.Knowledge.KummerRadicalSubgroup
 import Atlas.Knowledge.LegendreFormula
 import Atlas.Knowledge.LocalAbsoluteValuationSubring
+import Atlas.Knowledge.LocalFixedResidueField
+import Atlas.Knowledge.LocalFixedResidueFinrank
 import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
 import Atlas.Knowledge.LocalKroneckerWeber
