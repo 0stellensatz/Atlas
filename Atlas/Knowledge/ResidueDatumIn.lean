@@ -30,7 +30,8 @@ ordinary field degree.
 The fixing subgroup is closed by Mathlib's
 `InfiniteGalois.fixingSubgroup_isClosed`, and `closedFixingSubgroup` is stated
 at the source's generality — any Galois extension — in its own section, clear
-of the residue hypotheses; the closure instances the datum needs are local,
+of the residue hypotheses, with the source's `@[implicit_reducible]` dropped as
+in the finite-field bundles; the closure instances the datum needs are local,
 never entering an importer's search. The `n·ℤ̂` identification reads the kernel
 law of the finite Frobenius coordinates through the span–kernel identity of
 the `ℤ̂` item, and the multiplicative reading is `AddSubgroup.toSubgroup` of
