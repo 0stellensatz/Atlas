@@ -76,7 +76,7 @@ noncomputable def base (G : Type u) [Group G] [TopologicalSpace G] :
       rw [show (baseField G).toSubgroup.subgroupOf (baseField G).toSubgroup = ⊤
         from by
           ext x
-          exact ⟨fun _ => Subgroup.mem_top x, fun _ => x.2⟩]
+          exact Iff.rfl]
       infer_instance
     letI : Subsingleton
         ((baseField G).toSubgroup ⧸
@@ -86,7 +86,7 @@ noncomputable def base (G : Type u) [Group G] [TopologicalSpace G] :
       refine Quotient.inductionOn₂' x y ?_
       intro a b
       apply QuotientGroup.eq_iff_div_mem.mpr
-      exact (a / b).2
+      exact Subgroup.mem_top _
     infer_instance
 
 /-- A finite abstract field as a finite extension of the base. -/
@@ -132,7 +132,7 @@ noncomputable def residueDegree (K : FiniteAbstractField G)
   (K.toFiniteResidueAbstractField D).residueDegree
 
 /-- **The base field has residue degree one**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1178`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1176`][Yamaguchi2026]). -/
 @[simp] theorem base_residueDegree (D : DegreeData G) :
     (FiniteAbstractField.base G).residueDegree D = 1 := by
   apply Subtype.ext

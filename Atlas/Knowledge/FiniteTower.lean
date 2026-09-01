@@ -11,7 +11,8 @@ are exposed as finite abstract extensions.
 
 ## Main definitions
 
-* `FiniteTower` — the tower with its two finiteness certificates.
+* `FiniteTower` — the tower with its two finiteness certificates,
+  `finiteTopQuotient` and `finiteBaseQuotient`.
 * `FiniteTower.topExtension` / `FiniteTower.baseExtension` — the stages as
   finite abstract extensions.
 

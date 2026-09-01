@@ -18,6 +18,9 @@ invariants specialize to the positive naturals at this boundary.
   and `FiniteAbstractExtension.ofInclusion` to bundle one.
 * `FiniteAbstractExtension.degree` / `FiniteAbstractExtension.residueDegree` /
   `FiniteAbstractExtension.ramificationIndex` — the three positive invariants.
+* `FiniteAbstractExtension.IsUnramified` /
+  `FiniteAbstractExtension.IsTotallyRamified` — through the underlying
+  extension.
 
 ## Main statements
 
@@ -33,10 +36,12 @@ invariants specialize to the positive naturals at this boundary.
 
 ## Implementation notes
 
-`relativeResidueDegreeCardinal_lt_aleph0` and its ramification sibling are
-public here where the source keeps them private: the residue-field bundles in
-the sibling files consume them across the file boundary the source does not
-have. The relative subgroup is `Subgroup.subgroupOf`, as across the layer.
+`relativeResidueDegreeCardinal_lt_aleph0` is public here where the source keeps
+it private: the residue-field bundles in the sibling files consume it across
+the file boundary the source does not have; its ramification sibling stays
+private. The relative subgroup is `Subgroup.subgroupOf`, as across the layer,
+and the source's `extensionSubgroup_index_eq_degree` is named
+`subgroup_index_eq_degree` for it.
 
 ## References
 
@@ -183,22 +188,22 @@ private theorem relativeDegreeCardinals_lt_aleph0 (D : DegreeData G) :
 /-- **The relative residue cardinal of a finite extension is finite** — from the
 cardinal fundamental identity, the argument the zero convention cannot make;
 public here because the residue-field bundles consume it across files
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:689`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:683`][Yamaguchi2026]). -/
 theorem relativeResidueDegreeCardinal_lt_aleph0 (D : DegreeData G) :
     E.toAbstractExtension.relativeResidueDegreeCardinal D <
       Cardinal.aleph0 :=
   Cardinal.lift_lt_aleph0.mp (E.relativeDegreeCardinals_lt_aleph0 D).1
 
-/-- The relative ramification cardinal of a finite extension is finite. -/
-theorem relativeRamificationIndexCardinal_lt_aleph0 (D : DegreeData G) :
+/- The relative ramification cardinal of a finite extension is finite. -/
+private theorem relativeRamificationIndexCardinal_lt_aleph0 (D : DegreeData G) :
     E.toAbstractExtension.relativeRamificationIndexCardinal D <
       Cardinal.aleph0 :=
   (E.relativeDegreeCardinals_lt_aleph0 D).2
 
 /-- **The residue coset type of a finite extension is finite** — derived from
 the cardinal fundamental identity, not from a natural-valued index
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:701`][Yamaguchi2026]). -/
-noncomputable instance residueQuotientFinite (D : DegreeData G) :
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:698`][Yamaguchi2026]). -/
+instance residueQuotientFinite (D : DegreeData G) :
     Finite
       (↥(E.base.toSubgroup.map D.degree.toMonoidHom) ⧸
         (E.field.toSubgroup.map D.degree.toMonoidHom).subgroupOf
@@ -210,7 +215,7 @@ noncomputable instance residueQuotientFinite (D : DegreeData G) :
 
 /-- The inertia coset type of a finite extension is finite, likewise from the
 cardinal identity. -/
-noncomputable instance ramificationQuotientFinite (D : DegreeData G) :
+instance ramificationQuotientFinite (D : DegreeData G) :
     Finite
       (↥(E.base.toSubgroup ⊓ D.degree.toMonoidHom.ker) ⧸
         (E.field.toSubgroup ⊓ D.degree.toMonoidHom.ker).subgroupOf
