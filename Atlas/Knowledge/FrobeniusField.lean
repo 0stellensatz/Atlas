@@ -50,9 +50,10 @@ chosen lift (#104).
 
 The port carries the layer's settled renames — `extensionSubgroup` is the
 `subgroupOf` spelling, `ZHatMul` is `ProfiniteIntegerMul`, `zHatPowNat` is
-`profiniteIntegerPowNat`, the positivity arguments of the profinite division
-apparatus are the layer's `NeZero` instances, and the source's range-index
-step closes by `ProfiniteInteger.index_span_natCast` — and the identity the
+`profiniteIntegerPowNat`, the positivity arguments of the profinite
+apparatus become `NeZero` instances or explicit `≠ 0` hypotheses, and the
+source's range-index step closes by `ProfiniteInteger.index_span_natCast` —
+and the identity the
 source names `extensionSubgroup_frobeniusFixedField` is
 `subgroupOf_frobeniusFixedField` here, after the spelling its statement
 actually uses. Seven of the source's Hausdorff binders only forwarded to
