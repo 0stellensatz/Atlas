@@ -94,6 +94,7 @@ import Atlas.Knowledge.FiniteResidueFrobenius
 import Atlas.Knowledge.FiniteTower
 import Atlas.Knowledge.FiniteUnramifiedCyclicExtension
 import Atlas.Knowledge.FixedFieldInclusion
+import Atlas.Knowledge.FixedTowerUnitCorrection
 import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FormalLogPow
 import Atlas.Knowledge.FreeCharacterJumpSets
