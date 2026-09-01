@@ -261,7 +261,8 @@ theorem frobeniusExponent_actionConjugate (D : DegreeData G)
 
 /-- **The fixed field of the left-action conjugate `φᵐσφ⁻ᵐ` is the
 corresponding conjugate of the fixed field of `σ`** — the representative
-only expresses the quotient conjugation ambiently ([Yamaguchi 2026, `FrobeniusActionRemainder.lean:207`]
+only expresses the quotient conjugation ambiently
+([Yamaguchi 2026, `FrobeniusActionRemainder.lean:207`]
 [Yamaguchi2026]). -/
 theorem conjugate_frobeniusFixedField_actionConjugate
     (D : DegreeData G) [IsTopologicalGroup G]
