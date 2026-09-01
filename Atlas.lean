@@ -88,6 +88,7 @@ import Atlas.Knowledge.FiniteResidueAbstractExtension
 import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FiniteResidueFrobenius
 import Atlas.Knowledge.FiniteTower
+import Atlas.Knowledge.FiniteUnramifiedCyclicExtension
 import Atlas.Knowledge.FixedFieldInclusion
 import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FormalLogPow
@@ -321,6 +322,7 @@ import Atlas.Knowledge.TateTwistVanishing
 import Atlas.Knowledge.TateVanishingNormKernel
 import Atlas.Knowledge.TopologicalGeneration
 import Atlas.Knowledge.TotallyRamifiedMonogenic
+import Atlas.Knowledge.UnitCohomologyAxiom
 import Atlas.Knowledge.UnitFiltrationClassification
 import Atlas.Knowledge.UnitFiltrationQuasiFree
 import Atlas.Knowledge.UnitFiniteSupport
@@ -328,6 +330,7 @@ import Atlas.Knowledge.UnitLevelFiniteIndex
 import Atlas.Knowledge.UnitPairFree
 import Atlas.Knowledge.UnitPairIndependence
 import Atlas.Knowledge.UnitPairOrbit
+import Atlas.Knowledge.UnitRepresentation
 import Atlas.Knowledge.UnitsFiniteIndexOpen
 import Atlas.Knowledge.UnramifiedNormRange
 import Atlas.Knowledge.UpperRamificationGroup
