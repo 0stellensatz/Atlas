@@ -44,8 +44,8 @@ units of `L` (#104).
 
 The descent through the extension subgroup is Mathlib's `Rep.ofQuotient`,
 exactly as in the source, with the triviality instance supplied the same
-way. Positivity arguments become the layer's `≠ 0` spellings, as across
-the arc.
+way. Positivity arguments become the layer's `≠ 0` spellings, as across the
+arc.
 
 ## References
 
