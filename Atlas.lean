@@ -16,6 +16,8 @@ import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.AbstractExtension
+import Atlas.Knowledge.AbstractFixedField
+import Atlas.Knowledge.AbstractFixedFieldUnitsEquiv
 import Atlas.Knowledge.AddValMapIntegralClosure
 import Atlas.Knowledge.AdicCompletionIsMixedCharLocalField
 import Atlas.Knowledge.AmbientFixedAddSubgroup
@@ -124,6 +126,7 @@ import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.IntegerLinearTopology
 import Atlas.Knowledge.IntegerValuation
 import Atlas.Knowledge.IntegralClosureDVR
+import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
 import Atlas.Knowledge.IsAdmissibleJumpPair
 import Atlas.Knowledge.IsArithmeticFrobenius
 import Atlas.Knowledge.IsArtinRestriction
