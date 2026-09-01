@@ -332,6 +332,7 @@ import Atlas.Knowledge.TateCohomologyFiniteCyclic
 import Atlas.Knowledge.TateTwist
 import Atlas.Knowledge.TateTwistVanishing
 import Atlas.Knowledge.TateVanishingNormKernel
+import Atlas.Knowledge.TateVanishingNormSurjectivity
 import Atlas.Knowledge.TopologicalGeneration
 import Atlas.Knowledge.TotallyRamifiedMonogenic
 import Atlas.Knowledge.UnitCohomologyAxiom
@@ -344,6 +345,7 @@ import Atlas.Knowledge.UnitPairIndependence
 import Atlas.Knowledge.UnitPairOrbit
 import Atlas.Knowledge.UnitRepresentation
 import Atlas.Knowledge.UnitsFiniteIndexOpen
+import Atlas.Knowledge.UniversalNormDescent
 import Atlas.Knowledge.UnramifiedNormRange
 import Atlas.Knowledge.UnramifiedQuotientGenerator
 import Atlas.Knowledge.UpperRamificationGroup
