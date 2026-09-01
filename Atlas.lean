@@ -37,6 +37,7 @@ import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.CyclotomicIntegerBasis
 import Atlas.Knowledge.CyclotomicNormalizedTraceBound
+import Atlas.Knowledge.DecompositionResidueExactSequence
 import Atlas.Knowledge.DeepUnitGroup
 import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.DigitSum
@@ -215,6 +216,7 @@ import Atlas.Knowledge.PrincipalIdele
 import Atlas.Knowledge.ProfiniteInteger
 import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.QuasiFreeTorsion
+import Atlas.Knowledge.QuotientNormalOfProfinite
 import Atlas.Knowledge.QuotientTowerEquiv
 import Atlas.Knowledge.RamificationBound
 import Atlas.Knowledge.RamificationFiltration
