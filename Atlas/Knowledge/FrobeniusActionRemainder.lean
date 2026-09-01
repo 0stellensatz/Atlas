@@ -24,10 +24,9 @@ action-remainder identities that reciprocity-map multiplicativity
 consumes: the exponent is additive on the semigroup, a Frobenius element
 fixes its own fixed field inside `A_{L̃}`, the remainder `φⁿσ⁻¹` of a
 degree-one `φ` has degree zero and multiplies by conjugating the second
-factor, the
-left-action conjugate carries the fixed field to its conjugate, and on
-the fixed field of `σ` the remainder acts as the `n`-th power of `φ`
-(#104).
+factor, the left-action conjugate carries the fixed field to its
+conjugate, and on the fixed field of `σ` the remainder acts as the
+`n`-th power of `φ` (#104).
 
 ## Main definitions
 
@@ -57,9 +56,10 @@ layer-local `frobeniusClosure` name. Only the last section is
 `Type`-valued — its `frobeniusQuotientRepresentation` callee pins — and
 the source's other `IntegralRepGroupType` section generalizes to
 `Type u` along with the algebra sections. The source's no-op opens go,
-and the citations name this file by bare basename — it lives in
-`Reciprocity/Construction/MainMultiplicativity/`, whose full path pushes
-the unbreakable span past the line budget. The multiplication law's
+and the citations name this file by bare basename — it lives at
+`AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
+in the source, whose full path pushes the unbreakable citation span past
+the line budget. The multiplication law's
 mid-proof `simp` is the source's own; the flexible-tactic style warning
 it draws is accepted rather than the proof reshaped.
 
@@ -82,8 +82,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The exponent is additive under multiplication in the Frobenius
-semigroup** ([Yamaguchi 2026,
-`FrobeniusActionRemainder.lean:32`]
+semigroup** ([Yamaguchi 2026, `FrobeniusActionRemainder.lean:32`]
 [Yamaguchi2026]). -/
 @[simp]
 theorem frobeniusExponent_mul (D : DegreeData G)
@@ -126,8 +125,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **A Frobenius element fixes the elements of its actual fixed field,
-viewed inside `A_{L̃}`** ([Yamaguchi 2026,
-`FrobeniusActionRemainder.lean:77`]
+viewed inside `A_{L̃}`** ([Yamaguchi 2026, `FrobeniusActionRemainder.lean:77`]
 [Yamaguchi2026]). -/
 theorem frobeniusQuotientAction_fixedFieldInclusion (D : DegreeData G)
     (A : Rep ℤ G) [IsTopologicalGroup G]
@@ -177,8 +175,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The action remainder `φⁿσ⁻¹`** — the left-`Rep`-action counterpart
-of the right-action notation ([Yamaguchi 2026,
-`FrobeniusActionRemainder.lean:126`]
+of the right-action notation ([Yamaguchi 2026, `FrobeniusActionRemainder.lean:126`]
 [Yamaguchi2026]). -/
 def frobeniusActionRemainder (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -189,8 +186,7 @@ def frobeniusActionRemainder (D : DegreeData G)
   φ.1 ^ D.frobeniusExponent K L hLK σ * σ.1⁻¹
 
 /-- For `φ` of Frobenius exponent one, the action remainder has
-normalized degree zero ([Yamaguchi 2026,
-`FrobeniusActionRemainder.lean:136`]
+normalized degree zero ([Yamaguchi 2026, `FrobeniusActionRemainder.lean:136`]
 [Yamaguchi2026]). -/
 theorem frobeniusActionRemainder_mem_degreeKernel (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -208,8 +204,7 @@ theorem frobeniusActionRemainder_mem_degreeKernel (D : DegreeData G)
   simp
 
 /-- **The conjugate adapted to the left action**, `φᵐσφ⁻ᵐ` with the
-exponent carried along ([Yamaguchi 2026,
-`FrobeniusActionRemainder.lean:153`]
+exponent carried along ([Yamaguchi 2026, `FrobeniusActionRemainder.lean:153`]
 [Yamaguchi2026]). -/
 def frobeniusActionConjugate (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -237,8 +232,7 @@ theorem frobeniusActionConjugate_coe (D : DegreeData G)
   simp [frobeniusActionConjugate]
 
 /-- Frobenius action conjugation preserves the Frobenius exponent
-([Yamaguchi 2026,
-`FrobeniusActionRemainder.lean:179`]
+([Yamaguchi 2026, `FrobeniusActionRemainder.lean:179`]
 [Yamaguchi2026]). -/
 @[simp]
 theorem frobeniusExponent_actionConjugate (D : DegreeData G)
@@ -267,8 +261,7 @@ theorem frobeniusExponent_actionConjugate (D : DegreeData G)
 
 /-- **The fixed field of the left-action conjugate `φᵐσφ⁻ᵐ` is the
 corresponding conjugate of the fixed field of `σ`** — the representative
-only expresses the quotient conjugation ambiently ([Yamaguchi 2026,
-`FrobeniusActionRemainder.lean:207`]
+only expresses the quotient conjugation ambiently ([Yamaguchi 2026, `FrobeniusActionRemainder.lean:207`]
 [Yamaguchi2026]). -/
 theorem conjugate_frobeniusFixedField_actionConjugate
     (D : DegreeData G) [IsTopologicalGroup G]
@@ -382,8 +375,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The left-action translation of `τ₃ = τ₂τ₄`**: conjugation moves to
-the second factor and the order reverses ([Yamaguchi 2026,
-`FrobeniusActionRemainder.lean:320`]
+the second factor and the order reverses ([Yamaguchi 2026, `FrobeniusActionRemainder.lean:320`]
 [Yamaguchi2026]). -/
 theorem frobeniusActionRemainder_mul (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -428,8 +420,7 @@ variable {G : Type} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **On the fixed field of `σ`, the left-action remainder acts exactly
-as the `n`-th power of `φ`** ([Yamaguchi 2026,
-`FrobeniusActionRemainder.lean:368`]
+as the `n`-th power of `φ`** ([Yamaguchi 2026, `FrobeniusActionRemainder.lean:368`]
 [Yamaguchi2026]). -/
 theorem frobeniusActionRemainder_apply_fixedField (D : DegreeData G)
     (A : Rep ℤ G) [IsTopologicalGroup G]
