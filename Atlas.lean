@@ -135,6 +135,7 @@ import Atlas.Knowledge.IdeleClassNormRange
 import Atlas.Knowledge.IdeleComponent
 import Atlas.Knowledge.IdeleContent
 import Atlas.Knowledge.IdeleGroup
+import Atlas.Knowledge.InfiniteNormSubgroup
 import Atlas.Knowledge.InfinitePlaceHilbertSymbol
 import Atlas.Knowledge.IntegerHigherUnitCount
 import Atlas.Knowledge.IntegerHigherUnitGroup
@@ -209,6 +210,7 @@ import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
 import Atlas.Knowledge.MassFormula
 import Atlas.Knowledge.MaximalAbelianExtension
 import Atlas.Knowledge.MaximalAbelianSubextension
+import Atlas.Knowledge.MaximalUnramifiedField
 import Atlas.Knowledge.MinpolyMapEqCharpoly
 import Atlas.Knowledge.Modulus
 import Atlas.Knowledge.MonogenicIntegralClosure
@@ -258,6 +260,7 @@ import Atlas.Knowledge.RayClassField
 import Atlas.Knowledge.RayClassGroup
 import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
+import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.RelativeNormLaws
