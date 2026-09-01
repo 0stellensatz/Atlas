@@ -233,8 +233,10 @@ import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.ResidueAbsoluteDegreeIn
 import Atlas.Knowledge.ResidueAbsoluteFrobenius
+import Atlas.Knowledge.ResidueActionIndex
 import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.ResidueDatumIn
+import Atlas.Knowledge.ResidueOfAlgebraicallyClosed
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.SemiInvariantIndependence
