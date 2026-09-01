@@ -1,5 +1,4 @@
 import Mathlib
-import Atlas.Knowledge.LocalResidueDatum
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.SeparableFixedFieldNorm
 import Atlas.Knowledge.ValuationData
@@ -31,10 +30,16 @@ valuation datum (#104).
 
 ## Implementation notes
 
-The source's valuation map on the unit group is
-`Atlas.Knowledge.normalizedValuation`, read additively; its surjectivity is
-the layer's `normalizedValuation_surjective`. Reduction is
-`Atlas.Knowledge.ProfiniteInteger.reduction`, with the positive modulus
+The additive reading of the unit-group valuation is the layer's
+`Atlas.Knowledge.normalizedValuation`, which sends a uniformizer to `+1`;
+the source's `valuationMap` uses the inverse-standard convention of the
+concrete local Artin map and sends it to `-1`. Every statement here is
+invariant under that sign — negation is an automorphism of `ℤ` fixing range,
+kernels and quotients — so neither side is repaired; the fork stands as the
+layer records it at the normalized valuation, and it resurfaces where the
+Artin map is assembled, not here. Surjectivity is the layer's
+`normalizedValuation_surjective`, reduction is
+`Atlas.Knowledge.ProfiniteInteger.reduction`, and the positive modulus is
 carried as `NeZero` throughout, matching the valuation datum's own fields.
 
 ## References
@@ -52,7 +57,10 @@ noncomputable section
 variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
-/-- The normalized valuation, read additively on the unit group. -/
+/-- The normalized valuation, read additively on the unit group — the
+negative of the source's inverse-standard valuation map ([Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/ValuationExactSequence.lean:31`]
+[Yamaguchi2026]). -/
 def normalizedValuationAddHom : Additive Kˣ →+ ℤ where
   toFun x := normalizedValuation K (Additive.toMul x)
   map_zero' := normalizedValuation_one K

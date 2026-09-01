@@ -1,7 +1,6 @@
 import Mathlib
-import Atlas.Knowledge.AbstractFixedField
 import Atlas.Knowledge.DegreeData
-import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
+import Atlas.Knowledge.ResidueDatumIn
 
 /-!
 # abstract quotients at the base fixing subgroup
@@ -31,7 +30,9 @@ the abstract norm of the ambient unit module is compared with the field norm
 The source records separately that its `extensionSubgroup` at the base is
 `Subgroup.subgroupOf` of the ambient fixing subgroups; in the layer's
 `subgroupOf` spelling that statement is the spelling itself, so it has no
-counterpart here. The two normality statements are instances, keyed to
+counterpart here — and neither has the source's normality instance for the
+relative presentation, which Mathlib's `Subgroup.normal_subgroupOf` already
+provides. The remaining normality statement is an instance, keyed to
 `Atlas.Knowledge.closedFixingSubgroup` applications.
 
 ## References
@@ -79,16 +80,6 @@ instance closedFixingSubgroup_normal
     (E : IntermediateField K Ω) [IsGalois K E] :
     (closedFixingSubgroup E).toSubgroup.Normal :=
   (InfiniteGalois.normal_iff_isGalois E).2 inferInstance
-
-/-- Normality of a Galois subextension, in the relative-subgroup presentation
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:61`]
-[Yamaguchi2026]). -/
-instance extensionSubgroupBase_normal
-    (E : IntermediateField K Ω) [IsGalois K E] :
-    ((closedFixingSubgroup E).toSubgroup.subgroupOf
-      (closedFixingSubgroup (⊥ : IntermediateField K Ω)).toSubgroup).Normal :=
-  inferInstance
 
 /-- Restriction to the ambient quotient by the fixing subgroup of `E`
 ([Yamaguchi 2026,
