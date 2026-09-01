@@ -28,6 +28,14 @@ relative residue degree one, so norms of primes are prime (#104).
 * `ValuationData.norm_prime_of_totallyRamified` — norms of primes are prime
   in a totally ramified extension; proved.
 
+## Implementation notes
+
+The source's norm-of-inclusion rewrite closes with `simpa`; in the layer the
+simplified sides are definitionally equal only at default transparency, which
+`simpa`'s closing reducible-transparency check does not reach, so the bridge
+is a definitional `show … from` on the underlying finite extension and the
+source's local `let` for it is dropped.
+
 ## References
 
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
@@ -53,7 +61,8 @@ def oneValue (v : ValuationData D A) : v.valueGroup :=
     obtain ⟨a, ha⟩ := v.integers_mem 1
     exact ⟨a, by simpa using ha⟩⟩
 
-/-- The distinguished value reads as `1` in `ℤ̂`. -/
+/-- The distinguished value reads as `1` in `ℤ̂` ([Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:109`][Yamaguchi2026]). -/
 @[simp]
 theorem oneValue_coe (v : ValuationData D A) :
     (v.oneValue : ProfiniteInteger) = 1 :=
@@ -71,7 +80,9 @@ def unitAddSubgroup (v : ValuationData D A) (K : FiniteAbstractField G) :
     AddSubgroup (ambientFixedAddSubgroup A K.field) :=
   (v.valuationAt K).ker
 
-/-- Membership in the unit group is vanishing normalized valuation. -/
+/-- Membership in the unit group is vanishing normalized valuation
+([Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:126`][Yamaguchi2026]). -/
 @[simp]
 theorem mem_unitAddSubgroup_iff (v : ValuationData D A)
     (K : FiniteAbstractField G)

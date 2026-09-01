@@ -57,7 +57,9 @@ theorem valuationAt_chosenPrimeElement (v : ValuationData D A)
     v.valuationAt K (v.chosenPrimeElement K) = v.oneValue :=
   Classical.choose_spec (v.normalizedValuation_surjective K v.oneValue)
 
-/-- The chosen prime element is prime. -/
+/-- The chosen prime element is prime ([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:39`]
+[Yamaguchi2026]). -/
 theorem chosenPrimeElement_isPrime (v : ValuationData D A)
     (K : FiniteAbstractField G) :
     v.IsPrimeElement K (v.chosenPrimeElement K) :=

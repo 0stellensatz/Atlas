@@ -37,9 +37,12 @@ the base (#104).
 
 The source states the tower law with a `let` binding the enriched extension
 inside the statement; here the residue degree is spelled out, so consumers
-read the coefficient without introducing the binding first. The proofs are
-otherwise the source's, with the layer's `ProfiniteInteger` for its `ZHat`
-and `Subgroup.subgroupOf` for its relative subgroup.
+read the coefficient without introducing the binding first. The source also
+reproves the field-level residue-degree invariance from scratch; here it is
+the residue-finite statement applied to the enriched field, which conjugation
+carries to the same subgroup. The proofs are otherwise the source's, with the
+layer's `ProfiniteInteger` for its `ZHat` and `Subgroup.subgroupOf` for its
+relative subgroup.
 
 ## References
 
@@ -131,24 +134,8 @@ def FiniteAbstractField.conjugate [ContinuousMul G]
 `AbstractClassFieldTheory/Degree/ValuationLaws.lean:93`][Yamaguchi2026]). -/
 theorem FiniteAbstractField.residueDegree_conjugate [ContinuousMul G]
     (K : FiniteAbstractField G) (D : DegreeData G) (σ : G) :
-    (K.conjugate σ).residueDegree D = K.residueDegree D := by
-  letI : Finite (D.residueQuotient K.field) :=
-    (K.toFiniteResidueAbstractField D).finiteResidueQuotient
-  letI : Finite
-      (D.residueQuotient (conjugateClosedSubgroup K.field σ)) :=
-    ((K.conjugate σ).toFiniteResidueAbstractField D).finiteResidueQuotient
-  apply PNat.eq
-  change Nat.card
-      (D.residueQuotient (conjugateClosedSubgroup K.field σ)) =
-    Nat.card (D.residueQuotient K.field)
-  unfold DegreeData.residueQuotient
-  have himage := D.fieldImage_conjugate K.field σ
-  apply Nat.card_congr
-  exact Subgroup.quotientEquivOfEq
-    (congrArg
-      (fun H : Subgroup ProfiniteIntegerMul =>
-        H.subgroupOf (⊤ : Subgroup ProfiniteIntegerMul))
-      himage)
+    (K.conjugate σ).residueDegree D = K.residueDegree D :=
+  (K.toFiniteResidueAbstractField D).residueDegree_conjugate σ
 
 namespace ValuationData
 
