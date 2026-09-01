@@ -353,6 +353,7 @@ import Atlas.Knowledge.UnitPairOrbit
 import Atlas.Knowledge.UnitRepresentation
 import Atlas.Knowledge.UnitsFiniteIndexOpen
 import Atlas.Knowledge.UniversalNormDescent
+import Atlas.Knowledge.UniversalNormDescentLemma
 import Atlas.Knowledge.UnramifiedNormRange
 import Atlas.Knowledge.UnramifiedQuotientGenerator
 import Atlas.Knowledge.UpperRamificationGroup
