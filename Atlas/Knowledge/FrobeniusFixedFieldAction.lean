@@ -11,7 +11,7 @@ import Atlas.Knowledge.RelativeNormLaws
 import Atlas.Knowledge.UniversalNormDescent
 
 /-!
-# Actions on Frobenius fixed fields
+# Frobenius fixed field action
 
 The action a quotient element commuting with the defining generator
 induces on a Frobenius fixed field, with its compatibilities: it is the
@@ -36,13 +36,14 @@ field it becomes the actual quotient action — power sums included (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
-the ambient group is `Type` because `Rep ℤ` pins its group to the ring's
-universe, exactly as in the layer's Tate items — the source's module
-comment making the same point is absorbed here. Every declaration sheds
-the source's `CompactSpace`, `T2Space`, and `TotallyDisconnectedSpace`
-binders: they only fed the commutation theorem's, and #140 dropped them
-there.
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
+and the ambient group is `Type` because the file leans on
+`Atlas.Knowledge.conjugateStableAction`, whose item fixed `Type` after
+the layer's Tate apparatus; the source's `open`s of its cohomology
+namespaces and the `BigOperators` scope are no-ops here and are dropped.
+Every declaration sheds the source's `CompactSpace`, `T2Space`, and
+`TotallyDisconnectedSpace` binders: they only fed the binders of the
+commutation theorem, and #140 dropped them there.
 
 ## References
 
@@ -58,8 +59,8 @@ variable {G : Type} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
-/-- **The action a commuting quotient element induces on a Frobenius
-fixed field** ([Yamaguchi 2026,
+/-- **The action a commuting quotient element induces on a Frobenius fixed field**
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:36`]
 [Yamaguchi2026]). -/
 noncomputable def frobeniusFixedFieldAction (D : DegreeData G) (A : Rep ℤ G)
