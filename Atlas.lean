@@ -286,6 +286,7 @@ import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.RelativeNormConjugation
+import Atlas.Knowledge.RelativeNormDoubleCoset
 import Atlas.Knowledge.RelativeNormLaws
 import Atlas.Knowledge.ResidueAbsoluteDegreeIn
 import Atlas.Knowledge.ResidueAbsoluteFrobenius
