@@ -2,12 +2,12 @@ import Mathlib
 import Atlas.Knowledge.AmbientFixedAddSubgroup
 import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbstractField
-import Atlas.Knowledge.FiniteFieldUnitMaps
 import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FixedFieldInclusion
 import Atlas.Knowledge.FrobeniusActionRemainder
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
+import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.FrobeniusQuotientAction
 import Atlas.Knowledge.FrobeniusQuotientDescent
 import Atlas.Knowledge.InfiniteUnitDescent
@@ -15,20 +15,22 @@ import Atlas.Knowledge.MaximalUnramifiedField
 import Atlas.Knowledge.PrimeElement
 import Atlas.Knowledge.PrimeUnitDifferences
 import Atlas.Knowledge.ReciprocityMap
+import Atlas.Knowledge.ValuationData
 
 /-!
 # Finite-stage corrections
 
-The alternating Frobenius power sum of reciprocity multiplicativity and
-each of the three correction coefficients are genuine finite-stage
-units: the sum splits into power sums of prime-element differences, and
-the coefficients are exactly the differences the prime-unit lemmas
-control (#104).
+The Frobenius power-sum combination `s₄ + s₁ - s₃` of reciprocity
+multiplicativity and each of the three correction coefficients are
+genuine finite-stage units: the combination splits into the power sums
+of a prime difference and of a prime minus an action translate, and the
+coefficients are exactly the differences the prime-unit lemmas control
+(#104).
 
 ## Main statements
 
 * `DegreeData.frobeniusPowerSum_alternating_mem_infiniteUnitAddSubgroup`
-  — the alternating power sum is a finite-stage unit; proved.
+  — the power-sum combination is a finite-stage unit; proved.
 * `DegreeData.frobeniusCorrectionTerms_mem_infiniteUnitAddSubgroup` —
   all three correction coefficients are finite-stage units; proved.
 
@@ -36,11 +38,11 @@ control (#104).
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
 the ambient group is `Type` after the `Type`-pinned quotient-action
-chain, and the source's `simpa` bridges for the two enrichment instances
-become plain defeq terms — the rewrite trips on the instance position
-here, and both theorems shed the source's dead `[T2Space G]` — Hausdorff
-is instance-derivable from the remaining binders. The citations name
-this file by bare basename; it lives at
+chain. The source's `letI` bridges for the two enrichment instances are
+dropped entirely — here the instances thread through by defeq and the
+bridges are scaffolding — and both theorems shed the source's dead
+`[T2Space G]`, Hausdorff being instance-derivable from the remaining
+binders. The citations name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
 in the source. The source's no-op opens go.
 
@@ -58,11 +60,11 @@ variable {G : Type} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
-/-- **The alternating Frobenius power sum of multiplicativity is a
-genuine finite-stage unit** — splitting the long sum into two blocks
-expresses it as power sums of differences of prime elements
-([Yamaguchi 2026, `FiniteStageCorrections.lean:28`]
-[Yamaguchi2026]). -/
+/-- **The Frobenius power-sum combination `s₄ + s₁ - s₃` of
+multiplicativity is a genuine finite-stage unit** — splitting the long
+sum into two blocks expresses it as the power sums of `p₄ - p₃` and of
+`p₁` minus an action translate of `p₃`
+([Yamaguchi 2026, `FiniteStageCorrections.lean:28`][Yamaguchi2026]). -/
 theorem frobeniusPowerSum_alternating_mem_infiniteUnitAddSubgroup
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -130,9 +132,6 @@ theorem frobeniusPowerSum_alternating_mem_infiniteUnitAddSubgroup
       (D.maximalUnramifiedField_le_of_le hLK) := by
   dsimp only
   let KR := K.toFiniteResidueAbstractField D
-  letI hLnormalKR : (L.toSubgroup.subgroupOf KR.field.toSubgroup).Normal := hLnormal
-  letI hLfiniteKR : Finite
-      (KR.field.toSubgroup ⧸ L.toSubgroup.subgroupOf KR.field.toSubgroup) := hLfinite
   let σ₃ := σ₁ * σ₂
   let σ₄ := D.frobeniusActionConjugate KR L hLK φ σ₂
     (D.frobeniusExponent KR L hLK σ₁)
@@ -205,9 +204,8 @@ theorem frobeniusPowerSum_alternating_mem_infiniteUnitAddSubgroup
 /-- **Each of the three correction coefficients in the group-ring
 identity is a finite-stage unit** — in the left-action translation the
 product is `τ₄τ₁`, so the third coefficient is `p₃ - τ₁p₃`, acted on by
-`τ₄` in `frobeniusMultiplicativityCorrectionAction` ([Yamaguchi 2026,
-`FiniteStageCorrections.lean:173`]
-[Yamaguchi2026]). -/
+`τ₄` in `frobeniusMultiplicativityCorrectionAction`
+([Yamaguchi 2026, `FiniteStageCorrections.lean:173`][Yamaguchi2026]). -/
 theorem frobeniusCorrectionTerms_mem_infiniteUnitAddSubgroup
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -275,9 +273,6 @@ theorem frobeniusCorrectionTerms_mem_infiniteUnitAddSubgroup
       (D.maximalUnramifiedField_le_of_le hLK) := by
   dsimp only
   let KR := K.toFiniteResidueAbstractField D
-  letI hLnormalKR : (L.toSubgroup.subgroupOf KR.field.toSubgroup).Normal := hLnormal
-  letI hLfiniteKR : Finite
-      (KR.field.toSubgroup ⧸ L.toSubgroup.subgroupOf KR.field.toSubgroup) := hLfinite
   let σ₃ := σ₁ * σ₂
   let σ₄ := D.frobeniusActionConjugate KR L hLK φ σ₂
     (D.frobeniusExponent KR L hLK σ₁)
@@ -309,7 +304,6 @@ theorem frobeniusCorrectionTerms_mem_infiniteUnitAddSubgroup
     exact h₁₃
   · change p₃ - D.frobeniusQuotientAction A KR.field L hLK τ₁ p₃ ∈ _
     exact h₃action
-
 
 end DegreeData
 
