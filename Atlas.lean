@@ -154,6 +154,7 @@ import Atlas.Knowledge.InertiaQuotientDegreeKernel
 import Atlas.Knowledge.InfiniteNormSubgroup
 import Atlas.Knowledge.InfinitePlaceHilbertSymbol
 import Atlas.Knowledge.InfiniteUnitDescent
+import Atlas.Knowledge.InfiniteUnitNormSubgroup
 import Atlas.Knowledge.IntegerHigherUnitCount
 import Atlas.Knowledge.IntegerHigherUnitGroup
 import Atlas.Knowledge.IntegerIsIntegralClosure
