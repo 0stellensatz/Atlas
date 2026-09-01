@@ -100,6 +100,7 @@ import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.FrobeniusFixedField
+import Atlas.Knowledge.FrobeniusQuotientAction
 import Atlas.Knowledge.FrobeniusSemigroup
 import Atlas.Knowledge.GalIdealPowCounts
 import Atlas.Knowledge.GalUnits
@@ -138,6 +139,7 @@ import Atlas.Knowledge.IdeleClassNormRange
 import Atlas.Knowledge.IdeleComponent
 import Atlas.Knowledge.IdeleContent
 import Atlas.Knowledge.IdeleGroup
+import Atlas.Knowledge.InertiaQuotientDegreeKernel
 import Atlas.Knowledge.InfiniteNormSubgroup
 import Atlas.Knowledge.InfinitePlaceHilbertSymbol
 import Atlas.Knowledge.IntegerHigherUnitCount
