@@ -311,6 +311,7 @@ import Atlas.Knowledge.TateCohomologyFiniteCyclic
 import Atlas.Knowledge.TateTwist
 import Atlas.Knowledge.TateTwistVanishing
 import Atlas.Knowledge.TateVanishingNormKernel
+import Atlas.Knowledge.TopologicalGeneration
 import Atlas.Knowledge.TotallyRamifiedMonogenic
 import Atlas.Knowledge.UnitFiltrationClassification
 import Atlas.Knowledge.UnitFiltrationQuasiFree
