@@ -37,6 +37,8 @@ the Frobenius, and the engine's Frobenius bookkeeping is arithmetic in this ring
 * `ProfiniteInteger.reduction_surjective` — each reduction is onto; proved.
 * `ProfiniteInteger.natCast_mem_nonZeroDivisors` — a positive integer is a
   non-zero-divisor; proved.
+* `ProfiniteInteger.ofAdd_one_pow_injective` — distinct natural powers of the
+  multiplicative generator are distinct; proved.
 * `ProfiniteInteger.isClosed_span_singleton` — every principal ideal is closed;
   proved.
 * `ProfiniteInteger.span_natCast_eq_ker_reduction` — `n·ℤ̂ = ker (reduction n)`;
@@ -375,6 +377,16 @@ theorem natCast_mul_left_injective {n : ℕ} (hn : n ≠ 0) :
 theorem nsmul_left_injective {n : ℕ} (hn : n ≠ 0) :
     Function.Injective fun x : ProfiniteInteger => n • x := by
   simpa [nsmul_eq_mul] using natCast_mul_left_injective hn
+
+/-- **Distinct natural powers of the multiplicative generator are distinct**
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:23`][Yamaguchi2026]). -/
+theorem ofAdd_one_pow_injective :
+    Function.Injective (fun n : ℕ =>
+      (Multiplicative.ofAdd (1 : ProfiniteInteger)) ^ n) := by
+  intro a b hab
+  have h := congrArg Multiplicative.toAdd hab
+  simp only [toAdd_pow, toAdd_ofAdd, nsmul_eq_mul, mul_one] at h
+  exact_mod_cast h
 
 /-- **Every finite-index additive subgroup of `ℤ̂` is the span of its index**:
 the quotient is abelian, so its cardinality annihilates every class, and the

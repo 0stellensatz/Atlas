@@ -94,6 +94,7 @@ import Atlas.Knowledge.FormalLogPow
 import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.FrobeniusElements
+import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.GalIdealPowCounts
 import Atlas.Knowledge.GalUnits
 import Atlas.Knowledge.GaloisExtensionQuotient
