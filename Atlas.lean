@@ -34,6 +34,7 @@ import Atlas.Knowledge.CharacterExclusion
 import Atlas.Knowledge.CharacterGraph
 import Atlas.Knowledge.CharacterRegularization
 import Atlas.Knowledge.CharacterTwist
+import Atlas.Knowledge.ChosenDegreeOneFrobenius
 import Atlas.Knowledge.ChosenPrimeElement
 import Atlas.Knowledge.ClassFieldAxiom
 import Atlas.Knowledge.ClosedDerivedSeries
