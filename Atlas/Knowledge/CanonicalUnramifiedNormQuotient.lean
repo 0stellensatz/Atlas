@@ -35,17 +35,17 @@ reduction inherited from `Z ⊆ ℤ̂` — not an arbitrary isomorphism with
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `ZHat` is `ProfiniteInteger` with `zHatReduction` the layer's
 `ProfiniteInteger.reduction` under `NeZero`, positivity projections read
-`.pos` for the source's `.property`, and the small canonical
-apparatus runs on `NeZero` instances instead of the source's positivity
-arguments throughout. The injectivity proof draws the norm preimage
-directly from the elementwise unit-cohomology axiom's first component
-(#135) where the source derived Tate vanishing and fed a never-ported
-eliminator, and two `let`s re-anchor the preimage's summands over the
-top field — both as in the sibling `UnramifiedNormQuotient` item. The
-source's universe-device import is dropped, the ambient group is
-`Type`, two `dsimp only`s with nothing left to unfold go, and the
-coset evaluation rule states its left side with the coercion, as the
-unit representation's rule does, for the simp-normal-form linter.
+`.pos` for the source's `.property`, and the small canonical apparatus
+runs on `NeZero` instances instead of the source's positivity arguments
+throughout. The injectivity proof draws the norm preimage directly from
+the elementwise unit-cohomology axiom's first component (#135) where the
+source derived Tate vanishing and fed a never-ported eliminator, and two
+`let`s re-anchor the preimage's summands over the top field — both as in
+the sibling `UnramifiedNormQuotient` item. The source's universe-device
+import is dropped, the ambient group is `Type`, two `dsimp only`s with
+nothing left to unfold go, and the coset evaluation rule states its left
+side with the coercion, as the unit representation's rule does, for the
+simp-normal-form linter.
 
 ## References
 
