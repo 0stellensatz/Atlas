@@ -1,6 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.FixedFieldInclusion
-import Atlas.Knowledge.InertiaQuotientDegreeKernel
+import Atlas.Knowledge.MaximalUnramifiedField
 import Atlas.Knowledge.RelativeNormLaws
 
 /-!
@@ -23,6 +23,16 @@ additive power sum (#104).
 * `DegreeData.relativeNorm_frobeniusQuotientAction` — the norm commutes
   with the quotient action, after including into the upper fixed field;
   proved.
+
+## Implementation notes
+
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, with
+the maximal-unramified identities under their `subgroupOf_` names. The
+source pins the acting group to the shared `Rep` universe boundary; this
+Mathlib's `Rep` is polymorphic, so the action generalizes to any universe,
+as across the arc. The source's simp attribute on the private
+coset-permutation rule is dropped — its one use is an explicit rewrite,
+and a private lemma still enters the global simp set.
 
 ## References
 
@@ -166,7 +176,6 @@ private noncomputable def inertiaConjugationCosetEquiv (D : DegreeData G)
       change x.1⁻¹ * y.1 ∈ (D.maximalUnramifiedField L).toSubgroup
       simpa [l, mul_assoc] using hl)
 
-@[simp]
 private theorem inertiaConjugationCosetEquiv_mk (D : DegreeData G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
