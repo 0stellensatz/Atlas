@@ -82,6 +82,7 @@ import Atlas.Knowledge.FiniteCyclicSubextension
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteExtensionTransitivity
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
+import Atlas.Knowledge.FiniteIntermediateCompositum
 import Atlas.Knowledge.FiniteIntermediateFieldRefinement
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FinitePlaceIdele
@@ -266,6 +267,7 @@ import Atlas.Knowledge.ReciprocityIndependence
 import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
+import Atlas.Knowledge.RelativeNormConjugation
 import Atlas.Knowledge.RelativeNormLaws
 import Atlas.Knowledge.ResidueAbsoluteDegreeIn
 import Atlas.Knowledge.ResidueAbsoluteFrobenius
