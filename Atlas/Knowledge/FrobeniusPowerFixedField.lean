@@ -30,8 +30,8 @@ of `Gal(Σₘ/Σ)` the unit-cohomology axiom is applied to (#104).
 
 ## Main statements
 
-* `DegreeData.frobeniusPowerFixedField_le_finiteField` — the field of
-  `φ^{|G(P/K)|}` lies inside a finite Galois `P ⊆ L̃`; proved.
+* `DegreeData.frobeniusPowerFixedField_le_finiteField` — a finite Galois
+  stage `P ⊆ L̃` lies inside the field of `φ^{|G(P/K)|}`; proved.
 * `DegreeData.frobeniusPowerFixedField_le` — the field of `φⁿᵐ` extends
   the field of `φⁿ`; proved.
 * `DegreeData.frobeniusPowerFixedField_normal` — the tower is Galois;
@@ -45,16 +45,24 @@ of `Gal(Σₘ/Σ)` the unit-cohomology axiom is applied to (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `AbstractExtension` lives at the layer's top level rather than inside
-`DegreeData`. The source's closedness lemma for the relative subgroup is
-inlined as `isClosed'.preimage continuous_subtype_val` — under the
-`subgroupOf` spelling the relative subgroup's coercion *is* that
-preimage, and the layer never grew the wrapper. The spelling frees the
-statement-level containment the source's generator theorem binds, the
+`DegreeData`, `ZHat` is `ProfiniteInteger`, and the power-injectivity of
+the generator is `ProfiniteInteger.ofAdd_one_pow_injective`. The
+source's closedness lemma for the relative subgroup is inlined as
+`isClosed'.preimage continuous_subtype_val` — under the `subgroupOf`
+spelling the relative subgroup's coercion *is* that preimage, and the
+layer never grew the wrapper. The spelling frees the statement-level
+containments four theorems bind and their statements alone consume, the
 finiteness theorem's call sheds the containments #136's generalized form
-stopped asking for, and three of the source's ambient binders fed
-separation or compactness facts the proofs never used; all of them go.
+stopped asking for, and eight of the source's ambient binders fed
+separation facts the proofs never used or that instance synthesis
+rebuilds from total disconnectedness; all of them go. After the sweep
+the finiteness theorem and the quotient-finiteness theorem state the
+same fact — faithful to the source, which records it twice by different
+routes, the second through the computed relative index. Two proof steps
+flatten `by exact` to `from`, and the residue degree's positivity reads
+`.pos` for the source's `.property`.
 
 ## References
 
@@ -185,9 +193,8 @@ private theorem extensionNormalizedDegree_pow_of_degreeOne (D : DegreeData G)
     D.extensionNormalizedDegree_frobenius_eq_pow K L hLK φ, hφ]
   simp
 
-/-- **The power `φⁿ` of a degree-one Frobenius element, with the exponent
-recorded exactly** — these are the elements `σ = φⁿ` and `σᵐ = φⁿᵐ`
-([Yamaguchi 2026,
+/-- **The power `φⁿ` of a degree-one Frobenius element, with its exponent recorded**
+— these are the elements `σ = φⁿ` and `σᵐ = φⁿᵐ` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:135`]
 [Yamaguchi2026]). -/
 def frobeniusPowerOfDegreeOne (D : DegreeData G)
@@ -213,10 +220,9 @@ theorem frobeniusPowerOfDegreeOne_coe (D : DegreeData G)
     (D.frobeniusPowerOfDegreeOne K L hLK φ hφ n hn).1 = φ.1 ^ n :=
   rfl
 
-/-- **The field of `φ^{|G(P/K)|}` lies inside a finite Galois
-`P ⊆ L̃`**: the power is trivial in `G(P/K)`, and the kernel of the
-restriction is closed, so it swallows the whole procyclic closure
-([Yamaguchi 2026,
+/-- **A finite Galois stage `P ⊆ L̃` lies inside the field of `φ^{|G(P/K)|}`**:
+the power is trivial in `G(P/K)`, and the kernel of the restriction is
+closed, so it swallows the whole procyclic closure ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:163`]
 [Yamaguchi2026]). -/
 theorem frobeniusPowerFixedField_le_finiteField (D : DegreeData G)
@@ -460,12 +466,12 @@ theorem frobeniusPowerFixedField_normal (D : DegreeData G)
   rw [hconj]
   exact htFixed
 
-/-- **The extension fixed by `φⁿᵐ` over the field fixed by `φⁿ` is
-unramified** ([Yamaguchi 2026,
+/-- **The extension fixed by `φⁿᵐ` over the field fixed by `φⁿ` is unramified**
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:398`]
 [Yamaguchi2026]). -/
 theorem frobeniusPowerFixedField_isUnramified (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -533,7 +539,7 @@ theorem frobeniusPowerFixedField_finite (D : DegreeData G)
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:465`]
 [Yamaguchi2026]). -/
 private theorem frobeniusPowerFixedField_relIndex (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -604,7 +610,7 @@ finite, from the computed relative index ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:535`]
 [Yamaguchi2026]). -/
 theorem frobeniusPowerFixedField_quotientFinite (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -635,7 +641,7 @@ relative-degree computation ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:567`]
 [Yamaguchi2026]). -/
 theorem frobeniusPowerFixedField_quotientCard (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -667,14 +673,14 @@ theorem frobeniusPowerFixedField_quotientCard (D : DegreeData G)
       D.frobeniusPowerFixedField_relIndex
         K L hLK φ hφ n m hn hm
 
-/-- **The restriction of the concrete element `φⁿ` is a degree-one
-generator of `Gal(Σₘ/Σ)`** — the generator the unit-cohomology axiom is
-applied to; retaining the actual representative is what the subsequent
-equation involving `σ = φⁿ` runs on ([Yamaguchi 2026,
+/-- **The restriction of the concrete `φⁿ` is a degree-one generator of `Gal(Σₘ/Σ)`**
+— the generator the unit-cohomology axiom is applied to; retaining the
+actual representative is what the subsequent equation involving `σ = φⁿ`
+runs on ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:608`]
 [Yamaguchi2026]). -/
 theorem frobeniusPowerFixedField_generator (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
