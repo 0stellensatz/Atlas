@@ -7,25 +7,33 @@ import Atlas.Knowledge.RelativeNormLaws
 
 The finite-stage closure facts the universal norm-descent lemma runs on:
 the compositum of two finite intermediate fields — their intersection on
-the Galois-group side — is again one, and a finite intermediate field over
-a base finite over the global base is itself finite over the global base
+the Galois-group side — is again one, a finite intermediate field over a
+base finite over the global base is itself finite over the global base,
+the finite relative quotient has a recorded positive cardinality, and any
+finite family of stages has a common finite overfield below a given one
 (#104).
 
 ## Main definitions
 
 * `FiniteIntermediateField.compositum` — the compositum of two finite
   intermediate fields.
+* `FiniteIntermediateField.quotientCard` — the cardinality of the finite
+  relative Galois quotient.
 
 ## Main statements
 
 * `FiniteIntermediateField.absoluteFinite` — a finite intermediate field
   over a finite base is finite over the global base; proved.
+* `FiniteIntermediateField.exists_common_compositum` — finitely many
+  stages have a common finite overfield below a given one; proved.
 
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
 the compositum's finiteness over the base is #136's generalized form,
-called without the containment the source passes.
+called without the containment the source passes. The cardinality and
+common-compositum facts come from the source's second compositum file,
+absorbed here rather than shipped as a near-namesake item.
 
 ## References
 
@@ -91,6 +99,54 @@ theorem absoluteFinite {E K : ClosedSubgroup G}
     M.finite
   exact relativeTowerQuotientFinite (baseField G) K M.field M.below
     (le_baseField K)
+
+/-- **The cardinality of the finite relative Galois quotient** — recording
+the bundled finiteness lets fixed-field constructions read it without a
+second parameter ([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:32`]
+[Yamaguchi2026]). -/
+noncomputable def quotientCard {E K : ClosedSubgroup G}
+    (M : FiniteIntermediateField E K) : ℕ := by
+  letI : Finite
+      (K.toSubgroup ⧸ M.field.toSubgroup.subgroupOf K.toSubgroup) :=
+    M.finite
+  exact Nat.card
+    (K.toSubgroup ⧸ M.field.toSubgroup.subgroupOf K.toSubgroup)
+
+/-- The recorded cardinality is positive ([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:40`]
+[Yamaguchi2026]). -/
+theorem quotientCard_pos {E K : ClosedSubgroup G}
+    (M : FiniteIntermediateField E K) : 0 < M.quotientCard := by
+  letI : Finite
+      (K.toSubgroup ⧸ M.field.toSubgroup.subgroupOf K.toSubgroup) :=
+    M.finite
+  exact Nat.card_pos
+
+/-- **Finitely many stages have a common finite overfield below a given
+one** — existentially, avoiding an artificial ordering of the family
+([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:49`]
+[Yamaguchi2026]). -/
+theorem exists_common_compositum {E K : ClosedSubgroup G} {ι : Type*}
+    (M : FiniteIntermediateField E K) (s : Finset ι)
+    (F : ι → FiniteIntermediateField E K) :
+    ∃ P : FiniteIntermediateField E K,
+      P.field.toSubgroup ≤ M.field.toSubgroup ∧
+        ∀ i ∈ s, P.field.toSubgroup ≤ (F i).field.toSubgroup := by
+  classical
+  induction s using Finset.induction_on with
+  | empty =>
+      exact ⟨M, le_rfl, by simp⟩
+  | @insert i s hi ih =>
+      rcases ih with ⟨P, hPM, hPF⟩
+      let Q := P.compositum (F i)
+      refine ⟨Q, (P.compositum_le_left (F i)).trans hPM, ?_⟩
+      intro j hj
+      rw [Finset.mem_insert] at hj
+      rcases hj with hji | hj
+      · simpa [hji] using P.compositum_le_right (F i)
+      · exact (P.compositum_le_left (F i)).trans (hPF j hj)
 
 end FiniteIntermediateField
 
