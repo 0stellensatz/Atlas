@@ -62,7 +62,13 @@ the two inclusion proofs bridge by `mem_spanAddSubgroup_iff`. The positivity
 hypotheses of the source's division apparatus become the `NeZero` instance
 on the exponent, registered in `Atlas.Knowledge.FrobeniusExponent` beside
 its positivity; the generation of `ℤ̂` by the generator moved to the
-profinite-integer item beside its power-injectivity sibling.
+profinite-integer item beside its power-injectivity sibling. Four of the
+source's ambient Hausdorff binders are unused once the layer's `abbrev`
+spelling of `ℤ̂` supplies its own separation, and are dropped; the two that
+remain are real — `frobeniusClosureCommGroup` consumes its binder through
+instance synthesis the unused-argument linter cannot see, and
+`frobeniusClosureDegreeInMulNatRange` keeps the source signature because it
+is the value map the whole procyclic arc builds on.
 
 ## References
 
@@ -401,7 +407,7 @@ index reading of the degree image ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:691`]
 [Yamaguchi2026]). -/
 theorem frobeniusClosureDegree_range_index (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
@@ -571,7 +577,7 @@ theorem fixedFieldNormalizedDegree_surjective (D : DegreeData G)
 `AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:843`]
 [Yamaguchi2026]). -/
 theorem frobeniusClosure_totallyDisconnectedSpace (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -580,9 +586,6 @@ theorem frobeniusClosure_totallyDisconnectedSpace (D : DegreeData G)
     TotallyDisconnectedSpace (D.frobeniusClosure K L hLK σ) := by
   letI : CompactSpace K.field.toSubgroup := by
     change CompactSpace K.field
-    infer_instance
-  letI : T2Space K.field.toSubgroup := by
-    change T2Space K.field
     infer_instance
   letI : TotallyDisconnectedSpace K.field.toSubgroup := by
     change TotallyDisconnectedSpace K.field
@@ -599,7 +602,7 @@ theorem frobeniusClosure_totallyDisconnectedSpace (D : DegreeData G)
 `AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:873`]
 [Yamaguchi2026]). -/
 theorem frobeniusFixedField_finiteIndex (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
