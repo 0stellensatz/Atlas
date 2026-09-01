@@ -73,6 +73,7 @@ import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
 import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FiniteResidueAbstractExtension
 import Atlas.Knowledge.FiniteResidueAbstractField
+import Atlas.Knowledge.FiniteResidueFrobenius
 import Atlas.Knowledge.FiniteTower
 import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FormalLogPow
@@ -227,6 +228,7 @@ import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
+import Atlas.Knowledge.ResidueAbsoluteFrobenius
 import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
