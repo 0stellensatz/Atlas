@@ -8,16 +8,15 @@ import Atlas.Knowledge.NormIndexCyclic
 /-!
 # class-field axiom for local units
 
-The reciprocity engine's third input, discharged: the unit representation of
-any Galois ambient field over a mixed-characteristic local field satisfies
-the class-field axiom. For a finite cyclic abstract tower the closed
-subgroups
-become concrete fixed fields, the lower one a local field in its own right
-and the upper one finite cyclic Galois over it; the engine's norm quotient
-is the multiplicative norm quotient by the relative dictionary, its order is
-the degree by the layer's norm-index theorem, and a vanishing norm is a
-`σ − 1`-difference by Hilbert 90 — carried back through the unit
-identifications of the descended representation (#104).
+The reciprocity engine's third input, discharged: the unit representation
+of any Galois ambient field over a mixed-characteristic local field
+satisfies the class-field axiom. For a finite cyclic abstract tower the
+closed subgroups become concrete fixed fields, the lower one a local field
+in its own right and the upper one finite cyclic Galois over it; the
+engine's norm quotient is the multiplicative norm quotient by the relative
+dictionary, its order is the degree by the layer's norm-index theorem, and
+a vanishing norm is a `σ − 1`-difference by Hilbert 90 — carried back
+through the unit identifications of the descended representation (#104).
 
 ## Main statements
 
@@ -51,10 +50,6 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-set_option maxHeartbeats 800000 in
--- The primitive's unit bookkeeping — the inverse-of-inverse rewrite and the
--- closing calc's definitional checks across the descended representation —
--- runs past the default budget.
 /-- **The class-field axiom for the units of a Galois ambient field** over a
 mixed-characteristic local field ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/LocalClassFieldAxiom.lean:33`]
