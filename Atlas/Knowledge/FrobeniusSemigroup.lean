@@ -22,6 +22,12 @@ the reciprocity construction can multiply its chosen lifts freely (#104).
 * `DegreeData.extensionNormalizedDegree_frobenius_mul` — the normalized
   degree is multiplicative on the semigroup; proved.
 
+## Implementation notes
+
+The simp attribute the source puts on the multiplicativity law is dropped:
+`frobeniusMul_coe` and `map_mul` are already simp, so simp proves the law
+outright and the attribute could never contribute.
+
 ## References
 
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
@@ -94,7 +100,6 @@ instance frobeniusElementsSemigroup (D : DegreeData G)
 ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusSemigroup.lean:77`]
 [Yamaguchi2026]). -/
-@[simp]
 theorem extensionNormalizedDegree_frobenius_mul (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)

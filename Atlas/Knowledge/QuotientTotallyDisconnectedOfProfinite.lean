@@ -3,16 +3,22 @@ import Mathlib
 /-!
 # total disconnectedness of profinite quotients
 
-A closed normal quotient of a compact Hausdorff totally disconnected
-topological group is totally disconnected: any two distinct classes are
-separated by a clopen set, built from an open normal subgroup avoiding a
-representative of their difference, so the quotient is totally separated
-(#104).
+A closed normal quotient of a compact totally disconnected topological
+group is totally disconnected: any two distinct classes are separated by a
+clopen set, built from an open normal subgroup avoiding a representative of
+their difference, so the quotient is totally separated (#104).
 
 ## Main statements
 
 * `quotient_totallyDisconnected_of_profinite` — the quotient of a profinite
   group by a closed normal subgroup is totally disconnected; proved.
+
+## Implementation notes
+
+The source's Hausdorff hypothesis is unused — the clopen separation runs on
+compactness and total disconnectedness alone — and is dropped, so the
+statement asks less than profiniteness while keeping the name its consumers
+think under.
 
 ## References
 
@@ -23,14 +29,13 @@ representative of their difference, so the quotient is totally separated
 namespace Atlas.Knowledge
 
 /-- **The quotient of a profinite group by a closed normal subgroup is
-totally disconnected** ([Yamaguchi 2026, `Topology.lean:15`]
-[Yamaguchi2026]). -/
+totally disconnected** — Hausdorffness of the ambient group is not needed
+([Yamaguchi 2026, `Topology.lean:15`][Yamaguchi2026]). -/
 theorem quotient_totallyDisconnected_of_profinite
     {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    [CompactSpace G] [T2Space G] [TotallyDisconnectedSpace G]
+    [CompactSpace G] [TotallyDisconnectedSpace G]
     (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G)) :
     TotallyDisconnectedSpace (G ⧸ N) := by
-  letI : IsClosed (N : Set G) := hN
   let q : G →* G ⧸ N := QuotientGroup.mk' N
   have hsep : Pairwise (fun a b : G ⧸ N =>
       ∃ U : Set (G ⧸ N), IsClopen U ∧ a ∈ U ∧ b ∈ Uᶜ) := by

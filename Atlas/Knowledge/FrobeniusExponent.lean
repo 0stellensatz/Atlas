@@ -331,6 +331,16 @@ theorem frobeniusExponent_pos (D : DegreeData G)
     0 < D.frobeniusExponent K L hLK σ :=
   (Exists.choose_spec σ.2).1
 
+/-- The Frobenius exponent is nonzero, so the division apparatus of the
+profinite integers applies to it directly. -/
+instance frobeniusExponent_neZero (D : DegreeData G)
+    (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
+    (hLK : L.toSubgroup ≤ K.field.toSubgroup)
+    [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
+    (σ : D.FrobeniusElements K L hLK) :
+    NeZero (D.frobeniusExponent K L hLK σ) :=
+  ⟨(D.frobeniusExponent_pos K L hLK σ).ne'⟩
+
 /-- **The normalized degree of a Frobenius element is the exponent's power
 of the generator** ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:310`]

@@ -1,4 +1,5 @@
 import Mathlib
+import Atlas.Knowledge.TopologicalGeneration
 
 /-!
 # profinite integers
@@ -49,6 +50,8 @@ the Frobenius, and the engine's Frobenius bookkeeping is arithmetic in this ring
   finite-index additive subgroup of `ℤ̂` is the span of its index; proved.
 * `ProfiniteInteger.mul_divide` / `ProfiniteInteger.divide_mul` — the two
   inverse laws of the division; proved.
+* `ProfiniteInteger.ofAdd_one_topologicallyGenerates` — the generator
+  topologically generates the multiplicative profinite integers; proved.
 
 ## Implementation notes
 
@@ -461,6 +464,42 @@ theorem divide_mul (n : ℕ) [NeZero n] (x : ProfiniteInteger) :
       (mem_spanAddSubgroup_iff _).mpr ⟨x, rfl⟩⟩ = x := by
   change (mulNatHomeomorph n).symm ((mulNatHomeomorph n) x) = x
   exact (mulNatHomeomorph n).symm_apply_apply x
+
+/-- **The generator topologically generates the multiplicative profinite
+integers**: the dense diagonal integers are the cyclic subgroup it generates
+([Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ProfiniteIntegerCore.lean:191`]
+[Yamaguchi2026]). -/
+theorem ofAdd_one_topologicallyGenerates :
+    TopologicallyGenerates
+      (G := Multiplicative ProfiniteInteger)
+      ({Multiplicative.ofAdd (1 : ProfiniteInteger)} :
+        Set (Multiplicative ProfiniteInteger)) := by
+  let f : Multiplicative ℤ →* Multiplicative ProfiniteInteger :=
+    AddMonoidHom.toMultiplicative
+      (Int.castRingHom ProfiniteInteger).toAddMonoidHom
+  have hf : DenseRange f := by
+    have hOfAdd :
+        DenseRange
+          (Multiplicative.ofAdd :
+            ProfiniteInteger → Multiplicative ProfiniteInteger) :=
+      (show Function.Surjective
+          (Multiplicative.ofAdd :
+            ProfiniteInteger → Multiplicative ProfiniteInteger) from
+        fun x => ⟨Multiplicative.toAdd x, rfl⟩).denseRange
+    have hCast :
+        DenseRange
+          (Multiplicative.ofAdd ∘ fun a : ℤ => (a : ProfiniteInteger)) :=
+      hOfAdd.comp denseRange_intCast continuous_id
+    have hToAdd :
+        DenseRange (Multiplicative.toAdd : Multiplicative ℤ → ℤ) :=
+      (show Function.Surjective
+          (Multiplicative.toAdd : Multiplicative ℤ → ℤ) from
+        fun a => ⟨Multiplicative.ofAdd a, rfl⟩).denseRange
+    simpa [f, Function.comp_def] using
+      hCast.comp hToAdd continuous_of_discreteTopology
+  simpa [f] using
+    topologicallyGenerates_singleton_of_denseRange_mint f hf
 
 end ProfiniteInteger
 
