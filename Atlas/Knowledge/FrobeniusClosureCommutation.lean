@@ -26,8 +26,8 @@ field: conjugation by a representative carries `G_Σ` to itself (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling. The
 source's `CompactSpace`, `T2Space`, and `TotallyDisconnectedSpace` binders
 are dead on both theorems — the quotient is Hausdorff because the inertia
-subgroup is closed, not because the ambient group is — and are dropped,
-as is the dead `let` the source leaves at the head of the second proof.
+subgroup is closed, not because the ambient group is — and are dropped, as
+is the dead `let` the source leaves at the head of the second proof.
 
 ## References
 
@@ -80,9 +80,8 @@ theorem frobeniusClosure_commutes_of_commutes_generator (D : DegreeData G)
   have hc : c.1 ∈ (Subgroup.closure X).topologicalClosure := c.2
   exact (Subgroup.mem_centralizer_singleton_iff.mp (htop hc)).symm
 
-/-- **A quotient element commuting with the lift stabilizes the fixed
-field**: conjugation by its representative carries `G_Σ` to itself
-([Yamaguchi 2026,
+/-- **A quotient element commuting with the lift stabilizes the fixed field**:
+conjugation by its representative carries `G_Σ` to itself ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusClosureCommutation.lean:64`]
 [Yamaguchi2026]). -/
 theorem conjugate_frobeniusFixedField_eq_of_commutes (D : DegreeData G)
