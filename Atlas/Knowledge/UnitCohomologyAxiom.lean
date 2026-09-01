@@ -21,13 +21,17 @@ itself (#104).
 
 The source states the axiom through the vanishing of two Tate-cohomology
 objects and converts each into its elementwise consequence with an
-eliminator (`UnitCohomologyAxiom.lean:417` and `:462`, through the generic
-comparison at `:167`); every consumer destructures the axiom and feeds an
-eliminator. The layer takes the eliminators' conclusions as the definition,
-so consumers project directly and the Tate comparison layer — which pins
-the acting group to universe zero — is not needed. This is the same
-reduction `Atlas.Knowledge.SatisfiesClassFieldAxiom` performs for the
-class-field axiom.
+eliminator (`UnitCohomologyAxiom.lean:417` and `:462`); every site that
+uses the axiom's content destructures it and feeds an eliminator, always at
+the bundle's own generator, while the rest thread the hypothesis. The layer
+takes the eliminators' conclusions as the definition, so those sites
+project directly and the Tate comparison — which keeps the acting group in
+one universe with the coefficients — is not needed here; the generic `Ĥ⁰`
+comparison at `:167` keeps an unrelated consumer and travels to that brick.
+The source's one producer, the derivation from the class-field axiom at
+`Reciprocity/Core.lean:413`, is the derivation
+`Atlas.Knowledge.SatisfiesClassFieldAxiom`'s notes already replace by a
+direct local discharge. This is the same reduction that axiom performs.
 
 ## References
 
@@ -42,7 +46,7 @@ noncomputable section
 universe u
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
-variable {D : DegreeData G} {A : Rep ℤ G}
+variable {A : Rep ℤ G}
 
 /-- **The unit-cohomology axiom, elementwise**: for every finite unramified
 cyclic extension `L | K`, every unit of `K` is a relative norm from `L`,

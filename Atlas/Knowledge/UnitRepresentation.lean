@@ -1,7 +1,14 @@
 import Mathlib
+import Atlas.Knowledge.AmbientFixedAddSubgroup
+import Atlas.Knowledge.FiniteAbstractFieldExtension
+import Atlas.Knowledge.FiniteTower
 import Atlas.Knowledge.FiniteUnramifiedCyclicExtension
-import Atlas.Knowledge.NormalizedValuationLaws
+import Atlas.Knowledge.FixedFieldInclusion
 import Atlas.Knowledge.PrimeElement
+import Atlas.Knowledge.ProfiniteInteger
+import Atlas.Knowledge.RelativeNorm
+import Atlas.Knowledge.RelativeNormLaws
+import Atlas.Knowledge.ValuationData
 
 /-!
 # unit representation
@@ -35,10 +42,10 @@ units of `L` (#104).
 
 ## Implementation notes
 
-The source descends the `G_K`-action with its `Rep`-level quotient device;
-the layer wraps Mathlib's `Representation.ofQuotient` in `Rep.of`, with the
-triviality instance supplied the same way. Positivity arguments become the
-layer's `≠ 0` spellings, as across the arc.
+The descent through the extension subgroup is Mathlib's `Rep.ofQuotient`,
+exactly as in the source, with the triviality instance supplied the same
+way. Positivity arguments become the layer's `≠ 0` spellings, as across
+the arc.
 
 ## References
 
@@ -206,15 +213,13 @@ noncomputable def unitRepresentation
         E.base.field.toSubgroup).Normal) :
     Rep ℤ (E.base.field.toSubgroup ⧸
       E.field.field.toSubgroup.subgroupOf E.base.field.toSubgroup) := by
-  letI := hnormal
   letI : Representation.IsTrivial
       ((v.unitRepresentationOverK E hnormal).ρ.comp
         (E.field.field.toSubgroup.subgroupOf
           E.base.field.toSubgroup).subtype) :=
     v.unitRepresentationOverK_isTrivialOnExtension E hnormal
-  exact Rep.of
-    (Representation.ofQuotient (v.unitRepresentationOverK E hnormal).ρ
-      (E.field.field.toSubgroup.subgroupOf E.base.field.toSubgroup))
+  exact (v.unitRepresentationOverK E hnormal).ofQuotient
+    (E.field.field.toSubgroup.subgroupOf E.base.field.toSubgroup)
 
 end ValuationData
 
@@ -237,7 +242,9 @@ end FiniteUnramifiedCyclicExtension
 namespace ValuationData
 
 /-- The quotient action computes on a representative through the original
-unit action. -/
+unit action ([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:338`]
+[Yamaguchi2026]). -/
 @[simp]
 theorem unitRepresentation_quotient_mk_apply
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
@@ -246,9 +253,8 @@ theorem unitRepresentation_quotient_mk_apply
         E.base.field.toSubgroup).Normal)
     (k : E.base.field.toSubgroup) (u : v.unitAddSubgroup E.field) :
     (v.unitRepresentation E hnormal).ρ
-        ((QuotientGroup.mk'
-          (E.field.field.toSubgroup.subgroupOf
-            E.base.field.toSubgroup)) k) u =
+        (k : E.base.field.toSubgroup ⧸
+          E.field.field.toSubgroup.subgroupOf E.base.field.toSubgroup) u =
       v.unitActionLinearMap E hnormal k u :=
   rfl
 

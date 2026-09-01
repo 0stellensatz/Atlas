@@ -7,15 +7,25 @@ import Atlas.Knowledge.RelativeNormLaws
 
 A finite cyclic extension of a field finite over the base, bundled with the
 assertion that it is unramified for a fixed degree datum: the coefficient
-package of the unit-cohomology axiom. The instances supply the normality
-and the two finiteness facts its consumers destructure (#104).
+package of the unit-cohomology axiom. The one instance registered here is
+the absolute finiteness of the upper field, through the tower; normality,
+relative finiteness, and the canonical `Fintype` already reach the bundle
+through the parent projection (#104).
 
 ## Main definitions
 
 * `FiniteUnramifiedCyclicExtension` — a finite cyclic subextension carrying
   its unramifiedness.
 * `FiniteUnramifiedCyclicExtension.toFiniteAbstractFieldExtension` — both
-  finite endpoint bundles, with the unramified proof transported.
+  finite endpoint bundles, forgetting the cyclic and unramified structure.
+
+## Implementation notes
+
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling and the
+source's `@[implicit_reducible]` marker is dropped, as in
+`Atlas.Knowledge.FiniteCyclicSubextension`; the source's normality,
+relative-finiteness, and `Fintype` instances are not restated — instance
+resolution reaches the parent's through the projection.
 
 ## References
 
@@ -64,23 +74,6 @@ theorem toFiniteAbstractFieldExtension_isUnramified
     E.toFiniteAbstractFieldExtension.IsUnramified D := by
   exact E.unramified
 
-/-- A finite unramified cyclic extension supplies normality of its
-representing subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:129`]
-[Yamaguchi2026]). -/
-instance (E : FiniteUnramifiedCyclicExtension D K) :
-    (E.field.toSubgroup.subgroupOf K.field.toSubgroup).Normal :=
-  E.normal
-
-/-- The quotient over `K` attached to a finite unramified cyclic extension
-is finite ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:134`]
-[Yamaguchi2026]). -/
-instance (E : FiniteUnramifiedCyclicExtension D K) :
-    Finite (K.field.toSubgroup ⧸
-      E.field.toSubgroup.subgroupOf K.field.toSubgroup) :=
-  E.finite
-
 /-- The absolute quotient attached to a finite unramified cyclic extension
 is finite ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:139`]
@@ -90,15 +83,6 @@ noncomputable instance (E : FiniteUnramifiedCyclicExtension D K) :
       E.field.toSubgroup.subgroupOf (baseField G).toSubgroup) :=
   relativeTowerQuotientFinite (baseField G) K.field E.field E.below
     (le_baseField K.field)
-
-/-- The finite quotient over `K` carries the canonical `Fintype` structure
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:146`]
-[Yamaguchi2026]). -/
-noncomputable instance (E : FiniteUnramifiedCyclicExtension D K) :
-    Fintype (K.field.toSubgroup ⧸
-      E.field.toSubgroup.subgroupOf K.field.toSubgroup) :=
-  Fintype.ofFinite _
 
 end FiniteUnramifiedCyclicExtension
 
