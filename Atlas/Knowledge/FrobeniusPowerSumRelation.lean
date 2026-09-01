@@ -14,9 +14,10 @@ import Atlas.Knowledge.MaximalUnramifiedField
 # Frobenius power-sum relation
 
 The three-term action identity from the Frobenius action remainders and
-their fixed-field primes: the alternating sum of the three power sums
-has its `φ`-difference equal to the three remainder differences, with
-the remainder of the product splitting as `τ₄τ₁` (#104).
+their fixed-field primes: the combination `s₄ + s₁ - s₃` of the three
+power sums has its `φ`-difference equal to the remainder differences of
+`σ₄` and `σ₁` plus the reversed difference for the product, whose
+remainder splits as `τ₄τ₁` (#104).
 
 ## Main statements
 
@@ -47,9 +48,8 @@ namespace DegreeData
 
 /-- **The three Frobenius power sums attached to `σ₁`, `σ₁σ₂`, and the
 left-action conjugate of `σ₂` satisfy the action-difference relation
-universal norm descent consumes** ([Yamaguchi 2026,
-`FrobeniusPowerSumRelation.lean:28`]
-[Yamaguchi2026]). -/
+universal norm descent consumes**
+([Yamaguchi 2026, `FrobeniusPowerSumRelation.lean:28`][Yamaguchi2026]). -/
 theorem frobeniusPowerSum_mul_action_sub (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
