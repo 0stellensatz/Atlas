@@ -82,6 +82,7 @@ import Atlas.Knowledge.FiniteCyclicSubextension
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteExtensionTransitivity
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
+import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteIntermediateCompositum
 import Atlas.Knowledge.FiniteIntermediateFieldRefinement
 import Atlas.Knowledge.FiniteNormQuotient
@@ -101,6 +102,7 @@ import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.FrobeniusFixedField
+import Atlas.Knowledge.FrobeniusFixedFieldTower
 import Atlas.Knowledge.FrobeniusNormCosetDecomposition
 import Atlas.Knowledge.FrobeniusNormIdentities
 import Atlas.Knowledge.FrobeniusPowerFixedField
