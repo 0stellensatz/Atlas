@@ -5,6 +5,7 @@ import Atlas.Knowledge.FiniteAbstractFieldExtension
 import Atlas.Knowledge.FixedFieldInclusion
 import Atlas.Knowledge.FrobeniusClosureCommutation
 import Atlas.Knowledge.FrobeniusElements
+import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.FrobeniusFixedFieldAction
 import Atlas.Knowledge.FrobeniusFixedFieldTower
 import Atlas.Knowledge.NormalizedValuationLaws
@@ -49,7 +50,8 @@ positivity is `ProfiniteInteger.nsmul_left_injective` with `.pos.ne'`,
 `FiniteResidueAbstractField` sits at the layer's top level, and the
 ambient group is `Type` because the file leans on
 `Atlas.Knowledge.DegreeData.frobeniusFixedFieldAction`; the source's
-no-op `open`s are dropped.
+no-op `open`s are dropped, and the `by exact` inside the norm-inclusion
+rewrite is flattened to `from`.
 
 ## References
 
@@ -111,7 +113,7 @@ private theorem ambientFixedAddSubgroup_transport_coe
   rfl
 
 /- The valuation is transport-invariant ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:64`]
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:63`]
 [Yamaguchi2026]). -/
 private theorem valuationAt_transport
     (v : ValuationData D A) (K L : FiniteAbstractField G) (h : K = L)
@@ -120,9 +122,9 @@ private theorem valuationAt_transport
   cases h
   rfl
 
-/-- **A quotient element stabilizing a Frobenius fixed field preserves
-its normalized valuation** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:73`]
+/-- **A quotient element stabilizing a Frobenius fixed field preserves its normalized valuation**
+([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:72`]
 [Yamaguchi2026]). -/
 theorem valuationAt_frobeniusFixedFieldAction
     (v : ValuationData D A) [IsTopologicalGroup G]
@@ -173,9 +175,9 @@ theorem valuationAt_frobeniusFixedFieldAction
     _ = v.valuationAt CF bC := hvaluationTransport
     _ = v.valuationAt TF a := by simpa [CF, C, bC] using hconj
 
-/-- **The stabilizing action restricted to the unit group of a Frobenius
-fixed field** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:127`]
+/-- **The stabilizing action restricted to the unit group of a Frobenius fixed field**
+([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:124`]
 [Yamaguchi2026]). -/
 noncomputable def frobeniusFixedFieldUnitAction
     (v : ValuationData D A) [IsTopologicalGroup G]
@@ -200,7 +202,7 @@ noncomputable def frobeniusFixedFieldUnitAction
 /-- **Units stay units after inclusion into any finite extension** — the
 construction uses this silently when all finitely many terms of `(*)`
 are placed in one finite Galois field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:156`]
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:150`]
 [Yamaguchi2026]). -/
 theorem fixedFieldInclusion_mem_unitAddSubgroup
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
@@ -243,7 +245,7 @@ theorem fixedFieldInclusion_mem_unitAddSubgroup
 
 /-- **Inclusion of units along an arbitrary finite extension**
 ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:191`]
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:187`]
 [Yamaguchi2026]). -/
 def finiteUnitInclusion
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G) :
@@ -256,7 +258,7 @@ def finiteUnitInclusion
 
 /-- Transporting a finite-unit inclusion along equality of its target
 field does not change its ambient coefficient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:201`]
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:197`]
 [Yamaguchi2026]). -/
 theorem finiteUnitInclusion_transport_coe
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
@@ -267,10 +269,10 @@ theorem finiteUnitInclusion_transport_coe
   cases h
   rfl
 
-/-- **The norm of a unit through an arbitrary finite extension is a
-unit** — the valuation-theoretic step when a finite Galois refinement is
-pushed back down to the prescribed intermediate field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:212`]
+/-- **The norm of a unit through an arbitrary finite extension is a unit**
+— the valuation-theoretic step when a finite Galois refinement is pushed
+back down to the prescribed intermediate field ([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:209`]
 [Yamaguchi2026]). -/
 theorem relativeNorm_mem_unitAddSubgroup
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
@@ -291,7 +293,7 @@ theorem relativeNorm_mem_unitAddSubgroup
 
 /-- **The relative norm restricted to the finite unit groups**
 ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:231`]
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:227`]
 [Yamaguchi2026]). -/
 def finiteUnitNorm
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G) :
