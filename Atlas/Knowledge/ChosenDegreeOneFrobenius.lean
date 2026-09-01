@@ -87,8 +87,7 @@ theorem frobeniusExponent_chosenDegreeOneFrobeniusElement (D : DegreeData G)
       exact Classical.choose_spec
         (D.extensionNormalizedDegreeContinuous_surjective K L hLK
           (Multiplicative.ofAdd (1 : ProfiniteInteger)))
-    _ = (Multiplicative.ofAdd (1 : ProfiniteInteger)) ^ (1 : ℕ) := by
-      simp
+    _ = (Multiplicative.ofAdd (1 : ProfiniteInteger)) ^ (1 : ℕ) := by simp
 
 end DegreeData
 
