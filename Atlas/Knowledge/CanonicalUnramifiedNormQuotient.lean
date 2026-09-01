@@ -4,7 +4,6 @@ import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FiniteUnramifiedCyclicExtension
-import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.NormalizedValuationLaws
 import Atlas.Knowledge.PrimeElement
 import Atlas.Knowledge.ProfiniteInteger
@@ -35,7 +34,8 @@ reduction inherited from `Z ⊆ ℤ̂` — not an arbitrary isomorphism with
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `ZHat` is `ProfiniteInteger` with `zHatReduction` the layer's
-`ProfiniteInteger.reduction` under `NeZero`, and the small canonical
+`ProfiniteInteger.reduction` under `NeZero`, positivity projections read
+`.pos` for the source's `.property`, and the small canonical
 apparatus runs on `NeZero` instances instead of the source's positivity
 arguments throughout. The injectivity proof draws the norm preimage
 directly from the elementwise unit-cohomology axiom's first component
@@ -62,7 +62,6 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 
 namespace ValuationData
 
-
 /-- Reduction modulo `n` restricted to the actual value subgroup
 `Z ⊆ ℤ̂` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:30`]
@@ -72,8 +71,7 @@ def canonicalValueReduction
     v.valueGroup →+ ZMod n :=
   v.valueModulo n
 
-/-- The canonical value reduction sends the one-value to one
- ([Yamaguchi 2026,
+/-- The canonical value reduction sends the one-value to one ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:37`]
 [Yamaguchi2026]). -/
 @[simp]
@@ -110,8 +108,7 @@ theorem canonicalValueQuotientHom_mk
         v.canonicalValueReduction n z := by
   rfl
 
-/-- The induced canonical value map on the quotient is surjective
- ([Yamaguchi 2026,
+/-- The induced canonical value map on the quotient is surjective ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:66`]
 [Yamaguchi2026]). -/
 theorem canonicalValueQuotientHom_surjective
@@ -148,7 +145,6 @@ private theorem finiteNormSubgroup_le_canonicalUnramifiedValuationHom_ker
       (v.canonicalUnramifiedValuationHom E).ker := by
   rintro _ ⟨a, rfl⟩
   let n := (E.degree : ℕ)
-  letI : NeZero n := ⟨E.degree.pos.ne'⟩
   letI : NeZero n := ⟨E.degree.pos.ne'⟩
   have htower := v.normalizedValuation_tower E a
   have hresidueDegree :
@@ -194,8 +190,7 @@ theorem canonicalUnramifiedNormQuotientValuation_finiteNormClass
         v.canonicalUnramifiedValuationHom E a := by
   rfl
 
-/-- The valuation map from the unramified norm quotient is surjective
- ([Yamaguchi 2026,
+/-- The valuation map from the unramified norm quotient is surjective ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:135`]
 [Yamaguchi2026]). -/
 theorem canonicalUnramifiedNormQuotientValuation_surjective
@@ -333,6 +328,7 @@ def canonicalUnramifiedNormQuotientEquiv
       hAxiom E hnormal hUnramified,
      v.canonicalUnramifiedNormQuotientValuation_surjective
       E hUnramified⟩
+
 end ValuationData
 
 end
