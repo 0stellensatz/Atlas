@@ -103,6 +103,7 @@ import Atlas.Knowledge.FormalLogPow
 import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.FrobeniusClosureCommutation
+import Atlas.Knowledge.FrobeniusDescent
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
