@@ -187,6 +187,7 @@ import Atlas.Knowledge.NormIndexAbelian
 import Atlas.Knowledge.NormIndexCyclic
 import Atlas.Knowledge.NormLimitation
 import Atlas.Knowledge.NormOneIdeleClassIsCompact
+import Atlas.Knowledge.NormalizedDegree
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.NormalizedValuationAlgEquiv
 import Atlas.Knowledge.NormalizedValuationNorm

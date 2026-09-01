@@ -19,6 +19,9 @@ the Frobenius, and the engine's Frobenius bookkeeping is arithmetic in this ring
 * `ProfiniteInteger.reduction` — the reduction `ℤ̂ →+* ℤ/nℤ`; continuous and
   surjective.
 * `ProfiniteInteger.quotientKerReductionEquiv` — `ℤ̂ ⧸ ker (reduction n) ≃+* ℤ/nℤ`.
+* `ProfiniteInteger.spanAddSubgroup` / `ProfiniteInteger.mulNatHomeomorph` /
+  `ProfiniteInteger.divide` — `n·ℤ̂` as an additive subgroup, multiplication by
+  `n` as a homeomorphism onto it, and its continuous inverse.
 
 ## Main statements
 
@@ -40,6 +43,10 @@ the Frobenius, and the engine's Frobenius bookkeeping is arithmetic in this ring
   proved.
 * `ProfiniteInteger.index_span_natCast` — the additive index of `n·ℤ̂` is `n`;
   proved.
+* `ProfiniteInteger.natCast_mul_left_injective` — multiplication by a nonzero
+  natural is injective; proved.
+* `ProfiniteInteger.addSubgroup_eq_spanAddSubgroup_of_index_ne_zero` — every
+  finite-index additive subgroup of `ℤ̂` is the span of its index; proved.
 
 ## Implementation notes
 
@@ -54,9 +61,12 @@ ring-theoretically (`Ideal.span`, `RingHom.ker`, `nonZeroDivisors`) rather than 
 additive subgroups, and the index of `n·ℤ̂` is carried by `quotientKerReductionEquiv`
 instead of a bare cardinality. The two closure arguments — the transition law and
 `ker ⊆ span` — are `Set.EqOn.closure` and density-of-`ℤ` against an open kernel and a
-compact-image ideal, following the source construction. The source's classification of the
-finite-index additive subgroups is deferred to the brick that consumes it;
-`index_span_natCast` is the `ℤ̂`-specific input it needs.
+compact-image ideal, following the source construction. The classification of the
+finite-index additive subgroups — once deferred — now lives here with the division
+apparatus its consumers need: the quotient is abelian, so its cardinality annihilates
+every class, and comparison of indices forces equality, with no closedness of the
+subgroup entering; the compact-to-Hausdorff trick upgrades multiplication by `n` to a
+homeomorphism.
 
 ## References
 
@@ -83,8 +93,7 @@ private abbrev ProfiniteIntegerModel : Type :=
 diagonal image of `ℤ` in the product of all positive cyclic quotients — that this
 closure is the full inverse limit is `ProfiniteInteger.existsUnique_of_compatible`
 ([Milne 2020, Chap. I, Appendix A, p.55][MilneCFT] — "`ℤ̂ = lim ℤ/mℤ`";
-[Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteIntegerCore.lean:59`]
-[Yamaguchi2026]). -/
+[Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteIntegerCore.lean:59`][Yamaguchi2026]). -/
 def ProfiniteInteger : Type := ProfiniteIntegerModel
 
 instance : CommRing ProfiniteInteger := by
@@ -283,8 +292,7 @@ theorem isClosed_span_singleton (a : ProfiniteInteger) :
 
 /-- **The multiples of `n` are exactly the kernel of reduction mod `n`**: the kernel
 is open, the integers are dense in it relatively, and the ideal is closed
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:131`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:131`][Yamaguchi2026]). -/
 theorem span_natCast_eq_ker_reduction (n : ℕ) [NeZero n] :
     Ideal.span {(n : ProfiniteInteger)} = RingHom.ker (reduction n) := by
   apply le_antisymm
@@ -339,6 +347,110 @@ theorem index_span_natCast (n : ℕ) [NeZero n] :
   rw [h, AddSubgroup.index_ker, AddMonoidHom.range_eq_top_of_surjective _
     (reduction_surjective n)]
   simp
+
+/-- **The multiples of `n` as an additive subgroup** — the span read additively
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:44`][Yamaguchi2026]). -/
+abbrev spanAddSubgroup (n : ℕ) : AddSubgroup ProfiniteInteger :=
+  (Ideal.span {(n : ProfiniteInteger)}).toAddSubgroup
+
+theorem mem_spanAddSubgroup_iff {n : ℕ} (y : ProfiniteInteger) :
+    y ∈ spanAddSubgroup n ↔ ∃ x, (n : ProfiniteInteger) * x = y := by
+  rw [spanAddSubgroup, Submodule.mem_toAddSubgroup, Ideal.mem_span_singleton']
+  constructor
+  · rintro ⟨x, hx⟩
+    exact ⟨x, by rw [← hx]; ring⟩
+  · rintro ⟨x, hx⟩
+    exact ⟨x, by rw [← hx]; ring⟩
+
+/-- Multiplication by a nonzero natural is injective. -/
+theorem natCast_mul_left_injective {n : ℕ} (hn : n ≠ 0) :
+    Function.Injective fun x : ProfiniteInteger => (n : ProfiniteInteger) * x := by
+  intro x y hxy
+  exact (mul_cancel_left_mem_nonZeroDivisors
+    (natCast_mem_nonZeroDivisors hn)).mp hxy
+
+/-- nsmul form of injectivity. -/
+theorem nsmul_left_injective {n : ℕ} (hn : n ≠ 0) :
+    Function.Injective fun x : ProfiniteInteger => n • x := by
+  simpa [nsmul_eq_mul] using natCast_mul_left_injective hn
+
+/-- The index of `n·ℤ̂` as an AddSubgroup. -/
+theorem index_spanAddSubgroup (n : ℕ) [NeZero n] :
+    (spanAddSubgroup n).index = n := by
+  have := index_span_natCast n
+  simpa [spanAddSubgroup] using this
+
+/-- **Every finite-index additive subgroup of `ℤ̂` is the span of its index**:
+the quotient is abelian, so its cardinality annihilates every class, and the
+indices compare — closedness is never used
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:188`][Yamaguchi2026]). -/
+theorem addSubgroup_eq_spanAddSubgroup_of_index_ne_zero
+    (H : AddSubgroup ProfiniteInteger) (hH : H.index ≠ 0) :
+    H = spanAddSubgroup H.index := by
+  haveI : NeZero H.index := ⟨hH⟩
+  have hle : spanAddSubgroup H.index ≤ H := by
+    intro y hy
+    obtain ⟨x, rfl⟩ := (mem_spanAddSubgroup_iff y).mp hy
+    have := H.nsmul_index_mem x
+    rwa [nsmul_eq_mul] at this
+  have hrangeIndex : (spanAddSubgroup H.index).index = H.index :=
+    index_spanAddSubgroup H.index
+  have hrel : (spanAddSubgroup H.index).relIndex H = 1 := by
+    have heq : (spanAddSubgroup H.index).relIndex H * H.index = H.index :=
+      (AddSubgroup.relIndex_mul_index hle).trans hrangeIndex
+    apply Nat.eq_of_mul_eq_mul_right (Nat.pos_of_ne_zero hH)
+    simpa only [one_mul] using heq
+  exact le_antisymm (AddSubgroup.relIndex_eq_one.mp hrel) hle
+
+/-- **Multiplication by `n` as a homeomorphism onto its span** — injectivity from
+the non-zero-divisor law, continuity upgraded compact-to-Hausdorff
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:225`][Yamaguchi2026]). -/
+noncomputable def mulNatHomeomorph (n : ℕ) [NeZero n] :
+    ProfiniteInteger ≃ₜ+ spanAddSubgroup n := by
+  let f : ProfiniteInteger →+ spanAddSubgroup n :=
+    { toFun := fun x => ⟨(n : ProfiniteInteger) * x,
+        (mem_spanAddSubgroup_iff _).mpr ⟨x, rfl⟩⟩
+      map_zero' := by simp
+      map_add' := fun x y => by
+        apply Subtype.ext
+        simp [mul_add] }
+  have hinj : Function.Injective f := by
+    intro x y hxy
+    exact natCast_mul_left_injective (NeZero.ne n)
+      (congrArg Subtype.val hxy)
+  have hsurj : Function.Surjective f := by
+    rintro ⟨y, hy⟩
+    obtain ⟨x, rfl⟩ := (mem_spanAddSubgroup_iff y).mp hy
+    exact ⟨x, rfl⟩
+  let e : ProfiniteInteger ≃+ spanAddSubgroup n :=
+    AddEquiv.ofBijective f ⟨hinj, hsurj⟩
+  have he : Continuous e :=
+    Continuous.subtype_mk (by fun_prop) _
+  let h : ProfiniteInteger ≃ₜ spanAddSubgroup n :=
+    he.homeoOfEquivCompactToT2
+  exact { e with
+    continuous_toFun := h.continuous
+    continuous_invFun := h.symm.continuous }
+
+/-- **Division by `n` on the span**: the continuous inverse of multiplication
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:241`][Yamaguchi2026]). -/
+noncomputable def divide (n : ℕ) [NeZero n] :
+    ContinuousAddMonoidHom (spanAddSubgroup n) ProfiniteInteger :=
+  (mulNatHomeomorph n).symm
+
+@[simp]
+theorem mul_divide (n : ℕ) [NeZero n] (y : spanAddSubgroup n) :
+    (n : ProfiniteInteger) * divide n y = y.1 := by
+  change ((mulNatHomeomorph n)
+    ((mulNatHomeomorph n).symm y)).1 = y.1
+  exact congrArg Subtype.val ((mulNatHomeomorph n).apply_symm_apply y)
+
+@[simp]
+theorem divide_mul (n : ℕ) [NeZero n] (x : ProfiniteInteger) :
+    divide n ⟨(n : ProfiniteInteger) * x,
+      (mem_spanAddSubgroup_iff _).mpr ⟨x, rfl⟩⟩ = x := by
+  change (mulNatHomeomorph n).symm ((mulNatHomeomorph n) x) = x
+  exact (mulNatHomeomorph n).symm_apply_apply x
 
 end ProfiniteInteger
 
