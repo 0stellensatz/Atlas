@@ -20,7 +20,7 @@ import Atlas.Knowledge.ValuationData
 /-!
 # Finite-stage corrections
 
-The Frobenius power-sum combination `s₄ + s₁ - s₃` of reciprocity
+The Frobenius power-sum combination `u` of reciprocity
 multiplicativity and each of the three correction coefficients are
 genuine finite-stage units: the combination splits into the power sums
 of a prime difference and of a prime minus an action translate, and the
@@ -60,10 +60,10 @@ variable {G : Type} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
-/-- **The Frobenius power-sum combination `s₄ + s₁ - s₃` of
-multiplicativity is a genuine finite-stage unit** — splitting the long
-sum into two blocks expresses it as the power sums of `p₄ - p₃` and of
-`p₁` minus an action translate of `p₃`
+/-- **The Frobenius power-sum combination `u` of multiplicativity is a
+genuine finite-stage unit** — splitting the long sum into two blocks
+expresses it as the power sums of `p₄ - p₃` and of `p₁` minus an action
+translate of `p₃`
 ([Yamaguchi 2026, `FiniteStageCorrections.lean:28`][Yamaguchi2026]). -/
 theorem frobeniusPowerSum_alternating_mem_infiniteUnitAddSubgroup
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
