@@ -18,6 +18,7 @@ import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.AbstractExtension
 import Atlas.Knowledge.AbstractExtensionUnitsRepIso
 import Atlas.Knowledge.AbstractFixedField
+import Atlas.Knowledge.AbstractFixedFieldNorm
 import Atlas.Knowledge.AbstractFixedFieldUnitsEquiv
 import Atlas.Knowledge.AbstractRelativeFixedField
 import Atlas.Knowledge.AddValMapIntegralClosure
@@ -176,6 +177,7 @@ import Atlas.Knowledge.LocalAbsoluteValuationSubring
 import Atlas.Knowledge.LocalBaseValuation
 import Atlas.Knowledge.LocalFixedResidueField
 import Atlas.Knowledge.LocalFixedResidueFinrank
+import Atlas.Knowledge.LocalHenselianValuation
 import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
 import Atlas.Knowledge.LocalKroneckerWeber
