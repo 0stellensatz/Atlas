@@ -108,6 +108,7 @@ import Atlas.Knowledge.FrobeniusNormCosetDecomposition
 import Atlas.Knowledge.FrobeniusNormIdentities
 import Atlas.Knowledge.FrobeniusPowerFixedField
 import Atlas.Knowledge.FrobeniusQuotientAction
+import Atlas.Knowledge.FrobeniusQuotientDescent
 import Atlas.Knowledge.FrobeniusSemigroup
 import Atlas.Knowledge.GalIdealPowCounts
 import Atlas.Knowledge.GalUnits
