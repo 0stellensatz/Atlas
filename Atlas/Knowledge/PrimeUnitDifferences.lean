@@ -41,11 +41,11 @@ field's stage (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, the
 enrichment bridges are plain definitionally-equal terms for the source's
 `simpa` bridges, the finiteness of a tower stage is #136's two-argument
-instance-supplied form, the ambient group is `Type` after the chain,
-the statements' enrichment binders synthesize through the transport
+instance-supplied form, the ambient group is `Type` after the chain, the
+statements' enrichment binders synthesize through the transport
 instances of `Atlas.Knowledge.FiniteFieldUnitMaps`, and the two
-instance-derivable Hausdorff binders go.
-The citations name this file by bare basename; it lives at
+instance-derivable Hausdorff binders go. The citations name this file by
+bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
 in the source. The source's no-op opens go.
 
