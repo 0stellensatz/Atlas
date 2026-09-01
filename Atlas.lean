@@ -21,6 +21,7 @@ import Atlas.Knowledge.AbstractFixedField
 import Atlas.Knowledge.AbstractFixedFieldNorm
 import Atlas.Knowledge.AbstractFixedFieldUnitsEquiv
 import Atlas.Knowledge.AbstractRelativeFixedField
+import Atlas.Knowledge.AbstractRelativeUnitsNorm
 import Atlas.Knowledge.AddValMapIntegralClosure
 import Atlas.Knowledge.AdicCompletionIsMixedCharLocalField
 import Atlas.Knowledge.AmbientFixedAddSubgroup
@@ -179,6 +180,7 @@ import Atlas.Knowledge.KummerRadicalSubgroup
 import Atlas.Knowledge.LegendreFormula
 import Atlas.Knowledge.LocalAbsoluteValuationSubring
 import Atlas.Knowledge.LocalBaseValuation
+import Atlas.Knowledge.LocalClassFieldAxiom
 import Atlas.Knowledge.LocalFixedResidueField
 import Atlas.Knowledge.LocalFixedResidueFinrank
 import Atlas.Knowledge.LocalHenselianValuation
