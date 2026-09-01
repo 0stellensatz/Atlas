@@ -11,10 +11,10 @@ import Atlas.Knowledge.NormalizedDegree
 
 Descent from the Frobenius semigroup: the image of `G_L` in the inertia
 quotient is closed, a finite field fixed by the inertia and one lift
-representative bounds the Frobenius fixed field, and restriction
-together with normalized degree distinguishes Frobenius elements — the
-group-theoretic facts consumed when two Frobenius lifts share their
-restriction and degree (#104).
+representative lies inside the lift's Frobenius fixed field, and
+restriction together with normalized degree distinguishes Frobenius
+elements — the group-theoretic facts consumed when two Frobenius lifts
+share their restriction and degree (#104).
 
 ## Main definitions
 
@@ -24,7 +24,7 @@ restriction and degree (#104).
 ## Main statements
 
 * `DegreeData.frobeniusFixedField_le_of_inertia_le_of_lift_mem` — the
-  closed-subgroup minimality bound; proved.
+  fixed field swallows such a finite field; proved.
 * `DegreeData.frobeniusFixedField_le_of_restriction_eq_one` — trivial
   restriction puts `L` under the fixed field; proved.
 * `DegreeData.extensionRestriction_normalizedDegree_joint_injective` —
@@ -34,11 +34,11 @@ restriction and degree (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
-which frees the containment the minimality bound's statement bound for
-its `extensionSubgroup` alone, and the ambient compactness and
-Hausdorff binders the openness argument never touches — all go; the
-source's `Type*` ambient group is kept (the file is
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
+It frees the minimality bound's `hMK`, which only fed the source's
+`extensionSubgroup`; that binder goes, and so do the ambient compactness
+and Hausdorff binders, which the clopen-and-open-map argument never
+touches. The source's `Type*` ambient group is kept (the file is
 representation-free).
 
 ## References
@@ -54,7 +54,6 @@ noncomputable section
 variable {G : Type*} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
-
 
 /-- The image of `G_L` in `G_K / I_L` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:23`]
@@ -103,8 +102,8 @@ theorem extensionImageInInertiaQuotient_isClosed
       (E : Set K.field.toSubgroup) hEopen)
 
 /-- **A finite field fixed by the relative inertia and one representative
-of a Frobenius lift contains the lift's Frobenius fixed field** — the
-closed-subgroup minimality argument ([Yamaguchi 2026,
+of a Frobenius lift is contained in the lift's Frobenius fixed field** —
+the closed-subgroup minimality argument ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:67`]
 [Yamaguchi2026]). -/
 theorem frobeniusFixedField_le_of_inertia_le_of_lift_mem
@@ -284,6 +283,7 @@ theorem frobenius_eq_of_restriction_eq_of_degree_eq
   apply D.extensionRestriction_normalizedDegree_joint_injective
     K L hLK
   exact Prod.ext hRestriction hDegree
+
 end DegreeData
 
 end
