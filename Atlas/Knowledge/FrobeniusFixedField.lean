@@ -63,10 +63,10 @@ hypotheses of the source's division apparatus become the `NeZero` instance
 on the exponent, registered in `Atlas.Knowledge.FrobeniusExponent` beside
 its positivity; the generation of `ℤ̂` by the generator moved to the
 profinite-integer item beside its power-injectivity sibling. Four of the
-source's ambient Hausdorff binders are unused once the layer's `abbrev`
-spelling of `ℤ̂` supplies its own separation, and are dropped; the two that
-remain are real — `frobeniusClosureCommGroup` consumes its binder through
-instance synthesis the unused-argument linter cannot see, and
+source's ambient Hausdorff binders either fed separation facts the proofs
+never used or forwarded to callees that stopped asking, and are dropped; the
+two that remain are real — `frobeniusClosureCommGroup` consumes its binder
+through instance synthesis the unused-argument linter cannot see, and
 `frobeniusClosureDegreeInMulNatRange` keeps the source signature because it
 is the value map the whole procyclic arc builds on.
 
