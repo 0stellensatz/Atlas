@@ -40,10 +40,10 @@ inseparable residue comparison of
 `Atlas.Knowledge.ResidueOfAlgebraicallyClosed` is the bridge that reading
 uses — while Atlas's mixed-characteristic consumer takes the algebraic
 closure itself. The index comparison reads
-`Atlas.Knowledge.residueDatumIn_fieldImage_index_closedFixingSubgroup`
-through `Atlas.Knowledge.DegreeData.fieldImage_eq_map`, whose embedded
-closure instances make any local replication here dead weight, so the
-source's scope instances are not replicated.
+`Atlas.Knowledge.residueDatumIn_fieldImage_index_closedFixingSubgroup` —
+whose embedded closure instances make any local replication here dead
+weight, so the source's scope instances are not replicated — through
+`Atlas.Knowledge.DegreeData.fieldImage_eq_map`.
 
 ## References
 
