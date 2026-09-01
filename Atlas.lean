@@ -164,9 +164,11 @@ import Atlas.Knowledge.JumpSetVector
 import Atlas.Knowledge.KummerCharacterEquiv
 import Atlas.Knowledge.KummerRadicalSubgroup
 import Atlas.Knowledge.LegendreFormula
+import Atlas.Knowledge.LocalAbsoluteValuationSubring
 import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
 import Atlas.Knowledge.LocalKroneckerWeber
+import Atlas.Knowledge.LocalResidueDatum
 import Atlas.Knowledge.LocalTateDuality
 import Atlas.Knowledge.LowerRamificationGroup
 import Atlas.Knowledge.LubinTateFormalGroup
