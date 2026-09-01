@@ -7,6 +7,7 @@ import Atlas.Knowledge.FrobeniusFixedFieldAction
 import Atlas.Knowledge.FrobeniusFixedFieldTower
 import Atlas.Knowledge.PrimeElement
 import Atlas.Knowledge.RelativeNorm
+import Atlas.Knowledge.ValuationData
 
 /-!
 # Fixed-tower unit correction
@@ -28,8 +29,9 @@ sends it to zero, immediately before `Ĥ⁻¹ = 0` enters (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, the
-ambient group is `Type` because the file leans on
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
+`FiniteResidueAbstractField` sits at the layer's top level, the ambient
+group is `Type` because the file leans on
 `Atlas.Knowledge.DegreeData.frobeniusFixedFieldAction`, and the source's
 no-op `open`s are dropped, along with the ambient separation binders
 #140's slimming left dead on all three declarations.
@@ -52,9 +54,9 @@ namespace ValuationData
 
 variable {D : DegreeData G} {A : Rep ℤ G}
 
-/-- **The unit-valued correction term on the upper Frobenius fixed
-field** — the additive form of the right-hand side of the corrected
-equation ([Yamaguchi 2026,
+/-- **The unit-valued correction term on the upper Frobenius fixed field**
+— the additive form of the right-hand side of the corrected equation
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitCorrection.lean:30`]
 [Yamaguchi2026]). -/
 noncomputable def fixedTowerCorrection
