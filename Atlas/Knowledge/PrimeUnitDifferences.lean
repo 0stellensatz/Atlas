@@ -4,6 +4,7 @@ import Atlas.Knowledge.ChosenPrimeElement
 import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
+import Atlas.Knowledge.FiniteFieldUnitMaps
 import Atlas.Knowledge.FiniteIntermediateCompositum
 import Atlas.Knowledge.FiniteIntermediateFieldRefinement
 import Atlas.Knowledge.FiniteResidueAbstractField
@@ -40,7 +41,10 @@ field's stage (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, the
 enrichment bridges are plain definitionally-equal terms for the source's
 `simpa` bridges, the finiteness of a tower stage is #136's two-argument
-instance-supplied form, and the ambient group is `Type` after the chain.
+instance-supplied form, the ambient group is `Type` after the chain,
+the statements' enrichment binders synthesize through the transport
+instances of `Atlas.Knowledge.FiniteFieldUnitMaps`, and the two
+instance-derivable Hausdorff binders go.
 The citations name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
 in the source. The source's no-op opens go.
@@ -66,7 +70,7 @@ compositum, unramified over both fixed fields
 [Yamaguchi2026]). -/
 theorem frobeniusPrimeDifference_mem_infiniteUnitAddSubgroup
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -185,7 +189,7 @@ field supplies a stage stable under the chosen representative
 [Yamaguchi2026]). -/
 theorem frobeniusPrime_actionDifference_mem_infiniteUnitAddSubgroup
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)

@@ -41,8 +41,8 @@ after the chain. The two fixed-field containments carry explicit
 `K.field` ascriptions, the conjugate-fixed-field bridge is the plain
 definitionally-equal term for the source's `simpa`, and the conjugate
 extension's finiteness is #137's containment-free form. The dead
-Hausdorff binder goes. The
-citations name this file by bare basename; it lives at
+Hausdorff binder goes. The citations name this file by bare basename; it
+lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
 in the source, whose full path exceeds the line budget. The source's
 no-op opens go.
