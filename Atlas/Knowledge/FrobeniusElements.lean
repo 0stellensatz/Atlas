@@ -35,7 +35,9 @@ The positive-representative lemma reads the classification of finite-index
 subgroups of `ℤ̂` through the ideal identity
 `Atlas.Knowledge.ProfiniteInteger.span_natCast_eq_ker_reduction`, shifting a
 residue by the modulus to force positivity. The relative subgroup is
-`Subgroup.subgroupOf`, as across the layer.
+`Subgroup.subgroupOf`, as across the layer, and the underscore-named
+containments are semantic guards consumed by the statement shapes, as in
+`Atlas.Knowledge.extensionFixedRepresentation`.
 
 ## References
 
@@ -124,7 +126,7 @@ theorem extensionNormalizedDegree_mk (D : DegreeData G)
   rfl
 
 /-- **Restriction** `G(L̃|K) → G(L|K)`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/FrobeniusLift.lean:100`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/FrobeniusLift.lean:99`][Yamaguchi2026]). -/
 def extensionRestriction (D : DegreeData G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal] :

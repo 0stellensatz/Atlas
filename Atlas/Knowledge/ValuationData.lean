@@ -1,6 +1,5 @@
 import Mathlib
 import Atlas.Knowledge.FiniteAbstractField
-import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.RelativeNorm
 
 /-!
@@ -39,8 +38,11 @@ Positivity of moduli is carried as `[NeZero n]` where the source writes
 `0 < n`, matching the layer's `ℤ̂` API; the two are interchangeable and the
 axiom's content is unchanged. The `f_K·ℤ̂` placements go through
 `Atlas.Knowledge.ProfiniteInteger.spanAddSubgroup` and the division through
-`Atlas.Knowledge.ProfiniteInteger.divide`, as in the normalized degree. The
-relative subgroup is `Subgroup.subgroupOf` throughout.
+`Atlas.Knowledge.ProfiniteInteger.divide`, as in the normalized degree, and the
+source's `normCompositeAtInResidueImage` is named `normCompositeAtInSpan` for
+that vocabulary. The relative subgroup is `Subgroup.subgroupOf` throughout, and
+the ambient group is universe-general — only the engine's own instantiation
+pins `Type 0`.
 
 ## References
 
@@ -75,7 +77,7 @@ def nsmulWithin (Z : AddSubgroup ProfiniteInteger) (n : ℕ) : AddSubgroup Z :=
   (nsmulOnAddSubgroup Z n).range
 
 /-- **The ambient subgroup `nZ ⊆ ℤ̂`**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:46`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:45`][Yamaguchi2026]). -/
 def nsmulImage (Z : AddSubgroup ProfiniteInteger) (n : ℕ) :
     AddSubgroup ProfiniteInteger :=
   Z.map
@@ -131,7 +133,7 @@ theorem canonicalValueQuotientMap_mk (Z : AddSubgroup ProfiniteInteger)
 
 /-- **The full value group satisfies the quotient condition**: the canonical
 map is bijective for `Z = ℤ̂`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:104`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:100`][Yamaguchi2026]). -/
 theorem canonicalValueQuotientMap_top_bijective (n : ℕ) [NeZero n] :
     Function.Bijective
       (canonicalValueQuotientMap (⊤ : AddSubgroup ProfiniteInteger) n) := by
@@ -169,7 +171,8 @@ theorem canonicalValueQuotientMap_top_bijective (n : ℕ) [NeZero n] :
           ⟨z, AddSubgroup.mem_top z⟩,
         hz⟩
 
-/-- The quotient used by the norm has the field's positive degree. -/
+/-- The quotient used by the norm has the field's positive degree
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:141`][Yamaguchi2026]). -/
 @[simp] theorem FiniteAbstractField.normToBase_index_eq_degree
     (K : FiniteAbstractField G) :
     (K.field.toSubgroup.subgroupOf (baseField G).toSubgroup).index =
@@ -209,7 +212,7 @@ def canonicalQuotientMap (v : ValuationData D A) (n : ℕ) [NeZero n] :
   canonicalValueQuotientMap v.valueGroup n
 
 /-- **The cyclic value quotients**, derived from the axiom's bijectivity
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:188`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:185`][Yamaguchi2026]). -/
 def cyclic_value_quotients (v : ValuationData D A) (n : ℕ) [NeZero n] :
     (v.valueGroup ⧸ nsmulWithin v.valueGroup n) ≃+ ZMod n :=
   AddEquiv.ofBijective (v.canonicalQuotientMap n)
@@ -273,7 +276,7 @@ def dividedAt (v : ValuationData D A) (K : FiniteAbstractField G) :
     (v.normCompositeAtInSpan K)
 
 /-- **The defining identity** `f_K·v_K = v ∘ N_{K|k}`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:253`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:249`][Yamaguchi2026]). -/
 theorem residueDegree_nsmul_dividedAt (v : ValuationData D A)
     (K : FiniteAbstractField G)
     (a : ambientFixedAddSubgroup A K.field) :

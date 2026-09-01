@@ -14,6 +14,7 @@ cosets.
 ## Main definitions
 
 * `relativeCosetAction` — the value of a fixed coefficient at a left coset.
+* `relativeNormValue` — the coset sum in the ambient module.
 * `relativeNorm` — the norm `A_L →+ A_K` of a finite abstract extension.
 
 ## Main statements
@@ -28,7 +29,8 @@ The coset permutation used in the reindexing is Mathlib's `MulAction.toPerm`
 for the left action on the quotient, where the source bundles its own
 equivalence; the relative subgroup is `Subgroup.subgroupOf`, as across the
 layer. The ambient group is universe-general: only the engine's own
-instantiation pins `Type 0`.
+instantiation pins `Type 0`. The norm value `relativeNormValue` is its own
+definition so the fixedness proof can name it before the bundling.
 
 ## References
 
@@ -44,7 +46,7 @@ variable {G : Type*} [Group G] [TopologicalSpace G]
 
 /-- **The value of a fixed coefficient at a left coset** — independent of the
 representative exactly because the coefficient is fixed by the smaller subgroup
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:31`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:30`][Yamaguchi2026]). -/
 def relativeCosetAction
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -74,7 +76,7 @@ theorem relativeCosetAction_mk
   rfl
 
 /-- **The additive norm value**: the sum over the left cosets
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:74`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:73`][Yamaguchi2026]). -/
 def relativeNormValue
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -111,7 +113,7 @@ theorem relativeCosetAction_zero
 
 /-- **The norm value is fixed by the base subgroup**: the action permutes the
 cosets and the sum reindexes
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:111`][Yamaguchi2026]). -/
+([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:108`][Yamaguchi2026]). -/
 theorem relativeNormValue_fixed
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
