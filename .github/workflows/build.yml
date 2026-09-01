@@ -20,6 +20,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # The toolchain plus the Mathlib cache no longer fit beside the runner
+      # image's preinstalled software: from 2026-08-31 on, most runs died
+      # inside the cache restore with "No space left on device". Dropping the
+      # largest preinstalled trees this job never touches frees ~14 GB before
+      # Lean enters the picture.
+      - name: Free runner disk space
+        run: sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/hostedtoolcache/CodeQL
+
       # Installs the toolchain named in `lean-toolchain`, fetches the Mathlib
       # cache, and runs `lake build` — which builds everything reachable from the
       # root all-import module.
