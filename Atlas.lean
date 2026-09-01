@@ -290,6 +290,7 @@ import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.ReciprocityIndependence
 import Atlas.Knowledge.ReciprocityMap
+import Atlas.Knowledge.ReciprocityMapMul
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.RelativeNormConjugation
