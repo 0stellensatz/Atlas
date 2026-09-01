@@ -6,7 +6,6 @@ import Atlas.Knowledge.FiniteFieldUnitMaps
 import Atlas.Knowledge.FiniteIntermediateCompositum
 import Atlas.Knowledge.FiniteIntermediateFieldRefinement
 import Atlas.Knowledge.FixedFieldInclusion
-import Atlas.Knowledge.FixedTowerUnitDescent
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusQuotientAction
@@ -60,10 +59,12 @@ beyond their structure fields — `ZHat` is `ProfiniteInteger`,
 #138's containment-free form, and the ambient group is `Type` because
 the file leans on `Atlas.Knowledge.DegreeData.frobeniusQuotientAction`'s
 descent siblings — though the first descent theorem sheds even that,
-after #146 did; the source's no-op `open`s are dropped. One `let`
-re-anchors the descended element over `K.field` — the enrichment's field
-is that field definitionally, but the rewrites the valuation calculation
-runs need the anchor spelled.
+after #146 did; the source's no-op `open`s are dropped, a dead `let`
+freed by the spelling goes, one `by exact` flattens to `from`, and the
+finiteness-of-a-tower calls are #136's two-argument instance-supplied
+form. One ascribed `obtain` anchors the descended element over `K.field`
+— the enrichment's field is that field definitionally, but the rewrites
+the valuation calculation runs need the anchor spelled.
 
 ## References
 
@@ -142,14 +143,13 @@ theorem descend_maximalUnramified_fixed_unit_of_finiteSupport
     ∃ aK : v.unitAddSubgroup K,
       fixedFieldInclusion A K.field (D.maximalUnramifiedField K.field)
         (D.maximalUnramifiedField_le K.field) aK.1 = aI := by
-  obtain ⟨bK0, hbK⟩ :=
+  obtain ⟨bK, hbK⟩ :
+      ∃ bK : ambientFixedAddSubgroup A K.field,
+        fixedFieldInclusion A K.field (D.maximalUnramifiedField K.field)
+          (D.maximalUnramifiedField_le K.field) bK = aI :=
     D.descend_maximalUnramified_fixed_of_finiteSupport
       A (K.toFiniteResidueAbstractField D) L hLK φ hφ
         P aI aP.1 hsupport hfixed
-  let bK : ambientFixedAddSubgroup A K.field := bK0
-  have hbK' :
-      fixedFieldInclusion A K.field (D.maximalUnramifiedField K.field)
-        (D.maximalUnramifiedField_le K.field) bK = aI := hbK
   letI : Finite
       (K.field.toSubgroup ⧸
         P.field.toSubgroup.subgroupOf K.field.toSubgroup) :=
@@ -201,7 +201,7 @@ theorem descend_maximalUnramified_fixed_unit_of_finiteSupport
         ((v.valuationAt K bK : v.valueGroup) : ProfiniteInteger) =
       (EP.degree : ℕ) • ((0 : v.valueGroup) : ProfiniteInteger)
     simpa using hmul
-  exact ⟨⟨bK, hbKunit⟩, hbK'⟩
+  exact ⟨⟨bK, hbKunit⟩, hbK⟩
 
 /-- **Unit at some finite intermediate stage** — the literal
 finite-support meaning of `U_E = ⋃_M U_M` ([Yamaguchi 2026,
@@ -334,7 +334,6 @@ theorem frobeniusQuotientAction_mem_infiniteUnitAddSubgroup
       v.infiniteUnitAddSubgroup (D.maximalUnramifiedField L) K
         (D.maximalUnramifiedField_le_of_le hLK) := by
   let E := D.maximalUnramifiedField L
-  let hEK := D.maximalUnramifiedField_le_of_le hLK
   letI hEnormal : (E.toSubgroup.subgroupOf K.field.toSubgroup).Normal :=
     D.subgroupOf_maximalUnramifiedField_normal K.field L hLK
   rcases ha with ⟨M, u, hu⟩
