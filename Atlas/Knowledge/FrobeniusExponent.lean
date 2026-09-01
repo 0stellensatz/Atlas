@@ -4,7 +4,7 @@ import Atlas.Knowledge.NormalizedDegree
 import Atlas.Knowledge.TopologicalGeneration
 
 /-!
-# the Frobenius exponent
+# Frobenius exponent
 
 The natural exponent attached to a Frobenius element: the class's normalized
 degree is a natural power of the multiplicative generator of `ℤ̂`, and the
@@ -19,18 +19,23 @@ quotient and a finite reduction of `ℤ̂` (#104).
 
 ## Main definitions
 
-* `ProfiniteInteger.reductionMul` — reduction modulo `n`, multiplicatively.
+* `profiniteIntegerReductionMul` — reduction modulo `n`, multiplicatively.
 * `DegreeData.frobeniusExponent` — the exponent `d_K(σ)` of a Frobenius
   element.
 * `DegreeData.extensionNormalizedDegreeContinuous` — the factorized
   normalized degree, continuous.
-* `DegreeData.extensionDegreeKernelRestriction` — the degree kernel inside
-  `G(L|K)`.
+* `DegreeData.extensionDegreeKernelRestriction` — the restriction mapping
+  the degree kernel into `G(L|K)`.
 
 ## Main statements
 
 * `injective_of_topologicallyGenerates_ofAdd_one` — a continuous
   homomorphism to `ℤ̂` sending a topological generator to `1` is injective;
+  proved.
+* `DegreeData.frobeniusExponent_pos` — the exponent is strictly positive;
+  proved.
+* `DegreeData.extensionNormalizedDegree_frobenius_eq_pow` — the normalized
+  degree of a Frobenius element is the exponent's power of the generator;
   proved.
 * `DegreeData.frobeniusExponent_unique` — the degree equation determines
   the exponent; proved.
@@ -47,7 +52,11 @@ The source's private continuous-quotient helpers stay private here; the two
 helpers its second half uses go with that half. The injectivity theorem the
 second half consumes is public. The source's bundled reduction takes a
 positivity hypothesis; the layer's `ProfiniteInteger.reduction` carries
-`NeZero`, as across the layer.
+`NeZero`, as across the layer. The simp attribute the source puts on the
+`toMonoidHom` computation rule is dropped — simp rewrites its left side by
+`ContinuousMonoidHom.coe_toMonoidHom` first, so the rule can never fire —
+and the closedness of the relative inertia drops the source's unused
+topological-group binder.
 
 ## References
 
@@ -117,7 +126,7 @@ private theorem exists_openNormalSubgroup_not_mem
 ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:111`]
 [Yamaguchi2026]). -/
-def ProfiniteInteger.reductionMul (n : ℕ) [NeZero n] :
+def profiniteIntegerReductionMul (n : ℕ) [NeZero n] :
     ProfiniteIntegerMul →ₜ* Multiplicative (ZMod n) where
   toFun z := Multiplicative.ofAdd (ProfiniteInteger.reduction n z.toAdd)
   map_one' := by
@@ -129,13 +138,11 @@ def ProfiniteInteger.reductionMul (n : ℕ) [NeZero n] :
   continuous_toFun := ProfiniteInteger.continuous_reduction n
 
 /-- The multiplicative reduction reads as the reduction on additive
-coordinates ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:124`]
-[Yamaguchi2026]). -/
+coordinates. -/
 @[simp]
-theorem ProfiniteInteger.reductionMul_apply_toAdd (n : ℕ) [NeZero n]
+theorem profiniteIntegerReductionMul_apply_toAdd (n : ℕ) [NeZero n]
     (z : ProfiniteIntegerMul) :
-    (ProfiniteInteger.reductionMul n z).toAdd =
+    (profiniteIntegerReductionMul n z).toAdd =
       ProfiniteInteger.reduction n z.toAdd :=
   rfl
 
@@ -166,8 +173,6 @@ theorem injective_of_topologicallyGenerates_ofAdd_one
   letI : Finite (A ⧸ (U : Subgroup A)) :=
     Subgroup.quotient_finite_of_isOpen (U : Subgroup A)
       U.toOpenSubgroup.isOpen'
-  letI : DiscreteTopology (A ⧸ (U : Subgroup A)) :=
-    QuotientGroup.discreteTopology U.toOpenSubgroup.isOpen'
   let m := Nat.card (A ⧸ (U : Subgroup A))
   have hm : 0 < m := by
     dsimp [m]
@@ -177,10 +182,6 @@ theorem injective_of_topologicallyGenerates_ofAdd_one
     continuousQuotientMk (U : Subgroup A)
   have hqx :
       q x = QuotientGroup.mk' (U : Subgroup A) x := rfl
-  have hqgen : TopologicallyGenerates ({q x} : Set
-      (A ⧸ (U : Subgroup A))) := by
-    have h := topologicallyGenerates_quotient_image (U : Subgroup A) hxgen
-    simpa only [Set.image_singleton, hqx] using h
   have hqpow : (q x) ^ m = 1 := by
     exact pow_card_eq_one'
   let H : ClosedSubgroup A :=
@@ -246,7 +247,7 @@ theorem injective_of_topologicallyGenerates_ofAdd_one
     rw [hcardB]
     exact orderOf_le_of_pow_eq_one hm hqHpow
   let r : A →ₜ* Multiplicative (ZMod m) :=
-    (ProfiniteInteger.reductionMul m).comp f
+    (profiniteIntegerReductionMul m).comp f
   have hrx : r x = Multiplicative.ofAdd (1 : ZMod m) := by
     apply Multiplicative.ext
     change ProfiniteInteger.reduction m (f x).toAdd = 1
@@ -295,7 +296,7 @@ theorem injective_of_topologicallyGenerates_ofAdd_one
     (Nat.bijective_iff_surjective_and_card rbar).mpr
       ⟨hrbarSurj, hcardEq⟩ |>.1
   have hry : r y = 1 := by
-    change ProfiniteInteger.reductionMul m (f y) = 1
+    change profiniteIntegerReductionMul m (f y) = 1
     rw [hfy, map_one]
   have hqy : qH y = 1 := by
     apply hrbarInj
@@ -392,7 +393,6 @@ theorem extensionNormalizedDegreeContinuous_apply (D : DegreeData G)
   rfl
 
 /-- Forgetting continuity recovers the normalized-degree homomorphism. -/
-@[simp]
 theorem extensionNormalizedDegreeContinuous_toMonoidHom (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -480,7 +480,6 @@ theorem extensionDegreeKernelRestriction_injective (D : DegreeData G)
 2026, `AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:438`]
 [Yamaguchi2026]). -/
 theorem extensionInertiaWithin_isClosed (D : DegreeData G)
-    [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup) :
     IsClosed

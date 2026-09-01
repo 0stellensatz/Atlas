@@ -37,14 +37,14 @@ the Frobenius, and the engine's Frobenius bookkeeping is arithmetic in this ring
 * `ProfiniteInteger.reduction_surjective` — each reduction is onto; proved.
 * `ProfiniteInteger.natCast_mem_nonZeroDivisors` — a positive integer is a
   non-zero-divisor; proved.
-* `ProfiniteInteger.ofAdd_one_pow_injective` — distinct natural powers of the
-  multiplicative generator are distinct; proved.
 * `ProfiniteInteger.isClosed_span_singleton` — every principal ideal is closed;
   proved.
 * `ProfiniteInteger.span_natCast_eq_ker_reduction` — `n·ℤ̂ = ker (reduction n)`;
   proved.
 * `ProfiniteInteger.index_span_natCast` — the additive index of `n·ℤ̂` is `n`;
   proved.
+* `ProfiniteInteger.ofAdd_one_pow_injective` — distinct natural powers of the
+  multiplicative generator are distinct; proved.
 * `ProfiniteInteger.addSubgroup_eq_spanAddSubgroup_of_index_ne_zero` — every
   finite-index additive subgroup of `ℤ̂` is the span of its index; proved.
 * `ProfiniteInteger.mul_divide` / `ProfiniteInteger.divide_mul` — the two
