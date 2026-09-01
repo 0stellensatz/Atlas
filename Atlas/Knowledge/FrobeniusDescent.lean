@@ -34,8 +34,8 @@ share their restriction and degree (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
-It frees the minimality bound's `hMK`, which only fed the source's
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling. It
+frees the minimality bound's `hMK`, which only fed the source's
 `extensionSubgroup`; that binder goes, and so do the ambient compactness
 and Hausdorff binders, which the clopen-and-open-map argument never
 touches. The source's `Type*` ambient group is kept (the file is
