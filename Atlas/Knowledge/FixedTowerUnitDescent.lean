@@ -1,4 +1,5 @@
 import Mathlib
+import Atlas.Knowledge.AbstractExtension
 import Atlas.Knowledge.AmbientFixedAddSubgroup
 import Atlas.Knowledge.FiniteAbstractExtension
 import Atlas.Knowledge.FiniteAbstractField
@@ -52,14 +53,17 @@ norm-descent equation on finite fixed-field towers (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, the
-ambient group is `Type` because the file leans on
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
+`FiniteResidueAbstractField` and `AbstractExtension` sit at the layer's
+top level, the ambient group is `Type` because the file leans on
 `Atlas.Knowledge.DegreeData.frobeniusFixedFieldAction`, and the source's
 no-op `open`s are dropped. The dead ambient binders are swept unevenly,
-as their callees now demand: three declarations keep only
+as their callees now demand: four declarations keep only
 `IsTopologicalGroup`, the power correction also needs `T2Space` for the
-#143 bundle map, and the solution theorem keeps the source's four for
-the power-fixed-field apparatus. The one structural departure:
+#143 bundle map, and the solution theorem keeps compactness and total
+disconnectedness for the power-fixed-field apparatus — its Hausdorff
+binder is instance-derivable and goes. One coercion ascription steadies
+the re-anchored generator calc. The one structural departure:
 where the source phrases the axiom through Tate-cohomology vanishing and
 two eliminator lemmas, the layer's
 `ValuationData.SatisfiesUnramifiedUnitCohomology` is elementwise (#135),
@@ -198,8 +202,7 @@ corrected upper unit in the exact power-fixed-field tower used**
 [Yamaguchi2026]). -/
 theorem universalNormDescent_fixedTower_solution
     (v : ValuationData D A)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
-    [TotallyDisconnectedSpace G]
+    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology)
     (P : DegreeData.FrobeniusPowerFixedFieldTower D)
     {ι : Type v} (s : Finset ι)
