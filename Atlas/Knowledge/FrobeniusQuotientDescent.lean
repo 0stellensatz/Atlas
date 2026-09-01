@@ -46,7 +46,9 @@ the file leans on the iterate lemmas of
 `Atlas.Knowledge.UniversalNormDescent`, whose item fixed `Type` after
 the layer's Tate apparatus — the source's universe module-comment is
 absorbed here, and its no-op `open`s are dropped, along with the descent
-theorem's `IsTopologicalGroup` binder, which fed no callee.
+theorem's `IsTopologicalGroup` binder, which fed no callee. The
+finiteness of `L̃/K̃` is #138's form, called without the containment the
+source passes.
 
 ## References
 
@@ -137,9 +139,7 @@ noncomputable def frobeniusQuotientRepresentation (D : DegreeData G)
         rfl }
 
 /-- The Frobenius quotient representation evaluates by the chosen
-quotient action ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:101`]
-[Yamaguchi2026]). -/
+quotient action. -/
 @[simp]
 theorem frobeniusQuotientRepresentation_apply (D : DegreeData G)
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
