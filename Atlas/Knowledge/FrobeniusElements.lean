@@ -36,7 +36,7 @@ subgroups of `ℤ̂` through the ideal identity
 `Atlas.Knowledge.ProfiniteInteger.span_natCast_eq_ker_reduction`, shifting a
 residue by the modulus to force positivity. The relative subgroup is
 `Subgroup.subgroupOf`, as across the layer, and the underscore-named
-containments are semantic guards consumed by the statement shapes, as in
+containments enter only as semantic guards, as in
 `Atlas.Knowledge.extensionFixedRepresentation`.
 
 ## References
