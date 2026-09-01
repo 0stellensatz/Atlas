@@ -20,9 +20,9 @@ extension of the fixed field — the form the valuation datum rewrites with
 
 ## Implementation notes
 
-The source pins the pullback of the ambient valuation ring to the fixed
-field with the Henselian uniqueness of finite-extension valuations; here it
-is `Atlas.Knowledge.localAbsoluteValuationSubring_restrict`, so the
+The source pins the pullback of the ambient valuation ring to the fixed field
+with the Henselian uniqueness of finite-extension valuations; here it is
+`Atlas.Knowledge.localAbsoluteValuationSubring_restrict`, so the
 comparison needs only `[ValuativeRel E]` and `[ValuativeExtension K E]` where
 the source assumes a nonarchimedean local field structure with an extension
 witness. The residue square along the integer rings is Mathlib's

@@ -38,8 +38,8 @@ instantiation (#104).
 
 The source chooses a Chevalley extension to the algebraic closure, pulls it
 back to the separable closure, and pins the decomposition group by Henselian
-uniqueness of the finite-level extension valuations. Atlas takes the
-integral closure of `𝒪[K]` as the carrier instead: on a finite subextension
+uniqueness of the finite-level extension valuations. Atlas takes the integral
+closure of `𝒪[K]` as the carrier instead: on a finite subextension
 `Atlas.Knowledge.exists_valuativeExtension` supplies a compatible valuation
 whose integers are the integral closure of `𝒪[K]` by
 `Atlas.Knowledge.mem_integer_iff_isIntegral`, which gives the dichotomy — and
