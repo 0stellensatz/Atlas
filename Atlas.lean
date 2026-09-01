@@ -30,6 +30,7 @@ import Atlas.Knowledge.ArtinMapProfiniteTransferNaturality
 import Atlas.Knowledge.ArtinRamificationCompatibility
 import Atlas.Knowledge.AxSenTate
 import Atlas.Knowledge.BreakFunction
+import Atlas.Knowledge.CanonicalUnramifiedNormQuotient
 import Atlas.Knowledge.CharacterExclusion
 import Atlas.Knowledge.CharacterGraph
 import Atlas.Knowledge.CharacterRegularization
