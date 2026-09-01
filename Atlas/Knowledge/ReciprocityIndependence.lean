@@ -28,8 +28,8 @@ feeds the `Ĥ⁰` eliminator, the layer's elementary axiom hands the norm
 witness directly, at the same bundle and generator. The bridges across the
 residue enrichment — the instance transports and the explicit
 unramifiedness argument alike — are plain terms, as in
-`Atlas.Knowledge.ReciprocityMap`, and three of the source's locals die in
-this spelling and are not carried.
+`Atlas.Knowledge.ReciprocityMap`, and three of the source's locals — one
+already dead in the source — are dead here and not carried.
 
 ## References
 

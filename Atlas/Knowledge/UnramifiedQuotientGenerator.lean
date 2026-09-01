@@ -105,8 +105,9 @@ theorem quotient_generator_of_unramified_degree_one (D : DegreeData G)
   rw [hxpow]
   exact Subgroup.mem_zpowers_iff.mpr ⟨(n : ℤ), by simp⟩
 
-/-- **A finite unramified Galois quotient has a degree-one generator** — the
-cyclicity input of the unit-cohomology axiom ([Yamaguchi 2026,
+/-- **A finite unramified Galois quotient has a generator** — one is supplied
+by any element of normalized degree one — the cyclicity input of the
+unit-cohomology axiom ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:338`]
 [Yamaguchi2026]). -/
 theorem exists_quotient_generator_of_unramified
