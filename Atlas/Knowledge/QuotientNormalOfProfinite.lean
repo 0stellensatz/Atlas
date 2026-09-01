@@ -39,7 +39,7 @@ include G in
 /-- **The residue extension of a profinite invariant ring is normal**: an open
 normal subgroup fixes a representative, and the orbit polynomial of the finite
 quotient action splits the minimal polynomial
-([Yamaguchi 2026, `RamificationTheory/ProfiniteInvariant.lean:38`]
+([Yamaguchi 2026, `RamificationTheory/ProfiniteInvariant.lean:37`]
 [Yamaguchi2026]). -/
 theorem quotient_normal_of_profinite
     (P : Ideal A) (Q : Ideal B) [P.IsMaximal] [Q.IsMaximal] [Q.LiesOver P] :

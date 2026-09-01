@@ -36,14 +36,21 @@ of the reciprocity engine's local-side instantiation (#104).
 
 ## Implementation notes
 
-The decomposition and inertia groups and the residue action are Mathlib's
-(`ValuationSubring.decompositionSubgroup`, `inertiaSubgroup`,
-`MulSemiringAction.toRingAut`), named here once for the layer. The compactness
-and continuity of the action on the discrete valuation ring come from
-local-constancy on adjoined finite subextensions; surjectivity rides Mathlib's
-`Ideal.Quotient.stabilizerHom_surjective_of_profinite` after identifying the
-whole decomposition group with the maximal ideal's stabilizer, and normality
-rides `Atlas.Knowledge.quotient_normal_of_profinite`.
+The decomposition and inertia groups, the residue action, and the
+decomposition field are Mathlib's (`ValuationSubring.decompositionSubgroup`,
+`inertiaSubgroup`, `MulSemiringAction.toRingAut`,
+`IntermediateField.fixedField`), named here once for the layer. The
+compactness and continuity of the action on the discrete valuation ring come
+from local-constancy on adjoined finite subextensions; surjectivity rides
+Mathlib's `Ideal.Quotient.stabilizerHom_surjective_of_profinite` after
+identifying the whole decomposition group with the maximal ideal's stabilizer,
+and normality rides `Atlas.Knowledge.quotient_normal_of_profinite`. Two
+adjustments against the source: the membership reading of the decomposition
+group is public here, since the closedness statement is stated through it,
+while the stabilizer bridge behind the residue action is private plumbing; and
+the source's two compatibility lemmas between `decompositionFieldResidueEquiv`
+and the residue maps are not ported — nothing consumes them — while the
+identification itself stays, as the payoff of the fixed-subring presentation.
 
 ## References
 
@@ -75,19 +82,25 @@ abbrev inertiaGroup (A : ValuationSubring L) :
     Subgroup (decompositionGroup K A) :=
   A.inertiaSubgroup K
 
-/-- The residue action of the decomposition group on the residue field. -/
+/-- The residue action of the decomposition group on the residue field
+([Yamaguchi 2026, `RamificationTheory/HilbertRamification/ValuationSubring.lean:41`]
+[Yamaguchi2026]). -/
 abbrev residueAction (A : ValuationSubring L) :
     decompositionGroup K A →*
       (IsLocalRing.ResidueField A ≃+* IsLocalRing.ResidueField A) :=
   MulSemiringAction.toRingAut
     (A.decompositionSubgroup K) (IsLocalRing.ResidueField A)
 
-/-- The inertia group is the kernel of the residue action. -/
+/-- The inertia group is the kernel of the residue action
+([Yamaguchi 2026, `RamificationTheory/HilbertRamification/ValuationSubring.lean:48`]
+[Yamaguchi2026]). -/
 theorem residueAction_ker (A : ValuationSubring L) :
     MonoidHom.ker (residueAction K A) = inertiaGroup K A := by
   rfl
 
-/-- The inertia group is normal: it is a kernel. -/
+/-- The inertia group is normal: it is a kernel
+([Yamaguchi 2026, `RamificationTheory/HilbertRamification/ValuationSubring.lean:53`]
+[Yamaguchi2026]). -/
 instance inertiaGroup_normal (A : ValuationSubring L) :
     (inertiaGroup K A).Normal := by
   rw [← residueAction_ker (K := K) A]
@@ -100,10 +113,8 @@ group ([Yamaguchi 2026,
 abbrev decompositionField (A : ValuationSubring L) : IntermediateField K L :=
   IntermediateField.fixedField (decompositionGroup K A)
 
-variable [Algebra.IsAlgebraic K L]
-
-omit [Algebra.IsAlgebraic K L] in
-/-- Membership in the decomposition group is preserving the valuation ring. -/
+/-- Membership in the decomposition group is preservation of the valuation
+ring. -/
 theorem mem_decompositionGroup_iff_apply_mem
     (A : ValuationSubring L) (sigma : L ≃ₐ[K] L) :
     sigma ∈ decompositionGroup K A ↔
@@ -128,7 +139,8 @@ automorphism moving the ring out of itself does so on an adjoined finite
 subextension
 ([Yamaguchi 2026, `RamificationTheory/ClosedSubgroups.lean:49`]
 [Yamaguchi2026]). -/
-theorem decompositionGroup_isClosed (A : ValuationSubring L) :
+theorem decompositionGroup_isClosed [Algebra.IsAlgebraic K L]
+    (A : ValuationSubring L) :
     IsClosed (decompositionGroup K A : Set (L ≃ₐ[K] L)) where
   isOpen_compl := isOpen_iff_mem_nhds.mpr fun sigma hsigma => by
     rw [Set.mem_compl_iff, SetLike.mem_coe,
@@ -216,7 +228,6 @@ instance decompositionFixedSubring.instIsLocalRing
     IsLocalRing (decompositionFixedSubring K A) :=
   (decompositionFieldValuationSubringEquivFixedSubring (K := K) A).isLocalRing
 
-omit [IsGalois K L] in
 private theorem decompositionGroup_action_locallyConstant
     (A : ValuationSubring L) (a : A) :
     IsLocallyConstant (fun g : decompositionGroup K A ↦ g • a) := by
@@ -243,7 +254,6 @@ private theorem decompositionGroup_action_locallyConstant
     rw [← heq]
     simp [AlgEquiv.mul_apply, hga]
 
-omit [IsGalois K L] in
 private theorem decompositionGroup_continuousSMul
     (A : ValuationSubring L) :
     letI : TopologicalSpace A := ⊥
@@ -261,7 +271,7 @@ private theorem decompositionGroup_compactSpace
   (Topology.IsClosedEmbedding.subtypeVal
     (decompositionGroup_isClosed K A)).compactSpace
 
-omit [Algebra.IsAlgebraic K L] [IsGalois K L] in
+omit [IsGalois K L] in
 private theorem decompositionFixedSubring_smulCommClass
     (A : ValuationSubring L) :
     SMulCommClass (decompositionGroup K A)
@@ -271,7 +281,7 @@ private theorem decompositionFixedSubring_smulCommClass
   change g • ((r : A) * x) = (r : A) * (g • x)
   rw [smul_mul', r.property g]
 
-omit [Algebra.IsAlgebraic K L] [IsGalois K L] in
+omit [IsGalois K L] in
 private theorem decompositionFixedSubring_isInvariant
     (A : ValuationSubring L) :
     Algebra.IsInvariant (decompositionFixedSubring K A) A
@@ -363,7 +373,7 @@ noncomputable instance selectedResidueField.instAlgebra
     (le_of_eq ((IsLocalRing.maximalIdeal A).over_def
       (decompositionFixedMaximalIdeal K A)))
 
-omit [Algebra.IsAlgebraic K L] [IsGalois K L] in
+omit [IsGalois K L] in
 /-- Every decomposition automorphism stabilizes the maximal ideal. -/
 theorem decompositionGroup_maximalIdeal_stabilizer_eq_top
     (A : ValuationSubring L) :
@@ -412,7 +422,7 @@ def decompositionGroupResidueAction (A : ValuationSubring L) :
       (decompositionGroup K A)).comp
     (decompositionGroupToMaximalIdealStabilizer (K := K) A)
 
-omit [Algebra.IsAlgebraic K L] [IsGalois K L] in
+omit [IsGalois K L] in
 /-- The residue action computes on residues. -/
 @[simp] theorem decompositionGroupResidueAction_residue
     (A : ValuationSubring L)
@@ -422,10 +432,10 @@ omit [Algebra.IsAlgebraic K L] [IsGalois K L] in
       IsLocalRing.residue A (sigma • x) :=
   rfl
 
-omit [Algebra.IsAlgebraic K L] [IsGalois K L] in
+omit [IsGalois K L] in
 /-- **The kernel of the residue action is the inertia group**
 ([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:324`]
+`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:325`]
 [Yamaguchi2026]). -/
 theorem decompositionGroupResidueAction_ker (A : ValuationSubring L) :
     MonoidHom.ker (decompositionGroupResidueAction (K := K) A) =
@@ -495,7 +505,7 @@ instance decompositionResidueExtension_normal (A : ValuationSubring L) :
     (decompositionFixedMaximalIdeal K A)
     (IsLocalRing.maximalIdeal A)
 
-omit [Algebra.IsAlgebraic K L] [IsGalois K L] in
+omit [IsGalois K L] in
 /-- Exactness at `G_w`. -/
 theorem inertiaGroup_mulExact_decompositionGroupResidueAction
     (A : ValuationSubring L) :
@@ -507,7 +517,7 @@ theorem inertiaGroup_mulExact_decompositionGroupResidueAction
 /-- **The residue-action exact sequence**
 `1 → I_w → G_w → Gal(λ/κ) → 1`
 ([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:409`]
+`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:415`]
 [Yamaguchi2026]). -/
 theorem decompositionGroupResidueAction_shortExact (A : ValuationSubring L) :
     Function.Injective (inertiaGroup K A).subtype ∧
@@ -520,7 +530,7 @@ theorem decompositionGroupResidueAction_shortExact (A : ValuationSubring L) :
 
 /-- **The quotient form** `G_w ⧸ I_w ≃* Gal(λ/κ)`
 ([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:421`]
+`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:426`]
 [Yamaguchi2026]). -/
 def decompositionQuotientEquivResidueGalois (A : ValuationSubring L) :
     decompositionGroup K A ⧸ inertiaGroup K A ≃*
