@@ -21,6 +21,14 @@ field: conjugation by a representative carries `G_Σ` to itself (#104).
 * `DegreeData.conjugate_frobeniusFixedField_eq_of_commutes` — a commuting
   element's representative stabilizes the fixed field; proved.
 
+## Implementation notes
+
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling. The
+source's `CompactSpace`, `T2Space`, and `TotallyDisconnectedSpace` binders
+are dead on both theorems — the quotient is Hausdorff because the inertia
+subgroup is closed, not because the ambient group is — and are dropped,
+as is the dead `let` the source leaves at the head of the second proof.
+
 ## References
 
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
@@ -37,14 +45,12 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
-/-- **Commuting with the generator is commuting with its closed procyclic
-closure** ([Yamaguchi 2026,
+/-- **Commuting with the generator is commuting with its closed procyclic closure**
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusClosureCommutation.lean:31`]
 [Yamaguchi2026]). -/
 theorem frobeniusClosure_commutes_of_commutes_generator (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
-    [TotallyDisconnectedSpace G]
-    (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
+    [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
     (σ : D.FrobeniusElements K L hLK)
@@ -80,9 +86,7 @@ field**: conjugation by its representative carries `G_Σ` to itself
 `AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusClosureCommutation.lean:64`]
 [Yamaguchi2026]). -/
 theorem conjugate_frobeniusFixedField_eq_of_commutes (D : DegreeData G)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
-    [TotallyDisconnectedSpace G]
-    (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
+    [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
     (σ : D.FrobeniusElements K L hLK)
@@ -92,7 +96,6 @@ theorem conjugate_frobeniusFixedField_eq_of_commutes (D : DegreeData G)
     conjugateClosedSubgroup (D.frobeniusFixedField K L hLK σ) k.1⁻¹ =
       D.frobeniusFixedField K L hLK σ := by
   dsimp only
-  let T := D.frobeniusFixedField K L hLK σ
   let k : K.field.toSubgroup := Quotient.out q
   have hkq :
       (QuotientGroup.mk k :

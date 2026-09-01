@@ -33,7 +33,10 @@ The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
 the compositum's finiteness over the base is #136's generalized form,
 called without the containment the source passes. The cardinality and
 common-compositum facts come from the source's second compositum file,
-absorbed here rather than shipped as a near-namesake item.
+absorbed here rather than shipped as a near-namesake item; the
+cardinality drops the source's recorded `Finite` instance — `Nat.card`
+takes no instance, so the recording was inert — and the docstring
+rationale that hung on it.
 
 ## References
 
@@ -100,18 +103,13 @@ theorem absoluteFinite {E K : ClosedSubgroup G}
   exact relativeTowerQuotientFinite (baseField G) K M.field M.below
     (le_baseField K)
 
-/-- **The cardinality of the finite relative Galois quotient** — recording
-the bundled finiteness lets fixed-field constructions read it without a
-second parameter ([Yamaguchi 2026,
+/-- **The cardinality of the finite relative Galois quotient**
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:32`]
 [Yamaguchi2026]). -/
 noncomputable def quotientCard {E K : ClosedSubgroup G}
-    (M : FiniteIntermediateField E K) : ℕ := by
-  letI : Finite
-      (K.toSubgroup ⧸ M.field.toSubgroup.subgroupOf K.toSubgroup) :=
-    M.finite
-  exact Nat.card
-    (K.toSubgroup ⧸ M.field.toSubgroup.subgroupOf K.toSubgroup)
+    (M : FiniteIntermediateField E K) : ℕ :=
+  Nat.card (K.toSubgroup ⧸ M.field.toSubgroup.subgroupOf K.toSubgroup)
 
 /-- The recorded cardinality is positive ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:40`]
@@ -123,8 +121,8 @@ theorem quotientCard_pos {E K : ClosedSubgroup G}
     M.finite
   exact Nat.card_pos
 
-/-- **Finitely many stages have a common finite overfield below a given
-one** — existentially, avoiding an artificial ordering of the family
+/-- **Finitely many stages have a common finite overfield below a given one**
+— existentially, avoiding an artificial ordering of the family
 ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:49`]
 [Yamaguchi2026]). -/
