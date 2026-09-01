@@ -19,6 +19,8 @@ valuation upstairs, which is the layer's separable norm law (#104).
 
 * `normToBase_abstractFixedFieldUnit_val_of_isSeparable` — the engine's norm
   from an abstract fixed field is the field norm; proved.
+* `localBaseValuation_normToBase_abstractFixedFieldUnit` — the base
+  valuation of the engine's norm through the normalized valuation; proved.
 * `localBaseValuation_comp_normToBase_range_eq_residueFinrank` — the range
   of the base valuation after the norm is `f·Z`; proved.
 
@@ -32,7 +34,10 @@ on `Atlas.Knowledge.normalizedValuation_norm_of_isSeparable` read through
 `Atlas.Knowledge.inertiaDeg_eq_finrank_residueField`, so the fixed field's
 hypotheses are the mixed-characteristic carrier of the layer's norm law
 where the source assumes a nonarchimedean local field with extension and
-integral-closure witnesses.
+integral-closure witnesses. The base-valuation comparison shows the layer's
+`Atlas.Knowledge.normalizedValuationAddHom` where the source's line shows
+its inverse-standard valuation map — the sign fork recorded with the base
+valuation; both statements here are invariant under it.
 
 ## References
 
@@ -183,8 +188,7 @@ theorem localBaseValuation_normToBase_abstractFixedFieldUnit
         normToBase_abstractFixedFieldUnit_val_of_isSeparable
           K (AlgebraicClosure K) H x
       _ = algebraMap K (AlgebraicClosure K)
-          ((Units.map ((Algebra.norm K : E →* K)) x : Kˣ) : K) := by
-        rfl
+          ((Units.map ((Algebra.norm K : E →* K)) x : Kˣ) : K) := rfl
       _ =
           ((Additive.toMul
             ((baseFieldUnitsEquiv K

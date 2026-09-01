@@ -4,7 +4,7 @@ import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.LocalFixedResidueFinrank
 
 /-!
-# henselian valuation datum of a local field
+# Henselian valuation datum of a local field
 
 The engine's valuation datum, instantiated: the normalized valuation of a
 mixed-characteristic local field, on the coefficient group its degree datum
@@ -61,22 +61,16 @@ def localHenselianValuation :
         localCanonicalValueQuotientMap_bijective K n
       norm_range := ?_ }
   intro F
-  letI : Finite ((baseField
-      (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K)).toSubgroup ⧸
-    F.field.toSubgroup.subgroupOf (baseField
-      (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K)).toSubgroup) :=
-    F.finite
   letI : FiniteDimensional K
       (abstractFixedField K (AlgebraicClosure K) F.field) :=
     abstractFixedField_finiteDimensional
       K (AlgebraicClosure K) F.field F.finite
-  obtain ⟨vE, tE, hVE, hVT, hMCLF⟩ :=
+  obtain ⟨vE, tE, hVE, _hVT, hMCLF⟩ :=
     exists_extension_isMixedCharLocalField K
       (abstractFixedField K (AlgebraicClosure K) F.field)
   letI := vE
   letI := tE
   letI := hVE
-  letI := hVT
   letI := hMCLF
   rw [localResidueDatum_residueDegree_eq_residueFinrank K F]
   exact localBaseValuation_comp_normToBase_range_eq_residueFinrank
