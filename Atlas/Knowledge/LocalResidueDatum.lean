@@ -34,10 +34,10 @@ The source works over the separable closure; in mixed characteristic that is
 the algebraic closure, so the datum lands directly on
 `Field.absoluteGaloisGroup K` — the group whose abelianization
 `Atlas.Knowledge.IsLocalReciprocity` is stated over — and the `Separable`
-name segment is dropped. The full-decomposition hypothesis the whole-group action needs is
-`Atlas.Knowledge.localAbsoluteDecompositionGroup_eq_top`, and the residue
-coordinates come from the finite decomposition residue field through
-`Atlas.Knowledge.residueAbsoluteDegreeIn`.
+name segment is dropped. The full-decomposition hypothesis the whole-group
+action needs is `Atlas.Knowledge.localAbsoluteDecompositionGroup_eq_top`, and
+the residue coordinates come from the finite decomposition residue field
+through `Atlas.Knowledge.residueAbsoluteDegreeIn`.
 
 ## References
 

@@ -73,8 +73,7 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 field: the integral closure of `𝒪[K]` in the algebraic closure, a valuation
 subring because on each finite subextension it is the integer ring of a
 Chevalley extension of the valuation ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:52`
-and `:80`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:52` and `:80`]
 [Yamaguchi2026]). -/
 def localAbsoluteValuationSubring : ValuationSubring (AlgebraicClosure K) where
   toSubring := (integralClosure 𝒪[K] (AlgebraicClosure K)).toSubring
