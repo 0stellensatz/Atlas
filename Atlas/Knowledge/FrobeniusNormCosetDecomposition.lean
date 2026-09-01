@@ -31,11 +31,17 @@ representatives in the order `φ^i·τ` (#104).
 
 ## Implementation notes
 
-The reduction arguments run through `ProfiniteInteger.reduction` under the
-`NeZero` instance the layer registers on the Frobenius exponent, with the
-span identity `span_natCast_eq_ker_reduction` where the source names the
-kernel of its bundled reduction, and the degree image is the layer's
-`spanAddSubgroup` form of `frobeniusClosureDegree_range`, as in #132.
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, as
+across the arc. The reduction arguments run through
+`ProfiniteInteger.reduction` under the `NeZero` instance the layer
+registers on the Frobenius exponent, with the span identity
+`ProfiniteInteger.span_natCast_eq_ker_reduction` where the source names
+the kernel of its bundled reduction, and the degree image is the layer's
+`spanAddSubgroup` form of `DegreeData.frobeniusClosureDegree_range`, as in
+#132. The step that reads the source's private kernel comparison — private
+to its single file, split here — goes through the public
+`DegreeData.inertiaQuotientDegreeKernelEquiv` instead, closing by the same
+`rfl` since the equivalence is built from that map.
 
 ## References
 
@@ -198,7 +204,6 @@ private theorem kernelPowerCosetMap_injective (D : DegreeData G)
   rintro ⟨h, i⟩ ⟨h', j⟩ hij
   let n := D.frobeniusExponent K L hLK σ
   let dQ := D.extensionNormalizedDegreeContinuous K L hLK
-  have hn : 0 < n := D.frobeniusExponent_pos K L hLK σ
   have hdφ : dQ φ.1 =
       Multiplicative.ofAdd (1 : ProfiniteInteger) := by
     change D.extensionNormalizedDegree K L hLK φ.1 = _

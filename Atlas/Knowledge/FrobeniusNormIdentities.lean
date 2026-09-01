@@ -15,10 +15,11 @@ import Atlas.Knowledge.RelativeNorm
 
 The Frobenius norm-identity lemma: for a degree-one lift `φ`, a lift `σ`
 of exponent `n`, and the fixed field `Σ` of `σ`, the three actual norm
-expressions agree — `N_{Σ|K}(a) = (N_{L̃|K̃} ∘ φ_n)(a) =
-(φ_n ∘ N_{L̃|K̃})(a)`. The first identity sums the coset action over the
-`φ^i·τ` enumeration of `G_K/G_Σ`; the second is the equivariance of the
-norm under the quotient action, summed over the powers (#104).
+expressions agree —
+`N_{Σ|K}(a) = (N_{L̃|K̃} ∘ φ_n)(a) = (φ_n ∘ N_{L̃|K̃})(a)`. The first
+identity sums the coset action over the `φ^i·τ` enumeration of `G_K/G_Σ`;
+the second is the equivariance of the norm under the quotient action,
+summed over the powers (#104).
 
 ## Main statements
 
@@ -28,6 +29,16 @@ norm under the quotient action, summed over the powers (#104).
   norm and the power sum commute; proved.
 * `DegreeData.frobeniusNormIdentities` — the two identities packaged as
   the norm-identity lemma; proved.
+
+## Implementation notes
+
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, with
+the finiteness of `L̃ | K̃` in #138's containment-free form. The source
+pins the acting group to the shared `Rep` universe boundary; this
+Mathlib's `Rep` is polymorphic, so the identities generalize to any
+universe, as across the arc. The source's `Fintype`-in-type binder on the
+private expansion lemma becomes `Finite`, at the standard linter set's own
+suggestion.
 
 ## References
 
@@ -284,8 +295,8 @@ theorem frobeniusNormIdentity_norm_eq_powerSum_norm (D : DegreeData G)
       exact (D.frobeniusQuotientAction_relativeNorm
         A K L hLK φ aI i.1).symm
 
-/-- **The norm and the power sum commute**: `N_{L̃|K̃} ∘ φ_n = φ_n ∘
-N_{L̃|K̃}` ([Yamaguchi 2026,
+/-- **The norm and the power sum commute**:
+`N_{L̃|K̃} ∘ φ_n = φ_n ∘ N_{L̃|K̃}` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:1125`]
 [Yamaguchi2026]). -/
 theorem frobeniusNormIdentity_norm_powerSum_eq_powerSum_norm
