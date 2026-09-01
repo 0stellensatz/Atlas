@@ -30,7 +30,10 @@ degree under a finite change of base.
   isomorphism; proved.
 * `residueAbsoluteDegreeIn_semilinear_conjugation` — choice-independence of
   the degree map; proved.
-* `residueAbsoluteDegreeIn_restrictScalars` — the finite-base-change scaling;
+* `mem_range_algebraMap_iff_frobenius_fixed_in` — the Frobenius-fixed points
+  are the base field; proved.
+* `residueAbsoluteFrobenius_restrictScalars` /
+  `residueAbsoluteDegreeIn_restrictScalars` — the finite-base-change scaling;
   proved.
 * `finiteResidueFrobeniusExponentEquiv_symm_restrict_in` — the
   finite-coordinate compatibility; proved.
@@ -45,7 +48,11 @@ Choice-independence and base change both compare two continuous homomorphisms
 out of `ℤ̂` on the dense image of `ℤ` after checking the generator, riding
 `Atlas.Knowledge.semilinear_conjugation_continuous` and
 `Atlas.Knowledge.ofIntermediateFieldInExtension_continuous`. The positive
-degree rides the same file-local `NeZero` device as the finite coordinates.
+degree rides the same file-local `NeZero` device as the finite coordinates; the
+character-prime and closure instances are likewise local, never entering an
+importer's search. The degree lemma of the level-`n` subextension carries the
+algebraicity hypothesis the source omits — here the embedding chain references
+it, so the omission is refused.
 
 ## References
 
@@ -68,10 +75,10 @@ variable (Omega : Type v) [Field Omega] [Algebra k Omega]
   [Algebra.IsAlgebraic k Omega] [IsAlgClosed Omega]
 
 set_option linter.unusedFintypeInType false in
-private instance : Fact (ringChar k).Prime :=
+local instance : Fact (ringChar k).Prime :=
   ⟨CharP.char_is_prime k (ringChar k)⟩
 
-private instance : IsAlgClosure k Omega :=
+local instance : IsAlgClosure k Omega :=
   ⟨inferInstance, inferInstance⟩
 
 local instance (L : Type v) [Field L] [Finite L] [Algebra k L] :

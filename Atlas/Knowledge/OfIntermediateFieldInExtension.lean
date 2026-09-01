@@ -77,7 +77,7 @@ theorem range_ofIntermediateFieldInExtension
 
 /-- **A compositum with a finite intermediate field is finite over it**
 ([Yamaguchi 2026,
-`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:737`]
+`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:718`]
 [Yamaguchi2026]). -/
 theorem finiteDimensional_extendScalars_sup
     (k : Type u) (M : Type v) [Field k] [Field M] [Algebra k M]

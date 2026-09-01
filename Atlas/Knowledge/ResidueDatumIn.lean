@@ -28,10 +28,13 @@ ordinary field degree.
 ## Implementation notes
 
 The fixing subgroup is closed by Mathlib's
-`InfiniteGalois.fixingSubgroup_isClosed`; the `n·ℤ̂` identification reads the
-kernel law of the finite Frobenius coordinates through the span–kernel identity
-of the `ℤ̂` item, and the multiplicative reading is
-`AddSubgroup.toSubgroup` of `Atlas.Knowledge.ProfiniteInteger.spanAddSubgroup`.
+`InfiniteGalois.fixingSubgroup_isClosed`, and `closedFixingSubgroup` is stated
+at the source's generality — any Galois extension — in its own section, clear
+of the residue hypotheses; the closure instances the datum needs are local,
+never entering an importer's search. The `n·ℤ̂` identification reads the kernel
+law of the finite Frobenius coordinates through the span–kernel identity of
+the `ℤ̂` item, and the multiplicative reading is `AddSubgroup.toSubgroup` of
+`Atlas.Knowledge.ProfiniteInteger.spanAddSubgroup`.
 
 ## References
 
@@ -45,6 +48,22 @@ noncomputable section
 
 universe u v
 
+section General
+
+variable {F : Type u} {M : Type v} [Field F] [Field M] [Algebra F M]
+  [IsGalois F M]
+
+/-- **A subextension's fixing subgroup as a closed subgroup** — closedness is
+Mathlib's `InfiniteGalois.fixingSubgroup_isClosed`
+([Yamaguchi 2026, `RamificationTheory/GaloisValuation/ClosedFixingSubgroup.lean:17`]
+[Yamaguchi2026]). -/
+def closedFixingSubgroup (E : IntermediateField F M) :
+    ClosedSubgroup (M ≃ₐ[F] M) where
+  toSubgroup := E.fixingSubgroup
+  isClosed' := InfiniteGalois.fixingSubgroup_isClosed E
+
+end General
+
 variable (k : Type u) [Field k] [Fintype k]
 variable (Omega : Type v) [Field Omega] [Algebra k Omega]
   [Algebra.IsAlgebraic k Omega] [IsAlgClosed Omega]
@@ -52,14 +71,11 @@ variable (Omega : Type v) [Field Omega] [Algebra k Omega]
 local instance (L : Type v) [Field L] [Finite L] [Algebra k L] :
     NeZero (Module.finrank k L) := ⟨Module.finrank_pos.ne'⟩
 
-/-- **A subextension's fixing subgroup as a closed subgroup** — closedness is
-Mathlib's `InfiniteGalois.fixingSubgroup_isClosed`
-([Yamaguchi 2026, `RamificationTheory/GaloisValuation/ClosedFixingSubgroup.lean:15`]
-[Yamaguchi2026]). -/
-def closedFixingSubgroup (E : IntermediateField k Omega) :
-    ClosedSubgroup (Omega ≃ₐ[k] Omega) where
-  toSubgroup := E.fixingSubgroup
-  isClosed' := InfiniteGalois.fixingSubgroup_isClosed E
+local instance : IsAlgClosure k Omega :=
+  ⟨inferInstance, inferInstance⟩
+
+set_option linter.unusedFintypeInType false in
+local instance : IsGalois k Omega := inferInstance
 
 /-- **The residue degree datum**: the intrinsic degree map with its
 surjectivity ([Yamaguchi 2026,
@@ -102,7 +118,7 @@ identity ([Yamaguchi 2026,
 theorem residueDatumIn_fieldImage_closedFixingSubgroup
     (E : FiniteGaloisIntermediateField k Omega) :
     (residueDatumIn k Omega).fieldImage
-        (closedFixingSubgroup k Omega E) =
+        (closedFixingSubgroup E.toIntermediateField) =
       AddSubgroup.toSubgroup
         (ProfiniteInteger.spanAddSubgroup (Module.finrank k E)) := by
   ext z
@@ -150,7 +166,7 @@ the finite-coordinate calculation behind the engine's residue degrees
 theorem residueDatumIn_fieldImage_index_closedFixingSubgroup
     (E : FiniteGaloisIntermediateField k Omega) :
     ((residueDatumIn k Omega).fieldImage
-        (closedFixingSubgroup k Omega E)).index = Module.finrank k E := by
+        (closedFixingSubgroup E.toIntermediateField)).index = Module.finrank k E := by
   letI : Finite E := Module.finite_of_finite k
   rw [residueDatumIn_fieldImage_closedFixingSubgroup k Omega E,
     AddSubgroup.index_toSubgroup]
