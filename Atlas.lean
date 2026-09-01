@@ -78,6 +78,7 @@ import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FormalLogPow
 import Atlas.Knowledge.FreeCharacterJumpSets
 import Atlas.Knowledge.FreeFiltered
+import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.GalIdealPowCounts
 import Atlas.Knowledge.GalUnits
 import Atlas.Knowledge.GaloisSubextension
@@ -225,6 +226,7 @@ import Atlas.Knowledge.RayClassGroup
 import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.RelativeIndexCardinal
+import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.ResidueCharacteristic
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
@@ -284,6 +286,7 @@ import Atlas.Knowledge.UnitPairOrbit
 import Atlas.Knowledge.UnitsFiniteIndexOpen
 import Atlas.Knowledge.UnramifiedNormRange
 import Atlas.Knowledge.UpperRamificationGroup
+import Atlas.Knowledge.ValuationData
 import Atlas.Knowledge.WildBaseChange
 import Atlas.Knowledge.WildInertiaSubgroup
 
