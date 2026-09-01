@@ -89,6 +89,7 @@ import Atlas.Knowledge.FreeFiltered
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.GalIdealPowCounts
 import Atlas.Knowledge.GalUnits
+import Atlas.Knowledge.GaloisExtensionQuotient
 import Atlas.Knowledge.GaloisSubextension
 import Atlas.Knowledge.GameJumpPair
 import Atlas.Knowledge.GameLevelDecomposition
@@ -172,6 +173,7 @@ import Atlas.Knowledge.KummerCharacterEquiv
 import Atlas.Knowledge.KummerRadicalSubgroup
 import Atlas.Knowledge.LegendreFormula
 import Atlas.Knowledge.LocalAbsoluteValuationSubring
+import Atlas.Knowledge.LocalBaseValuation
 import Atlas.Knowledge.LocalFixedResidueField
 import Atlas.Knowledge.LocalFixedResidueFinrank
 import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
@@ -252,6 +254,7 @@ import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.SemiInvariantIndependence
 import Atlas.Knowledge.SemilinearConjugationContinuous
+import Atlas.Knowledge.SeparableFixedFieldNorm
 import Atlas.Knowledge.SerreMass
 import Atlas.Knowledge.Shift
 import Atlas.Knowledge.ShiftDepth
