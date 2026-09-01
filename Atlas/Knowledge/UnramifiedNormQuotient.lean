@@ -52,15 +52,15 @@ The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `ProfiniteInteger.reduction n` under `NeZero`,
 `proCIntegerOne_pow_nat_injective` is
 `ProfiniteInteger.ofAdd_one_pow_injective`, positivity projections read
-`.pos` for the source's `.property`, and the whole
-`valueModulo` apparatus likewise runs on `NeZero` instances rather than
-the source's positivity arguments — each big proof registers the
-degree's instance once. `AbstractExtension` sits at the layer's top
-level, and the injectivity proof draws the norm preimage directly from
-the elementwise unit-cohomology axiom's first component (#135), where
-the source derived Tate vanishing and fed a never-ported eliminator —
-the `Euc` bundle literal is the source's own, and two `let`s re-anchor
-the norm preimage's summands over `L` — the axiom types them through the
+`.pos` for the source's `.property`, and the whole `valueModulo`
+apparatus likewise runs on `NeZero` instances rather than the source's
+positivity arguments — each big proof registers the degree's instance
+once. `AbstractExtension` sits at the layer's top level, and the
+injectivity proof draws the norm preimage directly from the elementwise
+unit-cohomology axiom's first component (#135), where the source derived
+Tate vanishing and fed a never-ported eliminator — the `Euc` bundle
+literal is the source's own, and two `let`s re-anchor the norm
+preimage's summands over `L` — the axiom types them through the
 enrichment bundle, definitionally the same field, but `map_add` matches
 syntactically. The ambient group is `Type` in the valuation half after
 the chain it draws on; the Frobenius half keeps the source's `Type u`.
