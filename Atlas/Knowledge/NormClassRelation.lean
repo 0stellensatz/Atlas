@@ -31,8 +31,8 @@ multiplicativity via prime-choice independence (#104).
 
 ## Main statements
 
-* `DegreeData.relativeNorm_frobeniusPowerSum_alternating` — the norm of
-  the power-sum combination; proved.
+* `DegreeData.relativeNorm_frobeniusPowerSum_alternating` — the norm
+  of the power-sum combination; proved.
 * `DegreeData.maximalUnramifiedNormClass_add_eq_of_relativeNorm` — the
   final quotient step; proved.
 * `DegreeData.reciprocityMap_mul_of_primeNormClass_eq` — three norm
@@ -40,20 +40,21 @@ multiplicativity via prime-choice independence (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
-the ambient group is `Type` after the `Type`-pinned quotient-action
-chain. Four further departures: both `maximalUnramifiedExtension_finite`
-call sites drop the containment argument, since the layer's form is
-instance-supplied; the closing `simpa` becomes `exact hclasses.symm`,
-the rewrite tripping on the instance position here while the terms are
-defeq; the source's enrichment re-anchoring block in the independence
-step is dropped entirely, the instances threading through by defeq; and
-both representation-bearing theorems shed the source's `[T2Space G]`,
-Hausdorff being instance-derivable from the remaining binders. The
-quotient step also sheds the source's dead `Finite` instance on the
-`L`-over-`K.field` quotient — only the maximal-unramified level is used.
-The `FiniteFieldUnitMaps` import is referenced by no name: it carries
-the transport instances that let the Frobenius-element binders
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
+and the ambient group is `Type` after the `Type`-pinned quotient-action
+chain. Five further departures: both
+`maximalUnramifiedExtension_finite` call sites drop the containment
+argument, since the layer's form is instance-supplied; the closing
+`simpa` becomes `exact hclasses.symm`, the rewrite tripping on the
+instance position here while the terms are defeq; the source's
+enrichment re-anchoring block in the independence step is dropped
+entirely, the instances threading through by defeq; both
+representation-bearing theorems shed the source's `[T2Space G]`,
+Hausdorff being instance-derivable from the remaining binders; and the
+quotient step sheds the source's dead `Finite` instance on the
+`L`-over-`K.field` quotient, only the maximal-unramified level being
+used. The `FiniteFieldUnitMaps` import is referenced by no name: it
+carries the transport instances that let the Frobenius-element binders
 synthesize across the residue enrichment. The citations name this file
 by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
@@ -186,8 +187,8 @@ theorem relativeNorm_frobeniusPowerSum_alternating
 
 /-- **The final quotient step of reciprocity multiplicativity**: once
 the maximal-unramified norm of `u` descends to a universal norm in
-`A_K`, the norm relation is exactly the desired equality of
-reciprocity classes
+`A_K`, the norm relation is exactly the desired equality of reciprocity
+classes
 ([Yamaguchi 2026, `NormClassRelation.lean:140`][Yamaguchi2026]). -/
 theorem maximalUnramifiedNormClass_add_eq_of_relativeNorm
     (D : DegreeData G) (A : Rep ℤ G)
