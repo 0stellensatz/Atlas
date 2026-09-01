@@ -345,6 +345,7 @@ import Atlas.Knowledge.TateVanishingNormKernel
 import Atlas.Knowledge.TateVanishingNormSurjectivity
 import Atlas.Knowledge.TopologicalGeneration
 import Atlas.Knowledge.TotallyRamifiedMonogenic
+import Atlas.Knowledge.TransferOrbitClosure
 import Atlas.Knowledge.UnitCohomologyAxiom
 import Atlas.Knowledge.UnitFiltrationClassification
 import Atlas.Knowledge.UnitFiltrationQuasiFree
