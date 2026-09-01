@@ -82,6 +82,7 @@ import Atlas.Knowledge.FiniteCyclicSubextension
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteExtensionTransitivity
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
+import Atlas.Knowledge.FiniteIntermediateFieldRefinement
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FiniteResidueAbstractExtension
@@ -261,6 +262,7 @@ import Atlas.Knowledge.RayClassField
 import Atlas.Knowledge.RayClassGroup
 import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
+import Atlas.Knowledge.ReciprocityIndependence
 import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
@@ -333,6 +335,7 @@ import Atlas.Knowledge.UnitPairOrbit
 import Atlas.Knowledge.UnitRepresentation
 import Atlas.Knowledge.UnitsFiniteIndexOpen
 import Atlas.Knowledge.UnramifiedNormRange
+import Atlas.Knowledge.UnramifiedQuotientGenerator
 import Atlas.Knowledge.UpperRamificationGroup
 import Atlas.Knowledge.ValuationData
 import Atlas.Knowledge.WildBaseChange
