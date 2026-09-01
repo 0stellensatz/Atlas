@@ -35,7 +35,9 @@ over automorphisms is Mathlib's `Algebra.norm_eq_prod_automorphisms` — the
 extension of fixed fields is Galois here, by the engine's normality witness,
 where the bottom-base statement needed none. The quotient transport mirrors
 the source's bottom-base `finiteNormQuotientEquivNormQuotient`, which is not
-otherwise ported — its consumers are the existence phase.
+otherwise ported — at the pin its only transitive consumer is the
+embedding-independence transport that the arc's fixed ambient field makes
+vacuous.
 
 ## References
 
@@ -130,7 +132,7 @@ theorem relativeNorm_abstractRelativeFixedFieldUnit_val
 include hnormal in
 /-- **The engine's finite norm subgroup corresponds to the field-norm
 subgroup** under the unit dictionary at the base ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:194`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:193`]
 [Yamaguchi2026] — the bottom-base form; here at an arbitrary base). -/
 theorem map_finiteNormSubgroup_eq_relativeAdditiveNormSubgroup
     [Finite ((baseField (Ω ≃ₐ[k] Ω)).toSubgroup ⧸
@@ -177,7 +179,7 @@ theorem map_finiteNormSubgroup_eq_relativeAdditiveNormSubgroup
 include hnormal in
 /-- **The engine's finite norm quotient is the multiplicative norm quotient
 `Fˣ / N(Eˣ)`, written additively** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:235`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:233`]
 [Yamaguchi2026] — the bottom-base form; here at an arbitrary base). -/
 def finiteNormQuotientEquivRelativeNormQuotient
     [Finite ((baseField (Ω ≃ₐ[k] Ω)).toSubgroup ⧸
@@ -271,6 +273,23 @@ def finiteNormQuotientEquivRelativeNormQuotient
         exact hu⟩)
   exact (finiteNormQuotientConcreteEquiv A K L hLK).trans
     (modelEquiv.trans firstIso)
+
+include hnormal in
+/-- The norm-quotient equivalence computes on classes: the class of `a` goes
+to the class of the unit the dictionary attaches to `a` ([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:307`]
+[Yamaguchi2026] — the bottom-base form; here at an arbitrary base). -/
+@[simp]
+theorem finiteNormQuotientEquivRelativeNormQuotient_finiteNormClass
+    [Finite ((baseField (Ω ≃ₐ[k] Ω)).toSubgroup ⧸
+      K.toSubgroup.subgroupOf (baseField (Ω ≃ₐ[k] Ω)).toSubgroup)]
+    [Finite (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup)]
+    (a : ambientFixedAddSubgroup (galoisAmbientUnitsRep k Ω) K) :
+    finiteNormQuotientEquivRelativeNormQuotient k Ω K L hLK hnormal
+        (finiteNormClass (galoisAmbientUnitsRep k Ω) K L hLK a) =
+      Additive.ofMul (QuotientGroup.mk (Additive.toMul
+        ((abstractFixedFieldUnitsEquivGaloisFixed k Ω K).symm a))) :=
+  rfl
 
 end
 

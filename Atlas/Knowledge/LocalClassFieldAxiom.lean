@@ -6,11 +6,12 @@ import Atlas.Knowledge.HilbertNinety
 import Atlas.Knowledge.NormIndexCyclic
 
 /-!
-# local units satisfy the class-field axiom
+# class-field axiom for local units
 
-The reciprocity engine's third input, discharged: the ambient unit
-representation of a mixed-characteristic local field satisfies the
-class-field axiom. For a finite cyclic abstract tower the closed subgroups
+The reciprocity engine's third input, discharged: the unit representation of
+any Galois ambient field over a mixed-characteristic local field satisfies
+the class-field axiom. For a finite cyclic abstract tower the closed
+subgroups
 become concrete fixed fields, the lower one a local field in its own right
 and the upper one finite cyclic Galois over it; the engine's norm quotient
 is the multiplicative norm quotient by the relative dictionary, its order is
@@ -21,8 +22,10 @@ identifications of the descended representation (#104).
 ## Main statements
 
 * `galoisAmbientUnits_satisfiesClassFieldAxiom` — the class-field axiom for
-  the units of the algebraic closure of a mixed-characteristic local field;
-  proved.
+  the units of any Galois ambient field over a mixed-characteristic local
+  field; proved.
+* `algebraicClosureUnits_satisfiesClassFieldAxiom` — the algebraic-closure
+  specialization the reciprocity assembly consumes; proved.
 
 ## Implementation notes
 
@@ -49,23 +52,19 @@ namespace Atlas.Knowledge
 noncomputable section
 
 set_option maxHeartbeats 800000 in
--- The generator of the concrete Galois group is the quotient equivalence
--- applied to the abstract generator; the residue-action bookkeeping unfolds
--- it through the unit representation, and the default budget runs out inside
--- the definitional checks of the primitive's two action equations.
-/-- **The class-field axiom for the local ambient units** ([Yamaguchi 2026,
+-- The primitive's unit bookkeeping — the inverse-of-inverse rewrite and the
+-- closing calc's definitional checks across the descended representation —
+-- runs past the default budget.
+/-- **The class-field axiom for the units of a Galois ambient field** over a
+mixed-characteristic local field ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/LocalClassFieldAxiom.lean:33`]
 [Yamaguchi2026]). -/
 theorem galoisAmbientUnits_satisfiesClassFieldAxiom
     (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
-    [IsMixedCharLocalField K] :
-    SatisfiesClassFieldAxiom
-      (galoisAmbientUnitsRep K (AlgebraicClosure K)) := by
+    [IsMixedCharLocalField K]
+    (Ω : Type*) [Field Ω] [Algebra K Ω] [IsGalois K Ω] :
+    SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω) := by
   intro Kb Eb
-  letI := Kb.finite
-  letI := Eb.normal
-  letI := Eb.finite
-  let Ω := AlgebraicClosure K
   let F := abstractFixedField K Ω Kb.field
   let E := abstractRelativeFixedField K Ω Eb.below
   letI : FiniteDimensional K F :=
@@ -76,11 +75,10 @@ theorem galoisAmbientUnits_satisfiesClassFieldAxiom
   letI : IsGalois F E :=
     abstractRelativeFixedField_isGalois K Ω Kb.field Eb.field Eb.below
       Eb.normal
-  obtain ⟨vF, tF, hVF, _hVTF, hF⟩ :=
+  obtain ⟨vF, tF, _hVF, _hVTF, hF⟩ :=
     exists_extension_isMixedCharLocalField K F
   letI := vF
   letI := tF
-  letI := hVF
   letI := hF
   obtain ⟨vE, tE, hVE, _hVTE, hE⟩ :=
     exists_extension_isMixedCharLocalField F E
@@ -191,7 +189,7 @@ theorem galoisAmbientUnits_satisfiesClassFieldAxiom
         y * (galUnits (K := F) g' y)⁻¹
       rw [inv_inv, mul_comm]
     have hgoal : eU ((extensionFixedRepresentationEquiv
-        (galoisAmbientUnitsRep K (AlgebraicClosure K))
+        (galoisAmbientUnitsRep K Ω)
         Kb.field Eb.field Eb.below Eb.normal).symm (w - u)) =
       Additive.ofMul xE := by
       apply eL.injective
@@ -202,8 +200,20 @@ theorem galoisAmbientUnits_satisfiesClassFieldAxiom
           congrArg (· - Additive.ofMul (y⁻¹ : (E)ˣ)) hrho
       _ = Additive.ofMul xE := hsub
       _ = eU ((extensionFixedRepresentationEquiv
-          (galoisAmbientUnitsRep K (AlgebraicClosure K))
+          (galoisAmbientUnitsRep K Ω)
           Kb.field Eb.field Eb.below Eb.normal).symm (w - u)) := hgoal.symm
+
+/-- **The algebraic-closure specialization** — the form the reciprocity
+assembly consumes; the source's is at the separable closure
+([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalClassFieldAxiom.lean:140`]
+[Yamaguchi2026]). -/
+theorem algebraicClosureUnits_satisfiesClassFieldAxiom
+    (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsMixedCharLocalField K] :
+    SatisfiesClassFieldAxiom
+      (galoisAmbientUnitsRep K (AlgebraicClosure K)) :=
+  galoisAmbientUnits_satisfiesClassFieldAxiom K (AlgebraicClosure K)
 
 end
 

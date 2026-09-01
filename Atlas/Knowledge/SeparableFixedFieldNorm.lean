@@ -36,8 +36,9 @@ source's separably-closed product formula together with the power-basis file
 behind it. The source's Galois-only comparison and the equivariant form
 phrased through the units-level norm are not ported — the norm-range
 computation re-derives the one pointwise instance it needs, and the
-remaining consumers are the existence phase's deferred norm-quotient
-identifications.
+remaining consumers are the existence phase's norm-subgroup identifications
+and the embedding-independence transport that the arc's fixed ambient field
+makes vacuous.
 
 ## References
 
