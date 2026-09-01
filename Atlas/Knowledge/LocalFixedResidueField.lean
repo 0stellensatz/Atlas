@@ -22,6 +22,8 @@ actual field degrees (#104).
 
 * `localAbstractFixedResidueIntermediateField` — the residue subfield of a
   closed subgroup's fixed field.
+* `localAbstractFixedResidueFiniteGaloisIntermediateField` — the same
+  subfield, packaged for the intrinsic finite-field datum.
 
 ## Main statements
 
@@ -41,7 +43,14 @@ load-bearing. The engine's finiteness witness is spelled with
 `Subgroup.subgroupOf` as in `Atlas.Knowledge.AbstractFixedField`, and the
 ambient field is the algebraic closure throughout, with
 `Atlas.Knowledge.localResidueDatum`'s names replacing the source's
-separable-closure ones.
+separable-closure ones. The unnamed `IsAlgClosure`/`IsGalois` pair at the top
+is Atlas's, not the source's: the source draws `IsGalois` on the residue pair
+from its own global instances, while here it does not synthesize without the
+closure bundle — the same device as in `Atlas.Knowledge.ResidueDatumIn`. Not
+ported from the source file, as knowledge nothing on the arc consumes: the
+scalar-restricted residue action (`:206–249`) and the pointwise
+normalized-degree comparison (`:383–450`), whose sole consumer is the
+fixed-field local data downstream of the valuation datum.
 
 ## References
 
@@ -66,7 +75,6 @@ local instance :
       (selectedResidueField (localAbsoluteValuationSubring K)) :=
   ⟨inferInstance, inferInstance⟩
 
-set_option linter.unusedFintypeInType false in
 local instance :
     IsGalois
       (decompositionResidueField K (localAbsoluteValuationSubring K))
@@ -91,7 +99,7 @@ def localAbstractFixedResidueIntermediateField
   exact IntermediateField.adjoin k
     (Set.range (algebraMap kE Omega))
 
-/- The canonical scalar structure on the selected fixed residue field.
+/-- The canonical scalar structure on the selected fixed residue field.
 Naming these instances keeps typeclass search from unfolding the fixed-field
 and residue-action constructions in finite-dimensionality statements
 ([Yamaguchi 2026,

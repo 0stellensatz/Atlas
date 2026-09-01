@@ -19,6 +19,8 @@ of the reciprocity engine's local-side instantiation (#104).
   `decompositionField` — Mathlib's decomposition data, named for the layer.
 * `decompositionResidueField` / `selectedResidueField` — the base and target
   residue fields `κ` and `λ`.
+* `residueFieldEquivDecompositionResidueOfEqTop` — under a full decomposition
+  group, the literal residue field of a pulled-back valuation ring is `κ`.
 * `decompositionGroupResidueAction` — the residue action of `G_w` on `λ/κ`.
 * `decompositionQuotientEquivResidueGalois` — the quotient form
   `G_w ⧸ I_w ≃* Gal(λ/κ)`.
@@ -352,6 +354,73 @@ def decompositionFieldResidueEquiv (A : ValuationSubring L) :
       (decompositionFixedMaximalIdeal_eq_maximalIdeal
         (K := K) A).symm).toRingEquiv
 
+/-- **Under a full decomposition group, the decomposition-field valuation
+ring is any pulled-back valuation ring on the ground field**
+([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:31`]
+[Yamaguchi2026]). -/
+def valuationSubringEquivDecompositionFieldOfEqTop
+    (A : ValuationSubring L) (C : ValuationSubring K)
+    (hC : A.comap (algebraMap K L) = C)
+    (hA : decompositionGroup K A = ⊤) :
+    C ≃+* decompositionFieldValuationSubring K A := by
+  let Z := decompositionField K A
+  have hZ : Z = ⊥ := by
+    change IntermediateField.fixedField (decompositionGroup K A) = ⊥
+    rw [hA]
+    simpa using
+      (InfiniteGalois.fixedField_fixingSubgroup
+        (⊥ : IntermediateField K L))
+  let eFZ : K ≃ₐ[K] Z :=
+    (IntermediateField.botEquiv K L).symm.trans
+      (IntermediateField.equivOfEq hZ.symm)
+  refine
+    { toFun := fun x => ⟨eFZ (x : K), ?_⟩
+      invFun := fun z => ⟨eFZ.symm (z : Z), ?_⟩
+      left_inv := fun x => by
+        apply Subtype.ext
+        exact eFZ.symm_apply_apply (x : K)
+      right_inv := fun z => by
+        apply Subtype.ext
+        exact eFZ.apply_symm_apply (z : Z)
+      map_add' := fun x y => by
+        apply Subtype.ext
+        exact map_add eFZ (x : K) (y : K)
+      map_mul' := fun x y => by
+        apply Subtype.ext
+        exact map_mul eFZ (x : K) (y : K) }
+  · change ((eFZ x : Z) : L) ∈ A
+    have he : ((eFZ x : Z) : L) =
+        algebraMap K L (x : K) := by
+      rfl
+    rw [he]
+    have hx : (x : K) ∈ A.comap (algebraMap K L) := by
+      rw [hC]
+      exact x.property
+    exact hx
+  · have hz : eFZ.symm (z : Z) ∈ A.comap (algebraMap K L) := by
+      change algebraMap K L (eFZ.symm (z : Z)) ∈ A
+      have he : algebraMap K L (eFZ.symm (z : Z)) =
+          ((z : Z) : L) := by
+        exact congrArg Subtype.val (eFZ.apply_symm_apply (z : Z))
+      rw [he]
+      exact z.property
+    rw [hC] at hz
+    exact hz
+
+/-- **The literal residue field of any pulled-back valuation ring is the
+base residue field**, under a full decomposition group ([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:84`]
+[Yamaguchi2026]). -/
+def residueFieldEquivDecompositionResidueOfEqTop
+    (A : ValuationSubring L) (C : ValuationSubring K)
+    (hC : A.comap (algebraMap K L) = C)
+    (hA : decompositionGroup K A = ⊤) :
+    IsLocalRing.ResidueField C ≃+* decompositionResidueField K A :=
+  (IsLocalRing.ResidueField.mapEquiv
+      (valuationSubringEquivDecompositionFieldOfEqTop K A C hC hA)).trans
+    (decompositionFieldResidueEquiv (K := K) A)
+
 /-- The selected maximal ideal lies over the contracted one. -/
 instance selectedMaximalIdeal.instLiesOver (A : ValuationSubring L) :
     (IsLocalRing.maximalIdeal A).LiesOver
@@ -372,6 +441,25 @@ noncomputable instance selectedResidueField.instAlgebra
   Ideal.Quotient.algebraQuotientOfLEComap
     (le_of_eq ((IsLocalRing.maximalIdeal A).over_def
       (decompositionFixedMaximalIdeal K A)))
+
+/-- The residue equivalence reduces representatives into the selected residue
+field ([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:97`]
+[Yamaguchi2026]). -/
+theorem residueFieldEquivDecompositionResidueOfEqTop_algebraMap
+    (A : ValuationSubring L) (C : ValuationSubring K)
+    (hC : A.comap (algebraMap K L) = C)
+    (hA : decompositionGroup K A = ⊤) (x : C) :
+    algebraMap (decompositionResidueField K A) (selectedResidueField A)
+        (residueFieldEquivDecompositionResidueOfEqTop K A C hC hA
+          (IsLocalRing.residue C x)) =
+      IsLocalRing.residue A
+        (⟨algebraMap K L (x : K), by
+          have hx : (x : K) ∈ A.comap (algebraMap K L) := by
+            rw [hC]
+            exact x.property
+          exact hx⟩ : A) := by
+  rfl
 
 omit [IsGalois K L] in
 /-- Every decomposition automorphism stabilizes the maximal ideal. -/

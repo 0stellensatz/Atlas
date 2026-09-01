@@ -50,9 +50,12 @@ class serves at the finite level inside the dichotomy. Mixed characteristic
 makes the separable closure the algebraic closure, so the source's purely
 inseparable descent to the separable closure and its residue comparison
 vanish, and the source's separable/absolute pair of chosen rings collapses to
-the single absolute object. The subring-to-decomposition-field equivalence is
-private plumbing as in the source; the naturality square stays public for the
-fixed-field local data downstream, which reads residue degrees through it.
+the single absolute object. The subring-to-decomposition-field step is the
+general `Atlas.Knowledge.residueFieldEquivDecompositionResidueOfEqTop` of the
+exact-sequence item, specialized at the pullback identity — the source's
+private plumbing has no local content; the naturality square stays public for
+the fixed-field local data downstream, which reads residue degrees through
+it.
 
 ## References
 
@@ -160,50 +163,6 @@ theorem localAbsoluteDecompositionGroup_eq_top :
   · intro h
     exact IsIntegral.map (AlgEquiv.restrictScalars 𝒪[K] sigma).toAlgHom h
 
-/- The valuation ring on the decomposition field is `𝒪[K]`: with full
-decomposition group the decomposition field is the bottom subextension. -/
-private def localBaseValuationSubringEquivDecompositionField :
-    𝒪[K] ≃+*
-      decompositionFieldValuationSubring K (localAbsoluteValuationSubring K) := by
-  let A := localAbsoluteValuationSubring K
-  let Z := decompositionField K A
-  have hZ : Z = ⊥ := by
-    change IntermediateField.fixedField (decompositionGroup K A) = ⊥
-    rw [localAbsoluteDecompositionGroup_eq_top K]
-    simpa using
-      (InfiniteGalois.fixedField_fixingSubgroup
-        (⊥ : IntermediateField K (AlgebraicClosure K)))
-  let eKZ : K ≃ₐ[K] Z :=
-    (IntermediateField.botEquiv K (AlgebraicClosure K)).symm.trans
-      (IntermediateField.equivOfEq hZ.symm)
-  refine
-    { toFun := fun x => ⟨eKZ (x : K), ?_⟩
-      invFun := fun z => ⟨eKZ.symm (z : Z), ?_⟩
-      left_inv := fun x => by
-        apply Subtype.ext
-        exact eKZ.symm_apply_apply (x : K)
-      right_inv := fun z => by
-        apply Subtype.ext
-        exact eKZ.apply_symm_apply (z : Z)
-      map_add' := fun x y => by
-        apply Subtype.ext
-        exact map_add eKZ (x : K) (y : K)
-      map_mul' := fun x y => by
-        apply Subtype.ext
-        exact map_mul eKZ (x : K) (y : K) }
-  · change ((eKZ x : Z) : AlgebraicClosure K) ∈ A
-    have he : ((eKZ x : Z) : AlgebraicClosure K) =
-        algebraMap K (AlgebraicClosure K) (x : K) := by
-      rfl
-    rw [he]
-    exact (localAbsoluteValuationSubring_pullback K (x : K)).2 x.property
-  · apply (localAbsoluteValuationSubring_pullback K (eKZ.symm (z : Z))).1
-    have he : algebraMap K (AlgebraicClosure K) (eKZ.symm (z : Z)) =
-        ((z : Z) : AlgebraicClosure K) := by
-      exact congrArg Subtype.val (eKZ.apply_symm_apply (z : Z))
-    rw [he]
-    exact z.property
-
 /-- **The finite residue field of `K` is the decomposition residue field** of
 the absolute valuation ring ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:214`]
@@ -211,10 +170,13 @@ the absolute valuation ring ([Yamaguchi 2026,
 def localBaseResidueEquivDecompositionResidue :
     𝓀[K] ≃+*
       decompositionResidueField K (localAbsoluteValuationSubring K) :=
-  (IsLocalRing.ResidueField.mapEquiv
-      (localBaseValuationSubringEquivDecompositionField K)).trans
-    (decompositionFieldResidueEquiv (K := K)
-      (localAbsoluteValuationSubring K))
+  residueFieldEquivDecompositionResidueOfEqTop K
+    (localAbsoluteValuationSubring K)
+    (ValuativeRel.valuation K).valuationSubring
+    (by
+      ext x
+      exact localAbsoluteValuationSubring_pullback K x)
+    (localAbsoluteDecompositionGroup_eq_top K)
 
 /-- The base-residue comparison is the literal reduction into the selected
 residue field on representatives — the scalar square used when transporting

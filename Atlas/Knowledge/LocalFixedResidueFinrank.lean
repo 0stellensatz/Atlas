@@ -7,16 +7,11 @@ import Atlas.Knowledge.LocalFixedResidueField
 The two finite residue-field models of a finite abstract field compared: the
 residue-action exact sequence presents the residue field intrinsically inside
 the selected residue algebraic closure, while the norm formula uses the
-literal residue field of the extension valuation on the fixed field. Under a
-full decomposition group the decomposition-field valuation ring is the ground
-valuation ring, residues transfer, and the abstract residue degree becomes
-the degree of the literal residue extension — the form the valuation datum
-rewrites with (#104).
-
-## Main definitions
-
-* `residueFieldEquivDecompositionResidueOfEqTop` — the literal residue field
-  is the decomposition residue field, under a full decomposition group.
+literal residue field of the extension valuation on the fixed field. Through
+the full decomposition group and the residue transfer of the exact-sequence
+item, the abstract residue degree becomes the degree of the literal residue
+extension of the fixed field — the form the valuation datum rewrites with
+(#104).
 
 ## Main statements
 
@@ -32,7 +27,10 @@ comparison needs only `[ValuativeRel E]` and `[ValuativeExtension K E]` where
 the source assumes a nonarchimedean local field structure with an extension
 witness. The residue square along the integer rings is Mathlib's
 `Valuation.HasExtension.algebraMap_residue_eq_residue_algebraMap`, riding
-`Atlas.Knowledge.IntegerIsIntegralClosure.hasExtension`.
+`Atlas.Knowledge.IntegerIsIntegralClosure.hasExtension`; the general
+residue-transfer equivalences live with
+`Atlas.Knowledge.DecompositionResidueExactSequence`, where the source keeps
+them beside this comparison.
 
 ## References
 
@@ -45,101 +43,6 @@ open ValuativeRel
 namespace Atlas.Knowledge
 
 noncomputable section
-
-universe u v
-
-/-- **Under a full decomposition group, the decomposition-field valuation
-ring is the ground valuation ring** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:31`]
-[Yamaguchi2026]). -/
-def valuationSubringEquivDecompositionFieldOfEqTop
-    {F : Type u} {Omega : Type v} [Field F] [Field Omega] [Algebra F Omega]
-    [IsGalois F Omega]
-    (A : ValuationSubring Omega) (C : ValuationSubring F)
-    (hC : A.comap (algebraMap F Omega) = C)
-    (hA : decompositionGroup F A = ⊤) :
-    C ≃+* decompositionFieldValuationSubring F A := by
-  let Z := decompositionField F A
-  have hZ : Z = ⊥ := by
-    change IntermediateField.fixedField (decompositionGroup F A) = ⊥
-    rw [hA]
-    simpa using
-      (InfiniteGalois.fixedField_fixingSubgroup
-        (⊥ : IntermediateField F Omega))
-  let eFZ : F ≃ₐ[F] Z :=
-    (IntermediateField.botEquiv F Omega).symm.trans
-      (IntermediateField.equivOfEq hZ.symm)
-  refine
-    { toFun := fun x => ⟨eFZ (x : F), ?_⟩
-      invFun := fun z => ⟨eFZ.symm (z : Z), ?_⟩
-      left_inv := fun x => by
-        apply Subtype.ext
-        exact eFZ.symm_apply_apply (x : F)
-      right_inv := fun z => by
-        apply Subtype.ext
-        exact eFZ.apply_symm_apply (z : Z)
-      map_add' := fun x y => by
-        apply Subtype.ext
-        exact map_add eFZ (x : F) (y : F)
-      map_mul' := fun x y => by
-        apply Subtype.ext
-        exact map_mul eFZ (x : F) (y : F) }
-  · change ((eFZ x : Z) : Omega) ∈ A
-    have he : ((eFZ x : Z) : Omega) =
-        algebraMap F Omega (x : F) := by
-      rfl
-    rw [he]
-    have hx : (x : F) ∈ A.comap (algebraMap F Omega) := by
-      rw [hC]
-      exact x.property
-    exact hx
-  · have hz : eFZ.symm (z : Z) ∈ A.comap (algebraMap F Omega) := by
-      change algebraMap F Omega (eFZ.symm (z : Z)) ∈ A
-      have he : algebraMap F Omega (eFZ.symm (z : Z)) =
-          ((z : Z) : Omega) := by
-        exact congrArg Subtype.val (eFZ.apply_symm_apply (z : Z))
-      rw [he]
-      exact z.property
-    rw [hC] at hz
-    exact hz
-
-/-- **The literal residue field is the decomposition residue field**, under a
-full decomposition group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:84`]
-[Yamaguchi2026]). -/
-def residueFieldEquivDecompositionResidueOfEqTop
-    {F : Type u} {Omega : Type v} [Field F] [Field Omega] [Algebra F Omega]
-    [IsGalois F Omega]
-    (A : ValuationSubring Omega) (C : ValuationSubring F)
-    (hC : A.comap (algebraMap F Omega) = C)
-    (hA : decompositionGroup F A = ⊤) :
-    IsLocalRing.ResidueField C ≃+* decompositionResidueField F A :=
-  (IsLocalRing.ResidueField.mapEquiv
-      (valuationSubringEquivDecompositionFieldOfEqTop A C hC hA)).trans
-    (decompositionFieldResidueEquiv (K := F) A)
-
-/-- The residue equivalence reduces representatives into the selected residue
-field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:97`]
-[Yamaguchi2026]). -/
-theorem residueFieldEquivDecompositionResidueOfEqTop_algebraMap
-    {F : Type u} {Omega : Type v} [Field F] [Field Omega] [Algebra F Omega]
-    [IsGalois F Omega]
-    (A : ValuationSubring Omega) (C : ValuationSubring F)
-    (hC : A.comap (algebraMap F Omega) = C)
-    (hA : decompositionGroup F A = ⊤) (x : C) :
-    algebraMap (decompositionResidueField F A) (selectedResidueField A)
-        (residueFieldEquivDecompositionResidueOfEqTop A C hC hA
-          (IsLocalRing.residue C x)) =
-      IsLocalRing.residue A
-        (⟨algebraMap F Omega (x : F), by
-          have hx : (x : F) ∈ A.comap (algebraMap F Omega) := by
-            rw [hC]
-            exact x.property
-          exact hx⟩ : A) := by
-  rfl
-
-/-! ## The finite fixed-field comparison -/
 
 variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
@@ -184,7 +87,7 @@ theorem localResidueDatum_residueDegree_eq_residueFinrank
   let eK : kK ≃+* k₀ :=
     localBaseResidueEquivDecompositionResidue K
   let eE : kE ≃+* kE' :=
-    residueFieldEquivDecompositionResidueOfEqTop A C hC htop
+    residueFieldEquivDecompositionResidueOfEqTop E A C hC htop
   let i : V →+* C := algebraMap V C
   let bar : kE →+* Omega :=
     (algebraMap kE' Omega).comp eE.toRingHom
@@ -257,5 +160,7 @@ theorem localResidueDatum_residueDegree_eq_residueFinrank
   exact
     (localResidueDatum_residueDegree_eq_selectedResidueFinrank K H).trans
       hfinrankRaw.symm
+
 end
+
 end Atlas.Knowledge
