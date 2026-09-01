@@ -21,14 +21,15 @@ decomposition behind transfer–norm naturality (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling —
-freeing the containments the decomposition side bound only for it, which
-go, and thinning both norm formulas by the second containment — the
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling. It
+frees the containments the decomposition side bound only for it — they
+go, and both norm formulas thin by their second containment. The
 source's `@[implicit_reducible]` markers stay on the three private
-`Fintype` suppliers (class-type definitions demand them, unlike the
-layer's dropped precedents), the ambient group of the norm half is
-`Type` after the representation chain, and the source's universe-device
-import and no-op opens go.
+`Fintype` suppliers: class-type definitions demand them, unlike the
+layer's dropped precedents. The chosen-orbit inverse rule is a fully
+generic `MulAction` lemma and stays here beside its one consumer. The
+whole file is universe-polymorphic — nothing pins the norm half — and
+the source's universe-device import and no-op opens go.
 
 ## References
 
@@ -41,6 +42,8 @@ namespace Atlas.Knowledge
 noncomputable section
 
 open MulAction
+
+universe u
 
 section doubleCosetEquivalences
 
@@ -71,8 +74,8 @@ theorem mem_relativeNormDoubleCoset_stabilizer_iff
     have hi := S.toSubgroup.inv_mem h
     simpa [mul_assoc] using hi
 
-/-- **The class-formula decomposition of the left cosets for `S | K`
-into orbits under the subgroup belonging to `K' | K` and the
+/-- **The class-formula decomposition of the cosets of `S`'s subgroup in
+`G_K` into orbits under the subgroup `K'` cuts there, with the
 corresponding stabilizer cosets** — the double cosets ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:59`]
 [Yamaguchi2026]). -/
@@ -156,7 +159,7 @@ theorem chosenOrbitClassEquiv_symm_apply
 
 section relativeNormFormulas
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- The relative norm reindexed by arbitrary chosen representatives of
 the intermediate-subgroup orbits ([Yamaguchi 2026,
