@@ -194,6 +194,7 @@ import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.NormalizedValuationAlgEquiv
 import Atlas.Knowledge.NormalizedValuationNorm
 import Atlas.Knowledge.NormalizedValuationNormSeparable
+import Atlas.Knowledge.OfIntermediateFieldInExtension
 import Atlas.Knowledge.OutFilt
 import Atlas.Knowledge.PadicCoefficientEmbedding
 import Atlas.Knowledge.PadicComplexGaloisAction
@@ -228,8 +229,10 @@ import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
+import Atlas.Knowledge.ResidueAbsoluteDegreeIn
 import Atlas.Knowledge.ResidueAbsoluteFrobenius
 import Atlas.Knowledge.ResidueCharacteristic
+import Atlas.Knowledge.ResidueDatumIn
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.SemiInvariantIndependence
