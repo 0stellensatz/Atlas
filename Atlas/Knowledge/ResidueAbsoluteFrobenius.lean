@@ -14,6 +14,9 @@ content.
 
 ## Main definitions
 
+* `finiteResidueFrobeniusIntermediate` / `residueFrobeniusToLimit` — the
+  finite coordinates on an intermediate field and their compatible family in
+  the inverse limit.
 * `residueAbsoluteFrobenius` — the continuous `ℤ̂ → Gal(Ω/k)`.
 
 ## Main statements
