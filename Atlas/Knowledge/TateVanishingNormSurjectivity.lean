@@ -18,14 +18,17 @@ universal norm-descent lift runs on (#104).
 ## Implementation notes
 
 The source states this beside its elementary unit-cohomology axiom; the
-layer names it for what it is and shelves it beside its `Ĥ⁻¹` twin. The
-source's `isCyclic_of_generator` helper is the anonymous constructor, and
-the finite-cyclic comparison is the layer's
-`tateCohomologyIsoFiniteCyclicZero`.
+layer names it for what it is and shelves it beside its `Ĥ⁻¹` twin,
+whose `Type`-valued group — `Rep ℤ` pins the group to the ring's
+universe — and `G`/`A` variable names it also adopts for the source's
+`IntegralRepGroupType`-valued `Q`/`M`. The `isCyclic_of_generator`
+helper is the anonymous constructor, and the finite-cyclic comparison is
+the layer's `tateCohomologyIsoFiniteCyclicZero`.
 
 ## References
 
-* [Serre1979] Serre, *Local Fields*, Springer GTM 67, 1979.
+* [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
+  New York, 1979.
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
   in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
 -/

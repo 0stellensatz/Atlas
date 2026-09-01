@@ -24,9 +24,8 @@ coinvariants is fixed by `φ`; `Ĥ⁰ = 0` produces the barred lifts, and
 
 * `relativeNorm_conjugateStableAction` — the relative norm is
   equivariant for a conjugation stabilizing both fields; proved.
-* `universalNormDescent_cyclic_lift_and_correction` — the lift-and-
-  correction calculation behind the universal norm-descent lemma;
-  proved.
+* `universalNormDescent_cyclic_lift_and_correction` — the calculation
+  in the first half of the universal norm-descent lemma; proved.
 * `rep_norm_eq_generatorIterateSum` — the norm as the iterate sum of any
   pointwise-equal endomorphism; proved.
 
@@ -37,7 +36,9 @@ the conjugate extension's finiteness instance takes no containment, as
 #137 generalized it. The two Tate eliminators are the layer's named
 twins `tateVanishingNormSurjectivity` and `tateVanishingNormKernel`. The
 ambient group is `Type` because `Rep ℤ` pins its group to the ring's
-universe, exactly as in the layer's Tate items.
+universe, exactly as in the layer's Tate items; the source's
+`open scoped BigOperators` is a no-op in current Mathlib and is
+dropped.
 
 ## References
 
@@ -158,8 +159,8 @@ theorem conjugateStableAction_coe
       B.ρ s⁻¹ a.1 := by
   exact transport_fixed_coe B _ F hF _
 
-/-- **The relative norm is equivariant for a conjugation stabilizing both
-fields in the tower** ([Yamaguchi 2026,
+/-- **The relative norm is equivariant for a conjugation stabilizing both fields**
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:109`]
 [Yamaguchi2026]). -/
 theorem relativeNorm_conjugateStableAction
@@ -198,8 +199,8 @@ theorem relativeNorm_conjugateStableAction
           ambientFixedAddSubgroup B F) : B.V) :=
       (transport_fixed_coe B _ F hF _).symm
 
-/-- **The lift-and-correction calculation of the universal norm-descent
-lemma**: the hypothesis `hstar` is equation `(*)` — the class of `u` in
+/-- **The calculation in the first half of the universal norm-descent lemma**:
+the hypothesis `hstar` is equation `(*)` — the class of `u` in
 coinvariants is fixed by `φ`; `Ĥ⁰ = 0` produces the barred lifts, and
 `Ĥ⁻¹ = 0` the correction term `y` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:149`]
