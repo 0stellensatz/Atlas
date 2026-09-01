@@ -16,8 +16,10 @@ import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.AbstractExtension
+import Atlas.Knowledge.AbstractExtensionUnitsRepIso
 import Atlas.Knowledge.AbstractFixedField
 import Atlas.Knowledge.AbstractFixedFieldUnitsEquiv
+import Atlas.Knowledge.AbstractRelativeFixedField
 import Atlas.Knowledge.AddValMapIntegralClosure
 import Atlas.Knowledge.AdicCompletionIsMixedCharLocalField
 import Atlas.Knowledge.AmbientFixedAddSubgroup
@@ -54,6 +56,7 @@ import Atlas.Knowledge.ExtendedGameJumpPair
 import Atlas.Knowledge.ExtendedGameMeasure
 import Atlas.Knowledge.ExtendedGameTransition
 import Atlas.Knowledge.ExtensionFixedRepresentation
+import Atlas.Knowledge.ExtensionFixedRepresentationEquiv
 import Atlas.Knowledge.FieldJumpsBelowE
 import Atlas.Knowledge.FiltAut
 import Atlas.Knowledge.FiltOrd
@@ -72,6 +75,7 @@ import Atlas.Knowledge.FiniteAbstractExtension
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
+import Atlas.Knowledge.FiniteExtensionTransitivity
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
 import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FiniteResidueAbstractExtension
