@@ -33,6 +33,7 @@ import Atlas.Knowledge.CharacterExclusion
 import Atlas.Knowledge.CharacterGraph
 import Atlas.Knowledge.CharacterRegularization
 import Atlas.Knowledge.CharacterTwist
+import Atlas.Knowledge.ClassFieldAxiom
 import Atlas.Knowledge.ClosedDerivedSeries
 import Atlas.Knowledge.CommutatorMemLowerRamificationGroup
 import Atlas.Knowledge.CompletedUnitGroup
@@ -75,14 +76,17 @@ import Atlas.Knowledge.FilteredRhoMap
 import Atlas.Knowledge.FiniteAbstractExtension
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
+import Atlas.Knowledge.FiniteCyclicSubextension
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteExtensionTransitivity
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
+import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FiniteResidueAbstractExtension
 import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FiniteResidueFrobenius
 import Atlas.Knowledge.FiniteTower
+import Atlas.Knowledge.FixedFieldInclusion
 import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FormalLogPow
 import Atlas.Knowledge.FreeCharacterJumpSets
