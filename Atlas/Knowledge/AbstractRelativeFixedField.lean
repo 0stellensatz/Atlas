@@ -32,10 +32,11 @@ finite Galois extensions (#104).
 
 ## Implementation notes
 
-The engine's relative subgroup is spelled `Subgroup.subgroupOf` as across the
-layer — the source's `extensionSubgroup` is an abbreviation of it, and its
-membership lemma is Mathlib's `Subgroup.mem_subgroupOf`. The tower
-finiteness input rides `Atlas.Knowledge.finite_extension_trans`, and the
+The engine's relative subgroup is spelled `Subgroup.subgroupOf` as across
+the layer — the source's `extensionSubgroup` is an abbreviation of it, its
+membership lemma is Mathlib's `Subgroup.mem_subgroupOf`, and the source
+names are kept even where they mention that spelling. The tower finiteness
+input rides `Atlas.Knowledge.finite_extension_trans`, and the
 bundled-extension degree comparison closes with
 `Atlas.Knowledge.FiniteAbstractExtension.subgroup_index_eq_degree`, the
 layer's name for the source's `extensionSubgroup_index_eq_degree`.
@@ -337,8 +338,6 @@ theorem finiteAbstractExtension_degree_eq_finrank
       K.toSubgroup.subgroupOf (baseField (Ω ≃ₐ[k] Ω)).toSubgroup))
     (hLKfinite : Finite
       (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup)) :
-    letI : Finite
-      (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup) := hLKfinite
     ((FiniteAbstractExtension.ofInclusion L K hLK).degree : ℕ) =
       Module.finrank (abstractFixedField k Ω K)
         (abstractRelativeFixedField k Ω hLK) := by

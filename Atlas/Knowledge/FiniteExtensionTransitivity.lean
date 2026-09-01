@@ -18,6 +18,17 @@ through it (#104).
 * `finite_extension_over_intermediate` — a finite extension is finite over
   every intermediate field; proved.
 
+## Implementation notes
+
+The engine's relative subgroup is `Subgroup.subgroupOf`, which mentions no
+containment — so the order hypotheses the source's `extensionSubgroup`
+spelling threads through these statements are inert here, exactly as they
+are inert inside the source's abbreviation itself. They are kept, with
+underscore names, as the semantic guard the layer's other inert containments
+carry: the statements are about towers, and every caller has the proofs in
+hand. The source names are kept even where they mention the unported
+spelling.
+
 ## References
 
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
@@ -30,8 +41,8 @@ universe u
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
-/-- **Finiteness is transitive in a tower of abstract fields**
-([Yamaguchi 2026,
+/-- **Finiteness is transitive in a tower of abstract fields** — the order
+hypotheses are inert semantic guards ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:217`]
 [Yamaguchi2026]). -/
 theorem finite_extension_trans
