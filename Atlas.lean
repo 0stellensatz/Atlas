@@ -240,6 +240,7 @@ import Atlas.Knowledge.MaximalUnramifiedField
 import Atlas.Knowledge.MinpolyMapEqCharpoly
 import Atlas.Knowledge.Modulus
 import Atlas.Knowledge.MonogenicIntegralClosure
+import Atlas.Knowledge.NormClassRelation
 import Atlas.Knowledge.NormIndexAbelian
 import Atlas.Knowledge.NormIndexCyclic
 import Atlas.Knowledge.NormLimitation
