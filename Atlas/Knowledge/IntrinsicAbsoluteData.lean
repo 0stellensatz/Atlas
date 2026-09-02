@@ -1,4 +1,5 @@
 import Mathlib
+import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.GaloisExtensionQuotient
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
@@ -21,18 +22,25 @@ the abstract reciprocity engine is instantiated on an actual field
   separable closure's units.
 * `intrinsicAbstractBase` — the base subgroup as the bottom fixing
   subgroup.
+* `intrinsicAbstractBaseEquivAbsolute` — the base-to-absolute
+  equivalence.
 * `intrinsicFiniteAbstractBase` — the base packaged as a finite
   abstract field.
+
+## Main statements
+
+* `intrinsicFiniteAbstractBase_eq_base` — the finite intrinsic base is
+  the engine's distinguished base; proved.
 
 ## Implementation notes
 
 The Galois group is spelled
-`SeparableClosure F ≃ₐ[F] SeparableClosure F` — the layer carries no
-`Gal(E/F)` notation — and `SeparableClosure` is Mathlib's.
-`closedFixingSubgroup` takes only the intermediate field, its ambient
-pair implicit in the layer where the source passes
-`F (SeparableClosure F)` explicitly. Everything else ports
-token-for-token; the file is the source's
+`SeparableClosure F ≃ₐ[F] SeparableClosure F` — the layer does not use
+Mathlib's `Gal(E/F)` notation, a pure syntactic expansion of the same
+type — and `SeparableClosure` is Mathlib's. `closedFixingSubgroup`
+takes only the intermediate field, its ambient pair implicit in the
+layer where the source passes `F (SeparableClosure F)` explicitly.
+Everything else ports token-for-token; the file is the source's
 `LocalReciprocity/IntrinsicAbsoluteData.lean`.
 
 ## References
