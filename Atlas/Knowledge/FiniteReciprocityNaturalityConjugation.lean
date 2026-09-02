@@ -532,8 +532,8 @@ variable {G : Type} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
-/-- **Normality of a conjugated finite abstract field without
-unfolding the bundle**
+/-- **Normality of a conjugated finite abstract field without unfolding
+the bundle**
 ([Yamaguchi 2026, `MainNaturality.lean:1242`][Yamaguchi2026]). -/
 instance finiteReciprocityNaturalityFiniteAbstractConjugate_normal
     [IsTopologicalGroup G]
