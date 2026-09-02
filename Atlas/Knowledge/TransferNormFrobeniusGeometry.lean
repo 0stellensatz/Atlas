@@ -427,7 +427,7 @@ noncomputable def transferNormNaturalityTransferNormOrbitEquiv
         (E.field.field.toSubgroup.subgroupOf E.base.field.toSubgroup)
         (E.base.field.toSubgroup ⧸
             (D.frobeniusFixedField E.base L (hL.trans E.below) σ).toSubgroup.subgroupOf
-          E.base.field.toSubgroup)) := by
+              E.base.field.toSubgroup)) := by
   let P := E.base.field.toSubgroup ⧸ D.extensionInertiaWithin E.base.field L
     (hL.trans E.below)
   let H := D.transferNormNaturalityFrobeniusIntermediateSubgroup E L hL
@@ -493,7 +493,7 @@ theorem transferNormNaturalityTransferNormOrbitEquiv_mk
       Quotient.mk'' (QuotientGroup.mk k⁻¹ :
         E.base.field.toSubgroup ⧸
             (D.frobeniusFixedField E.base L (hL.trans E.below) σ).toSubgroup.subgroupOf
-          E.base.field.toSubgroup) := by
+              E.base.field.toSubgroup) := by
   unfold transferNormNaturalityTransferNormOrbitEquiv
   simp only [Equiv.trans_apply, orbitQuotientSwapEquiv_mk,
     orbitQuotientClosedCyclicEquiv_mk,
@@ -524,7 +524,7 @@ theorem transferNormNaturalityTransferNormOrbitEquiv_apply
       Quotient.mk'' (QuotientGroup.mk (Quotient.out q.out.out)⁻¹ :
         E.base.field.toSubgroup ⧸
             (D.frobeniusFixedField E.base L (hL.trans E.below) σ).toSubgroup.subgroupOf
-          E.base.field.toSubgroup) := by
+              E.base.field.toSubgroup) := by
   let orbitEquiv := D.transferNormNaturalityTransferNormOrbitEquiv E L hL σ
   calc
     orbitEquiv q = orbitEquiv (Quotient.mk'' q.out) :=
