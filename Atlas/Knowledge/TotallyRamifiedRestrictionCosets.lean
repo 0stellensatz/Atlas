@@ -37,7 +37,8 @@ auxiliary quotient elements with equal restriction (#104).
   — relative norm commutes with fixed-field inclusion along the
   restriction equivalence; proved.
 * `FiniteGaloisSubextension.commute_of_same_restriction_of_inertia_le`
-  — auxiliary quotient elements of equal restriction commute; proved.
+  — auxiliary quotient elements of equal restriction commute when the
+  auxiliary field contains the inertia subgroup; proved.
 
 ## Implementation notes
 
