@@ -25,6 +25,10 @@ proved from the actual maps (#104).
 
 ## Main definitions
 
+* `normResidueNaturalityAbelianizedRestriction` — the abelianized
+  restriction arrow of the norm/restriction diagram.
+* `normResidueNaturalityAbelianizedConjugation` — the abelianized
+  conjugation arrow of the conjugation diagram.
 * `normResidueNaturalityNormRestrictionPairMap` — the assembled
   vertical arrows of the norm/restriction diagram.
 * `normResidueNaturalityConjugationPairMap` — the assembled vertical
@@ -38,15 +42,15 @@ The relative subgroups are the layer's `Subgroup.subgroupOf` spelling,
 and the `≤`-hypotheses the source binds only to spell its
 `extensionSubgroup` arguments disappear with that spelling — the
 abelianized restriction drops the source's `hLK` and `hL'K'`, and the
-conjugation arrows drop `hLK`, each matching the layer signature of
-the map it wraps. The file keeps the layer's two-scope convention: the
+conjugation arrows drop `hLK`, each matching the layer signature of the
+map it wraps. The file keeps the layer's two-scope convention: the
 purely group-theoretic arrows sit in the universe-polymorphic
 `{G : Type u}` scope, and the pair maps, whose `Rep ℤ G` argument pins
 the acting group to universe zero, follow under a shadowing
-`variable {G : Type}` line — so the four abelianized arrows precede
-the six pair-map declarations rather than interleaving with them as in
-the source. Everything else ports token-for-token; the file is the
-source's `Reciprocity/Main.lean:1009`–`:1328`.
+`variable {G : Type}` line — so the four abelianized arrows precede the
+six pair-map declarations rather than interleaving with them as in the
+source. Everything else ports token-for-token; the file is the source's
+`Reciprocity/Main.lean:1009`–`:1328`.
 
 ## References
 
@@ -102,9 +106,8 @@ theorem normResidueNaturalityAbelianizedRestriction_of_mk
   rfl
 
 /-- The right vertical isomorphism `σ*` in the second diagram of
-reciprocity naturality, obtained by abelianizing the actual
-conjugation isomorphism from norm–conjugation naturality
-([Yamaguchi 2026,
+reciprocity naturality, obtained by abelianizing the actual conjugation
+isomorphism from norm–conjugation naturality ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Main.lean:1129`][Yamaguchi2026]). -/
 noncomputable def normResidueNaturalityAbelianizedConjugation
     [ContinuousMul G]
@@ -118,8 +121,8 @@ noncomputable def normResidueNaturalityAbelianizedConjugation
             (conjugateClosedSubgroup K s).toSubgroup) :=
   (finiteReciprocityNaturalityConjugation K L s).abelianizationCongr
 
-/-- The abelianized conjugation isomorphism computes on representatives
-by the conjugation equivalence ([Yamaguchi 2026,
+/-- The abelianized conjugation isomorphism computes on
+representatives by the conjugation equivalence ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Main.lean:1147`][Yamaguchi2026]). -/
 @[simp]
 theorem normResidueNaturalityAbelianizedConjugation_of_mk
@@ -149,8 +152,8 @@ noncomputable section
 variable {G : Type} [Group G] [TopologicalSpace G]
 
 /-- **The two vertical arrows of the norm/restriction diagram of
-reciprocity naturality, assembled into one additive homomorphism**;
-its second component is the relative norm `N_{K'/K}` on finite norm
+reciprocity naturality, assembled into one additive homomorphism**; its
+second component is the relative norm `N_{K'/K}` on finite norm
 quotients from norm–conjugation naturality ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Main.lean:1061`][Yamaguchi2026]). -/
 def normResidueNaturalityNormRestrictionPairMap
@@ -217,8 +220,8 @@ theorem normResidueNaturalityNormRestrictionPairMap_on_representatives
       hLK hL'K' hK'K hL'L a
 
 /-- **The two vertical conjugation arrows of reciprocity naturality,
-assembled into one additive homomorphism**; the second component is
-the actual descended map `a ↦ a^s` from norm–conjugation naturality
+assembled into one additive homomorphism**; the second component is the
+actual descended map `a ↦ a^s` from norm–conjugation naturality
 ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Main.lean:1171`][Yamaguchi2026]). -/
 def normResidueNaturalityConjugationPairMap
@@ -289,8 +292,8 @@ theorem normResidueNaturalityConjugationPairMap_on_representatives
       A K L hLK s a
 
 /-- **The two upward arrows of the inclusion/transfer diagram of
-reciprocity naturality, assembled into one additive homomorphism**:
-the first component is Mathlib's actual transfer, transported to
+reciprocity naturality, assembled into one additive homomorphism**: the
+first component is Mathlib's actual transfer, transported to
 `G(L/K')ᵃᵇ` in transfer–norm naturality, and the second is inclusion
 `A_K → A_{K'}` descended to finite norm quotients ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Main.lean:1247`][Yamaguchi2026]). -/
