@@ -25,6 +25,7 @@ import Atlas.Knowledge.AbstractReciprocityTheorem
 import Atlas.Knowledge.AbstractRelativeFixedField
 import Atlas.Knowledge.AbstractRelativeUnitsNorm
 import Atlas.Knowledge.AddValMapIntegralClosure
+import Atlas.Knowledge.AdditiveNormSubgroup
 import Atlas.Knowledge.AdicCompletionIsMixedCharLocalField
 import Atlas.Knowledge.AmbientFixedAddSubgroup
 import Atlas.Knowledge.ArtinMapNormNaturality
@@ -98,6 +99,7 @@ import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteIntermediateCompositum
 import Atlas.Knowledge.FiniteIntermediateFieldRefinement
 import Atlas.Knowledge.FiniteNormQuotient
+import Atlas.Knowledge.FiniteNormQuotientEquivNormQuotient
 import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FiniteReciprocityCandidate
 import Atlas.Knowledge.FiniteReciprocityHom

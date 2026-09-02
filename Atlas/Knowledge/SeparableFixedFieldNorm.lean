@@ -1,6 +1,7 @@
 import Mathlib
 import Atlas.Knowledge.GaloisExtensionQuotient
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
+import Atlas.Knowledge.NormUnits
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.SeparableNormProduct
 
@@ -26,6 +27,8 @@ valuation datum's range computation reads the engine's norm (#104).
 
 * `relativeNorm_intermediateFieldUnit_val_of_isSeparable` — the engine's
   coset norm is the field norm, without normality; proved.
+* `relativeNorm_intermediateFieldUnit_of_isSeparable` — its equivariant
+  form through the fixed-unit dictionaries; proved.
 
 ## Implementation notes
 
@@ -316,6 +319,24 @@ theorem relativeNorm_intermediateFieldUnit_val_of_isSeparable (x : Eˣ) :
     _ = algebraMap K Ω (Algebra.norm K (x : E)) :=
       (algebraMap_norm_eq_prod_embeddings_of_isSepClosed
         K Ω ↥E (x : E)).symm
+
+/-- Equivariant form of the nonnormal finite-separable norm
+comparison, with both fixed coefficient groups identified with the
+corresponding field unit groups ([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:258`]
+[Yamaguchi2026]). -/
+theorem relativeNorm_intermediateFieldUnit_of_isSeparable (x : Eˣ) :
+    relativeNorm (galoisAmbientUnitsRep K Ω)
+        (closedFixingSubgroup (⊥ : IntermediateField K Ω))
+        (closedFixingSubgroup E) (fixingSubgroupLeBase K Ω E)
+        (intermediateFieldUnitsEquivGaloisFixed K Ω E
+          (Additive.ofMul x)) =
+      baseUnitsEquivGaloisAmbientFixed K Ω
+        (Additive.ofMul (normUnits K E x)) := by
+  apply Subtype.ext
+  apply Additive.ext
+  apply Units.ext
+  exact relativeNorm_intermediateFieldUnit_val_of_isSeparable K Ω E x
 
 end NormAsProduct
 
