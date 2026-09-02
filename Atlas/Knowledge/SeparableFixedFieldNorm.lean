@@ -320,9 +320,9 @@ theorem relativeNorm_intermediateFieldUnit_val_of_isSeparable (x : Eˣ) :
       (algebraMap_norm_eq_prod_embeddings_of_isSepClosed
         K Ω ↥E (x : E)).symm
 
-/-- Equivariant form of the nonnormal finite-separable norm
-comparison, with both fixed coefficient groups identified with the
-corresponding field unit groups ([Yamaguchi 2026,
+/-- Equivariant form of the nonnormal finite-separable norm comparison, with
+both fixed coefficient groups identified with the corresponding field unit
+groups ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:258`]
 [Yamaguchi2026]). -/
 theorem relativeNorm_intermediateFieldUnit_of_isSeparable (x : Eˣ) :

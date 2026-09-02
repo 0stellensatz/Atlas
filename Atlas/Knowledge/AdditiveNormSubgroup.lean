@@ -2,7 +2,7 @@ import Mathlib
 import Atlas.Knowledge.NormQuotient
 
 /-!
-# the additive norm subgroup
+# additive norm subgroup
 
 The additive subgroup of `Additive Kˣ` attached to the multiplicative
 norm subgroup, identified with the kernel of the additive reading of

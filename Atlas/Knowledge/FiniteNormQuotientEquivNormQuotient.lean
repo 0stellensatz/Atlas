@@ -1,5 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.AdditiveNormSubgroup
+import Atlas.Knowledge.AmbientFixedAddSubgroup
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.GaloisExtensionQuotient
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
@@ -10,9 +11,9 @@ import Atlas.Knowledge.ResidueDatumIn
 import Atlas.Knowledge.SeparableFixedFieldNorm
 
 /-!
-# the abstract norm quotient is the field norm quotient
+# finite norm quotient equivalence
 
-For a finite Galois intermediate field of a Galois ambient extension,
+For a finite intermediate field of a Galois ambient extension,
 the finite norm quotient of the abstract class formation is the actual
 multiplicative field norm quotient `Kˣ/N_{E/K}(Eˣ)`, written
 additively — and for an embedded finite Galois extension `L/K`, the
@@ -42,17 +43,23 @@ intermediate field, and the Galois-only norm comparison the source
 rewrites with becomes the layer's
 `relativeNorm_intermediateFieldUnit_of_isSeparable`, whose separability
 hypothesis the ambient Galois context synthesizes. The ambient carries
-`[IsSepClosed Ω]` beyond the source's `[IsGalois K Ω]`: the layer's
-finiteness instance for the base fixing quotient is the
-separable-embedding count, which needs it, where the source counts
-through its Galois-only route — the local instantiation's ambient is
-the chosen separable closure, so nothing narrows. Four declarations
-omit an `IsGalois` instance the separable route leaves unused, as the
-layer's linters require. The two `AlgHom.fieldRange`-keyed instances
-stay `local instance`s, as in the source. Everything else ports
+`[IsSepClosed Ω]` beyond the source's `[IsGalois K Ω]`: both the
+layer's finiteness instance for the base fixing quotient and its
+separable norm comparison carry it, where the source runs a Galois-only
+route — the local instantiation's ambient is the chosen separable
+closure, so nothing narrows. With the separable route the source's
+`[IsGalois K E]` is dead in the whole intermediate section, so the
+section sheds it with its Galois name, and two embedded-section
+declarations omit an unused `[IsGalois K L]`, as the layer's linters
+require. The two `AlgHom.fieldRange`-keyed instances stay
+`local instance`s, as in the source. Everything else ports
 token-for-token; the file is the source's
 `LocalReciprocity/SeparableUnitsNorm.lean:193`–`:456`, and it closes
-that source file against the layer.
+that source file against the layer: the file's earlier slices live in
+`Atlas.Knowledge.SeparableFixedFieldNorm` and around it, and its
+Galois-only finiteness instance, coset-action formula, and norm
+comparison are not ported — the separable forms subsume each at every
+use site.
 
 ## References
 
@@ -69,11 +76,10 @@ open scoped BigOperators
 variable (K : Type) (Ω : Type) [Field K] [Field Ω] [Algebra K Ω]
   [IsGalois K Ω] [IsSepClosed Ω]
 
-section FiniteGaloisIntermediate
+section FiniteIntermediate
 
-variable (E : IntermediateField K Ω) [FiniteDimensional K E] [IsGalois K E]
+variable (E : IntermediateField K Ω) [FiniteDimensional K E]
 
-omit [IsGalois K E] in
 /-- **Under the base-field fixed-unit equivalence, the abstract finite
 norm subgroup is exactly the ordinary field-norm subgroup**
 ([Yamaguchi 2026,
@@ -192,7 +198,6 @@ def finiteNormQuotientEquivNormQuotient :
     (closedFixingSubgroup E) (fixingSubgroupLeBase K Ω E)).trans
       (modelEquiv.trans firstIso)
 
-omit [IsGalois K E] in
 /-- The fixed-unit comparison carries the canonical finite norm class
 to the canonical field norm class; the concrete quotient
 representation remains private to the proof of this boundary theorem
@@ -236,7 +241,7 @@ theorem finiteNormQuotientEquivNormQuotient_finiteNormClass
   rw [QuotientAddGroup.map_mk', QuotientAddGroup.kerLift_mk]
   rfl
 
-end FiniteGaloisIntermediate
+end FiniteIntermediate
 
 section EmbeddedFiniteGaloisExtension
 
