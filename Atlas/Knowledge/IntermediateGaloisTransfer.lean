@@ -7,7 +7,6 @@ import Atlas.Knowledge.FiniteReciprocityHom
 import Atlas.Knowledge.FiniteReciprocityNaturalityNorm
 import Atlas.Knowledge.FiniteResidueAbstractExtension
 import Atlas.Knowledge.FrobeniusElements
-import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.TransferFrobeniusTerms
 import Atlas.Knowledge.TransferNaturality
 import Atlas.Knowledge.TransferNormArithmetic
@@ -55,23 +54,23 @@ right-coset decomposition (#104).
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 with `Subgroup.mem_subgroupOf` — its explicit arguments dropped, the
-layer's rule taking them implicitly — for the source's membership rule,
-and the group-only sections stay at `Type u`, as does the
-invariant-carrier section, which nothing pins; the abelianized
-reciprocity section alone is `Type`, pinned by the `Type`-pinned
-`finiteReciprocityHom`. The inclusion is built on the layer's slimmed
-`finiteReciprocityNaturalityRestriction`, whose two freed containments
-drop from the call; both `intermediateExtension_normal` sites drop the
-containment #175 shed; and the freed `hLK'` cascades off the whole
-inclusion family — eight declarations lose it, so their argument lists
-are one shorter than the source's. The dead-binder sweep sheds three
-topological-group instances and two Hausdorff ones, all simply unused.
-The three transversal helpers, private in the source, turn public: the
-naturality endpoint consumes them from the next brick, and `private`
-does not cross files. The citations name this file by bare
-basename; it lives at
+layer's rule taking them implicitly — for the source's membership rule.
+The group-only sections stay at `Type u` , and the invariant-carrier
+section generalizes to it, nothing pinning the source's universe
+device; the abelianized reciprocity section alone is `Type` , pinned by
+the `Type` -pinned `finiteReciprocityHom` . The inclusion is built on
+the layer's slimmed `finiteReciprocityNaturalityRestriction` , whose
+two freed containments drop from the call; both
+`intermediateExtension_normal` sites drop the containment #175 shed;
+and the freed `hLK'` cascades off the whole inclusion family — eleven
+declarations lose it, so their argument lists are one shorter than the
+source's. The dead-binder sweep sheds three topological-group instances
+and two Hausdorff ones, all simply unused. The three transversal
+helpers, private in the source, turn public: the naturality endpoint
+consumes them from the next brick, and `private` does not cross files.
+The citations name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
-source's namespace `open`s go, while `open MulAction` stays for the
+source's namespace `open` s go, while `open MulAction` stays for the
 orbit vocabulary.
 
 ## References
