@@ -360,6 +360,7 @@ import Atlas.Knowledge.StandardLubinTateUniformizerUnit
 import Atlas.Knowledge.StandardLubinTateUpperRamification
 import Atlas.Knowledge.StoppedGameJumpPair
 import Atlas.Knowledge.StronglyEisensteinExtremal
+import Atlas.Knowledge.SylowReductionStep
 import Atlas.Knowledge.TRhoEP
 import Atlas.Knowledge.TameBaseChange
 import Atlas.Knowledge.TateCohomologyFiniteCyclic
