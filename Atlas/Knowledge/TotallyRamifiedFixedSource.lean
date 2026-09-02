@@ -1,16 +1,21 @@
 import Mathlib
-import Atlas.Knowledge.ChosenPrimeElement
+import Atlas.Knowledge.AbstractExtension
+import Atlas.Knowledge.AmbientFixedAddSubgroup
 import Atlas.Knowledge.ClassFieldAxiom
 import Atlas.Knowledge.CyclicFixedCycleEquiv
+import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.ExtensionFixedRepresentation
 import Atlas.Knowledge.ExtensionFixedRepresentationEquiv
 import Atlas.Knowledge.FiniteAbstractExtension
+import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FixedFieldInclusion
 import Atlas.Knowledge.NormalizedValuationLaws
+import Atlas.Knowledge.PrimeElement
 import Atlas.Knowledge.ProfiniteInteger
 import Atlas.Knowledge.RelativeNorm
+import Atlas.Knowledge.RelativeNormLaws
 import Atlas.Knowledge.UnitRepresentation
 import Atlas.Knowledge.ValuationData
 
@@ -39,17 +44,21 @@ The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `DegreeData.FiniteAbstractExtension` is the layer's top-level
 `FiniteAbstractExtension` (in `let`s and `simpa` unfold sets alike),
 `ZHat` is `ProfiniteInteger`, and `isCyclic_of_generator` is the
-anonymous instance `⟨⟨g, hg⟩⟩`. The source's
-`abstractReciprocity_exists_hMinusOne_primitive` (its `:230`) is not
-here: it already lives in `Atlas.Knowledge.ClassFieldAxiom` as a
-projection of the elementary axiom under its source name, and the
-final calculation consumes it unchanged. One `noncomputable section`
-holds two ambient-group scopes with a shadowing `variable` line: the
-private linear calculation (polymorphic in its own commutative group),
-the prime/valuation calculation, and the action invariance precede it,
-while the fixed-source theorem — a consumer of the Type-pinned
-`Atlas.Knowledge.cyclicFixedCycleEquiv` — follows it. The private
-helper keeps the source's privacy; its only consumer is in this file.
+anonymous instance `⟨⟨g, hg⟩⟩`. The source's `abstractReciprocity_exists_hMinusOne_primitive` (its
+`:230`) is not here: it already lives in
+`Atlas.Knowledge.ClassFieldAxiom` as a projection of the elementary
+axiom, keeping the source's name though at the layer's top level where
+the source houses it in `ValuationData`, and the final calculation
+consumes it unchanged. One `noncomputable section` holds two
+ambient-group scopes with a shadowing `variable` line: the first is
+`Type u` where the source pins `IntegralRepGroupType` — the private
+linear calculation (also polymorphic in its own commutative group), the
+prime/valuation calculation, and the action invariance — while the
+fixed-source theorem follows the `{G : Type}` line, pinned through
+Mathlib's `Rep.FiniteCyclicGroup.normHomCompSub` (the coefficient ring
+and acting group share one universe there — the collapse
+`Atlas.Knowledge.CyclicFixedCycleEquiv` records). The private helper
+keeps the source's privacy; its only consumer is in this file.
 
 ## References
 
