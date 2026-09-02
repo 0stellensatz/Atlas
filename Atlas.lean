@@ -362,6 +362,7 @@ import Atlas.Knowledge.TateVanishingNormSurjectivity
 import Atlas.Knowledge.TopologicalGeneration
 import Atlas.Knowledge.TotallyRamifiedMonogenic
 import Atlas.Knowledge.TransferFrobeniusTerms
+import Atlas.Knowledge.TransferNaturality
 import Atlas.Knowledge.TransferNormArithmetic
 import Atlas.Knowledge.TransferNormFrobeniusGeometry
 import Atlas.Knowledge.TransferOrbitClosure
