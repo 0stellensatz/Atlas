@@ -5,6 +5,7 @@ import Atlas.Knowledge.LocalFixedResidueFinrank
 import Atlas.Knowledge.LocalResidueDatum
 import Atlas.Knowledge.LowerRamificationGroup
 import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
+import Atlas.Knowledge.NormalizedDegree
 
 /-!
 # local unramified inertia (WIP skeleton)
@@ -28,8 +29,11 @@ theorem lowerRamificationGroup_eq_bot_of_isUnramified
     [TopologicalSpace (abstractFixedField K (AlgebraicClosure K) Kb.field)]
     [IsMixedCharLocalField (abstractFixedField K (AlgebraicClosure K) Kb.field)]
     [ValuativeExtension K (abstractFixedField K (AlgebraicClosure K) Kb.field)]
-    [ValuativeRel (abstractRelativeFixedField K (AlgebraicClosure K) Eb.below)]
+    [valE : ValuativeRel
+      (abstractRelativeFixedField K (AlgebraicClosure K) Eb.below)]
     [ValuativeExtension (abstractFixedField K (AlgebraicClosure K) Kb.field)
+      (abstractRelativeFixedField K (AlgebraicClosure K) Eb.below)]
+    [valKE : ValuativeExtension K
       (abstractRelativeFixedField K (AlgebraicClosure K) Eb.below)] :
     lowerRamificationGroup
       (abstractFixedField K (AlgebraicClosure K) Kb.field)
@@ -76,6 +80,35 @@ theorem lowerRamificationGroup_eq_bot_of_isUnramified
             (abstractFixedField K Ω Kb.field)
             (abstractRelativeFixedField K Ω Eb.below) :=
           IsGalois.card_aut_eq_finrank _ _
+  -- the top field as a finite abstract field, and the residue bundle
+  let Tb : FiniteAbstractField (Field.absoluteGaloisGroup K) :=
+    ⟨Eb.field, inferInstance⟩
+  let Er : FiniteResidueAbstractExtension D :=
+    ⟨Tb.toFiniteResidueAbstractField D, Kb.toFiniteResidueAbstractField D,
+      Eb.below, Eb.finite⟩
+  have h4a : (Er.residueDegree : ℕ) * (Kb.residueDegree D : ℕ) =
+      (Tb.residueDegree D : ℕ) :=
+    FiniteResidueAbstractExtension.residueDegree_mul_absoluteResidueDegree
+      D Er
+  -- base dictionaries at the two endpoints
+  letI : FiniteDimensional K (abstractFixedField K Ω Tb.field) :=
+    abstractFixedField_finiteDimensional K Ω Tb.field Tb.finite
+  have hres : (abstractRelativeFixedField K Ω Eb.below).restrictScalars K =
+      abstractFixedField K Ω Eb.field :=
+    IntermediateField.extendScalars_restrictScalars _
+  letI : ValuativeRel (abstractFixedField K Ω Eb.field) := hres ▸
+    (valE : ValuativeRel
+      ((abstractRelativeFixedField K Ω Eb.below).restrictScalars K))
+  letI : ValuativeExtension K (abstractFixedField K Ω Eb.field) := by
+    exact hres ▸
+      (valKE : ValuativeExtension K
+        ((abstractRelativeFixedField K Ω Eb.below).restrictScalars K))
+  have h4b : (Kb.residueDegree D : ℕ) =
+      Module.finrank 𝓀[K] 𝓀[abstractFixedField K Ω Kb.field] :=
+    localResidueDatum_residueDegree_eq_residueFinrank K Kb
+  have h4c : (Tb.residueDegree D : ℕ) =
+      Module.finrank 𝓀[K] 𝓀[abstractFixedField K Ω Tb.field] :=
+    localResidueDatum_residueDegree_eq_residueFinrank K Tb
   sorry
 
 end
