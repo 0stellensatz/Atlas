@@ -21,8 +21,8 @@ maximal-unramified class to its finite-level class (#104).
 * `finiteNormSubgroup` / `FiniteNormQuotient` — the norm image and the
   quotient by it.
 * `finiteNormClass` / `finiteNormQuotientLift` — the class map and descent.
-* `DegreeData.fieldAsMaximalUnramifiedIntermediate` — `L` itself as a
-  finite intermediate field of `L̃ | K`.
+* `DegreeData.fieldAsMaximalUnramifiedIntermediate` — `L` itself as a finite
+  intermediate field of `L̃ | K`.
 * `DegreeData.maximalUnramifiedToFiniteNormQuotient` — the canonical
   quotient map.
 
@@ -271,7 +271,6 @@ theorem finiteNormQuotient_degree_nsmul_eq_zero
   refine ⟨fixedFieldInclusion A E.base E.field E.below a, ?_⟩
   exact relativeNorm_fixedFieldInclusion A E a
 
-
 /-- **`L` itself as a finite intermediate field of `L̃ | K`**
 ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FiniteNormQuotient.lean:226`]
@@ -320,7 +319,7 @@ private theorem
     (D.maximalUnramifiedNormSubgroup_le_finiteNormSubgroup A K L hLK ha)
 
 /-- **The canonical quotient map**
-`A_K/N_{L̃|K}A_{L̃} →+ A_K/N_{L|K}A_L` ([Yamaguchi 2026,
+`A_K / N_{L̃|K} A_{L̃} →+ A_K / N_{L|K} A_L` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/FiniteNormQuotient.lean:271`]
 [Yamaguchi2026]). -/
 def DegreeData.maximalUnramifiedToFiniteNormQuotient
