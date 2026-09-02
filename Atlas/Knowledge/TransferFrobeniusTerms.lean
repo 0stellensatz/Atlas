@@ -68,7 +68,9 @@ the layer's form being containment-free, and the dead-binder sweep runs
 to the lint's fixpoint: eight declarations shed
 `[IsTopologicalGroup G]` and eight `[T2Space G]`, all simply unused. The source's
 `Internal` namespace is flattened — the layer keeps everything in one
-namespace and the five private helpers are file-local anyway. The
+namespace — and four of its five private helpers turn public: the file
+split puts their consumers in the next brick, and `private` does not
+cross files; the orbit-representative sum stays private. The
 citations name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's namespace `open`s go, while `open MulAction` stays for the
@@ -92,10 +94,10 @@ section transferFrobeniusGeometry
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
-/- The chosen representative of a norm orbit: the inverse of the
+/-- The chosen representative of a norm orbit: the inverse of the
 corresponding transfer orbit's representative
 ([Yamaguchi 2026, `MainTransferFrobenius.lean:35`][Yamaguchi2026]). -/
-private noncomputable def chosenTransferNormNaturalityNormOrbitRepresentative
+noncomputable def chosenTransferNormNaturalityNormOrbitRepresentative
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
     (hL : L.toSubgroup ≤ E.field.field.toSubgroup)
@@ -115,9 +117,9 @@ private noncomputable def chosenTransferNormNaturalityNormOrbitRepresentative
     E L hL σ).symm qN
   QuotientGroup.mk (Quotient.out qT.out.out)⁻¹
 
-/- The chosen representative represents its orbit
+/-- The chosen representative represents its orbit
 ([Yamaguchi 2026, `MainTransferFrobenius.lean:56`][Yamaguchi2026]). -/
-private theorem chosenTransferNormNaturalityNormOrbitRepresentative_spec
+theorem chosenTransferNormNaturalityNormOrbitRepresentative_spec
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
     (hL : L.toSubgroup ≤ E.field.field.toSubgroup)
@@ -779,10 +781,10 @@ theorem transferNormNaturalityTransferFrobeniusLift_fixedSubgroup_map
 
 end DegreeData
 
-/- The quotient by a transfer factor's fixed subgroup as the
+/-- The quotient by a transfer factor's fixed subgroup as the
 stabilizer-coset fiber of its norm double coset
 ([Yamaguchi 2026, `MainTransferFrobenius.lean:756`][Yamaguchi2026]). -/
-private noncomputable def chosenTransferNormNaturalityTransferNormFiberEquiv
+noncomputable def chosenTransferNormNaturalityTransferNormFiberEquiv
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
     (hL : L.toSubgroup ≤ E.field.field.toSubgroup)
@@ -817,10 +819,10 @@ private noncomputable def chosenTransferNormNaturalityTransferNormFiberEquiv
   exact (leftCosetEquivOfMulEquiv e Sβsubgroup).trans
     (Subgroup.quotientEquivOfEq hEq)
 
-/- The fiber equivalence evaluates by the absolute identification
+/-- The fiber equivalence evaluates by the absolute identification
 ([Yamaguchi 2026, `MainTransferFrobenius.lean:797`][Yamaguchi2026]). -/
 @[simp]
-private theorem chosenTransferNormNaturalityTransferNormFiberEquiv_mk
+theorem chosenTransferNormNaturalityTransferNormFiberEquiv_mk
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
     (hL : L.toSubgroup ≤ E.field.field.toSubgroup)
