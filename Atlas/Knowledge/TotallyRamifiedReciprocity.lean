@@ -12,8 +12,12 @@ import Atlas.Knowledge.FiniteExtensionTransitivity
 import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FiniteReciprocityHom
+import Atlas.Knowledge.FiniteResidueAbstractField
+import Atlas.Knowledge.FrobeniusElements
+import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.IntermediateGaloisCorrespondence
+import Atlas.Knowledge.PrimeElement
 import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.ReciprocityReductionArithmetic
 import Atlas.Knowledge.ReductionGaloisArrows
