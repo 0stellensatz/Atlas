@@ -1,15 +1,17 @@
 import Mathlib
 import Atlas.Knowledge.AbstractExtension
 import Atlas.Knowledge.AmbientFixedAddSubgroup
-import Atlas.Knowledge.ConjugatePrimeNorm
 import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbstractExtension
-import Atlas.Knowledge.FiniteFieldUnitMaps
 import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FixedFieldInclusion
+import Atlas.Knowledge.FrobeniusElements
+import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
+import Atlas.Knowledge.FrobeniusFixedField
 import Atlas.Knowledge.IntermediateGaloisCorrespondence
+import Atlas.Knowledge.ReciprocityExactRows
 import Atlas.Knowledge.ReductionGaloisArrows
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.TotallyRamifiedFrobeniusLift
@@ -45,18 +47,20 @@ actual fixed group `A_{M⁰}` (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, so
-`mem_extensionSubgroup_iff` becomes Mathlib's `Subgroup.mem_subgroupOf`;
-`DegreeData.AbstractExtension` and
+`mem_extensionSubgroup_iff` becomes Mathlib's
+`Subgroup.mem_subgroupOf`; `DegreeData.AbstractExtension` and
 `DegreeData.FiniteAbstractExtension.ofInclusion` are the layer's
-top-level `AbstractExtension` and `FiniteAbstractExtension.ofInclusion`;
-the one `noncomputable def` keyword drops under the file's
-`noncomputable section`; and the ambient group is `Type u` where the
-source pins `IntegralRepGroupType`. All eight declarations shed the
-source's `[T2Space G]` — the continuing cascade of the same shed in
+top-level `AbstractExtension` and
+`FiniteAbstractExtension.ofInclusion`; the one `noncomputable def`
+keyword drops under the file's `noncomputable section`; and the ambient
+group is `Type u` where the source pins `IntegralRepGroupType`. All
+eight declarations shed the source's `[T2Space G]` — the continuing
+cascade of the same shed in
 `Atlas.Knowledge.TotallyRamifiedFrobeniusLift` — and the second norm
 restriction keeps the source's `[TotallyDisconnectedSpace G]`, which
-its Frobenius-fixed-field finiteness consumes. Everything else ports
-token-for-token; the file is the source's
+`frobeniusFixedField_fieldInertia` consumes — the totally disconnected
+topological group synthesizes the separation that lemma asks for.
+Everything else ports token-for-token; the file is the source's
 `TotallyRamifiedCase/FrobeniusNorms.lean` whole.
 
 ## References
