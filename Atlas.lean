@@ -184,6 +184,7 @@ import Atlas.Knowledge.IntegralClosureDVR
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
 import Atlas.Knowledge.IntermediateGaloisCorrespondence
 import Atlas.Knowledge.IntermediateGaloisTransfer
+import Atlas.Knowledge.IntrinsicAbsoluteData
 import Atlas.Knowledge.IsAdmissibleJumpPair
 import Atlas.Knowledge.IsArithmeticFrobenius
 import Atlas.Knowledge.IsArtinRestriction
