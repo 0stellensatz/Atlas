@@ -93,6 +93,7 @@ import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteExtensionTransitivity
 import Atlas.Knowledge.FiniteFieldPowerResidueSymbol
 import Atlas.Knowledge.FiniteFieldUnitMaps
+import Atlas.Knowledge.FiniteGaloisRealization
 import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteIntermediateCompositum
 import Atlas.Knowledge.FiniteIntermediateFieldRefinement
@@ -327,6 +328,7 @@ import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 import Atlas.Knowledge.RootOfUnityExponent
 import Atlas.Knowledge.SemiInvariantIndependence
 import Atlas.Knowledge.SemilinearConjugationContinuous
+import Atlas.Knowledge.SeparableEmbeddingIntoSeparableClosure
 import Atlas.Knowledge.SeparableFixedFieldNorm
 import Atlas.Knowledge.SerreMass
 import Atlas.Knowledge.Shift
