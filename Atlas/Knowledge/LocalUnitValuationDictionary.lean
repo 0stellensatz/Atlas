@@ -32,8 +32,8 @@ ascription, never by rewriting at the membership site, because the two
 spellings of the absolute Galois group's instances agree only
 definitionally. The valuation reading has a near-token counterpart in
 the source, in its `valuationMap` and separable-closure vocabulary; the
-membership corollary does not — the source needs the value-one case,
-prime elements, and never the value-zero case.
+membership corollary does not — the source needs the value-one case —
+prime elements — and never the value-zero case.
 
 ## References
 

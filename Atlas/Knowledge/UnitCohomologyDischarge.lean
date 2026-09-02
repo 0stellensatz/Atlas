@@ -331,8 +331,8 @@ theorem unitRepresentation_primitive_of_unramifiedUnitPrimitive
 local field satisfies the unramified-unit-cohomology axiom — the direct
 local proof `Atlas.Knowledge.ClassFieldAxiom`'s notes promised in place
 of the source's Tate-cohomology derivation; the mathematical content is
-the cohomological triviality of unramified units ([Milne 2020, Chap.
-III, §1, Prop. 1.1 and Prop. 1.2, pp.97–98][MilneCFT]). -/
+the cohomological triviality of unramified units
+([Milne 2020, Chap. III, §1, Prop. 1.1 and Prop. 1.2, pp.97–98][MilneCFT]). -/
 theorem localHenselianValuation_satisfiesUnramifiedUnitCohomology
     (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] :
