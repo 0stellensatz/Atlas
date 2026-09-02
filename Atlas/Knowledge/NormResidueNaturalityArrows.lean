@@ -121,8 +121,8 @@ noncomputable def normResidueNaturalityAbelianizedConjugation
             (conjugateClosedSubgroup K s).toSubgroup) :=
   (finiteReciprocityNaturalityConjugation K L s).abelianizationCongr
 
-/-- The abelianized conjugation isomorphism computes on
-representatives by the conjugation equivalence ([Yamaguchi 2026,
+/-- The abelianized conjugation isomorphism computes on representatives
+by the conjugation equivalence ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Main.lean:1147`][Yamaguchi2026]). -/
 @[simp]
 theorem normResidueNaturalityAbelianizedConjugation_of_mk
