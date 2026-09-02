@@ -15,10 +15,14 @@ the reduction to cyclic subextensions (#104).
 
 ## Implementation notes
 
-A straight port: the theorem is pure Mathlib group theory, and the
-source file's remaining declarations — the pullback machinery for the
-Kummer decomposition — have no consumer inside `Reciprocity/Main.lean`'s
-import closure and stay unported.
+A straight port: the theorem is pure Mathlib group theory. The source
+file's remaining declarations — the pullback machinery for the Kummer
+decomposition — are consumed only by
+`KummerTheory/Abstract/KummerAbelianAssembly.lean`, which does sit
+inside `Reciprocity/Main.lean`'s import closure but which the layer has
+not ported (its one previously needed lemma was inlined by a
+definitional unfolding in an earlier brick); they stay unported here
+and wait for whichever brick takes that assembly on.
 
 ## References
 

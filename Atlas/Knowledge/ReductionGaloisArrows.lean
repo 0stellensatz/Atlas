@@ -33,8 +33,8 @@ unramified subextension cut out by the inertia image (#104).
   abelian `G(L/K)` supplies the cyclic intermediate extensions of the
   second reduction; proved.
 * `FiniteGaloisSubextension.maximalUnramifiedSubextension_le_of_isUnramified`
-  — every unramified intermediate extension lies below the inertia
-  image's field in subgroup order; proved.
+  — every unramified intermediate extension is contained in the field
+  cut out by the inertia image; proved.
 
 ## Implementation notes
 
