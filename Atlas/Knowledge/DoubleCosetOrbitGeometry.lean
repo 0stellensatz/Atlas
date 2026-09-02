@@ -41,9 +41,9 @@ sets — no class-formation or field-theoretic input anywhere (#104).
 ## Implementation notes
 
 A straight port with one spelling change: the coset-transport target
-writes `S.map (e : Q →* R)` where the source writes `S.map
-e.toMonoidHom` — the coercion is the simp normal form, and with the
-source's spelling the transport lemma fails `simpNF`. Otherwise the
+writes `S.map (e : Q →* R)` where the source writes
+`S.map e.toMonoidHom` — the coercion is the simp normal form, and with
+the source's spelling the transport lemma fails `simpNF`. Otherwise the
 file is generic group theory and already speaks the layer's
 `closedSubgroupGenerated` vocabulary. The citations name this file by
 bare basename; it lives at
@@ -260,8 +260,8 @@ noncomputable def orbitQuotientEquivOfSurjectiveEquivariant
       change Quotient.mk'' (e (e.symm y)) = Quotient.mk'' y
       rw [e.apply_symm_apply] }
 
-/-- **The transported orbit is represented by the image** ([Yamaguchi
-2026, `DoubleCosetOrbitGeometry.lean:217`][Yamaguchi2026]). -/
+/-- **The transported orbit is represented by the image**
+([Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:217`][Yamaguchi2026]). -/
 @[simp]
 theorem orbitQuotientEquivOfSurjectiveEquivariant_mk
     {M : Type*} {N : Type*} {X : Type*} {Y : Type*} [Group M] [Group N]
@@ -319,8 +319,8 @@ noncomputable def leftCosetEquivOfMulEquiv
     change QuotientGroup.mk (e (e.symm x)) = QuotientGroup.mk x
     rw [e.apply_symm_apply]
 
-/-- **The transported coset is represented by the image** ([Yamaguchi
-2026, `DoubleCosetOrbitGeometry.lean:273`][Yamaguchi2026]). -/
+/-- **The transported coset is represented by the image**
+([Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:273`][Yamaguchi2026]). -/
 @[simp]
 theorem leftCosetEquivOfMulEquiv_mk
     {Q : Type*} {R : Type*} [Group Q] [Group R]
