@@ -53,7 +53,11 @@ only the intermediate field behind the intrinsic abbreviations, and
 the realization's finiteness witness is the layer's
 `baseFixingExtensionQuotient_finite_of_isSeparable`, whose
 separability hypotheses the realization's Galois instances synthesize.
-Everything else ports token-for-token; the file is the source's
+The `OfEmbedding` half is generalized over a separably closed Galois
+ambient `Ω` in place of the pinned separable closure, so the
+algebraic-closure instantiation of the local data can enter; the chosen
+half is unchanged at the separable closure. Everything else ports
+token-for-token; the file is the source's
 `LocalReciprocity/ConcreteReciprocityTransport.lean` whole.
 
 ## References
@@ -69,6 +73,8 @@ noncomputable section
 variable (K L : Type) [Field K] [Field L] [Algebra K L]
   [FiniteDimensional K L] [IsGalois K L]
 
+variable (Ω : Type) [Field Ω] [Algebra K Ω] [IsGalois K Ω] [IsSepClosed Ω]
+
 private abbrev G (K : Type) [Field K] :=
   intrinsicAbsoluteGalois K
 
@@ -83,13 +89,15 @@ embedding of `L` into the fixed separable closure ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:46`]
 [Yamaguchi2026]). -/
 def finiteGaloisAbstractExtensionOfEmbedding
-    (i : L →ₐ[K] SeparableClosure K) : FiniteGaloisSubextension (B K) where
-  field := finiteGaloisClosedFixingSubgroupOfEmbedding K L i
-  below := fixingSubgroupLeBase K (SeparableClosure K)
-    (finiteGaloisFieldRangeOfEmbedding K L i)
+    (i : L →ₐ[K] Ω) :
+    FiniteGaloisSubextension
+      (closedFixingSubgroup (⊥ : IntermediateField K Ω)) where
+  field := finiteGaloisClosedFixingSubgroupOfEmbedding K L Ω i
+  below := fixingSubgroupLeBase K Ω
+    (finiteGaloisFieldRangeOfEmbedding K L Ω i)
   normal := inferInstance
   finite := baseFixingExtensionQuotient_finite_of_isSeparable
-    K (SeparableClosure K) (finiteGaloisFieldRangeOfEmbedding K L i)
+    K Ω (finiteGaloisFieldRangeOfEmbedding K L Ω i)
 
 /-- The concrete realization of `L/K` as the finite Galois extension
 object to which the abstract reciprocity theorem is applied
@@ -97,7 +105,7 @@ object to which the abstract reciprocity theorem is applied
 `LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:57`]
 [Yamaguchi2026]). -/
 def finiteGaloisAbstractExtension : FiniteGaloisSubextension (B K) :=
-  finiteGaloisAbstractExtensionOfEmbedding K L
+  finiteGaloisAbstractExtensionOfEmbedding K L (SeparableClosure K)
     (separableEmbeddingIntoSeparableClosure K L)
 
 /-- The additive reciprocity equivalence transported through an
@@ -106,34 +114,38 @@ explicit realization of `L/K` in the separable closure ([Yamaguchi
 `LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:63`]
 [Yamaguchi2026]). -/
 def concreteReciprocityAddEquivOfEmbedding
-    (i : L →ₐ[K] SeparableClosure K)
-    (D : DegreeData (G K)) (v : ValuationData D (A K))
-    (hcf : SatisfiesClassFieldAxiom (A K))
+    (i : L →ₐ[K] Ω)
+    (D : DegreeData (Ω ≃ₐ[K] Ω))
+    (v : ValuationData D (galoisAmbientUnitsRep K Ω))
+    (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω))
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology D) :
     Additive (Abelianization (L ≃ₐ[K] L)) ≃+
       Additive (NormQuotient K L) :=
   (MulEquiv.toAdditive
       ((finiteGaloisAbstractQuotientEquivGaloisGroupOfEmbedding
-        K L i).abelianizationCongr.symm)).trans
-    ((D.abstractReciprocityEquiv (A K) v hcf hAxiom
-      (intrinsicFiniteAbstractBase K)
-      (finiteGaloisAbstractExtensionOfEmbedding K L i)).trans
+        K L Ω i).abelianizationCongr.symm)).trans
+    ((D.abstractReciprocityEquiv (galoisAmbientUnitsRep K Ω) v hcf hAxiom
+      ⟨closedFixingSubgroup (⊥ : IntermediateField K Ω), by
+        rw [closedFixingSubgroup_bot_eq_baseField]
+        exact (FiniteAbstractField.base (Ω ≃ₐ[K] Ω)).finite⟩
+      (finiteGaloisAbstractExtensionOfEmbedding K L Ω i)).trans
         (finiteNormQuotientEquivEmbeddedNormQuotient
-          K (SeparableClosure K) L i))
+          K Ω L i))
 
 /-- Multiplicative form of reciprocity transported through an explicit
 embedding ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:78`]
 [Yamaguchi2026]). -/
 def concreteReciprocityEquivOfEmbedding
-    (i : L →ₐ[K] SeparableClosure K)
-    (D : DegreeData (G K)) (v : ValuationData D (A K))
-    (hcf : SatisfiesClassFieldAxiom (A K))
+    (i : L →ₐ[K] Ω)
+    (D : DegreeData (Ω ≃ₐ[K] Ω))
+    (v : ValuationData D (galoisAmbientUnitsRep K Ω))
+    (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω))
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology D) :
     Abelianization (L ≃ₐ[K] L) ≃* NormQuotient K L := by
   let e : Additive (Abelianization (L ≃ₐ[K] L)) ≃+
       Additive (NormQuotient K L) :=
-    concreteReciprocityAddEquivOfEmbedding K L i D v hcf hAxiom
+    concreteReciprocityAddEquivOfEmbedding K L Ω i D v hcf hAxiom
   let em : Multiplicative (Additive (Abelianization (L ≃ₐ[K] L))) ≃*
       Multiplicative (Additive (NormQuotient K L)) :=
     @AddEquiv.toMultiplicative
@@ -149,13 +161,14 @@ realization ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:98`]
 [Yamaguchi2026]). -/
 def concreteNormResidueSymbolOfEmbedding
-    (i : L →ₐ[K] SeparableClosure K)
-    (D : DegreeData (G K)) (v : ValuationData D (A K))
-    (hcf : SatisfiesClassFieldAxiom (A K))
+    (i : L →ₐ[K] Ω)
+    (D : DegreeData (Ω ≃ₐ[K] Ω))
+    (v : ValuationData D (galoisAmbientUnitsRep K Ω))
+    (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω))
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology D) :
     Kˣ →* Abelianization (L ≃ₐ[K] L) :=
   (concreteReciprocityEquivOfEmbedding
-    K L i D v hcf hAxiom).symm.toMonoidHom.comp
+    K L Ω i D v hcf hAxiom).symm.toMonoidHom.comp
     (normClass K L)
 
 /-- The additive form of the concrete reciprocity isomorphism; its
@@ -173,7 +186,7 @@ def concreteReciprocityAddEquiv
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology D) :
     Additive (Abelianization (L ≃ₐ[K] L)) ≃+
       Additive (NormQuotient K L) :=
-  concreteReciprocityAddEquivOfEmbedding K L
+  concreteReciprocityAddEquivOfEmbedding K L (SeparableClosure K)
     (separableEmbeddingIntoSeparableClosure K L) D v hcf hAxiom
 
 /-- **The public multiplicative form of the transported reciprocity
@@ -185,7 +198,7 @@ def concreteReciprocityEquiv
     (hcf : SatisfiesClassFieldAxiom (A K))
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology D) :
     Abelianization (L ≃ₐ[K] L) ≃* NormQuotient K L :=
-  concreteReciprocityEquivOfEmbedding K L
+  concreteReciprocityEquivOfEmbedding K L (SeparableClosure K)
     (separableEmbeddingIntoSeparableClosure K L) D v hcf hAxiom
 
 /-- **The local norm-residue symbol obtained by inverting reciprocity
@@ -197,7 +210,7 @@ def concreteNormResidueSymbol
     (hcf : SatisfiesClassFieldAxiom (A K))
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology D) :
     Kˣ →* Abelianization (L ≃ₐ[K] L) :=
-  concreteNormResidueSymbolOfEmbedding K L
+  concreteNormResidueSymbolOfEmbedding K L (SeparableClosure K)
     (separableEmbeddingIntoSeparableClosure K L) D v hcf hAxiom
 
 /-- The local norm-residue symbol is onto ([Yamaguchi 2026,
