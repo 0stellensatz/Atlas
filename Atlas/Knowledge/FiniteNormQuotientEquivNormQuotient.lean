@@ -56,10 +56,11 @@ require. The two `AlgHom.fieldRange`-keyed instances stay
 token-for-token; the file is the source's
 `LocalReciprocity/SeparableUnitsNorm.lean:193`–`:456`, and it closes
 that source file against the layer: the file's earlier slices live in
-`Atlas.Knowledge.SeparableFixedFieldNorm` and around it, and its
-Galois-only finiteness instance, coset-action formula, and norm
-comparison are not ported — the separable forms subsume each at every
-use site.
+`Atlas.Knowledge.SeparableFixedFieldNorm` and
+`Atlas.Knowledge.AbstractRelativeUnitsNorm`, and its Galois-only
+finiteness instance, coset-action formula, and bundled norm comparison
+(the source's `:56`, `:68`, and `:178`) are not ported — the separable
+forms subsume each at every use site.
 
 ## References
 

@@ -33,8 +33,8 @@ arbitrary base the relative quotient is the concrete Galois group by the
 relative dictionary, the coset action is the Galois action, and the product
 over automorphisms is Mathlib's `Algebra.norm_eq_prod_automorphisms` — the
 extension of fixed fields is Galois here, by the engine's normality witness,
-where the bottom-base statement needed none. The quotient transport mirrors the source's bottom-base
-`finiteNormQuotientEquivNormQuotient`, which
+where the bottom-base statement needed none. The quotient transport mirrors
+the source's bottom-base `finiteNormQuotientEquivNormQuotient`, which
 `Atlas.Knowledge.FiniteNormQuotientEquivNormQuotient` ports for the concrete
 reciprocity transport — an earlier revision of this note called that
 consumer vacuous, which the P-phase disproved.
