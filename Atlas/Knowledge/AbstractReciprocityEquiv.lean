@@ -37,11 +37,16 @@ does not carry (the decision recorded in
 `Atlas.Knowledge.ClassFieldAxiom`'s notes) — all five declarations
 thread `hAxiom : v.SatisfiesUnramifiedUnitCohomology D` as an explicit
 hypothesis alongside `hcf`, and the statement-level occurrences of the
-derivation become the binder. The local instantiation discharges the
-hypothesis directly. All five shed the source's `[T2Space G]` (the
-continuing cascade) and keep `[TotallyDisconnectedSpace G]`, which the
-totally ramified chain consumes. Everything else ports token-for-token;
-the file is the source's `Reciprocity/Main.lean:847`–`:961`.
+derivation become the binder. Each statement is thereby weaker than the
+source's: the discharge of the hypothesis is moved to the local
+instantiation, which is to prove the unit-cohomology facts directly —
+no proof of the hypothesis exists in the layer yet, and that is the
+recorded design, not a gap. The same convention deliberately commits
+the remaining `Main.lean` derivation sites, the naturality tail among
+them. All five shed the source's `[T2Space G]` (the continuing cascade)
+and keep `[TotallyDisconnectedSpace G]`, which the totally ramified
+chain consumes. Everything else ports token-for-token; the file is the
+source's `Reciprocity/Main.lean:847`–`:961`.
 
 ## References
 
