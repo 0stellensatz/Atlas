@@ -36,6 +36,8 @@ auxiliary quotient elements with equal restriction (#104).
 * `FiniteGaloisSubextension.abstractReciprocity_relativeNorm_fixedFieldInclusion`
   — relative norm commutes with fixed-field inclusion along the
   restriction equivalence; proved.
+* `FiniteGaloisSubextension.commute_of_same_restriction_of_inertia_le`
+  — auxiliary quotient elements of equal restriction commute; proved.
 
 ## Implementation notes
 
@@ -54,8 +56,10 @@ underscore-named `let`s, so the statement shape consumers walk through
 matches the source's. `commute_of_same_restriction_of_inertia_le` sheds
 the source's unused `[IsTopologicalGroup G]`: the elaborated proof
 never consumes it and it is not derivable, so the ported statement is
-strictly more general. Everything else ports token-for-token; the file
-is the source's `TotallyRamifiedCase/RestrictionCosets.lean` whole.
+strictly more general. The three `noncomputable def` keywords drop —
+the file's `noncomputable section` supplies them, the series' standing
+convention. Everything else ports token-for-token; the file is the
+source's `TotallyRamifiedCase/RestrictionCosets.lean` whole.
 
 ## References
 
@@ -392,8 +396,8 @@ theorem abstractReciprocity_relativeNorm_fixedFieldInclusion
     _ = ∑ q, relativeCosetAction A E.base E.field E.below a q :=
       e.sum_comp (relativeCosetAction A E.base E.field E.below a)
 
-/-- Two auxiliary quotient elements commute when they have the same
-restriction and the auxiliary field contains the inertia subgroup
+/-- **Two auxiliary quotient elements commute when they have the same
+restriction and the auxiliary field contains the inertia subgroup**
 ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:320`]
 [Yamaguchi2026]). -/
