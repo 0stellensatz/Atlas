@@ -56,19 +56,20 @@ sum over norm double cosets at the chosen representatives (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 with `Subgroup.mem_subgroupOf` for the source's membership rule and the
 layer's `subgroupOf_frobeniusFixedField` for its fixed-field form. The
-group-only sections stay at the source's `Type u`; the orbit-norm
-section is `Type` after the `Type`-pinned quotient-action chain. The
+whole file stays at `Type u` — nothing here pins the orbit-norm
+section, so it generalizes the source's universe device. The
 divisibility fact is restated over the layer's `ProfiniteInteger` — its
 name swaps the source's `zHat` accordingly — and its proof becomes a
 direct computation with `ProfiniteInteger.reduction`, the source's
 bundled multiplication-by-`f` homomorphism having no layer counterpart;
 `ProfiniteInteger.nsmul_left_injective` closes it. The stabilizer-iff
-call site drops its two containments, the layer's form being
-containment-free, and the dead-binder sweep runs to the lint's
-fixpoint: eight declarations shed `[IsTopologicalGroup G]` and eight
-shed `[T2Space G]`, all simply unused. The source's `Internal`
-namespace stays for the four private helpers. The citations name this
-file by bare basename; it lives at
+call site drops its two containments and sheds the dead local it fed,
+the layer's form being containment-free, and the dead-binder sweep runs
+to the lint's fixpoint: eight declarations shed their topological-group
+instance and eight their Hausdorff one, all simply unused. The source's
+`Internal` namespace is flattened — the layer keeps everything in one
+namespace and the five private helpers are file-local anyway. The
+citations name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's namespace `open`s go, while `open MulAction` stays for the
 orbit vocabulary.
@@ -90,8 +91,6 @@ open MulAction
 section transferFrobeniusGeometry
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
-
-namespace Internal
 
 /- The chosen representative of a norm orbit: the inverse of the
 corresponding transfer orbit's representative
@@ -127,7 +126,7 @@ private theorem chosenTransferNormNaturalityNormOrbitRepresentative_spec
     [hL'normal : (L.toSubgroup.subgroupOf E.field.field.toSubgroup).Normal]
     (σ : D.FrobeniusElements E.base L (hL.trans E.below)) :
     Function.LeftInverse Quotient.mk''
-      (Internal.chosenTransferNormNaturalityNormOrbitRepresentative
+      (chosenTransferNormNaturalityNormOrbitRepresentative
         D E L hL σ) := by
   intro qN
   let orbitEquiv := D.transferNormNaturalityTransferNormOrbitEquiv E L hL σ
@@ -137,15 +136,12 @@ private theorem chosenTransferNormNaturalityNormOrbitRepresentative_spec
     E L hL σ qT]
   exact orbitEquiv.apply_symm_apply qN
 
-end Internal
 
 end transferFrobeniusGeometry
 
 section transferOrbitNorms
 
-variable {G : Type} [Group G] [TopologicalSpace G]
-
-namespace Internal
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /- The relative norm as the double sum over norm double cosets and
 stabilizer cosets, at the chosen representatives
@@ -169,7 +165,7 @@ private theorem transferNormNaturalityNorm_eq_sum_transferOrbitRepresentatives
     let Ω := Quotient (orbitRel M
       (E.base.field.toSubgroup ⧸ S.toSubgroup.subgroupOf E.base.field.toSubgroup))
     let φ : Ω → E.base.field.toSubgroup ⧸ S.toSubgroup.subgroupOf E.base.field.toSubgroup :=
-      Internal.chosenTransferNormNaturalityNormOrbitRepresentative
+      chosenTransferNormNaturalityNormOrbitRepresentative
         D E L hL σ
     letI : Finite (E.base.field.toSubgroup ⧸
         S.toSubgroup.subgroupOf E.base.field.toSubgroup) :=
@@ -192,7 +188,7 @@ private theorem transferNormNaturalityNorm_eq_sum_transferOrbitRepresentatives
   let Ω := Quotient (orbitRel M
     (E.base.field.toSubgroup ⧸ S.toSubgroup.subgroupOf E.base.field.toSubgroup))
   let φ : Ω → E.base.field.toSubgroup ⧸ S.toSubgroup.subgroupOf E.base.field.toSubgroup :=
-    Internal.chosenTransferNormNaturalityNormOrbitRepresentative
+    chosenTransferNormNaturalityNormOrbitRepresentative
       D E L hL σ
   letI : Finite (E.base.field.toSubgroup ⧸
       S.toSubgroup.subgroupOf E.base.field.toSubgroup) :=
@@ -205,7 +201,7 @@ private theorem transferNormNaturalityNorm_eq_sum_transferOrbitRepresentatives
     exact Fintype.ofEquiv (orbit M (φ q))
       (orbitEquivQuotientStabilizer M (φ q))
   rw [relativeNorm_eq_sum_chosenOrbit_of_fintype A E.base.field S hSK M
-    (Internal.chosenTransferNormNaturalityNormOrbitRepresentative_spec
+    (chosenTransferNormNaturalityNormOrbitRepresentative_spec
       D E L hL σ) π]
   apply Fintype.sum_congr
   intro q
@@ -213,7 +209,6 @@ private theorem transferNormNaturalityNorm_eq_sum_transferOrbitRepresentatives
   intro r
   rw [chosenOrbitClassEquiv_symm_apply]
 
-end Internal
 
 end transferOrbitNorms
 
@@ -714,7 +709,6 @@ theorem transferNormNaturalityTransferFrobeniusLift_mem_fixedSubgroup_iff_stabil
         (D.transferNormNaturalityFrobeniusTowerMap_injective
           E L hL)).mp hmap
   let S := D.frobeniusFixedField E.base L (hL.trans E.below) σ
-  let hSK := D.frobeniusFixedField_le E.base L (hL.trans E.below) σ
   let kM : E.field.field.toSubgroup.subgroupOf E.base.field.toSubgroup :=
     ⟨Subgroup.inclusion E.below k', k'.2⟩
   rw [D.subgroupOf_frobeniusFixedField E.field L hL β]
@@ -787,8 +781,6 @@ theorem transferNormNaturalityTransferFrobeniusLift_fixedSubgroup_map
 
 end DegreeData
 
-namespace Internal
-
 /- The quotient by a transfer factor's fixed subgroup as the
 stabilizer-coset fiber of its norm double coset
 ([Yamaguchi 2026, `MainTransferFrobenius.lean:756`][Yamaguchi2026]). -/
@@ -844,7 +836,7 @@ private theorem chosenTransferNormNaturalityTransferNormFiberEquiv_mk
           D.transferNormNaturalityFrobeniusIntermediateSubgroup
             E L hL)))
     (k' : E.field.field.toSubgroup) :
-    Internal.chosenTransferNormNaturalityTransferNormFiberEquiv
+    chosenTransferNormNaturalityTransferNormFiberEquiv
         D E L hL σ q (QuotientGroup.mk k') =
       QuotientGroup.mk
         (transferNormNaturalityIntermediateAbsoluteEquiv
@@ -852,7 +844,6 @@ private theorem chosenTransferNormNaturalityTransferNormFiberEquiv_mk
   unfold chosenTransferNormNaturalityTransferNormFiberEquiv
   rfl
 
-end Internal
 
 end transferFrobeniusFibers
 
