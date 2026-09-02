@@ -371,6 +371,7 @@ import Atlas.Knowledge.TateVanishingNormSurjectivity
 import Atlas.Knowledge.TopologicalGeneration
 import Atlas.Knowledge.TotallyRamifiedFixedSource
 import Atlas.Knowledge.TotallyRamifiedFrobeniusLift
+import Atlas.Knowledge.TotallyRamifiedFrobeniusNorms
 import Atlas.Knowledge.TotallyRamifiedMonogenic
 import Atlas.Knowledge.TotallyRamifiedRestrictionCosets
 import Atlas.Knowledge.TotallyRamifiedRestrictionEquiv
