@@ -177,6 +177,7 @@ import Atlas.Knowledge.IntegerLinearTopology
 import Atlas.Knowledge.IntegerValuation
 import Atlas.Knowledge.IntegralClosureDVR
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
+import Atlas.Knowledge.IntermediateGaloisTransfer
 import Atlas.Knowledge.IsAdmissibleJumpPair
 import Atlas.Knowledge.IsArithmeticFrobenius
 import Atlas.Knowledge.IsArtinRestriction
