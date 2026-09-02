@@ -49,17 +49,18 @@ equal lifts (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
-The lift-algebra sections stay at the source's `Type u`; only the
-value theorem's section is `Type` after the `Type`-pinned
-quotient-action chain, and it sheds the source's `[T2Space G]` and its
-enrichment `letI` bridge, the instance threading through by defeq. The
-profinite integers are the layer's `ProfiniteInteger`, the tower is the
-layer's top-level `FiniteTower`, and the tower-finiteness call drops
-its first containment, the layer's form being instance-supplied. The
-`FiniteFieldUnitMaps` import is referenced by no name: it carries the
-transport instances that let the Frobenius-element binders synthesize
-across the residue enrichment. The citations name this file by bare
-basename; it lives at
+The lift-algebra sections stay at the source's `Type u`; only the value
+theorem's section is `Type` after the `Type`-pinned quotient-action
+chain, and that theorem sheds its enrichment `letI` bridge, the
+instance threading through by defeq, and the source's `[T2Space G]`,
+which was simply unused there — the ported statement is strictly more
+general than the source's. The profinite integers are the layer's
+`ProfiniteInteger`, the tower is the layer's top-level `FiniteTower`,
+and the tower-finiteness call drops its first containment, the layer's
+form being instance-supplied. The `FiniteFieldUnitMaps` import is
+referenced by no name: it carries the transport instances that let the
+Frobenius-element binders synthesize across the residue enrichment. The
+citations name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's `open`s go — the layer keeps everything in one namespace.
 
