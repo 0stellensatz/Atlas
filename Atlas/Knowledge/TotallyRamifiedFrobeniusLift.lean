@@ -1,6 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.ChosenDegreeOneFrobenius
-import Atlas.Knowledge.FiniteFieldUnitMaps
+import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteIntermediateCompositum
 import Atlas.Knowledge.FiniteIntermediateFieldRefinement
@@ -8,6 +8,7 @@ import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
+import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.GaloisSubextension
 import Atlas.Knowledge.MaximalUnramifiedField
 import Atlas.Knowledge.NormalizedDegree
@@ -51,9 +52,11 @@ widening: nothing here mentions a representation, and every dependency
 is already polymorphic. The auxiliary-extension family sheds the
 source's `[T2Space G]` on all four declarations: the elaborated proofs
 never consume it and it is not derivable from the kept instances, so
-the ported statements are strictly more general — the layer's
-`galoisRefinement` chain stopped needing separation. Everything else
-ports token-for-token; the file is the source's
+the ported statements are strictly more general — the separation
+divergence is `frobeniusFixedIntermediateField`, which carries
+`[T2Space G]` in the source and not in the layer's
+`Atlas.Knowledge.ReciprocityMap` item. Everything else ports
+token-for-token; the file is the source's
 `TotallyRamifiedCase/FrobeniusLift.lean` whole.
 
 ## References
@@ -357,8 +360,8 @@ def abstractReciprocityTotallyRamifiedFiniteGaloisExtension
         exact FiniteIntermediateField.galoisRefinement_normal C
       finite := M.finite }
 
-/-- The auxiliary reciprocity extension lies below the given totally
-ramified extension ([Yamaguchi 2026,
+/-- The auxiliary reciprocity extension contains the given totally
+ramified extension: its subgroup lies below `G_L` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:260`]
 [Yamaguchi2026]). -/
 theorem abstractReciprocityTotallyRamifiedFiniteGaloisExtension_le_L
@@ -386,8 +389,8 @@ theorem abstractReciprocityTotallyRamifiedFiniteGaloisExtension_le_L
   exact C.galoisRefinement_le_field.trans
     (FiniteIntermediateField.compositum_le_right SigmaI LI)
 
-/-- The auxiliary reciprocity extension is fixed by the selected
-automorphism ([Yamaguchi 2026,
+/-- The auxiliary reciprocity extension contains the degree-one
+Frobenius fixed field: its subgroup lies below `G_Σ` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:284`]
 [Yamaguchi2026]). -/
 theorem abstractReciprocityTotallyRamifiedFiniteGaloisExtension_le_sigma
@@ -418,8 +421,8 @@ theorem abstractReciprocityTotallyRamifiedFiniteGaloisExtension_le_sigma
   exact C.galoisRefinement_le_field.trans
     (FiniteIntermediateField.compositum_le_left SigmaI LI)
 
-/-- The maximal unramified field lies below the auxiliary totally
-ramified reciprocity field ([Yamaguchi 2026,
+/-- The auxiliary reciprocity field is contained in the maximal
+unramified extension: `G_L̃` lies below its subgroup ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:312`]
 [Yamaguchi2026]). -/
 theorem maximalUnramifiedField_le_abstractReciprocityTotallyRamifiedFiniteGaloisExtension
