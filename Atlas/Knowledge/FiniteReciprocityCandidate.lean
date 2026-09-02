@@ -9,8 +9,8 @@ import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
-import Atlas.Knowledge.FrobeniusFixedField
 import Atlas.Knowledge.FrobeniusLiftDifference
+import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.ValuationData
 
@@ -45,16 +45,18 @@ value at zero (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
 The chosen-lift section stays at the source's `Type u`; the two
 representation-bearing sections are `Type` after the `Type`-pinned
-quotient-action chain, shed their enrichment `letI` bridges, the
-instances threading through by defeq, and shed the source's `[T2Space
-G]`, which was simply unused there — the ported statements are strictly
-more general than the source's. The zero lemma loses the source's
-`@[simp]`: the evaluation lemma's own `@[simp]` rewrites its left-hand
-side first, so as a pair they fail `simpNF`, and the evaluation lemma
-is the one simp can use. The `FiniteFieldUnitMaps` import is referenced
-by no name: it carries the transport instances that let the
-Frobenius-element binders synthesize across the residue enrichment. The
-citations name this file by bare basename; it lives at
+quotient-action chain, shed their enrichment `letI` bridges — the
+`FiniteFieldUnitMaps` transport instance stands in for them — and shed
+the source's `[T2Space G]`, which was simply unused there, so the
+ported statements are strictly more general than the source's. The zero
+lemma loses the source's `@[simp]`: the evaluation lemma's own
+`@[simp]` rewrites its left-hand side first, so as a pair they fail
+`simpNF`, and the evaluation lemma is the one simp can use. The
+source's `finiteReciprocityHom` section is cut at the candidate and
+closed here as `finiteReciprocityHomHead`; its remainder is the next
+brick. The `FiniteFieldUnitMaps` import is referenced by no name: it
+carries the transport instances above. The citations name this file by
+bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's `open`s go — the layer keeps everything in one namespace.
 
@@ -72,7 +74,6 @@ universe u
 
 section liftComparison
 
-/-! Mathlib's `Rep ℤ G` forces its representation-bearing group `G` to `Type 0`. -/
 variable {G : Type} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
@@ -180,7 +181,6 @@ end chosenFrobeniusLifts
 
 section finiteReciprocityHomHead
 
-/-! Mathlib's `Rep ℤ G` forces its representation-bearing group `G` to `Type 0`. -/
 variable {G : Type} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
