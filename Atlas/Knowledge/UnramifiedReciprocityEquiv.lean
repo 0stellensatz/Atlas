@@ -55,13 +55,16 @@ source's `degree.property`, the index identity the layer's
 `subgroup_index_eq_degree`, and the extension bundle the layer's
 top-level `AbstractExtension`. The generator calculation drops the
 source's enrichment `letI` re-anchor — the `FiniteFieldUnitMaps`
-transport instance stands in — and every declaration sheds the source's
-dead topology binders to the lint's fixpoint: `[T2Space G]` everywhere,
-and the generator-criterion trio its `[IsTopologicalGroup G]` and
-`[CompactSpace G]` too, all simply unused, so the ported statements are
-strictly more general than the source's. The `FiniteFieldUnitMaps`
-import is referenced by no name, carrying the transport instances
-above. The citations name this file by bare basename; it lives at
+transport instance stands in — and every declaration sheds dead
+topology binders to the lint's fixpoint: the generator-criterion trio
+its `[IsTopologicalGroup G]`, `[CompactSpace G]`, and `[T2Space G]`,
+all simply unused, so those statements are strictly more general than
+the source's; the other three their `[T2Space G]`, which was redundant
+— Hausdorff synthesizes from the topological-group and
+totally-disconnected binders they keep, so those statements are equally
+applicable. The `FiniteFieldUnitMaps` import is referenced by no name,
+carrying the transport instances above. The citations name this file by
+bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's `open`s go — the layer keeps everything in one namespace.
 
