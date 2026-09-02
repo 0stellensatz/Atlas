@@ -370,6 +370,7 @@ import Atlas.Knowledge.TateVanishingNormKernel
 import Atlas.Knowledge.TateVanishingNormSurjectivity
 import Atlas.Knowledge.TopologicalGeneration
 import Atlas.Knowledge.TotallyRamifiedFixedSource
+import Atlas.Knowledge.TotallyRamifiedFrobeniusLift
 import Atlas.Knowledge.TotallyRamifiedMonogenic
 import Atlas.Knowledge.TransferFrobeniusTerms
 import Atlas.Knowledge.TransferNaturality
