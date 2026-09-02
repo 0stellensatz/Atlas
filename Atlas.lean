@@ -304,6 +304,7 @@ import Atlas.Knowledge.ReciprocityIndependence
 import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.ReciprocityMapMul
 import Atlas.Knowledge.ReciprocityReductionArithmetic
+import Atlas.Knowledge.ReductionDiagramChases
 import Atlas.Knowledge.ReductionGaloisArrows
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
