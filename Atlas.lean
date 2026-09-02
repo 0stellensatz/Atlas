@@ -84,6 +84,7 @@ import Atlas.Knowledge.FilteredRhoMap
 import Atlas.Knowledge.FiniteAbstractExtension
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
+import Atlas.Knowledge.FiniteCommGroupCyclicFactors
 import Atlas.Knowledge.FiniteCyclicSubextension
 import Atlas.Knowledge.FiniteExtensionIsMixedCharLocalField
 import Atlas.Knowledge.FiniteExtensionTransitivity
@@ -303,6 +304,7 @@ import Atlas.Knowledge.ReciprocityIndependence
 import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.ReciprocityMapMul
 import Atlas.Knowledge.ReciprocityReductionArithmetic
+import Atlas.Knowledge.ReductionGaloisArrows
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.RelativeNormConjugation
