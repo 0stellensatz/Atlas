@@ -1,5 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.ClassFieldAxiom
+import Atlas.Knowledge.FiniteAbstractExtension
 import Atlas.Knowledge.FiniteAbstractFieldExtension
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FixedFieldInclusion
@@ -7,6 +8,7 @@ import Atlas.Knowledge.NormalizedValuationLaws
 import Atlas.Knowledge.ProfiniteInteger
 import Atlas.Knowledge.ReciprocityExactRows
 import Atlas.Knowledge.RelativeNormLaws
+import Atlas.Knowledge.TransferNormFrobeniusGeometry
 import Atlas.Knowledge.TransferNormNaturality
 import Atlas.Knowledge.ValuationData
 
@@ -20,6 +22,12 @@ reciprocity map through the abelianization, the Sylow-argument identity
 upgrade surjectivity to bijectivity and make the cyclic-tower norm map
 injective, and the totally ramified valuation endpoint that forces the
 constructed exponent to vanish (#104).
+
+## Main definitions
+
+* `abstractReciprocityAbelianizationFactor` — the canonical
+  factorization of an additive reciprocity map through the
+  abelianization.
 
 ## Main statements
 
@@ -38,20 +46,24 @@ The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `abstractReciprocity_zHat_nsmul_eq_natCast_forces_zero` to
 `abstractReciprocity_profiniteInteger_nsmul_eq_natCast_forces_zero` and
 turns `zHatReduction n hn` into `ProfiniteInteger.reduction n` under a
-`NeZero` instance — and `degree.property` is the layer's `degree.pos`.
-One `noncomputable section` holds two ambient-group scopes with a
-shadowing `variable` line between them, the way
-`Atlas.Knowledge.ReciprocityExactRows` does: seven declarations stay
-universe-polymorphic (two of them, the abelianization pair, mention no
-ambient group at all), while the two that consume the Type-pinned
-`abstractReciprocityNormMap` — the Sylow-argument identity and the
-cyclic-tower injectivity — follow the second, `{G : Type}`, variable
+`NeZero` instance — `degree.property` is the layer's `degree.pos`, and
+the calls to
+`transferNormNaturality_intermediateExtension_normal K M L hMK` shed
+the source's `hLM` the way the layer's slimmed form asks. One
+`noncomputable section` holds two ambient-group scopes with a shadowing
+`variable` line between them, the way
+`Atlas.Knowledge.ReciprocityExactRows` does: seven declarations precede
+it — the abelianization pair polymorphic in its own two groups and
+mentioning no ambient one, the profinite-integer step mentioning no
+group and no universe at all, the other four polymorphic in the ambient
+group — while the two that consume the Type-pinned
+`abstractReciprocityNormMap`, the Sylow-argument identity and the
+cyclic-tower injectivity, follow the second, `{G : Type}`, variable
 line, which moves them after the valuation endpoints relative to the
-source order.
-This completes `Reciprocity/Core.lean`: the two exact rows are the
-layer's `Atlas.Knowledge.ReciprocityExactRows`, and the `ValuationData`
-section stays deliberately unprovided per the interface decision
-recorded in `Atlas.Knowledge.ClassFieldAxiom`.
+source order. This completes `Reciprocity/Core.lean`: the two exact
+rows are the layer's `Atlas.Knowledge.ReciprocityExactRows`, and the
+`ValuationData` section stays deliberately unprovided per the interface
+decision recorded in `Atlas.Knowledge.ClassFieldAxiom`.
 
 One proof step departs: the `htower'` bridge in the valuation identity
 closes by `exact` where the source unfolds with a `simpa` — the layer's
@@ -72,9 +84,9 @@ universe u
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
-/-- An additive homomorphism from a (possibly noncommutative) Galois
+/-- **An additive homomorphism from a (possibly noncommutative) Galois
 group to an additive commutative group factors canonically through its
-abelianization — the factor map used in the first reduction once the
+abelianization** — the factor map used in the first reduction once the
 finite reciprocity equivalence supplies the reciprocity homomorphism
 ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Core.lean:890`][Yamaguchi2026]). -/
