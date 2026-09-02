@@ -12,9 +12,10 @@ import Atlas.Knowledge.FixedFieldInclusion
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.IntermediateGaloisTransfer
-import Atlas.Knowledge.NormalizedValuationLaws
 import Atlas.Knowledge.PrimeElement
+import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.RelativeNorm
+import Atlas.Knowledge.RelativeNormLaws
 import Atlas.Knowledge.TransferFrobeniusTerms
 import Atlas.Knowledge.TransferNormArithmetic
 import Atlas.Knowledge.TransferNormFrobeniusGeometry
@@ -22,7 +23,7 @@ import Atlas.Knowledge.UnitCohomologyAxiom
 import Atlas.Knowledge.ValuationData
 
 /-!
-# Transfer-norm naturality
+# Transfer–norm naturality
 
 The endpoint of the transfer arc: the norm witness summing conjugates
 over a right transversal, the norm identity of the right vertical
@@ -50,9 +51,12 @@ reciprocity commutes with transfer (#104).
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
-and the whole file is `Type` after the `Type`-pinned
-`finiteReciprocityHom` chain. The call sites adapt to the layer's
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
+The witness half generalizes to `Type u`, nothing pinning the source's
+universe device; the naturality half is `Type` after the `Type`-pinned
+`finiteReciprocityHom` chain, and its two flagships shed the source's
+`[T2Space G]`, Hausdorff being instance-derivable from the binders they
+keep. The call sites adapt to the layer's
 slimmed transfer family: every `hLK'`-shaped containment the
 `extensionSubgroup` abbrev consumed drops from the intermediate
 inclusion, subgroup, identification, transfer, transversal, and
@@ -60,8 +64,8 @@ normality-restriction calls, while this file's own witness, inclusion
 arrow, and privates keep theirs, which their statements still consume.
 The source's two evaluation `rfl`-lemma citations inline to bare `rfl`:
 the lemma they named lives in the source's Kummer assembly, outside the
-ported region, and both uses close definitionally. The citations name this file by bare
-basename; it lives at
+ported region, and both uses close definitionally. The citations name
+this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's namespace `open`s go, while `open MulAction` stays for the
 orbit vocabulary.
@@ -78,9 +82,11 @@ noncomputable section
 
 open MulAction
 
-section Representation
+section transferWitness
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /- The quotient action on the invariant carrier agrees with the
 relative coset action defining the norm
@@ -396,6 +402,12 @@ theorem transferNormNaturality_normQuotientInclusion_finiteNormClass
   rw [finiteNormQuotientLift_finiteNormClass]
   rfl
 
+end transferWitness
+
+section naturality
+
+variable {G : Type} [Group G] [TopologicalSpace G]
+
 namespace DegreeData
 
 /-- **Transfer–norm naturality on one Frobenius generator**: transfer
@@ -405,7 +417,7 @@ every positive Frobenius factor, and the prime norms are identified by
 ([Yamaguchi 2026, `MainTransfer.lean:928`][Yamaguchi2026]). -/
 theorem transferNormNaturality_generator_square
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology D)
     (F : FiniteAbstractFieldExtension G) (L : ClosedSubgroup G)
@@ -679,7 +691,7 @@ theorem transferNormNaturality_generator_square
 ([Yamaguchi 2026, `MainTransfer.lean:1203`][Yamaguchi2026]). -/
 theorem transferNormNaturality
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
-    [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
+    [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
     (hAxiom : v.SatisfiesUnramifiedUnitCohomology D)
     (F : FiniteAbstractFieldExtension G) (L : ClosedSubgroup G)
@@ -739,7 +751,7 @@ theorem transferNormNaturality
 
 end DegreeData
 
-end Representation
+end naturality
 
 end
 
