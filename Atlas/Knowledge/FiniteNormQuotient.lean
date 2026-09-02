@@ -1,5 +1,8 @@
 import Mathlib
+import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FixedFieldInclusion
+import Atlas.Knowledge.InfiniteNormSubgroup
+import Atlas.Knowledge.MaximalUnramifiedField
 
 /-!
 # finite norm quotient of an abstract extension
@@ -9,13 +12,19 @@ extension `L | K`, the quotient `A_K / N_{L|K} A_L` of the base fixed
 coefficients by the image of the relative norm — a stable public type rather
 than an abbreviation, with its class map, elimination and lifting principles,
 and the torsion bound: every class is killed by the degree, because the norm
-of an already-fixed element is its degree-fold sum (#104).
+of an already-fixed element is its degree-fold sum — together with the
+comparison from the maximal-unramified norm quotient, which carries the
+maximal-unramified class to its finite-level class (#104).
 
 ## Main definitions
 
 * `finiteNormSubgroup` / `FiniteNormQuotient` — the norm image and the
   quotient by it.
 * `finiteNormClass` / `finiteNormQuotientLift` — the class map and descent.
+* `DegreeData.fieldAsMaximalUnramifiedIntermediate` — `L` itself as a
+  finite intermediate field of `L̃ | K`.
+* `DegreeData.maximalUnramifiedToFiniteNormQuotient` — the canonical
+  quotient map.
 
 ## Main statements
 
@@ -23,6 +32,10 @@ of an already-fixed element is its degree-fold sum (#104).
   subgroup; proved.
 * `finiteNormQuotient_degree_nsmul_eq_zero` — the degree kills every class;
   proved.
+* `DegreeData.maximalUnramifiedNormSubgroup_le_finiteNormSubgroup` — the
+  defining intersection is contained in the finite norm image; proved.
+* `DegreeData.maximalUnramifiedToFiniteNormQuotient_maximalUnramifiedNormClass`
+  — the comparison carries class to class; proved.
 
 ## References
 
@@ -257,6 +270,88 @@ theorem finiteNormQuotient_degree_nsmul_eq_zero
   apply (finiteNormClass_eq_zero_iff A E.base E.field E.below _).2
   refine ⟨fixedFieldInclusion A E.base E.field E.below a, ?_⟩
   exact relativeNorm_fixedFieldInclusion A E a
+
+
+/-- **`L` itself as a finite intermediate field of `L̃ | K`**
+([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteNormQuotient.lean:226`]
+[Yamaguchi2026]). -/
+def DegreeData.fieldAsMaximalUnramifiedIntermediate (D : DegreeData G)
+    (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
+    [hfinite : Finite
+      (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup)] :
+    FiniteIntermediateField (D.maximalUnramifiedField L) K where
+  field := L
+  above := D.maximalUnramifiedField_le L
+  below := hLK
+  finite := hfinite
+
+/-- **The defining intersection for the infinite norm subgroup is
+contained in the norm image from the particular finite field `L`**
+([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteNormQuotient.lean:248`]
+[Yamaguchi2026]). -/
+theorem DegreeData.maximalUnramifiedNormSubgroup_le_finiteNormSubgroup
+    (D : DegreeData G) (A : Rep ℤ G)
+    (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
+    [hfinite : Finite
+      (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup)] :
+    D.maximalUnramifiedNormSubgroup A K L ≤
+      finiteNormSubgroup A K L hLK := by
+  rw [D.maximalUnramifiedNormSubgroup_eq_infiniteNormSubgroup]
+  rw [infiniteNormSubgroup]
+  refine iInf_le_of_le (D.fieldAsMaximalUnramifiedIntermediate K L hLK) ?_
+  rfl
+
+/- The infinite norm subgroup lies in the kernel of the finite class map
+([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteNormQuotient.lean:259`]
+[Yamaguchi2026]). -/
+private theorem
+    DegreeData.maximalUnramifiedNormSubgroup_le_finiteNormClassHom_ker
+    (D : DegreeData G) (A : Rep ℤ G)
+    (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
+    [hfinite : Finite
+      (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup)] :
+    D.maximalUnramifiedNormSubgroup A K L ≤
+      (finiteNormClassHom A K L hLK).ker := by
+  intro a ha
+  exact (finiteNormClass_eq_zero_iff A K L hLK a).2
+    (D.maximalUnramifiedNormSubgroup_le_finiteNormSubgroup A K L hLK ha)
+
+/-- **The canonical quotient map**
+`A_K/N_{L̃|K}A_{L̃} →+ A_K/N_{L|K}A_L` ([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteNormQuotient.lean:271`]
+[Yamaguchi2026]). -/
+def DegreeData.maximalUnramifiedToFiniteNormQuotient
+    (D : DegreeData G) (A : Rep ℤ G)
+    (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
+    [hfinite : Finite
+      (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup)] :
+    D.MaximalUnramifiedNormQuotient A K L →+
+      FiniteNormQuotient A K L hLK :=
+  D.maximalUnramifiedNormQuotientLift A K L
+    (finiteNormClassHom A K L hLK)
+    (D.maximalUnramifiedNormSubgroup_le_finiteNormClassHom_ker A K L hLK)
+
+/-- **The comparison to a finite norm quotient carries the
+maximal-unramified class to its finite-level class** ([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteNormQuotient.lean:284`]
+[Yamaguchi2026]). -/
+@[simp]
+theorem
+    DegreeData.maximalUnramifiedToFiniteNormQuotient_maximalUnramifiedNormClass
+    (D : DegreeData G) (A : Rep ℤ G)
+    (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
+    [hfinite : Finite
+      (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup)]
+    (a : ambientFixedAddSubgroup A K) :
+    D.maximalUnramifiedToFiniteNormQuotient A K L hLK
+        (D.maximalUnramifiedNormClass A K L a) =
+      finiteNormClass A K L hLK a := by
+  exact D.maximalUnramifiedNormQuotientLift_maximalUnramifiedNormClass
+    A K L (finiteNormClassHom A K L hLK)
+    (D.maximalUnramifiedNormSubgroup_le_finiteNormClassHom_ker A K L hLK) a
 
 end
 
