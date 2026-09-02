@@ -1,4 +1,7 @@
 import Mathlib
+import Atlas.Knowledge.AmbientFixedAddSubgroup
+import Atlas.Knowledge.ClassFieldAxiom
+import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FiniteReciprocityNaturalityNorm
@@ -7,6 +10,7 @@ import Atlas.Knowledge.IntermediateGaloisCorrespondence
 import Atlas.Knowledge.ReciprocityExactRows
 import Atlas.Knowledge.ReciprocityReductionArithmetic
 import Atlas.Knowledge.ReductionGaloisArrows
+import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.TransferNormNaturality
 
 /-!
@@ -24,6 +28,8 @@ chases the reductions apply to the reciprocity homomorphisms (#104).
 
 * `FiniteGaloisSubextension.intermediateNormMap` — the norm arrow for a
   possibly nonnormal intermediate field.
+* `FiniteGaloisSubextension.intermediateNormQuotientInclusion` — the
+  fixed-element inclusion `i` of the Sylow argument.
 
 ## Main statements
 
@@ -49,11 +55,12 @@ them, the way `Atlas.Knowledge.ReciprocityExactRows` does: the
 fixed-element inclusion pair, the two diagram chases, the commutator
 kernel lemma, and the two kernel arguments precede it (the chases and
 the commutator lemma polymorphic in their own groups and mentioning no
-ambient one), while the four declarations that consume the Type-pinned
+ambient one), while the four declarations pinned through
 `Atlas.Knowledge.finiteReciprocityNaturalityNormMap` or
-`Atlas.Knowledge.abstractReciprocityNormMap` — the norm-arrow trio and
-the maximal-unramified injectivity — follow the second, `{G : Type}`,
-variable line, which reorders both source sections' contents. This
+`Atlas.Knowledge.abstractReciprocityNormMap` — directly, or through
+`intermediateNormMap` for the composite identity — follow the second,
+`{G : Type}`, variable line, which reorders both source sections'
+contents. This
 completes `Reciprocity/Reduction.lean`: the `GroupOnly` section is the
 layer's `Atlas.Knowledge.ReductionGaloisArrows`.
 
@@ -75,8 +82,8 @@ namespace FiniteGaloisSubextension
 
 variable {K : ClosedSubgroup G}
 
-/-- Inclusion of fixed elements, descended to the two actual norm
-quotients — the map `i` in the Sylow argument ([Yamaguchi 2026,
+/-- **Inclusion of fixed elements, descended to the two actual norm
+quotients — the map `i` in the Sylow argument** ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Reduction.lean:100`]
 [Yamaguchi2026]). -/
 def intermediateNormQuotientInclusion (A : Rep ℤ G)
