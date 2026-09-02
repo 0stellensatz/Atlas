@@ -121,8 +121,8 @@ noncomputable def leftTransversalMapOfSurjective
     exact (congrArg e hrep).trans (e.apply_symm_apply q)
   exact ⟨Set.range u, Subgroup.isComplement_range_left hu⟩
 
-/-- **The descended transversal's representatives are the images of
-the original ones**
+/-- **The descended transversal's representatives are the images of the
+original ones**
 ([Yamaguchi 2026, `TransferNaturality.lean:101`][Yamaguchi2026]). -/
 @[simp]
 theorem leftTransversalMapOfSurjective_apply
@@ -244,8 +244,8 @@ private theorem leftTransversals_diff_natural_of_surjective
   apply Subtype.ext
   simp [e]
 
-/-- **Transfer is natural for a surjection whose kernel is contained
-in the finite-index subgroup** — both transfers are Mathlib's actual
+/-- **Transfer is natural for a surjection whose kernel is contained in
+the finite-index subgroup** — both transfers are Mathlib's actual
 `MonoidHom.transfer`, compared through a descended transversal term by
 term ([Yamaguchi 2026, `TransferNaturality.lean:216`][Yamaguchi2026]). -/
 theorem abelianization_transfer_natural_of_surjective
