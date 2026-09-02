@@ -13,10 +13,9 @@ import Atlas.Knowledge.TransferNormFrobeniusGeometry
 For a finite Galois tower `L | M | K`, the two rows of the abstract
 reciprocity diagram on the actual finite Galois groups and finite norm
 quotients: `1 → G(L/M) → G(L/K) → G(M/K) → 1` and
-`A_M / N_{L/M} A_L → A_K / N_{L/K} A_L → A_K / N_{M/K} A_M → 0`, with
-the canonical factorization data the reductions consume. No exactness or
-bijectivity statement is taken as an input; both rows are proved
-directly from quotient membership and norm transitivity (#104).
+`A_M / N_{L/M} A_L → A_K / N_{L/K} A_L → A_K / N_{M/K} A_M → 0`. No
+exactness or bijectivity statement is taken as an input; both rows are
+proved directly from quotient membership and norm transitivity (#104).
 
 ## Main definitions
 
@@ -45,11 +44,13 @@ source's `hLM`, and the layer's six-argument
 source's eight-argument call. `DegreeData.FiniteTower` is the layer's
 top-level `FiniteTower`. The file splits into two variable blocks the
 way `Atlas.Knowledge.finiteReciprocityNaturalityNormMap`'s own item
-does: the Galois row and the norm projection family stay
-universe-polymorphic, while the four declarations that consume the
-Type-pinned naturality norm map sit in a closing `{G : Type}` block —
-which moves the projection family ahead of `abstractReciprocityNormMap`
-relative to the source order. The source redeclares
+does: the Galois row keeps the source's per-declaration `Type*`
+generality, the norm projection family generalizes to `Type u` from the
+source's file-level `IntegralRepGroupType` pin (which only its
+`Rep`-machinery neighbours ever forced), and the four declarations that
+consume the Type-pinned naturality norm map sit under a second
+`{G : Type}` variable line — which moves the projection family ahead of
+`abstractReciprocityNormMap` relative to the source order. The source redeclares
 `{G : Type*} [Group G] [TopologicalSpace G]` on each group-only
 declaration to escape its file-level `IntegralRepGroupType`; the block
 structure makes that unnecessary here. Three containments the source's
@@ -76,8 +77,8 @@ universe u
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
-/-- The restriction `G(L/K) → G(M/K)` in the upper row
-([Yamaguchi 2026,
+/-- The restriction `G(L/K) → G(M/K)` in the upper row — the base
+containment is an inert semantic guard ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Core.lean:453`][Yamaguchi2026]). -/
 def abstractReciprocityRestriction
     (K M L : ClosedSubgroup G)
@@ -161,7 +162,8 @@ theorem abstractReciprocity_intermediateQuotient_finite
     (abstractReciprocityRestriction_surjective K M L hLM hMK)
 
 /-- The inclusion `G(L/M) → G(L/K)` in the upper row; normality of
-`L | M` is derived from normality of `L | K` ([Yamaguchi 2026,
+`L | M` is derived from normality of `L | K`, and the upper containment
+is an inert semantic guard ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Core.lean:539`][Yamaguchi2026]). -/
 def abstractReciprocityInclusion
     (K M L : ClosedSubgroup G)
@@ -236,8 +238,8 @@ theorem abstractReciprocity_galois_exact
       K.toSubgroup ⧸ M.toSubgroup.subgroupOf K.toSubgroup) = 1
     exact (QuotientGroup.eq_one_iff _).2 m.2
 
-/-- Finiteness of `L | K` also implies finiteness of `L | M`
-([Yamaguchi 2026,
+/-- Finiteness of `L | K` also implies finiteness of `L | M` — the
+upper containment is an inert semantic guard ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Core.lean:616`][Yamaguchi2026]). -/
 theorem abstractReciprocity_lowerExtension_finite
     (K M L : ClosedSubgroup G)
@@ -271,8 +273,8 @@ theorem abstractReciprocity_lowerExtension_finite
   have hG := Subgroup.mem_subgroupOf.1 hmem
   simpa using hG
 
-/-- Norm transitivity identifies the norm image from `L` with a
-subgroup of the norm image from `M` ([Yamaguchi 2026,
+/-- Norm transitivity identifies the norm image from `L` with a subgroup
+of the norm image from `M` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Core.lean:652`][Yamaguchi2026]). -/
 theorem abstractReciprocity_finiteNormSubgroup_le
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
@@ -381,16 +383,12 @@ theorem abstractReciprocityNormProjection_surjective
   exact ⟨finiteNormClass A K L (hLM.trans hMK) a, by
     rw [abstractReciprocityNormProjection_finiteNormClass]⟩
 
-end
-
-section
-
 variable {G : Type} [Group G] [TopologicalSpace G]
 
 /-- **The first arrow in the lower row, induced by `N_{M/K}`**
 ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Core.lean:677`][Yamaguchi2026]). -/
-noncomputable def abstractReciprocityNormMap
+def abstractReciprocityNormMap
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
     (hMK : M.toSubgroup ≤ K.toSubgroup)
