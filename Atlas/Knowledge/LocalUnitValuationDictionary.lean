@@ -128,7 +128,8 @@ theorem localHenselianValuation_valuationAt_abstractFixedFieldUnit_coe
 unit subgroup exactly when its concrete valuation vanishes — new to the
 layer; the source's nearest statement is the value-one prime reading
 ([Yamaguchi 2026,
-`LocalReciprocity/FixedFieldIntrinsicReciprocity/AmbientPrimeNormTransport.lean:235`][Yamaguchi2026]). -/
+`LocalReciprocity/FixedFieldIntrinsicReciprocity/AmbientPrimeNormTransport.lean:235`]
+[Yamaguchi2026]). -/
 theorem abstractFixedFieldUnit_mem_localHenselianValuation_unitAddSubgroup_iff
     (x : (abstractFixedField K (AlgebraicClosure K) Kb.field)ˣ) :
     abstractFixedFieldUnitsEquivGaloisFixed
