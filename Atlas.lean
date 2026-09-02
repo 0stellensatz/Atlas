@@ -298,6 +298,7 @@ import Atlas.Knowledge.RayClassField
 import Atlas.Knowledge.RayClassGroup
 import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
+import Atlas.Knowledge.ReciprocityExactRows
 import Atlas.Knowledge.ReciprocityIndependence
 import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.ReciprocityMapMul
