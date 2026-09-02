@@ -65,8 +65,10 @@ drop from the call; both `intermediateExtension_normal` sites drop the
 containment #175 shed; and the freed `hLK'` cascades off the whole
 inclusion family — eight declarations lose it, so their argument lists
 are one shorter than the source's. The dead-binder sweep sheds three
-topological-group instances and two Hausdorff ones, all simply
-unused. The citations name this file by bare
+topological-group instances and two Hausdorff ones, all simply unused.
+The three transversal helpers, private in the source, turn public: the
+naturality endpoint consumes them from the next brick, and `private`
+does not cross files. The citations name this file by bare
 basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's namespace `open`s go, while `open MulAction` stays for the
@@ -615,9 +617,9 @@ section GroupOnly
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
-/- A fixed choice of right-coset representatives for the intermediate
+/-- A fixed choice of right-coset representatives for the intermediate
 subgroup ([Yamaguchi 2026, `MainTransfer.lean:568`][Yamaguchi2026]). -/
-private noncomputable def chosenTransferNormNaturalityRightTransversal
+noncomputable def chosenTransferNormNaturalityRightTransversal
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
@@ -625,9 +627,9 @@ private noncomputable def chosenTransferNormNaturalityRightTransversal
     (transferNormNaturalityIntermediateSubgroup K K' L hK'K).RightTransversal :=
   ⟨Set.range Quotient.out, Subgroup.isComplement_range_right Quotient.out_eq'⟩
 
-/- Multiplication as the right-coset decomposition `G(L|K') × T ≃ G(L|K)`
+/-- Multiplication as the right-coset decomposition `G(L|K') × T ≃ G(L|K)`
 ([Yamaguchi 2026, `MainTransfer.lean:579`][Yamaguchi2026]). -/
-private noncomputable def transferNormNaturalityRightCosetProductEquiv
+noncomputable def transferNormNaturalityRightCosetProductEquiv
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
@@ -642,10 +644,10 @@ private noncomputable def transferNormNaturalityRightCosetProductEquiv
       (Equiv.refl _)).trans
     (chosenTransferNormNaturalityRightTransversal K K' L hK'K).2.equiv.symm
 
-/- The decomposition evaluates by inclusion and multiplication
+/-- The decomposition evaluates by inclusion and multiplication
 ([Yamaguchi 2026, `MainTransfer.lean:596`][Yamaguchi2026]). -/
 @[simp]
-private theorem transferNormNaturalityRightCosetProductEquiv_apply
+theorem transferNormNaturalityRightCosetProductEquiv_apply
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
