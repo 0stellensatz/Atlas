@@ -5,7 +5,7 @@
 -- `Development` is imported: `Challenge.lean` shares its namespace and so cannot enter the
 -- same environment, and is built by name instead.
 
-import Atlas.Knowledge.AbelianLocalArtinHom
+import Atlas.Knowledge.AbelianLocalArtinMonoidHom
 import Atlas.Knowledge.AbelianizedGaloisRecovery
 import Atlas.Knowledge.AbelianizedGaloisTransfer
 import Atlas.Knowledge.AbsoluteDegree

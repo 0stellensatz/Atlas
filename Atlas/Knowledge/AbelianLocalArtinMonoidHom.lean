@@ -9,7 +9,8 @@ For a finite abelian Galois extension of a mixed-characteristic local
 field, finite local reciprocity takes values in the actual Galois
 group, not merely its abelianization: the local Artin homomorphism
 `Kˣ →* Gal(L/K)`, surjective with kernel exactly the norm subgroup —
-the finite coordinate of the absolute Artin map (#104).
+what the absolute Artin map's finite coordinates are built from
+(#104).
 
 ## Main definitions
 
@@ -30,8 +31,13 @@ only the algebraic half — `IsLocalReciprocity` never asks for
 continuity of the reciprocity map, and the absolute assembly's dense
 range lives on the target side — so the topological file stays
 unported and the deferred profinite-completion claim keeps its own
-ledger. Everything else ports token-for-token; the file is the
-source's `LocalReciprocity/NormResidue.lean:26`–`:51`.
+ledger. The token `localArtinMonoidHom` here denotes the layer's
+finite law at the algebraic-closure ambient with its four supplied
+inputs, where the source's denotes its separable-closure form — the
+arc conventions recorded on
+`Atlas.Knowledge.FiniteLocalReciprocityLaw`. Everything else ports
+token-for-token; the file is the source's
+`LocalReciprocity/NormResidue.lean:26`–`:51`.
 
 ## References
 
