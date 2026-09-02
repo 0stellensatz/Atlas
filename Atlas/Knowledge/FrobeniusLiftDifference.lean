@@ -51,16 +51,18 @@ equal lifts (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
 The lift-algebra sections stay at the source's `Type u`; only the value
 theorem's section is `Type` after the `Type`-pinned quotient-action
-chain, and that theorem sheds its enrichment `letI` bridge, the
-instance threading through by defeq, and the source's `[T2Space G]`,
-which was simply unused there — the ported statement is strictly more
-general than the source's. The profinite integers are the layer's
-`ProfiniteInteger`, the tower is the layer's top-level `FiniteTower`,
-and the tower-finiteness call drops its first containment, the layer's
-form being instance-supplied. The `FiniteFieldUnitMaps` import is
-referenced by no name: it carries the transport instances that let the
-Frobenius-element binders synthesize across the residue enrichment. The
-citations name this file by bare basename; it lives at
+chain, and that theorem sheds its enrichment `letI` bridge — the
+`FiniteFieldUnitMaps` transport instance stands in for it — and the
+source's `[T2Space G]`, which was simply unused there, so the ported
+statement is strictly more general than the source's. The profinite
+integers are the layer's `ProfiniteInteger`, the tower is the layer's
+top-level `FiniteTower`, and the tower-finiteness call drops the
+redundant base containment the layer's form does without. The
+`AmbientFixedAddSubgroup` and `FiniteFieldUnitMaps` imports are
+referenced by no name: the first carries the statement-level type the
+norm quotient elaborates over, the second the transport instances that
+let the Frobenius-element binders synthesize across the residue
+enrichment. The citations name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's `open`s go — the layer keeps everything in one namespace.
 
@@ -123,8 +125,8 @@ theorem frobeniusLiftDifference_coe (D : DegreeData G)
   by simp [frobeniusLiftDifference]
 
 /-- **Multiplying the smaller lift by its quotient recovers the larger
-lift** ([Yamaguchi 2026, `MainFiniteReciprocity.lean:187`]
-[Yamaguchi2026]). -/
+lift**
+([Yamaguchi 2026, `MainFiniteReciprocity.lean:187`][Yamaguchi2026]). -/
 theorem mul_frobeniusLiftDifference (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -138,8 +140,8 @@ theorem mul_frobeniusLiftDifference (D : DegreeData G)
   simp
 
 /-- **When the two lifts restrict equally, their quotient restricts
-trivially** ([Yamaguchi 2026, `MainFiniteReciprocity.lean:201`]
-[Yamaguchi2026]). -/
+trivially**
+([Yamaguchi 2026, `MainFiniteReciprocity.lean:201`][Yamaguchi2026]). -/
 theorem frobeniusRestriction_frobeniusLiftDifference (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
