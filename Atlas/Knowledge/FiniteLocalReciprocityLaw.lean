@@ -13,10 +13,10 @@ import Atlas.Knowledge.UnitCohomologyDischarge
 extension `L/K` of a mixed-characteristic local field, reciprocity
 gives the canonical isomorphism `G(L/K)ᵃᵇ ≃* Kˣ/N_{L/K}(Lˣ)`, and the
 local norm-residue symbol `Kˣ →* G(L/K)ᵃᵇ` it inverts is surjective
-with kernel exactly the norm subgroup. Every input is a proved
-theorem of the layer: the residue degree datum, the Henselian
-valuation, the class-field axiom, and the unit-cohomology discharge —
-no hypothesis is threaded (#104).
+with kernel exactly the norm subgroup. Every input is supplied by the
+layer — the residue degree datum, the Henselian valuation, the
+class-field axiom, and the unit-cohomology discharge — and no
+hypothesis is threaded (#104).
 
 ## Main definitions
 
@@ -31,16 +31,17 @@ no hypothesis is threaded (#104).
 ## Implementation notes
 
 The isomorphism inserts the four local inputs into the transported
-reciprocity equivalence at the algebraic-closure ambient — the
-layer's arc convention, where the source works over its separable
-closure with the same statements — through the embedding
-`IsAlgClosed.lift`, with the extension's algebraicity conjured from
-finite-dimensionality. The source's embedding-independence pair
-(`Main.lean:41` and `:67`) is not ported: it routes through the
-skipped `ConcreteReciprocityCanonical.lean`, whose fixed ambient
-makes the arc's single chosen embedding canonical by construction.
-The threaded unit-cohomology hypothesis of the transport is
-discharged here by
+reciprocity equivalence at the algebraic-closure ambient — the layer's
+arc convention, where the source works over its separable closure with
+the same statements — and therefore through the generalized
+`OfEmbedding` form with `IsAlgClosed.lift`, since the chosen-embedding
+form stays pinned to the separable closure; the class-field axiom
+enters in its purpose-built algebraic-closure form. The source's
+embedding-independence pair (`Main.lean:41` and `:66`) is not ported:
+it routes through the skipped `ConcreteReciprocityCanonical.lean`,
+whose fixed ambient makes the arc's single chosen embedding canonical
+by construction. The threaded unit-cohomology hypothesis of the
+transport is discharged here by
 `Atlas.Knowledge.localHenselianValuation_satisfiesUnramifiedUnitCohomology`,
 so no reciprocity statement in this file carries it.
 
@@ -62,24 +63,23 @@ variable (K L : Type) [Field K] [Field L] [Algebra K L]
 
 /-- **Finite local reciprocity (the Local Reciprocity Law)**: for a
 finite Galois extension of a mixed-characteristic local field,
-reciprocity gives the canonical isomorphism
-`G(L/K)ᵃᵇ ≃ Kˣ/N_{L/K}(Lˣ)` ([Serre 1979, Chap. XIII, §4,
-pp.195–197][Serre1979]; the source counterpart over its separable
-closure is [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:33`]
+reciprocity gives the canonical isomorphism `G(L/K)ᵃᵇ ≃ Kˣ/N_{L/K}(Lˣ)`
+([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979]; the source
+counterpart over its separable closure is [Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:32`]
 [Yamaguchi2026]). -/
 noncomputable def abelianizationEquivNormQuotient :
     Abelianization (L ≃ₐ[K] L) ≃* NormQuotient K L :=
-  letI : Algebra.IsAlgebraic K L := Algebra.IsAlgebraic.of_finite K L
   concreteReciprocityEquivOfEmbedding K L (AlgebraicClosure K)
     IsAlgClosed.lift
     (localResidueDatum K) (localHenselianValuation K)
-    (galoisAmbientUnits_satisfiesClassFieldAxiom K (AlgebraicClosure K))
+    (algebraicClosureUnits_satisfiesClassFieldAxiom K)
     (localHenselianValuation_satisfiesUnramifiedUnitCohomology K)
 
 /-- **The local norm-residue symbol**: the inverse of reciprocity,
-preceded by the quotient map from `Kˣ` ([Serre 1979, Chap. XIII, §4,
-pp.195–197][Serre1979]; the source counterpart is [Yamaguchi 2026,
+preceded by the quotient map from `Kˣ`
+([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979]; the source
+counterpart is [Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:57`]
 [Yamaguchi2026]). -/
 noncomputable def localArtinMonoidHom :
@@ -87,7 +87,8 @@ noncomputable def localArtinMonoidHom :
   (abelianizationEquivNormQuotient K L).symm.toMonoidHom.comp
     (normClass K L)
 
-/-- The local norm-residue symbol is surjective ([Yamaguchi 2026,
+/-- The local norm-residue symbol is surjective
+([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979]; [Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:85`]
 [Yamaguchi2026]). -/
 theorem localArtinMonoidHom_surjective :
@@ -96,7 +97,8 @@ theorem localArtinMonoidHom_surjective :
     (QuotientGroup.mk'_surjective (localNormSubgroup K L))
 
 /-- **The kernel of the local norm-residue symbol is exactly the norm
-subgroup** `N_{L/K}(Lˣ)` ([Yamaguchi 2026,
+subgroup** `N_{L/K}(Lˣ)`
+([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979]; [Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:92`]
 [Yamaguchi2026]). -/
 theorem localArtinMonoidHom_ker :
