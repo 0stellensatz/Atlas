@@ -53,6 +53,7 @@ import Atlas.Knowledge.DecompositionResidueExactSequence
 import Atlas.Knowledge.DeepUnitGroup
 import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.DigitSum
+import Atlas.Knowledge.DoubleCosetOrbitGeometry
 import Atlas.Knowledge.EisensteinFieldInvariant
 import Atlas.Knowledge.EisensteinGraph
 import Atlas.Knowledge.EisensteinJumpPair
