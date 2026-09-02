@@ -70,8 +70,8 @@ to the lint's fixpoint: eight declarations shed
 `Internal` namespace is flattened — the layer keeps everything in one
 namespace — and four of its five private helpers turn public: the file
 split puts their consumers in the next brick, and `private` does not
-cross files; the orbit-representative sum stays private. The
-citations name this file by bare basename; it lives at
+cross files; the orbit-representative sum stays private. The citations
+name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's namespace `open`s go, while `open MulAction` stays for the
 orbit vocabulary.

@@ -1,6 +1,6 @@
 import Mathlib
+import Atlas.Knowledge.AbstractExtension
 import Atlas.Knowledge.AmbientFixedAddSubgroup
-import Atlas.Knowledge.ChosenPrimeElement
 import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
@@ -13,7 +13,6 @@ import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.NormalizedValuationLaws
 import Atlas.Knowledge.PrimeElement
 import Atlas.Knowledge.RelativeNorm
-import Atlas.Knowledge.RelativeNormConjugation
 import Atlas.Knowledge.RelativeNormDoubleCoset
 import Atlas.Knowledge.RelativeNormLaws
 import Atlas.Knowledge.TransferFrobeniusTerms
@@ -25,7 +24,7 @@ import Atlas.Knowledge.ValuationData
 
 The arithmetic half of transfer–norm naturality: the fiber of one
 transfer double coset carries the norm of the conjugated prime, the
-transferred fixed field lies unramified inside the conjugate field so
+transferred fixed field extends the conjugate field unramifiedly so
 conjugated primes stay prime, the included norm `N_{Σ|K}(π)` is the sum
 over transfer double cosets of the `N_{Σₜ|K'}(πᵗ)`, and the classical
 abelianized transfer with its double-coset formula (#104).
@@ -38,7 +37,7 @@ abelianized transfer with its double-coset formula (#104).
 ## Main statements
 
 * `DegreeData.transferNormNaturalityTransferFrobenius_fixedField_le_conjugate`
-  — `Σₜ` lies in the conjugate field; proved.
+  — `Σₜ` contains the conjugate field; proved.
 * `DegreeData.transferNormNaturalityTransferFrobenius_fixedField_isUnramified_conjugate`
   — the extension `Σₜ | Σᵗ` is unramified; proved.
 * `DegreeData.transferNormNaturalityTransferFrobenius_conjugatePrime_isPrime`
@@ -51,13 +50,17 @@ abelianized transfer with its double-coset formula (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
-with `Subgroup.mem_subgroupOf` for the source's membership rule, and
+with `Subgroup.mem_subgroupOf` — its explicit arguments dropped, the
+layer's rule taking them implicitly — for the source's membership rule,
+and
 the whole file stays at `Type u` — nothing here pins the
 representation-bearing sections, so they generalize the source's
 universe device. The tower literal is the layer's top-level
 `FiniteTower`, the conjugate bundle its `FiniteAbstractField.conjugate`
 form, and the source's `Internal` namespace is flattened, the #176
-rule. The containment-consuming call sites adapt to the layer's
+rule. Four of the sibling's private helpers turn public in this same
+change: their consumers live here, and `private` does not cross
+files. The containment-consuming call sites adapt to the layer's
 containment-free forms — the stabilizer-iff site drops two arguments,
 the tower-finiteness site one, and both normality-restriction sites
 one, the containment #175 shed — and the dead-binder sweep runs to the
@@ -278,8 +281,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
-/-- **The fixed field `Σₜ` of a transfer Frobenius factor is contained
-in the conjugate field `Σᵗ`** — on absolute groups, `G_{Σₜ} ≤ G_{Σᵗ}`
+/-- **The fixed field `Σₜ` of a transfer Frobenius factor contains the
+conjugate field `Σᵗ`** — on absolute groups, `G_{Σₜ} ≤ G_{Σᵗ}`
 ([Yamaguchi 2026, `MainTransferFrobenius.lean:1024`][Yamaguchi2026]). -/
 theorem transferNormNaturalityTransferFrobenius_fixedField_le_conjugate
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
