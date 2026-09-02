@@ -21,10 +21,10 @@ source's Tate-cohomology derivation (#104).
 
 ## Main statements
 
-* `localHenselianValuation_satisfiesUnramifiedUnitCohomology` — the
-  local datum satisfies the unramified-unit-cohomology axiom; proved.
 * `unitRepresentation_primitive_of_unramifiedUnitPrimitive` — the
   unit-representation transport of the generator primitive; proved.
+* `localHenselianValuation_satisfiesUnramifiedUnitCohomology` — the
+  local datum satisfies the unramified-unit-cohomology axiom; proved.
 
 ## Implementation notes
 
@@ -42,9 +42,9 @@ generator device term-modes the template's rewrite — the mixed
 absolute-Galois-group instance spellings tolerate exact-level
 definitional bridging but not rewriting. The transport lemma takes the
 two concrete facts as explicit hypotheses, so the dictionary layer and
-the discharge stay separately testable ([Milne 2020, Chap. III, §1,
-Prop. 1.1 and Prop. 1.2, pp.97–98][MilneCFT] is the mathematical
-content, through the layer's own routes).
+the discharge stay separately testable. Neither declaration has a
+source counterpart: at the pin the source holds no proof of the
+predicate outside its abstract Tate-cohomology derivation.
 
 ## References
 
@@ -60,9 +60,10 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-/-- The unit-representation reading of the `σ − 1` primitive: from the
-concrete unramified-unit-primitive input at the fixed fields and the
-one-directional unit dictionary, the second conjunct of the axiom holds. -/
+/-- The unit-representation transport: from the concrete unit
+membership and generator-primitive facts, the second conjunct of the
+unramified-unit-cohomology axiom, elementwise — new to the layer, with
+no source counterpart (#104). -/
 theorem unitRepresentation_primitive_of_unramifiedUnitPrimitive
     (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K]
@@ -326,8 +327,12 @@ theorem unitRepresentation_primitive_of_unramifiedUnitPrimitive
   rw [hstep]
   exact add_sub_cancel_right u εV
 
-/-- **The discharge**: the valuation datum of a mixed-characteristic local
-field satisfies the unramified-unit-cohomology axiom. -/
+/-- **The discharge**: the valuation datum of a mixed-characteristic
+local field satisfies the unramified-unit-cohomology axiom — the direct
+local proof `Atlas.Knowledge.ClassFieldAxiom`'s notes promised in place
+of the source's Tate-cohomology derivation; the mathematical content is
+the cohomological triviality of unramified units ([Milne 2020, Chap.
+III, §1, Prop. 1.1 and Prop. 1.2, pp.97–98][MilneCFT]). -/
 theorem localHenselianValuation_satisfiesUnramifiedUnitCohomology
     (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] :

@@ -30,9 +30,10 @@ two degrees. Membership in the abstract unit subgroup is definitionally
 the vanishing of the abstract valuation — the corollary bridges by type
 ascription, never by rewriting at the membership site, because the two
 spellings of the absolute Galois group's instances agree only
-definitionally. Neither statement is ported: the source never reads its
-abstract valuation concretely, deriving the unit-cohomology axiom
-abstractly instead.
+definitionally. The valuation reading has a near-token counterpart in
+the source, in its `valuationMap` and separable-closure vocabulary; the
+membership corollary does not — the source needs the value-one case,
+prime elements, and never the value-zero case.
 
 ## References
 
@@ -56,9 +57,13 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [ValuativeExtension K (abstractFixedField K (AlgebraicClosure K) Kb.field)]
   [IsMixedCharLocalField (abstractFixedField K (AlgebraicClosure K) Kb.field)]
 
-/-- The valuation reading: the abstract normalized valuation of a fixed-field
-unit, read through the unit dictionary, is the concrete normalized valuation
-embedded in the profinite integers. -/
+/-- The valuation reading: the abstract normalized valuation of the
+local Henselian datum, at a fixed-field unit through the unit
+dictionary, is the concrete normalized valuation of the fixed field
+([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldLocalData.lean:86`]
+[Yamaguchi2026], the source counterpart in its `valuationMap` and
+separable-closure vocabulary). -/
 theorem localHenselianValuation_valuationAt_abstractFixedFieldUnit_coe
     (x : (abstractFixedField K (AlgebraicClosure K) Kb.field)ˣ) :
     (((localHenselianValuation K).valuationAt Kb
@@ -119,8 +124,11 @@ theorem localHenselianValuation_valuationAt_abstractFixedFieldUnit_coe
               (abstractFixedField K (AlgebraicClosure K) Kb.field) x) :=
         map_nsmul _ _ _
 
-/-- The membership corollary: a fixed-field unit lands in the abstract unit
-subgroup exactly when its concrete normalized valuation vanishes. -/
+/-- The membership corollary: a fixed-field unit lands in the abstract
+unit subgroup exactly when its concrete valuation vanishes — new to the
+layer; the source's nearest statement is the value-one prime reading
+([Yamaguchi 2026,
+`LocalReciprocity/FixedFieldIntrinsicReciprocity/AmbientPrimeNormTransport.lean:235`][Yamaguchi2026]). -/
 theorem abstractFixedFieldUnit_mem_localHenselianValuation_unitAddSubgroup_iff
     (x : (abstractFixedField K (AlgebraicClosure K) Kb.field)ˣ) :
     abstractFixedFieldUnitsEquivGaloisFixed
