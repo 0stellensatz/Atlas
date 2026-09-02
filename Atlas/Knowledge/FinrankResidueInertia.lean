@@ -23,25 +23,29 @@ ones (#104).
   the residue degree times the inertia order; proved.
 * `residueFinrank_mul_residueFinrank` — the residue degree is
   multiplicative along a valuative tower; proved.
+* `valuativeExtension_trans` — valuative extensions compose along a
+  scalar tower; proved.
 
 ## Implementation notes
 
 The identity assembles the layer's ideal-model lemmas: the maximal
 ideal maps to the power of the inertia order in the
 `𝒪[K]`-integral-closure model, transported to the `𝒪[F]`-model along
-the carrier identifications, where Mathlib's local fundamental
-identity and the inertia-degree reading on residue fields close it.
-The middle field's topology never appears in the statement — the
-mixed-characteristic structure the residue reading needs upstairs is
-conjured inside the proof from the valuative topology. The tower
-lemma is the residue-field `finrank` tower; its one load-bearing step
-is the integer-level `IsScalarTower`, from which Mathlib's residue
-tower instance fires. Neither statement is ported: the source's
+the carrier identifications, where Mathlib's local fundamental identity
+and the inertia-degree reading on residue fields close it. The model
+transport mirrors, in reverse, the block its dependency runs internally
+— exposing the intermediate `𝒪[F]`-model form upstream would collapse
+it, a cleanup-pass item on the ledger. The middle field's topology
+never appears in the statement — the mixed-characteristic structure the
+residue reading needs upstairs is conjured inside the proof from the
+valuative topology. The tower lemma is the residue-field `finrank`
+tower; its one load-bearing step is the integer-level `IsScalarTower`,
+and its base-to-top extension witness is derived by the transitivity
+item rather than bound. Neither flagship is ported: the source's
 counterpart of the identity is
 `LocalFieldTheory/NonarchimedeanLocalField/ResidueExtension.lean:362`
 in its own model vocabulary, and the tower lemma formalizes no
-literature statement beyond the `finrank` tower of the residue
-extensions.
+literature statement beyond the `finrank` tower of the residue degrees.
 
 ## References
 
@@ -57,15 +61,28 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
+/-- Valuative extensions compose along a scalar tower. -/
+theorem valuativeExtension_trans
+    (K F E : Type*) [Field K] [ValuativeRel K] [Field F] [ValuativeRel F]
+    [Field E] [ValuativeRel E]
+    [Algebra K F] [Algebra F E] [Algebra K E] [IsScalarTower K F E]
+    [ValuativeExtension K F] [ValuativeExtension F E] :
+    ValuativeExtension K E :=
+  ⟨fun a b => by
+    rw [IsScalarTower.algebraMap_apply K F E,
+      IsScalarTower.algebraMap_apply K F E,
+      ValuativeExtension.vle_iff_vle, ValuativeExtension.vle_iff_vle]⟩
+
 /-- The residue-field degree is multiplicative along a valuative tower
 of fields: `[𝓀[E] : 𝓀[K]] = [𝓀[F] : 𝓀[K]] · [𝓀[E] : 𝓀[F]]` — the
-`finrank` tower of the residue extensions of [Serre 1979, Chap. I,
+`finrank` tower of the residue degrees `f` of [Serre 1979, Chap. I,
 §4, p.14][Serre1979]. -/
 theorem residueFinrank_mul_residueFinrank
     (K F E : Type*) [Field K] [ValuativeRel K] [Field F] [ValuativeRel F]
     [Field E] [ValuativeRel E]
     [Algebra K F] [Algebra F E] [Algebra K E] [IsScalarTower K F E]
-    [ValuativeExtension K F] [ValuativeExtension F E] [ValuativeExtension K E] :
+    [ValuativeExtension K F] [ValuativeExtension F E]
+    [ValuativeExtension K E] :
     Module.finrank 𝓀[K] 𝓀[E] =
       Module.finrank 𝓀[K] 𝓀[F] * Module.finrank 𝓀[F] 𝓀[E] := by
   haveI : IsScalarTower ↥𝒪[K] ↥𝒪[F] ↥𝒪[E] :=

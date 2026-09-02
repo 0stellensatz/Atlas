@@ -28,25 +28,28 @@ axiom quantifies over (#104).
 
 ## Implementation notes
 
-The route is cardinality arithmetic, not inertia lifting: abstractly
-an unramified extension has residue degree equal to its degree, the
-degree reads as the concrete field degree through the extension
-quotient, the residue degrees read as concrete residue finranks
-through the base dictionary at both endpoints and the residue tower,
-and the concrete fundamental identity `n = f · #G₀` then forces the
-inertia order to one. The two `restrictScalars` transport lemmas
-carry the valuative structure between the relative and absolute
-spellings of the top fixed field — the two spellings' coercions are
-not definitionally equal, and the transport substitutes along the
-propositional identification with the structures aligned by `HEq`.
-The statement takes the valuative structures as instance binders in
-the C-phase pattern; the discharge's assembly supplies them from its
-extension chain. This direction has no source counterpart: the
-source's comparison of the two unramifiedness notions is the
-realization-side converse ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:291`]
-[Yamaguchi2026]), and its local-reciprocity arc never needs this one
-because its unit-cohomology axiom is derived through the
+The route is cardinality arithmetic, not inertia lifting: abstractly an
+unramified extension has residue degree equal to its degree, the degree
+reads as the concrete field degree through the extension quotient, the
+residue degrees read as concrete residue finranks through the base
+dictionary at both endpoints and the residue tower, and the concrete
+fundamental identity `n = f · #G₀` then forces the inertia order to
+one. The relative and absolute spellings of the top fixed field are
+definitionally equal —
+`IntermediateField.extendScalars_restrictScalars` is `rfl` — so the
+relative-spelling binders serve the absolute spelling directly,
+re-registered by `letI` only because instance search keys on the
+spelling. The statement takes the valuative structures as instance
+binders in the C-phase pattern, with the base-to-top witness derived by
+`Atlas.Knowledge.valuativeExtension_trans`; the discharge's assembly
+supplies the rest from its extension chain. The source implements this
+direction only absolutely, on upper ramification groups over its
+separable closure
+(`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/AbstractUnramified.lean:145`
+and `:256`, with upper-at-zero the inertia group by
+`RamificationTheory/LocalField/Unramified.lean:169`), never in the
+relative `lowerRamificationGroup` spelling; and its unit-cohomology
+axiom never consumes any of it — that axiom is derived through the
 Tate-cohomology reading the layer replaces.
 
 ## References
@@ -61,48 +64,12 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-section General
-
-variable {K : Type*} [Field K] [ValuativeRel K]
-  {Ω : Type*} [Field Ω] [Algebra K Ω]
-  {F : IntermediateField K Ω}
-
-/-- Transport of a `ValuativeExtension` witness from a relative
-intermediate field to an absolute spelling of the same field, along a
-propositional identification of its `restrictScalars` with the
-absolute spelling, given that the valuative structures agree. -/
-theorem valuativeExtension_of_restrictScalars_eq
-    (E' : IntermediateField F Ω) (L : IntermediateField K Ω)
-    (h : E'.restrictScalars K = L)
-    [vE : ValuativeRel E'] [ValuativeExtension K E']
-    [vL : ValuativeRel L] (hv : HEq vE vL) :
-    ValuativeExtension K L := by
-  subst h
-  obtain rfl := eq_of_heq hv
-  exact ‹ValuativeExtension K E'›
-
-/-- The residue degree over the base is spelling-independent: the
-relative and absolute readings of one intermediate field carry the
-same residue finrank when their valuative structures agree. -/
-theorem residue_finrank_of_restrictScalars_eq
-    (E' : IntermediateField F Ω) (L : IntermediateField K Ω)
-    (h : E'.restrictScalars K = L)
-    [vE : ValuativeRel E'] [ValuativeExtension K E']
-    [vL : ValuativeRel L] [ValuativeExtension K L]
-    (hv : HEq vE vL) :
-    Module.finrank 𝓀[K] 𝓀[L] = Module.finrank 𝓀[K] 𝓀[E'] := by
-  subst h
-  obtain rfl := eq_of_heq hv
-  rfl
-
-end General
-
 /-- **The top-field residue dictionary in the relative spelling**: the
 abstract residue degree of the top field of a finite unramified cyclic
 extension is the residue finrank of its relative fixed field
 ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:123`]
-[Yamaguchi2026], read through the spelling transport). -/
+[Yamaguchi2026], read at the relative spelling). -/
 theorem localResidueDatum_residueDegree_top_eq_relativeResidueFinrank
     (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K]
@@ -117,39 +84,23 @@ theorem localResidueDatum_residueDegree_top_eq_relativeResidueFinrank
           (localResidueDatum K) : ℕ) =
       Module.finrank 𝓀[K]
         𝓀[abstractRelativeFixedField K (AlgebraicClosure K) Eb.below] := by
-  have hres : (abstractRelativeFixedField
-        K (AlgebraicClosure K) Eb.below).restrictScalars K =
-      abstractFixedField K (AlgebraicClosure K) Eb.field :=
-    IntermediateField.extendScalars_restrictScalars _
   letI vT : ValuativeRel
-      (abstractFixedField K (AlgebraicClosure K) Eb.field) :=
-    cast (congrArg
-        (fun X : IntermediateField K (AlgebraicClosure K) => ValuativeRel X)
-        hres)
-      (valE : ValuativeRel
-        ((abstractRelativeFixedField
-          K (AlgebraicClosure K) Eb.below).restrictScalars K))
-  have hv : HEq valE vT := (cast_heq _ _).symm
+      (abstractFixedField K (AlgebraicClosure K) Eb.field) := valE
   letI wT : ValuativeExtension K
-      (abstractFixedField K (AlgebraicClosure K) Eb.field) :=
-    valuativeExtension_of_restrictScalars_eq _ _ hres hv
+      (abstractFixedField K (AlgebraicClosure K) Eb.field) := valKE
   letI : FiniteDimensional K
       (abstractFixedField K (AlgebraicClosure K) Eb.field) :=
     abstractFixedField_finiteDimensional
       K (AlgebraicClosure K) Eb.field inferInstance
-  calc ((⟨Eb.field, inferInstance⟩ : FiniteAbstractField
-        (Field.absoluteGaloisGroup K)).residueDegree
-          (localResidueDatum K) : ℕ)
-      = Module.finrank 𝓀[K]
-          𝓀[abstractFixedField K (AlgebraicClosure K) Eb.field] :=
-        localResidueDatum_residueDegree_eq_residueFinrank
-          K ⟨Eb.field, inferInstance⟩
-    _ = Module.finrank 𝓀[K]
-          𝓀[abstractRelativeFixedField K (AlgebraicClosure K) Eb.below] :=
-        residue_finrank_of_restrictScalars_eq _ _ hres hv
+  exact localResidueDatum_residueDegree_eq_residueFinrank
+    K ⟨Eb.field, inferInstance⟩
 
-set_option synthInstance.maxHeartbeats 400000 in
-set_option maxHeartbeats 800000 in
+-- The residue-field module synthesis over the two fixed fields outruns the
+-- default synthesis budget.
+set_option synthInstance.maxHeartbeats 40000 in
+-- The `rfl` bridge between the two extension bundles and the cardinality
+-- chain overrun the default elaboration budget.
+set_option maxHeartbeats 300000 in
 /-- **Abstract unramifiedness gives trivial concrete inertia**: a
 finite unramified cyclic extension of the local datum has trivial
 zeroth ramification group at its fixed fields — the inertia half of
@@ -171,12 +122,15 @@ theorem lowerRamificationGroup_eq_bot_of_isUnramified
     [valE : ValuativeRel
       (abstractRelativeFixedField K (AlgebraicClosure K) Eb.below)]
     [ValuativeExtension (abstractFixedField K (AlgebraicClosure K) Kb.field)
-      (abstractRelativeFixedField K (AlgebraicClosure K) Eb.below)]
-    [valKE : ValuativeExtension K
       (abstractRelativeFixedField K (AlgebraicClosure K) Eb.below)] :
     lowerRamificationGroup
       (abstractFixedField K (AlgebraicClosure K) Kb.field)
       (abstractRelativeFixedField K (AlgebraicClosure K) Eb.below) 0 = ⊥ := by
+  letI : ValuativeExtension K
+      (abstractRelativeFixedField K (AlgebraicClosure K) Eb.below) :=
+    valuativeExtension_trans K
+      (abstractFixedField K (AlgebraicClosure K) Kb.field)
+      (abstractRelativeFixedField K (AlgebraicClosure K) Eb.below)
   let Exa := Eb.toFiniteAbstractFieldExtension.toFiniteAbstractExtension
   -- the abstract arithmetic: unramified means the degree is the residue degree
   have h2 : (Exa.residueDegree (localResidueDatum K) : ℕ) = (Exa.degree : ℕ) :=
