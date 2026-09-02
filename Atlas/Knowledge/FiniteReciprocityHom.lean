@@ -10,6 +10,7 @@ import Atlas.Knowledge.FrobeniusDescent
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.PrimeElement
+import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.UnitCohomologyAxiom
 import Atlas.Knowledge.ValuationData
@@ -22,8 +23,7 @@ on the finite Galois group: the product lift comparison, the
 lift-independence and additivity of the candidate under semigroup
 additivity, the conditional homomorphism, and — discharging the
 additivity input from reciprocity multiplicativity — the finite
-reciprocity homomorphism with its prime-norm evaluation formula
-(#104).
+reciprocity homomorphism with its prime-norm evaluation formula (#104).
 
 ## Main definitions
 
@@ -49,11 +49,9 @@ source's. The product comparison's statement drops the source's
 enrichment `letI` re-anchor and the additivity proof its twin — the
 `FiniteFieldUnitMaps` transport instance stands in — and the additivity
 proof's restriction rewrite closes with an explicit `rfl` the source's
-`rw` closed silently. The `AmbientFixedAddSubgroup` and
-`FiniteFieldUnitMaps` imports are referenced by no name: the first
-carries the statement-level type the norm quotient elaborates over, the
-second the transport instances above. The citations name this file by
-bare basename; it lives at
+`rw` closed silently. The `FiniteFieldUnitMaps` import is referenced by
+no name: it carries the transport instances above. The citations name
+this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's `open`s go — the layer keeps everything in one namespace.
 
