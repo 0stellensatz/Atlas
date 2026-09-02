@@ -13,7 +13,10 @@ field whose lower quotient `G(L/M)` is a `p`-group — hence solvable —
 while `[M:K] = (G(L/K) : P)` is prime to `p`; and in a possibly
 infinite abelian target, every Sylow `p`-subgroup lies in the image of
 the `[M:K]`-fold map, the input the identity `N_{M/K} ∘ i = [M:K]`
-later converts into norm-map containment (#104).
+later converts into norm-map containment. The ambient norm quotient is
+at this point only known to have bounded exponent, so the
+abelian-target lemma assumes no finiteness — no reciprocity
+surjectivity or finite-reciprocity comparison enters (#104).
 
 ## Main statements
 
@@ -56,7 +59,7 @@ namespace FiniteGaloisSubextension
 variable {K : ClosedSubgroup G}
 
 /-- For `M = L^P`, the actual lower quotient `G(L/M)` is a `p`-group —
-the identification `G(L/M) ≅ P` applied to an actual Sylow subgroup of
+the identification `G(L/M) ≃ P` applied to an actual Sylow subgroup of
 the actual finite quotient `G(L/K)` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Sylow.lean:43`][Yamaguchi2026]). -/
 theorem abstractReciprocity_sylow_lowerQuotient_isPGroup
