@@ -34,25 +34,27 @@ proved directly from quotient membership and norm transitivity (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, so
-`mem_extensionSubgroup_iff` becomes Mathlib's `Subgroup.mem_subgroupOf`.
-Calls to the layer's slimmed transfer forms shed the containments those
-items stopped asking for:
+`mem_extensionSubgroup_iff` becomes Mathlib's
+`Subgroup.mem_subgroupOf`. Calls to the layer's slimmed transfer forms
+shed the containments those items stopped asking for:
 `transferNormNaturality_intermediateExtension_normal K M L hMK` and
 `transferNormNaturalityIntermediateInclusion K M L hMK` drop the
 source's `hLM`, and the layer's six-argument
-`finiteReciprocityNaturalityRestriction K K M L le_rfl hLM` replaces the
-source's eight-argument call. `DegreeData.FiniteTower` is the layer's
-top-level `FiniteTower`. The file splits into two variable blocks the
-way `Atlas.Knowledge.finiteReciprocityNaturalityNormMap`'s own item
-does: the Galois row keeps the source's per-declaration `Type*`
-generality, the norm projection family generalizes to `Type u` from the
-source's file-level `IntegralRepGroupType` pin (which only its
-`Rep`-machinery neighbours ever forced), and the four declarations that
-consume the Type-pinned naturality norm map sit under a second
-`{G : Type}` variable line — which moves the projection family ahead of
-`abstractReciprocityNormMap` relative to the source order. The source redeclares
+`finiteReciprocityNaturalityRestriction K K M L le_rfl hLM` replaces
+the source's eight-argument call. `DegreeData.FiniteTower` is the
+layer's top-level `FiniteTower`. One `noncomputable section` holds two
+ambient-group scopes, a shadowing `variable` line between them as in
+`Atlas.Knowledge.finiteReciprocityNaturalityNormMap`'s own item, though
+bare where that item names its sections: the Galois row keeps the
+source's per-declaration `Type*` generality, the norm projection family
+generalizes to `Type u` from the source's file-level
+`IntegralRepGroupType` pin (which only its `Rep`-machinery neighbours
+ever forced), and the four declarations that consume the Type-pinned
+naturality norm map follow the second, `{G : Type}`, variable line —
+which moves the projection family ahead of `abstractReciprocityNormMap`
+relative to the source order. The source redeclares
 `{G : Type*} [Group G] [TopologicalSpace G]` on each group-only
-declaration to escape its file-level `IntegralRepGroupType`; the block
+declaration to escape its file-level `IntegralRepGroupType`; the scope
 structure makes that unnecessary here. Three containments the source's
 `extensionSubgroup` statements consumed go inert under the spelling and
 stay as underscore-named semantic guards, keeping every arity the
@@ -238,8 +240,8 @@ theorem abstractReciprocity_galois_exact
       K.toSubgroup ⧸ M.toSubgroup.subgroupOf K.toSubgroup) = 1
     exact (QuotientGroup.eq_one_iff _).2 m.2
 
-/-- Finiteness of `L | K` also implies finiteness of `L | M` — the
-upper containment is an inert semantic guard ([Yamaguchi 2026,
+/-- Finiteness of `L | K` also implies finiteness of `L | M` — the upper
+containment is an inert semantic guard ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Core.lean:616`][Yamaguchi2026]). -/
 theorem abstractReciprocity_lowerExtension_finite
     (K M L : ClosedSubgroup G)
