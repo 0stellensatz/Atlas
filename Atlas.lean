@@ -20,6 +20,7 @@ import Atlas.Knowledge.AbstractExtensionUnitsRepIso
 import Atlas.Knowledge.AbstractFixedField
 import Atlas.Knowledge.AbstractFixedFieldNorm
 import Atlas.Knowledge.AbstractFixedFieldUnitsEquiv
+import Atlas.Knowledge.AbstractReciprocityEquiv
 import Atlas.Knowledge.AbstractReciprocityTheorem
 import Atlas.Knowledge.AbstractRelativeFixedField
 import Atlas.Knowledge.AbstractRelativeUnitsNorm
