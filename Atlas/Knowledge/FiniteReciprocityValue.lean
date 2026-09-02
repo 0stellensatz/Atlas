@@ -5,7 +5,6 @@ import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteFieldUnitMaps
 import Atlas.Knowledge.FiniteNormQuotient
-import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.PrimeElement
@@ -20,10 +19,10 @@ import Atlas.Knowledge.ValuationData
 # Finite reciprocity value
 
 The reciprocity value on the Frobenius semigroup mapped to the finite
-norm quotient: additivity survives the passage, and the value is the
-finite class of a prime's relative norm — for the chosen prime
-unconditionally, and for any prime under the unit-cohomology axiom
-(#104).
+norm quotient: additivity survives the passage under the
+unit-cohomology axiom, and the value is the finite class of a prime's
+relative norm — for the chosen prime unconditionally, and for any prime
+under the axiom (#104).
 
 ## Main definitions
 
@@ -31,8 +30,8 @@ unconditionally, and for any prime under the unit-cohomology axiom
 
 ## Main statements
 
-* `DegreeData.finiteReciprocityValue_mul` — additivity after passage;
-  proved.
+* `DegreeData.finiteReciprocityValue_mul` — additivity after passage,
+  under the axiom; proved.
 * `DegreeData.finiteReciprocityValue_eq_primeNormClass` — the
   chosen-prime formula; proved.
 * `DegreeData.finiteReciprocityValue_eq_primeNormClass_of_isPrime` —
@@ -42,12 +41,14 @@ unconditionally, and for any prime under the unit-cohomology axiom
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 the ambient group is `Type` after the `Type`-pinned quotient-action
-chain, and all four declarations shed the source's `[T2Space G]`,
-Hausdorff being instance-derivable from the remaining binders. The
-`FiniteFieldUnitMaps` import is referenced by no name: it carries the
-transport instances that let the Frobenius-element binders synthesize
-across the residue enrichment. The citations name this file by bare
-basename; it lives at
+chain, and all four declarations shed the source's `[T2Space G]` — on
+the two axiom-bearing statements Hausdorff is instance-derivable from
+their `[TotallyDisconnectedSpace G]`, while on the other two it was
+simply unused, so those statements are strictly more general than the
+source's. The `FiniteFieldUnitMaps` import is referenced by no name: it
+carries the transport instances that let the Frobenius-element binders
+synthesize across the residue enrichment. The citations name this file
+by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's `open`s go — the layer keeps everything in one namespace.
 
