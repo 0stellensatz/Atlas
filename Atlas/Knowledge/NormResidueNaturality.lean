@@ -20,42 +20,41 @@ import Atlas.Knowledge.ValuationData
 /-!
 # norm-residue naturality
 
-The three printed commutative diagrams for the norm-residue symbol:
-it commutes with restriction on Galois groups together with the
-relative norm, with conjugation on both sides, and with transfer
-together with inclusion of fixed elements. Each diagram follows from
-the corresponding reciprocity square of norm–conjugation or
-transfer–norm naturality by inverting the horizontal reciprocity
-isomorphisms (#104).
+The three printed commutative diagrams for the norm-residue symbol: it
+commutes with restriction on Galois groups together with the relative
+norm, with conjugation on both sides, and with transfer together with
+inclusion of fixed elements. Each diagram follows from the
+corresponding reciprocity square of norm–conjugation or transfer–norm
+naturality by inverting the horizontal reciprocity isomorphisms (#104).
 
 ## Main statements
 
 * `DegreeData.normResidueNaturality_norm_restriction` — the
-  norm/restriction diagram.
+  norm/restriction diagram; proved.
 * `DegreeData.normResidueNaturality_conjugation` — the conjugation
-  diagram.
+  diagram; proved.
 * `DegreeData.normResidueNaturality_transfer_inclusion` — the
-  inclusion/transfer diagram.
+  inclusion/transfer diagram; proved.
 
 ## Implementation notes
 
-The relative subgroups are the layer's `Subgroup.subgroupOf`
-spelling, with the argument lists of the wrapped naturality maps
-following their layer signatures, and the ambient group sits in one
-`{G : Type}` scope. All three theorems thread
+The relative subgroups are the layer's `Subgroup.subgroupOf` spelling,
+with the argument lists of the wrapped naturality maps following their
+layer signatures, and the ambient group sits in one `{G : Type}` scope.
+All three theorems thread
 `hAxiom : v.SatisfiesUnramifiedUnitCohomology D` after `hcf` — the
 interface departure recorded in `Atlas.Knowledge.ClassFieldAxiom`'s
 notes and carried by every reciprocity declaration since
-`Atlas.Knowledge.AbstractReciprocityEquiv` — replacing the source's
-statement- and proof-level derivations
+`Atlas.Knowledge.AbstractReciprocityEquiv`: the statements take the
+hypothesis because the layer's `normResidueSymbol` signature carries
+it, and the proofs pass it where the source derives
 `v.classFieldAxiom_implies_unramifiedUnitCohomology hcf`; each
 statement is correspondingly weaker than the source's, with the
 discharge the local instantiation's obligation. All three shed the
 source's `[T2Space G]` (the continuing cascade) and keep
-`[TotallyDisconnectedSpace G]`. Everything else ports
-token-for-token; the file is the source's
-`Reciprocity/Main.lean:987`–`:1007` and `:1330`–`:1563`, and it
-closes that source file.
+`[TotallyDisconnectedSpace G]`. Everything else ports token-for-token;
+the file is the source's `Reciprocity/Main.lean:987`–`:1007` and
+`:1330`–`:1563`, and it closes that source file.
 
 ## References
 
@@ -171,8 +170,8 @@ theorem normResidueNaturality_norm_restriction
     (D.abstractReciprocityEquiv A v hcf hAxiom T.field E')
     (D.abstractReciprocityEquiv A v hcf hAxiom T.base E) q b hRec
 
-/-- **Reciprocity naturality, second diagram.** The norm-residue
-symbol commutes with conjugation of the extension and of norm classes
+/-- **Reciprocity naturality, second diagram.** The norm-residue symbol
+commutes with conjugation of the extension and of norm classes
 ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Main.lean:1410`][Yamaguchi2026]). -/
 theorem normResidueNaturality_conjugation
