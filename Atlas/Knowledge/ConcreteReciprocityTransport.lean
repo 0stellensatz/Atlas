@@ -161,7 +161,9 @@ def concreteNormResidueSymbolOfEmbedding
 /-- The additive form of the concrete reciprocity isomorphism; its
 inputs are the three genuine structures constructed in the preceding
 part of the proof, together with the threaded unit-cohomology
-hypothesis, which still awaits its discharge ([Yamaguchi 2026,
+hypothesis, discharged by
+`Atlas.Knowledge.localHenselianValuation_satisfiesUnramifiedUnitCohomology`
+([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:109`]
 [Yamaguchi2026]). -/
 def concreteReciprocityAddEquiv
