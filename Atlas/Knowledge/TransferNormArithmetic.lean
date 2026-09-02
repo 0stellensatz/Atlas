@@ -52,26 +52,25 @@ abelianized transfer with its double-coset formula (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 with `Subgroup.mem_subgroupOf` — its explicit arguments dropped, the
 layer's rule taking them implicitly — for the source's membership rule,
-and
-the whole file stays at `Type u` — nothing here pins the
+and the whole file stays at `Type u` — nothing here pins the
 representation-bearing sections, so they generalize the source's
 universe device. The tower literal is the layer's top-level
-`FiniteTower`, the conjugate bundle its `FiniteAbstractField.conjugate`
-form, and the source's `Internal` namespace is flattened, the #176
-rule. Four of the sibling's private helpers turn public in this same
-change: their consumers live here, and `private` does not cross
-files. The containment-consuming call sites adapt to the layer's
-containment-free forms — the stabilizer-iff site drops two arguments,
-the tower-finiteness site one, and both normality-restriction sites
-one, the containment #175 shed — and the dead-binder sweep runs to the
-lint's fixpoint: four declarations shed the Hausdorff instance and two
-the topological-group one, all simply unused. One conjugation
-re-anchor becomes an explicit `Subtype.ext` value equation where the
-source's `simpa` closed over the abbrev, and two multi-line relative
-subgroups the converter missed are rewritten by hand. The citations
-name this file by bare basename; it lives at
+`FiniteTower` , the conjugate bundle its
+`FiniteAbstractField.conjugate` form, and the source's `Internal`
+namespace is flattened, the #176 rule. Four of the sibling's private
+helpers turn public in this same change: their consumers live here, and
+`private` does not cross files. The containment-consuming call sites
+adapt to the layer's containment-free forms — the stabilizer-iff site
+drops two arguments, the tower-finiteness site one, and both
+normality-restriction sites one, the containment #175 shed — and the
+dead-binder sweep runs to the lint's fixpoint: four declarations shed
+the Hausdorff instance and two the topological-group one, all simply
+unused. One conjugation re-anchor becomes an explicit `Subtype.ext`
+value equation where the source's `simpa` closed over the abbrev, and
+two multi-line relative subgroups the converter missed are rewritten by
+hand. The citations name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
-source's namespace `open`s go, while `open MulAction` stays for the
+source's namespace `open` s go, while `open MulAction` stays for the
 orbit vocabulary.
 
 ## References
