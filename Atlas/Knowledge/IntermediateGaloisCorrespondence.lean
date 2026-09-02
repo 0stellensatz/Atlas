@@ -50,6 +50,12 @@ side already simplifies through `lowerQuotientEquiv_mk` and
 `lowerRestrictionHom_apply_coe`, so the attribute fails the simp-normal
 form check; the lemma itself is unchanged.
 
+Two further residuals: `subgroupOf_intermediateField_eq`'s simp call
+sheds the source's `extensionSubgroup` unfolding (nothing to unfold
+under the layer spelling) and tightens `simp` to `simp only`, and the
+two quotient equivalences drop the source's explicit `noncomputable`
+keyword — the file's `noncomputable section` supplies it.
+
 ## References
 
 * [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
@@ -271,7 +277,7 @@ theorem subgroupOf_intermediateField_eq
     (L.intermediateField S).toSubgroup.subgroupOf K.toSubgroup =
       L.intermediateSubgroup S := by
   ext x
-  simp [intermediateField]
+  simp only [intermediateField]
   rw [Subgroup.mem_subgroupOf]
   constructor
   · rintro ⟨y, hy, hxy⟩
