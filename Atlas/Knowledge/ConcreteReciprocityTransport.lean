@@ -22,9 +22,9 @@ axiom have been constructed, the abstract reciprocity theorem is
 transported through the concrete finite Galois realization in a
 separable closure and through the actual field norm, yielding
 `G(L/K)ᵃᵇ ≃ Kˣ/N_{L/K}(Lˣ)` and the norm-residue symbol with its
-surjectivity and kernel laws. The coefficient module remains the
-units of the separable closure, which is essential in imperfect
-positive characteristic (#104).
+surjectivity and kernel laws. The coefficient module remains the units
+of the separable closure, which is essential in imperfect positive
+characteristic (#104).
 
 ## Main definitions
 
@@ -46,15 +46,15 @@ consuming the reciprocity isomorphism threads
 convention recorded in `Atlas.Knowledge.ClassFieldAxiom`'s notes and
 carried since `Atlas.Knowledge.AbstractReciprocityEquiv` — so each
 statement is weaker than the source's, with the discharge the local
-instantiation's obligation. The Galois groups are spelled `≃ₐ[·]`,
-the chosen embedding is the layer's flat
-`separableEmbeddingIntoSeparableClosure`, `closedFixingSubgroup`
-takes only the intermediate field behind the intrinsic abbreviations,
-and the realization's finiteness witness is the layer's
+instantiation's obligation. The Galois groups are spelled `≃ₐ[·]`, the
+chosen embedding is the layer's flat
+`separableEmbeddingIntoSeparableClosure`, `closedFixingSubgroup` takes
+only the intermediate field behind the intrinsic abbreviations, and
+the realization's finiteness witness is the layer's
 `baseFixingExtensionQuotient_finite_of_isSeparable`, whose
-separability hypotheses the realization's Galois instances
-synthesize. Everything else ports token-for-token; the file is the
-source's `LocalReciprocity/ConcreteReciprocityTransport.lean` whole.
+separability hypotheses the realization's Galois instances synthesize.
+Everything else ports token-for-token; the file is the source's
+`LocalReciprocity/ConcreteReciprocityTransport.lean` whole.
 
 ## References
 
@@ -80,7 +80,7 @@ private abbrev B (K : Type) [Field K] : ClosedSubgroup (G K) :=
 
 /-- The finite abstract extension object determined by an explicit
 embedding of `L` into the fixed separable closure ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:44`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:46`]
 [Yamaguchi2026]). -/
 def finiteGaloisAbstractExtensionOfEmbedding
     (i : L →ₐ[K] SeparableClosure K) : FiniteGaloisSubextension (B K) where
@@ -94,16 +94,16 @@ def finiteGaloisAbstractExtensionOfEmbedding
 /-- The concrete realization of `L/K` as the finite Galois extension
 object to which the abstract reciprocity theorem is applied
 ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:55`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:57`]
 [Yamaguchi2026]). -/
 def finiteGaloisAbstractExtension : FiniteGaloisSubextension (B K) :=
   finiteGaloisAbstractExtensionOfEmbedding K L
     (separableEmbeddingIntoSeparableClosure K L)
 
 /-- The additive reciprocity equivalence transported through an
-explicit realization of `L/K` in the separable closure
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:62`]
+explicit realization of `L/K` in the separable closure ([Yamaguchi
+2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:63`]
 [Yamaguchi2026]). -/
 def concreteReciprocityAddEquivOfEmbedding
     (i : L →ₐ[K] SeparableClosure K)
@@ -123,7 +123,7 @@ def concreteReciprocityAddEquivOfEmbedding
 
 /-- Multiplicative form of reciprocity transported through an explicit
 embedding ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:76`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:78`]
 [Yamaguchi2026]). -/
 def concreteReciprocityEquivOfEmbedding
     (i : L →ₐ[K] SeparableClosure K)
@@ -146,7 +146,7 @@ def concreteReciprocityEquivOfEmbedding
 
 /-- Norm-residue symbol obtained from an explicit separable-closure
 realization ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:95`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:98`]
 [Yamaguchi2026]). -/
 def concreteNormResidueSymbolOfEmbedding
     (i : L →ₐ[K] SeparableClosure K)
@@ -158,11 +158,11 @@ def concreteNormResidueSymbolOfEmbedding
     K L i D v hcf hAxiom).symm.toMonoidHom.comp
     (normClass K L)
 
-/-- The additive form of the concrete reciprocity isomorphism; the
+/-- The additive form of the concrete reciprocity isomorphism; its
 inputs are the three genuine structures constructed in the preceding
-part of the proof, not additional reciprocity hypotheses
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:107`]
+part of the proof, together with the threaded unit-cohomology
+hypothesis, which still awaits its discharge ([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:109`]
 [Yamaguchi2026]). -/
 def concreteReciprocityAddEquiv
     (D : DegreeData (G K)) (v : ValuationData D (A K))
@@ -175,7 +175,7 @@ def concreteReciprocityAddEquiv
 
 /-- **The public multiplicative form of the transported reciprocity
 isomorphism `G(L/K)ᵃᵇ ≃ Kˣ/N_{L/K}Lˣ`** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:117`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:119`]
 [Yamaguchi2026]). -/
 def concreteReciprocityEquiv
     (D : DegreeData (G K)) (v : ValuationData D (A K))
@@ -187,7 +187,7 @@ def concreteReciprocityEquiv
 
 /-- **The local norm-residue symbol obtained by inverting reciprocity
 and precomposing with the quotient map on `Kˣ`** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:126`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:128`]
 [Yamaguchi2026]). -/
 def concreteNormResidueSymbol
     (D : DegreeData (G K)) (v : ValuationData D (A K))
@@ -198,7 +198,7 @@ def concreteNormResidueSymbol
     (separableEmbeddingIntoSeparableClosure K L) D v hcf hAxiom
 
 /-- The local norm-residue symbol is onto ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:135`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:136`]
 [Yamaguchi2026]). -/
 theorem concreteNormResidueSymbol_surjective
     (D : DegreeData (G K)) (v : ValuationData D (A K))
@@ -210,7 +210,7 @@ theorem concreteNormResidueSymbol_surjective
 
 /-- The kernel of the local norm-residue symbol is exactly the field
 norm subgroup ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:143`]
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityTransport.lean:145`]
 [Yamaguchi2026]). -/
 theorem concreteNormResidueSymbol_ker
     (D : DegreeData (G K)) (v : ValuationData D (A K))
