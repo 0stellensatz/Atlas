@@ -49,15 +49,19 @@ statement is weaker than the source's, with the discharge the local
 instantiation's obligation. The Galois groups are spelled `≃ₐ[·]`, the
 chosen embedding is the layer's flat
 `separableEmbeddingIntoSeparableClosure`, `closedFixingSubgroup` takes
-only the intermediate field behind the intrinsic abbreviations, and
-the realization's finiteness witness is the layer's
-`baseFixingExtensionQuotient_finite_of_isSeparable`, whose
+only the intermediate field — behind the intrinsic abbreviations in
+the chosen half — and the realization's finiteness witness is the
+layer's `baseFixingExtensionQuotient_finite_of_isSeparable`, whose
 separability hypotheses the realization's Galois instances synthesize.
 The `OfEmbedding` half is generalized over a separably closed Galois
 ambient `Ω` in place of the pinned separable closure, so the
-algebraic-closure instantiation of the local data can enter; the chosen
-half is unchanged at the separable closure. Everything else ports
-token-for-token; the file is the source's
+algebraic-closure instantiation of the local data can enter; the
+private `G`/`A`/`B` abbreviations and `intrinsicFiniteAbstractBase`
+are pinned to the separable closure, so that half spells them out and
+rebuilds the intrinsic base inline — definitionally the same term,
+`FiniteAbstractField.finite` being Prop-valued — while the chosen
+half's statements are unchanged at the separable closure. Everything
+else ports token-for-token; the file is the source's
 `LocalReciprocity/ConcreteReciprocityTransport.lean` whole.
 
 ## References
