@@ -60,9 +60,8 @@ ambient one), while the four declarations pinned through
 `Atlas.Knowledge.abstractReciprocityNormMap` — directly, or through
 `intermediateNormMap` for the composite identity — follow the second,
 `{G : Type}`, variable line, which reorders both source sections'
-contents. This
-completes `Reciprocity/Reduction.lean`: the `GroupOnly` section is the
-layer's `Atlas.Knowledge.ReductionGaloisArrows`.
+contents. This completes `Reciprocity/Reduction.lean`: the `GroupOnly`
+section is the layer's `Atlas.Knowledge.ReductionGaloisArrows`.
 
 ## References
 
