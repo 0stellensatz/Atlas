@@ -31,15 +31,16 @@ valuation datum's range computation reads the engine's norm (#104).
 
 The comparison is stated over a separably closed ambient field, as in
 the source, so it serves imperfect ground fields — the ambient of the
-local instantiation is the chosen separable closure, which is not
-algebraically closed in positive characteristic. The closing product
-formula is the layer's
+local instantiation is the chosen separable closure of an arbitrary
+base field, whose `IsSepClosed` is Mathlib's instance while its
+`IsAlgClosed` is neither an instance nor a theorem, failing exactly at
+imperfect base fields. The closing product formula is the layer's
 `Atlas.Knowledge.algebraMap_norm_eq_prod_embeddings_of_isSepClosed`; an
 earlier revision strengthened the ambient to `IsAlgClosed` to close on
-Mathlib's product formula instead, which made the hypotheses
-unsatisfiable at the separable closure in positive characteristic, and
-this file records the correction. The source's Galois-only comparison
-is not ported — the separable form subsumes it at every use site.
+Mathlib's product formula instead, which the concrete transport cannot
+instantiate, and this file records the correction. The source's
+Galois-only comparison is not ported — the separable form subsumes it
+at every use site.
 
 ## References
 

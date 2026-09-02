@@ -20,10 +20,13 @@ The source's file-local `Fintype` instance on the embedding space is
 dropped: the layer's Mathlib provides the instance ambiently, and a
 local instance would bake a different `Finset.univ` into these
 statements than their consumers elaborate with. The declarations are
-universe-polymorphic where the source pins `Type`,
-because the layer's `Atlas.Knowledge.SeparableFixedFieldNorm` consumer
-is itself polymorphic. Everything else ports token-for-token; the file
-is the source's `LocalReciprocity/SeparableNormProduct.lean` whole.
+universe-polymorphic where the source pins `Type`, because the layer's
+`Atlas.Knowledge.SeparableFixedFieldNorm` consumer is itself
+polymorphic. The embedding-split theorem sheds the source's two unused
+lower-field finiteness and separability instance binders, and its
+second rewrite moves inside the first bullet, as the layer's linters
+require. Everything else ports token-for-token; the file is the
+source's `LocalReciprocity/SeparableNormProduct.lean` whole.
 
 ## References
 
@@ -47,7 +50,6 @@ theorem prod_embeddings_algebraMap_powerBasisGen_eq
     [IsSepClosed Ω]
     {L E : Type w} [Field L] [Field E]
     [Algebra k L] [Algebra k E] [Algebra L E] [IsScalarTower k L E]
-    [FiniteDimensional k L] [Algebra.IsSeparable k L]
     [Algebra.IsSeparable k E] [FiniteDimensional k E]
     (pb : PowerBasis k L) :
     ∏ σ : E →ₐ[k] Ω, σ (algebraMap L E pb.gen) =
