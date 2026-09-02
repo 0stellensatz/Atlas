@@ -23,6 +23,8 @@ generator of `G(L/K)` to a generator of `G(M/M⁰)` (#104).
 
 ## Main statements
 
+* `DegreeData.abstractReciprocityTotallyRamifiedLowerDegree_eq` — the
+  lower extension's degree matches the original cyclic degree; proved.
 * `DegreeData.abstractReciprocityTotallyRamifiedLowerGenerator_generates`
   — the constructed lower automorphism generates the cyclic quotient;
   proved.
@@ -105,8 +107,8 @@ def abstractReciprocityTotallyRamifiedRestrictionEquiv
       hML hTot hInertia).trans
       L.extensionQuotientMulEquiv.symm
 
-/-- Restriction identifies the degree of the totally ramified lower
-extension `M/M⁰` with the original cyclic degree `[L:K]`
+/-- **Restriction identifies the degree of the totally ramified lower
+extension `M/M⁰` with the original cyclic degree `[L:K]`**
 ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:67`]
 [Yamaguchi2026]). -/
