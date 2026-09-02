@@ -65,8 +65,8 @@ bundled multiplication-by-`f` homomorphism having no layer counterpart;
 `ProfiniteInteger.nsmul_left_injective` closes it. The stabilizer-iff
 call site drops its two containments and sheds the dead local it fed,
 the layer's form being containment-free, and the dead-binder sweep runs
-to the lint's fixpoint: eight declarations shed their topological-group
-instance and eight their Hausdorff one, all simply unused. The source's
+to the lint's fixpoint: eight declarations shed
+`[IsTopologicalGroup G]` and eight `[T2Space G]`, all simply unused. The source's
 `Internal` namespace is flattened — the layer keeps everything in one
 namespace and the five private helpers are file-local anyway. The
 citations name this file by bare basename; it lives at
@@ -135,7 +135,6 @@ private theorem chosenTransferNormNaturalityNormOrbitRepresentative_spec
   rw [← D.transferNormNaturalityTransferNormOrbitEquiv_apply
     E L hL σ qT]
   exact orbitEquiv.apply_symm_apply qN
-
 
 end transferFrobeniusGeometry
 
@@ -208,7 +207,6 @@ private theorem transferNormNaturalityNorm_eq_sum_transferOrbitRepresentatives
   apply Fintype.sum_congr
   intro r
   rw [chosenOrbitClassEquiv_symm_apply]
-
 
 end transferOrbitNorms
 
@@ -843,7 +841,6 @@ private theorem chosenTransferNormNaturalityTransferNormFiberEquiv_mk
           E.base.field E.field.field E.below k') := by
   unfold chosenTransferNormNaturalityTransferNormFiberEquiv
   rfl
-
 
 end transferFrobeniusFibers
 
