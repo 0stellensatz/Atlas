@@ -372,6 +372,7 @@ import Atlas.Knowledge.TopologicalGeneration
 import Atlas.Knowledge.TotallyRamifiedFixedSource
 import Atlas.Knowledge.TotallyRamifiedFrobeniusLift
 import Atlas.Knowledge.TotallyRamifiedMonogenic
+import Atlas.Knowledge.TotallyRamifiedRestrictionCosets
 import Atlas.Knowledge.TransferFrobeniusTerms
 import Atlas.Knowledge.TransferNaturality
 import Atlas.Knowledge.TransferNormArithmetic
