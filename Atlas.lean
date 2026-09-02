@@ -45,6 +45,7 @@ import Atlas.Knowledge.ConductorExponent
 import Atlas.Knowledge.ConjugateDiameterBound
 import Atlas.Knowledge.ConjugatePrimeNorm
 import Atlas.Knowledge.CorrectionSum
+import Atlas.Knowledge.CyclicFixedCycleEquiv
 import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.CyclotomicIntegerBasis
