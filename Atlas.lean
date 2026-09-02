@@ -99,6 +99,7 @@ import Atlas.Knowledge.FiniteGaloisRealization
 import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteIntermediateCompositum
 import Atlas.Knowledge.FiniteIntermediateFieldRefinement
+import Atlas.Knowledge.FiniteLocalReciprocityLaw
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FiniteNormQuotientEquivNormQuotient
 import Atlas.Knowledge.FinitePlaceIdele
