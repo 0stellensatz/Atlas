@@ -65,8 +65,12 @@ reciprocity homomorphism (#104).
   — `Σ' | Σ` is totally ramified; proved.
 * `DegreeData.finiteReciprocityNaturalityFrobeniusFixedField_le` — the
   transported lift's fixed field lies inside the original's; proved.
+* `finiteReciprocityNaturality_norm_tower_class` — the first diagram's
+  norm identity; proved.
 * `DegreeData.finiteReciprocityNaturality_restriction_norm_commutes` —
   the first diagram commutes; proved.
+* `finiteReciprocityNaturality_conjugation_norm_class` — the
+  conjugation diagram's norm identity; proved.
 
 ## Implementation notes
 
@@ -663,7 +667,7 @@ theorem finiteReciprocityNaturalityConjugationNormMap_finiteNormClass
   simp [finiteReciprocityNaturalityConjugationNormMap]
   rfl
 
-/-- The norm identity of the first diagram in the target quotient —
+/-- **The norm identity of the first diagram in the target quotient** —
 taking `S = Σ` and `S' = Σ'` gives the calculation
 ([Yamaguchi 2026, `MainNaturality.lean:574`][Yamaguchi2026]). -/
 theorem finiteReciprocityNaturality_norm_tower_class
@@ -873,8 +877,8 @@ theorem finiteReciprocityNaturality_restriction_norm_commutes
 
 end DegreeData
 
-/-- The norm identity of the conjugation diagram in the conjugate
-quotient
+/-- **The norm identity of the conjugation diagram in the conjugate
+quotient**
 ([Yamaguchi 2026, `MainNaturality.lean:786`][Yamaguchi2026]). -/
 theorem finiteReciprocityNaturality_conjugation_norm_class
     [ContinuousMul G] (A : Rep ℤ G)
