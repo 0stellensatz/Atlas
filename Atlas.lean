@@ -374,6 +374,7 @@ import Atlas.Knowledge.TotallyRamifiedFixedSource
 import Atlas.Knowledge.TotallyRamifiedFrobeniusLift
 import Atlas.Knowledge.TotallyRamifiedFrobeniusNorms
 import Atlas.Knowledge.TotallyRamifiedMonogenic
+import Atlas.Knowledge.TotallyRamifiedReciprocity
 import Atlas.Knowledge.TotallyRamifiedRestrictionCosets
 import Atlas.Knowledge.TotallyRamifiedRestrictionEquiv
 import Atlas.Knowledge.TransferFrobeniusTerms
