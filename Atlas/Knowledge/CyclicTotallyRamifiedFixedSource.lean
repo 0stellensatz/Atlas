@@ -1,6 +1,5 @@
 import Mathlib
 import Atlas.Knowledge.AmbientFixedAddSubgroup
-import Atlas.Knowledge.ChosenDegreeOneFrobenius
 import Atlas.Knowledge.ClassFieldAxiom
 import Atlas.Knowledge.CyclicFixedCycleEquiv
 import Atlas.Knowledge.DegreeData
@@ -34,7 +33,7 @@ cyclic extension converts to the canonical finite Galois boundary, and
 the complete source-producing fixed-element calculation runs — all
 fields, restriction maps, norm identities, and action identities
 constructed from the original data, none exposed as a hypothesis — to
-yield an element of `A_{M⁰}` whose inclusion has normalized valuation
+yield an element of `A_{M₀}` whose inclusion has normalized valuation
 exactly `k` (#104).
 
 ## Main definitions
@@ -62,15 +61,16 @@ fixed-source theorem — a consumer of the Type-pinned
 `Atlas.Knowledge.cyclicFixedCycleEquiv` — follows it. That theorem
 sheds the source's `[T2Space G]` (the continuing cascade) and keeps
 `[TotallyDisconnectedSpace G]`, which the norm restriction over the
-Frobenius fixed field consumes. Three proof-level adjustments answer
-the layer's transparency: `L` rebundles as the structure literal over
+Frobenius fixed field consumes. Two proof-level adjustments answer the
+layer's transparency: `L` rebundles as the structure literal over
 `E.field` (the layer's `toFiniteAbstractFieldExtension` routes through
 `ofInclusion`, whose projections do not reduce reducibly, which blocked
-the source's defeq elaboration of the prime-unit sum), and two
-simp-flavoured steps that mix the `K.field`/`KR.field` spellings close
-by direct `exact` where the simplifier refuses the mixed term under its
-instances-transparency check. Everything else ports token-for-token;
-the file is the source's `TotallyRamifiedCase/FixedSource.lean` whole.
+the source's defeq elaboration of the prime-unit sum), and the one simp
+step that mixes the `K.field`/`KR.field` spellings past the
+simplifier's instances-transparency check — the nsmul bridge in the
+Frobenius-fixes-`Σ` calculation — closes by direct `exact`. Everything
+else ports token-for-token; the file is the source's
+`TotallyRamifiedCase/FixedSource.lean` whole.
 
 ## References
 
@@ -542,7 +542,7 @@ theorem abstractReciprocity_cyclicTotallyRamified_fixedSource
           relativeCosetAction A K.field M.field M.below
               (fixedFieldInclusion A Sigma M.field hMSigma piSigma) tB =
             (fixedFieldInclusion A Sigma M.field hMSigma piSigma).1 at h
-        exact h
+        simpa [piSigmaM] using h
       _ = (eB cB).1 := rfl
   have hgb : B.ρ gB bB = B.ρ tB bB := by
     apply eB.injective
