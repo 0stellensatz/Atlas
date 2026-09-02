@@ -366,6 +366,7 @@ import Atlas.Knowledge.TransferFrobeniusTerms
 import Atlas.Knowledge.TransferNaturality
 import Atlas.Knowledge.TransferNormArithmetic
 import Atlas.Knowledge.TransferNormFrobeniusGeometry
+import Atlas.Knowledge.TransferNormNaturality
 import Atlas.Knowledge.TransferOrbitClosure
 import Atlas.Knowledge.UnitCohomologyAxiom
 import Atlas.Knowledge.UnitFiltrationClassification
