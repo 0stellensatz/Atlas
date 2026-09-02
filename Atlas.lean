@@ -332,6 +332,7 @@ import Atlas.Knowledge.SemiInvariantIndependence
 import Atlas.Knowledge.SemilinearConjugationContinuous
 import Atlas.Knowledge.SeparableEmbeddingIntoSeparableClosure
 import Atlas.Knowledge.SeparableFixedFieldNorm
+import Atlas.Knowledge.SeparableNormProduct
 import Atlas.Knowledge.SerreMass
 import Atlas.Knowledge.Shift
 import Atlas.Knowledge.ShiftDepth

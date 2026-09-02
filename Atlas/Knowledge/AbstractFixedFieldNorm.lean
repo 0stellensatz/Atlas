@@ -88,7 +88,7 @@ theorem relativeNorm_coe_eq_of_closedSubgroup_eq
 section Ambient
 
 variable (K : Type*) (Ω : Type*) [Field K] [Field Ω] [Algebra K Ω]
-  [IsGalois K Ω] [IsAlgClosed Ω]
+  [IsGalois K Ω] [IsSepClosed Ω]
 
 /-- **The engine's norm from an abstract fixed field is the field norm** of
 its concrete fixed field, without normality ([Yamaguchi 2026,

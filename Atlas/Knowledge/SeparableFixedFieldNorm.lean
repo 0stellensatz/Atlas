@@ -2,6 +2,7 @@ import Mathlib
 import Atlas.Knowledge.GaloisExtensionQuotient
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
 import Atlas.Knowledge.RelativeNorm
+import Atlas.Knowledge.SeparableNormProduct
 
 /-!
 # abstract norm as the field norm
@@ -28,17 +29,17 @@ valuation datum's range computation reads the engine's norm (#104).
 
 ## Implementation notes
 
-The source states the comparison over a separably closed ambient field, so it
-serves imperfect ground fields; Atlas's consumer is the algebraic closure of
-a mixed-characteristic local field, so the ambient field is algebraically
-closed here, and Mathlib's `Algebra.norm_eq_prod_embeddings` replaces the
-source's separably-closed product formula together with the power-basis file
-behind it. The source's Galois-only comparison and the equivariant form
-phrased through the units-level norm are not ported — the norm-range
-computation re-derives the one pointwise instance it needs, and the
-remaining consumers are the existence phase's norm-subgroup identifications
-and the embedding-independence transport that the arc's fixed ambient field
-makes vacuous.
+The comparison is stated over a separably closed ambient field, as in
+the source, so it serves imperfect ground fields — the ambient of the
+local instantiation is the chosen separable closure, which is not
+algebraically closed in positive characteristic. The closing product
+formula is the layer's
+`Atlas.Knowledge.algebraMap_norm_eq_prod_embeddings_of_isSepClosed`; an
+earlier revision strengthened the ambient to `IsAlgClosed` to close on
+Mathlib's product formula instead, which made the hypotheses
+unsatisfiable at the separable closure in positive characteristic, and
+this file records the correction. The source's Galois-only comparison
+is not ported — the separable form subsumes it at every use site.
 
 ## References
 
@@ -53,9 +54,9 @@ noncomputable section
 universe u v
 
 variable (K : Type u) (Ω : Type v) [Field K] [Field Ω] [Algebra K Ω]
-  [IsGalois K Ω] [IsAlgClosed Ω]
+  [IsGalois K Ω] [IsSepClosed Ω]
 
-omit [IsAlgClosed Ω] in
+omit [IsSepClosed Ω] in
 /-- **`Kˣ` is the coefficient group fixed by the bottom fixing subgroup**
 ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:32`]
@@ -71,7 +72,7 @@ def baseUnitsEquivGaloisAmbientFixed :
   exact eBot.trans
     (intermediateFieldUnitsEquivGaloisFixed K Ω ⊥)
 
-omit [IsAlgClosed Ω] in
+omit [IsSepClosed Ω] in
 /-- The base equivalence reads as the structure map on the underlying element
 ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:45`]
@@ -87,7 +88,7 @@ section CosetsAndEmbeddings
 
 variable (E : IntermediateField K Ω)
 
-omit [IsAlgClosed Ω] in
+omit [IsSepClosed Ω] in
 /-- Restriction to `E` sends a left coset of its fixing subgroup to a
 `K`-embedding of `E` ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:36`]
@@ -126,7 +127,7 @@ def baseFixingCosetToAlgHom :
         _ = (σ.1 * η.1) (x : Ω) := rfl
         _ = τ.1 (x : Ω) := by rw [hτ'])
 
-omit [IsAlgClosed Ω] in
+omit [IsSepClosed Ω] in
 /-- The coset reading restricts the representative ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:75`]
 [Yamaguchi2026]). -/
@@ -170,7 +171,7 @@ private theorem baseFixingCosetToAlgHom_surjective
   change φ (x : Ω) = f x at hx
   exact hx
 
-omit [IsAlgClosed Ω] in
+omit [IsSepClosed Ω] in
 /- Injectivity: agreeing on `E` means lying in the same coset
 ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:111`]
@@ -226,7 +227,7 @@ section NormAsProduct
 variable (E : IntermediateField K Ω)
   [FiniteDimensional K E] [Algebra.IsSeparable K E]
 
-omit [IsAlgClosed Ω] [FiniteDimensional K E] [Algebra.IsSeparable K E] in
+omit [IsSepClosed Ω] [FiniteDimensional K E] [Algebra.IsSeparable K E] in
 /-- The coset action on an `E`-unit is evaluation under the corresponding
 embedding ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:173`]
@@ -312,7 +313,8 @@ theorem relativeNorm_intermediateFieldUnit_val_of_isSeparable (x : Eˣ) :
         (relativeCosetAction_intermediateFieldUnit_val_of_isSeparable
           K Ω E x)
     _ = algebraMap K Ω (Algebra.norm K (x : E)) :=
-      (Algebra.norm_eq_prod_embeddings K Ω (x : E)).symm
+      (algebraMap_norm_eq_prod_embeddings_of_isSepClosed
+        K Ω ↥E (x : E)).symm
 
 end NormAsProduct
 
