@@ -23,15 +23,18 @@ lets a `ρ(g)`-fixed vector be read back as an element of `A_K` (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling. Of
-the source file's eleven declarations this is the only one the
+the source file's fourteen declarations this is the only one the
 reciprocity assembly still consumes: the layer's
 `Atlas.Knowledge.ClassFieldAxiom` item states the class-field axiom
 elementarily on the norm quotient, which absorbs the source's
 Tate-comparison chain (`cyclicNormClassHom` with its kernel,
-surjectivity, and application lemmas, `cyclicFixedCycleEquiv_relativeNorm`,
-and the three equivalences through degree-zero Tate cohomology) and
-already carries the file's three consequence theorems under their source
-names; `additiveExtensionQuotient_card` lives in
+surjectivity, and application lemmas,
+`cyclicFixedCycleEquiv_relativeNorm`, and the three equivalences
+through degree-zero Tate cohomology) and already carries the file's
+three consequence theorems under their source names — absorbing with
+them the camelCase helper `finiteNormQuotientFiniteOfClassFieldAxiom`
+the finiteness theorem wraps, consumed nowhere outside the file;
+`additiveExtensionQuotient_card` lives in
 `Atlas.Knowledge.FiniteAbstractExtension`. The acting group is pinned
 to `Type` as in the source's `IntegralRepGroupType`, and the pin is
 real: Mathlib's `Rep.FiniteCyclicGroup` namespace puts the coefficient
