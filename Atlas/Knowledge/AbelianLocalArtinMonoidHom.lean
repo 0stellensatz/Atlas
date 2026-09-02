@@ -20,8 +20,8 @@ what the absolute Artin map's finite coordinates are built from
 ## Main statements
 
 * `abelianLocalArtinMonoidHom_surjective` — it is onto; proved.
-* `abelianLocalArtinMonoidHom_ker` — its kernel is the norm
-  subgroup; proved.
+* `abelianLocalArtinMonoidHom_ker` — its kernel is the norm subgroup;
+  proved.
 
 ## Implementation notes
 
