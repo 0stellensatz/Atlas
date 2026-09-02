@@ -113,6 +113,7 @@ import Atlas.Knowledge.FiniteResidueFrobenius
 import Atlas.Knowledge.FiniteStageCorrections
 import Atlas.Knowledge.FiniteTower
 import Atlas.Knowledge.FiniteUnramifiedCyclicExtension
+import Atlas.Knowledge.FinrankResidueInertia
 import Atlas.Knowledge.FixedFieldInclusion
 import Atlas.Knowledge.FixedTowerUnitCorrection
 import Atlas.Knowledge.FixedTowerUnitDescent
@@ -240,6 +241,7 @@ import Atlas.Knowledge.LocalHilbertSymbolTameFormula
 import Atlas.Knowledge.LocalKroneckerWeber
 import Atlas.Knowledge.LocalResidueDatum
 import Atlas.Knowledge.LocalTateDuality
+import Atlas.Knowledge.LocalUnramifiedInertia
 import Atlas.Knowledge.LowerRamificationGroup
 import Atlas.Knowledge.LubinTateFormalGroup
 import Atlas.Knowledge.LubinTateIntertwiner
