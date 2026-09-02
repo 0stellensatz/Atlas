@@ -6,7 +6,6 @@ import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbstractExtension
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
-import Atlas.Knowledge.FiniteFieldUnitMaps
 import Atlas.Knowledge.FiniteIntermediateFieldRefinement
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FiniteReciprocityCandidate
@@ -14,6 +13,7 @@ import Atlas.Knowledge.FiniteReciprocityHom
 import Atlas.Knowledge.FiniteResidueAbstractExtension
 import Atlas.Knowledge.FiniteResidueAbstractField
 import Atlas.Knowledge.FiniteTower
+import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
 import Atlas.Knowledge.FrobeniusFixedField
@@ -29,7 +29,7 @@ import Atlas.Knowledge.UnitCohomologyAxiom
 import Atlas.Knowledge.ValuationData
 
 /-!
-# Finite reciprocity naturality norms
+# Finite reciprocity naturality norm
 
 The two vertical maps of norm–conjugation naturality, built on the
 actual finite Galois quotients and the actual finite norm quotients:
@@ -43,7 +43,9 @@ reciprocity homomorphism (#104).
 
 * `finiteReciprocityNaturalityRestriction` — the left vertical map.
 * `DegreeData.finiteReciprocityNaturalityFrobeniusTowerMap` — the
-  infinite-quotient restriction, with its continuous form.
+  infinite-quotient restriction.
+* `DegreeData.finiteReciprocityNaturalityFrobeniusTowerMapContinuous` —
+  its continuous form.
 * `DegreeData.finiteReciprocityNaturalityFrobeniusTowerLift` — the
   transported Frobenius lift.
 * `finiteReciprocityNaturalityNormMap` — the right vertical map.
@@ -61,12 +63,10 @@ reciprocity homomorphism (#104).
   — the transported lift restricts along the left map; proved.
 * `DegreeData.finiteReciprocityNaturalityFrobeniusFixedField_isTotallyRamified`
   — `Σ' | Σ` is totally ramified; proved.
-* `finiteReciprocityNaturality_norm_tower_class` — the first diagram's
-  norm identity; proved.
+* `DegreeData.finiteReciprocityNaturalityFrobeniusFixedField_le` — the
+  transported lift's fixed field lies inside the original's; proved.
 * `DegreeData.finiteReciprocityNaturality_restriction_norm_commutes` —
   the first diagram commutes; proved.
-* `finiteReciprocityNaturality_conjugation_norm_class` — the
-  conjugation diagram's norm identity; proved.
 
 ## Implementation notes
 
@@ -78,24 +78,24 @@ quotient-action chain. The profinite integers are the layer's
 the source's injectivity device, the bundles are the layer's top-level
 `FiniteResidueAbstractExtension`, `FiniteTower`, and
 `AbstractExtension`, and the containment-consuming call sites adapt to
-the layer's containment-free forms: both `finite_conjugateExtension`
-sites and all three `finite_extension_of_le` sites drop their redundant
-containments. The restriction map and its computation rule shed the
-source's two containments the `extensionSubgroup` spelling consumed, so
-their argument lists are two shorter, and the dead-binder sweep sheds
-the tower-map chain's `[IsTopologicalGroup G]`, the commuting square's
-`[T2Space G]`, and the totally-ramified theorem's `[T2Space G]`, all
-simply unused. Two source tactics survive with accepted lint findings,
-both disclosed here: the fixed-field containment proof keeps the
-source's flexible simp on `DegreeData.frobeniusClosure`, which a
-restricted replacement cannot close, and the totally-ramified theorem
-keeps its base finiteness instance, which the `unusedArguments` linter
-flags although deleting it breaks the proof's instance synthesis. The
-`FiniteFieldUnitMaps` import is referenced by no name: it carries the
-transport instances that let enrichment binders synthesize. The
-citations name this file by bare basename; it lives at
-`AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
-source's `open`s go — the layer keeps everything in one namespace.
+the layer's containment-free forms: all six `finite_conjugateExtension`
+occurrences and all three `finite_extension_of_le` sites drop their
+redundant containments. The restriction map and its computation rule
+shed the source's two containments the `extensionSubgroup` spelling
+consumed, so their argument lists are two shorter, and the dead-binder
+sweep sheds the tower-map chain's `[IsTopologicalGroup G]`, the
+commuting square's `[T2Space G]`, and the totally-ramified theorem's
+`[T2Space G]`, all simply unused. Two source tactics survive with
+accepted lint findings, both disclosed here: the fixed-field
+containment proof keeps the source's flexible simp on
+`DegreeData.frobeniusClosure`, which a restricted replacement cannot
+close, and the totally-ramified theorem keeps its base finiteness
+instance, which the `unusedArguments` linter flags although deleting it
+breaks the proof's instance synthesis — the binder is stated over the
+bundle and the synthesis wants its field, definitionally equal but not
+syntactically. The citations name this file by bare basename; it lives
+at `AbstractClassFieldTheory/Reciprocity/Construction/` in the source.
+The source's `open`s go — the layer keeps everything in one namespace.
 
 ## References
 
@@ -133,8 +133,8 @@ def finiteReciprocityNaturalityRestriction
   change (Subgroup.inclusion hK'K k').1 ∈ L.toSubgroup
   exact hL'L hk'L'
 
-/-- **Restriction sends a represented class to the included
-representative's class**
+/-- Restriction sends a represented class to the included
+representative's class
 ([Yamaguchi 2026, `MainNaturality.lean:56`][Yamaguchi2026]). -/
 @[simp]
 theorem finiteReciprocityNaturalityRestriction_mk
@@ -176,7 +176,7 @@ def finiteReciprocityNaturalityFrobeniusTowerMap
     exact hL'L hk'L'
   · exact hk'I
 
-/-- **The tower map evaluates on a representative by inclusion**
+/-- The tower map evaluates on a representative by inclusion
 ([Yamaguchi 2026, `MainNaturality.lean:98`][Yamaguchi2026]). -/
 @[simp]
 theorem finiteReciprocityNaturalityFrobeniusTowerMap_mk
@@ -268,7 +268,7 @@ def finiteReciprocityNaturalityFrobeniusTowerLift
   change f • (n • (1 : ProfiniteInteger)) = (f * n) • (1 : ProfiniteInteger)
   rw [smul_smul]
 
-/-- **The tower lift coerces to the tower map's value**
+/-- The tower lift coerces to the tower map's value
 ([Yamaguchi 2026, `MainNaturality.lean:185`][Yamaguchi2026]). -/
 @[simp]
 theorem finiteReciprocityNaturalityFrobeniusTowerLift_coe
@@ -361,8 +361,8 @@ theorem finiteReciprocityNaturalityRestriction_frobeniusTowerLift
   intro k'
   rfl
 
-/-- **The fixed field of a transported Frobenius lift contains the
-original fixed field** — `Σ' | Σ` is an intermediate extension
+/-- **The fixed field of a transported Frobenius lift lies inside the
+original lift's fixed field** — `Σ' | Σ` is an intermediate extension
 ([Yamaguchi 2026, `MainNaturality.lean:274`][Yamaguchi2026]). -/
 theorem finiteReciprocityNaturalityFrobeniusFixedField_le
     (D : DegreeData G) [IsTopologicalGroup G]
@@ -554,8 +554,8 @@ def finiteReciprocityNaturalityNormMap
     _ = relativeNorm A K K' hK'K (relativeNorm A K' L' hL'K' a) :=
       (TKK'.norm_trans_apply A a).symm
 
-/-- **The norm map carries a finite norm class to the norm's class over
-the base**
+/-- The norm map carries a finite norm class to the norm's class over
+the base
 ([Yamaguchi 2026, `MainNaturality.lean:467`][Yamaguchi2026]). -/
 @[simp]
 theorem finiteReciprocityNaturalityNormMap_finiteNormClass
@@ -578,7 +578,7 @@ theorem finiteReciprocityNaturalityNormMap_finiteNormClass
     simp [finiteReciprocityNaturalityNormMap]
     rfl
 
-/-- **The additive map `a ↦ aˢ` between the two fixed subgroups**
+/-- **The additive map `a ↦ a^s` between the two fixed subgroups**
 ([Yamaguchi 2026, `MainNaturality.lean:488`][Yamaguchi2026]). -/
 def conjugateFixedElementHom [ContinuousMul G]
     (A : Rep ℤ G) (K : ClosedSubgroup G) (s : G) :
@@ -592,7 +592,7 @@ def conjugateFixedElementHom [ContinuousMul G]
     apply Subtype.ext
     exact map_add (A.ρ s⁻¹) a.1 b.1
 
-/-- **The homomorphism evaluates by the underlying conjugation map**
+/-- The homomorphism evaluates by the underlying conjugation map
 ([Yamaguchi 2026, `MainNaturality.lean:502`][Yamaguchi2026]). -/
 @[simp]
 theorem conjugateFixedElementHom_apply [ContinuousMul G]
@@ -637,8 +637,8 @@ def finiteReciprocityNaturalityConjugationNormMap
   refine ⟨conjugateFixedElement A L s a, ?_⟩
   exact relativeNorm_conjugate_apply A K L hLK s a
 
-/-- **The conjugation norm map carries a class to its conjugate's
-class**
+/-- The conjugation norm map carries a class to its conjugate's
+class
 ([Yamaguchi 2026, `MainNaturality.lean:547`][Yamaguchi2026]). -/
 @[simp]
 theorem finiteReciprocityNaturalityConjugationNormMap_finiteNormClass
@@ -663,7 +663,7 @@ theorem finiteReciprocityNaturalityConjugationNormMap_finiteNormClass
   simp [finiteReciprocityNaturalityConjugationNormMap]
   rfl
 
-/-- **The norm identity of the first diagram in the target quotient** —
+/-- The norm identity of the first diagram in the target quotient —
 taking `S = Σ` and `S' = Σ'` gives the calculation
 ([Yamaguchi 2026, `MainNaturality.lean:574`][Yamaguchi2026]). -/
 theorem finiteReciprocityNaturality_norm_tower_class
@@ -873,8 +873,8 @@ theorem finiteReciprocityNaturality_restriction_norm_commutes
 
 end DegreeData
 
-/-- **The norm identity of the conjugation diagram in the conjugate
-quotient**
+/-- The norm identity of the conjugation diagram in the conjugate
+quotient
 ([Yamaguchi 2026, `MainNaturality.lean:786`][Yamaguchi2026]). -/
 theorem finiteReciprocityNaturality_conjugation_norm_class
     [ContinuousMul G] (A : Rep ℤ G)
