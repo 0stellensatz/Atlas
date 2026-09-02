@@ -4,11 +4,11 @@ import Mathlib
 # Transfer naturality
 
 The group-theoretic source of transfer–norm naturality: a surjection
-whose kernel is contained in a finite-index subgroup identifies the two
-left-coset spaces, descends left transversals with their
-representatives, and makes Mathlib's transfer commute with the induced
-maps on abelianizations; an equality of subgroups only transports the
-transfer's codomain (#104).
+whose kernel is contained in a subgroup identifies the two left-coset
+spaces and descends left transversals with their representatives, and
+when the subgroup has finite index Mathlib's transfer commutes with the
+induced maps on abelianizations; an equality of subgroups only
+transports the transfer's codomain (#104).
 
 ## Main definitions
 
@@ -49,8 +49,6 @@ open scoped Pointwise
 
 variable {P : Type*} {Q : Type*} [Group P] [Group Q]
 
-variable {P : Type*} {Q : Type*} [Group P] [Group Q]
-
 /-- **A surjection identifies left cosets of `H` with left cosets of
 its image when its kernel is contained in `H`**
 ([Yamaguchi 2026, `TransferNaturality.lean:23`][Yamaguchi2026]). -/
@@ -80,7 +78,7 @@ noncomputable def leftCosetEquivMapOfSurjective
     obtain ⟨p, rfl⟩ := hf q
     exact ⟨QuotientGroup.mk p, rfl⟩
 
-/-- The coset equivalence evaluates by the map on representatives
+/-- **The coset equivalence evaluates by the map on representatives**
 ([Yamaguchi 2026, `TransferNaturality.lean:54`][Yamaguchi2026]). -/
 @[simp]
 theorem leftCosetEquivMapOfSurjective_mk
@@ -90,7 +88,7 @@ theorem leftCosetEquivMapOfSurjective_mk
       QuotientGroup.mk (f p) :=
   rfl
 
-/-- The coset equivalence is equivariant
+/-- **The coset equivalence is equivariant**
 ([Yamaguchi 2026, `TransferNaturality.lean:66`][Yamaguchi2026]). -/
 @[simp]
 theorem leftCosetEquivMapOfSurjective_smul
@@ -123,8 +121,8 @@ noncomputable def leftTransversalMapOfSurjective
     exact (congrArg e hrep).trans (e.apply_symm_apply q)
   exact ⟨Set.range u, Subgroup.isComplement_range_left hu⟩
 
-/-- The descended transversal's representatives are the images of the
-original ones
+/-- **The descended transversal's representatives are the images of
+the original ones**
 ([Yamaguchi 2026, `TransferNaturality.lean:101`][Yamaguchi2026]). -/
 @[simp]
 theorem leftTransversalMapOfSurjective_apply
@@ -284,8 +282,8 @@ theorem abelianization_transfer_natural_of_surjective
   exact leftTransversals_diff_natural_of_surjective
     f hf H hker T (p • T)
 
-/-- **Replacing a finite-index subgroup by an equal one transports
-transfer along the canonical equivalence**
+/-- **Replacing a finite-index subgroup by an equal one transports the
+transfer's codomain along the canonical equivalence**
 ([Yamaguchi 2026, `TransferNaturality.lean:252`][Yamaguchi2026]). -/
 theorem abelianization_transfer_congr_subgroup
     (H J : Subgroup P) (h : H = J)
