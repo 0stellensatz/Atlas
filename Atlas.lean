@@ -302,6 +302,7 @@ import Atlas.Knowledge.ReciprocityExactRows
 import Atlas.Knowledge.ReciprocityIndependence
 import Atlas.Knowledge.ReciprocityMap
 import Atlas.Knowledge.ReciprocityMapMul
+import Atlas.Knowledge.ReciprocityReductionArithmetic
 import Atlas.Knowledge.RelativeIndexCardinal
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.RelativeNormConjugation
