@@ -1,18 +1,16 @@
 import Mathlib
-import Atlas.Knowledge.GalUnits
 import Atlas.Knowledge.HilbertNinety
 import Atlas.Knowledge.LowerRamificationGroup
 import Atlas.Knowledge.NormalizedValuation
-import Atlas.Knowledge.NormalizedValuationAlgEquiv
 import Atlas.Knowledge.UnramifiedNormRange
 
 /-!
 # unramified unit cohomology
 
-The two elementwise halves of the cohomological triviality of the
-units of a finite unramified extension of mixed-characteristic local
-fields: every base unit is the norm of a unit — `Ĥ⁰(G, U_L) = 0` —
-and every norm-one unit is a `σ`-quotient of a unit at a generator —
+The two elementwise halves of the cohomological triviality of the units
+of a finite unramified extension of mixed-characteristic local fields:
+every base unit is the norm of a unit — `Ĥ⁰(G, U_L) = 0` — and every
+norm-one unit is a `σ`-quotient of a unit at a generator —
 `Ĥ⁻¹(G, U_L) = 0`. These are the concrete facts the local
 instantiation's unramified-unit-cohomology discharge transfers to the
 abstract datum (#104).
@@ -26,26 +24,35 @@ abstract datum (#104).
 
 ## Implementation notes
 
-Neither statement has a source counterpart: at the pin the source
-derives the abstract unit-cohomology axiom from the Tate-cohomology
-reading of the class-field axiom (`Reciprocity/Core.lean:413`), the
-derivation `Atlas.Knowledge.ClassFieldAxiom`'s notes replace by a
-direct local discharge — these two theorems are that discharge's
-concrete floor, formalized from the literature. The first closes on
-`Atlas.Knowledge.unramifiedNormRange` (itself index-counting against
-the class-field axiom) with the valuation multiplicativity pinning
-the preimage to a unit; the second is Hilbert 90 with the witness
-rescaled by a base uniformizer power, which the Galois action fixes,
-to a unit — the `σ`-quotient direction is the layer's Hilbert-90
-direction `y / σ y`.
+The source proves both facts in its unramified tree — integer-unit norm
+surjectivity at `LocalClassFieldTheory/Finite/Unramified/Norm.lean:19`
+and the Tate-cohomology package at
+`LocalClassFieldTheory/Finite/Unramified/Cohomology.lean:382`, by
+residue-field surjectivity and the unit filtration, without the
+class-field axiom — but its local-reciprocity arc never consumes them:
+the abstract unit-cohomology axiom is derived instead through the
+Tate-cohomology reading at
+`AbstractClassFieldTheory/Reciprocity/Core.lean:413`, which
+`Atlas.Knowledge.ClassFieldAxiom`'s notes replace by a direct local
+discharge. These two theorems are that discharge's concrete floor,
+stated in the layer's own vocabulary and proved by the shorter routes
+the layer already carries: the first closes on
+`Atlas.Knowledge.unramifiedNormRange` — index-counting against the
+class-field axiom, where the source's own proof is axiom-free — with
+the valuation multiplicativity pinning the preimage to a unit; the
+second is Hilbert 90 with the witness rescaled to a unit by a base
+uniformizer power, which the Galois action fixes. Direct means avoiding
+Tate cohomology, not avoiding the axiom; the `σ`-quotient direction is
+the layer's Hilbert-90 direction `y / σ y`.
 
 ## References
 
-* [MilneCFT] J. S. Milne, *Class field theory* (v4.03), course notes, 2020.
-* [Serre1979] J.-P. Serre, *Local fields*, Graduate Texts in Mathematics 67,
-  Springer, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
+  2020.
+* [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
+  York, 1979.
+* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
+  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -59,9 +66,12 @@ variable (L : Type*) [Field L] [ValuativeRel L] [TopologicalSpace L] [Algebra K 
   [ValuativeExtension K L] [FiniteDimensional K L] [IsMixedCharLocalField L] [IsGalois K L]
 
 /-- **Every base unit of an unramified extension is the norm of a
-unit** — the elementwise `Ĥ⁰(G, U_L) = 0`
-([Milne 2020, Chap. III, §1, Prop. 1.2, p.98][MilneCFT];
-[Serre 1979, Chap. V, §2, Prop. 3 and Cor., p.82][Serre1979]). -/
+unit** — the elementwise `Ĥ⁰(G, U_L) = 0` ([Milne 2020, Chap. III, §1,
+Prop. 1.2, p.98][MilneCFT]; [Serre 1979, Chap. V, §2, Prop. 3 and Cor.,
+p.82][Serre1979]; the source counterpart, in its integral vocabulary,
+is [Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Unramified/Norm.lean:19`]
+[Yamaguchi2026]). -/
 theorem unramifiedUnitNorm_surjective
     (h : lowerRamificationGroup K L 0 = ⊥)
     (u : Kˣ) (hu : normalizedValuation K u = 0) :
@@ -82,11 +92,13 @@ theorem unramifiedUnitNorm_surjective
     Int.natCast_ne_zero.mpr Module.finrank_pos.ne'
   exact (mul_eq_zero.mp hval.symm).resolve_left hn
 
-/-- **Every norm-one unit of an unramified extension is a
-`σ`-quotient of a unit at a generator** — the elementwise
-`Ĥ⁻¹(G, U_L) = 0`, by Hilbert 90 with the witness rescaled to a unit
-by a base uniformizer power
-([Milne 2020, Chap. III, §1, Prop. 1.1, p.97][MilneCFT]). -/
+/-- **Every norm-one unit of an unramified extension is a `σ`-quotient
+of a unit at a generator** — the elementwise `Ĥ⁻¹(G, U_L) = 0`, by
+Hilbert 90 with the witness rescaled to a unit by a base uniformizer
+power ([Milne 2020, Chap. III, §1, Prop. 1.1, p.97][MilneCFT]; the
+source counterpart, in its Herbrand vocabulary, is [Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Unramified/Cohomology.lean:382`]
+[Yamaguchi2026]). -/
 theorem unramifiedUnitPrimitive
     (h : lowerRamificationGroup K L 0 = ⊥)
     (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgroup.zpowers σ)
