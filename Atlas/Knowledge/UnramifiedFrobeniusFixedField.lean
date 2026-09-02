@@ -1,6 +1,5 @@
 import Mathlib
 import Atlas.Knowledge.AbstractExtension
-import Atlas.Knowledge.AmbientFixedAddSubgroup
 import Atlas.Knowledge.ChosenPrimeElement
 import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbstractExtension
@@ -44,17 +43,17 @@ valuation theorems' section is `Type` after the `Type`-pinned
 quotient-action chain, and the source's mid-file
 `unramifiedReciprocity` section is cut at the prime lemmas and closed
 here as `unramifiedReciprocityHead`, its remainder being the next
-brick. All four theorems shed the source's `[T2Space G]`, which was
-simply unused — the ported statements are strictly more general than
-the source's — and the valuation theorems drop the source's four
-enrichment `letI` re-anchors, statement-level and proof-level alike:
-the `FiniteFieldUnitMaps` transport instance stands in, so their
-statements have one fewer binding than the source's. The extension
-bundles are the layer's top-level `AbstractExtension`,
-`FiniteAbstractExtension`, and `FiniteAbstractFieldExtension`. The
-`FiniteFieldUnitMaps` import is referenced by no name, carrying the
-transport instances above. The citations name this file by bare
-basename; it lives at
+brick. All four theorems shed the source's `[T2Space G]`, and the first
+its `[CompactSpace G]` too — all simply unused, so the ported
+statements are strictly more general than the source's — and the
+valuation theorems drop the source's four enrichment `letI` re-anchors,
+statement-level and proof-level alike: the `FiniteFieldUnitMaps`
+transport instance stands in, so their statements have one fewer
+binding than the source's. The extension bundles are the layer's
+top-level `AbstractExtension`, `FiniteAbstractExtension`, and
+`FiniteAbstractFieldExtension`. The `FiniteFieldUnitMaps` import is
+referenced by no name, carrying the transport instances above. The
+citations name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
 source's `open`s go — the layer keeps everything in one namespace.
 
