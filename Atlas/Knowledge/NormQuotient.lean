@@ -31,7 +31,11 @@ Everything ports token-for-token; the file is the source's
 `LocalFieldTheory/NonarchimedeanLocalField/NormQuotient.lean` whole,
 and the deliberately opaque quotient boundary — clients go through
 `normQuotientConcreteEquiv` and the lift rather than unfolding
-`NormQuotient` — is the source's own design, kept as stated.
+`NormQuotient` — is the source's own design, kept as stated. The source
+module doc's claim that the file relates the quotient's finite
+cardinality to the index of the norm subgroup is not reproduced: no
+such declaration exists in the source file, and three of its imports
+are unused relics of one.
 
 ## References
 
