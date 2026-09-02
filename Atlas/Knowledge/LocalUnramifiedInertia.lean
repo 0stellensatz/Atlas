@@ -46,11 +46,11 @@ supplies the rest from its extension chain. The source implements this
 direction only absolutely, on upper ramification groups over its
 separable closure
 (`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/AbstractUnramified.lean:145`
-and `:256`, with upper-at-zero the inertia group by
-`RamificationTheory/LocalField/Unramified.lean:169`), never in the
-relative `lowerRamificationGroup` spelling; and its unit-cohomology
-axiom never consumes any of it — that axiom is derived through the
-Tate-cohomology reading the layer replaces.
+and `:256`, with upper and lower numbering agreeing at zero by
+`RamificationTheory/LocalField/Core.lean:877`), never in the relative
+`lowerRamificationGroup` spelling; and its unit-cohomology axiom never
+consumes any of it — that axiom is derived through the Tate-cohomology
+reading the layer replaces.
 
 ## References
 

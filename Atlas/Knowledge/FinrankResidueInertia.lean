@@ -40,9 +40,10 @@ never appears in the statement — the mixed-characteristic structure the
 residue reading needs upstairs is conjured inside the proof from the
 valuative topology. The tower lemma is the residue-field `finrank`
 tower; its one load-bearing step is the integer-level `IsScalarTower`,
-and its base-to-top extension witness is derived by the transitivity
-item rather than bound. Neither flagship is ported: the source's
-counterpart of the identity is
+and its statement binds the base-to-top extension witness — the
+conclusion's residue module needs it before any proof step — which
+callers derive by the transitivity item. Neither flagship is ported:
+the source's counterpart of the identity is
 `LocalFieldTheory/NonarchimedeanLocalField/ResidueExtension.lean:362`
 in its own model vocabulary, and the tower lemma formalizes no
 literature statement beyond the `finrank` tower of the residue degrees.
