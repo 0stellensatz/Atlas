@@ -93,6 +93,7 @@ import Atlas.Knowledge.FiniteIntermediateFieldRefinement
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FinitePlaceIdele
 import Atlas.Knowledge.FiniteReciprocityCandidate
+import Atlas.Knowledge.FiniteReciprocityHom
 import Atlas.Knowledge.FiniteReciprocityValue
 import Atlas.Knowledge.FiniteResidueAbstractExtension
 import Atlas.Knowledge.FiniteResidueAbstractField
