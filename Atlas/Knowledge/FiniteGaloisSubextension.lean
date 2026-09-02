@@ -28,8 +28,10 @@ the ambient bundle of the Frobenius power fixed-field tower (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 and the normality instance is `subgroupOf_normalInstance`, after the
 layer's `GaloisSubextension` item renamed its sibling the same way.
-Seven source declarations stay unported for want of consumers in the
-reciprocity assembly: `toGaloisSubextension_isUnramified_iff`,
+Seven source declarations stay unported — none is consumed inside
+`Main.lean`'s import closure, the window this port serves, though four
+have consumers in `Reciprocity/` files beyond it —
+`toGaloisSubextension_isUnramified_iff`,
 `toGaloisSubextension_isTotallyRamified_iff`,
 `isUnramified_toGaloisSubextension`, `finite_intermediate_extension`,
 `baseChange`, and the pair `finiteNormSubgroup_compositum_le_left` /
