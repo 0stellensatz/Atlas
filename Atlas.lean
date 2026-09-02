@@ -375,6 +375,7 @@ import Atlas.Knowledge.UnramifiedFrobeniusFixedField
 import Atlas.Knowledge.UnramifiedNormQuotient
 import Atlas.Knowledge.UnramifiedNormRange
 import Atlas.Knowledge.UnramifiedQuotientGenerator
+import Atlas.Knowledge.UnramifiedReciprocityEquiv
 import Atlas.Knowledge.UpperRamificationGroup
 import Atlas.Knowledge.ValuationData
 import Atlas.Knowledge.WildBaseChange
