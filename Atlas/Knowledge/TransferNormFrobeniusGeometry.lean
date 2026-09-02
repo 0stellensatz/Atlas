@@ -6,11 +6,12 @@ import Atlas.Knowledge.FiniteResidueAbstractExtension
 import Atlas.Knowledge.FrobeniusElements
 import Atlas.Knowledge.FrobeniusExponent
 import Atlas.Knowledge.FrobeniusField
+import Atlas.Knowledge.FrobeniusFixedField
 import Atlas.Knowledge.FrobeniusNormCosetDecomposition
 import Atlas.Knowledge.TopologicalGeneration
 
 /-!
-# Transfer-norm Frobenius geometry
+# Transfer–norm Frobenius geometry
 
 The Frobenius-side subgroup and orbit equivalences of transfer–norm
 naturality: the copy `H` of `G(L̃|K')` inside `G(L̃|K)` with its
@@ -32,7 +33,7 @@ double-coset index set `G_K'\\G_K/G_Σ` (#104).
 ## Main statements
 
 * `transferNormNaturality_intermediateExtension_normal` — normality
-  restricts to intermediate fields; proved.
+  restricts along extensions of the base; proved.
 * `DegreeData.transferNormNaturalityFrobeniusTowerMap_injective` — the
   tower map is injective over a fixed top field; proved.
 * `DegreeData.transferNormNaturalityFrobeniusIntermediateSubgroup_eq_map`
@@ -64,7 +65,8 @@ fixpoint: eight declarations shed `[IsTopologicalGroup G]` and four
 shed `[T2Space G]`, all simply unused. Four converter-widened lines are
 re-wrapped. The citations name this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
-source's `open`s go — the layer keeps everything in one namespace.
+source's namespace `open`s go — the layer keeps everything in one
+namespace — while `open MulAction` stays for the orbit vocabulary.
 
 ## References
 
@@ -82,12 +84,9 @@ open MulAction
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
-variable {G : Type u} [Group G] [TopologicalSpace G]
-
 /-- **The absolute group of an intermediate field, identified with its
 literal copy inside the absolute group of the base field**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:32`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:32`][Yamaguchi2026]). -/
 noncomputable def transferNormNaturalityIntermediateAbsoluteEquiv
     (K K' : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup) :
@@ -101,8 +100,7 @@ noncomputable def transferNormNaturalityIntermediateAbsoluteEquiv
       exact ⟨k', Subtype.ext rfl⟩⟩
 
 /-- The equivalence evaluates by the underlying inclusion
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:46`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:46`][Yamaguchi2026]). -/
 @[simp]
 theorem transferNormNaturalityIntermediateAbsoluteEquiv_apply
     (K K' : ClosedSubgroup G)
@@ -111,9 +109,8 @@ theorem transferNormNaturalityIntermediateAbsoluteEquiv_apply
     ((transferNormNaturalityIntermediateAbsoluteEquiv K K' hK'K k').1 : G) = k'.1 :=
   rfl
 
-/-- **Normality of `L | K` restricts to every intermediate field `K'`**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:54`]
-[Yamaguchi2026]). -/
+/-- **Normality of `L | K` restricts along every extension `K' | K`**
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:54`][Yamaguchi2026]). -/
 theorem transferNormNaturality_intermediateExtension_normal
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -133,8 +130,7 @@ namespace DegreeData
 
 /-- **The tower map on the infinite Frobenius quotients is injective
 when the top field is unchanged**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:74`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:74`][Yamaguchi2026]). -/
 theorem transferNormNaturalityFrobeniusTowerMap_injective
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -168,8 +164,7 @@ theorem transferNormNaturalityFrobeniusTowerMap_injective
 
 /-- **The copy of `G(L̃|K')` inside `G(L̃|K)`** — the subgroup `H` of
 the classical double-coset proof of transfer–norm naturality
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:111`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:111`][Yamaguchi2026]). -/
 def transferNormNaturalityFrobeniusIntermediateSubgroup
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -184,8 +179,7 @@ def transferNormNaturalityFrobeniusIntermediateSubgroup
     (hL.trans E.below) hL E.below le_rfl).range
 
 /-- **`H` is the image of `G_K'` under the quotient projection**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:126`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:126`][Yamaguchi2026]). -/
 theorem transferNormNaturalityFrobeniusIntermediateSubgroup_eq_map
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -214,8 +208,7 @@ theorem transferNormNaturalityFrobeniusIntermediateSubgroup_eq_map
 
 /-- **The projection of the literal absolute subgroup of `K'` onto its
 copy `H`**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:154`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:154`][Yamaguchi2026]). -/
 noncomputable def transferNormNaturalityIntermediateToFrobeniusSubgroup
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -237,8 +230,7 @@ noncomputable def transferNormNaturalityIntermediateToFrobeniusSubgroup
   exact ⟨m.1, m.2, rfl⟩
 
 /-- **The projection onto `H` is surjective**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:175`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:175`][Yamaguchi2026]). -/
 theorem transferNormNaturalityIntermediateToFrobeniusSubgroup_surjective
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -265,8 +257,7 @@ theorem transferNormNaturalityIntermediateToFrobeniusSubgroup_surjective
     Subgroup.subtype_apply] using hval
 
 /-- The projection evaluates by the quotient class
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:202`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:202`][Yamaguchi2026]). -/
 @[simp]
 theorem transferNormNaturalityIntermediateToFrobeniusSubgroup_apply
     (D : DegreeData G)
@@ -284,8 +275,7 @@ theorem transferNormNaturalityIntermediateToFrobeniusSubgroup_apply
 
 /-- **The canonical coset equivalence `G_K/G_Σ ≃ G(L̃|K)/Γ` intertwines
 the two copies of the `K'`-action**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:218`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:218`][Yamaguchi2026]). -/
 theorem frobeniusFixedCosetClosureEquiv_equivariant
     (D : DegreeData G) [IsTopologicalGroup G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -297,7 +287,7 @@ theorem frobeniusFixedCosetClosureEquiv_equivariant
     (m : E.field.field.toSubgroup.subgroupOf E.base.field.toSubgroup)
     (x : E.base.field.toSubgroup ⧸
         (D.frobeniusFixedField E.base L (hL.trans E.below) σ).toSubgroup.subgroupOf
-      E.base.field.toSubgroup) :
+        E.base.field.toSubgroup) :
     D.frobeniusFixedCosetClosureEquiv E.base L (hL.trans E.below) σ (m • x) =
       (D.transferNormNaturalityIntermediateToFrobeniusSubgroup
         E L hL m) •
@@ -314,8 +304,7 @@ theorem frobeniusFixedCosetClosureEquiv_equivariant
 
 /-- **Restriction from the infinite Frobenius quotient onto the finite
 Galois quotient is surjective**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:246`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:246`][Yamaguchi2026]). -/
 theorem transferNormNaturalityExtensionRestriction_surjective
     (D : DegreeData G)
     (K L : ClosedSubgroup G)
@@ -328,8 +317,7 @@ theorem transferNormNaturalityExtensionRestriction_surjective
   exact ⟨QuotientGroup.mk k, rfl⟩
 
 /-- **The kernel of restriction to `G(L|K)` lies in `H`**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:259`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:259`][Yamaguchi2026]). -/
 theorem transferNormNaturalityExtensionRestriction_ker_le_intermediate
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -359,8 +347,7 @@ theorem transferNormNaturalityExtensionRestriction_ker_le_intermediate
 
 /-- **`H` has finite index in `G(L̃|K)`**, with no normality assumption
 on `K' | K`
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:290`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:290`][Yamaguchi2026]). -/
 theorem transferNormNaturalityFrobeniusIntermediateFiniteIndex
     (D : DegreeData G)
     (R : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -386,8 +373,7 @@ theorem transferNormNaturalityFrobeniusIntermediateFiniteIndex
   exact Subgroup.FiniteIndex.index_ne_zero
 
 /-- **`H` is closed in `G(L̃|K)`**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:318`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:318`][Yamaguchi2026]). -/
 theorem transferNormNaturalityFrobeniusIntermediate_isClosed
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -423,8 +409,7 @@ theorem transferNormNaturalityFrobeniusIntermediate_isClosed
 norm double-coset index set `G_K'\\G_K/G_Σ`** — inversion of double
 cosets, passage from the powers of `σ` to their closure `Γ`, and the
 canonical identification `G_K/G_Σ ≃ G(L̃|K)/Γ`
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:354`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:354`][Yamaguchi2026]). -/
 noncomputable def transferNormNaturalityTransferNormOrbitEquiv
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -486,8 +471,7 @@ noncomputable def transferNormNaturalityTransferNormOrbitEquiv
 
 /-- The orbit equivalence sends the representative `k` to the norm
 orbit of `k⁻¹`
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:416`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:416`][Yamaguchi2026]). -/
 @[simp]
 theorem transferNormNaturalityTransferNormOrbitEquiv_mk
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
@@ -522,8 +506,7 @@ theorem transferNormNaturalityTransferNormOrbitEquiv_mk
 
 /-- **On the chosen transfer representative `t`, the equivalence is the
 norm orbit of `t⁻¹`**
-([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:450`]
-[Yamaguchi2026]). -/
+([Yamaguchi 2026, `MainTransferFrobeniusGeometry.lean:450`][Yamaguchi2026]). -/
 theorem transferNormNaturalityTransferNormOrbitEquiv_apply
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
