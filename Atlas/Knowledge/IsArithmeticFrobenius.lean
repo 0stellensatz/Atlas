@@ -28,6 +28,8 @@ the order, and the generation are all proved here.
   its statement alone.
 * `orderOf_of_isArithmeticFrobenius` / `zpowers_of_isArithmeticFrobenius` — its order is the
   degree and it generates; both proved.
+* `natCard_quotient_under` — the residue cardinality read on the quotient by the under-ideal;
+  proved.
 
 ## Implementation notes
 

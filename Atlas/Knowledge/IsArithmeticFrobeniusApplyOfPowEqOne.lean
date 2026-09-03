@@ -21,7 +21,7 @@ evaluates on the cyclotomic floors (#104).
   prime-to-`q` roots of unity; proved.
 * `natCast_notMem_maximalIdeal_of_coprime` — integers prime to `q`
   avoid the maximal ideal of the integral closure; proved.
-* `isIntegral_of_pow_eq_one` — roots of unity are integral; proved.
+* `IsArithmeticFrobenius.isIntegral_of_pow_eq_one` — roots of unity are integral; proved.
 
 ## Implementation notes
 
@@ -36,7 +36,7 @@ the exponent — and Mathlib's `AlgHom.IsArithFrobAt.apply_of_pow_eq_one`
 then does the work. Its two side conditions are discharged the way the
 global template `Atlas.Knowledge.cyclotomicArtinNormalization` does at
 a number-field prime: the root of unity is integral as a root of the
-monic `X ^ m - 1` (`isIntegral_of_pow_eq_one`, stated over any base
+monic `X ^ m - 1` (`IsArithmeticFrobenius.isIntegral_of_pow_eq_one`, stated over any base
 ring), and `(m : _) ∉ Q` comes from the coprimality by a Bézout
 argument in the base residue quotient under its under-ideal name —
 `m` vanishes there by the membership, `q` by
@@ -67,8 +67,8 @@ namespace Atlas.Knowledge
 
 /-- A root of unity is integral over any base ring: the monic
 `X ^ m - 1` kills it. -/
-theorem isIntegral_of_pow_eq_one {A L : Type*} [CommRing A] [CommRing L] [Algebra A L]
-    {x : L} {m : ℕ} (hm : m ≠ 0) (hx : x ^ m = 1) : IsIntegral A x :=
+theorem IsArithmeticFrobenius.isIntegral_of_pow_eq_one {A L : Type*} [CommRing A] [CommRing L]
+    [Algebra A L] {x : L} {m : ℕ} (hm : m ≠ 0) (hx : x ^ m = 1) : IsIntegral A x :=
   ⟨Polynomial.X ^ m - Polynomial.C 1, Polynomial.monic_X_pow_sub_C 1 hm, by simp [hx]⟩
 
 variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
@@ -125,7 +125,7 @@ theorem IsArithmeticFrobenius.apply_of_pow_eq_one [FiniteDimensional K E] {σ : 
     rintro rfl
     rw [Nat.coprime_zero_left] at hm
     omega
-  set z : integralClosure 𝒪[K] E := ⟨ζ, isIntegral_of_pow_eq_one hm0 hζ⟩
+  set z : integralClosure 𝒪[K] E := ⟨ζ, IsArithmeticFrobenius.isIntegral_of_pow_eq_one hm0 hζ⟩
   -- the layer's congruence is Mathlib's `IsArithFrobAt` at the maximal ideal
   have hfrob : ((galRestrict 𝒪[K] K E (integralClosure 𝒪[K] E) σ :
       integralClosure 𝒪[K] E ≃ₐ[𝒪[K]] integralClosure 𝒪[K] E) :

@@ -31,11 +31,11 @@ map is read (#104).
 Promotion provenance: `cycloField`, its splitting-field,
 finite-dimensionality, and normality instances, `mem_cycloField`,
 `cycloField_aut_comm`, and the root-set reading
-`pow_eq_one_of_mem_rootSet` moved here from the private section of
-`Atlas.Knowledge.IsLocalReciprocity`, where the uniqueness proof built
-them for its own use — the promotion deferred there until a second
-consumer appeared, executed on the #104 Brick-C decision now that the
-Frobenius normalization reads the floors
+`cycloField_pow_eq_one_of_mem_rootSet` moved here from the private
+section of `Atlas.Knowledge.IsLocalReciprocity`, where the uniqueness
+proof built them for its own use — the promotion deferred there until a
+second consumer appeared, executed on the #104 Brick-C decision now
+that the Frobenius normalization reads the floors
 (`Atlas.Knowledge.CycloFieldLowerRamificationGroupEqBot` and the
 assembly after it). The names and signatures are kept exactly as the
 private copies had them, so the consumer's call sites do not move; the
@@ -45,18 +45,17 @@ only `Field K`, and the commutativity asks `CharZero K` where the
 private copies carried the whole local-field pack. The two instances
 new here, `cycloField_isGalois` and `cycloField_isAbelianGalois`, are
 the forms the target-side dictionary
-(`Atlas.Knowledge.AbsoluteAbelianRestriction`) demands at a floor;
-the abelian one takes its nonvanishing as `NeZero m` because instance
+(`Atlas.Knowledge.AbsoluteAbelianRestriction`) demands at a floor; the
+abelian one takes its nonvanishing as `NeZero m` because instance
 arguments cannot be plain hypotheses, and at level zero the floor is
-`⊥` and the instance is not needed. The device is the question
-writer's own: the read repository never forms this intermediate
-field — its cyclotomic extensions live monogenically over an abstract
-top field, in its `LocalFieldTheory/Padic/Cyclotomic` corner, whose
-delta `Atlas.Knowledge.CycloFieldLowerRamificationGroupEqBot`
-discloses in full — and no classical source is transcribed: the
+`⊥` and the instance is not needed. The device is the question writer's
+own: the read repository never forms this intermediate field — its
+cyclotomic extensions live monogenically over an abstract top field, in
+the corner whose delta
+`Atlas.Knowledge.CycloFieldLowerRamificationGroupEqBot` discloses and
+cites in full — and no classical source is transcribed: the
 commutativity is the standard exponent-multiplication argument on a
-chosen primitive root.
--/
+chosen primitive root. -/
 
 namespace Atlas.Knowledge
 
@@ -89,7 +88,7 @@ instance cycloField_normal (m : ℕ) : Normal K ↥(cycloField K m) :=
 /-- Membership in the root set of `X ^ m - 1` is being an `m`-th root
 of unity — the reading lemma for the generating set of the cyclotomic
 floor. -/
-theorem pow_eq_one_of_mem_rootSet {m : ℕ} {x : AlgebraicClosure K}
+theorem cycloField_pow_eq_one_of_mem_rootSet {m : ℕ} {x : AlgebraicClosure K}
     (hx : x ∈ (Polynomial.X ^ m - 1 : Polynomial K).rootSet (AlgebraicClosure K)) :
     x ^ m = 1 := by
   rw [Polynomial.mem_rootSet] at hx

@@ -32,36 +32,42 @@ Frobenii (#104).
 The membership is unwound by
 `Atlas.Knowledge.mem_lowerRamificationGroup_iff` at index zero, the
 radical converted by
-`Atlas.Knowledge.integralClosure_jacobson_bot_eq_maximalIdeal`, and
-the closing extensionality on the adjoined generators is
+`Atlas.Knowledge.integralClosure_jacobson_bot_eq_maximalIdeal`, and the
+closing extensionality on the adjoined generators is
 `IntermediateField.algHom_ext_of_eq_adjoin` with the root-set reading
-`Atlas.Knowledge.pow_eq_one_of_mem_rootSet` — the pattern of the
-uniqueness proof the floor was first built for, and the coprimality
-forces `m ≠ 0` since `q > 1`, so no nonvanishing hypothesis is
-carried. The injectivity lemma is stated over any domain and any
-ideal avoiding `m` — the separability of `X ^ m - 1` in
-geometric-sum form: the two roots divide to `η` congruent to `1`,
-`geom_sum_mul` splits `0 = η ^ m - 1` into `η - 1` and the geometric
-sum, the sum is congruent to `m` and hence nonzero, and the domain
-cancels. Mathlib runs the same trick inside
-`AlgHom.IsArithFrobAt.apply_of_pow_eq_one` but does not state it
-standalone. One elaboration wrinkle:
-`Atlas.Knowledge.natCast_notMem_maximalIdeal_of_coprime` is applied
-with its extension argument written out — `↥(cycloField K m)` — since
-a placeholder there postpones a metavariable on which unification
-then deadlocks. Layer-original with one disclosed neighbor: the read
+`Atlas.Knowledge.cycloField_pow_eq_one_of_mem_rootSet` — the pattern of
+the uniqueness proof the floor was first built for, and the coprimality
+forces `m ≠ 0` since `q > 1`, so no nonvanishing hypothesis is carried.
+The injectivity lemma is stated over any domain and any ideal avoiding
+`m` — the separability of `X ^ m - 1` in geometric-sum form: the two
+roots divide to `η` congruent to `1`, `geom_sum_mul` splits
+`0 = η ^ m - 1` into `η - 1` and the geometric sum, the sum is
+congruent to `m` and hence nonzero, and the domain cancels. Mathlib
+runs the same trick inside `AlgHom.IsArithFrobAt.apply_of_pow_eq_one`
+but does not state it standalone. The two generic auxiliaries —
+integrality and the coprime cast avoiding the maximal ideal — are
+consumed from beside the wrapper
+`Atlas.Knowledge.IsArithmeticFrobenius.apply_of_pow_eq_one`, an import
+of those lemmas rather than of any Frobenius action. One elaboration
+wrinkle: `Atlas.Knowledge.natCast_notMem_maximalIdeal_of_coprime` is
+applied with its extension argument written out — `↥(cycloField K m)` —
+since a placeholder there postpones a metavariable on which unification
+then deadlocks. Layer-original with two disclosed neighbors: the read
 repository proves a cyclotomic unramifiedness of its own —
 `padicCyclotomicUnramified_finiteUnramifiedExtension`
 (`LocalFieldTheory/Padic/Cyclotomic/Unramified/ArithmeticFrobenius.lean:590`),
 in its Henselian exponential-valuation bundle, at a monogenic
-presentation `Algebra.adjoin K {ζ} = ⊤` of one chosen primitive
-root — but nothing at the layer's `lowerRamificationGroup`
-rendering, and its local-class-field chain consumes that corner only
-for a norm-subgroup identification
-(`LocalClassFieldTheory/Finite/CyclotomicNorm/Unramified.lean`),
-never to normalize a reciprocity map; the statement here, on the
-intermediate-field floor with all `m`-th roots at once and no Hensel
-or monogenicity input, is the layer's own.
+presentation `Algebra.adjoin K {ζ} = ⊤` of one chosen primitive root —
+and bounds inertia at `ℚ_p` cyclotomically
+(`RamificationTheory/HilbertRamification/PadicCyclotomicInertiaBound.lean:120`,
+which at the prime-to-`p` level says unramifiedness as a cardinality
+bound) — but nothing at the layer's `lowerRamificationGroup` rendering,
+and its local-class-field chain consumes that corner only for a
+norm-subgroup identification
+(`LocalClassFieldTheory/Finite/CyclotomicNorm/Unramified.lean`), never
+to normalize a reciprocity map; the statement here, on the
+intermediate-field floor with all `m`-th roots at once and no Hensel or
+monogenicity input, is the layer's own.
 
 ## References
 
@@ -144,7 +150,7 @@ theorem cycloField_lowerRamificationGroup_eq_bot {m : ℕ}
   apply AlgEquiv.coe_toAlgHom_injective
   refine IntermediateField.algHom_ext_of_eq_adjoin (S := cycloField K m) K rfl ?_
   intro x hx
-  have hxm : x ^ m = 1 := pow_eq_one_of_mem_rootSet K hx
+  have hxm : x ^ m = 1 := cycloField_pow_eq_one_of_mem_rootSet K hx
   simp only [AlgEquiv.coe_toAlgHom, AlgEquiv.one_apply]
   set ζ : ↥(cycloField K m) := ⟨x, IntermediateField.subset_adjoin _ _ hx⟩
   have hζm : ζ ^ m = 1 := by
@@ -152,7 +158,7 @@ theorem cycloField_lowerRamificationGroup_eq_bot {m : ℕ}
     push_cast
     exact hxm
   set z : integralClosure 𝒪[K] ↥(cycloField K m) :=
-    ⟨ζ, isIntegral_of_pow_eq_one hm0 hζm⟩
+    ⟨ζ, IsArithmeticFrobenius.isIntegral_of_pow_eq_one hm0 hζm⟩
   have hz : z ^ m = 1 := by
     ext
     push_cast
