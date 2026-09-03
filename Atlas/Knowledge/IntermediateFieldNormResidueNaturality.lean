@@ -68,10 +68,8 @@ interface departure carried since
 `Atlas.Knowledge.AbstractReciprocityEquiv` — while the closing theorem
 supplies all four local inputs, discharging the hypothesis by
 `Atlas.Knowledge.localHenselianValuation_satisfiesUnramifiedUnitCohomology`,
-so it threads nothing.
-
-The structural departure: the source reaches its canonical symbol
-through the embedding-independence theorem of its
+so it threads nothing. The structural departure: the source reaches its
+canonical symbol through the embedding-independence theorem of its
 `ConcreteReciprocityCanonical.lean`, which the layer skips, and pins
 the restriction chain to the inclusions `E.val`, `F.val`. The layer's
 canonical symbol lives at the chosen `IsAlgClosed.lift`, so the chain
@@ -86,14 +84,16 @@ representative formulas the privates consume are pulled in from the
 otherwise-skipped `ConcreteReciprocityCanonical.lean` (`:573`, `:612`),
 hoisted over `Ω`; its base-unit comparison law (`:635`) is rederived
 from the layer's
-`finiteNormQuotientEquivEmbeddedNormQuotient_finiteNormClass`, and its
-private finiteness instances are replaced by `letI`-in-type bindings.
-The closing theorem takes the layer's `[IsMixedCharLocalField K]` where
-the source takes `[IsNonarchimedeanLocalField K]`, and needs no `omit`
-dance: the local instances enter only in its own section. Galois groups
-are spelled `≃ₐ[·]`. Everything else ports token-for-token; the file is
-the source's
-`LocalReciprocity/IntermediateFieldNormResidueNaturality.lean` whole.
+`finiteNormQuotientEquivEmbeddedNormQuotient_finiteNormClass` as a
+private lemma without the source's simp attribute — only this file
+consumes it — and its private finiteness instances are replaced by
+`letI`-in-type bindings. The closing theorem takes the layer's
+`[IsMixedCharLocalField K]` where the source takes
+`[IsNonarchimedeanLocalField K]`, and needs no `omit` dance: the local
+instances enter only in its own section. Galois groups are spelled
+`≃ₐ[·]`. Everything else ports token-for-token; the file is the
+source's `LocalReciprocity/IntermediateFieldNormResidueNaturality.lean`
+whole. The source's `τ`/`σ` binders are spelled `tau`/`sigma`.
 
 ## References
 
