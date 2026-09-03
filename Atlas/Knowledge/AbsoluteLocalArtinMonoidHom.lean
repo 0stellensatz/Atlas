@@ -43,13 +43,17 @@ the composite is stated plain. The map is renamed from the source's
 (the ambient conversion of the arc), and the arc names the plain-hom
 restatements `MonoidHom` — the convention of
 `Atlas.Knowledge.abelianLocalArtinMonoidHom`. In the projection
-identity the source's closing `simpa` unfolding the definition is
-replaced by a definitional `exact`: after the source's `change`, the
-hypothesis is the goal up to unfolding the definition and the coercion
-chain — the syntactic route in fact strands the two sides at different
-coercion spellings under simp's current normal form — and the
-comparison never enters `abelianLocalArtinMonoidHom`, so the
-recursion-limit hazard recorded on
+identity the left side is stated at simp's normal form — the quotient
+class of the map's value — where the source applies
+`QuotientGroup.mk'`: current Mathlib's simp set rewrites `mk'` away
+first, so the source-shaped `@[simp]` could never fire (simpNF), and
+the two spellings are definitionally the same term. Its closing `simpa`
+unfolding the definition is likewise replaced by a definitional
+`exact`: after the source's `change`, the hypothesis is the goal up to
+unfolding the definition and the coercion chain — the syntactic route
+in fact strands the two sides at different coercion spellings under
+simp's current normal form — and the comparison never enters
+`abelianLocalArtinMonoidHom`, so the recursion-limit hazard recorded on
 `Atlas.Knowledge.AbsoluteFiniteArtinMap` does not bite. The variable
 block is the local-field Type-pinned block of the consumed coordinates,
 that block's recorded universe seam. Everything else ports
@@ -86,8 +90,8 @@ quotient is the corresponding finite Artin coordinate ([Yamaguchi 2026,
 @[simp]
 theorem absoluteLocalArtinMonoidHom_finiteProjection
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) (a : Kˣ) :
-    QuotientGroup.mk' N.toSubgroup
-        (absoluteLocalArtinMonoidHom K a) =
+    (absoluteLocalArtinMonoidHom K a :
+        Field.absoluteGaloisGroupAbelianization K ⧸ N.toSubgroup) =
       absoluteFiniteArtinMap K N a := by
   let e := absoluteGaloisAbelianizationLimitEquiv K
   let y := absoluteFiniteArtinLimitMap K a

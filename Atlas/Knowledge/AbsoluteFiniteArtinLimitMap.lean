@@ -56,7 +56,8 @@ the consumed coordinates, that block's recorded universe seam. The
 source's placeholder docstrings are replaced by content. Everything
 else ports token-for-token; the file is the source's
 `LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:123`–`:202`, less
-the continuity field.
+the continuity field and the `Type` ascription on the cone's codomain,
+which the plain arrow no longer needs.
 
 ## References
 

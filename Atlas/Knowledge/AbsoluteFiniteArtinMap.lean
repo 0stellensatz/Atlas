@@ -67,10 +67,12 @@ definitional comparison through `abelianLocalArtinMonoidHom` unfolds
 the whole reciprocity transport past the recursion limit, so the proof
 keeps every comparison syntactic. The file is the source's
 `LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:25`–`:105`, the
-finite-coordinate half only: the limit half (its `:109` on — the
-inverse-limit target, the assembled absolute map, and its dense range)
-is deliberately left to the next item. Everything else ports
-token-for-token up to the plain-hom respelling.
+finite-coordinate half only: the limit half (its `:109` on) is the
+inverse-limit target `Atlas.Knowledge.absoluteFiniteArtinLimit`, the
+assembled cone `Atlas.Knowledge.absoluteFiniteArtinLimitMap`, and the
+absolute map `Atlas.Knowledge.absoluteLocalArtinMonoidHom` with its
+dense range. Everything else ports token-for-token up to the plain-hom
+respelling.
 
 ## References
 

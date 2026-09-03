@@ -92,8 +92,8 @@ seam on the same `inferInstanceAs` bridge as above, and it is recorded
 here beside the total disconnectedness it completes. Hausdorffness, the
 bundle's remaining leg, needs no instance of its own: search already
 derives it from the recorded total disconnectedness — components are
-singletons, so the group is `T1`, and a `T1` topological group is
-regular.
+singletons, so the group is `T1`, and a topological group is regular
+unconditionally, whence `T3` and Hausdorff.
 
 ## References
 

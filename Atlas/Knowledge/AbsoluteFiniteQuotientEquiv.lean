@@ -47,11 +47,13 @@ bundling is dropped: `localAbsoluteAbelianProfinite` and its
 `local instance` `CommGroup` have no counterparts — open normal
 subgroups are taken directly on Mathlib's topological group
 `Field.absoluteGaloisGroupAbelianization K`, whose `CommGroup` instance
-Mathlib supplies; nothing below needs the bundle's compactness or
-Hausdorffness, and the transitions brick can re-bundle if its limits
-do. The source's named quotient map
-`localAbsoluteAbelianizationQuotientMap` is inlined to the layer's
-established spelling
+Mathlib supplies; nothing in this file needs the bundle's compactness
+or Hausdorffness — the limits item
+`Atlas.Knowledge.AbsoluteFiniteArtinLimit` re-bundles through
+`ProfiniteGrp.of`, with the compactness leg recorded as
+`Atlas.Knowledge.absoluteGaloisGroupAbelianization_compactSpace`. The
+source's named quotient map `localAbsoluteAbelianizationQuotientMap` is
+inlined to the layer's established spelling
 `QuotientGroup.mk' (commutator (Field.absoluteGaloisGroup K)).topologicalClosure`,
 the one `Atlas.Knowledge.IsLocalReciprocity` speaks; with it the
 containment lemma is renamed
