@@ -137,8 +137,8 @@ theorem absoluteFiniteQuotientTransition_mk
 
 variable [CharZero K]
 
-/-- **Under the finite quotient identifications, quotient transition
-is exactly restriction of automorphisms to the smaller fixed field**
+/-- **Under the finite quotient identifications, quotient transition is
+exactly restriction of automorphisms to the smaller fixed field**
 ([Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:73`]
 [Yamaguchi2026]). -/

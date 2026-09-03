@@ -210,10 +210,9 @@ def absoluteFiniteQuotientMulEquiv
         (InfiniteGalois.normalAutEquivQuotient
           (absoluteFiniteQuotientClosedPreimage K N)))
 
-/-- On representatives, the algebraic finite quotient identification
-is literal restriction to the corresponding fixed field — the
-algebraic reading of the topological representative formula
-([Yamaguchi 2026,
+/-- On representatives, the algebraic finite quotient identification is
+literal restriction to the corresponding fixed field — the algebraic
+reading of the topological representative formula ([Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:171`]
 [Yamaguchi2026]). -/
 @[simp]
