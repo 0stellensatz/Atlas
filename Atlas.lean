@@ -245,6 +245,7 @@ import Atlas.Knowledge.KummerCharacterEquiv
 import Atlas.Knowledge.KummerRadicalSubgroup
 import Atlas.Knowledge.LegendreFormula
 import Atlas.Knowledge.LocalAbsoluteValuationSubring
+import Atlas.Knowledge.LocalAbstractPrimeFieldUnit
 import Atlas.Knowledge.LocalBaseValuation
 import Atlas.Knowledge.LocalClassFieldAxiom
 import Atlas.Knowledge.LocalFixedResidueField
@@ -426,6 +427,7 @@ import Atlas.Knowledge.UnitRepresentation
 import Atlas.Knowledge.UnitsFiniteIndexOpen
 import Atlas.Knowledge.UniversalNormDescent
 import Atlas.Knowledge.UniversalNormDescentLemma
+import Atlas.Knowledge.UnramifiedComparison
 import Atlas.Knowledge.UnramifiedFrobeniusFixedField
 import Atlas.Knowledge.UnramifiedNormQuotient
 import Atlas.Knowledge.UnramifiedNormRange
