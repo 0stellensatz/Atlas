@@ -1,6 +1,7 @@
 import Mathlib
 import Atlas.Knowledge.AbsoluteAbelianRestriction
 import Atlas.Knowledge.AbsoluteFiniteArtinMap
+import Atlas.Knowledge.AbsoluteFiniteQuotientEquiv
 import Atlas.Knowledge.AbsoluteLocalArtinMonoidHom
 import Atlas.Knowledge.NormQuotient
 
@@ -74,8 +75,8 @@ noncomputable section
 variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
-/-- **Pulling a finite restriction kernel back along the absolute
-local Artin map gives exactly the norm subgroup of that finite abelian
+/-- **Pulling a finite restriction kernel back along the absolute local
+Artin map gives exactly the norm subgroup of that finite abelian
 subextension** ([Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:138`]
 [Yamaguchi2026]). -/

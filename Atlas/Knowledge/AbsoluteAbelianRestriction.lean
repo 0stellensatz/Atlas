@@ -46,7 +46,7 @@ source's `→ₜ*` restriction is restated as the plain `→*` — the
 continuity field (its `:51`) is split off as the separate theorem
 `absoluteAbelianRestriction_continuous`, the route of
 `Atlas.Knowledge.absoluteAbelianizationMulEquiv_continuous`; the
-kernel's openness (its `:88`) then rides the split-off theorem where
+kernel's openness (its `:87`) then rides the split-off theorem where
 the source reads it off `continuous_toFun`. The ambient conversion of
 the arc: the source works over its pinned `SeparableClosure K` with its
 wrapper names `intrinsicAbsoluteGalois` and
@@ -62,11 +62,12 @@ their source statements: both left sides — a `QuotientGroup.mk`
 application and a bare membership — already sit at simp's normal form,
 so no respelling was needed (the `mk'` hazard recorded on
 `Atlas.Knowledge.AbsoluteLocalArtinMonoidHom` does not arise).
-Everything else ports token-for-token up to one proof-shape change: in
+Everything else ports token-for-token up to two proof-shape changes: in
 the definition's scaffold the closed-kernel step's rewrite is hoisted
 into a `have` stating the kernel equation at the scaffold's `r`, since
-`rw` does not unfold a tactic-`let` variable here. The file is the
-source's
+`rw` does not unfold a tactic-`let` variable here, and the kernel's
+`isNormal' := by infer_instance` is left to the field's identical
+autoParam, the layer's convention. The file is the source's
 `LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:30`–`:129`,
 the generic half: the local-field identification (its `:138`) is
 `Atlas.Knowledge.absoluteLocalArtinMonoidHom_comap_restrictionKernel`,
@@ -128,8 +129,9 @@ theorem absoluteAbelianRestriction_mk
       AlgEquiv.restrictNormalHom E σ :=
   rfl
 
-/-- The restriction to a finite abelian subextension is continuous
-([Yamaguchi 2026,
+/-- The restriction to a finite abelian subextension is continuous —
+the continuity field of the source's bundled structure, split off as
+its own theorem ([Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:51`]
 [Yamaguchi2026]). -/
 theorem absoluteAbelianRestriction_continuous
