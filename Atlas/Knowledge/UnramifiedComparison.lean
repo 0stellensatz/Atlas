@@ -29,16 +29,16 @@ field realized in the algebraic closure, trivial concrete inertia
 extension unramified for the local degree datum — the opposite
 direction, on realizations, to
 `Atlas.Knowledge.lowerRamificationGroup_eq_bot_of_isUnramified`, which
-descends from abstract unramifiedness at the fixed fields — and
-the abstract degree-one unramified Frobenius realizes, through the
-chosen quotient equivalence, to an automorphism satisfying the
+descends from abstract unramifiedness at the fixed fields — and the
+abstract degree-one unramified Frobenius realizes, through the chosen
+quotient equivalence, to an automorphism satisfying the
 arithmetic-Frobenius substitution congruence. Together they let the
 constructed Artin map be evaluated on a uniformizer (#104).
 
 ## Main definitions
 
-* `unramifiedFrobeniusRealizationOfEmbedding` — the abstract
-  degree-one Frobenius of a realization, as an actual automorphism.
+* `unramifiedFrobeniusRealizationOfEmbedding` — the abstract degree-one
+  Frobenius of a realization, as an actual automorphism.
 
 ## Main statements
 
@@ -128,8 +128,8 @@ variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /- The residue coordinates of the local datum form a Galois pair —
 `Atlas.Knowledge.ResidueDatumIn`'s enrichment, re-registered at the
-local field's coordinates for the Frobenius-parameter statements below.
--/
+local field's coordinates for the Frobenius-parameter
+statements below. -/
 local instance :
     IsAlgClosure
       (decompositionResidueField K (localAbsoluteValuationSubring K))
