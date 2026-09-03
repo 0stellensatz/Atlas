@@ -212,6 +212,7 @@ import Atlas.Knowledge.IsFilteredCharacter
 import Atlas.Knowledge.IsFilteredHom
 import Atlas.Knowledge.IsFinitePlaceHilbertSymbol
 import Atlas.Knowledge.IsFrobeniusNormalized
+import Atlas.Knowledge.IsFrobeniusNormalizedAbelianLocalArtinMonoidHom
 import Atlas.Knowledge.IsGameState
 import Atlas.Knowledge.IsGlobalArtinMap
 import Atlas.Knowledge.IsJumpPair
