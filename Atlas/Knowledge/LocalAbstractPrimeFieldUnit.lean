@@ -288,13 +288,8 @@ theorem normClass_localAbstractPrimeFieldUnit_eq_uniformizer
       normalizedValuation_inv,
       normalizedValuation_localAbstractPrimeFieldUnit, hu]
     simp
-  have hrange : localNormSubgroup K L =
-      Subgroup.comap (normalizedValuationHom K)
-        (Subgroup.zpowers
-          (Multiplicative.ofAdd (Module.finrank K L : ℤ))) := by
-    rw [← unramifiedNormRange K L h]
-    rfl
-  rw [hrange, Subgroup.mem_comap, hval]
+  rw [localNormSubgroup_eq_comap_normalizedValuationHom K L h,
+    Subgroup.mem_comap, hval]
   exact Subgroup.one_mem _
 
 end

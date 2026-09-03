@@ -2,6 +2,7 @@ import Mathlib
 import Atlas.Knowledge.IsArithmeticFrobenius
 import Atlas.Knowledge.MapMaximalIdealEqPowCardInertia
 import Atlas.Knowledge.NormIndexCyclic
+import Atlas.Knowledge.NormQuotient
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.NormalizedValuationNorm
 
@@ -25,6 +26,8 @@ is the unramified floor of the reciprocity map: on it the Frobenius-normalized m
 * `normalizedValuation_norm_of_unramified` — a norm's value is the degree times the value;
   proved.
 * `unramifiedNormRange` — `N Lˣ` is the preimage of the degree's powers; proved.
+* `localNormSubgroup_eq_comap_normalizedValuationHom` — the same
+  preimage reading at the norm-subgroup spelling; proved.
 
 ## Implementation notes
 
@@ -245,5 +248,33 @@ theorem unramifiedNormRange (h : lowerRamificationGroup K L 0 = ⊥) :
         (Subgroup.zpowers (Multiplicative.ofAdd (Module.finrank K L : ℤ)))) = 1 :=
     Nat.eq_of_mul_eq_mul_right (Nat.pos_of_ne_zero hn0) (by rw [hrel, one_mul])
   exact le_antisymm hle (Subgroup.relIndex_eq_one.mp hrel1)
+section NormSubgroupReading
+
+universe u
+
+variable (K L : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
+  [IsMixedCharLocalField K] [Field L] [ValuativeRel L] [TopologicalSpace L]
+  [Algebra K L] [ValuativeExtension K L] [FiniteDimensional K L]
+  [IsMixedCharLocalField L] [IsGalois K L]
+
+/-- The comap reading of `Atlas.Knowledge.unramifiedNormRange` at the
+norm-subgroup spelling — one universe for both fields, the
+norm-subgroup binder's shape: at trivial inertia the norm subgroup is
+the preimage of the degree's powers under the bundled valuation
+([Serre 1979, Chap. V, §2, Prop. 3 and Cor., p.82][Serre1979]; the
+source counterpart, in its own valuation vocabulary, is [Yamaguchi
+2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormComparison.lean:149`]
+[Yamaguchi2026]). -/
+theorem localNormSubgroup_eq_comap_normalizedValuationHom
+    (h : lowerRamificationGroup K L 0 = ⊥) :
+    localNormSubgroup K L =
+      Subgroup.comap (normalizedValuationHom K)
+        (Subgroup.zpowers
+          (Multiplicative.ofAdd (Module.finrank K L : ℤ))) := by
+  rw [← unramifiedNormRange K L h]
+  rfl
+
+end NormSubgroupReading
 
 end Atlas.Knowledge

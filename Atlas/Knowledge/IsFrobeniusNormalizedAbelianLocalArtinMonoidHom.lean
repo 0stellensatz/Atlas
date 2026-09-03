@@ -33,9 +33,9 @@ import Atlas.Knowledge.UnramifiedReciprocityEquiv
 
 The Frobenius normalization of finite local reciprocity: at a level
 with trivial inertia, the constructed local Artin map sends the
-transported abstract prime to the realized arithmetic Frobenius, and
-with it every field unit to Frobenius raised to its normalized
-valuation — `Atlas.Knowledge.abelianLocalArtinMonoidHom` satisfies the
+transported abstract prime to the class of the realized arithmetic
+Frobenius, and with it every field unit to the class of Frobenius
+raised to its normalized valuation — `Atlas.Knowledge.abelianLocalArtinMonoidHom` satisfies the
 layer's `Atlas.Knowledge.IsFrobeniusNormalized` predicate, and any unit
 of normalized valuation one maps to an arithmetic Frobenius. This is
 the `frobenius`-field input of `Atlas.Knowledge.IsLocalReciprocity`,
@@ -44,7 +44,8 @@ delivered one finite abelian level at a time (#104).
 ## Main statements
 
 * `localArtinMonoidHom_localAbstractPrimeFieldUnit` — the map
-  evaluates on the transported prime as the realized Frobenius; proved.
+  evaluates on the transported prime as the class of the realized
+  Frobenius; proved.
 * `localArtinMonoidHom_eq_frobenius_zpow` — the full unramified Artin
   formula; proved.
 * `isFrobeniusNormalized_abelianLocalArtinMonoidHom` — the abelian
@@ -67,21 +68,37 @@ Frobenius of `Atlas.Knowledge.UnramifiedComparison`, and quantifies
 over any unit of `Atlas.Knowledge.normalizedValuation` value `+1` — the
 sign seam disclosed on `Atlas.Knowledge.LocalAbstractPrimeFieldUnit`,
 the irreducible-element form converting by
-`Atlas.Knowledge.normalizedValuation_irreducible`. Unramifiedness is
-the layer's trivial inertia `lowerRamificationGroup K L 0 = ⊥` for the
-source's `IsUnramifiedValuedExtension`, and the ambient conversion of
-the arc applies: the source's pinned separable closure becomes
+`Atlas.Knowledge.normalizedValuation_irreducible`. The seam runs deeper
+than a re-expression: the layer's abstract valuation puts `+1` on its
+chosen prime, so the transported prime is a genuine uniformizer where
+the source's is an inverse one, and the layer's `localArtinMonoidHom`
+is accordingly the *inverse* of the source's symbol — each internally
+consistent, the layer's being the arithmetic normalization the
+`frobenius` field of `Atlas.Knowledge.IsLocalReciprocity` demands.
+Unramifiedness is the layer's trivial inertia
+`lowerRamificationGroup K L 0 = ⊥` for the source's
+`IsUnramifiedValuedExtension`, and the ambient conversion of the arc
+applies: the source's pinned separable closure becomes
 `AlgebraicClosure K`. The prime evaluation composes the merged abstract
 generator calculation
 `Atlas.Knowledge.ValuationData.unramifiedReciprocity_frobenius_image`
 with the reciprocity transport where the source routes through its
-`ConcreteReciprocityPrimeNorm.lean`, which stays unported; the zpow
+`ConcreteReciprocityPrimeNorm.lean`, which stays unported — as does its
+topological `localArtinMap` family (its `:396`, `:420`, `:437`, `:448`,
+`:457`), the continuity fork of the arc, with the integer-unit
+vanishing already recorded as
+`Atlas.Knowledge.IsFrobeniusNormalized.apply_integerUnit`; the zpow
 formula is then direct — a unit differs from the matching prime power
 by a valuation-zero unit, and units are norms at trivial inertia
-(`Atlas.Knowledge.unramifiedNormRange`) — where the source consumes its
-field-facing map's own normalization. The assembly is term-mode
-`congrArg`/`Eq.trans` bridging throughout: the ambient group is spelled
-both `Field.absoluteGaloisGroup K` (the local degree datum) and
+(`Atlas.Knowledge.localNormSubgroup_eq_comap_normalizedValuationHom`,
+the comap reading recorded beside
+`Atlas.Knowledge.unramifiedNormRange`) — where the source consumes its
+field-facing map's own normalization; the uniformizer swap
+`Atlas.Knowledge.normClass_localAbstractPrimeFieldUnit_eq_uniformizer`
+is the `v = 1` case of this derivation and stands as its citable form
+on its own item. The assembly is term-mode `congrArg`/`Eq.trans`
+bridging throughout: the ambient group is spelled both
+`Field.absoluteGaloisGroup K` (the local degree datum) and
 `AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K` (the realization), a
 plain definition instance search will not unfold, so the abstract
 evaluation is applied with every instance explicit — the
@@ -113,8 +130,8 @@ section Galois
 
 variable [IsGalois K L]
 
-/-- **The constructed local Artin map sends the transported abstract
-prime to the class of the realized arithmetic Frobenius**: the merged
+/-- The constructed local Artin map sends the transported abstract
+prime to the class of the realized arithmetic Frobenius: the merged
 abstract generator calculation, carried through the reciprocity
 transport down to `Atlas.Knowledge.localArtinMonoidHom` ([Serre 1979,
 Chap. XIII, §4, Prop. 13, p.197][Serre1979]; [Yamaguchi 2026,
@@ -398,7 +415,7 @@ theorem localArtinMonoidHom_localAbstractPrimeFieldUnit
 variable [ValuativeRel L] [TopologicalSpace L] [ValuativeExtension K L]
   [IsMixedCharLocalField L]
 
-/-- **The full unramified Artin formula**: the constructed local Artin
+/-- The full unramified Artin formula: the constructed local Artin
 map sends every field unit to the class of the realized arithmetic
 Frobenius raised to its normalized valuation ([Serre 1979, Chap. XIII,
 §4, Prop. 13, p.197][Serre1979]; [Yamaguchi 2026,
@@ -419,18 +436,12 @@ theorem localArtinMonoidHom_eq_frobenius_zpow
       normalizedValuation_inv, normalizedValuation_zpow,
       normalizedValuation_localAbstractPrimeFieldUnit]
     simp
-  -- at trivial inertia the norm subgroup is a valuation preimage
-  have hrange : localNormSubgroup K L =
-      Subgroup.comap (normalizedValuationHom K)
-        (Subgroup.zpowers
-          (Multiplicative.ofAdd (Module.finrank K L : ℤ))) := by
-    rw [← unramifiedNormRange K L h]
-    rfl
   -- so the norm classes agree, and the equivalence carries powers
   have hclass : normClass K L x =
       normClass K L (localAbstractPrimeFieldUnit K) ^
         normalizedValuation K x := by
-    rw [← map_zpow, normClass_eq_iff_mul_inv_mem, hrange,
+    rw [← map_zpow, normClass_eq_iff_mul_inv_mem,
+      localNormSubgroup_eq_comap_normalizedValuationHom K L h,
       Subgroup.mem_comap, hval]
     exact Subgroup.one_mem _
   calc localArtinMonoidHom K L x
@@ -488,7 +499,7 @@ Frobenius, read at every uniformizer rather than at a chosen one
 [Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:366`]
 [Yamaguchi2026], its chosen-inverse-uniformizer form at the opposite
-sign). -/
+sign, with the topological `@[simp]` reading at its `:437`). -/
 theorem isArithmeticFrobenius_abelianLocalArtinMonoidHom
     (h : lowerRamificationGroup K L 0 = ⊥) (u : Kˣ)
     (hu : normalizedValuation K u = 1) :
