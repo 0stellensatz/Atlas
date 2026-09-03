@@ -46,9 +46,9 @@ bundling is dropped: `localAbsoluteAbelianProfinite` and its
 `local instance` `CommGroup` have no counterparts — open normal
 subgroups are taken directly on Mathlib's topological group
 `Field.absoluteGaloisGroupAbelianization K`, whose `CommGroup` instance
-Mathlib supplies and whose total disconnectedness
-`Atlas.Knowledge.AbsoluteAbelianizationEquiv` records as an instance.
-The source's named quotient map
+Mathlib supplies; nothing below needs the bundle's compactness or
+Hausdorffness, and the transitions brick can re-bundle if its limits
+do. The source's named quotient map
 `localAbsoluteAbelianizationQuotientMap` is inlined to the layer's
 established spelling
 `QuotientGroup.mk' (commutator (Field.absoluteGaloisGroup K)).topologicalClosure`,
@@ -71,8 +71,10 @@ where the source rebuilds it by hand under its local instance. The
 fixed field of the pullback together with
 `absoluteFiniteQuotientPreimage_map_eq` is the dictionary whose
 existential form `Atlas.Knowledge.IsLocalReciprocity` proves privately
-on the way to uniqueness. Everything else ports token-for-token; the
-file is the source's
+on the way to uniqueness. Everything else ports token-for-token up to
+proof shape — normality fields left to the structure's autoParam, a
+`change` made vacuous by the inlined quotient map, term mode for the
+topological upgrade — and the file is the source's
 `LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean` whole.
 
 ## References
@@ -99,9 +101,8 @@ def absoluteFiniteQuotientPreimage
   isOpen' := N.isOpen'.preimage QuotientGroup.continuous_mk
 
 /-- The same pullback, packaged as a closed subgroup for the infinite
-Galois correspondence — at the automorphism-group spelling
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:55`]
+Galois correspondence — at the automorphism-group spelling ([Yamaguchi
+2026, `LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:55`]
 [Yamaguchi2026]). -/
 def absoluteFiniteQuotientClosedPreimage
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
@@ -169,7 +170,6 @@ abelianization is Galois over the base ([Yamaguchi 2026,
 instance absoluteFiniteQuotientField_isGalois
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     IsGalois K (absoluteFiniteQuotientField K N) := by
-  haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
   apply (InfiniteGalois.normal_iff_isGalois (absoluteFiniteQuotientField K N)).1
   change (IntermediateField.fixedField
     (absoluteFiniteQuotientClosedPreimage K N).toSubgroup).fixingSubgroup.Normal
@@ -184,7 +184,6 @@ abelianization is finite-dimensional over the base ([Yamaguchi 2026,
 instance absoluteFiniteQuotientField_finiteDimensional
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     FiniteDimensional K (absoluteFiniteQuotientField K N) := by
-  haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
   apply (InfiniteGalois.isOpen_iff_finite (absoluteFiniteQuotientField K N)).1
   change IsOpen (IntermediateField.fixedField
     (absoluteFiniteQuotientClosedPreimage K N).toSubgroup).fixingSubgroup.carrier
@@ -193,15 +192,14 @@ instance absoluteFiniteQuotientField_finiteDimensional
   exact (absoluteFiniteQuotientPreimage K N).isOpen'
 
 /-- The algebraic finite quotient identification, from the third
-isomorphism theorem and the infinite Galois correspondence
-([Yamaguchi 2026,
+isomorphism theorem and the infinite Galois correspondence ([Yamaguchi
+2026,
 `LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:142`]
 [Yamaguchi2026]). -/
 def absoluteFiniteQuotientMulEquiv
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     Field.absoluteGaloisGroupAbelianization K ⧸ N.toSubgroup ≃*
       (absoluteFiniteQuotientField K N ≃ₐ[K] absoluteFiniteQuotientField K N) :=
-  haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
   (QuotientGroup.quotientMulEquivOfEq (absoluteFiniteQuotientPreimage_map_eq K N).symm).trans
     ((QuotientGroup.quotientQuotientEquivQuotient
       (commutator (Field.absoluteGaloisGroup K)).topologicalClosure
