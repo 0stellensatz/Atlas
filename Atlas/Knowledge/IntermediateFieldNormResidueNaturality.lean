@@ -68,7 +68,9 @@ interface departure carried since
 `Atlas.Knowledge.AbstractReciprocityEquiv` — while the closing theorem
 supplies all four local inputs, discharging the hypothesis by
 `Atlas.Knowledge.localHenselianValuation_satisfiesUnramifiedUnitCohomology`,
-so it threads nothing. The structural departure: the source reaches its
+so it threads nothing.
+
+The structural departure: the source reaches its
 canonical symbol through the embedding-independence theorem of its
 `ConcreteReciprocityCanonical.lean`, which the layer skips, and pins
 the restriction chain to the inclusions `E.val`, `F.val`. The layer's
@@ -93,7 +95,7 @@ consumes it — and its private finiteness instances are replaced by
 instances enter only in its own section. Galois groups are spelled
 `≃ₐ[·]`. Everything else ports token-for-token; the file is the
 source's `LocalReciprocity/IntermediateFieldNormResidueNaturality.lean`
-whole. The source's `τ`/`σ` binders are spelled `tau`/`sigma`.
+whole. The source's `τ` binders are spelled `tau`.
 
 ## References
 
