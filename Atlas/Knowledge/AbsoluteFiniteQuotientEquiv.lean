@@ -101,8 +101,9 @@ def absoluteFiniteQuotientPreimage
   isOpen' := N.isOpen'.preimage QuotientGroup.continuous_mk
 
 /-- The same pullback, packaged as a closed subgroup for the infinite
-Galois correspondence — at the automorphism-group spelling ([Yamaguchi
-2026, `LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:55`]
+Galois correspondence — at the automorphism-group spelling
+([Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:55`]
 [Yamaguchi2026]). -/
 def absoluteFiniteQuotientClosedPreimage
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
@@ -192,8 +193,8 @@ instance absoluteFiniteQuotientField_finiteDimensional
   exact (absoluteFiniteQuotientPreimage K N).isOpen'
 
 /-- The algebraic finite quotient identification, from the third
-isomorphism theorem and the infinite Galois correspondence ([Yamaguchi
-2026,
+isomorphism theorem and the infinite Galois correspondence
+([Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:142`]
 [Yamaguchi2026]). -/
 def absoluteFiniteQuotientMulEquiv
