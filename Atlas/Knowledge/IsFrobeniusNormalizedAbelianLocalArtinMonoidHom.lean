@@ -35,10 +35,11 @@ The Frobenius normalization of finite local reciprocity: at a level
 with trivial inertia, the constructed local Artin map sends the
 transported abstract prime to the class of the realized arithmetic
 Frobenius, and with it every field unit to the class of Frobenius
-raised to its normalized valuation — `Atlas.Knowledge.abelianLocalArtinMonoidHom` satisfies the
-layer's `Atlas.Knowledge.IsFrobeniusNormalized` predicate, and any unit
-of normalized valuation one maps to an arithmetic Frobenius. This is
-the `frobenius`-field input of `Atlas.Knowledge.IsLocalReciprocity`,
+raised to its normalized valuation —
+`Atlas.Knowledge.abelianLocalArtinMonoidHom` satisfies the layer's
+`Atlas.Knowledge.IsFrobeniusNormalized` predicate, and any unit of
+normalized valuation one maps to an arithmetic Frobenius. This is the
+`frobenius`-field input of `Atlas.Knowledge.IsLocalReciprocity`,
 delivered one finite abelian level at a time (#104).
 
 ## Main statements
