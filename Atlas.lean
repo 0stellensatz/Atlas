@@ -11,6 +11,8 @@ import Atlas.Knowledge.AbelianizedGaloisRecovery
 import Atlas.Knowledge.AbelianizedGaloisTransfer
 import Atlas.Knowledge.AbsoluteAbelianizationEquiv
 import Atlas.Knowledge.AbsoluteDegree
+import Atlas.Knowledge.AbsoluteFiniteArtinLimit
+import Atlas.Knowledge.AbsoluteFiniteArtinLimitMap
 import Atlas.Knowledge.AbsoluteFiniteArtinMap
 import Atlas.Knowledge.AbsoluteFiniteQuotientEquiv
 import Atlas.Knowledge.AbsoluteFiniteQuotientTransition
@@ -20,6 +22,7 @@ import Atlas.Knowledge.AbsoluteGaloisSubextension
 import Atlas.Knowledge.AbsoluteInertiaDegree
 import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
+import Atlas.Knowledge.AbsoluteLocalArtinMonoidHom
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.AbstractExtension
 import Atlas.Knowledge.AbstractExtensionUnitsRepIso

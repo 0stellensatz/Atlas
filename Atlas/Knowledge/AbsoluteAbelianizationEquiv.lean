@@ -29,6 +29,8 @@ reads finite levels (#104).
   continuous; proved.
 * `absoluteGaloisGroupAbelianization_totallyDisconnectedSpace` — the
   abelianization is totally disconnected; proved.
+* `absoluteGaloisGroupAbelianization_compactSpace` — the
+  abelianization is compact; proved.
 * `absoluteAbelianizationFixedField_isAbelianGalois` — the fixed field
   is abelian Galois over the base; proved.
 
@@ -78,6 +80,20 @@ token-for-token `Atlas.Knowledge.maximalAbelianExtension`, so
 the content of that item's recorded claim
 `Atlas.Knowledge.nonempty_continuousMulEquiv_absoluteGaloisGroupAbelianization`;
 discharging the claim stays with its own item.
+
+The compactness instance is the missing half of the source's
+`ProfiniteGrp` bundling `localAbsoluteAbelianProfinite` (its
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:26`),
+which `Atlas.Knowledge.AbsoluteFiniteQuotientEquiv` dropped unneeded
+and `Atlas.Knowledge.AbsoluteFiniteArtinLimit` re-bundles for its
+inverse limit: Mathlib's quotient-group instance supplies it once the
+compactness of the absolute Galois group crosses the automorphism-group
+seam on the same `inferInstanceAs` bridge as above, and it is recorded
+here beside the total disconnectedness it completes. Hausdorffness, the
+bundle's remaining leg, needs no instance of its own: search already
+derives it from the recorded total disconnectedness — components are
+singletons, so the group is `T1`, and a `T1` topological group is
+regular.
 
 ## References
 
@@ -201,6 +217,17 @@ instance absoluteGaloisGroupAbelianization_totallyDisconnectedSpace :
     inferInstanceAs (TotallyDisconnectedSpace (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K))
   exact quotient_totallyDisconnected_of_profinite _
     (Subgroup.isClosed_topologicalClosure _)
+
+/-- The abelianized absolute Galois group is compact: the quotient of
+the compact absolute Galois group under the continuous surjective
+quotient map ([Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:26`]
+[Yamaguchi2026]). -/
+instance absoluteGaloisGroupAbelianization_compactSpace :
+    CompactSpace (Field.absoluteGaloisGroupAbelianization K) :=
+  haveI : CompactSpace (Field.absoluteGaloisGroup K) :=
+    inferInstanceAs (CompactSpace (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K))
+  inferInstance
 
 /-- The maximal abelian subextension is abelian Galois: its Galois
 group receives the commutative abelianization ([Yamaguchi 2026,
