@@ -62,6 +62,8 @@ import Atlas.Knowledge.ConjugatePrimeNorm
 import Atlas.Knowledge.CorrectionSum
 import Atlas.Knowledge.CyclicFixedCycleEquiv
 import Atlas.Knowledge.CyclicTotallyRamifiedFixedSource
+import Atlas.Knowledge.CycloField
+import Atlas.Knowledge.CycloFieldLowerRamificationGroupEqBot
 import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.CyclotomicIntegerBasis
@@ -206,6 +208,7 @@ import Atlas.Knowledge.IntermediateGaloisTransfer
 import Atlas.Knowledge.IntrinsicAbsoluteData
 import Atlas.Knowledge.IsAdmissibleJumpPair
 import Atlas.Knowledge.IsArithmeticFrobenius
+import Atlas.Knowledge.IsArithmeticFrobeniusApplyOfPowEqOne
 import Atlas.Knowledge.IsArtinRestriction
 import Atlas.Knowledge.IsConductor
 import Atlas.Knowledge.IsFilteredCharacter

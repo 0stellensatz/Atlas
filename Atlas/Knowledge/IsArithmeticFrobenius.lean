@@ -48,7 +48,12 @@ local (`Atlas.Knowledge.IntegralClosureDVR`), so the Jacobson radical is its max
 `IsArithFrobAt.exists_of_isInvariant`, and the order is computed through
 `Ideal.Quotient.stabilizerHom`, bijective onto the residue Galois group once `G_0 = ⊥`
 kills its inertia kernel. Uniqueness never leaves the layer: the quotient of two Frobenii
-satisfies `s x ≡ x`, which is membership in the trivial `G_0`.
+satisfies `s x ≡ x`, which is membership in the trivial `G_0`. The two-names dictionary
+`natCard_quotient_under` — the exponent conversion of that single-prime identification — is
+public since the #104 Brick-C promotion, whose root-of-unity wrapper
+`Atlas.Knowledge.IsArithmeticFrobenius.apply_of_pow_eq_one` consumes the same conversion and
+could not host it without an import cycle; its companion `under_maximalIdeal` stays private
+with its in-file consumers.
 
 ## References
 
@@ -115,9 +120,10 @@ private theorem under_maximalIdeal [FiniteDimensional K L] :
     (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal
       (IsLocalRing.maximalIdeal (integralClosure 𝒪[K] L)))
 
-/- The residue field of the base under its two names: the quotient by the trace of the
-closure's maximal ideal is `𝓀[K]`. -/
-private theorem natCard_quotient_under [FiniteDimensional K L] :
+/-- The residue field of the base under its two names: the quotient by the trace of the
+closure's maximal ideal is `𝓀[K]` — the exponent conversion between the layer's congruence
+and Mathlib's `AlgHom.IsArithFrobAt`. -/
+theorem natCard_quotient_under [FiniteDimensional K L] :
     Nat.card (𝒪[K] ⧸ (IsLocalRing.maximalIdeal (integralClosure 𝒪[K] L)).under 𝒪[K]) =
       Nat.card 𝓀[K] := by
   rw [under_maximalIdeal K L]
