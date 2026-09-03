@@ -11,7 +11,9 @@ import Atlas.Knowledge.AbelianizedGaloisRecovery
 import Atlas.Knowledge.AbelianizedGaloisTransfer
 import Atlas.Knowledge.AbsoluteAbelianizationEquiv
 import Atlas.Knowledge.AbsoluteDegree
+import Atlas.Knowledge.AbsoluteFiniteArtinMap
 import Atlas.Knowledge.AbsoluteFiniteQuotientEquiv
+import Atlas.Knowledge.AbsoluteFiniteQuotientTransition
 import Atlas.Knowledge.AbsoluteGaloisInvariance
 import Atlas.Knowledge.AbsoluteGaloisProsolvability
 import Atlas.Knowledge.AbsoluteGaloisSubextension
