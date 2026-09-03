@@ -55,7 +55,8 @@ the corner whose delta
 `Atlas.Knowledge.CycloFieldLowerRamificationGroupEqBot` discloses and
 cites in full — and no classical source is transcribed: the
 commutativity is the standard exponent-multiplication argument on a
-chosen primitive root. -/
+chosen primitive root.
+-/
 
 namespace Atlas.Knowledge
 

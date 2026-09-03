@@ -21,7 +21,8 @@ evaluates on the cyclotomic floors (#104).
   prime-to-`q` roots of unity; proved.
 * `natCast_notMem_maximalIdeal_of_coprime` — integers prime to `q`
   avoid the maximal ideal of the integral closure; proved.
-* `IsArithmeticFrobenius.isIntegral_of_pow_eq_one` — roots of unity are integral; proved.
+* `IsArithmeticFrobenius.isIntegral_of_pow_eq_one` — roots of unity are
+  integral; proved.
 
 ## Implementation notes
 
@@ -29,17 +30,17 @@ The route is the identification the notes of
 `Atlas.Knowledge.IsArithmeticFrobenius` record: the layer's
 substitution congruence is Mathlib's `AlgHom.IsArithFrobAt` at
 `Q := IsLocalRing.maximalIdeal (integralClosure 𝒪[K] E)` —
-`Atlas.Knowledge.integralClosure_jacobson_bot_eq_maximalIdeal`
-converts the radical and `Atlas.Knowledge.natCard_quotient_under`
-(public since this brick of #104, for exactly this consumer) converts
-the exponent — and Mathlib's `AlgHom.IsArithFrobAt.apply_of_pow_eq_one`
-then does the work. Its two side conditions are discharged the way the
-global template `Atlas.Knowledge.cyclotomicArtinNormalization` does at
-a number-field prime: the root of unity is integral as a root of the
-monic `X ^ m - 1` (`IsArithmeticFrobenius.isIntegral_of_pow_eq_one`, stated over any base
-ring), and `(m : _) ∉ Q` comes from the coprimality by a Bézout
-argument in the base residue quotient under its under-ideal name —
-`m` vanishes there by the membership, `q` by
+`Atlas.Knowledge.integralClosure_jacobson_bot_eq_maximalIdeal` converts
+the radical and `Atlas.Knowledge.natCard_quotient_under` (public since
+this brick of #104, for exactly this consumer) converts the exponent —
+and Mathlib's `AlgHom.IsArithFrobAt.apply_of_pow_eq_one` then does the
+work. Its two side conditions are discharged the way the global
+template `Atlas.Knowledge.cyclotomicArtinNormalization` does at a
+number-field prime: the root of unity is integral as a root of the
+monic `X ^ m - 1` (`IsArithmeticFrobenius.isIntegral_of_pow_eq_one`,
+stated over any base ring), and `(m : _) ∉ Q` comes from the
+coprimality by a Bézout argument in the base residue quotient under its
+under-ideal name — `m` vanishes there by the membership, `q` by
 `Nat.cast_card_eq_zero` through `natCard_quotient_under`, and a cast
 Bézout combination `a * m + b * q = 1` then forces `1 = 0` — so no
 decomposition of `q` into residue-characteristic powers enters. The

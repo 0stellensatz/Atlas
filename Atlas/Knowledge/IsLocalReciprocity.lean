@@ -65,7 +65,8 @@ also built — `cycloField` with its splitting-field instances, `mem_cycloField`
 `cycloField_aut_comm`, and the root-set reading `cycloField_pow_eq_one_of_mem_rootSet` — sat
 under the same deferral until its second consumer arrived with the `frobenius`-field bricks of
 #104: Brick C promoted it to `Atlas.Knowledge.CycloField` at the weaker hypotheses each piece
-needs, and this file now imports the promoted names, its proofs textually unchanged.
+needs, and this file now imports the promoted names, its proofs unchanged but for the two
+call-site names.
 
 ## References
 

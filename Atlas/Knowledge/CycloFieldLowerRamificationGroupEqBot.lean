@@ -62,8 +62,8 @@ and bounds inertia at `ℚ_p` cyclotomically
 (`RamificationTheory/HilbertRamification/PadicCyclotomicInertiaBound.lean:120`,
 which at the prime-to-`p` level says unramifiedness as a cardinality
 bound) — but nothing at the layer's `lowerRamificationGroup` rendering,
-and its local-class-field chain consumes that corner only for a
-norm-subgroup identification
+and its local-class-field chain consumes that `Padic/Cyclotomic` corner
+only for a norm-subgroup identification
 (`LocalClassFieldTheory/Finite/CyclotomicNorm/Unramified.lean`), never
 to normalize a reciprocity map; the statement here, on the
 intermediate-field floor with all `m`-th roots at once and no Hensel or
