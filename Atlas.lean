@@ -6,6 +6,7 @@
 -- same environment, and is built by name instead.
 
 import Atlas.Knowledge.AbelianLocalArtinMonoidHom
+import Atlas.Knowledge.AbelianLocalArtinMonoidHomRestrict
 import Atlas.Knowledge.AbelianizedGaloisRecovery
 import Atlas.Knowledge.AbelianizedGaloisTransfer
 import Atlas.Knowledge.AbsoluteDegree
@@ -188,6 +189,8 @@ import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.IntegerLinearTopology
 import Atlas.Knowledge.IntegerValuation
 import Atlas.Knowledge.IntegralClosureDVR
+import Atlas.Knowledge.IntermediateFieldNormResidueNaturality
+import Atlas.Knowledge.IntermediateFieldRestrictNormalHom
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
 import Atlas.Knowledge.IntermediateGaloisCorrespondence
 import Atlas.Knowledge.IntermediateGaloisTransfer
