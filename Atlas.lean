@@ -9,6 +9,7 @@ import Atlas.Knowledge.AbelianLocalArtinMonoidHom
 import Atlas.Knowledge.AbelianLocalArtinMonoidHomRestrict
 import Atlas.Knowledge.AbelianizedGaloisRecovery
 import Atlas.Knowledge.AbelianizedGaloisTransfer
+import Atlas.Knowledge.AbsoluteAbelianRestriction
 import Atlas.Knowledge.AbsoluteAbelianizationEquiv
 import Atlas.Knowledge.AbsoluteDegree
 import Atlas.Knowledge.AbsoluteFiniteArtinLimit
@@ -23,6 +24,7 @@ import Atlas.Knowledge.AbsoluteInertiaDegree
 import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
 import Atlas.Knowledge.AbsoluteLocalArtinMonoidHom
+import Atlas.Knowledge.AbsoluteLocalArtinNormKernel
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.AbstractExtension
 import Atlas.Knowledge.AbstractExtensionUnitsRepIso
