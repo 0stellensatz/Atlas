@@ -26,8 +26,10 @@ The concrete unramified vocabulary meets the abstract reciprocity
 stock: for a finite Galois extension of a mixed-characteristic local
 field realized in the algebraic closure, trivial concrete inertia
 (`lowerRamificationGroup K L 0 = ⊥`) makes the realized abstract
-extension unramified for the local degree datum — the converse of
-`Atlas.Knowledge.lowerRamificationGroup_eq_bot_of_isUnramified` — and
+extension unramified for the local degree datum — the opposite
+direction, on realizations, to
+`Atlas.Knowledge.lowerRamificationGroup_eq_bot_of_isUnramified`, which
+descends from abstract unramifiedness at the fixed fields — and
 the abstract degree-one unramified Frobenius realizes, through the
 chosen quotient equivalence, to an automorphism satisfying the
 arithmetic-Frobenius substitution congruence. Together they let the
@@ -46,6 +48,8 @@ constructed Artin map be evaluated on a uniformizer (#104).
   concrete inertia gives abstract unramifiedness; proved.
 * `isArithmeticFrobenius_unramifiedFrobeniusRealizationOfEmbedding` —
   the realized abstract Frobenius is an arithmetic Frobenius; proved.
+* `unramifiedFrobeniusRealizationOfEmbedding_eq` — under trivial
+  inertia the realization is embedding-independent; proved.
 
 ## Implementation notes
 
@@ -124,8 +128,8 @@ variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /- The residue coordinates of the local datum form a Galois pair —
 `Atlas.Knowledge.ResidueDatumIn`'s enrichment, re-registered at the
-local field's coordinates for the Frobenius-parameter statements
-below. -/
+local field's coordinates for the Frobenius-parameter statements below.
+-/
 local instance :
     IsAlgClosure
       (decompositionResidueField K (localAbsoluteValuationSubring K))
@@ -359,7 +363,8 @@ private theorem galRestrict_realization_sub_pow_mem_maximalIdeal
 /-- **Trivial concrete inertia gives abstract unramifiedness**: a
 finite Galois extension with `lowerRamificationGroup K L 0 = ⊥`,
 realized in the algebraic closure through any embedding, is an
-unramified extension of the local degree datum — the converse of
+unramified extension of the local degree datum — the opposite
+direction, on realizations, to
 `Atlas.Knowledge.lowerRamificationGroup_eq_bot_of_isUnramified`
 ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:291`]
@@ -406,8 +411,8 @@ theorem finiteGaloisAbstractExtensionOfEmbedding_isUnramified
   rw [hq] at hx
   simpa using hx.symm
 
-/-- **The abstract degree-one unramified Frobenius of a realization,
-as an actual automorphism**: the restriction of the chosen degree-one
+/-- **The abstract degree-one unramified Frobenius of a realization, as
+an actual automorphism**: the restriction of the chosen degree-one
 lift, carried through the chosen quotient equivalence — the realized
 element of the source's comparison theorem, here named
 ([Yamaguchi 2026,
@@ -520,6 +525,21 @@ theorem isArithmeticFrobenius_unramifiedFrobeniusRealizationOfEmbedding
     (fun a =>
       smul_sub_pow_card_mem_maximalIdeal_of_localResidueDegree_eq_ofAdd_one
         K _ (localResidueDegree_chosenUnramifiedFrobeniusLift K) a) x
+
+/-- Embedding-independence of the realized abstract Frobenius: under
+trivial inertia any two embeddings realize the same automorphism, both
+being arithmetic Frobenii — immediate here, where the source realizes
+each embedding as the same constructed Frobenius ([Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:353`]
+[Yamaguchi2026]). -/
+theorem unramifiedFrobeniusRealizationOfEmbedding_eq
+    (i j : L →ₐ[K] AlgebraicClosure K)
+    (h : lowerRamificationGroup K L 0 = ⊥) :
+    unramifiedFrobeniusRealizationOfEmbedding K L i =
+      unramifiedFrobeniusRealizationOfEmbedding K L j :=
+  isArithmeticFrobenius_unique K L h
+    (isArithmeticFrobenius_unramifiedFrobeniusRealizationOfEmbedding K L i)
+    (isArithmeticFrobenius_unramifiedFrobeniusRealizationOfEmbedding K L j)
 
 end
 

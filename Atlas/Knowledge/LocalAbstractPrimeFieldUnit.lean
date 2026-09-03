@@ -24,13 +24,12 @@ import Atlas.Knowledge.ValuationData
 /-!
 # local abstract prime field unit
 
-The abstract reciprocity construction fixes a prime element of the
-base by choice; transported through the base unit dictionary it is an
-actual field unit of `K`, of concrete normalized valuation exactly
-one — so at any unramified level it defines the same norm class as
-every concrete uniformizer, the identity that lets the constructed
-Artin map be evaluated on a uniformizer rather than on the opaque
-choice (#104).
+The abstract reciprocity construction fixes a prime element of the base
+by choice; transported through the base unit dictionary it is an actual
+field unit of `K`, of concrete normalized valuation exactly one — so at
+any unramified level it defines the same norm class as every concrete
+uniformizer, the identity that lets the constructed Artin map be
+evaluated on a uniformizer rather than on the opaque choice (#104).
 
 ## Main definitions
 
