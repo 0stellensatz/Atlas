@@ -4,6 +4,7 @@ import Atlas.Knowledge.AmbientFixedAddSubgroup
 import Atlas.Knowledge.ClassFieldAxiom
 import Atlas.Knowledge.CyclicFixedCycleEquiv
 import Atlas.Knowledge.DegreeData
+import Atlas.Knowledge.ElementFixedAddSubgroup
 import Atlas.Knowledge.ExtensionFixedRepresentation
 import Atlas.Knowledge.ExtensionFixedRepresentationEquiv
 import Atlas.Knowledge.FiniteAbstractExtension
@@ -49,17 +50,20 @@ anonymous instance `⟨⟨g, hg⟩⟩`. The source's
 here: it already lives in `Atlas.Knowledge.ClassFieldAxiom` as a
 projection of the elementary axiom, keeping the source's name though at
 the layer's top level where the source houses it in `ValuationData`,
-and the final calculation consumes it unchanged. One
-`noncomputable section` holds two ambient-group scopes with a shadowing
-`variable` line: the first is `Type u` where the source pins
+and the final calculation consumes it unchanged. One `noncomputable
+section` holds two ambient-group scopes with a shadowing `variable`
+line: the first is `Type u` where the source pins
 `IntegralRepGroupType` — the private linear calculation (also
 polymorphic in its own commutative group), the prime/valuation
 calculation, and the action invariance — while the fixed-source theorem
-follows the `{G : Type}` line, pinned through Mathlib's
-`Rep.FiniteCyclicGroup.normHomCompSub` (the coefficient ring and acting
-group share one universe there — the collapse
-`Atlas.Knowledge.CyclicFixedCycleEquiv` records). The private helper
-keeps the source's privacy; its only consumer is in this file.
+follows the class-formation stock's `{G : Type}` line, inherited only
+since the #104 hoist: the fixed vector enters
+`Atlas.Knowledge.cyclicFixedCycleEquiv` through the elementwise
+`Atlas.Knowledge.elementFixedAddSubgroup` rather than the cycles of
+Mathlib's `Rep.FiniteCyclicGroup.normHomCompSub`, whose one-universe
+`{k G : Type u}` block would drop the acting group to `Type 0` at `ℤ`
+coefficients. The private helper keeps the source's privacy; its only
+consumer is in this file.
 
 ## References
 
@@ -397,13 +401,10 @@ theorem abstractReciprocity_totallyRamified_fixedSource
   have hxM : M.ρ g xM = xM := by
     exact abstractReciprocity_fixedCombination M g t (k • piSigmaM) bM a
       hSigmaPow hbAction hbc
-  let T := Rep.FiniteCyclicGroup.normHomCompSub M g
-  let xCycle : T.moduleCatLeftHomologyData.K := ⟨xM, by
-    change M.ρ g xM - xM = 0
-    exact sub_eq_zero.mpr hxM⟩
+  let xCycle : elementFixedAddSubgroup M g := ⟨xM, hxM⟩
   let x : ambientFixedAddSubgroup A E.base.field :=
     (cyclicFixedCycleEquiv A E.base.field E.field.field E.below
-      hnormal E.finiteQuotient g hg).symm xCycle
+      hnormal g hg).symm xCycle
   refine ⟨a, x, ?_, ?_⟩
   · apply Subtype.ext
     rfl

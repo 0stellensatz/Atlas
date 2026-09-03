@@ -3,8 +3,6 @@ import Atlas.Knowledge.AmbientFixedAddSubgroup
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.RelativeNormConjugation
 import Atlas.Knowledge.RelativeNormLaws
-import Atlas.Knowledge.TateVanishingNormKernel
-import Atlas.Knowledge.TateVanishingNormSurjectivity
 
 /-!
 # Universal norm descent
@@ -12,8 +10,10 @@ import Atlas.Knowledge.TateVanishingNormSurjectivity
 The representation-theoretic lifting and correction calculation of the
 abstract reciprocity construction, with the norm, action, and iterate
 identities it requires: equation `(*)` says the class of `u` in
-coinvariants is fixed by `φ`; `Ĥ⁰ = 0` produces the barred lifts, and
-`Ĥ⁻¹ = 0` the correction term `y` (#104).
+coinvariants is fixed by `φ`; norm surjectivity on fixed elements —
+the content of `Ĥ⁰ = 0` — produces the barred lifts, and the
+norm-kernel eliminator — the content of `Ĥ⁻¹ = 0` — the correction
+term `y` (#104).
 
 ## Main definitions
 
@@ -31,13 +31,26 @@ coinvariants is fixed by `φ`; `Ĥ⁰ = 0` produces the barred lifts, and
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
-the conjugate extension's finiteness instance takes no containment, as
-#137 generalized it. The two Tate eliminators are the layer's named
-twins `tateVanishingNormSurjectivity` and `tateVanishingNormKernel`. The
-ambient group is `Type` because `Rep ℤ` pins its group to the ring's
-universe, exactly as in the layer's Tate items; the source's
-`open scoped BigOperators`, a no-op in current Mathlib, is dropped.
+The cyclic lift-and-correction takes its two vanishing inputs
+elementwise — every generator-fixed element is a norm, every norm-zero
+element is a `ρ(g) − 1`-difference — where the source hypothesizes
+`Limits.IsZero` on Mathlib's Tate cohomology of the restricted
+representation: `tateCohomology` binds ring and group in one `{k G :
+Type u}` universe block, so the cohomological spelling would force the
+ambient group into `Type 0` at the layer's `ℤ` coefficients (`Rep`
+itself no longer pins — only the homological layer ties the universes).
+The layer's `tateVanishingNormSurjectivity` and
+`tateVanishingNormKernel` record exactly this extraction, so at a `Type
+0` group the source's hypotheses are recovered by composing with them;
+the generation hypothesis rides inside the elementwise inputs — they are
+stated at the chosen `g` — so `hg` leaves the signature too. The theorem
+has no consumer yet, so no wrapper at the old signature is kept. The
+ambient group stays `Type` with the class-formation stock until the #104
+hoist's mechanical flip — nothing here forces it any more. The relative
+subgroup is the layer's `Subgroup.subgroupOf` spelling, and the
+conjugate extension's finiteness instance takes no containment, as #137
+generalized it. The source's `open scoped BigOperators`, a no-op in
+current Mathlib, is dropped.
 
 ## References
 
@@ -200,19 +213,18 @@ theorem relativeNorm_conjugateStableAction
 
 /-- **The calculation in the first half of the universal norm-descent lemma**:
 the hypothesis `hstar` is equation `(*)` — the class of `u` in
-coinvariants is fixed by `φ`; `Ĥ⁰ = 0` produces the barred lifts, and
-`Ĥ⁻¹ = 0` the correction term `y` ([Yamaguchi 2026,
+coinvariants is fixed by `φ`; the elementwise content of `Ĥ⁰ = 0`
+(`hnormSurj`) produces the barred lifts, and that of `Ĥ⁻¹ = 0`
+(`hnormKer`) the correction term `y` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:149`]
 [Yamaguchi2026]). -/
 theorem universalNormDescent_cyclic_lift_and_correction
     {R : Type} [Group R] (H : Subgroup R) [H.Normal] [Fintype H]
-    (B : Rep ℤ R) (g : H) (hg : ∀ q, q ∈ Subgroup.zpowers g)
-    (hzero0 :
-      let U : Rep ℤ H := Rep.res H.subtype B
-      Limits.IsZero (tateCohomology U 0))
-    (hzeroMinusOne :
-      let U : Rep ℤ H := Rep.res H.subtype B
-      Limits.IsZero (tateCohomology U (-1)))
+    (B : Rep ℤ R) (g : H)
+    (hnormSurj : ∀ x : B.V, B.ρ g.1 x = x →
+      ∃ z : B.V, (∑ q : H, B.ρ q.1 z) = x)
+    (hnormKer : ∀ x : B.V, (∑ q : H, B.ρ q.1 x) = 0 →
+      ∃ z : B.V, B.ρ g.1 z - z = x)
     {ι : Type v} (s : Finset ι) (φ : R) (τ : ι → R)
     (u : B.V) (uᵢ : ι → B.V)
     (huFixed : ∀ q : H, B.ρ q.1 u = u)
@@ -226,14 +238,13 @@ theorem universalNormDescent_cyclic_lift_and_correction
         B.ρ φ uBar - uBar -
           ∑ i ∈ s, (B.ρ (τ i) (uBarᵢ i) - uBarᵢ i) := by
   let U : Rep ℤ H := Rep.res H.subtype B
-  have huGenerator : U.ρ g u = u := huFixed g
-  have huLift : ∃ z : B.V, U.norm.hom z = u :=
-    tateVanishingNormSurjectivity U g hg hzero0 u huGenerator
+  have huLift : ∃ z : B.V, U.norm.hom z = u := by
+    obtain ⟨z, hz⟩ := hnormSurj u (huFixed g)
+    exact ⟨z, by simpa [U, Rep.norm, Representation.norm] using hz⟩
   obtain ⟨uBar, huBar⟩ := huLift
-  have huᵢGenerator (i : ι) : U.ρ g (uᵢ i) = uᵢ i := huᵢFixed i g
-  have huᵢLift (i : ι) : ∃ z : B.V, U.norm.hom z = uᵢ i :=
-    tateVanishingNormSurjectivity U g hg hzero0
-      (uᵢ i) (huᵢGenerator i)
+  have huᵢLift (i : ι) : ∃ z : B.V, U.norm.hom z = uᵢ i := by
+    obtain ⟨z, hz⟩ := hnormSurj (uᵢ i) (huᵢFixed i g)
+    exact ⟨z, by simpa [U, Rep.norm, Representation.norm] using hz⟩
   choose uBarᵢ huBarᵢ using huᵢLift
   let delta : B.V :=
     B.ρ φ uBar - uBar -
@@ -256,13 +267,13 @@ theorem universalNormDescent_cyclic_lift_and_correction
         intro i _
         rw [restricted_rep_norm_action H B (τ i) (uBarᵢ i), huBarᵢ i]
       _ = 0 := by rw [hstar, sub_self]
-  obtain ⟨y, hy⟩ :=
-    tateVanishingNormKernel U g hg hzeroMinusOne delta hdeltaNorm
+  obtain ⟨y, hy⟩ := hnormKer delta
+    (by simpa [U, Rep.norm, Representation.norm] using hdeltaNorm)
   refine ⟨uBar, uBarᵢ, y, ?_, ?_, ?_⟩
   · simpa [U, Rep.norm, Representation.norm] using huBar
   · intro i
     simpa [U, Rep.norm, Representation.norm] using huBarᵢ i
-  · simpa [U, delta] using hy
+  · simpa [delta] using hy
 
 /-- The norm of a finite cyclic representation enumerated by the first
 `n` powers of a specified generator ([Yamaguchi 2026,

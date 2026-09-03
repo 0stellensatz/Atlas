@@ -77,6 +77,7 @@ import Atlas.Knowledge.EisensteinFieldInvariant
 import Atlas.Knowledge.EisensteinGraph
 import Atlas.Knowledge.EisensteinJumpPair
 import Atlas.Knowledge.EisensteinSet
+import Atlas.Knowledge.ElementFixedAddSubgroup
 import Atlas.Knowledge.ElementaryFilteredAut
 import Atlas.Knowledge.ExistsClassField
 import Atlas.Knowledge.ExistsValuativeExtension

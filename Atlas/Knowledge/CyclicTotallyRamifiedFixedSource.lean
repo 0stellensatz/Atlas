@@ -3,6 +3,7 @@ import Atlas.Knowledge.AmbientFixedAddSubgroup
 import Atlas.Knowledge.ClassFieldAxiom
 import Atlas.Knowledge.CyclicFixedCycleEquiv
 import Atlas.Knowledge.DegreeData
+import Atlas.Knowledge.ElementFixedAddSubgroup
 import Atlas.Knowledge.ExtensionFixedRepresentation
 import Atlas.Knowledge.ExtensionFixedRepresentationEquiv
 import Atlas.Knowledge.FiniteAbstractField
@@ -57,12 +58,15 @@ shadowing `variable` line: the commuting-combination lemma (widened to
 `Type*` in its own group, like its private sibling in
 `Atlas.Knowledge.TotallyRamifiedFixedSource`), the action-transport
 lemma, and the `FiniteCyclicSubextension` trio precede it, while the
-fixed-source theorem — a consumer of the Type-pinned
-`Atlas.Knowledge.cyclicFixedCycleEquiv` — follows it. That theorem
-sheds the source's `[T2Space G]` (the continuing cascade) and keeps
-`[TotallyDisconnectedSpace G]`, which the norm restriction over the
-Frobenius fixed field consumes. Two proof-level adjustments answer the
-layer's transparency: `L` rebundles as the structure literal over
+fixed-source theorem follows it on the class-formation stock's `{G :
+Type}` line — inherited only since the #104 hoist: the fixed vector
+enters `Atlas.Knowledge.cyclicFixedCycleEquiv` through the elementwise
+`Atlas.Knowledge.elementFixedAddSubgroup`, clear of the one-universe
+`{k G : Type u}` block of Mathlib's `Rep.FiniteCyclicGroup`. That
+theorem sheds the source's `[T2Space G]` (the continuing cascade) and
+keeps `[TotallyDisconnectedSpace G]`, which the norm restriction over
+the Frobenius fixed field consumes. Two proof-level adjustments answer
+the layer's transparency: `L` rebundles as the structure literal over
 `E.field` (the layer's `toFiniteAbstractFieldExtension` routes through
 `ofInclusion`, whose projections do not reduce reducibly, which blocked
 the source's defeq elaboration of the prime-unit sum), and the one simp
@@ -592,13 +596,10 @@ theorem abstractReciprocity_cyclicTotallyRamified_fixedSource
     apply eB₀.injective
     rw [hActionX, hxB]
     rfl
-  let T := Rep.FiniteCyclicGroup.normHomCompSub B₀ g
-  let xCycle : T.moduleCatLeftHomologyData.K := ⟨xB₀, by
-    change B₀.ρ g xB₀ - xB₀ = 0
-    exact sub_eq_zero.mpr hxB₀⟩
+  let xCycle : elementFixedAddSubgroup B₀ g := ⟨xB₀, hxB₀⟩
   let x : ambientFixedAddSubgroup A M₀ :=
     (cyclicFixedCycleEquiv A M₀ M.field hMM₀
-      N.normal N.finite g hg).symm xCycle
+      N.normal g hg).symm xCycle
   refine ⟨x, ?_⟩
   have hxFormula : fixedFieldInclusion A M₀ M.field hMM₀ x = eB xB := by
     apply Subtype.ext
