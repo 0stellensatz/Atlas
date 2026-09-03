@@ -9,10 +9,9 @@ Along an inclusion `N ≤ M` of open normal subgroups of the abelianized
 absolute Galois group, the quotient by `N` maps canonically onto the
 quotient by `M`, and under the finite quotient identifications of
 `Atlas.Knowledge.AbsoluteFiniteQuotientEquiv` this transition is
-exactly restriction of automorphisms from the larger fixed field to
-the smaller — the compatibility that makes the finite Artin
-coordinates of `Atlas.Knowledge.AbsoluteFiniteArtinMap` a compatible
-family (#104).
+exactly restriction of automorphisms from the larger fixed field to the
+smaller — the compatibility that makes the finite Artin coordinates of
+`Atlas.Knowledge.AbsoluteFiniteArtinMap` a compatible family (#104).
 
 ## Main definitions
 
@@ -39,10 +38,10 @@ here are restated with plain monoid homomorphisms.
 `absoluteFiniteQuotientTransition` is the bare `QuotientGroup.map`,
 dropping the source's `letI` discrete-topology upgrade to a
 `ContinuousMonoidHom` (its `:46`); the compatibility square composes
-`Atlas.Knowledge.intermediateFieldRestrictNormalHom` with the
-algebraic identification
-`Atlas.Knowledge.absoluteFiniteQuotientMulEquiv` where the source
-(its `:73`) composes its unported `intermediateFieldRestrictContinuous`
+`Atlas.Knowledge.intermediateFieldRestrictNormalHom` with the algebraic
+identification `Atlas.Knowledge.absoluteFiniteQuotientMulEquiv` where
+the source (its `:73`) composes its unported
+`intermediateFieldRestrictContinuous`
 (`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidueNaturality.lean:24`)
 with the topological identification, and is renamed
 `absoluteFiniteQuotientMulEquiv_transition` for its actual subject —
@@ -51,20 +50,21 @@ the fork's precedent is the continuity pair recorded on
 `Atlas.Knowledge.AbelianLocalArtinMonoidHomRestrict`. The ambient
 conversion of the arc enters through the consumed dictionary, whose
 `[CharZero K]` split this file matches: only the compatibility square,
-which needs the correspondence's instances, assumes it. In the
-square's proof the source's `change` and three rewrites collapse into
-one `change`: the layer's identification and transition map are
-definitional on representatives — `absoluteFiniteQuotientEquiv_mk_mk`
-and `absoluteFiniteQuotientTransition_mk` are `rfl` — so the fully
-rewritten form is already the goal; and the closing calc becomes a
-term-mode `Eq.trans` chain, since its written intermediate statements
-would apply `σ` to ambient elements, which the automorphism-group
-seam recorded on the dictionary — instance search does not unfold
-`Field.absoluteGaloisGroup`, so no `CoeFun` fires on `σ`'s stated
-type — refuses, while inside the bridging lemmas' own statements the
+which needs the correspondence's instances, assumes it. In the square's
+proof the source's `change` and three rewrites collapse into one
+`change`: the layer's identification and transition map are
+definitional on representatives —
+`absoluteFiniteQuotientMulEquiv_mk_mk`, recorded on the dictionary for
+this file, and `absoluteFiniteQuotientTransition_mk` are `rfl` — so the
+fully rewritten form is already the goal; and the closing calc becomes
+a term-mode `Eq.trans` chain, since its written intermediate statements
+would apply `σ` to ambient elements, which the automorphism-group seam
+recorded on the dictionary — instance search does not unfold
+`Field.absoluteGaloisGroup`, so no `CoeFun` fires on `σ`'s stated type
+— refuses, while inside the bridging lemmas' own statements the
 applications already live at the unfolded spelling. The source's
-placeholder docstring on the `_mk` lemma is replaced by a statement
-of content. Everything else ports token-for-token; the file is the
+placeholder docstring on the `_mk` lemma is replaced by a statement of
+content. Everything else ports token-for-token; the file is the
 source's
 `LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean`
 whole.
@@ -137,8 +137,8 @@ theorem absoluteFiniteQuotientTransition_mk
 
 variable [CharZero K]
 
-/-- Under the finite quotient identifications, quotient transition is
-exactly restriction of automorphisms to the smaller fixed field
+/-- **Under the finite quotient identifications, quotient transition
+is exactly restriction of automorphisms to the smaller fixed field**
 ([Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:73`]
 [Yamaguchi2026]). -/

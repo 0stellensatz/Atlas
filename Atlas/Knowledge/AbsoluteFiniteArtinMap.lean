@@ -13,9 +13,9 @@ normal subgroup `N` of the abelianized absolute Galois group of a
 mixed-characteristic local field, the abelian local Artin homomorphism
 of the finite abelian fixed field, read backwards through the finite
 quotient identification, is a homomorphism from `Kˣ` onto the quotient
-by `N` — surjective, with kernel the norm subgroup of that fixed
-field, and commuting with quotient transition, so the coordinates form
-a compatible family over the transition system (#104).
+by `N` — surjective, with kernel the norm subgroup of that fixed field,
+and commuting with quotient transition, so the coordinates form a
+compatible family over the transition system (#104).
 
 ## Main definitions
 
@@ -40,16 +40,16 @@ source's continuous vocabulary stays unported and each of the four
 homomorphisms. The coordinate composes
 `Atlas.Knowledge.abelianLocalArtinMonoidHom` with the algebraic
 identification `Atlas.Knowledge.absoluteFiniteQuotientMulEquiv`
-inverted, where the source (its `:25`) composes its unported
-continuous `abelianLocalArtinMap`
+inverted, where the source (its `:25`) composes its unported continuous
+`abelianLocalArtinMap`
 (`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidue.lean:69`)
 with the topological identification inverted; surjectivity and the
 kernel ride the layer's `abelianLocalArtinMonoidHom_surjective` and
 `abelianLocalArtinMonoidHom_ker` in place of the continuous forms
 (`NormResidue.lean:89` and `:96`); and the transition square rides
 `Atlas.Knowledge.abelianLocalArtinMonoidHom_restrict` and
-`Atlas.Knowledge.absoluteFiniteQuotientMulEquiv_transition` in place
-of the continuous `abelianLocalArtinMap_restrict`
+`Atlas.Knowledge.absoluteFiniteQuotientMulEquiv_transition` in place of
+the continuous `abelianLocalArtinMap_restrict`
 (`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidueNaturality.lean:47`)
 and the source's topological square — the fork as recorded on
 `Atlas.Knowledge.AbelianLocalArtinMonoidHom` and
@@ -59,15 +59,14 @@ is the local-field block of the consumed Artin homomorphism —
 `[IsNonarchimedeanLocalField K]`, the arc convention — and `K` stays
 pinned to `Type`, that block's recorded universe seam;
 `IsMixedCharLocalField` extends `CharZero`, which is what lets the
-dictionary's finiteness and abelianness instances fire with no
-explicit binder. In the transition proof the source's `change` is a
-`simp only` unfolding of the coordinate, and the two
-`DFunLike.congr_fun` bridges enter through `have` plus the same
-`simp only` normalization: a definitional comparison through
-`abelianLocalArtinMonoidHom` unfolds the whole reciprocity transport
-past the recursion limit, so the proof keeps every comparison
-syntactic. The file is the source's
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:25`–`:107`, the
+dictionary's finiteness and abelianness instances fire with no explicit
+binder. In the transition proof the source's `change` is a `simp only`
+unfolding of the coordinate, and the two `DFunLike.congr_fun` bridges
+enter through `have` plus the same `simp only` normalization: a
+definitional comparison through `abelianLocalArtinMonoidHom` unfolds
+the whole reciprocity transport past the recursion limit, so the proof
+keeps every comparison syntactic. The file is the source's
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:25`–`:105`, the
 finite-coordinate half only: the limit half (its `:109` on — the
 inverse-limit target, the assembled absolute map, and its dense range)
 is deliberately left to the next item. Everything else ports

@@ -25,8 +25,9 @@ subextensions, on the target side of the absolute Artin map (#104).
 
 * `absoluteFiniteQuotientPreimage_map_eq` — pushing the pullback
   forward recovers `N`; proved.
-* `absoluteFiniteQuotientEquiv_mk_mk` — on representatives the
-  identification is restriction to the fixed field; proved.
+* `absoluteFiniteQuotientMulEquiv_mk_mk`,
+  `absoluteFiniteQuotientEquiv_mk_mk` — on representatives the
+  identifications are restriction to the fixed field; proved.
 * `absoluteFiniteQuotientField_isGalois`,
   `absoluteFiniteQuotientField_finiteDimensional`,
   `absoluteFiniteQuotientField_isAbelianGalois` — the fixed field is a
@@ -208,6 +209,22 @@ def absoluteFiniteQuotientMulEquiv
       (commutator_topologicalClosure_le_absoluteFiniteQuotientPreimage K N)).trans
         (InfiniteGalois.normalAutEquivQuotient
           (absoluteFiniteQuotientClosedPreimage K N)))
+
+/-- On representatives, the algebraic finite quotient identification
+is literal restriction to the corresponding fixed field — the
+algebraic reading of the topological representative formula
+([Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:171`]
+[Yamaguchi2026]). -/
+@[simp]
+theorem absoluteFiniteQuotientMulEquiv_mk_mk
+    (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K))
+    (σ : Field.absoluteGaloisGroup K) :
+    absoluteFiniteQuotientMulEquiv K N
+        (QuotientGroup.mk
+          (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization K)) =
+      AlgEquiv.restrictNormalHom (absoluteFiniteQuotientField K N) σ :=
+  rfl
 
 /-- The canonical topological finite quotient identification: both
 sides are discrete, the quotient because `N` is open and the Galois
