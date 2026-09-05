@@ -75,9 +75,9 @@ reciprocity homomorphism (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
-All sections sit at the source's `Type u`, the representation sections
-since the #104 hoist unpinned the quotient-action chain they follow.
-The profinite integers are the layer's `ProfiniteInteger` with
+Both sections sit at the source's `Type u`, the representation section
+since the #104 hoist unpinned the quotient-action chain it follows. The
+profinite integers are the layer's `ProfiniteInteger` with
 `ProfiniteInteger.ofAdd_one_pow_injective` for the source's injectivity
 device, the bundles are the layer's top-level
 `FiniteResidueAbstractExtension`, `FiniteTower`, and

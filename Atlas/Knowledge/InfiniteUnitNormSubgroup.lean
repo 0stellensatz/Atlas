@@ -40,11 +40,12 @@ ambient norm subgroups (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 the finiteness of a tower stage is #136's two-argument
 instance-supplied form, `FiniteTower` sits at the layer's top level,
-and the ambient group is `Type u` since the #104 hoist; the source's
-no-op `open`s are dropped, and its `simpa` bridge for the intermediate
-unit is the plain definitionally-equal term — the mismatch it smoothed
-lives in a proof-irrelevant field, and the layer's simp set
-over-reduces the unit group to its subtype instead.
+and the ambient group is `Type u` since the #104 hoist flipped the
+unit-descent chain the file draws on; the source's no-op `open`s are
+dropped, and its `simpa` bridge for the intermediate unit is the plain
+definitionally-equal term — the mismatch it smoothed lives in a
+proof-irrelevant field, and the layer's simp set over-reduces the unit
+group to its subtype instead.
 
 ## References
 

@@ -44,11 +44,13 @@ universes). The layer's `tateVanishingNormSurjectivity` and
 them; the generation hypothesis rides inside the elementwise inputs —
 they are stated at the chosen `g` — so `hg` leaves the signature too.
 The theorem has no consumer yet, so no wrapper at the old signature is
-kept. The ambient group is `Type u` with the class-formation stock since
-the #104 hoist's mechanical flip. The relative subgroup is the layer's
-`Subgroup.subgroupOf` spelling, and the conjugate extension's finiteness
-instance takes no containment, as #137 generalized it. The source's
-`open scoped BigOperators`, a no-op in current Mathlib, is dropped.
+kept. The per-declaration group binders sit at `Type u` with the
+class-formation stock since the #104 hoist's mechanical flip — nothing
+here has forced the pin since the vanishing inputs went elementwise. The
+relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and the
+conjugate extension's finiteness instance takes no containment, as #137
+generalized it. The source's `open scoped BigOperators`, a no-op in
+current Mathlib, is dropped.
 
 ## References
 
