@@ -30,8 +30,6 @@ which uniqueness makes unambiguous.
 * `exists_isLocalReciprocity` — the Artin map exists; proved, the witness being
   `Atlas.Knowledge.absoluteLocalArtinMonoidHom`.
 * `IsLocalReciprocity.unique` — the three properties pin the map; proved.
-* `IsLocalReciprocity.unitsCompletion_continuousMulEquiv` — the induced isomorphism
-  `K̂ˣ ≅ G_K^ab` from Mathlib's profinite completion, recorded ahead of its proof.
 
 ## Implementation notes
 
@@ -42,12 +40,15 @@ renders "the kernel of `φ` followed by restriction to `L` is the norm subgroup"
 constructing the factored restriction: preimage of the image of the fixing subgroup equals
 the range of the unit norm. The `frobenius` field quantifies over every lift `σ` of `φ (u)`
 — all lifts agree on abelian subextensions, and the ∀-form keeps the statement free of the
-descended map. The completion claim is stated against Mathlib's profinite completion, which
-completes against *all* finite-index normal subgroups; its agreement with the topological
-completion of the classical statement is the char-0 fact that every finite-index subgroup of
-`Kˣ` is open — false in equal characteristic, which is why `IsMixedCharLocalField` is
-load-bearing and the read repository, which proves the comparison only under an undischarged
-openness hypothesis
+descended map. The completion claim — the second of this predicate's two claims,
+`IsLocalReciprocity.unitsCompletion_continuousMulEquiv`, recorded here ahead of its proof
+and now `Atlas.Knowledge.UnitsCompletionOfLocalExistence`'s, its statement unchanged, since
+the proof rests on that reduction item, which imports this one — is stated against Mathlib's
+profinite completion, which completes against *all* finite-index normal subgroups; its
+agreement with the topological completion of the classical statement is the char-0 fact that
+every finite-index subgroup of `Kˣ` is open — false in equal characteristic, which is why
+`IsMixedCharLocalField` is load-bearing and the read repository, which proves the comparison
+only under an undischarged openness hypothesis
 (`LocalClassFieldTheory/Infinite/AbstractProfiniteCompletionComparison.lean:298`), states
 its own completion instead. The `∃ e` shape, rather than a `ProfiniteGrp` bundling, is
 forced: the compactness instances do not synthesize through the `absoluteGaloisGroup`
@@ -579,19 +580,6 @@ theorem unique (hφ : IsLocalReciprocity K φ) (hψ : IsLocalReciprocity K ψ) :
   | one => rw [map_one, map_one]
   | mul a b _ _ ha hb => rw [map_mul, map_mul, ha, hb]
   | inv a _ ha => rw [map_inv, map_inv, ha]
-
-/-- The reciprocity map is an isomorphism after profinite completion:
-`K̂ˣ ≅ G_K^ab`, the completion taken against all finite-index normal subgroups — which are
-all open, `K` being of mixed characteristic. Claim recorded ahead of its proof
-([Serre 1979, Chap. XIII, §4, pp.197–198][Serre1979];
-[Hyeon 2025, §3, p.10][Hyeon2025];
-[Yamaguchi 2026, `LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:257`]
-[Yamaguchi2026]). -/
-theorem unitsCompletion_continuousMulEquiv (hφ : IsLocalReciprocity K φ) :
-    ∃ e : ProfiniteGrp.ProfiniteCompletion.completion (GrpCat.of Kˣ) ≃ₜ*
-        Field.absoluteGaloisGroupAbelianization K,
-      ∀ u : Kˣ, e (ProfiniteGrp.ProfiniteCompletion.etaFn (GrpCat.of Kˣ) u) = φ u := by
-  sorry
 
 end IsLocalReciprocity
 
