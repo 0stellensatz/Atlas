@@ -297,6 +297,7 @@ import Atlas.Knowledge.NormResidueNaturality
 import Atlas.Knowledge.NormResidueNaturalityArrows
 import Atlas.Knowledge.NormSubgroupMap
 import Atlas.Knowledge.NormSubgroupOrderEmbedding
+import Atlas.Knowledge.NormSubgroupSurjectivity
 import Atlas.Knowledge.NormTopology
 import Atlas.Knowledge.NormUnits
 import Atlas.Knowledge.NormalizedDegree
