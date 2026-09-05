@@ -28,17 +28,20 @@ the ambient bundle of the Frobenius power fixed-field tower (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 and the normality instance is `subgroupOf_normalInstance`, after the
 layer's `GaloisSubextension` item renamed its sibling the same way.
-Five source declarations stay unported — none is consumed inside
+Four source declarations stay unported — none is consumed inside
 `Reciprocity/Main.lean`'s import closure, the window this port serves,
-though two have consumers in `Reciprocity/` files beyond it —
+though one has a consumer in a `Reciprocity/` file beyond it —
 `toGaloisSubextension_isUnramified_iff`,
 `toGaloisSubextension_isTotallyRamified_iff`,
-`isUnramified_toGaloisSubextension`, `finite_intermediate_extension`,
-and `baseChange`; the pair `finiteNormSubgroup_compositum_le_left` /
+`isUnramified_toGaloisSubextension`, and
+`finite_intermediate_extension`; the pair
+`finiteNormSubgroup_compositum_le_left` /
 `finiteNormSubgroup_compositum_le_right` is ported in
-`Atlas.Knowledge.NormTopology`, in this item's namespace, its first
-consumer; the source's two tower-finiteness theorems already live in
-the layer's `Atlas.Knowledge.finite_extension_trans` and
+`Atlas.Knowledge.NormTopology` and `baseChange` in
+`Atlas.Knowledge.FiniteAbelianSubextension`, each in this item's
+namespace at its first consumer; the source's two tower-finiteness
+theorems already live in the layer's
+`Atlas.Knowledge.finite_extension_trans` and
 `Atlas.Knowledge.finite_extension_over_intermediate`.
 
 Two proofs depart from the source.

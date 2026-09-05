@@ -102,6 +102,7 @@ import Atlas.Knowledge.FilteredModule
 import Atlas.Knowledge.FilteredModulePi
 import Atlas.Knowledge.FilteredProfiniteGroup
 import Atlas.Knowledge.FilteredRhoMap
+import Atlas.Knowledge.FiniteAbelianSubextension
 import Atlas.Knowledge.FiniteAbstractExtension
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
