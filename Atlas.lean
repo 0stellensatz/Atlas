@@ -405,6 +405,7 @@ import Atlas.Knowledge.StandardLubinTateSubgroupIndex
 import Atlas.Knowledge.StandardLubinTateTorsion
 import Atlas.Knowledge.StandardLubinTateUniformizerUnit
 import Atlas.Knowledge.StandardLubinTateUpperRamification
+import Atlas.Knowledge.StandardOpenSubgroups
 import Atlas.Knowledge.StoppedGameJumpPair
 import Atlas.Knowledge.StronglyEisensteinExtremal
 import Atlas.Knowledge.SylowReductionStep
