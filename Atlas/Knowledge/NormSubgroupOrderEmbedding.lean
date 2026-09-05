@@ -3,6 +3,9 @@ import Atlas.Knowledge.AbstractFixedField
 import Atlas.Knowledge.AbstractFixedFieldNorm
 import Atlas.Knowledge.AbstractFixedFieldUnitsEquiv
 import Atlas.Knowledge.AdditiveNormSubgroup
+import Atlas.Knowledge.AmbientFixedAddSubgroup
+import Atlas.Knowledge.ClassFieldAxiom
+import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbelianClassification
 import Atlas.Knowledge.FiniteAbelianSubextension
 import Atlas.Knowledge.FiniteExtensionTransitivity
@@ -12,28 +15,31 @@ import Atlas.Knowledge.IntermediateFieldNormResidueNaturality
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
 import Atlas.Knowledge.LocalClassFieldAxiom
 import Atlas.Knowledge.LocalHenselianValuation
+import Atlas.Knowledge.LocalResidueDatum
 import Atlas.Knowledge.NormQuotient
-import Atlas.Knowledge.NormSubgroupMap
 import Atlas.Knowledge.NormUnits
 import Atlas.Knowledge.RelativeNorm
+import Atlas.Knowledge.ResidueDatumIn
 import Atlas.Knowledge.SeparableFixedFieldNorm
 import Atlas.Knowledge.UnitCohomologyDischarge
 import Atlas.Knowledge.UnitsFiniteIndexOpen
+import Atlas.Knowledge.ValuationData
 
 /-!
 # norm subgroup order embedding
 
 The norm subgroup map of a mixed-characteristic local field `K`,
-`L ↦ N_{L/K} Lˣ`, from the finite abelian subextensions of the absolute
-Galois group — the class formation's abstract subextensions over the
-fixing subgroup of the base — to the open finite-index subgroups of
-`Kˣ`, as an order embedding into the opposite poset: the abstract
-classification's injectivity and order reversal (#104), transported
-through the identification of the abstract norm subgroup with the
-ordinary norm subgroup of the represented fixed field. The abstract
-data lives over a separably closed Galois ambient `Ω`, with the
-reciprocity inputs threaded, and closes at the algebraic closure with
-the layer's local data.
+`L ↦ N_{L/K} Lˣ`, from the finite abelian subextensions of the Galois
+group of a separably closed Galois ambient — at the algebraic closure,
+the absolute Galois group; the class formation's abstract subextensions
+over the fixing subgroup of the base — to the open finite-index
+subgroups of `Kˣ`, as an order embedding into the opposite poset: the
+abstract classification's injectivity and order reversal (#104),
+transported through the identification of the abstract norm subgroup
+with the ordinary norm subgroup of the represented fixed field. The
+abstract data lives over a separably closed Galois ambient `Ω`, with
+the reciprocity inputs threaded, and closes at the algebraic closure
+with the layer's local data.
 
 ## Main definitions
 
@@ -72,14 +78,16 @@ abbreviations, the layer over a separably closed Galois ambient `Ω` —
 local data live (`Atlas.Knowledge.localHenselianValuation`,
 `Atlas.Knowledge.algebraicClosureUnits_satisfiesClassFieldAxiom`,
 `Atlas.Knowledge.localHenselianValuation_satisfiesUnramifiedUnitCohomology`),
-the Galoisness of the algebraic closure supplied by the `haveI` that
-`Atlas.Knowledge.IsLocalReciprocity` uses. The three
-reciprocity-dependent declarations thread `D`, `v`, `hcf`, and `hAxiom`
-in their general form, as the layer's `OfEmbedding` halves do, and
-their `local`-prefixed closers supply all four. The local field is
-`IsMixedCharLocalField` where the source's is nonarchimedean, the
-layer's instantiation being mixed-characteristic throughout. Openness
-of the norm subgroup is the layer's
+the Galoisness of the algebraic closure an instance, `K` having
+characteristic zero. The base index finiteness
+`intrinsicAbstractBase_index_finite` is renamed
+`galoisAmbientBase_index_finite` with the abbreviation it is stated
+over. The three reciprocity-dependent declarations thread `D`, `v`,
+`hcf`, and `hAxiom` in their general form, as the layer's `OfEmbedding`
+halves do, and their `local`-prefixed closers supply all four. The
+local field is `IsMixedCharLocalField` where the source's is
+nonarchimedean, the layer's instantiation being mixed-characteristic
+throughout. Openness of the norm subgroup is the layer's
 `Atlas.Knowledge.unitsFiniteIndexOpen` applied to its finite index, so
 `finiteAbelianNormSubgroup_finiteIndex` precedes
 `finiteAbelianNormSubgroup_isOpen` here, where the source proves
@@ -87,12 +95,15 @@ openness first through its `TopologicalReciprocity.lean`, which the
 layer does not carry. The source's `LocalAbsoluteData.lean` — its
 `OpenFiniteIndexSubgroup`, the Galoisness criterion, and the base index
 finiteness, hoisted over `Ω` — is ported alongside as its first
-consumer arrives. The relative subgroup is the layer's
-`Subgroup.subgroupOf` spelling, `mem_extensionSubgroup_iff` becoming
-Mathlib's `Subgroup.mem_subgroupOf`, so the Galoisness criterion's
-`hsub` bridge is gone; the Galois groups are spelled `≃ₐ[·]`,
-`closedFixingSubgroup` takes only the intermediate field, the tower
-finiteness is the layer's top-level `finite_extension_trans`, and
+consumer arrives. The import block lists every item whose declarations
+the file spells, `Atlas.Knowledge.NormSubgroupMap` reaching it only
+through the classification's statements and so through that import. The
+relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
+`mem_extensionSubgroup_iff` becoming Mathlib's
+`Subgroup.mem_subgroupOf`, so the Galoisness criterion's `hsub` bridge
+is gone; the Galois groups are spelled `≃ₐ[·]`, `closedFixingSubgroup`
+takes only the intermediate field, the tower finiteness is the layer's
+top-level `finite_extension_trans`, and
 `finiteAbelianSubextension_le_iff_normSubgroup_le` omits the
 local-field binders its statement never needed. Everything else ports
 token-for-token; the file is the source's
@@ -253,6 +264,7 @@ theorem finiteAbelianSubextension_normal_over_absoluteBase
       (g' : Ω ≃ₐ[K] Ω)⁻¹) ∈ L.field at hout'
   exact hout'
 
+omit [IsSepClosed Ω] in
 /-- **The ordinary norm subgroup of the fixed field represented by an
 abstract finite abelian extension** ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:70`]
@@ -679,9 +691,7 @@ the layer's local data supplied ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:384`]
 [Yamaguchi2026]). -/
 theorem localFiniteAbelianNormSubgroupMap_injective :
-    haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
     Function.Injective (finiteAbelianNormSubgroupMap K (AlgebraicClosure K)) := by
-  haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
   exact finiteAbelianNormSubgroupMap_injective K (AlgebraicClosure K)
     (localResidueDatum K) (localHenselianValuation K)
     (algebraicClosureUnits_satisfiesClassFieldAxiom K)
@@ -694,11 +704,9 @@ data supplied ([Yamaguchi 2026,
 theorem localFiniteAbelianSubextension_le_iff_normSubgroup_le
     (L₁ L₂ : FiniteAbelianSubextension
       (closedFixingSubgroup (⊥ : IntermediateField K (AlgebraicClosure K)))) :
-    haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
     L₁ ≤ L₂ ↔
       finiteAbelianNormSubgroup K (AlgebraicClosure K) L₂ ≤
         finiteAbelianNormSubgroup K (AlgebraicClosure K) L₁ := by
-  haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
   exact finiteAbelianSubextension_le_iff_normSubgroup_le K (AlgebraicClosure K)
     (localResidueDatum K) (localHenselianValuation K)
     (algebraicClosureUnits_satisfiesClassFieldAxiom K)
@@ -709,11 +717,9 @@ local data supplied ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:426`]
 [Yamaguchi2026]). -/
 def localFiniteAbelianNormSubgroupOrderEmbedding :
-    haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
     FiniteAbelianSubextension
         (closedFixingSubgroup (⊥ : IntermediateField K (AlgebraicClosure K))) ↪o
       (OpenFiniteIndexSubgroup K)ᵒᵈ :=
-  haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
   finiteAbelianNormSubgroupOrderEmbedding K (AlgebraicClosure K)
     (localResidueDatum K) (localHenselianValuation K)
     (algebraicClosureUnits_satisfiesClassFieldAxiom K)
