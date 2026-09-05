@@ -1,5 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.FiniteAbelianSubextension
+import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.IntermediateGaloisCorrespondence
 import Atlas.Knowledge.NormTopology
@@ -27,23 +28,29 @@ on it is asserted here.
   `FiniteGaloisSubextension.reciprocityAbelianizedSubgroup`,
   `FiniteGaloisSubextension.reciprocityPreimageSubgroup` — `H / N_E`,
   its transport to `G(E/K)ᵃᵇ`, and its pullback to `G(E/K)`.
+* `FiniteGaloisSubextension.reciprocityAbelianizedClassHom` — the
+  abelianized class map `A_K → G(E/K)ᵃᵇ` through `rE`.
 * `abelianizationPreimageSubgroup` — the pullback of a subgroup of an
   abelianization.
 * `FiniteGaloisSubextension.intermediateFiniteAbelianOfCommutatorLe` —
   the finite abelian subextension cut out by a subgroup containing the
-  commutator.
+  commutator, with its `_field` formula.
 * `FiniteGaloisSubextension.classFieldCandidate` — the candidate.
 
 ## Main statements
 
 * `normOpenAddSubgroup_contains_finiteNormSubgroup` — a norm-open
   subgroup contains a finite Galois norm subgroup; proved.
+* `FiniteGaloisSubextension.commutator_le_reciprocityPreimageSubgroup`
+  — the pulled-back subgroup contains the commutator, for any `rE`;
+  proved.
 * `FiniteGaloisSubextension.finiteNormClass_mem_normQuotientSubgroup_iff`,
   `FiniteGaloisSubextension.reciprocityClass_mem_abelianizedSubgroup_iff`,
   `FiniteGaloisSubextension.reciprocityClass_mem_preimageSubgroup_iff`,
   `FiniteGaloisSubextension.candidateQuotient_eq_one_iff` — under
   `N_E ≤ H`, each of the three subgroups has exactly `H` as its inverse
-  image, the last read on the candidate's quotient; proved.
+  image, and the candidate's own quotient kills the transported class
+  exactly on `H`; proved.
 * `FiniteGaloisSubextension.classFieldCandidate_field` — the
   candidate's field is the fixed field of the pulled-back subgroup;
   proved.
@@ -60,7 +67,9 @@ the candidate as in the source. The norm subgroup of a finite Galois
 subextension is `Atlas.Knowledge.NormTopology`'s and the intermediate
 correspondence is `Atlas.Knowledge.IntermediateGaloisCorrespondence`'s.
 Everything else ports token-for-token; the file is the source's
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean` whole.
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean` whole
+in its declarations, its three section comments not carried, as the
+layer's items carry none.
 
 ## References
 
@@ -103,8 +112,8 @@ local instance normQuotient_extensionQuotient_finite
     Finite (K.toSubgroup ⧸ E.field.toSubgroup.subgroupOf K.toSubgroup) :=
   E.finite
 
-/-- The subgroup `H / N_E` of the actual norm quotient, represented as
-the image of `H` under the quotient map ([Yamaguchi 2026,
+/-- The image of `H` in the actual norm quotient under the quotient map
+— the subgroup `H / N_E` once `N_E ≤ H` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:58`]
 [Yamaguchi2026]). -/
 def normQuotientSubgroup
