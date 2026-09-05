@@ -70,7 +70,7 @@ ambient compactness and topological-group binders are carried by a
 neither. Everything else ports token-for-token modulo four condensed
 proof steps that change no statement — `extensionQuotient_inductionOn`
 in term mode for the source's `by exact`, `field_le_normalizer`'s
-`have` and `letI` collapsed into one `letI`, `intersectionGalois`'s
+`have` and `letI` collapsed into one `letI`, `normSubgroup_antitone`'s
 finiteness witness without the source's `change`, and the source's
 `omit` replaced by that variable placement; the file is the source's
 `AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean`
