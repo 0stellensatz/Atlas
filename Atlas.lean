@@ -264,6 +264,7 @@ import Atlas.Knowledge.LocalHenselianValuation
 import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
 import Atlas.Knowledge.LocalKroneckerWeber
+import Atlas.Knowledge.LocalNormSubgroupExistence
 import Atlas.Knowledge.LocalResidueDatum
 import Atlas.Knowledge.LocalTateDuality
 import Atlas.Knowledge.LocalUnitValuationDictionary
