@@ -50,22 +50,33 @@ reads the abstract valuation of a transported base unit as the
 normalized valuation directly, so the source's two private transport
 lemmas through `intrinsicAbstractBase = baseField` are not needed. The
 unramified norm subgroup is spelled
-`Subgroup.comap (normalizedValuationHom K) (Subgroup.zpowers (Multiplicative.ofAdd d))`,
+`Subgroup.comap (normalizedValuationHom K) (Subgroup.zpowers (Multiplicative.ofAdd (d : ℤ)))`,
 the form of `Atlas.Knowledge.unramifiedNormRange`, where the source
 packages it as `unramifiedNormSubgroup K d` through its
 `valuationModDegree`, so its `mem_unramifiedNormSubgroup_iff` step
-becomes `Subgroup.mem_comap` and `Subgroup.mem_zpowers_iff`. The
-degree-`d` extension is
+becomes `Subgroup.mem_comap` and `Subgroup.mem_zpowers_iff`. That
+subgroup is the source's although the layer's
+`Atlas.Knowledge.normalizedValuation` is the negation of the source's
+`valuationMap` — the convention fork
+`Atlas.Knowledge.NormalizedValuation` records — because divisibility by
+`d` is invariant under negation; for `d = 1` it is all of `Kˣ`, as in
+the source. The degree-`d` extension is
 `Atlas.Knowledge.UnramifiedExtensionOfDegree`'s, with `NeZero d` for
 the source's `0 < d`; the reduction of the profinite integers is
 `Atlas.Knowledge.ProfiniteInteger.reduction`, its integer cast
 `reduction_intCast`; the residue-degree tower law is
-`Atlas.Knowledge.normalizedValuation_tower`; and the relative subgroup
-is the layer's `Subgroup.subgroupOf` spelling. The file is the source's
+`Atlas.Knowledge.normalizedValuation_tower`, the residue degree read
+through `toFiniteResidueAbstractExtension` as that law states it where
+the source writes `EU.residueDegree D`; and the relative subgroup is
+the layer's `Subgroup.subgroupOf` spelling. The local field is
+`IsMixedCharLocalField` where the source's is nonarchimedean, a
+narrowing to the layer's standing class, and the source's `Type` is the
+layer's `Type u`. The file is the source's
 `LocalClassFieldTheory/Finite/Existence/UnramifiedNormContainment.lean:78`
-in that vocabulary; the source's remaining declarations there, the
-existential packagings `:205`–`:271`, are absorbed by the consumer
-`Atlas.Knowledge.LocalNormSubgroupExistence`.
+in that vocabulary; the source's remaining declarations there — the
+existential packagings `:205` and `:271`, and the local abelian
+subextension `:231` with its containment `:244` — are absorbed by the
+consumer `Atlas.Knowledge.LocalNormSubgroupExistence`.
 
 ## References
 
@@ -81,9 +92,9 @@ universe u
 
 variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
-/-- **The norm subgroup of the canonical unramified extension of degree
-`d`**, transported from the fixed coefficients to `Kˣ`, is contained in
-the subgroup of elements whose normalized valuation is divisible by `d`
+/-- **The norm subgroup of the canonical unramified extension of degree `d`**,
+transported from the fixed coefficients to `Kˣ`, is contained in the
+subgroup of elements whose normalized valuation is divisible by `d`
 ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/Existence/UnramifiedNormContainment.lean:78`]
 [Yamaguchi2026]). -/

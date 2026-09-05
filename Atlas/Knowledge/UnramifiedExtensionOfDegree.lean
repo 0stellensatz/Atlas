@@ -49,15 +49,23 @@ The reduction modulo `f` is the layer's
 `Multiplicative.ofAdd` in `unramifiedDegreeHom`, whose continuity is
 the layer's `continuous_reduction`, where the source composes a named
 `zHatReductionMul`; the positivity of `f` is carried as `NeZero f`
-throughout, as the valuation datum's own fields carry their moduli,
-where the source passes `0 < f`. The relative subgroup is the layer's
-`Subgroup.subgroupOf` spelling, so the source's `extensionSubgroup_…`
-names read `subgroupOf_…` here and `mem_extensionSubgroup_iff` becomes
-Mathlib's `Subgroup.mem_subgroupOf`; the abstract extension is
-Mathlib-style `AbstractExtension.mk` as in the source. The file is the
-source's
+throughout, the form the `Atlas.Knowledge.ProfiniteInteger` reduction
+lemmas it consumes are stated in, with no `0 < n` variant, where the
+source passes `0 < f`; a caller holding `0 < f` supplies the instance
+in one term. The relative subgroup is the layer's `Subgroup.subgroupOf`
+spelling, so the source's `extensionSubgroup_…` names read
+`subgroupOf_…` here, `mem_extensionSubgroup_iff` becomes Mathlib's
+`Subgroup.mem_subgroupOf`, and the consumed
+`extensionSubgroup_index_eq_degree` is the layer's
+`subgroup_index_eq_degree`; the abstract extension is Mathlib-style
+`AbstractExtension.mk` as in the source. The base's subgroup is spelled
+`K.field.toSubgroup` where the source's `K.toSubgroup` goes through the
+`@[implicit_reducible]` attribute that
+`Atlas.Knowledge.FiniteResidueAbstractField` dropped, so the
+restoration it left to a first consumer is not taken up. The file is
+the source's
 `AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean`
-`:30`–`:312`, the first of its two halves; the second, the continuity
+`:30`–`:300`, the first of its two halves; the second, the continuity
 of the valuation for the norm topology, is the continuity-fork material
 the arc strips. Everything else ports token-for-token.
 
@@ -126,8 +134,8 @@ theorem unramifiedDegreeKernelWithin_isClosed (D : DegreeData G)
   exact isClosed_singleton.preimage
     (unramifiedDegreeHom D K f).continuous_toFun
 
-/-- **The actual fixed field of the reduction-modulo-`f` kernel of
-`d_K`** ([Yamaguchi 2026,
+/-- **The actual fixed field of the reduction-modulo-`f` kernel of `d_K`**
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:64`]
 [Yamaguchi2026]). -/
 def unramifiedExtensionOfDegree (D : DegreeData G) [IsTopologicalGroup G]
@@ -217,8 +225,8 @@ instance unramifiedExtensionOfDegree_normal (D : DegreeData G)
   change (unramifiedDegreeHom D K f).toMonoidHom.ker.Normal
   infer_instance
 
-/-- **The reduction kernel packages an actual finite Galois extension
-of `K`** ([Yamaguchi 2026,
+/-- **The reduction kernel packages an actual finite Galois extension of `K`**
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:147`]
 [Yamaguchi2026]). -/
 def finiteUnramifiedExtension (D : DegreeData G) [IsTopologicalGroup G]
@@ -328,8 +336,8 @@ theorem unramifiedExtensionOfDegree_isUnramified (D : DegreeData G)
     simp
   exact ⟨k, hkReduction, rfl⟩
 
-/-- **The finite extension cut out by reduction modulo `f` has degree
-`f`** ([Yamaguchi 2026,
+/-- **The finite extension cut out by reduction modulo `f` has degree `f`**
+([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:253`]
 [Yamaguchi2026]). -/
 theorem finiteUnramifiedExtension_degree (D : DegreeData G)
