@@ -75,11 +75,11 @@ reciprocity homomorphism (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
-The group-only sections stay at the source's `Type u`; the
-representation sections are `Type` after the `Type`-pinned
-quotient-action chain. The profinite integers are the layer's
-`ProfiniteInteger` with `ProfiniteInteger.ofAdd_one_pow_injective` for
-the source's injectivity device, the bundles are the layer's top-level
+All sections sit at the source's `Type u`, the representation sections
+since the #104 hoist unpinned the quotient-action chain they follow.
+The profinite integers are the layer's `ProfiniteInteger` with
+`ProfiniteInteger.ofAdd_one_pow_injective` for the source's injectivity
+device, the bundles are the layer's top-level
 `FiniteResidueAbstractExtension`, `FiniteTower`, and
 `AbstractExtension`, and the containment-consuming call sites adapt to
 the layer's containment-free forms: all six `finite_conjugateExtension`
@@ -502,7 +502,7 @@ end GroupOnly
 
 section Representation
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **The right vertical map of the first naturality diagram**: the
 norm `N_{K'|K}` descended to the finite norm quotients

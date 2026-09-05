@@ -31,10 +31,9 @@ sends it to zero, immediately before `Ĥ⁻¹ = 0` enters (#104).
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `FiniteResidueAbstractField` sits at the layer's top level, the ambient
-group is `Type` because the file leans on
-`Atlas.Knowledge.DegreeData.frobeniusFixedFieldAction`, and the source's
-no-op `open`s are dropped, along with the ambient separation binders
-#140's slimming left dead on all three declarations.
+group is `Type u` since the #104 hoist, and the source's no-op `open`s
+are dropped, along with the ambient separation binders #140's slimming
+left dead on all three declarations.
 
 ## References
 
@@ -46,9 +45,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-universe v
+universe u v
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace ValuationData
 

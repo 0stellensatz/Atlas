@@ -61,7 +61,7 @@ spelling, the relocated names are the layer's
 (`subgroupOf_maximalUnramifiedField_normal`, top-level `FiniteTower`,
 containment-free `maximalUnramifiedExtension_finite`, and
 `finite_extension_of_le` in its two-argument instance-supplied form),
-the ambient group is `Type` after the whole chain, the source's no-op
+the ambient group is `Type u` since the #104 hoist, the source's no-op
 `open`s are dropped, the Hausdorff binders on both big theorems are
 instance-derivable and go, and one `simpa` bridge for the normed unit
 `yP` is the plain definitionally-equal term, as in the unit-norm item —
@@ -77,7 +77,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace ValuationData
 

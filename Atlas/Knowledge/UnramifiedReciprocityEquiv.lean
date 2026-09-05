@@ -49,9 +49,9 @@ unramified norm-quotient equivalence (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
-and the ambient group is `Type` after the `Type`-pinned quotient-action
-chain. The degree positivity is the layer's `degree.pos` for the
-source's `degree.property`, the index identity the layer's
+and the ambient group is `Type u` since the #104 hoist. The degree
+positivity is the layer's `degree.pos` for the source's
+`degree.property`, the index identity the layer's
 `subgroup_index_eq_degree`, and the extension bundle the layer's
 top-level `AbstractExtension`. The generator calculation drops the
 source's enrichment `letI` re-anchor — the `FiniteFieldUnitMaps`
@@ -78,7 +78,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 variable {D : DegreeData G} {A : Rep ℤ G}
 
 namespace ValuationData

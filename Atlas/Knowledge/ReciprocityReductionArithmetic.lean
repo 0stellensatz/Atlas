@@ -50,20 +50,20 @@ turns `zHatReduction n hn` into `ProfiniteInteger.reduction n` under a
 the calls to
 `transferNormNaturality_intermediateExtension_normal K M L hMK` shed
 the source's `hLM` the way the layer's slimmed form asks. One
-`noncomputable section` holds two ambient-group scopes with a shadowing
-`variable` line between them, the way
-`Atlas.Knowledge.ReciprocityExactRows` does: seven declarations precede
-it — the abelianization pair polymorphic in its own two groups and
+`noncomputable section` holds everything at `Type u` since the #104
+hoist merged its two ambient-group scopes, the way
+`Atlas.Knowledge.ReciprocityExactRows` does: seven declarations come
+first — the abelianization pair polymorphic in its own two groups and
 mentioning no ambient one, the profinite-integer step mentioning no
 group and no universe at all, the other four polymorphic in the ambient
-group — while the two that consume the Type-pinned
-`abstractReciprocityNormMap`, the Sylow-argument identity and the
-cyclic-tower injectivity, follow the second, `{G : Type}`, variable
-line, which moves them after the valuation endpoints relative to the
-source order. This completes `Reciprocity/Core.lean`: the two exact
-rows are the layer's `Atlas.Knowledge.ReciprocityExactRows`, and the
-`ValuationData` section stays deliberately unprovided per the interface
-decision recorded in `Atlas.Knowledge.ClassFieldAxiom`.
+group — while the two that consume `abstractReciprocityNormMap`, the
+Sylow-argument identity and the cyclic-tower injectivity, keep the
+place the former shadowing `variable` line gave them, after the
+valuation endpoints relative to the source order. This completes
+`Reciprocity/Core.lean`: the two exact rows are the layer's
+`Atlas.Knowledge.ReciprocityExactRows`, and the `ValuationData` section
+stays deliberately unprovided per the interface decision recorded in
+`Atlas.Knowledge.ClassFieldAxiom`.
 
 One proof step departs: the `htower'` bridge in the valuation identity
 closes by `exact` where the source unfolds with a `simpa` — the layer's
@@ -285,8 +285,6 @@ theorem abstractReciprocity_totallyRamified_valuation_forces_exponent_zero
   rw [← abstractReciprocity_valuationAt_fixedFieldInclusion_of_totallyRamified
     v E hTot]
   exact hx
-
-variable {G : Type} [Group G] [TopologicalSpace G]
 
 /-- The identity `N_{M/K} ∘ i = [M:K]` used in the Sylow argument of the
 first reduction; here `i` is the actual inclusion of finite norm

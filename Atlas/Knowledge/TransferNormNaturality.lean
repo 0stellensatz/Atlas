@@ -52,22 +52,23 @@ reciprocity commutes with transfer (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
-The witness half generalizes to `Type u`, nothing pinning the source's
-universe device; the naturality half is `Type` after the `Type`-pinned
-`finiteReciprocityHom` chain, and its two flagships shed the source's
-`[T2Space G]`, Hausdorff being instance-derivable from the binders they
-keep. The call sites adapt to the layer's slimmed transfer family:
-every `hLK'`-shaped containment the `extensionSubgroup` abbrev consumed
-drops from the intermediate inclusion, subgroup, identification,
-transfer, transversal, and normality-restriction calls, while this
-file's own witness, inclusion arrow, and privates keep theirs, which
-their statements still consume. The source's two evaluation `rfl`-lemma
-citations inline to bare `rfl`: the lemma they named lives in the
-source's Kummer assembly, outside the ported region, and both uses
-close definitionally. The citations name this file by bare basename; it
-lives at `AbstractClassFieldTheory/Reciprocity/Construction/` in the
-source. The source's namespace `open`s go, while `open MulAction` stays
-for the orbit vocabulary.
+Both halves sit at `Type u` — the witness half with nothing pinning the
+source's universe device, the naturality half since the #104 hoist
+unpinned the `finiteReciprocityHom` chain — and the naturality half's
+two flagships shed the source's `[T2Space G]`, Hausdorff being
+instance-derivable from the binders they keep. The call sites adapt to
+the layer's slimmed transfer family: every `hLK'`-shaped containment
+the `extensionSubgroup` abbrev consumed drops from the intermediate
+inclusion, subgroup, identification, transfer, transversal, and
+normality-restriction calls, while this file's own witness, inclusion
+arrow, and privates keep theirs, which their statements still consume.
+The source's two evaluation `rfl`-lemma citations inline to bare `rfl`:
+the lemma they named lives in the source's Kummer assembly, outside the
+ported region, and both uses close definitionally. The citations name
+this file by bare basename; it lives at
+`AbstractClassFieldTheory/Reciprocity/Construction/` in the source. The
+source's namespace `open`s go, while `open MulAction` stays for the
+orbit vocabulary.
 
 ## References
 
@@ -79,11 +80,11 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
+universe u
+
 open MulAction
 
 section transferWitness
-
-universe u
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
@@ -405,7 +406,7 @@ end transferWitness
 
 section naturality
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

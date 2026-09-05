@@ -41,14 +41,14 @@ the maximal unramified field down to `K` (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
-`ZHat` is `ProfiniteInteger`, and the ambient group is `Type` because
-the file leans on the iterate lemmas of
-`Atlas.Knowledge.UniversalNormDescent`, whose item fixed `Type` after
-the layer's Tate apparatus — the source's universe module-comment is
-absorbed here, and its no-op `open`s are dropped, along with the descent
-theorem's `IsTopologicalGroup` binder, which fed no callee. The
-finiteness of `L̃/K̃` is #138's form, called without the containment the
-source passes.
+`ZHat` is `ProfiniteInteger`, and the ambient group is `Type u` since
+the #104 hoist, the iterate lemmas of
+`Atlas.Knowledge.UniversalNormDescent` it leans on having lost their
+`Type` pin — the source's universe module-comment is absorbed here, and
+its no-op `open`s are dropped, along with the descent theorem's
+`IsTopologicalGroup` binder, which fed no callee. The finiteness of
+`L̃/K̃` is #138's form, called without the containment the source
+passes.
 
 ## References
 
@@ -60,9 +60,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-universe v
+universe u v
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

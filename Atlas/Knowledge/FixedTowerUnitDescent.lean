@@ -55,17 +55,16 @@ norm-descent equation on finite fixed-field towers (#104).
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `FiniteResidueAbstractField` and `AbstractExtension` sit at the layer's
-top level, the ambient group is `Type` because the file leans on
-`Atlas.Knowledge.DegreeData.frobeniusFixedFieldAction`, and the source's
-no-op `open`s are dropped. The dead ambient binders are swept unevenly,
-as their callees now demand: four declarations keep only
+top level, the ambient group is `Type u` since the #104 hoist, and the
+source's no-op `open`s are dropped. The dead ambient binders are swept
+unevenly, as their callees now demand: four declarations keep only
 `IsTopologicalGroup`, the power correction also needs `T2Space` for the
 #143 bundle map, and the solution theorem keeps compactness and total
 disconnectedness for the power-fixed-field apparatus — its Hausdorff
 binder is instance-derivable and goes. One coercion ascription steadies
-the re-anchored generator calc. The one structural departure:
-where the source phrases the axiom through Tate-cohomology vanishing and
-two eliminator lemmas, the layer's
+the re-anchored generator calc. The one structural departure: where the
+source phrases the axiom through Tate-cohomology vanishing and two
+eliminator lemmas, the layer's
 `ValuationData.SatisfiesUnramifiedUnitCohomology` is elementwise (#135),
 so the solution theorem draws the barred lifts and the correction
 directly from the axiom's two components — the `hA` vanishing pair, the
@@ -82,9 +81,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-universe v
+universe u v
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace ValuationData
 

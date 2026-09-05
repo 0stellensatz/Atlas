@@ -40,10 +40,10 @@ naturality by inverting the horizontal reciprocity isomorphisms (#104).
 
 The relative subgroups are the layer's `Subgroup.subgroupOf` spelling,
 with the argument lists of the wrapped naturality maps following their
-layer signatures, and the ambient group sits in one `{G : Type}` scope.
-All three theorems thread
-`hAxiom : v.SatisfiesUnramifiedUnitCohomology D` after `hcf` — the
-interface departure recorded in `Atlas.Knowledge.ClassFieldAxiom`'s
+layer signatures, and the ambient group sits in one `{G : Type u}`
+scope, universe-polymorphic since the #104 hoist. All three theorems
+thread `hAxiom : v.SatisfiesUnramifiedUnitCohomology D` after `hcf` —
+the interface departure recorded in `Atlas.Knowledge.ClassFieldAxiom`'s
 notes and carried by every reciprocity declaration since
 `Atlas.Knowledge.AbstractReciprocityEquiv`: the statements take the
 hypothesis because the layer's `normResidueSymbol` signature carries
@@ -66,7 +66,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- A commutative square of additive isomorphisms remains commutative
 after replacing both horizontal isomorphisms by their inverses

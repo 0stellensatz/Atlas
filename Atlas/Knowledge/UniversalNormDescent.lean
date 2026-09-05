@@ -44,11 +44,10 @@ universes). The layer's `tateVanishingNormSurjectivity` and
 them; the generation hypothesis rides inside the elementwise inputs —
 they are stated at the chosen `g` — so `hg` leaves the signature too.
 The theorem has no consumer yet, so no wrapper at the old signature is
-kept. The ambient group stays `Type` with the class-formation stock
-until the #104 hoist's mechanical flip — nothing here forces it any
-more. The relative subgroup is the layer's `Subgroup.subgroupOf`
-spelling, and the conjugate extension's finiteness instance takes no
-containment, as #137 generalized it. The source's
+kept. The ambient group is `Type u` with the class-formation stock since
+the #104 hoist's mechanical flip. The relative subgroup is the layer's
+`Subgroup.subgroupOf` spelling, and the conjugate extension's finiteness
+instance takes no containment, as #137 generalized it. The source's
 `open scoped BigOperators`, a no-op in current Mathlib, is dropped.
 
 ## References
@@ -61,7 +60,7 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-universe v
+universe u v
 
 /- The norm over a finite normal subgroup commutes with every ambient
 group action — the equivariance used when the construction applies the
@@ -69,7 +68,7 @@ norm to equation `(*)` ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:27`]
 [Yamaguchi2026]). -/
 private theorem restricted_norm_action
-    {R : Type} [Group R] (H : Subgroup R) [H.Normal] [Fintype H]
+    {R : Type u} [Group R] (H : Subgroup R) [H.Normal] [Fintype H]
     (B : Rep ℤ R) (r : R) (x : B.V) :
     (∑ h : H, B.ρ h.1 (B.ρ r x)) =
       B.ρ r (∑ h : H, B.ρ h.1 x) := by
@@ -100,7 +99,7 @@ private theorem restricted_norm_action
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:54`]
 [Yamaguchi2026]). -/
 private theorem restricted_rep_norm_action
-    {R : Type} [Group R] (H : Subgroup R) [H.Normal] [Fintype H]
+    {R : Type u} [Group R] (H : Subgroup R) [H.Normal] [Fintype H]
     (B : Rep ℤ R) (r : R) (x : B.V) :
     let U : Rep ℤ H := Rep.res H.subtype B
     U.norm.hom (B.ρ r x) = B.ρ r (U.norm.hom x) := by
@@ -113,7 +112,7 @@ private theorem restricted_rep_norm_action
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:65`]
 [Yamaguchi2026]). -/
 noncomputable def conjugateStableAction
-    {R : Type} [Group R] [TopologicalSpace R] [ContinuousMul R]
+    {R : Type u} [Group R] [TopologicalSpace R] [ContinuousMul R]
     (B : Rep ℤ R) (F : ClosedSubgroup R) (s : R)
     (hF : conjugateClosedSubgroup F s = F)
     (a : ambientFixedAddSubgroup B F) : ambientFixedAddSubgroup B F :=
@@ -124,7 +123,7 @@ noncomputable def conjugateStableAction
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:72`]
 [Yamaguchi2026]). -/
 private theorem transport_fixed_coe
-    {R : Type} [Group R] [TopologicalSpace R]
+    {R : Type u} [Group R] [TopologicalSpace R]
     (B : Rep ℤ R) (F' F : ClosedSubgroup R) (h : F' = F)
     (a : ambientFixedAddSubgroup B F') :
     (((h ▸ a : ambientFixedAddSubgroup B F) : B.V)) = a.1 := by
@@ -136,7 +135,7 @@ fields ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:80`]
 [Yamaguchi2026]). -/
 private theorem relativeNorm_transport_coe
-    {R : Type} [Group R] [TopologicalSpace R]
+    {R : Type u} [Group R] [TopologicalSpace R]
     (B : Rep ℤ R)
     (F' E' F E : ClosedSubgroup R)
     (hF : F' = F) (hE : E' = E)
@@ -159,7 +158,7 @@ coercion ([Yamaguchi 2026,
 [Yamaguchi2026]). -/
 @[simp]
 theorem conjugateStableAction_coe
-    {R : Type} [Group R] [TopologicalSpace R] [ContinuousMul R]
+    {R : Type u} [Group R] [TopologicalSpace R] [ContinuousMul R]
     (B : Rep ℤ R) (F : ClosedSubgroup R) (s : R)
     (hF : conjugateClosedSubgroup F s = F)
     (a : ambientFixedAddSubgroup B F) :
@@ -173,7 +172,7 @@ in the tower ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:109`]
 [Yamaguchi2026]). -/
 theorem relativeNorm_conjugateStableAction
-    {R : Type} [Group R] [TopologicalSpace R] [ContinuousMul R]
+    {R : Type u} [Group R] [TopologicalSpace R] [ContinuousMul R]
     (B : Rep ℤ R) (F E : ClosedSubgroup R)
     (hEF : E.toSubgroup ≤ F.toSubgroup) (s : R)
     [Finite (F.toSubgroup ⧸ E.toSubgroup.subgroupOf F.toSubgroup)]
@@ -216,7 +215,7 @@ coinvariants is fixed by `φ`; the elementwise content of `Ĥ⁰ = 0`
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:149`]
 [Yamaguchi2026]). -/
 theorem universalNormDescent_cyclic_lift_and_correction
-    {R : Type} [Group R] (H : Subgroup R) [H.Normal] [Fintype H]
+    {R : Type u} [Group R] (H : Subgroup R) [H.Normal] [Fintype H]
     (B : Rep ℤ R) (g : H)
     (hnormSurj : ∀ x : B.V, B.ρ g.1 x = x →
       ∃ z : B.V, (∑ q : H, B.ρ q.1 z) = x)
@@ -277,7 +276,7 @@ theorem universalNormDescent_cyclic_lift_and_correction
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:212`]
 [Yamaguchi2026]). -/
 theorem rep_norm_eq_generatorPowerSum
-    {Q : Type} [Group Q] [Fintype Q]
+    {Q : Type u} [Group Q] [Fintype Q]
     (B : Rep ℤ Q) (g : Q) (hg : ∀ q, q ∈ Subgroup.zpowers g)
     (n : ℕ) (hcard : Fintype.card Q = n) (x : B.V) :
     B.norm.hom x = ∑ i : Fin n, B.ρ (g ^ i.1) x := by
@@ -314,7 +313,7 @@ theorem rep_norm_eq_generatorPowerSum
 action map ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:247`]
 [Yamaguchi2026]). -/
-theorem rep_action_pow_eq_iterate {R : Type} [Group R]
+theorem rep_action_pow_eq_iterate {R : Type u} [Group R]
     (B : Rep ℤ R) (g : R) (n : ℕ) (x : B.V) :
     B.ρ (g ^ n) x = ((B.ρ g)^[n]) x := by
   letI : Module ℤ B.V := B.hV2
@@ -325,7 +324,7 @@ theorem rep_action_pow_eq_iterate {R : Type} [Group R]
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:255`]
 [Yamaguchi2026]). -/
 theorem rep_norm_eq_generatorIterateSum
-    {Q : Type} [Group Q] [Fintype Q]
+    {Q : Type u} [Group Q] [Fintype Q]
     (B : Rep ℤ Q) (g : Q) (hg : ∀ q, q ∈ Subgroup.zpowers g)
     (n : ℕ) (hcard : Fintype.card Q = n)
     (f : B.V → B.V) (hf : ∀ z, B.ρ g z = f z) (x : B.V) :
@@ -340,7 +339,7 @@ theorem rep_norm_eq_generatorIterateSum
 element ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:269`]
 [Yamaguchi2026]). -/
-theorem rep_action_pow_fixed {R : Type} [Group R]
+theorem rep_action_pow_fixed {R : Type u} [Group R]
     (B : Rep ℤ R) (g : R) (x : B.V) (hx : B.ρ g x = x) (n : ℕ) :
     B.ρ (g ^ n) x = x := by
   rw [rep_action_pow_eq_iterate]

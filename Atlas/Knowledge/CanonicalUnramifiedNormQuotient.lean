@@ -42,10 +42,10 @@ the elementwise unit-cohomology axiom's first component (#135) where the
 source derived Tate vanishing and fed a never-ported eliminator, and two
 `let`s re-anchor the preimage's summands over the top field — both as in
 the sibling `UnramifiedNormQuotient` item. The source's universe-device
-import is dropped, the ambient group is `Type`, two `dsimp only`s with
-nothing left to unfold go, and the coset evaluation rule states its left
-side with the coercion, as the unit representation's rule does, for the
-simp-normal-form linter.
+import is dropped, the ambient group is `Type u` since the #104 hoist, two
+`dsimp only`s with nothing left to unfold go, and the coset evaluation
+rule states its left side with the coercion, as the unit representation's
+rule does, for the simp-normal-form linter.
 
 ## References
 
@@ -57,7 +57,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 variable {D : DegreeData G} {A : Rep ℤ G}
 
 namespace ValuationData

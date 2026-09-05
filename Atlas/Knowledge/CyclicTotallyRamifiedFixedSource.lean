@@ -53,26 +53,24 @@ The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `ZHat` is `ProfiniteInteger`, and
 `FiniteGaloisSubextension.finite_extension_trans` and
 `finite_extension_over_intermediate` are the layer's top-level forms.
-One `noncomputable section` holds two ambient-group scopes with a
-shadowing `variable` line: the commuting-combination lemma (widened to
-`Type*` in its own group, like its private sibling in
+One `noncomputable section` holds everything at `Type u` since the #104
+hoist flipped the class-formation stock: the commuting-combination
+lemma (widened to `Type*` in its own group, like its private sibling in
 `Atlas.Knowledge.TotallyRamifiedFixedSource`), the action-transport
-lemma, and the `FiniteCyclicSubextension` trio precede it, while the
-fixed-source theorem follows it on the class-formation stock's
-`{G : Type}` line — inherited only since the #104 hoist: the fixed
-vector enters `Atlas.Knowledge.cyclicFixedCycleEquiv` through the
-elementwise `Atlas.Knowledge.elementFixedAddSubgroup`, clear of the
-one-universe `{k G : Type u}` block of Mathlib's
-`Rep.FiniteCyclicGroup`. That theorem sheds the source's `[T2Space G]`
-(the continuing cascade) and keeps `[TotallyDisconnectedSpace G]`,
-which the norm restriction over the Frobenius fixed field consumes. Two
-proof-level adjustments answer the layer's transparency: `L` rebundles
-as the structure literal over `E.field` (the layer's
-`toFiniteAbstractFieldExtension` routes through `ofInclusion`, whose
-projections do not reduce reducibly, which blocked the source's defeq
-elaboration of the prime-unit sum), and the one simp step that mixes
-the `K.field`/`KR.field` spellings past the simplifier's
-instances-transparency check — the nsmul bridge in the
+lemma, the `FiniteCyclicSubextension` trio, and then the fixed-source
+theorem, whose fixed vector enters
+`Atlas.Knowledge.cyclicFixedCycleEquiv` through the elementwise
+`Atlas.Knowledge.elementFixedAddSubgroup`, clear of the one-universe
+`{k G : Type u}` block of Mathlib's `Rep.FiniteCyclicGroup`. That
+theorem sheds the source's `[T2Space G]` (the continuing cascade) and
+keeps `[TotallyDisconnectedSpace G]`, which the norm restriction over
+the Frobenius fixed field consumes. Two proof-level adjustments answer
+the layer's transparency: `L` rebundles as the structure literal over
+`E.field` (the layer's `toFiniteAbstractFieldExtension` routes through
+`ofInclusion`, whose projections do not reduce reducibly, which blocked
+the source's defeq elaboration of the prime-unit sum), and the one simp
+step that mixes the `K.field`/`KR.field` spellings past the
+simplifier's instances-transparency check — the nsmul bridge in the
 Frobenius-fixes-`Σ` calculation — closes by direct `exact`. Everything
 else ports token-for-token; the file is the source's
 `TotallyRamifiedCase/FixedSource.lean` whole.
@@ -198,8 +196,6 @@ theorem galoisGenerator_generates (E : FiniteCyclicSubextension K) :
   exact hn
 
 end FiniteCyclicSubextension
-
-variable {G : Type} [Group G] [TopologicalSpace G]
 
 namespace ValuationData
 

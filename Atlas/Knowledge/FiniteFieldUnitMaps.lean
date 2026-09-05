@@ -43,15 +43,15 @@ many terms of `(*)` sit in one finite Galois field (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling —
-which frees the containments the two transport instances bind, so they
-go, as do the six ambient separation binders #140's slimming left dead —
-`ZHat` is `ProfiniteInteger`, `zHatMulNat_injective` with its
-positivity is `ProfiniteInteger.nsmul_left_injective` with `.pos.ne'`,
+which frees the containments the two transport instances bind, so they go,
+as do the six ambient separation binders #140's slimming left dead —
+`ZHat` is `ProfiniteInteger`, `zHatMulNat_injective` with its positivity
+is `ProfiniteInteger.nsmul_left_injective` with `.pos.ne'`,
 `FiniteResidueAbstractField` sits at the layer's top level, and the
-ambient group is `Type` because the file leans on
-`Atlas.Knowledge.DegreeData.frobeniusFixedFieldAction`; the source's
-no-op `open`s are dropped, and the `by exact` inside the norm-inclusion
-rewrite is flattened to `from`.
+ambient group is `Type u` since the #104 hoist, which flipped the file as
+one move with the `Atlas.Knowledge.DegreeData.frobeniusFixedFieldAction`
+it leans on; the source's no-op `open`s are dropped, and the `by exact`
+inside the norm-inclusion rewrite is flattened to `from`.
 
 ## References
 
@@ -63,7 +63,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace FiniteAbstractField
 

@@ -58,12 +58,13 @@ itself — `extensionSubgroup_over_intermediate_normal` is the layer's
 `transferNormNaturality_intermediateExtension_normal K M L hMK` shed
 the source's `hLM`. The Sylow step's eight-argument restriction call
 takes the layer's six-argument form. The ambient group sits in one
-`{G : Type}` scope: everything consumes the Type-pinned
-`Atlas.Knowledge.DegreeData.finiteReciprocityHom`. The seven
-hypothesis-bearing declarations shed the source's `[T2Space G]` (the
-continuing cascade) and keep `[TotallyDisconnectedSpace G]` where the
-totally ramified chain consumes it. The eight privates stay private
-with the source's scopes; the solvable induction keeps the source's
+`{G : Type u}` scope, universe-polymorphic since the #104 hoist
+together with the `Atlas.Knowledge.DegreeData.finiteReciprocityHom`
+everything consumes. The seven hypothesis-bearing declarations shed the
+source's `[T2Space G]` (the continuing cascade) and keep
+`[TotallyDisconnectedSpace G]` where the totally ramified chain
+consumes it. The eight privates stay private with the source's scopes;
+the solvable induction keeps the source's
 `termination_by`/`decreasing_by` on the quotient's cardinality; one
 rewrite pair in the abelianized bijectivity pins its arguments
 explicitly where the anonymous form left a linted side goal. The file
@@ -82,7 +83,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /- Additive exactness of the finite Galois row attached to an
 intermediate Galois field ([Yamaguchi 2026,

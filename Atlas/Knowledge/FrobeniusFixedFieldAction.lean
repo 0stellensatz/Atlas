@@ -37,13 +37,14 @@ field it becomes the actual quotient action — power sums included (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
-the ambient group is `Type` because the file leans on
-`Atlas.Knowledge.conjugateStableAction`, whose item fixed `Type` after
-the layer's Tate apparatus; the source's `open`s of its cohomology
-namespaces and the `BigOperators` scope are no-ops here and are dropped.
-Every declaration sheds the source's `CompactSpace`, `T2Space`, and
-`TotallyDisconnectedSpace` binders: they only fed the binders of the
-commutation theorem, and #140 dropped them there.
+the ambient group is `Type u` since the #104 hoist, the
+`Atlas.Knowledge.conjugateStableAction` it leans on having lost the
+`Type` pin the layer's Tate apparatus once forced on it; the source's
+`open`s of its cohomology namespaces and the `BigOperators` scope are
+no-ops here and are dropped. Every declaration sheds the source's
+`CompactSpace`, `T2Space`, and `TotallyDisconnectedSpace` binders: they
+only fed the binders of the commutation theorem, and #140 dropped them
+there.
 
 ## References
 
@@ -55,7 +56,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

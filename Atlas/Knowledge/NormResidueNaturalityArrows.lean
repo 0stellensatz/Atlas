@@ -43,14 +43,14 @@ and the `≤`-hypotheses the source binds only to spell its
 `extensionSubgroup` arguments disappear with that spelling — the
 abelianized restriction drops the source's `hLK` and `hL'K'`, and the
 conjugation arrows drop `hLK`, each matching the layer signature of the
-map it wraps. The file keeps the layer's two-scope convention: the
-purely group-theoretic arrows sit in the universe-polymorphic
-`{G : Type u}` scope, and the pair maps, whose `Rep ℤ G` argument pins
-the acting group to universe zero, follow under a shadowing
-`variable {G : Type}` line — so the four abelianized arrows precede the
-six pair-map declarations rather than interleaving with them as in the
-source. Everything else ports token-for-token; the file is the source's
-`Reciprocity/Main.lean:1009`–`:1328`.
+map it wraps. One `{G : Type u}` scope holds everything since the #104
+hoist, which merged the layer's former two scopes (the pair maps'
+`Rep ℤ G` argument never pinned the acting group — Mathlib's `Rep` is
+universe-polymorphic; it was the homological layer behind the shadowing
+`variable {G : Type}` line that did) — and the four abelianized arrows
+still precede the six pair-map declarations rather than interleaving
+with them as in the source. Everything else ports token-for-token; the
+file is the source's `Reciprocity/Main.lean:1009`–`:1328`.
 
 ## References
 
@@ -144,12 +144,6 @@ theorem normResidueNaturalityAbelianizedConjugation_of_mk
     _ = Abelianization.of
         (QuotientGroup.mk (conjugateSubgroupEquiv K s k)) := by
       rw [finiteReciprocityNaturalityConjugation_mk]
-
-end
-
-noncomputable section
-
-variable {G : Type} [Group G] [TopologicalSpace G]
 
 /-- **The two vertical arrows of the norm/restriction diagram of
 reciprocity naturality, assembled into one additive homomorphism**; its

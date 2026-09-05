@@ -46,15 +46,15 @@ reciprocity map on Frobenius elements (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
-and the ambient group is `Type` after the `Type`-pinned quotient-action
-chain. Four further departures: the source's `letI` bridges for the two
-enrichment instances are dropped entirely, the instances threading
-through by defeq; the `maximalUnramifiedExtension_finite` call site
-drops the containment argument, since the layer's form is
-instance-supplied; the theorem sheds the source's `[T2Space G]`,
-Hausdorff being instance-derivable from the remaining binders; and the
-local containment the source bound as `hEI` goes, its only use having
-been the argument the relative-subgroup spelling drops. The
+and the ambient group is `Type u` since the #104 hoist. Four further
+departures: the source's `letI` bridges for the two enrichment
+instances are dropped entirely, the instances threading through by
+defeq; the `maximalUnramifiedExtension_finite` call site drops the
+containment argument, since the layer's form is instance-supplied; the
+theorem sheds the source's `[T2Space G]`, Hausdorff being
+instance-derivable from the remaining binders; and the local
+containment the source bound as `hEI` goes, its only use having been
+the argument the relative-subgroup spelling drops. The
 `FiniteFieldUnitMaps` import is referenced by no name: it carries the
 transport instances that let the Frobenius-element binders synthesize
 across the residue enrichment. The citation names this file by bare
@@ -73,7 +73,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

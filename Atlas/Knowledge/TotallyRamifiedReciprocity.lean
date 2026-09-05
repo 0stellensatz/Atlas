@@ -52,17 +52,18 @@ top-level `finite_extension_trans`, `extensionSubgroup_index_eq_degree`
 is `subgroup_index_eq_degree`, and
 `DegreeData.FiniteAbstractExtension.ofInclusion` is the top-level
 `FiniteAbstractExtension.ofInclusion`. The ambient group sits in one
-`{G : Type}` scope — every declaration consumes the Type-pinned
-`Atlas.Knowledge.DegreeData.finiteReciprocityHom` or the fixed-source
-theorem. All three declarations shed the source's `[T2Space G]` (the
-continuing cascade) and keep `[TotallyDisconnectedSpace G]`, which the
-fixed-source chain consumes. `L` rebundles as the structure literal
-over `E.field`, matching the fixed-source statement's spelling (the
-recurrence the #194 review recorded). One proof step departs: the
-generator-restriction bridge in the injectivity proof closes by `rw`
-and `exact` where the source's `calc` fails its `Trans`-instance
-synthesis over the let-bound quotient spellings. This completes the
-source's `TotallyRamifiedCase/` directory.
+`{G : Type u}` scope, universe-polymorphic since the #104 hoist — every
+declaration consumes `Atlas.Knowledge.DegreeData.finiteReciprocityHom`
+or the fixed-source theorem, both flipped with it. All three
+declarations shed the source's `[T2Space G]` (the continuing cascade)
+and keep `[TotallyDisconnectedSpace G]`, which the fixed-source chain
+consumes. `L` rebundles as the structure literal over `E.field`,
+matching the fixed-source statement's spelling (the recurrence the #194
+review recorded). One proof step departs: the generator-restriction
+bridge in the injectivity proof closes by `rw` and `exact` where the
+source's `calc` fails its `Trans`-instance synthesis over the let-bound
+quotient spellings. This completes the source's `TotallyRamifiedCase/`
+directory.
 
 ## References
 
@@ -74,7 +75,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace ValuationData
 

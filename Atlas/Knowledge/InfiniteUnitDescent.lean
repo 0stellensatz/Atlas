@@ -56,15 +56,16 @@ beyond their structure fields — `ZHat` is `ProfiniteInteger`,
 `ProfiniteInteger.nsmul_left_injective` with `.pos.ne'`,
 `extensionSubgroup_maximalUnramifiedField_normal` is the layer's
 `subgroupOf_maximalUnramifiedField_normal`, the finiteness of `L̃/K̃` is
-#138's containment-free form, and the ambient group is `Type` because
-the file leans on `Atlas.Knowledge.DegreeData.frobeniusQuotientAction`'s
-descent siblings — though the first descent theorem sheds even that,
-after #146 did; the source's no-op `open`s are dropped, a dead `let`
-freed by the spelling goes, one `by exact` flattens to `from`, and the
-finiteness-of-a-tower calls are #136's two-argument instance-supplied
-form. One ascribed `obtain` anchors the descended element over `K.field`
-— the enrichment's field is that field definitionally, but the rewrites
-the valuation calculation runs need the anchor spelled.
+#138's containment-free form, and the ambient group is `Type u` since
+the #104 hoist — the file leans on
+`Atlas.Knowledge.DegreeData.frobeniusQuotientAction`'s descent siblings,
+though the first descent theorem sheds even that, after #146 did; the
+source's no-op `open`s are dropped, a dead `let` freed by the spelling
+goes, one `by exact` flattens to `from`, and the finiteness-of-a-tower
+calls are #136's two-argument instance-supplied form. One ascribed
+`obtain` anchors the descended element over `K.field` — the enrichment's
+field is that field definitionally, but the rewrites the valuation
+calculation runs need the anchor spelled.
 
 ## References
 
@@ -76,7 +77,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace FiniteIntermediateField
 

@@ -40,11 +40,11 @@ under the axiom (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
-the ambient group is `Type` after the `Type`-pinned quotient-action
-chain, and all four declarations shed the source's `[T2Space G]` — on
-the two axiom-bearing statements Hausdorff is instance-derivable from
-their `[TotallyDisconnectedSpace G]`, while on the other two it was
-simply unused, so those statements are strictly more general than the
+the ambient group is `Type u` since the #104 hoist, and all four
+declarations shed the source's `[T2Space G]` — on the two axiom-bearing
+statements Hausdorff is instance-derivable from their
+`[TotallyDisconnectedSpace G]`, while on the other two it was simply
+unused, so those statements are strictly more general than the
 source's. The `FiniteFieldUnitMaps` import is referenced by no name: it
 carries the transport instances that let the Frobenius-element binders
 synthesize across the residue enrichment. The citations name this file
@@ -62,7 +62,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

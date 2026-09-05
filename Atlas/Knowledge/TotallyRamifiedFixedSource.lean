@@ -51,19 +51,17 @@ here: it already lives in `Atlas.Knowledge.ClassFieldAxiom` as a
 projection of the elementary axiom, keeping the source's name though at
 the layer's top level where the source houses it in `ValuationData`,
 and the final calculation consumes it unchanged. One
-`noncomputable section` holds two ambient-group scopes with a shadowing
-`variable` line: the first is `Type u` where the source pins
-`IntegralRepGroupType` — the private linear calculation (also
+`noncomputable section` holds everything at `Type u`, where the source
+pins `IntegralRepGroupType`: the private linear calculation (also
 polymorphic in its own commutative group), the prime/valuation
-calculation, and the action invariance — while the fixed-source theorem
-follows the class-formation stock's `{G : Type}` line, inherited only
-since the #104 hoist: the fixed vector enters
-`Atlas.Knowledge.cyclicFixedCycleEquiv` through the elementwise
-`Atlas.Knowledge.elementFixedAddSubgroup` rather than the cycles of
-Mathlib's `Rep.FiniteCyclicGroup.normHomCompSub`, whose one-universe
-`{k G : Type u}` block would drop the acting group to `Type 0` at `ℤ`
-coefficients. The private helper keeps the source's privacy; its only
-consumer is in this file.
+calculation, the action invariance, and — since the #104 hoist flipped
+the class-formation stock — the fixed-source theorem, whose fixed
+vector enters `Atlas.Knowledge.cyclicFixedCycleEquiv` through the
+elementwise `Atlas.Knowledge.elementFixedAddSubgroup` rather than the
+cycles of Mathlib's `Rep.FiniteCyclicGroup.normHomCompSub`, whose
+one-universe `{k G : Type u}` block would drop the acting group to
+`Type 0` at `ℤ` coefficients. The private helper keeps the source's
+privacy; its only consumer is in this file.
 
 ## References
 
@@ -281,8 +279,6 @@ theorem valuationAt_extensionFixedRepresentation_action
   exact v.valuationAt_normalExtensionAction E hnormal r aL
 
 end ValuationData
-
-variable {G : Type} [Group G] [TopologicalSpace G]
 
 namespace ValuationData
 

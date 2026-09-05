@@ -36,8 +36,8 @@ two enrichment bridges (`hLnormalKR`, `hLfiniteKR`) are plain
 definitionally-equal terms for the source's `simpa` bridges — the
 recorded trap — the signature's Frobenius binders synthesize across the
 enrichment through the transport instances of
-`Atlas.Knowledge.FiniteFieldUnitMaps`, and the ambient group is `Type`
-after the chain. The two fixed-field containments carry explicit
+`Atlas.Knowledge.FiniteFieldUnitMaps`, and the ambient group is `Type u`
+since the #104 hoist. The two fixed-field containments carry explicit
 `K.field` ascriptions, the conjugate-fixed-field bridge is the plain
 definitionally-equal term for the source's `simpa`, and the conjugate
 extension's finiteness is #137's containment-free form. The dead
@@ -57,7 +57,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

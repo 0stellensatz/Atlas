@@ -50,18 +50,19 @@ under which the source's `simpa only using L.finite` and
 containment argument they adjusted, closing by the field itself — and
 `extensionSubgroup_over_intermediate_normal` is the layer's
 `subgroupOf_over_intermediate_normal`. One `noncomputable section`
-holds two ambient-group scopes with a shadowing `variable` line between
-them, the way `Atlas.Knowledge.ReciprocityExactRows` does: the
-fixed-element inclusion pair, the two diagram chases, the commutator
-kernel lemma, and the two kernel arguments precede it (the chases and
-the commutator lemma polymorphic in their own groups and mentioning no
-ambient one), while the four declarations pinned through
-`Atlas.Knowledge.finiteReciprocityNaturalityNormMap` or
+holds everything at `Type u` since the #104 hoist merged its two
+ambient-group scopes, the way `Atlas.Knowledge.ReciprocityExactRows`
+does: the fixed-element inclusion pair, the two diagram chases, the
+commutator kernel lemma, and the two kernel arguments come first (the
+chases and the commutator lemma polymorphic in their own groups and
+mentioning no ambient one), while the four declarations once pinned
+through `Atlas.Knowledge.finiteReciprocityNaturalityNormMap` or
 `Atlas.Knowledge.abstractReciprocityNormMap` — directly, or through
-`intermediateNormMap` for the composite identity — follow the second,
-`{G : Type}`, variable line, which reorders both source sections'
-contents. This completes `Reciprocity/Reduction.lean`: the `GroupOnly`
-section is the layer's `Atlas.Knowledge.ReductionGaloisArrows`.
+`intermediateNormMap` for the composite identity — keep the place the
+former shadowing `variable` line gave them, which reorders both source
+sections' contents. This completes `Reciprocity/Reduction.lean`: the
+`GroupOnly` section is the layer's
+`Atlas.Knowledge.ReductionGaloisArrows`.
 
 ## References
 
@@ -335,8 +336,6 @@ theorem abstractReciprocity_cyclicFactors_injective
   have hqone : q.toMul = 1 :=
     (L.upperRestrictionHom_jointlyFaithful f hfaithful q.toMul).1 hres
   exact Additive.toMul.injective (by simpa using hqone)
-
-variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 
 namespace FiniteGaloisSubextension
 

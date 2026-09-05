@@ -52,16 +52,17 @@ The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 `ZHat` is `ProfiniteInteger` with the power-injectivity under the
 layer's name, `extensionSubgroup_frobeniusFixedField` is the layer's
 `subgroupOf_frobeniusFixedField`, and the closure unfolds cite the
-layer-local `frobeniusClosure` name. Only the last section is
-`Type`-valued — its `frobeniusQuotientRepresentation` callee pins — and
-the source's other `IntegralRepGroupType` section generalizes to
-`Type u` along with the algebra sections. The source's no-op opens go,
-and the citations name this file by bare basename — it lives at
+layer-local `frobeniusClosure` name. Every section is `Type u` — the
+last one since the #104 hoist unpinned its
+`frobeniusQuotientRepresentation` callee, the source's other
+`IntegralRepGroupType` section generalizing along with the algebra
+sections. The source's no-op opens go, and the citations name this file
+by bare basename — it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
 in the source, whose full path pushes the unbreakable citation span past
-the line budget. The multiplication law's
-mid-proof `simp` is the source's own; the flexible-tactic style warning
-it draws is accepted rather than the proof reshaped.
+the line budget. The multiplication law's mid-proof `simp` is the
+source's own; the flexible-tactic style warning it draws is accepted
+rather than the proof reshaped.
 
 ## References
 
@@ -416,7 +417,7 @@ end actionRemainderMultiplication
 
 section fixedFieldRemainderActions
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

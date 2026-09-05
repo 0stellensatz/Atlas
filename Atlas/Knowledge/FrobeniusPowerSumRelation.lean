@@ -27,8 +27,8 @@ remainder splits as `τ₄τ₁` (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
-the ambient group is `Type` after the `Type`-pinned quotient-action
-chain. The citations name this file by bare basename; it lives at
+the ambient group is `Type u` since the #104 hoist. The citations name
+this file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
 in the source. The source's no-op opens go.
 
@@ -42,7 +42,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

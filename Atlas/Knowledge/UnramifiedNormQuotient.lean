@@ -62,8 +62,8 @@ Tate vanishing and fed a never-ported eliminator — the `Euc` bundle
 literal is the source's own, and two `let`s re-anchor the norm
 preimage's summands over `L` — the axiom types them through the
 enrichment bundle, definitionally the same field, but `map_add` matches
-syntactically. The ambient group is `Type` in the valuation half after
-the chain it draws on; the Frobenius half keeps the source's `Type u`.
+syntactically. Both halves sit at the source's `Type u`, the valuation
+half since the #104 hoist unpinned the chain it draws on.
 
 ## References
 
@@ -75,9 +75,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-section unramifiedFrobenius
-
 universe u
+
+section unramifiedFrobenius
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
@@ -209,7 +209,7 @@ end unramifiedFrobenius
 
 section valuationQuotient
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 variable {D : DegreeData G} {A : Rep ℤ G}
 
 namespace ValuationData

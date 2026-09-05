@@ -41,12 +41,11 @@ multiplicativity via prime-choice independence (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
-and the ambient group is `Type` after the `Type`-pinned quotient-action
-chain. Five further departures: both
-`maximalUnramifiedExtension_finite` call sites drop the containment
-argument, since the layer's form is instance-supplied; the closing
-`simpa` becomes `exact hclasses.symm`, the rewrite tripping on the
-instance position here while the terms are defeq; the source's
+and the ambient group is `Type u` since the #104 hoist. Five further
+departures: both `maximalUnramifiedExtension_finite` call sites drop
+the containment argument, since the layer's form is instance-supplied;
+the closing `simpa` becomes `exact hclasses.symm`, the rewrite tripping
+on the instance position here while the terms are defeq; the source's
 enrichment re-anchoring block in the independence step is dropped
 entirely, the instances threading through by defeq; both
 representation-bearing theorems shed the source's `[T2Space G]`,
@@ -71,7 +70,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

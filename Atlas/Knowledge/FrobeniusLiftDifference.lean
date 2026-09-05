@@ -49,9 +49,9 @@ equal lifts (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
-The lift-algebra sections stay at the source's `Type u`; only the value
-theorem's section is `Type` after the `Type`-pinned quotient-action
-chain, and that theorem sheds its enrichment `letI` bridge — the
+All three sections sit at the source's `Type u`, the value theorem's
+since the #104 hoist unpinned the quotient-action chain it follows, and
+that theorem sheds its enrichment `letI` bridge — the
 `FiniteFieldUnitMaps` transport instance stands in for it — and the
 source's `[T2Space G]`, which was simply unused there, so the ported
 statement is strictly more general than the source's. The profinite
@@ -167,8 +167,7 @@ end frobeniusLiftAlgebra
 
 section trivialRestrictionValues
 
-/-! Mathlib's `Rep ℤ G` forces its representation-bearing group `G` to `Type 0`. -/
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

@@ -70,10 +70,10 @@ homomorphism to conjugation of finite norm classes (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
-The group-only section stays at the source's `Type u`; the
-representation section is `Type` after the `Type`-pinned
-quotient-action chain. The profinite integers are the layer's
-`ProfiniteInteger`, with `ProfiniteInteger.ofAdd_one_pow_injective` and
+Both sections sit at the source's `Type u`, the representation section
+since the #104 hoist unpinned the quotient-action chain it follows. The
+profinite integers are the layer's `ProfiniteInteger`, with
+`ProfiniteInteger.ofAdd_one_pow_injective` and
 `ProfiniteInteger.nsmul_left_injective` for the source's injectivity
 devices, the conjugate bundle is the layer's top-level
 `FiniteResidueAbstractField.conjugate`, and all
@@ -528,7 +528,7 @@ end GroupOnly
 
 section Representation
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

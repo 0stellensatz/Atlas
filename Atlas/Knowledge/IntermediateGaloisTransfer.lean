@@ -55,12 +55,12 @@ right-coset decomposition (#104).
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
 with `Subgroup.mem_subgroupOf` — its explicit arguments dropped, the
 layer's rule taking them implicitly — for the source's membership rule.
-The group-only sections stay at `Type u`, and the invariant-carrier
-section generalizes to it, nothing pinning the source's universe
-device; the abelianized reciprocity section alone is `Type`, pinned by
-the `Type`-pinned `finiteReciprocityHom`. The inclusion is built on
-the layer's slimmed `finiteReciprocityNaturalityRestriction`, whose
-two freed containments drop from the call; both
+Every section sits at `Type u`: the group-only sections and the
+invariant-carrier section as before, nothing pinning the source's
+universe device, and the abelianized reciprocity section since the #104
+hoist unpinned `finiteReciprocityHom`. The inclusion is built on the
+layer's slimmed `finiteReciprocityNaturalityRestriction`, whose two
+freed containments drop from the call; both
 `intermediateExtension_normal` sites drop the containment #175 shed;
 and the freed `hLK'` cascades off the whole inclusion family — eleven
 declarations lose it, so their argument lists are one shorter than the
@@ -457,7 +457,7 @@ end GroupOnly
 
 section Representation
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

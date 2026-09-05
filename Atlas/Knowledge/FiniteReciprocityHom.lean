@@ -40,9 +40,9 @@ reciprocity homomorphism with its prime-norm evaluation formula (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
-and the ambient group is `Type` after the `Type`-pinned quotient-action
-chain. All eight declarations shed the source's `[T2Space G]` — on the
-three axiom-bearing ones Hausdorff is instance-derivable from their
+and the ambient group is `Type u` since the #104 hoist. All eight
+declarations shed the source's `[T2Space G]` — on the three
+axiom-bearing ones Hausdorff is instance-derivable from their
 `[TotallyDisconnectedSpace G]`, while on the other five it was simply
 unused, so those statements are strictly more general than the
 source's. The product comparison's statement drops the source's
@@ -65,7 +65,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

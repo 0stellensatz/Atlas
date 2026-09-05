@@ -43,16 +43,16 @@ value at zero (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling.
-The chosen-lift section stays at the source's `Type u`; the two
-representation-bearing sections are `Type` after the `Type`-pinned
-quotient-action chain, shed their enrichment `letI` bridges — the
-`FiniteFieldUnitMaps` transport instance stands in for them — and shed
-the source's `[T2Space G]`, which was simply unused there, so the
-ported statements are strictly more general than the source's. The zero
-lemma loses the source's `@[simp]`: the evaluation lemma's own
-`@[simp]` rewrites its left-hand side first, so as a pair they fail
-`simpNF`, and the evaluation lemma is the one simp can use. The
-source's `finiteReciprocityHom` section is cut at the candidate and
+All three sections sit at the source's `Type u` — the two
+representation-bearing ones since the #104 hoist unpinned the
+quotient-action chain they follow — and those two shed their enrichment
+`letI` bridges — the `FiniteFieldUnitMaps` transport instance stands in
+for them — and shed the source's `[T2Space G]`, which was simply unused
+there, so the ported statements are strictly more general than the
+source's. The zero lemma loses the source's `@[simp]`: the evaluation
+lemma's own `@[simp]` rewrites its left-hand side first, so as a pair
+they fail `simpNF`, and the evaluation lemma is the one simp can use.
+The source's `finiteReciprocityHom` section is cut at the candidate and
 closed here as `finiteReciprocityHomHead`; its remainder is the next
 brick. The `FiniteFieldUnitMaps` import is referenced by no name: it
 carries the transport instances above. The citations name this file by
@@ -74,7 +74,7 @@ universe u
 
 section liftComparison
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
@@ -181,7 +181,7 @@ end chosenFrobeniusLifts
 
 section finiteReciprocityHomHead
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

@@ -37,12 +37,12 @@ coefficients are exactly the differences the prime-unit lemmas control
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling, and
-the ambient group is `Type` after the `Type`-pinned quotient-action
-chain. The source's `letI` bridges for the two enrichment instances are
-dropped entirely — here the instances thread through by defeq and the
-bridges are scaffolding — and both theorems shed the source's dead
-`[T2Space G]`, Hausdorff being instance-derivable from the remaining
-binders. The citations name this file by bare basename; it lives at
+the ambient group is `Type u` since the #104 hoist. The source's `letI`
+bridges for the two enrichment instances are dropped entirely — here the
+instances thread through by defeq and the bridges are scaffolding — and
+both theorems shed the source's dead `[T2Space G]`, Hausdorff being
+instance-derivable from the remaining binders. The citations name this
+file by bare basename; it lives at
 `AbstractClassFieldTheory/Reciprocity/Construction/MainMultiplicativity/`
 in the source. The source's no-op opens go.
 
@@ -56,7 +56,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

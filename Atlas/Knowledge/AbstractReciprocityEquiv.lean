@@ -29,13 +29,14 @@ elements (#104).
 ## Implementation notes
 
 The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
-and the ambient group sits in one `{G : Type}` scope. **The interface
-departure of this brick**: where the source derives its unit-cohomology
-input as `v.classFieldAxiom_implies_unramifiedUnitCohomology hcf` —
-through the Tate-cohomology reading of the axiom the layer deliberately
-does not carry (the decision recorded in
-`Atlas.Knowledge.ClassFieldAxiom`'s notes) — all five declarations
-thread `hAxiom : v.SatisfiesUnramifiedUnitCohomology D` as an explicit
+and the ambient group sits in one `{G : Type u}` scope,
+universe-polymorphic since the #104 hoist. **The interface departure of
+this brick**: where the source derives its unit-cohomology input as
+`v.classFieldAxiom_implies_unramifiedUnitCohomology hcf` — through the
+Tate-cohomology reading of the axiom the layer deliberately does not
+carry (the decision recorded in `Atlas.Knowledge.ClassFieldAxiom`'s
+notes) — all five declarations thread
+`hAxiom : v.SatisfiesUnramifiedUnitCohomology D` as an explicit
 hypothesis alongside `hcf`, and the statement-level occurrences of the
 derivation become the binder. Each statement is thereby weaker than the
 source's: the discharge of the hypothesis is moved to the local
@@ -58,7 +59,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable {G : Type} [Group G] [TopologicalSpace G]
+universe u
+
+variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 

@@ -42,24 +42,24 @@ shed the containments those items stopped asking for:
 source's `hLM`, and the layer's six-argument
 `finiteReciprocityNaturalityRestriction K K M L le_rfl hLM` replaces
 the source's eight-argument call. `DegreeData.FiniteTower` is the
-layer's top-level `FiniteTower`. One `noncomputable section` holds two
-ambient-group scopes, a shadowing `variable` line between them as in
-`Atlas.Knowledge.finiteReciprocityNaturalityNormMap`'s own item, though
-bare where that item names its sections: the Galois row keeps the
-source's per-declaration `Type*` generality, the norm projection family
-generalizes to `Type u` from the source's file-level
-`IntegralRepGroupType` pin (which only its `Rep`-machinery neighbours
-ever forced), and the four declarations that consume the Type-pinned
-naturality norm map follow the second, `{G : Type}`, variable line —
-which moves the projection family ahead of `abstractReciprocityNormMap`
-relative to the source order. The source redeclares
+layer's top-level `FiniteTower`. One `noncomputable section` holds
+everything at `Type u` since the #104 hoist merged its two
+ambient-group scopes: the Galois row keeps the source's per-declaration
+`Type*` generality, the norm projection family generalizes to `Type u`
+from the source's file-level `IntegralRepGroupType` pin (which only its
+`Rep`-machinery neighbours ever forced), and the four declarations that
+consume the naturality norm map — `Type`-pinned until the hoist — keep
+the place the former shadowing `variable` line gave them, which leaves
+the projection family ahead of `abstractReciprocityNormMap` relative to
+the source order. The source redeclares
 `{G : Type*} [Group G] [TopologicalSpace G]` on each group-only
-declaration to escape its file-level `IntegralRepGroupType`; the scope
-structure makes that unnecessary here. Three containments the source's
-`extensionSubgroup` statements consumed go inert under the spelling and
-stay as underscore-named semantic guards, keeping every arity the
-source's callers expect: `_hMK` on `abstractReciprocityRestriction` and
-`_hLM` on `abstractReciprocityInclusion` and
+declaration to escape its file-level `IntegralRepGroupType`; one
+`variable` line makes that unnecessary here. Three containments the
+source's `extensionSubgroup` statements consumed go inert under the
+spelling and stay as underscore-named semantic guards, keeping every
+arity the source's callers expect: `_hMK` on
+`abstractReciprocityRestriction` and `_hLM` on
+`abstractReciprocityInclusion` and
 `abstractReciprocity_lowerExtension_finite`. The source file's
 `ValuationData` section (`:32`–`:427`) is deliberately unprovided, per
 the interface decision recorded in `Atlas.Knowledge.ClassFieldAxiom`;
@@ -384,8 +384,6 @@ theorem abstractReciprocityNormProjection_surjective
   intro a
   exact ⟨finiteNormClass A K L (hLM.trans hMK) a, by
     rw [abstractReciprocityNormProjection_finiteNormClass]⟩
-
-variable {G : Type} [Group G] [TopologicalSpace G]
 
 /-- **The first arrow in the lower row, induced by `N_{M/K}`**
 ([Yamaguchi 2026,
