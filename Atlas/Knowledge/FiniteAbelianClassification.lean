@@ -1,15 +1,18 @@
 import Mathlib
 import Atlas.Knowledge.AbstractReciprocityEquiv
 import Atlas.Knowledge.AbstractReciprocityTheorem
+import Atlas.Knowledge.ClassFieldAxiom
 import Atlas.Knowledge.ClassFieldCandidate
 import Atlas.Knowledge.FiniteAbelianSubextension
 import Atlas.Knowledge.FiniteAbstractFieldExtension
 import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteNormQuotient
+import Atlas.Knowledge.FiniteReciprocityHom
 import Atlas.Knowledge.FiniteReciprocityNaturalityNorm
 import Atlas.Knowledge.NormSubgroupMap
 import Atlas.Knowledge.NormTopology
 import Atlas.Knowledge.ReciprocityExactRows
+import Atlas.Knowledge.UnitCohomologyAxiom
 
 /-!
 # finite abelian classification
@@ -22,11 +25,12 @@ order-reversingly to the open subgroups of `A_K` in the norm topology —
 with the norm laws `N_{L₁L₂} = N_{L₁} ∩ N_{L₂}` and
 `N_{L₁ ∩ L₂} = N_{L₁} N_{L₂}`. Finite reciprocity supplies the vertical
 isomorphisms: the compositum law by the joint injectivity of the two
-restrictions, order reversal by recovering a field from the order of
-its finite quotient, and surjectivity through the class field
-candidate, whose norm subgroup is shown to be exactly the given open
-subgroup. This is the abstract half of the finite local existence
-theorem; its local specialization is the next brick.
+restrictions, re-derived inline on representatives, order reversal by
+recovering a field from the order of its finite quotient, and
+surjectivity through the class field candidate, whose norm subgroup is
+shown to be exactly the given open subgroup. This is the abstract half
+of the finite local existence theorem; its local specialization is the
+next brick.
 
 ## Main definitions
 
@@ -44,6 +48,8 @@ theorem; its local specialization is the next brick.
 * `FiniteAbelianSubextension.normSubgroupMap_bijective` — the norm
   subgroup map is bijective, with its `_injective` and `_surjective`
   halves; proved.
+* `FiniteAbelianSubextension.normSubgroupOrderIso_apply` — the order
+  isomorphism is `normSubgroupMap` on the nose; `rfl`.
 * `FiniteAbelianSubextension.classFieldCandidate_normSubgroup_eq` — the
   class field candidate of a norm-open `H` has norm subgroup exactly
   `H`; proved.
@@ -75,9 +81,12 @@ where the source leaves the base containment `hMK` to be found by later
 unification, since the goal that unification leaves open is one the
 layer's `multiGoal` linter reports;
 `Atlas.Knowledge.AbstractReciprocityTheorem` rewrites the same way.
-Everything else ports token-for-token; the file is the source's
+`normSubgroupOrderIso` is a plain `def` under the file's
+`noncomputable section`, the source's `noncomputable def` under its
+own. Everything else ports token-for-token; the file is the source's
 `AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean`
-`:90`, `:411`, `:591`, and `:746`–`:930`.
+`:90`, `:411`, `:591`, and `:746`–`:930`, with the five local instances
+of its `:28`, `:34`, `:514`, `:519`, and `:524`.
 
 ## References
 
