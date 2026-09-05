@@ -23,8 +23,10 @@ import Atlas.Knowledge.AbsoluteGaloisSubextension
 import Atlas.Knowledge.AbsoluteInertiaDegree
 import Atlas.Knowledge.AbsoluteInertiaInvariance
 import Atlas.Knowledge.AbsoluteInertiaSubgroup
+import Atlas.Knowledge.AbsoluteLocalArtinFrobenius
 import Atlas.Knowledge.AbsoluteLocalArtinMonoidHom
 import Atlas.Knowledge.AbsoluteLocalArtinNormKernel
+import Atlas.Knowledge.AbsoluteLocalArtinRestriction
 import Atlas.Knowledge.AbsoluteRamificationIndex
 import Atlas.Knowledge.AbstractExtension
 import Atlas.Knowledge.AbstractExtensionUnitsRepIso

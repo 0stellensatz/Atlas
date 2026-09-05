@@ -1,4 +1,9 @@
 import Mathlib
+import Atlas.Knowledge.AbsoluteAbelianRestriction
+import Atlas.Knowledge.AbsoluteFiniteQuotientEquiv
+import Atlas.Knowledge.AbsoluteLocalArtinFrobenius
+import Atlas.Knowledge.AbsoluteLocalArtinMonoidHom
+import Atlas.Knowledge.AbsoluteLocalArtinNormKernel
 import Atlas.Knowledge.CycloField
 import Atlas.Knowledge.IsMixedCharLocalField
 
@@ -9,11 +14,12 @@ The local reciprocity map of a mixed-characteristic local field, as a characteri
 `IsLocalReciprocity K φ` says the homomorphism `φ : Kˣ → G_K^ab` has dense range, cuts out
 the norm subgroup of every finite abelian subextension, and satisfies the arithmetic
 Frobenius normalization on roots of unity. These are the properties that classically pin the
-Artin map `Art_K` — uniqueness is proved here, with no class-field input; existence and the
-profinite-completion isomorphism `K̂ˣ ≅ G_K^ab` are the recorded claims. The map itself is
-not constructed: its construction is the content of local class field theory, and a
-definition may not carry a `sorry`; every consumer of `Art_K` in this layer takes a `φ`
-with this predicate instead, and uniqueness makes that unambiguous.
+Artin map `Art_K` — uniqueness is proved here, with no class-field input, and existence is
+proved from the layer's absolute local Artin homomorphism, the summit of the reciprocity
+engine (#104); the profinite-completion isomorphism `K̂ˣ ≅ G_K^ab` is the recorded claim.
+The map is `Atlas.Knowledge.absoluteLocalArtinMonoidHom`, the witness of the existence
+theorem; every consumer of `Art_K` in this layer still takes a `φ` with this predicate,
+which uniqueness makes unambiguous.
 
 ## Main definitions
 
@@ -21,7 +27,8 @@ with this predicate instead, and uniqueness makes that unambiguous.
 
 ## Main statements
 
-* `exists_isLocalReciprocity` — the Artin map exists, recorded ahead of its proof.
+* `exists_isLocalReciprocity` — the Artin map exists; proved, the witness being
+  `Atlas.Knowledge.absoluteLocalArtinMonoidHom`.
 * `IsLocalReciprocity.unique` — the three properties pin the map; proved.
 * `IsLocalReciprocity.unitsCompletion_continuousMulEquiv` — the induced isomorphism
   `K̂ˣ ≅ G_K^ab` from Mathlib's profinite completion, recorded ahead of its proof.
@@ -42,10 +49,16 @@ completion of the classical statement is the char-0 fact that every finite-index
 load-bearing and the read repository, which proves the comparison only under an undischarged
 openness hypothesis
 (`LocalClassFieldTheory/Infinite/AbstractProfiniteCompletionComparison.lean:298`), states
-its own completion instead. The `∃ e` shape, rather than a `ProfiniteGrp` bundling, is forced:
-the compactness instances do not synthesize through the `absoluteGaloisGroup` definition.
+its own completion instead. The `∃ e` shape, rather than a `ProfiniteGrp` bundling, is
+forced: the compactness instances do not synthesize through the `absoluteGaloisGroup`
+definition. The existence proof assembles the engine's three merged fields at
+`Atlas.Knowledge.absoluteLocalArtinMonoidHom`: its dense range, the norm-kernel identity
+`Atlas.Knowledge.absoluteLocalArtinMonoidHom_comap_restrictionKernel` read through the
+restriction-kernel dictionary — the field's `[IsGalois]`-plus-commutativity shape becomes
+the dictionary's `[IsAbelianGalois]` by a `letI` — and the Frobenius normalization
+`Atlas.Knowledge.absoluteLocalArtinMonoidHom_frobenius`, stated verbatim as the field.
 
-The uniqueness proof needs none of the theory the existence claim waits on. Uniformizer units
+The uniqueness proof needs none of the theory the existence proof draws on. Uniformizer units
 generate `Kˣ`, since the integers are a discrete valuation ring, so it is enough to pin
 `φ (π)` for a uniformizer `π`. The `normKernel` field makes `φ (π)` and `ψ (π)` members of
 exactly the same open subgroups — every open subgroup of `G_K^ab` is the pushforward of the
@@ -118,14 +131,23 @@ structure IsLocalReciprocity (φ : Kˣ →* Field.absoluteGaloisGroupAbelianizat
     ∀ m : ℕ, Nat.Coprime m (Nat.card 𝓀[K]) →
     ∀ ζ : AlgebraicClosure K, ζ ^ m = 1 → σ ζ = ζ ^ Nat.card 𝓀[K]
 
-/-- The local reciprocity map exists. Claim recorded ahead of its proof
+/-- The local reciprocity map exists: the absolute local Artin homomorphism has dense range,
+the norm kernels, and the Frobenius normalization
 ([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979];
 [Milne 2020, Chap. I, §1, Thm. 1.1, p.20][MilneCFT];
 [Yamaguchi 2026, `LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:144`]
 [Yamaguchi2026]). -/
 theorem exists_isLocalReciprocity :
-    ∃ φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K, IsLocalReciprocity K φ := by
-  sorry
+    ∃ φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K, IsLocalReciprocity K φ :=
+  ⟨absoluteLocalArtinMonoidHom K,
+    { denseRange := absoluteLocalArtinMonoidHom_denseRange K
+      normKernel := by
+        intro L _ _ h
+        letI : IsAbelianGalois K ↥L := { is_comm := ⟨h⟩ }
+        rw [← absoluteFiniteQuotientPreimage_restrictionKernel K L,
+          absoluteFiniteQuotientPreimage_map_eq]
+        exact absoluteLocalArtinMonoidHom_comap_restrictionKernel K L
+      frobenius := absoluteLocalArtinMonoidHom_frobenius K }⟩
 
 /- Every neighborhood of the identity in the abelianized absolute Galois group contains an
 open subgroup: the Krull basis of the Galois group pushes forward along the open quotient
