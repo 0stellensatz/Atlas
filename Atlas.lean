@@ -54,6 +54,7 @@ import Atlas.Knowledge.CharacterTwist
 import Atlas.Knowledge.ChosenDegreeOneFrobenius
 import Atlas.Knowledge.ChosenPrimeElement
 import Atlas.Knowledge.ClassFieldAxiom
+import Atlas.Knowledge.ClassFieldCandidate
 import Atlas.Knowledge.ClosedDerivedSeries
 import Atlas.Knowledge.CommutatorMemLowerRamificationGroup
 import Atlas.Knowledge.CompletedUnitGroup
