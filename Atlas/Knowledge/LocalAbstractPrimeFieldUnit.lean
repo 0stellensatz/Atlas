@@ -92,7 +92,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+universe u
+
+variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
 /-- **The transported abstract prime**: the chosen prime element of
@@ -262,7 +264,7 @@ theorem normalizedValuation_localAbstractPrimeFieldUnit :
     exact h.symm
   exact Int.cast_injective h2
 
-variable (L : Type) [Field L] [ValuativeRel L] [TopologicalSpace L]
+variable (L : Type u) [Field L] [ValuativeRel L] [TopologicalSpace L]
   [Algebra K L] [ValuativeExtension K L] [FiniteDimensional K L]
   [IsMixedCharLocalField L] [IsGalois K L]
 

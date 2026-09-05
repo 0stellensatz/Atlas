@@ -51,11 +51,11 @@ existence theorem (`finiteAbelianNormSubgroupMap_surjective`, its
 `LocalClassFieldTheory/Finite/Existence/Classification.lean`) and is
 the arithmetic input for injectivity of the map from the profinite
 completion, the deferred second claim whose ledger is #104. The
-variable block is the local-field Type-pinned block of the consumed
-coordinates — `[IsMixedCharLocalField K]` in place of the source's
-`[IsNonarchimedeanLocalField K]`, the arc convention — and
-`IsMixedCharLocalField` extends `CharZero`, which is what lets the
-fixed-field identification of
+variable block is the local-field block of the consumed coordinates, at
+a shared `Type u` since the #104 hoist — `[IsMixedCharLocalField K]` in
+place of the source's `[IsNonarchimedeanLocalField K]`, the arc
+convention — and `IsMixedCharLocalField` extends `CharZero`, which is
+what lets the fixed-field identification of
 `Atlas.Knowledge.AbsoluteAbelianRestriction` fire with no explicit
 binder. The right side `localNormSubgroup K E` unfolds definitionally
 to `MonoidHom.range (Units.map (Algebra.norm K))`, the spelling the
@@ -72,7 +72,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+universe u
+
+variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
 /-- **Pulling a finite restriction kernel back along the absolute local

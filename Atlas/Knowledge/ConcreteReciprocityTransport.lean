@@ -74,18 +74,20 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable (K L : Type) [Field K] [Field L] [Algebra K L]
+universe u
+
+variable (K L : Type u) [Field K] [Field L] [Algebra K L]
   [FiniteDimensional K L] [IsGalois K L]
 
-variable (Ω : Type) [Field Ω] [Algebra K Ω] [IsGalois K Ω] [IsSepClosed Ω]
+variable (Ω : Type u) [Field Ω] [Algebra K Ω] [IsGalois K Ω] [IsSepClosed Ω]
 
-private abbrev G (K : Type) [Field K] :=
+private abbrev G (K : Type u) [Field K] :=
   intrinsicAbsoluteGalois K
 
-private abbrev A (K : Type) [Field K] : Rep ℤ (G K) :=
+private abbrev A (K : Type u) [Field K] : Rep ℤ (G K) :=
   intrinsicAbsoluteUnits K
 
-private abbrev B (K : Type) [Field K] : ClosedSubgroup (G K) :=
+private abbrev B (K : Type u) [Field K] : ClosedSubgroup (G K) :=
   intrinsicAbstractBase K
 
 /-- The finite abstract extension object determined by an explicit

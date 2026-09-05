@@ -107,10 +107,12 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
+universe u
+
 open scoped IsMulCommutative
 
-variable (K : Type) [Field K]
-variable (Ω : Type) [Field Ω] [Algebra K Ω] [IsGalois K Ω] [IsSepClosed Ω]
+variable (K : Type u) [Field K]
+variable (Ω : Type u) [Field Ω] [Algebra K Ω] [IsGalois K Ω] [IsSepClosed Ω]
 
 /-- **The bottom fixing subgroup packaged as a finite abstract field**;
 its defining quotient is the trivial finite quotient. The source's
@@ -169,7 +171,7 @@ private theorem baseFixingExtensionQuotientEquivGaloisGroup_mk_apply
 
 section EmbeddedExtension
 
-variable (L : Type) [Field L] [Algebra K L]
+variable (L : Type u) [Field L] [Algebra K L]
   [FiniteDimensional K L] [IsGalois K L]
 
 omit [IsSepClosed Ω] in

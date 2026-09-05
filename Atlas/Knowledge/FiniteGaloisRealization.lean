@@ -56,10 +56,12 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable (K L : Type) [Field K] [Field L] [Algebra K L]
+universe u
+
+variable (K L : Type u) [Field K] [Field L] [Algebra K L]
   [FiniteDimensional K L] [IsGalois K L]
 
-variable (Ω : Type) [Field Ω] [Algebra K Ω] [IsGalois K Ω]
+variable (Ω : Type u) [Field Ω] [Algebra K Ω] [IsGalois K Ω]
 
 /-- The embedded copy of `L` determined by an explicit embedding into
 the fixed separable closure; keeping the embedding visible is what

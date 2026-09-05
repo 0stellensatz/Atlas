@@ -60,12 +60,14 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
+universe u
+
 /-- The unit-representation transport: from the concrete unit
 membership and generator-primitive facts, the second conjunct of the
 unramified-unit-cohomology axiom, elementwise — new to the layer, with
 no source counterpart (#104). -/
 theorem unitRepresentation_primitive_of_unramifiedUnitPrimitive
-    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K]
     (Kb : FiniteAbstractField (Field.absoluteGaloisGroup K))
     (Eb : FiniteUnramifiedCyclicExtension (localResidueDatum K) Kb)
@@ -334,7 +336,7 @@ of the source's Tate-cohomology derivation; the mathematical content is
 the cohomological triviality of unramified units
 ([Milne 2020, Chap. III, §1, Prop. 1.1 and Prop. 1.2, pp.97–98][MilneCFT]). -/
 theorem localHenselianValuation_satisfiesUnramifiedUnitCohomology
-    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] :
     (localHenselianValuation K).SatisfiesUnramifiedUnitCohomology
       (localResidueDatum K) := by

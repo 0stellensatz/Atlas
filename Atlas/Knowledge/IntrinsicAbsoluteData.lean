@@ -53,12 +53,14 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
+universe u
+
 /-- The absolute Galois group of a field, formed using its chosen
 separable closure ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:20`]
 [Yamaguchi2026]). -/
 abbrev intrinsicAbsoluteGalois
-    (F : Type) [Field F] :=
+    (F : Type u) [Field F] :=
   SeparableClosure F ≃ₐ[F] SeparableClosure F
 
 /-- The integral representation of the intrinsic absolute Galois group
@@ -66,7 +68,7 @@ on the units of the chosen separable closure ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:26`]
 [Yamaguchi2026]). -/
 abbrev intrinsicAbsoluteUnits
-    (F : Type) [Field F] :
+    (F : Type u) [Field F] :
     Rep ℤ (intrinsicAbsoluteGalois F) :=
   galoisAmbientUnitsRep F (SeparableClosure F)
 
@@ -76,7 +78,7 @@ expressed as the fixing subgroup of the bottom intermediate field
 `LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:33`]
 [Yamaguchi2026]). -/
 abbrev intrinsicAbstractBase
-    (F : Type) [Field F] :
+    (F : Type u) [Field F] :
     ClosedSubgroup (intrinsicAbsoluteGalois F) :=
   closedFixingSubgroup (⊥ : IntermediateField F (SeparableClosure F))
 
@@ -85,7 +87,7 @@ subgroup to the full absolute Galois group ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:41`]
 [Yamaguchi2026]). -/
 noncomputable def intrinsicAbstractBaseEquivAbsolute
-    (F : Type) [Field F] :
+    (F : Type u) [Field F] :
     (intrinsicAbstractBase F).toSubgroup ≃*
       intrinsicAbsoluteGalois F :=
   (MulEquiv.subgroupCongr (by
@@ -99,7 +101,7 @@ equal to the supplied absolute Galois automorphism ([Yamaguchi 2026,
 [Yamaguchi2026]). -/
 @[simp]
 theorem intrinsicAbstractBaseEquivAbsolute_symm_apply_val
-    (F : Type) [Field F] (σ : intrinsicAbsoluteGalois F) :
+    (F : Type u) [Field F] (σ : intrinsicAbsoluteGalois F) :
     ((intrinsicAbstractBaseEquivAbsolute F).symm σ).1 = σ := by
   simp [intrinsicAbstractBaseEquivAbsolute]
 
@@ -110,7 +112,7 @@ field**; its defining quotient is the trivial finite quotient
 [Yamaguchi2026]). -/
 @[reducible]
 noncomputable def intrinsicFiniteAbstractBase
-    (F : Type) [Field F] :
+    (F : Type u) [Field F] :
     FiniteAbstractField (intrinsicAbsoluteGalois F) where
   field := intrinsicAbstractBase F
   finite := by
@@ -123,7 +125,7 @@ abstract class formation ([Yamaguchi 2026,
 [Yamaguchi2026]). -/
 @[simp]
 theorem intrinsicFiniteAbstractBase_eq_base
-    (F : Type) [Field F] :
+    (F : Type u) [Field F] :
     intrinsicFiniteAbstractBase F =
       FiniteAbstractField.base (intrinsicAbsoluteGalois F) := by
   have h := closedFixingSubgroup_bot_eq_baseField F (SeparableClosure F)

@@ -42,7 +42,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable (K : Type) [Field K]
+universe u
+
+variable (K : Type u) [Field K]
   [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
 /-- **Finite Artin homomorphisms commute with restriction along a tower

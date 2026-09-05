@@ -123,7 +123,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable (K L : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+universe u
+
+variable (K L : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 variable [Field L] [Algebra K L] [FiniteDimensional K L]
 

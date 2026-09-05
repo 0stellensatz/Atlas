@@ -64,6 +64,8 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
+universe u
+
 /-- **The top-field residue dictionary in the relative spelling**: the
 abstract residue degree of the top field of a finite unramified cyclic
 extension is the residue finrank of its relative fixed field
@@ -71,7 +73,7 @@ extension is the residue finrank of its relative fixed field
 `LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:123`]
 [Yamaguchi2026], read at the relative spelling). -/
 theorem localResidueDatum_residueDegree_top_eq_relativeResidueFinrank
-    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K]
     (Kb : FiniteAbstractField (Field.absoluteGaloisGroup K))
     (Eb : FiniteUnramifiedCyclicExtension (localResidueDatum K) Kb)
@@ -110,7 +112,7 @@ comparison of the two notions runs the other way, on realizations
 `LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:291`]
 [Yamaguchi2026]). -/
 theorem lowerRamificationGroup_eq_bot_of_isUnramified
-    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K]
     (Kb : FiniteAbstractField (Field.absoluteGaloisGroup K))
     (Eb : FiniteUnramifiedCyclicExtension (localResidueDatum K) Kb)

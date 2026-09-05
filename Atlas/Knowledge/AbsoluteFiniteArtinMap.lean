@@ -56,16 +56,17 @@ and the source's topological square — the fork as recorded on
 `Atlas.Knowledge.AbsoluteFiniteQuotientTransition`. The variable block
 is the local-field block of the consumed Artin homomorphism —
 `[IsMixedCharLocalField K]` in place of the source's
-`[IsNonarchimedeanLocalField K]`, the arc convention — and `K` stays
-pinned to `Type`, that block's recorded universe seam;
-`IsMixedCharLocalField` extends `CharZero`, which is what lets the
-dictionary's finiteness and abelianness instances fire with no explicit
-binder. In the transition proof the source's `change` is a `simp only`
-unfolding of the coordinate, and the two `DFunLike.congr_fun` bridges
-enter through `have` plus the same `simp only` normalization: a
-definitional comparison through `abelianLocalArtinMonoidHom` unfolds
-the whole reciprocity transport past the recursion limit, so the proof
-keeps every comparison syntactic. The file is the source's
+`[IsNonarchimedeanLocalField K]`, the arc convention — and `K` sits at
+a shared `Type u` since the #104 hoist closed that block's recorded
+universe seam; `IsMixedCharLocalField` extends `CharZero`, which is
+what lets the dictionary's finiteness and abelianness instances fire
+with no explicit binder. In the transition proof the source's `change`
+is a `simp only` unfolding of the coordinate, and the two
+`DFunLike.congr_fun` bridges enter through `have` plus the same
+`simp only` normalization: a definitional comparison through
+`abelianLocalArtinMonoidHom` unfolds the whole reciprocity transport
+past the recursion limit, so the proof keeps every comparison
+syntactic. The file is the source's
 `LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:25`–`:105`, the
 finite-coordinate half only: the limit half (its `:109` on) is the
 inverse-limit target `Atlas.Knowledge.absoluteFiniteArtinLimit`, the
@@ -84,7 +85,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+universe u
+
+variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
 /-- **The finite Artin coordinate at an open normal subgroup of the

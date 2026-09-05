@@ -57,7 +57,9 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable (K L : Type) [Field K] [Field L] [Algebra K L]
+universe u
+
+variable (K L : Type u) [Field K] [Field L] [Algebra K L]
   [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
   [FiniteDimensional K L] [IsGalois K L]
 

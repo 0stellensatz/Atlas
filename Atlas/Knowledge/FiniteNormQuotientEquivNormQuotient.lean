@@ -72,9 +72,11 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
+universe u
+
 open scoped BigOperators
 
-variable (K : Type) (Ω : Type) [Field K] [Field Ω] [Algebra K Ω]
+variable (K : Type u) (Ω : Type u) [Field K] [Field Ω] [Algebra K Ω]
   [IsGalois K Ω] [IsSepClosed Ω]
 
 section FiniteIntermediate
@@ -246,7 +248,7 @@ end FiniteIntermediate
 
 section EmbeddedFiniteGaloisExtension
 
-variable (L : Type) [Field L] [Algebra K L]
+variable (L : Type u) [Field L] [Algebra K L]
   [FiniteDimensional K L] [IsGalois K L]
   (i : L →ₐ[K] Ω)
 

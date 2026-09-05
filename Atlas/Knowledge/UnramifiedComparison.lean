@@ -102,9 +102,11 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
+universe u
+
 section AmbientBase
 
-variable (K : Type) [Field K]
+variable (K : Type u) [Field K]
 
 /-- **The packaged ambient base has residue degree one** for every
 degree datum: its subgroup is the base field's, and the base field's
@@ -112,7 +114,7 @@ residue quotient is trivial ([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:45`]
 [Yamaguchi2026], at the layer's ambient base). -/
 theorem galoisAmbientFiniteAbstractBase_residueDegree_eq_one
-    (Ω : Type) [Field Ω] [Algebra K Ω] [IsGalois K Ω]
+    (Ω : Type u) [Field Ω] [Algebra K Ω] [IsGalois K Ω]
     (D : DegreeData (Ω ≃ₐ[K] Ω)) :
     (galoisAmbientFiniteAbstractBase K Ω).residueDegree D = 1 := by
   rw [FiniteAbstractField.eq_of_field_eq
@@ -123,7 +125,7 @@ theorem galoisAmbientFiniteAbstractBase_residueDegree_eq_one
 
 end AmbientBase
 
-variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
 /- The residue coordinates of the local datum form a Galois pair —
@@ -242,7 +244,7 @@ private theorem
     rw [map_sub, map_pow, ← hcard, h2, sub_self]
   exact Ideal.Quotient.eq_zero_iff_mem.mp h3
 
-variable (L : Type) [Field L] [Algebra K L] [FiniteDimensional K L]
+variable (L : Type u) [Field L] [Algebra K L] [FiniteDimensional K L]
   [IsGalois K L]
 
 /- The congruence transfer: a base-subgroup element whose action on the

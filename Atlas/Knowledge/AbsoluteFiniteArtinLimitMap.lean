@@ -51,10 +51,11 @@ diagram's transition arrow to the named transition map survives
 verbatim: the layer's
 `Atlas.Knowledge.absoluteFiniteQuotientTransition` differs from the
 functor's `QuotientGroup.map` only in its proof-irrelevant inclusion
-argument. The variable block is the local-field Type-pinned block of
-the consumed coordinates, that block's recorded universe seam. The
-source's placeholder docstrings are replaced by content. Everything
-else ports token-for-token; the file is the source's
+argument. The variable block is the local-field block of the consumed
+coordinates, at a shared `Type u` since the #104 hoist closed that
+block's recorded universe seam. The source's placeholder docstrings are
+replaced by content. Everything else ports token-for-token; the file is
+the source's
 `LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:123`–`:202`, less
 the continuity field and the `Type` ascription on the cone's codomain,
 which the plain arrow no longer needs.
@@ -69,9 +70,11 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
+universe u
+
 open CategoryTheory
 
-variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
 /-- **The compatible cone of the finite Artin coordinates**: the
