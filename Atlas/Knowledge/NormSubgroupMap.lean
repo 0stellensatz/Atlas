@@ -1,6 +1,7 @@
 import Mathlib
 import Atlas.Knowledge.ClassFieldCandidate
 import Atlas.Knowledge.FiniteAbelianSubextension
+import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.IntermediateGaloisCorrespondence
 import Atlas.Knowledge.NormTopology
@@ -19,11 +20,12 @@ restrictions from a compositum's quotient and their joint injectivity,
 the recovery of a field from the order of its finite quotient, the
 final surjectivity step, which turns the unconditional inclusion for an
 intersection field into equality once surjectivity and order reversal
-are known, and, for the class field candidate cut out inside a finite
-Galois `E / K`, the containment `E ≤ M` and the fact that restriction
-from `E / K` to the candidate is trivial exactly on the pulled-back
-subgroup. Finite reciprocity enters none of these; the classification
-item supplies it.
+are known, and, for the class field candidate `M` cut out inside a
+finite Galois `E / K`, the containment
+`E.field.toSubgroup ≤ M.field.toSubgroup` — the candidate lies below
+`E` — and the fact that restriction from `E / K` to the candidate is
+trivial exactly on the pulled-back subgroup. Finite reciprocity enters
+none of these; the classification item supplies it.
 
 ## Main definitions
 
@@ -54,28 +56,35 @@ item supplies it.
 
 ## Implementation notes
 
-The relative subgroup is the layer's `Subgroup.subgroupOf` spelling,
+The relative subgroup is the layer's `Subgroup.subgroupOf` spelling —
 `mem_extensionSubgroup_iff` becoming Mathlib's
-`Subgroup.mem_subgroupOf`, and the ambient group is `Type u` with the
-class-formation stock, so the `{G : Type*}` binders with which the
-source re-declares its two local instances, its restriction section
-(`:230`–`:374`), and `upperQuotientEquiv_quotientMk_eq_restriction` at
-`Type*`, to escape the universe pin on its `Rep ℤ G`, are merged into
-the section's. The source's `FiniteAbelianClassification.lean` is split
-in two along the line finite reciprocity draws: this item is its
-reciprocity-free half — the map, the restrictions, the order recovery,
-the final surjectivity step, and the candidate's two restriction facts
-— and `Atlas.Knowledge.FiniteAbelianClassification` the other, so
+`Subgroup.mem_subgroupOf` and `extensionSubgroup_intermediateField_eq`
+the correspondence item's `subgroupOf_intermediateField_eq` — and the
+ambient group is `Type u` with the class-formation stock, so the
+`{G : Type*}` binders with which the source re-declares its two local
+instances, its restriction section (`:230`–`:374`), and
+`upperQuotientEquiv_quotientMk_eq_restriction` at `Type*`, to escape
+the universe pin on its `Rep ℤ G`, are merged into the section's. The
+source's `FiniteAbelianClassification.lean` is split in two along the
+line finite reciprocity draws: this item is its reciprocity-free half —
+the map, the restrictions, the order recovery, the final surjectivity
+step, and the candidate's two restriction facts — and
+`Atlas.Knowledge.FiniteAbelianClassification` the other, so
 `normSubgroup_intersection_eq_sup_of_surjective_and_order`, `private`
 in the source, is public here for that item to consume. The restriction
 on the finite Galois quotients is the layer's
 `abstractReciprocityRestriction`, the norm subgroup of a finite Galois
 subextension `Atlas.Knowledge.NormTopology`'s, the candidate
 `Atlas.Knowledge.ClassFieldCandidate`'s, and the intermediate
-correspondence `Atlas.Knowledge.IntermediateGaloisCorrespondence`'s.
-Everything else ports token-for-token; the file is the source's
+correspondence `Atlas.Knowledge.IntermediateGaloisCorrespondence`'s. Of
+the five local instances, the two normality ones are already the
+layer's global `subgroupOf_normalInstance` and stay for fidelity; the
+three finiteness ones are load-bearing. Everything else ports
+token-for-token; the file is the source's
 `AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean`
-`:28`–`:74`, `:230`–`:374`, `:479`–`:544`, and `:707`.
+`:28`–`:74`, `:230`–`:374`, `:479`–`:544`, and `:707` in their
+declarations, the one section comment in that range not carried, as the
+layer's items carry none.
 
 ## References
 
@@ -421,8 +430,9 @@ local instance classification_abelianExtension_finite
     Finite (K.toSubgroup ⧸ M.field.toSubgroup.subgroupOf K.toSubgroup) :=
   M.finite
 
-/-- The original finite Galois field lies below the abelian class field
-candidate cut out inside it ([Yamaguchi 2026,
+/-- The original finite Galois subextension's subgroup lies below the
+class field candidate's — the candidate, cut out inside `E`, is the
+smaller field ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:531`]
 [Yamaguchi2026]). -/
 theorem classFieldCandidate_field_le
