@@ -1,19 +1,29 @@
 import Mathlib
+import Atlas.Knowledge.AbstractFixedField
 import Atlas.Knowledge.AdditiveNormSubgroup
+import Atlas.Knowledge.AmbientFixedAddSubgroup
+import Atlas.Knowledge.ClassFieldAxiom
+import Atlas.Knowledge.DegreeData
 import Atlas.Knowledge.FiniteAbelianClassification
 import Atlas.Knowledge.FiniteAbelianSubextension
 import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteNormQuotientEquivNormQuotient
 import Atlas.Knowledge.GaloisExtensionQuotient
 import Atlas.Knowledge.IntermediateFieldNormResidueNaturality
+import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
+import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.LocalClassFieldAxiom
 import Atlas.Knowledge.LocalHenselianValuation
+import Atlas.Knowledge.LocalResidueDatum
 import Atlas.Knowledge.NormQuotient
 import Atlas.Knowledge.NormSubgroupMap
 import Atlas.Knowledge.NormSubgroupOrderEmbedding
 import Atlas.Knowledge.NormTopology
+import Atlas.Knowledge.ResidueDatumIn
 import Atlas.Knowledge.SeparableFixedFieldNorm
+import Atlas.Knowledge.UnitCohomologyAxiom
 import Atlas.Knowledge.UnitCohomologyDischarge
+import Atlas.Knowledge.ValuationData
 
 /-!
 # norm subgroup surjectivity
@@ -28,11 +38,17 @@ Galois extension whose norm subgroup lies in `H` witnesses exactly that
 norm-openness. With the two ordinary norm laws
 `N_{L₁L₂} = N_{L₁} ∩ N_{L₂}` and `N_{L₁ ∩ L₂} = N_{L₁} N_{L₂}`
 transported from the abstract classification. The finite local
-existence theorem is one Kummer input away: a finite Galois extension
-whose norm subgroup lies in the `n`-th powers, for every `n`.
+existence theorem is one input away: for every open finite-index
+subgroup `H` of `Kˣ` a finite Galois extension whose norm subgroup lies
+in `H`, which the standard open subgroups and the compositum of a
+Lubin–Tate level field with an unramified extension supply.
 
 ## Main statements
 
+* `exists_finiteAbelianNormSubgroup_eq_of_normOpen` — an open
+  finite-index subgroup which is open for the abstract norm topology,
+  transported to the base fixed coefficients, is the ordinary norm
+  subgroup of a finite abelian subextension; proved.
 * `finiteAbelianNormSubgroupMap_surjective_of_normOpen`,
   `localFiniteAbelianNormSubgroupMap_surjective_of_normOpen` —
   surjectivity from norm-openness of every finite-index subgroup,
@@ -65,8 +81,17 @@ sit outside the local-field section, since the threaded form needs no
 local field where the source's class-field-axiom witness did, and the
 source's `omit` of the local-field binders on the last two is thereby
 the section boundary. The local field is `IsMixedCharLocalField` where
-the source's is nonarchimedean. Everything else ports token-for-token;
-the file is the source's
+the source's is nonarchimedean, and the source's `Type` is the layer's
+`Type u`. The norm-openness witness keeps the source's
+`[H.FiniteIndex]` binder, which its proof never uses — the openness
+criterion `normTopology_addSubgroup_isOpen_iff` carries no index
+hypothesis — for the statement's fidelity and its name; the
+surjectivity theorem's norm-openness hypothesis, which the witness
+exists to discharge, binds the instance itself, so shedding it would
+buy that consumer nothing. The import block lists every item whose
+declarations the file spells, the class `IsMixedCharLocalField` and the
+field `SatisfiesUnramifiedUnitCohomology` included. Everything else
+ports token-for-token; the file is the source's
 `Finite/Existence/NormSubgroupSurjectivity.lean`.
 
 ## References

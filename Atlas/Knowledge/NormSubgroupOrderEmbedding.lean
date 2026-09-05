@@ -13,6 +13,7 @@ import Atlas.Knowledge.FiniteLocalReciprocityLaw
 import Atlas.Knowledge.GaloisExtensionQuotient
 import Atlas.Knowledge.IntermediateFieldNormResidueNaturality
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
+import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.LocalClassFieldAxiom
 import Atlas.Knowledge.LocalHenselianValuation
 import Atlas.Knowledge.LocalResidueDatum
@@ -21,6 +22,7 @@ import Atlas.Knowledge.NormUnits
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.ResidueDatumIn
 import Atlas.Knowledge.SeparableFixedFieldNorm
+import Atlas.Knowledge.UnitCohomologyAxiom
 import Atlas.Knowledge.UnitCohomologyDischarge
 import Atlas.Knowledge.UnitsFiniteIndexOpen
 import Atlas.Knowledge.ValuationData
