@@ -294,6 +294,7 @@ import Atlas.Knowledge.NormOneIdeleClassIsCompact
 import Atlas.Knowledge.NormQuotient
 import Atlas.Knowledge.NormResidueNaturality
 import Atlas.Knowledge.NormResidueNaturalityArrows
+import Atlas.Knowledge.NormSubgroupMap
 import Atlas.Knowledge.NormTopology
 import Atlas.Knowledge.NormUnits
 import Atlas.Knowledge.NormalizedDegree
