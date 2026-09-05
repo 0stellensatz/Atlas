@@ -51,24 +51,43 @@ class-formation stock. The two compositum norm bounds live in the
 source's `FiniteGaloisSubextension.lean` (its `:417`, `:457`), past
 where the layer's `Atlas.Knowledge.FiniteGaloisSubextension` stops;
 they sit here, in that item's namespace, because they consume
-`finiteNormSubgroup` and the norm topology is their first consumer. The
-topology is carried on the fixed subgroup itself, as a term
+`finiteNormSubgroup` and the norm topology is their first consumer —
+moving them there would not cycle, but it would pull
+`finiteNormSubgroup`'s import closure into an item that imports four.
+The topology is carried on the fixed subgroup itself, as a term
 `normTopology A K` supplied explicitly to `IsOpen`, `IsClosed`, and
-`T2Space` — the source's `WithNormTopology` carrier, a `WithTopology`
-wrapper that exists so that no instance on the underlying group is
-mutated, is not ported: the layer never installs the norm topology as
-an instance, so the wrapper would wrap nothing, and its two continuity
-predicates `IsContinuousFromNormTopology` and `IsNormContinuous`
-(consumed by the source's `NormContinuity.lean` and
-`ValuationContinuity.lean`) are the continuity-fork material the arc
-strips. Hausdorffness is Mathlib's filter-basis criterion
-`AddGroupFilterBasis.t2Space_iff` with the topology named explicitly,
-where the source transports through the wrapper's homeomorphism. The
-two class-typed definitions carry `@[implicit_reducible]` as the
-source's do, which the reducibility linter requires. Everything else
-ports token-for-token; the file is the source's
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean` less the
-wrapper and the continuity predicates.
+`T2Space`, and no topology instance on the fixed subgroup exists for it
+to compete with. Ten source declarations are not ported. The
+`WithNormTopology` carrier with its two instances, its equivalence, and
+its homeomorphism is a `WithTopology` wrapper that exists so that no
+instance on the underlying group is mutated; the layer never installs
+the norm topology as an instance, so the wrapper would wrap nothing,
+and its homeomorphism is written against a `WithTopology.homeomorph`
+that Mathlib at the layer's pin does not have, so the source's
+Hausdorff route does not port as written. The two continuity predicates
+`IsContinuousFromNormTopology` and `IsNormContinuous` (consumed by the
+source's `NormContinuity.lean` and `ValuationContinuity.lean`) are the
+continuity-fork material the arc strips. The bridges
+`isNormOpen_iff_raw` and `isNormClosed_iff_raw` restate the two
+predicates in the explicit-topology spelling by `rfl`, which here the
+predicates reduce to as plain definitions, and
+`normTopology_hausdorff_raw` is the Hausdorff criterion in that
+spelling, which the source's public theorem transports through the
+wrapper — here it is the theorem itself, Mathlib's filter-basis
+criterion `AddGroupFilterBasis.t2Space_iff` with the topology named
+explicitly. The two class-typed definitions carry
+`@[implicit_reducible]` as the source's do, which the reducibility
+linter requires. Every statement ports token-for-token except
+`IsNormHausdorff`, which is `T2Space` at the explicit topology rather
+than of the wrapper; four proofs do not —
+`normTopology_addSubgroup_isOpen_iff` and
+`normTopology_open_iff_closed_finiteIndex_of_finite_normQuotients` shed
+the source's `_raw` conversions, `normTopology_hausdorff` inlines the
+raw criterion in place of the transport, and `normFilterBasis` writes
+its nonemptiness witness as a term where the source refines it — all
+inert. The file is the source's
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean` less those
+ten.
 
 ## References
 
