@@ -31,6 +31,9 @@ explicit hypothesis: the claim reduces to that theorem, and its own
   normal subgroup of `G_K^ab`; proved.
 * `IsLocalReciprocity.unitsCompletion_continuousMulEquiv_of_normSubgroup_surjective`
   — the completion isomorphism, given local existence; proved.
+* `IsLocalReciprocity.unitsCompletion_continuousMulEquiv_unique` — the
+  isomorphism is pinned by its compatibility with the completion map;
+  proved.
 
 ## Implementation notes
 
@@ -44,10 +47,12 @@ finite-index subgroups); `Atlas.Knowledge.unitsFiniteIndexOpen`
 supplies that openness for every finite-index subgroup, which is where
 the identification of Mathlib's completion against all finite-index
 normal subgroups with the classical one against the open ones — the
-caveat carried on #47 — is consumed. The open normal subgroup is the
-restriction kernel of the supplied field, and its preimage is the norm
-subgroup by the field's `normKernel` and the #216 dictionary; the
-completion criteria are those of
+caveat carried on #47 — is consumed; the `IsOpen` premise is therefore
+logically redundant, and it is kept deliberately, so that the bridge is
+consumed where the caveat expects it rather than silently dropped. The
+open normal subgroup is the restriction kernel of the supplied field,
+and its preimage is the norm subgroup by the field's `normKernel` and
+the #216 dictionary; the completion criteria are those of
 `Atlas.Knowledge.ProfiniteCompletionLiftCriteria`. The claim itself is
 not discharged here: a discharge resting on a recorded claim would
 carry `sorryAx`, so the hypothesis stays explicit and the reduction is
@@ -56,7 +61,13 @@ open-finite-index completion (`ProfiniteLocalReciprocity.lean:115`,
 from its `:98` and `:107`) and on the standard model (`:257`); the
 cofinality theorem (`FiniteAbelianQuotientKernels.lean:180`) is the
 layer's `cofinal_of_normSubgroup_surjective` with the existence theorem
-as a hypothesis where the source consumes it proved.
+as a hypothesis where the source consumes it proved, and concluding the
+equality of subgroups its proof establishes where the source's
+statement keeps only `≤`; the criteria consume the `≤` form. The
+bundling `absoluteGaloisAbelianizationProfinite` is the source's
+`standardLocalAbsoluteAbelianProfinite`
+(`ProfiniteLocalReciprocity.lean:64`), which
+`Atlas.Knowledge.AbsoluteFiniteArtinLimit` still spells inline.
 
 ## References
 
@@ -77,7 +88,9 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-- The abelianized absolute Galois group bundled as a profinite group,
 through the compactness and total-disconnectedness instances of
-`Atlas.Knowledge.AbsoluteAbelianizationEquiv`. -/
+`Atlas.Knowledge.AbsoluteAbelianizationEquiv` ([Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:64`]
+[Yamaguchi2026]). -/
 abbrev absoluteGaloisAbelianizationProfinite : ProfiniteGrp :=
   ProfiniteGrp.of (Field.absoluteGaloisGroupAbelianization K)
 
@@ -87,7 +100,7 @@ variable {K}
 completion map ([Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:79`]
 [Yamaguchi2026]). -/
-theorem lift_etaFn (φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K) (u : Kˣ) :
+theorem reciprocityLift_etaFn (φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K) (u : Kˣ) :
     (lift (P := absoluteGaloisAbelianizationProfinite K) (GrpCat.ofHom φ)).hom
         (etaFn (GrpCat.of Kˣ) u) = φ u :=
   ConcreteCategory.congr_hom (lift_eta (P := absoluteGaloisAbelianizationProfinite K)
@@ -139,10 +152,22 @@ theorem IsLocalReciprocity.unitsCompletion_continuousMulEquiv_of_normSubgroup_su
       ∀ u : Kˣ, e (etaFn (GrpCat.of Kˣ) u) = φ u :=
   ⟨ProfiniteCompletion.liftContinuousMulEquiv (P := absoluteGaloisAbelianizationProfinite K)
       (GrpCat.ofHom φ)
-      (ProfiniteCompletion.lift_injective_of_cofinal _
-        (cofinal_of_normSubgroup_surjective φ hφ hexist))
+      (ProfiniteCompletion.lift_injective_of_cofinal _ fun H =>
+        (cofinal_of_normSubgroup_surjective φ hφ hexist H).imp fun _ h => le_of_eq h)
       (ProfiniteCompletion.lift_surjective_of_denseRange _ hφ.denseRange),
-    fun u => lift_etaFn φ u⟩
+    fun u => reciprocityLift_etaFn φ u⟩
+
+/-- The completion isomorphism is unique: two continuous multiplicative
+equivalences agreeing with `φ` on the completion map agree, the
+completion map having dense range and the target being Hausdorff. -/
+theorem IsLocalReciprocity.unitsCompletion_continuousMulEquiv_unique
+    {φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K}
+    (e₁ e₂ : completion (GrpCat.of Kˣ) ≃ₜ* Field.absoluteGaloisGroupAbelianization K)
+    (h₁ : ∀ u : Kˣ, e₁ (etaFn (GrpCat.of Kˣ) u) = φ u)
+    (h₂ : ∀ u : Kˣ, e₂ (etaFn (GrpCat.of Kˣ) u) = φ u) : e₁ = e₂ :=
+  DFunLike.ext e₁ e₂ (congrFun ((ProfiniteGrp.ProfiniteCompletion.denseRange
+    (G := GrpCat.of Kˣ)).equalizer e₁.continuous e₂.continuous
+    (funext fun u => (h₁ u).trans (h₂ u).symm)))
 
 end
 

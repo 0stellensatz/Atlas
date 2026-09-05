@@ -8,17 +8,18 @@ Mathlib's profinite completion of a group `G`,
 lift of a homomorphism `f` into a profinite group `P`: the lift's
 coordinate at an open normal subgroup of `P` is the induced map on the
 coordinate at the preimage; the lift is surjective when `f` has dense
-range, injective when every finite-index normal subgroup of `G` is the
-preimage of an open normal subgroup of `P`, and a bijective lift
-packages as a continuous multiplicative equivalence. The completion
-half of the second reciprocity claim,
+range, injective when the preimages of the open normal subgroups of `P`
+are cofinal among the finite-index normal subgroups of `G`, and a
+bijective lift packages as a continuous multiplicative equivalence. The
+completion half of the second reciprocity claim,
 `Atlas.Knowledge.IsLocalReciprocity.unitsCompletion_continuousMulEquiv`,
 stated on Mathlib's completion rather than the source's own (#104).
 
 ## Main definitions
 
 * `ProfiniteCompletion.liftContinuousMulEquiv` — a bijective lift as a
-  continuous multiplicative equivalence.
+  continuous multiplicative equivalence, with its `rfl` evaluation
+  rule.
 
 ## Main statements
 
@@ -27,9 +28,8 @@ stated on Mathlib's completion rather than the source's own (#104).
   preimage; proved.
 * `ProfiniteCompletion.lift_surjective_of_denseRange` — a dense-range
   homomorphism lifts onto; proved.
-* `ProfiniteCompletion.lift_injective_of_cofinal` — when every
-  finite-index normal subgroup is a preimage, the lift is injective;
-  proved.
+* `ProfiniteCompletion.lift_injective_of_cofinal` — when the preimages
+  of open normal subgroups are cofinal, the lift is injective; proved.
 
 ## Implementation notes
 
@@ -41,19 +41,18 @@ the layer states them on Mathlib's `ProfiniteGrp.ProfiniteCompletion`,
 whose index category is every finite-index normal subgroup — the
 identification of the two in mixed characteristic is what
 `Atlas.Knowledge.unitsFiniteIndexOpen` supplies at the application. The
-cofinality hypothesis is the strong equational form — every
-finite-index normal subgroup *is* a preimage — where the source's reads
-`≤` (its `ProfiniteCompletionCriteria.lean:60`): on Mathlib's index
-category injectivity then reads off from the vanishing coordinates at
-preimages alone, with no transition map, and the local application
-supplies exactly the equational form. The coordinate formula is proved
-by the dense-equalizer device of Mathlib's own `lift_unique`: the
-lift's defining cone is an anonymous term inside `lift`, and its
-unfolding is not type-correct under instance transparency, so the
-limit's factorization cannot be rewritten with. The finite-quotient
-map's triviality of kernel is stated elementwise, `y = 1` from its
-image being `1`, because the map's coercion runs through the induced
-category of finite groups and defeats `map_one`.
+cofinality hypothesis is the source's `≤` form (its
+`ProfiniteCompletionCriteria.lean:60`): a kernel element's coordinate
+at a preimage vanishes, and the limit's own compatibility carries that
+vanishing along the inclusion to every index above — the local
+application supplies the stronger equational form and specializes. The
+coordinate formula is proved by the dense-equalizer device of Mathlib's
+own `lift_unique`: the lift's defining cone is an anonymous term inside
+`lift`, and its unfolding is not type-correct under instance
+transparency, so the limit's factorization cannot be rewritten with.
+The finite-quotient map's triviality of kernel is stated elementwise,
+`y = 1` from its image being `1`, because the map's coercion runs
+through the induced category of finite groups and defeats `map_one`.
 
 ## References
 
@@ -105,34 +104,27 @@ theorem quotientMap_eq_one (f : G ⟶ GrpCat.of P) (N : OpenNormalSubgroup P)
     rw [QuotientGroup.eq_one_iff] at hy
     exact (QuotientGroup.eq_one_iff g).2 hy
 
-/- A completion point whose coordinates at every preimage vanish is `1` once every index is a
-preimage. -/
-private theorem eq_one_of_forall_preimage (f : G ⟶ GrpCat.of P) (x : completion G)
-    (hcof : ∀ H : FiniteIndexNormalSubgroup G, ∃ N : OpenNormalSubgroup P, preimage f N = H)
-    (hx : ∀ N : OpenNormalSubgroup P, x.1 (preimage f N) = 1) : x = 1 := by
-  apply Subtype.ext
-  funext H
-  obtain ⟨N, hN⟩ := hcof H
-  rw [← hN]
-  exact hx N
-
 /-- **Cofinality of the preimages makes the lift injective**: when
-every finite-index normal subgroup of the group is the preimage of an
-open normal subgroup of the target ([Yamaguchi 2026,
+every finite-index normal subgroup of the group contains the preimage
+of an open normal subgroup of the target ([Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/ProfiniteCompletionCriteria.lean:60`]
 [Yamaguchi2026]). -/
 theorem lift_injective_of_cofinal (f : G ⟶ GrpCat.of P)
-    (hcof : ∀ H : FiniteIndexNormalSubgroup G, ∃ N : OpenNormalSubgroup P, preimage f N = H) :
+    (hcof : ∀ H : FiniteIndexNormalSubgroup G, ∃ N : OpenNormalSubgroup P, preimage f N ≤ H) :
     Function.Injective (lift f).hom := by
   rw [injective_iff_map_eq_one]
   intro x hx
-  apply eq_one_of_forall_preimage f x hcof
-  intro N
-  apply quotientMap_eq_one f N
-  have h : (ProfiniteGrp.proj N).hom ((lift f).hom x) = 1 := by
-    rw [hx, map_one]
-  rw [← proj_lift_apply f N x]
-  exact h
+  apply Subtype.ext
+  funext H
+  obtain ⟨N, hN⟩ := hcof H
+  have h1 : x.1 (preimage f N) = 1 := by
+    apply quotientMap_eq_one f N
+    have h : (ProfiniteGrp.proj N).hom ((lift f).hom x) = 1 := by
+      rw [hx, map_one]
+    rw [← proj_lift_apply f N x]
+    exact h
+  rw [← x.2 hN.hom, h1]
+  exact map_one ((diagram G).map hN.hom).hom
 
 /-- **A dense-range homomorphism lifts onto the target**: the lift's
 range is closed, the completion being compact and the target Hausdorff,
@@ -161,6 +153,13 @@ def liftContinuousMulEquiv (f : G ⟶ GrpCat.of P) (hinj : Function.Injective (l
   { Continuous.homeoOfEquivCompactToT2 (f := Equiv.ofBijective (lift f).hom ⟨hinj, hsurj⟩)
       (lift f).hom.continuous with
     map_mul' := (lift f).hom.map_mul }
+
+/-- The equivalence is the lift on points. -/
+@[simp]
+theorem liftContinuousMulEquiv_apply (f : G ⟶ GrpCat.of P)
+    (hinj : Function.Injective (lift f).hom) (hsurj : Function.Surjective (lift f).hom)
+    (x : completion G) : liftContinuousMulEquiv f hinj hsurj x = (lift f).hom x :=
+  rfl
 
 end
 
