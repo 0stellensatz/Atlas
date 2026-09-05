@@ -50,10 +50,10 @@ from `Atlas.Knowledge.exists_extension_isMixedCharLocalField` and is
 inert in the statement, as the #218 review recorded. Layer-original:
 the source states no Frobenius property of its absolute map —
 `absoluteLocalArtinMap` is consumed only inside
-`LocalClassFieldTheory/Infinite/`, and no arithmetic-Frobenius
-statement exists at its infinite level — and the field-level
-`ζ ↦ ζ ^ q` reading has been the layer's own since the cyclotomic floor
-(#219).
+`LocalClassFieldTheory/Infinite/` [Yamaguchi2026], and no
+arithmetic-Frobenius statement exists at its infinite level — and the
+field-level `ζ ↦ ζ ^ q` reading has been the layer's own since the
+cyclotomic floor (#219).
 
 ## References
 
@@ -78,7 +78,7 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 `q`-power map on the prime-to-`q` roots of unity**,
 `q = Nat.card 𝓀[K]`: the `frobenius` field of
 `Atlas.Knowledge.IsLocalReciprocity` at the absolute local Artin
-homomorphism ([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979];
+homomorphism ([Serre 1979, Chap. XIII, §4, Prop. 13, p.197][Serre1979];
 [Milne 2020, Chap. I, §1, Thm. 1.1, p.20][MilneCFT]). -/
 theorem absoluteLocalArtinMonoidHom_frobenius
     (u : Kˣ) (hu : (u : K) ∈ 𝒪[K]) (hirr : Irreducible (⟨(u : K), hu⟩ : 𝒪[K]))
@@ -95,9 +95,9 @@ theorem absoluteLocalArtinMonoidHom_frobenius
   haveI : NeZero m := ⟨hm0⟩
   have hval : normalizedValuation K u = 1 :=
     normalizedValuation_irreducible K ⟨(u : K), hu⟩ hirr u rfl
-  set E := cycloField K m with hE
-  set N := absoluteAbelianRestrictionKernel K E with hN
-  set F := absoluteFiniteQuotientField K N with hF
+  set E := cycloField K m
+  set N := absoluteAbelianRestrictionKernel K E
+  set F := absoluteFiniteQuotientField K N
   have hfield : F = E := absoluteFiniteQuotientField_restrictionKernel K E
   have hζE : ζ ∈ E := mem_cycloField K hm0 hζ
   have hζF : ζ ∈ F := hfield ▸ hζE
@@ -108,11 +108,11 @@ theorem absoluteLocalArtinMonoidHom_frobenius
     exact hbotE
   have hres : AlgEquiv.restrictNormalHom F σ = abelianLocalArtinMonoidHom K F u :=
     restrictNormalHom_absoluteLocalArtinMonoidHom_lift K N u σ hσ
-  obtain ⟨vF, tF, hVF, _, hF'⟩ := exists_extension_isMixedCharLocalField K F
+  obtain ⟨vF, tF, hVF, _, hmixed⟩ := exists_extension_isMixedCharLocalField K F
   letI := vF
   letI := tF
   letI := hVF
-  letI := hF'
+  letI := hmixed
   have hfrob : IsArithmeticFrobenius K F (abelianLocalArtinMonoidHom K F u) :=
     isArithmeticFrobenius_abelianLocalArtinMonoidHom K F hbotF u hval
   have hζF' : (⟨ζ, hζF⟩ : F) ^ m = 1 := by

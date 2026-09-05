@@ -44,9 +44,11 @@ composes it with the dictionary's representative formula, which is
 definitional. The source has no counterpart at the local infinite level
 — its `absoluteLocalArtinMap` is consumed only inside
 `LocalClassFieldTheory/Infinite/` — and states the projection identity
-alone (`AbsoluteArtin.lean:215`); the composition with
-`AlgEquiv.restrictNormalHom` appears on its global side
-(`GlobalClassFieldTheory/Reciprocity/GlobalArtin.lean:226`), for the
+alone — `AbsoluteArtin.lean:215` at the separable model,
+`ProfiniteLocalReciprocity.lean:375` at the standard model the layer
+uses; the composition with `AlgEquiv.restrictNormalHom` appears on its
+global side, in the statement of `restrict_globalArtinMonoidHom_apply`
+(`GlobalClassFieldTheory/Reciprocity/GlobalArtin.lean:217`), for the
 global Artin map.
 
 ## References
