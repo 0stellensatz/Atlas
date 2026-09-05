@@ -1,6 +1,7 @@
 import Mathlib
 import Atlas.Knowledge.AbstractFixedField
 import Atlas.Knowledge.AdditiveNormSubgroup
+import Atlas.Knowledge.FiniteAbelianSubextension
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteNormQuotientEquivNormQuotient
 import Atlas.Knowledge.HigherUnitGroup
@@ -18,6 +19,7 @@ import Atlas.Knowledge.StandardLubinTateNormSubgroup
 import Atlas.Knowledge.StandardLubinTateUniformizerUnit
 import Atlas.Knowledge.StandardOpenSubgroups
 import Atlas.Knowledge.UnitLevelFiniteIndex
+import Atlas.Knowledge.UnitsFiniteIndexOpen
 import Atlas.Knowledge.UnramifiedExtensionOfDegree
 import Atlas.Knowledge.UnramifiedNormContainment
 
@@ -25,23 +27,23 @@ import Atlas.Knowledge.UnramifiedNormContainment
 # local norm subgroup existence
 
 The existence input of the finite local existence theorem for a
-mixed-characteristic local field `K` (#104): every open finite-index
-subgroup `H ≤ Kˣ` contains the norm subgroup of a finite Galois
-extension inside the algebraic closure. The route is Lubin–Tate's, the
-one the source takes in equal characteristic: `H` contains a standard
-subgroup `⟨πᵈ⟩ ⊔ U^{(i)}`; the Lubin–Tate level field of level `i − 1`
-has norm subgroup exactly `⟨π⟩ ⊔ U^{(i)}`; the abstract unramified
-extension of degree `d` has norm subgroup inside the valuations
-divisible by `d`; and the compositum's norm subgroup lies in both,
-hence in `⟨πᵈ⟩ ⊔ U^{(i)}`. The source reaches the same input in
-characteristic zero through Kummer theory over the cyclotomic field;
-the layer, holding the Lubin–Tate norm-subgroup identity already, takes
-the shorter road.
+mixed-characteristic local field `K` (#104): every finite-index
+subgroup `H ≤ Kˣ`, open automatically in mixed characteristic, contains
+the norm subgroup of a finite Galois extension inside the algebraic
+closure. The route is Lubin–Tate's, the one the source takes in equal
+characteristic: `H` contains a standard subgroup `⟨πᵈ⟩ ⊔ U^{(i)}`; the
+Lubin–Tate level field of level `i − 1` has norm subgroup exactly
+`⟨π⟩ ⊔ U^{(i)}`; the abstract unramified extension of degree `d` has
+norm subgroup inside the valuations divisible by `d`; and the
+compositum's norm subgroup lies in both, hence in `⟨πᵈ⟩ ⊔ U^{(i)}`. The
+source reaches the same input in characteristic zero through Kummer
+theory over the cyclotomic field; the layer, holding the Lubin–Tate
+norm-subgroup identity already, takes the shorter road.
 
 ## Main statements
 
-* `exists_finiteGalois_localNormSubgroup_le` — an open finite-index
-  subgroup contains a finite Galois norm subgroup; proved.
+* `exists_finiteGalois_localNormSubgroup_le` — a finite-index subgroup
+  contains a finite Galois norm subgroup; proved.
 * `zpowers_sup_higherUnitGroup_inf_comap_le` — the standard-subgroup
   intersection; proved.
 * `localNormSubgroup_le_of_le` — the norm subgroup is antitone in the
@@ -53,10 +55,11 @@ The compositum is formed in `AlgebraicClosure K`, the level field
 carried over from the layer's `SeparableClosure K` along the inclusion
 as the field range of the composite embedding, with
 `Atlas.Knowledge.localNormSubgroup_fieldRange_eq` keeping its norm
-subgroup; it is Galois by Mathlib's `normal_sup` and the perfectness of
-`K`, and finite-dimensional by `finiteDimensional_sup`. The Lubin–Tate
-norm subgroup is `Atlas.Knowledge.standardLubinTateNormSubgroup_eq` at
-level `i − 1`, its integer unit level read in `Kˣ` by
+subgroup; it is Galois by Mathlib's `IntermediateField.normal_sup` and
+the perfectness of `K`, and finite-dimensional by
+`IntermediateField.finiteDimensional_sup`. The Lubin–Tate norm subgroup
+is `Atlas.Knowledge.standardLubinTateNormSubgroup_eq` at level `i − 1`,
+its integer unit level read in `Kˣ` by
 `Atlas.Knowledge.map_integerHigherUnitGroup_eq_higherUnitGroup` and its
 uniformizer unit identified with the chosen irreducible's by
 `Units.ext rfl`; the standard subgroup comes from
@@ -65,20 +68,29 @@ unramified factor is `Atlas.Knowledge.UnramifiedExtensionOfDegree`'s
 abelian package at the algebraic closure, made a concrete finite Galois
 field by `Atlas.Knowledge.NormSubgroupOrderEmbedding`'s finiteness,
 normality, and Galoisness transports, its norm subgroup transported by
-`map_finiteAbelianNormSubgroup_eq_additiveNormSubgroup` and bounded by
-`Atlas.Knowledge.UnramifiedNormContainment`. The norm tower for
-intermediate fields is `Atlas.Knowledge.normUnits_tower` with the
-inclusion as the algebra, the source's `normSubgroup_le_of_tower`; the
-intersection lemma is the source's
+`Atlas.Knowledge.map_finiteAbelianNormSubgroup_eq_additiveNormSubgroup`
+and bounded by `Atlas.Knowledge.UnramifiedNormContainment`. The norm
+tower for intermediate fields is `Atlas.Knowledge.normUnits_tower` with
+the inclusion as the algebra, the source's `normSubgroup_le_of_tower`;
+the intersection lemma is the source's
 `unramifiedNormSubgroup_inf_uniformizerPrincipalSubgroup_le` in the
 layer's spelling, with `Atlas.Knowledge.higherUnitGroup_le_ker` for the
 levels' vanishing valuation. The local field is
-`IsMixedCharLocalField`.
-`Atlas.Knowledge.StandardLubinTateGaloisDescription` is imported for
-the level field's Galois instance, which no spelled name here carries.
-The file assembles the source's `StandardSubgroupIntersection.lean`,
-`StandardLubinTate.lean`, and `StandardDominatingExtension.lean` at the
-algebraic closure, without their intrinsic abbreviations.
+`IsMixedCharLocalField`. The openness of the finite-index subgroup is
+not hypothesized, `Atlas.Knowledge.unitsFiniteIndexOpen` supplying it,
+so the existence theorem is stated for every finite-index subgroup
+where `Atlas.Knowledge.StandardOpenSubgroups` takes openness as an
+argument. `localNormSubgroup_le_of_le` carries no local-field structure
+and would sit as naturally beside `Atlas.Knowledge.localNormSubgroup`
+in `Atlas.Knowledge.NormQuotient`; it is filed here with its first
+consumer. `Atlas.Knowledge.StandardLubinTateGaloisDescription` is
+imported for the level field's Galois instance, which no spelled name
+here carries. The file assembles the source's
+`StandardSubgroupIntersection.lean` and `StandardLubinTate.lean` at the
+algebraic closure, in the shape of its equal-characteristic existence
+input
+`LocalClassFieldTheory/Finite/Existence/EqualCharacteristic.lean:380`,
+without their intrinsic abbreviations.
 
 ## References
 
@@ -111,9 +123,10 @@ theorem localNormSubgroup_le_of_le {Ω : Type u} [Field Ω] [Algebra K Ω]
   rintro x ⟨y, rfl⟩
   exact ⟨normUnits E₁ E₂ y, normUnits_tower K E₁ E₂ y⟩
 
-/-- **The standard-subgroup intersection**: an element of
-`⟨ϖ⟩ ⊔ U^{(i)}` whose normalized valuation is divisible by `d` lies in
-`⟨ϖᵈ⟩ ⊔ U^{(i)}` ([Yamaguchi 2026,
+/-- **The standard-subgroup intersection**: for a uniformizer `ϖ` of
+normalized valuation one, an element of `⟨ϖ⟩ ⊔ U^{(i)}` whose
+normalized valuation is divisible by `d` lies in `⟨ϖᵈ⟩ ⊔ U^{(i)}`
+([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/Existence/StandardSubgroupIntersection.lean:29`]
 [Yamaguchi2026]). -/
 theorem zpowers_sup_higherUnitGroup_inf_comap_le (ϖ : Kˣ) (hϖ : normalizedValuation K ϖ = 1)
@@ -143,25 +156,26 @@ theorem zpowers_sup_higherUnitGroup_inf_comap_le (ϖ : Kˣ) (hϖ : normalizedVal
   exact Subgroup.zpow_mem_zpowers (ϖ ^ d) m
 
 /-- **The existence input of the finite local existence theorem**:
-every open finite-index subgroup of `Kˣ` contains the norm subgroup of
-a finite Galois extension inside the algebraic closure — the compositum
-of a Lubin–Tate level field with the abstract unramified extension of
-degree the index, whose norm subgroup lies in the standard subgroup the
-given subgroup contains. The source's equal-characteristic assembly,
-which its characteristic-zero input reaches through Kummer theory
-instead ([Yamaguchi 2026,
+every finite-index subgroup of `Kˣ` — open automatically, `K` being of
+mixed characteristic — contains the norm subgroup of a finite Galois
+extension inside the algebraic closure — the compositum of a Lubin–Tate
+level field with the abstract unramified extension of degree the index,
+whose norm subgroup lies in the standard subgroup the given subgroup
+contains. The source's equal-characteristic assembly, which its
+characteristic-zero input reaches through Kummer theory instead
+([Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/Existence/StandardLubinTate.lean:142`]
-[Yamaguchi2026]); ([Yamaguchi 2026,
+[Yamaguchi2026]; [Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/Existence/CyclotomicKummerDescent.lean:27`]
-[Yamaguchi2026])). -/
-theorem exists_finiteGalois_localNormSubgroup_le (H : Subgroup Kˣ) [H.FiniteIndex]
-    (hH : IsOpen (H : Set Kˣ)) :
+[Yamaguchi2026]). -/
+theorem exists_finiteGalois_localNormSubgroup_le (H : Subgroup Kˣ) [H.FiniteIndex] :
     ∃ E : IntermediateField K (AlgebraicClosure K),
       FiniteDimensional K E ∧ IsGalois K E ∧ localNormSubgroup K E ≤ H := by
   obtain ⟨π, hπ⟩ := IsDiscreteValuationRing.exists_irreducible (↥𝒪[K])
   have hπ0 : (π : K) ≠ 0 := fun h0 => hπ.ne_zero (Subtype.ext h0)
   let πu : Kˣ := Units.mk0 (π : K) hπ0
   have hπv : normalizedValuation K πu = 1 := normalizedValuation_irreducible K π hπ πu rfl
+  have hH : IsOpen (H : Set Kˣ) := unitsFiniteIndexOpen K H inferInstance
   obtain ⟨i, hstd⟩ := exists_zpowers_sup_higherUnitGroup_le_of_isOpen_finiteIndex K H hH π hπ
   -- the Lubin–Tate level `i - 1`, inside the separable closure
   let T := standardLubinTateLevelField K hπ ((i : ℕ) - 1)
