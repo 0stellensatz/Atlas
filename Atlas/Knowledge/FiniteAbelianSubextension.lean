@@ -4,6 +4,7 @@ import Atlas.Knowledge.FiniteExtensionTransitivity
 import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.FiniteNormQuotient
 import Atlas.Knowledge.FiniteTower
+import Atlas.Knowledge.NormTopology
 import Atlas.Knowledge.RelativeNorm
 import Atlas.Knowledge.RelativeNormLaws
 
@@ -18,16 +19,13 @@ intermediate field, the compositum `L₁L₂` and, over a compact ambient
 group, the intersection `L₁ ∩ L₂`, with the norm subgroup `N_{L/K} A_L`
 of each and its antitonicity, which gives the unconditional halves of
 the norm laws `N_{L₁L₂} = N_{L₁} ∩ N_{L₂}` and
-`N_{L₁ ∩ L₂} = N_{L₁} N_{L₂}`. The base change of a finite Galois
-subextension itself is ported alongside, the layer's
-`Atlas.Knowledge.FiniteGaloisSubextension` having stopped short of it.
+`N_{L₁ ∩ L₂} = N_{L₁} N_{L₂}`.
 
 ## Main definitions
 
 * `FiniteAbelianSubextension` — a finite Galois subextension with
   commutative quotient, with its `PartialOrder`.
-* `FiniteGaloisSubextension.baseChange`,
-  `FiniteAbelianSubextension.baseChange` — base change to an
+* `FiniteAbelianSubextension.baseChange` — base change to an
   intermediate field.
 * `FiniteAbelianSubextension.compositum`,
   `FiniteAbelianSubextension.intersection` — the lattice operations on
@@ -37,6 +35,9 @@ subextension itself is ported alongside, the layer's
 
 ## Main statements
 
+* `FiniteAbelianSubextension.normSubgroup_eq_galois` — the norm subgroup
+  is `Atlas.Knowledge.NormTopology`'s, of the underlying finite Galois
+  subextension; `rfl`.
 * `FiniteAbelianSubextension.normSubgroup_antitone` — an inclusion of
   fields reverses the inclusion of norm subgroups; proved.
 * `FiniteAbelianSubextension.normSubgroup_compositum_le_inf`,
@@ -54,16 +55,24 @@ subgroup where the hypothesis lives in the base's —
 `subgroupOf_intersectionField` with the spelling, the finite tower is
 the layer's top-level `FiniteTower`,
 `finite_extension_over_intermediate` is the layer's top-level form, and
-the ambient group is `Type u` with the class-formation stock. The
-source's `FiniteGaloisSubextension.baseChange`
-(`FiniteGaloisSubextension.lean:291`) is ported here rather than added
-to the layer's item of that name, because the abelian base change is
-its only consumer so far and it stands beside it; the class-typed
-`extensionQuotient` and its `CommGroup` instance carry
+the ambient group is `Type u` with the class-formation stock. The base
+change of the underlying finite Galois subextension is
+`FiniteGaloisSubextension.baseChange`, the source's
+`FiniteGaloisSubextension.lean:291`, added to
+`Atlas.Knowledge.FiniteGaloisSubextension` with this brick since it
+needs nothing that item lacks; the norm subgroup is
+`Atlas.Knowledge.NormTopology`'s of the underlying finite Galois
+subextension, definitionally, which `normSubgroup_eq_galois` records;
+the type-valued `extensionQuotient` and its `CommGroup` instance carry
 `@[implicit_reducible]` as the source's do. The intersection section's
-ambient compactness and topological-group binders are stated on the
-declarations that use them, `field_le_normalizer` needing neither.
-Everything else ports token-for-token; the file is the source's
+ambient compactness and topological-group binders are carried by a
+`variable` block opened after `field_le_normalizer`, which needs
+neither. Everything else ports token-for-token modulo four condensed
+proof steps that change no statement — `extensionQuotient_inductionOn`
+in term mode for the source's `by exact`, `field_le_normalizer`'s
+`have` and `letI` collapsed into one `letI`, `intersectionGalois`'s
+finiteness witness without the source's `change`, and the source's
+`omit` replaced by that variable placement; the file is the source's
 `AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean`
 whole.
 
@@ -80,56 +89,6 @@ noncomputable section
 universe u
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
-
-namespace FiniteGaloisSubextension
-
-variable {K : ClosedSubgroup G}
-
-/-- **Base change of a finite Galois extension** `M / K` to an
-intermediate field `L / K`: contravariantly the compositum `ML` is
-`G_M ∩ G_L`, with normality and finite index pulled back from
-`G_M ◁ G_K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:291`]
-[Yamaguchi2026]). -/
-def baseChange (M : FiniteGaloisSubextension K) (L : ClosedSubgroup G)
-    (hLK : L.toSubgroup ≤ K.toSubgroup) : FiniteGaloisSubextension L where
-  field := L ⊓ M.field
-  below := inf_le_left
-  normal := by
-    let f : L.toSubgroup →* K.toSubgroup := Subgroup.inclusion hLK
-    have heq : (L ⊓ M.field).toSubgroup.subgroupOf L.toSubgroup =
-        (M.field.toSubgroup.subgroupOf K.toSubgroup).comap f := by
-      ext x
-      rw [Subgroup.mem_subgroupOf, Subgroup.mem_comap, Subgroup.mem_subgroupOf]
-      change (x : G) ∈ L ⊓ M.field ↔ (x : G) ∈ M.field
-      exact ⟨fun hx => hx.2, fun hx => ⟨x.property, hx⟩⟩
-    rw [heq]
-    letI : (M.field.toSubgroup.subgroupOf K.toSubgroup).Normal := M.normal
-    infer_instance
-  finite := by
-    let f : L.toSubgroup →* K.toSubgroup := Subgroup.inclusion hLK
-    let E := M.field.toSubgroup.subgroupOf K.toSubgroup
-    have heq : (L ⊓ M.field).toSubgroup.subgroupOf L.toSubgroup = E.comap f := by
-      ext x
-      rw [Subgroup.mem_subgroupOf, Subgroup.mem_comap]
-      dsimp only [E, f, Subgroup.inclusion]
-      rw [Subgroup.mem_subgroupOf]
-      change (x : G) ∈ L ⊓ M.field ↔ (x : G) ∈ M.field
-      exact ⟨fun hx => hx.2, fun hx => ⟨x.property, hx⟩⟩
-    letI : Finite (K.toSubgroup ⧸ E) := M.finite
-    letI : E.Normal := M.normal
-    have hE0 : E.index ≠ 0 := Subgroup.index_ne_zero_of_finite
-    have hrel0 : E.relIndex f.range ≠ 0 := by
-      intro hzero
-      have hdvd : E.relIndex f.range ∣ E.index := E.relIndex_dvd_index_of_normal f.range
-      rw [hzero, zero_dvd_iff] at hdvd
-      exact hE0 hdvd
-    apply Nat.finite_of_card_ne_zero
-    change ((L ⊓ M.field).toSubgroup.subgroupOf L.toSubgroup).index ≠ 0
-    rw [heq, E.index_comap f]
-    exact hrel0
-
-end FiniteGaloisSubextension
 
 /-- **A finite abelian extension `L / K`**: a finite Galois
 subextension together with commutativity of its actual quotient
@@ -499,6 +458,16 @@ def normSubgroup (A : Rep ℤ G) (L : FiniteAbelianSubextension K) :
     AddSubgroup (ambientFixedAddSubgroup A K) := by
   letI : Finite (K.toSubgroup ⧸ L.field.toSubgroup.subgroupOf K.toSubgroup) := L.finite
   exact finiteNormSubgroup A K L.field L.below
+
+/-- The norm subgroup of a finite abelian subextension is
+`Atlas.Knowledge.NormTopology`'s norm subgroup of its underlying finite
+Galois subextension, definitionally — the two spellings the source
+keeps in two files are one object here, and the build keeps the
+identification honest where a note would not. -/
+theorem normSubgroup_eq_galois (A : Rep ℤ G) (L : FiniteAbelianSubextension K) :
+    normSubgroup A L =
+      FiniteGaloisSubextension.normSubgroup A L.toFiniteGaloisExtension :=
+  rfl
 
 /-- **An inclusion of fields reverses the inclusion of norm subgroups**
 ([Yamaguchi 2026,

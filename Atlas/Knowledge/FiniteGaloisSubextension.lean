@@ -22,6 +22,8 @@ the ambient bundle of the Frobenius power fixed-field tower (#104).
   projection.
 * `FiniteGaloisSubextension.compositum` — the compositum `L₁L₂`,
   contravariantly the intersection of the two closed subgroups.
+* `FiniteGaloisSubextension.baseChange` — base change to an
+  intermediate field, contravariantly the intersection with it.
 
 ## Implementation notes
 
@@ -30,18 +32,17 @@ and the normality instance is `subgroupOf_normalInstance`, after the
 layer's `GaloisSubextension` item renamed its sibling the same way.
 Four source declarations stay unported — none is consumed inside
 `Reciprocity/Main.lean`'s import closure, the window this port serves,
-though one has a consumer in a `Reciprocity/` file beyond it —
+though `isUnramified_toGaloisSubextension` has a consumer in
+`Reciprocity/MaximalUnramifiedSymbol.lean` beyond it —
 `toGaloisSubextension_isUnramified_iff`,
 `toGaloisSubextension_isTotallyRamified_iff`,
 `isUnramified_toGaloisSubextension`, and
 `finite_intermediate_extension`; the pair
 `finiteNormSubgroup_compositum_le_left` /
 `finiteNormSubgroup_compositum_le_right` is ported in
-`Atlas.Knowledge.NormTopology` and `baseChange` in
-`Atlas.Knowledge.FiniteAbelianSubextension`, each in this item's
-namespace at its first consumer; the source's two tower-finiteness
-theorems already live in the layer's
-`Atlas.Knowledge.finite_extension_trans` and
+`Atlas.Knowledge.NormTopology`, in this item's namespace at its first
+consumer; the source's two tower-finiteness theorems already live in
+the layer's `Atlas.Knowledge.finite_extension_trans` and
 `Atlas.Knowledge.finite_extension_over_intermediate`.
 
 Two proofs depart from the source.
@@ -359,6 +360,50 @@ theorem compositum_le_left (L₁ L₂ : FiniteGaloisSubextension K) :
 theorem compositum_le_right (L₁ L₂ : FiniteGaloisSubextension K) :
     (L₁.compositum L₂).field.toSubgroup ≤ L₂.field.toSubgroup :=
   inf_le_right
+
+/-- **Base change of a finite Galois extension** `M / K` to an
+intermediate field `L / K`: contravariantly the compositum `ML` is
+`G_M ∩ G_L`, with normality and finite index pulled back from
+`G_M ◁ G_K` ([Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:291`]
+[Yamaguchi2026]). -/
+def baseChange (M : FiniteGaloisSubextension K) (L : ClosedSubgroup G)
+    (hLK : L.toSubgroup ≤ K.toSubgroup) : FiniteGaloisSubextension L where
+  field := L ⊓ M.field
+  below := inf_le_left
+  normal := by
+    let f : L.toSubgroup →* K.toSubgroup := Subgroup.inclusion hLK
+    have heq : (L ⊓ M.field).toSubgroup.subgroupOf L.toSubgroup =
+        (M.field.toSubgroup.subgroupOf K.toSubgroup).comap f := by
+      ext x
+      rw [Subgroup.mem_subgroupOf, Subgroup.mem_comap, Subgroup.mem_subgroupOf]
+      change (x : G) ∈ L ⊓ M.field ↔ (x : G) ∈ M.field
+      exact ⟨fun hx => hx.2, fun hx => ⟨x.property, hx⟩⟩
+    rw [heq]
+    letI : (M.field.toSubgroup.subgroupOf K.toSubgroup).Normal := M.normal
+    infer_instance
+  finite := by
+    let f : L.toSubgroup →* K.toSubgroup := Subgroup.inclusion hLK
+    let E := M.field.toSubgroup.subgroupOf K.toSubgroup
+    have heq : (L ⊓ M.field).toSubgroup.subgroupOf L.toSubgroup = E.comap f := by
+      ext x
+      rw [Subgroup.mem_subgroupOf, Subgroup.mem_comap]
+      dsimp only [E, f, Subgroup.inclusion]
+      rw [Subgroup.mem_subgroupOf]
+      change (x : G) ∈ L ⊓ M.field ↔ (x : G) ∈ M.field
+      exact ⟨fun hx => hx.2, fun hx => ⟨x.property, hx⟩⟩
+    letI : Finite (K.toSubgroup ⧸ E) := M.finite
+    letI : E.Normal := M.normal
+    have hE0 : E.index ≠ 0 := Subgroup.index_ne_zero_of_finite
+    have hrel0 : E.relIndex f.range ≠ 0 := by
+      intro hzero
+      have hdvd : E.relIndex f.range ∣ E.index := E.relIndex_dvd_index_of_normal f.range
+      rw [hzero, zero_dvd_iff] at hdvd
+      exact hE0 hdvd
+    apply Nat.finite_of_card_ne_zero
+    change ((L ⊓ M.field).toSubgroup.subgroupOf L.toSubgroup).index ≠ 0
+    rw [heq, E.index_comap f]
+    exact hrel0
 
 end FiniteGaloisSubextension
 
