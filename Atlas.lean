@@ -445,7 +445,9 @@ import Atlas.Knowledge.UnitsFiniteIndexOpen
 import Atlas.Knowledge.UniversalNormDescent
 import Atlas.Knowledge.UniversalNormDescentLemma
 import Atlas.Knowledge.UnramifiedComparison
+import Atlas.Knowledge.UnramifiedExtensionOfDegree
 import Atlas.Knowledge.UnramifiedFrobeniusFixedField
+import Atlas.Knowledge.UnramifiedNormContainment
 import Atlas.Knowledge.UnramifiedNormQuotient
 import Atlas.Knowledge.UnramifiedNormRange
 import Atlas.Knowledge.UnramifiedQuotientGenerator
