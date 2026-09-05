@@ -55,9 +55,10 @@ in fact strands the two sides at different coercion spellings under
 simp's current normal form — and the comparison never enters
 `abelianLocalArtinMonoidHom`, so the recursion-limit hazard recorded on
 `Atlas.Knowledge.AbsoluteFiniteArtinMap` does not bite. The variable
-block is the local-field block of the consumed coordinates, at a shared
-`Type u` since the #104 hoist closed that block's recorded universe
-seam. Everything else ports token-for-token; the file is the source's
+block is the local-field block of the consumed coordinates, at
+`Type u`, the block's shared universe, since the #104 hoist closed that
+block's recorded universe seam. Everything else ports token-for-token;
+the file is the source's
 `LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:206`–`:235`.
 
 ## References

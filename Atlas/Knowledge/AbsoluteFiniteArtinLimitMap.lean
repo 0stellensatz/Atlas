@@ -52,10 +52,10 @@ verbatim: the layer's
 `Atlas.Knowledge.absoluteFiniteQuotientTransition` differs from the
 functor's `QuotientGroup.map` only in its proof-irrelevant inclusion
 argument. The variable block is the local-field block of the consumed
-coordinates, at a shared `Type u` since the #104 hoist closed that
-block's recorded universe seam. The source's placeholder docstrings are
-replaced by content. Everything else ports token-for-token; the file is
-the source's
+coordinates, at `Type u`, the block's shared universe, since the #104
+hoist closed that block's recorded universe seam. The source's
+placeholder docstrings are replaced by content. Everything else ports
+token-for-token; the file is the source's
 `LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:123`–`:202`, less
 the continuity field and the `Type` ascription on the cone's codomain,
 which the plain arrow no longer needs.
