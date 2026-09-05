@@ -30,9 +30,10 @@ on `L`, its valuative relation, topology, extension compatibility, and local-fie
 class, is shed, since reciprocity needs none of it, which strengthens the claim. The
 Lubin–Tate norm-subgroup description consumes it through the index squeeze at the
 level field, which lives in one universe with the base, so the narrowed form
-instantiates there as before. The proof is three cardinality transports: the quotient
-by the norm range is `NormQuotient` definitionally, the reciprocity law identifies it
-with the abelianized Galois group, `Abelianization.equivOfComm` collapses that to the
+instantiates there as before. The proof is a definitional identity and three
+cardinality transports: the quotient by the norm range is
+`Atlas.Knowledge.NormQuotient` definitionally, the reciprocity law identifies it with
+the abelianized Galois group, `Abelianization.equivOfComm` collapses that to the
 group, and `IsGalois.card_aut_eq_finrank` counts it.
 
 ## References
@@ -45,6 +46,8 @@ group, and `IsGalois.card_aut_eq_finrank` counts it.
 
 namespace Atlas.Knowledge
 
+open scoped IsMulCommutative
+
 universe u
 
 variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
@@ -53,15 +56,13 @@ variable (L : Type u) [Field L] [Algebra K L] [FiniteDimensional K L] [IsAbelian
 
 /-- **The norm index of a finite abelian extension is its degree** — the cardinality
 form of finite local reciprocity, the abelian ascent of
-`Atlas.Knowledge.normIndexCyclic` ([Milne 2020, Chap. I, §1, Thm. 1.1,
-p.20][MilneCFT]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/UnramifiedConductor.lean:94`,
+`Atlas.Knowledge.normIndexCyclic`
+([Milne 2020, Chap. I, §1, Thm. 1.1, p.20][MilneCFT];
+[Yamaguchi 2026, `LocalClassFieldTheory/Finite/UnramifiedConductor.lean:94`,
 `card_normQuotient_eq_finrank_of_isAbelianGalois`][Yamaguchi2026]). -/
 theorem normIndexAbelian :
     Nat.card (Kˣ ⧸ (Units.map (Algebra.norm K : L →* K)).range) =
       Module.finrank K L := by
-  letI : CommGroup (L ≃ₐ[K] L) :=
-    CommGroup.mk (fun a b => IsMulCommutative.is_comm.comm a b)
   calc
     Nat.card (Kˣ ⧸ (Units.map (Algebra.norm K : L →* K)).range)
         = Nat.card (NormQuotient K L) := rfl
