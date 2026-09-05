@@ -4,6 +4,7 @@ import Atlas.Knowledge.AbsoluteAbelianizationEquiv
 import Atlas.Knowledge.AbsoluteFiniteQuotientEquiv
 import Atlas.Knowledge.AbstractFixedField
 import Atlas.Knowledge.AmbientFixedAddSubgroup
+import Atlas.Knowledge.FiniteAbelianSubextension
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
 import Atlas.Knowledge.IsLocalReciprocity
 import Atlas.Knowledge.IsMixedCharLocalField
@@ -43,6 +44,9 @@ second claim of `Atlas.Knowledge.IsLocalReciprocity`, discharged
   normal subgroup of `G_K^ab`; proved.
 * `IsLocalReciprocity.unitsCompletion_continuousMulEquiv_of_normSubgroup_surjective`
   — the completion isomorphism, given local existence; proved.
+* `IsLocalReciprocity.unitsCompletion_continuousMulEquiv_unique` — the
+  isomorphism is pinned by its compatibility with the completion map;
+  proved.
 * `finiteIndexSubgroup_isNormOpen` — every finite-index subgroup of
   `Kˣ` is open for the abstract norm topology; proved.
 * `exists_finiteAbelian_localNormSubgroup_eq` — the finite local
@@ -51,9 +55,6 @@ second claim of `Atlas.Knowledge.IsLocalReciprocity`, discharged
   closure; proved.
 * `IsLocalReciprocity.unitsCompletion_continuousMulEquiv` — the
   completion isomorphism `K̂ˣ ≅ G_K^ab`; proved.
-* `IsLocalReciprocity.unitsCompletion_continuousMulEquiv_unique` — the
-  isomorphism is pinned by its compatibility with the completion map;
-  proved.
 
 ## Implementation notes
 
@@ -104,7 +105,13 @@ bundling `absoluteGaloisAbelianizationProfinite` is the source's
 `Atlas.Knowledge.AbsoluteFiniteArtinLimit` still spells inline.
 `Atlas.Knowledge.AbsoluteAbelianizationEquiv` is imported for the
 profinite-group instances that bundling needs, which no spelled name
-here carries.
+here carries. The two theorems the discharge adds cite their source
+counterparts, `Finite/Existence/KummerNormOpen.lean:83` (the Kummer
+route, at `SeparableClosure K`) and
+`Finite/Existence/CharacteristicZero.lean:26` (the abstract
+surjectivity there): the statements are the counterparts, the routes
+differ, the layer's running through the Lubin–Tate existence input at
+the algebraic closure.
 
 ## References
 
@@ -229,16 +236,14 @@ comparison consumes: every open finite-index subgroup of `Kˣ` is the
 norm subgroup of a finite abelian subextension of the algebraic closure
 — the abstract classification's surjectivity, every finite-index
 subgroup being norm-open, with the represented fixed field read as a
-concrete finite abelian intermediate field ([Serre 1979, Chap. XIII,
-§4, Thm. 2, p.197][Serre1979]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/CharacteristicZero.lean:26`][Yamaguchi2026]).
--/
+concrete finite abelian intermediate field ([Serre 1979, Chap. XIV, §6,
+Thm. 1 and Cor. 1, pp.218–219][Serre1979]; [Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/CharacteristicZero.lean:26`][Yamaguchi2026]). -/
 theorem exists_finiteAbelian_localNormSubgroup_eq (H : Subgroup Kˣ) (hfi : H.FiniteIndex)
     (hH : IsOpen (H : Set Kˣ)) :
     ∃ (L : IntermediateField K (AlgebraicClosure K)) (_ : FiniteDimensional K L)
       (_ : IsGalois K L), (∀ σ τ : L ≃ₐ[K] L, σ * τ = τ * σ) ∧
         MonoidHom.range (Units.map (Algebra.norm K (S := ↥L))) = H := by
-  haveI := hfi
   have hsurj := localFiniteAbelianNormSubgroupMap_surjective_of_normOpen K
     (fun H' _ => finiteIndexSubgroup_isNormOpen K H')
   obtain ⟨L, hL⟩ := hsurj ⟨H, hH, hfi⟩
@@ -259,8 +264,7 @@ second claim of `Atlas.Knowledge.IsLocalReciprocity`, recorded there
 ahead of its proof and discharged here by the reduction and the
 existence theorem ([Serre 1979, Chap. XIII, §4, pp.197–198][Serre1979];
 [Hyeon 2025, §3, p.10][Hyeon2025]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:257`][Yamaguchi2026]).
--/
+`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:257`][Yamaguchi2026]). -/
 theorem IsLocalReciprocity.unitsCompletion_continuousMulEquiv
     {φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K} (hφ : IsLocalReciprocity K φ) :
     ∃ e : ProfiniteGrp.ProfiniteCompletion.completion (GrpCat.of Kˣ) ≃ₜ*

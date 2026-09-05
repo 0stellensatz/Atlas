@@ -16,10 +16,11 @@ the norm subgroup of every finite abelian subextension, and satisfies the arithm
 Frobenius normalization on roots of unity. These are the properties that classically pin the
 Artin map `Art_K` — uniqueness is proved here, with no class-field input, and existence is
 proved from the layer's absolute local Artin homomorphism, the summit of the reciprocity
-engine (#104); the profinite-completion isomorphism `K̂ˣ ≅ G_K^ab` is the recorded claim.
-The map is `Atlas.Knowledge.absoluteLocalArtinMonoidHom`, the witness of the existence
-theorem; every consumer of `Art_K` in this layer still takes a `φ` with this predicate,
-which uniqueness makes unambiguous.
+engine (#104); the profinite-completion isomorphism `K̂ˣ ≅ G_K^ab`, recorded here, is proved
+in `Atlas.Knowledge.UnitsCompletionOfLocalExistence`. The map is
+`Atlas.Knowledge.absoluteLocalArtinMonoidHom`, the witness of the existence theorem; every
+consumer of `Art_K` in this layer still takes a `φ` with this predicate, which uniqueness
+makes unambiguous.
 
 ## Main definitions
 
@@ -41,14 +42,14 @@ constructing the factored restriction: preimage of the image of the fixing subgr
 the range of the unit norm. The `frobenius` field quantifies over every lift `σ` of `φ (u)`
 — all lifts agree on abelian subextensions, and the ∀-form keeps the statement free of the
 descended map. The completion claim — the second of this predicate's two claims,
-`IsLocalReciprocity.unitsCompletion_continuousMulEquiv`, recorded here ahead of its proof
-and now `Atlas.Knowledge.UnitsCompletionOfLocalExistence`'s, its statement unchanged, since
-the proof rests on that reduction item, which imports this one — is stated against Mathlib's
-profinite completion, which completes against *all* finite-index normal subgroups; its
-agreement with the topological completion of the classical statement is the char-0 fact that
-every finite-index subgroup of `Kˣ` is open — false in equal characteristic, which is why
-`IsMixedCharLocalField` is load-bearing and the read repository, which proves the comparison
-only under an undischarged openness hypothesis
+`IsLocalReciprocity.unitsCompletion_continuousMulEquiv`, which was recorded here ahead of
+its proof and is now `Atlas.Knowledge.UnitsCompletionOfLocalExistence`'s, its statement
+unchanged, since the proof rests on that reduction item, which imports this one — is stated
+against Mathlib's profinite completion, which completes against *all* finite-index normal
+subgroups; its agreement with the topological completion of the classical statement is the
+char-0 fact that every finite-index subgroup of `Kˣ` is open — false in equal
+characteristic, which is why `IsMixedCharLocalField` is load-bearing and the read
+repository, which proves the comparison only under an undischarged openness hypothesis
 (`LocalClassFieldTheory/Infinite/AbstractProfiniteCompletionComparison.lean:298`), states
 its own completion instead. The `∃ e` shape, rather than a `ProfiniteGrp` bundling, is
 forced: the compactness instances do not synthesize through the `absoluteGaloisGroup`
