@@ -11,7 +11,7 @@ The standard subgroups of the unit group of a mixed-characteristic
 local field `K` inside its open subgroups (#104): every open subgroup
 of `Kˣ` contains a unit level `U^{(i)} = 1 + 𝔪ⁱ`, since the levels are
 a neighbourhood basis of `1`, and an open subgroup of finite index `d`
-contains the standard subgroup `⟨πᵈ⟩ · U^{(i)}` for any uniformizer
+contains the standard subgroup `⟨πᵈ⟩ ⊔ U^{(i)}` for any uniformizer
 `π`, since `d`-th powers lie in a subgroup of index `d`. This is the
 first step of the existence theorem's Lubin–Tate route: the standard
 subgroup is the norm subgroup of an explicit compositum.
@@ -21,14 +21,14 @@ subgroup is the norm subgroup of an explicit compositum.
 * `exists_higherUnitGroup_le_of_isOpen` — an open subgroup of `Kˣ`
   contains a unit level; proved.
 * `exists_zpowers_sup_higherUnitGroup_le_of_isOpen_finiteIndex` — an
-  open finite-index subgroup contains `⟨πᵈ⟩ · U^{(i)}` for a given
+  open finite-index subgroup contains `⟨πᵈ⟩ ⊔ U^{(i)}` for a given
   uniformizer `π` and some level `i`; proved.
 
 ## Implementation notes
 
 The unit levels are the layer's `Atlas.Knowledge.higherUnitGroup` where
 the source spells `U^{(n)}` as its `fieldPrincipalUnits`, and the
-standard subgroup `⟨πᵈ⟩ · U^{(i)}` is written out as
+standard subgroup `⟨πᵈ⟩ ⊔ U^{(i)}` is written out as
 `Subgroup.zpowers (π ^ d) ⊔ higherUnitGroup K i` where the source names
 it `uniformizerPrincipalSubgroup`, so nothing here is definitionally
 new. The neighbourhood argument runs through Mathlib's
@@ -36,12 +36,27 @@ new. The neighbourhood argument runs through Mathlib's
 `Atlas.Knowledge.normalizedValuation_lt_iff` picking the level below a
 given radius, where the source's runs through its
 `exists_maximalIdeal_pow_subset_nhds_zero`; membership in a level is
-unwound by `mem_higherUnitGroup_iff`, and the containment of the ideal
-power in the closed ball is the source's inline argument. The second
-theorem takes the irreducible `π` as an argument and returns only the
-level, where the source returns a uniformizer of valuation one
-existentially: its consumer, the Lubin–Tate level field, fixes `π`
-first. The local field is `IsMixedCharLocalField` where the source's is
+unwound by `Atlas.Knowledge.mem_higherUnitGroup_iff`, and the
+containment of the ideal power in the closed ball is the source's
+inline argument. The second theorem takes the irreducible `π` as an
+argument and returns only the level, its consumer, the Lubin–Tate level
+field, fixing `π` first, where the source returns existentially an
+element of valuation one in its own un-negated readout — normalized
+valuation `-1` here, the inverse of a uniformizer, the convention fork
+`Atlas.Knowledge.NormalizedValuation` records — and `Subgroup.zpowers`
+is inversion-invariant, so the standard subgroup is the same group
+either way. The level does not depend on `π`, the proof choosing it
+from `H` alone, so the theorem's strength is the universal `π`, and the
+uniform form, one level for every `π`, is available at no cost;
+`Irreducible π` serves only the nonvanishing in `Units.mk0` and is kept
+because the consumer's `π` is irreducible. The `[H.FiniteIndex]` binder
+is the source's and is inert in the proof, `Subgroup.pow_index_mem`
+needing no finiteness; the source's `0 < d` conjunct is dropped as
+recoverable from it in one term, `Subgroup.FiniteIndex.index_ne_zero`.
+The unit `Units.mk0 (π : K) _` is
+`Atlas.Knowledge.standardLubinTateUniformizerUnit K hπ` definitionally,
+so the bridge to the Lubin–Tate norm-subgroup identity is `rfl`. The
+local field is `IsMixedCharLocalField` where the source's is
 nonarchimedean, the layer's instantiation being mixed-characteristic
 throughout. The file is the source's
 `LocalFieldTheory/NonarchimedeanLocalField/StandardOpenSubgroups.lean`
