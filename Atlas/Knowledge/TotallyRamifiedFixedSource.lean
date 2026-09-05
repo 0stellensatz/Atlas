@@ -50,9 +50,9 @@ anonymous instance `⟨⟨g, hg⟩⟩`. The source's
 here: it already lives in `Atlas.Knowledge.ClassFieldAxiom` as a
 projection of the elementary axiom, keeping the source's name though at
 the layer's top level where the source houses it in `ValuationData`,
-and the final calculation consumes it unchanged. One `noncomputable
-section` holds two ambient-group scopes with a shadowing `variable`
-line: the first is `Type u` where the source pins
+and the final calculation consumes it unchanged. One
+`noncomputable section` holds two ambient-group scopes with a shadowing
+`variable` line: the first is `Type u` where the source pins
 `IntegralRepGroupType` — the private linear calculation (also
 polymorphic in its own commutative group), the prime/valuation
 calculation, and the action invariance — while the fixed-source theorem

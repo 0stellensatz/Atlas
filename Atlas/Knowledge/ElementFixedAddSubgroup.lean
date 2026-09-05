@@ -22,13 +22,21 @@ block, which at `ℤ` coefficients would force the acting group into
 
 * `mem_elementFixedAddSubgroup_iff` — membership is invariance under
   the element; proved.
+* `mem_elementFixedAddSubgroup_iff_cycles` — membership is vanishing
+  under the `ρ(g) − 1` map of Mathlib's finite-cyclic complex; proved.
 
 ## Implementation notes
 
 The subgroup is defined by its carrier, like its ambient companion and
 for the same reason: over `ℤ` the submodule routes hit the
 integer-module diamond. Only `Monoid G` is asked — additivity of
-`ρ(g)` is all the closure proofs use.
+`ρ(g)` is all the closure proofs use — and the coefficient ring `ℤ` is
+not load-bearing either, the body elaborating at any semiring; it is
+kept to match the ambient companion. The identification with the
+cycles of `Rep.FiniteCyclicGroup.normHomCompSub` is recorded as a
+theorem rather than left to prose, in the complex's own `{G : Type}`,
+`CommGroup`, and `Fintype` binders, so the build keeps the claim
+honest while the definition itself stays universe-free.
 -/
 
 namespace Atlas.Knowledge
@@ -55,5 +63,14 @@ theorem mem_elementFixedAddSubgroup_iff {G : Type*} [Monoid G]
     (M : Rep ℤ G) (g : G) (x : M.V) :
     x ∈ elementFixedAddSubgroup M g ↔ M.ρ g x = x :=
   Iff.rfl
+
+/-- Membership in the fixed subgroup is vanishing under the second map
+of Mathlib's finite-cyclic norm-vs-difference complex: the fixed
+subgroup is its cycles object, read elementwise. -/
+theorem mem_elementFixedAddSubgroup_iff_cycles
+    {G : Type} [CommGroup G] [Fintype G] (M : Rep ℤ G) (g : G) (x : M.V) :
+    x ∈ elementFixedAddSubgroup M g ↔
+      (Rep.FiniteCyclicGroup.normHomCompSub M g).g.hom x = 0 :=
+  sub_eq_zero.symm
 
 end Atlas.Knowledge

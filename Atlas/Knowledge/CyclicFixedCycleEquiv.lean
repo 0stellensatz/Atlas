@@ -64,8 +64,8 @@ universe u
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
-/-- **The actual fixed group `A_K` is the fixed subgroup of `ρ(g)` on `A_L`
-when `g` generates `G(L/K)`** ([Yamaguchi 2026,
+/-- **The actual fixed group `A_K` is the fixed subgroup of `ρ(g)` on
+`A_L` when `g` generates `G(L/K)`** ([Yamaguchi 2026,
 `AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:30`]
 [Yamaguchi2026]). -/
 def cyclicFixedCycleEquiv

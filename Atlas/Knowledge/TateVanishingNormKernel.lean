@@ -19,19 +19,18 @@ homology object rather than assumed separately.
 
 The statement sits at Mathlib's own one-universe generality `{R G : Type u}`:
 `tateCohomology` binds the coefficient ring and the group in a single universe
-block, so the ring is generalized from the engine's `ℤ` to any commutative ring
-to leave the group free — the hypothesis is inherently cohomological, so neither
-an elementwise restatement (it would equal the conclusion verbatim) nor a
-`Shrink` transport (no consumer supplies a shrunk vanishing) buys more. An
-instantiation at `ℤ` coefficients still drops the group to `Type 0` — Mathlib's
-homological layer ties the universes, not `Rep` itself, which is now polymorphic
-— which is why the engine's `Type*` witness chain takes this eliminator
-elementwise, as a hypothesis of
-`Atlas.Knowledge.universalNormDescent_cyclic_lift_and_correction`, rather than
+block, so the ring is generalized from the engine's `ℤ` to any commutative ring to
+leave the group free — the hypothesis is inherently cohomological, so neither an
+elementwise restatement (it would equal the conclusion verbatim) nor a `Shrink`
+transport (no consumer supplies a shrunk vanishing) buys more. An instantiation at
+`ℤ` coefficients still drops the group to `Type 0` — Mathlib's homological layer
+ties the universes, not `Rep` itself, which is now polymorphic — which is why the
+engine's `Type*` witness chain takes this eliminator elementwise, as a hypothesis
+of `Atlas.Knowledge.universalNormDescent_cyclic_lift_and_correction`, rather than
 through this item. The route runs through `H¹`: the finite-cyclic periodicity
 identifies `H¹(G, A)` with the homology of `A —(ρ(g)−1)→ A —N→ A` and hence with
-`Ĥ⁻¹(G, A)` through `Atlas.Knowledge.tateCohomologyIsoFiniteCyclicNegOne`, and
-the vanishing hypothesis makes the class of a norm-kernel element trivial, which
+`Ĥ⁻¹(G, A)` through `Atlas.Knowledge.tateCohomologyIsoFiniteCyclicNegOne`, and the
+vanishing hypothesis makes the class of a norm-kernel element trivial, which
 Mathlib's `groupCohomologyπOdd_eq_zero_iff` converts into the witness.
 
 ## References

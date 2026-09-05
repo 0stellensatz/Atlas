@@ -58,20 +58,21 @@ shadowing `variable` line: the commuting-combination lemma (widened to
 `Type*` in its own group, like its private sibling in
 `Atlas.Knowledge.TotallyRamifiedFixedSource`), the action-transport
 lemma, and the `FiniteCyclicSubextension` trio precede it, while the
-fixed-source theorem follows it on the class-formation stock's `{G :
-Type}` line — inherited only since the #104 hoist: the fixed vector
-enters `Atlas.Knowledge.cyclicFixedCycleEquiv` through the elementwise
-`Atlas.Knowledge.elementFixedAddSubgroup`, clear of the one-universe
-`{k G : Type u}` block of Mathlib's `Rep.FiniteCyclicGroup`. That
-theorem sheds the source's `[T2Space G]` (the continuing cascade) and
-keeps `[TotallyDisconnectedSpace G]`, which the norm restriction over
-the Frobenius fixed field consumes. Two proof-level adjustments answer
-the layer's transparency: `L` rebundles as the structure literal over
-`E.field` (the layer's `toFiniteAbstractFieldExtension` routes through
-`ofInclusion`, whose projections do not reduce reducibly, which blocked
-the source's defeq elaboration of the prime-unit sum), and the one simp
-step that mixes the `K.field`/`KR.field` spellings past the
-simplifier's instances-transparency check — the nsmul bridge in the
+fixed-source theorem follows it on the class-formation stock's
+`{G : Type}` line — inherited only since the #104 hoist: the fixed
+vector enters `Atlas.Knowledge.cyclicFixedCycleEquiv` through the
+elementwise `Atlas.Knowledge.elementFixedAddSubgroup`, clear of the
+one-universe `{k G : Type u}` block of Mathlib's
+`Rep.FiniteCyclicGroup`. That theorem sheds the source's `[T2Space G]`
+(the continuing cascade) and keeps `[TotallyDisconnectedSpace G]`,
+which the norm restriction over the Frobenius fixed field consumes. Two
+proof-level adjustments answer the layer's transparency: `L` rebundles
+as the structure literal over `E.field` (the layer's
+`toFiniteAbstractFieldExtension` routes through `ofInclusion`, whose
+projections do not reduce reducibly, which blocked the source's defeq
+elaboration of the prime-unit sum), and the one simp step that mixes
+the `K.field`/`KR.field` spellings past the simplifier's
+instances-transparency check — the nsmul bridge in the
 Frobenius-fixes-`Σ` calculation — closes by direct `exact`. Everything
 else ports token-for-token; the file is the source's
 `TotallyRamifiedCase/FixedSource.lean` whole.

@@ -10,10 +10,9 @@ import Atlas.Knowledge.RelativeNormLaws
 The representation-theoretic lifting and correction calculation of the
 abstract reciprocity construction, with the norm, action, and iterate
 identities it requires: equation `(*)` says the class of `u` in
-coinvariants is fixed by `φ`; norm surjectivity on fixed elements —
-the content of `Ĥ⁰ = 0` — produces the barred lifts, and the
-norm-kernel eliminator — the content of `Ĥ⁻¹ = 0` — the correction
-term `y` (#104).
+coinvariants is fixed by `φ`; norm surjectivity on fixed elements — the
+content of `Ĥ⁰ = 0` — produces the barred lifts, and the norm-kernel
+eliminator — the content of `Ĥ⁻¹ = 0` — the correction term `y` (#104).
 
 ## Main definitions
 
@@ -35,22 +34,22 @@ The cyclic lift-and-correction takes its two vanishing inputs
 elementwise — every generator-fixed element is a norm, every norm-zero
 element is a `ρ(g) − 1`-difference — where the source hypothesizes
 `Limits.IsZero` on Mathlib's Tate cohomology of the restricted
-representation: `tateCohomology` binds ring and group in one `{k G :
-Type u}` universe block, so the cohomological spelling would force the
-ambient group into `Type 0` at the layer's `ℤ` coefficients (`Rep`
-itself no longer pins — only the homological layer ties the universes).
-The layer's `tateVanishingNormSurjectivity` and
-`tateVanishingNormKernel` record exactly this extraction, so at a `Type
-0` group the source's hypotheses are recovered by composing with them;
-the generation hypothesis rides inside the elementwise inputs — they are
-stated at the chosen `g` — so `hg` leaves the signature too. The theorem
-has no consumer yet, so no wrapper at the old signature is kept. The
-ambient group stays `Type` with the class-formation stock until the #104
-hoist's mechanical flip — nothing here forces it any more. The relative
-subgroup is the layer's `Subgroup.subgroupOf` spelling, and the
-conjugate extension's finiteness instance takes no containment, as #137
-generalized it. The source's `open scoped BigOperators`, a no-op in
-current Mathlib, is dropped.
+representation: `tateCohomology` binds ring and group in one
+`{k G : Type u}` universe block, so the cohomological spelling would
+force the ambient group into `Type 0` at the layer's `ℤ` coefficients
+(`Rep` itself no longer pins — only the homological layer ties the
+universes). The layer's `tateVanishingNormSurjectivity` and
+`tateVanishingNormKernel` record exactly this extraction, so at a
+`Type 0` group the source's hypotheses are recovered by composing with
+them; the generation hypothesis rides inside the elementwise inputs —
+they are stated at the chosen `g` — so `hg` leaves the signature too.
+The theorem has no consumer yet, so no wrapper at the old signature is
+kept. The ambient group stays `Type` with the class-formation stock
+until the #104 hoist's mechanical flip — nothing here forces it any
+more. The relative subgroup is the layer's `Subgroup.subgroupOf`
+spelling, and the conjugate extension's finiteness instance takes no
+containment, as #137 generalized it. The source's
+`open scoped BigOperators`, a no-op in current Mathlib, is dropped.
 
 ## References
 
@@ -59,8 +58,6 @@ current Mathlib, is dropped.
 -/
 
 namespace Atlas.Knowledge
-
-open CategoryTheory
 
 noncomputable section
 
