@@ -319,6 +319,7 @@ import Atlas.Knowledge.PrimeElement
 import Atlas.Knowledge.PrimeIdealPowerResidueSymbol
 import Atlas.Knowledge.PrimeUnitDifferences
 import Atlas.Knowledge.PrincipalIdele
+import Atlas.Knowledge.ProfiniteCompletionLiftCriteria
 import Atlas.Knowledge.ProfiniteInteger
 import Atlas.Knowledge.QuasiFreeFiltered
 import Atlas.Knowledge.QuasiFreeTorsion
@@ -431,6 +432,7 @@ import Atlas.Knowledge.UnitPairFree
 import Atlas.Knowledge.UnitPairIndependence
 import Atlas.Knowledge.UnitPairOrbit
 import Atlas.Knowledge.UnitRepresentation
+import Atlas.Knowledge.UnitsCompletionOfLocalExistence
 import Atlas.Knowledge.UnitsFiniteIndexOpen
 import Atlas.Knowledge.UniversalNormDescent
 import Atlas.Knowledge.UniversalNormDescentLemma
