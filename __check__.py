@@ -3,9 +3,10 @@
 
 It ships in the template repository and so sits at the root of every project
 generated from it, where it checks that project and nothing else.  The project
-name is read off the directory this file sits in -- so a rename needs no edit
-here, but a checkout directory that does not carry the package name will fail the
-first check.  Run it from the project root, or wire it into a hook or a CI step:
+name is read from the `lean_lib` target in `lakefile.toml` --- not from the
+directory this file sits in, which a git worktree names for its branch rather
+than for the package.  Run it from the project root, or wire it into a hook or a
+CI step:
 
     python3 __check__.py
 
@@ -56,7 +57,40 @@ import sys
 from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parent
-NAME = PROJECT.name
+
+
+def package_name() -> str:
+    """The library name, read from the `lean_lib` target in `lakefile.toml`.
+
+    Not the checkout directory's name.  Every check below keys off `<Name>/` and
+    `<Name>.lean`, and a git worktree is a checkout of the project under a
+    directory named for its branch, so deriving the name from the directory made
+    the first check fail there for a reason having nothing to do with the work
+    being checked.  Lake gives a `lean_lib` target's source directory and root
+    module that same name, so the target is the honest source for both.
+
+    Falls back to the directory name where the lakefile cannot be parsed, which
+    keeps the behaviour outside a Lake package unchanged; `main` reports a
+    missing lakefile on its own terms.
+    """
+    try:
+        import tomllib
+
+        config = tomllib.loads((PROJECT / "lakefile.toml").read_text(encoding="utf-8"))
+    except (ImportError, OSError, ValueError):
+        return PROJECT.name
+
+    libs = config.get("lean_lib")
+    if isinstance(libs, list) and libs and isinstance(libs[0], dict):
+        name = libs[0].get("name")
+        if isinstance(name, str) and name:
+            return name
+
+    name = config.get("name")
+    return name if isinstance(name, str) and name else PROJECT.name
+
+
+NAME = package_name()
 
 DECL_KEYWORDS = (
     "theorem",
