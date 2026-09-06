@@ -58,8 +58,8 @@ if sys.version_info < (3, 11):  # `package_name` reads the lakefile with `tomlli
 
 # One reading of the lakefile, not two: a name that differed between the two scripts would have
 # the checker check a library this one is not writing to. The cost is that `__check__.py` has to
-# sit beside this file---and that `python3 -P`, which drops the script's own directory from
-# `sys.path`, cannot run it.
+# sit beside this file---and that `python3 -P` (equivalently `PYTHONSAFEPATH=1`, or `-I`),
+# which drops the script's own directory from `sys.path`, cannot run it.
 from __check__ import package_name  # noqa: E402
 
 PROJECT = Path(__file__).resolve().parent          # the project root
@@ -616,6 +616,13 @@ def selftest():
         assert named('defaultTargets = ["a"]\n[[lean_lib]]\nname = "b"\n'
                      '[[lean_lib]]\nname = "a"\n[[lean_lib]]\nname = "c"\n') == "a"
         assert named('[[lean_lib]]\nname = "First"\n[[lean_lib]]\nname = "Second"\n') == "First"
+        # `defaultTargets` is a list because a project can build several things: the library
+        # need not be the first entry, and an entry that names no library---an executable, or a
+        # target since renamed---leaves the others to be matched rather than nothing.
+        assert named('defaultTargets = ["exe", "b"]\n'
+                     '[[lean_lib]]\nname = "a"\n[[lean_lib]]\nname = "b"\n') == "b"
+        assert named('defaultTargets = ["exe"]\n'
+                     '[[lean_lib]]\nname = "a"\n[[lean_lib]]\nname = "b"\n') == "a"
         assert unnamed(None)                                    # no lakefile at all
         assert unnamed('name = "hellopkg"\n')                   # no [[lean_lib]]
         assert unnamed('[[lean_lib]\nname = "Foo"\n')           # not TOML

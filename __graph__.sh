@@ -17,6 +17,9 @@
 # source instead and says so, which loses nothing: that source is the whole of what this
 # script produces, and the renderer is interchangeable.
 #
+# Needs `python3` on PATH, at 3.11 or newer, and `__check__.py` beside it: the library's name
+# comes from there rather than from this script, for the reason given where it is read.
+#
 # ponytail: a reference is resolved to its item by file name only, so a name whose tail
 # has been renamed away (`Knowledge.JumpSet.shift` after `shift` is gone) still resolves.
 # Checking the tail would need the elaborated environment, since a structure's projections
