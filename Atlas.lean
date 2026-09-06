@@ -59,6 +59,7 @@ import Atlas.Knowledge.ArtinRestrictionEquiv
 import Atlas.Knowledge.ArtinRestrictionNormKernel
 import Atlas.Knowledge.ArtinRestrictionNormLift
 import Atlas.Knowledge.ArtinRestrictionNormQuotient
+import Atlas.Knowledge.ArtinRestrictionTower
 import Atlas.Knowledge.ArtinUniformizerResidueDegree
 import Atlas.Knowledge.AxSenTate
 import Atlas.Knowledge.BreakFunction
@@ -83,6 +84,7 @@ import Atlas.Knowledge.CyclicFixedCycleEquiv
 import Atlas.Knowledge.CyclicTotallyRamifiedFixedSource
 import Atlas.Knowledge.CycloField
 import Atlas.Knowledge.CycloFieldLowerRamificationGroupEqBot
+import Atlas.Knowledge.CycloFieldOfDegree
 import Atlas.Knowledge.CyclotomicArtinNormalization
 import Atlas.Knowledge.CyclotomicCharacterInvariance
 import Atlas.Knowledge.CyclotomicIntegerBasis
@@ -121,6 +123,7 @@ import Atlas.Knowledge.FilteredProfiniteGroup
 import Atlas.Knowledge.FilteredRhoMap
 import Atlas.Knowledge.FiniteAbelianClassification
 import Atlas.Knowledge.FiniteAbelianSubextension
+import Atlas.Knowledge.FiniteAbelianSubfieldOrder
 import Atlas.Knowledge.FiniteAbstractExtension
 import Atlas.Knowledge.FiniteAbstractField
 import Atlas.Knowledge.FiniteAbstractFieldExtension
@@ -360,6 +363,7 @@ import Atlas.Knowledge.QuotientTotallyDisconnectedOfProfinite
 import Atlas.Knowledge.QuotientTowerEquiv
 import Atlas.Knowledge.RamificationBound
 import Atlas.Knowledge.RamificationFiltration
+import Atlas.Knowledge.RamificationGroupAutCongr
 import Atlas.Knowledge.RamificationNumber
 import Atlas.Knowledge.RamificationNumberEqAddVal
 import Atlas.Knowledge.RamificationNumberFiberSum
