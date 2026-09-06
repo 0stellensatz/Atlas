@@ -1,4 +1,6 @@
 import Mathlib
+import Atlas.Knowledge.AbelianizedGaloisCyclotomicRigidity
+import Atlas.Knowledge.AbsoluteAbelianOpenSubgroupField
 import Atlas.Knowledge.AbsoluteAbelianRestriction
 import Atlas.Knowledge.AbsoluteFiniteQuotientEquiv
 import Atlas.Knowledge.AbsoluteLocalArtinFrobenius
@@ -6,6 +8,7 @@ import Atlas.Knowledge.AbsoluteLocalArtinMonoidHom
 import Atlas.Knowledge.AbsoluteLocalArtinNormKernel
 import Atlas.Knowledge.CycloField
 import Atlas.Knowledge.IsMixedCharLocalField
+import Atlas.Knowledge.UniformizerUnitsGenerate
 
 /-!
 # local reciprocity
@@ -72,11 +75,11 @@ restrictions to be the `q`-power map, whose order on the `m`-th roots of unity i
 and the two memberships then differ by `φ (π) ^ (d ⋅ k) ∈ U`. The discrepancy lies in every
 open subgroup of a group whose identity is closed, hence vanishes. The `denseRange` field is
 nowhere used: `normKernel` and `frobenius` alone pin the map, so the proof gives strictly more
-than the docstring's "three properties" phrasing asks. The open-subgroup correspondence proved
-along the way stays private; promoting it to a knowledge item beside
-`Atlas.Knowledge.AbsoluteGaloisSubextension.exists_fixingSubgroup_of_isOpen`, its non-abelian
-twin, is deferred until a second consumer appears. The cyclotomic-floor apparatus the proof
-also built — `cycloField` with its splitting-field instances, `mem_cycloField`,
+than the docstring's "three properties" phrasing asks. The open-subgroup correspondence is
+`Atlas.Knowledge.absoluteAbelianOpenSubgroupField`; the cyclotomic rigidity and uniformizer
+generation arguments are `Atlas.Knowledge.abelianizedGalois_eq_of_cyclotomic` and
+`Atlas.Knowledge.uniformizerUnits_generate`, also used by norm naturality. The cyclotomic-floor
+apparatus the proof also built — `cycloField` with its splitting-field instances, `mem_cycloField`,
 `cycloField_aut_comm`, and the root-set reading `cycloField_pow_eq_one_of_mem_rootSet` — sat
 under the same deferral until its second consumer arrived with the `frobenius`-field bricks of
 #104: Brick C promoted it to `Atlas.Knowledge.CycloField` at the weaker hypotheses each piece
@@ -133,224 +136,28 @@ structure IsLocalReciprocity (φ : Kˣ →* Field.absoluteGaloisGroupAbelianizat
     ∀ m : ℕ, Nat.Coprime m (Nat.card 𝓀[K]) →
     ∀ ζ : AlgebraicClosure K, ζ ^ m = 1 → σ ζ = ζ ^ Nat.card 𝓀[K]
 
-/-- The local reciprocity map exists: the absolute local Artin homomorphism has dense range,
+/-- The absolute local Artin homomorphism has dense range,
 the norm kernels, and the Frobenius normalization
 ([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979];
 [Milne 2020, Chap. I, §1, Thm. 1.1, p.20][MilneCFT];
 [Yamaguchi 2026, `LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:144`]
 [Yamaguchi2026]). -/
+theorem isLocalReciprocity_absoluteLocalArtinMonoidHom :
+    IsLocalReciprocity K (absoluteLocalArtinMonoidHom K) where
+  denseRange := absoluteLocalArtinMonoidHom_denseRange K
+  normKernel := by
+    intro L _ _ h
+    letI : IsAbelianGalois K ↥L := { is_comm := ⟨h⟩ }
+    rw [← absoluteFiniteQuotientPreimage_restrictionKernel K L,
+      absoluteFiniteQuotientPreimage_map_eq]
+    exact absoluteLocalArtinMonoidHom_comap_restrictionKernel K L
+  frobenius := absoluteLocalArtinMonoidHom_frobenius K
+
+/-- The local reciprocity map exists
+([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979]). -/
 theorem exists_isLocalReciprocity :
     ∃ φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K, IsLocalReciprocity K φ :=
-  ⟨absoluteLocalArtinMonoidHom K,
-    { denseRange := absoluteLocalArtinMonoidHom_denseRange K
-      normKernel := by
-        intro L _ _ h
-        letI : IsAbelianGalois K ↥L := { is_comm := ⟨h⟩ }
-        rw [← absoluteFiniteQuotientPreimage_restrictionKernel K L,
-          absoluteFiniteQuotientPreimage_map_eq]
-        exact absoluteLocalArtinMonoidHom_comap_restrictionKernel K L
-      frobenius := absoluteLocalArtinMonoidHom_frobenius K }⟩
-
-/- Every neighborhood of the identity in the abelianized absolute Galois group contains an
-open subgroup: the Krull basis of the Galois group pushes forward along the open quotient
-map. -/
-omit [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K] in
-private theorem exists_openSubgroup_subset
-    {S : Set (Field.absoluteGaloisGroupAbelianization K)} (hS : S ∈ nhds 1) :
-    ∃ V : Subgroup (Field.absoluteGaloisGroupAbelianization K),
-      IsOpen (V : Set (Field.absoluteGaloisGroupAbelianization K)) ∧ (V : Set _) ⊆ S := by
-  have hpre : QuotientGroup.mk ⁻¹' S ∈ nhds (1 : Field.absoluteGaloisGroup K) :=
-    (continuous_quot_mk.continuousAt).preimage_mem_nhds hS
-  obtain ⟨E, hEfin, hEsub⟩ :=
-    (krullTopology_mem_nhds_one_iff K (AlgebraicClosure K) _).mp hpre
-  haveI := hEfin
-  refine ⟨Subgroup.map (QuotientGroup.mk' _) E.fixingSubgroup, ?_, ?_⟩
-  · rw [Subgroup.coe_map]
-    exact QuotientGroup.isOpenMap_coe _ (IntermediateField.fixingSubgroup_isOpen E)
-  · rintro x hx
-    obtain ⟨σ, hσ, rfl⟩ := Subgroup.mem_map.mp hx
-    exact hEsub hσ
-
-/- An element of the abelianization lying in every open subgroup is the identity: the
-identity is closed, so a distinct point is separated from it by a basic open subgroup. -/
-omit [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K] in
-private theorem eq_one_of_forall_mem_openSubgroup
-    {x : Field.absoluteGaloisGroupAbelianization K}
-    (hx : ∀ V : Subgroup (Field.absoluteGaloisGroupAbelianization K),
-      IsOpen (V : Set (Field.absoluteGaloisGroupAbelianization K)) → x ∈ V) : x = 1 := by
-  by_contra hne
-  have h1 : IsClosed ({1} : Set (Field.absoluteGaloisGroupAbelianization K)) := by
-    rw [← QuotientGroup.isOpenQuotientMap_mk.isQuotientMap.isClosed_preimage]
-    have : QuotientGroup.mk ⁻¹' ({1} : Set (Field.absoluteGaloisGroupAbelianization K)) =
-        ((commutator (Field.absoluteGaloisGroup K)).topologicalClosure :
-          Set (Field.absoluteGaloisGroup K)) := by
-      ext σ
-      simp only [Set.mem_preimage, Set.mem_singleton_iff, SetLike.mem_coe]
-      exact QuotientGroup.eq_one_iff σ
-    rw [this]
-    exact Subgroup.isClosed_topologicalClosure _
-  have hxc : IsClosed ({x} : Set (Field.absoluteGaloisGroupAbelianization K)) := by
-    have : ({x} : Set (Field.absoluteGaloisGroupAbelianization K)) =
-        (fun y => x⁻¹ * y) ⁻¹' {1} := by
-      ext y
-      simp only [Set.mem_singleton_iff, Set.mem_preimage, inv_mul_eq_one]
-      exact eq_comm
-    rw [this]
-    exact h1.preimage (continuous_const.mul continuous_id)
-  obtain ⟨V, hVopen, hVsub⟩ := exists_openSubgroup_subset K
-    (hxc.isOpen_compl.mem_nhds (by simpa using (Ne.symm hne)))
-  exact hVsub (hx V hVopen) rfl
-
-/- Two elements lying in the same open subgroups lie in each other's procyclic closures:
-the closure of the powers is the intersection of the open subgroups above them. -/
-omit [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K] in
-private theorem mem_topologicalClosure_zpowers
-    {g h : Field.absoluteGaloisGroupAbelianization K}
-    (hgh : ∀ V : Subgroup (Field.absoluteGaloisGroupAbelianization K),
-      IsOpen (V : Set (Field.absoluteGaloisGroupAbelianization K)) → (g ∈ V ↔ h ∈ V)) :
-    h ∈ (Subgroup.zpowers g).topologicalClosure := by
-  by_contra hnot
-  have hmem : ((Subgroup.zpowers g).topologicalClosure :
-      Set (Field.absoluteGaloisGroupAbelianization K))ᶜ ∈ nhds h :=
-    (Subgroup.isClosed_topologicalClosure _).isOpen_compl.mem_nhds hnot
-  rw [← map_mul_left_nhds_one h, Filter.mem_map] at hmem
-  obtain ⟨V, hVopen, hVsub⟩ := exists_openSubgroup_subset K hmem
-  have hWopen : IsOpen (((Subgroup.zpowers g).topologicalClosure ⊔ V :
-      Subgroup (Field.absoluteGaloisGroupAbelianization K)) :
-        Set (Field.absoluteGaloisGroupAbelianization K)) :=
-    Subgroup.isOpen_mono le_sup_right hVopen
-  have hhW : h ∈ (Subgroup.zpowers g).topologicalClosure ⊔ V :=
-    (hgh _ hWopen).mp
-      (Subgroup.mem_sup_left (Subgroup.le_topologicalClosure _ (Subgroup.mem_zpowers g)))
-  obtain ⟨c, hc, v, hv, hcv⟩ := Subgroup.mem_sup.mp hhW
-  have hin : h * v⁻¹ ∈ ((Subgroup.zpowers g).topologicalClosure : Set _) := by
-    rw [show h * v⁻¹ = c from by rw [← hcv]; group]
-    exact hc
-  exact hVsub (V.inv_mem hv) hin
-
-/- Every open subgroup of the abelianization is the pushforward of the fixing subgroup of a
-finite abelian subextension: its preimage contains the commutator, so its fixed field is a
-finite Galois subextension with abelian group, and surjectivity of the quotient map closes
-the circle. -/
-private theorem exists_intermediateField_of_isOpen
-    {U : Subgroup (Field.absoluteGaloisGroupAbelianization K)}
-    (hU : IsOpen (U : Set (Field.absoluteGaloisGroupAbelianization K))) :
-    ∃ L : IntermediateField K (AlgebraicClosure K), ∃ _ : FiniteDimensional K ↥L,
-      ∃ _ : IsGalois K ↥L, (∀ σ τ : ↥L ≃ₐ[K] ↥L, σ * τ = τ * σ) ∧
-        Subgroup.map
-          (QuotientGroup.mk' (commutator (Field.absoluteGaloisGroup K)).topologicalClosure)
-          (IntermediateField.fixingSubgroup L) = U := by
-  haveI : IsGalois K (AlgebraicClosure K) := ⟨⟩
-  set N := (commutator (Field.absoluteGaloisGroup K)).topologicalClosure with hNdef
-  set W := Subgroup.comap (QuotientGroup.mk' N) U with hWdef
-  have hWopen : IsOpen (W : Set (Field.absoluteGaloisGroup K)) :=
-    hU.preimage continuous_quot_mk
-  have hcommW : commutator (Field.absoluteGaloisGroup K) ≤ W := by
-    intro n hn
-    have hn1 : QuotientGroup.mk' N n = 1 :=
-      (QuotientGroup.eq_one_iff n).mpr (Subgroup.le_topologicalClosure _ hn)
-    rw [hWdef, Subgroup.mem_comap, hn1]
-    exact U.one_mem
-  haveI hWnormal : W.Normal := by
-    constructor
-    intro n hn g
-    have hbr : g * n * g⁻¹ * n⁻¹ ∈ commutator (Field.absoluteGaloisGroup K) :=
-      Subgroup.commutator_mem_commutator (Subgroup.mem_top g) (Subgroup.mem_top n)
-    have hsplit : g * n * g⁻¹ = g * n * g⁻¹ * n⁻¹ * n := by group
-    rw [hsplit]
-    exact W.mul_mem (hcommW hbr) hn
-  have hWclosed : IsClosed (W : Set (Field.absoluteGaloisGroup K)) :=
-    Subgroup.isClosed_of_isOpen W hWopen
-  have hfix : (IntermediateField.fixedField W).fixingSubgroup = W :=
-    InfiniteGalois.fixingSubgroup_fixedField ⟨W, hWclosed⟩
-  haveI hfin : FiniteDimensional K ↥(IntermediateField.fixedField W) :=
-    (InfiniteGalois.isOpen_iff_finite (IntermediateField.fixedField W)).mp
-      (by rw [hfix]; exact hWopen)
-  haveI hgal : IsGalois K ↥(IntermediateField.fixedField W) :=
-    (InfiniteGalois.normal_iff_isGalois (IntermediateField.fixedField W)).mp
-      (by rw [hfix]; exact hWnormal)
-  refine ⟨IntermediateField.fixedField W, hfin, hgal, fun σ τ => ?_, ?_⟩
-  · obtain ⟨σ', rfl⟩ := AlgEquiv.restrictNormalHom_surjective (AlgebraicClosure K) σ
-    obtain ⟨τ', rfl⟩ := AlgEquiv.restrictNormalHom_surjective (AlgebraicClosure K) τ
-    rw [← commutatorElement_eq_one_iff_mul_comm]
-    have hker : σ' * τ' * σ'⁻¹ * τ'⁻¹ ∈
-        (AlgEquiv.restrictNormalHom (F := K) ↥(IntermediateField.fixedField W)).ker := by
-      rw [IntermediateField.restrictNormalHom_ker, hfix]
-      exact hcommW (Subgroup.commutator_mem_commutator (Subgroup.mem_top σ')
-        (Subgroup.mem_top τ'))
-    have := MonoidHom.mem_ker.mp hker
-    simpa [commutatorElement_def, map_mul, map_inv] using this
-  · rw [hfix, hWdef]
-    exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective N) U
-
-/- The closed commutator subgroup restricts trivially to a cyclotomic floor: the floor's
-Galois group is commutative and its fixing subgroup is closed. -/
-private theorem commutator_closure_le_ker {m : ℕ} (hm : m ≠ 0) :
-    (commutator (Field.absoluteGaloisGroup K)).topologicalClosure ≤
-      (AlgEquiv.restrictNormalHom (F := K) (K₁ := AlgebraicClosure K)
-        ↥(cycloField K m)).ker := by
-  refine Subgroup.topologicalClosure_minimal _ ?_ ?_
-  · letI hG : Group (↥(cycloField K m) ≃ₐ[K] ↥(cycloField K m)) := inferInstance
-    letI : CommGroup (↥(cycloField K m) ≃ₐ[K] ↥(cycloField K m)) :=
-      { hG with mul_comm := cycloField_aut_comm K hm }
-    exact Abelianization.commutator_subset_ker _
-  · rw [IntermediateField.restrictNormalHom_ker]
-    exact IntermediateField.fixingSubgroup_isClosed _
-
-/- The unit group of the field is generated by the uniformizer units: units of the integers
-are quotients of two irreducibles, and everything else is a unit times a power of one. -/
-private theorem closure_setOf_irreducible_eq_top :
-    Subgroup.closure
-        {u : Kˣ | ∃ hu : (u : K) ∈ 𝒪[K], Irreducible (⟨(u : K), hu⟩ : 𝒪[K])} =
-      (⊤ : Subgroup Kˣ) := by
-  rw [Subgroup.eq_top_iff']
-  intro x
-  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible 𝒪[K]
-  have hinj : Function.Injective (algebraMap 𝒪[K] K) := IsFractionRing.injective 𝒪[K] K
-  have hne : ∀ a : 𝒪[K], a ≠ 0 → algebraMap 𝒪[K] K a ≠ 0 := fun a ha h0 =>
-    ha (hinj (by rwa [map_zero]))
-  -- irreducible integers give elements of the generating set
-  have hSmem : ∀ (a : 𝒪[K]) (ha : Irreducible a) (h0 : algebraMap 𝒪[K] K a ≠ 0),
-      Units.mk0 (algebraMap 𝒪[K] K a) h0 ∈
-        {u : Kˣ | ∃ hu : (u : K) ∈ 𝒪[K], Irreducible (⟨(u : K), hu⟩ : 𝒪[K])} := by
-    intro a ha h0
-    refine ⟨a.2, ?_⟩
-    have : (⟨((Units.mk0 (algebraMap 𝒪[K] K a) h0 : Kˣ) : K), a.2⟩ : 𝒪[K]) = a :=
-      Subtype.ext rfl
-    rwa [this]
-  -- units of the integers are quotients of two irreducibles
-  have hunit : ∀ w : 𝒪[K]ˣ, ∀ h0 : algebraMap 𝒪[K] K (w : 𝒪[K]) ≠ 0,
-      Units.mk0 (algebraMap 𝒪[K] K (w : 𝒪[K])) h0 ∈ Subgroup.closure
-        {u : Kˣ | ∃ hu : (u : K) ∈ 𝒪[K], Irreducible (⟨(u : K), hu⟩ : 𝒪[K])} := by
-    intro w h0
-    have hirr2 : Irreducible ((w : 𝒪[K]) * ϖ) :=
-      Associated.irreducible ⟨w, mul_comm ϖ (w : 𝒪[K])⟩ hϖ
-    have hϖ0 : algebraMap 𝒪[K] K ϖ ≠ 0 := hne ϖ hϖ.ne_zero
-    have hwϖ0 : algebraMap 𝒪[K] K ((w : 𝒪[K]) * ϖ) ≠ 0 := hne _ hirr2.ne_zero
-    have hsplit : Units.mk0 (algebraMap 𝒪[K] K (w : 𝒪[K])) h0 =
-        Units.mk0 (algebraMap 𝒪[K] K ((w : 𝒪[K]) * ϖ)) hwϖ0 *
-          (Units.mk0 (algebraMap 𝒪[K] K ϖ) hϖ0)⁻¹ := by
-      ext
-      simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.val_mk0, map_mul]
-      rw [mul_inv_cancel_right₀ hϖ0]
-    rw [hsplit]
-    exact Subgroup.mul_mem _
-      (Subgroup.subset_closure (hSmem _ hirr2 hwϖ0))
-      (Subgroup.inv_mem _ (Subgroup.subset_closure (hSmem _ hϖ hϖ0)))
-  -- factor an arbitrary unit of the field
-  have hx0 : (x : K) ≠ 0 := Units.ne_zero x
-  obtain ⟨n, u, hu⟩ :=
-    IsDiscreteValuationRing.exists_units_eq_smul_zpow_of_irreducible hϖ hx0
-  have hϖ0 : algebraMap 𝒪[K] K ϖ ≠ 0 := hne ϖ hϖ.ne_zero
-  have hu0 : algebraMap 𝒪[K] K (u : 𝒪[K]) ≠ 0 := hne _ (Units.ne_zero u)
-  have hxeq : x = Units.mk0 (algebraMap 𝒪[K] K (u : 𝒪[K])) hu0 *
-      (Units.mk0 (algebraMap 𝒪[K] K ϖ) hϖ0) ^ (n : ℤ) := by
-    ext
-    push_cast [hu, Units.smul_def, Algebra.smul_def]
-    rfl
-  rw [hxeq]
-  exact Subgroup.mul_mem _ (hunit u hu0)
-    (Subgroup.zpow_mem _ (Subgroup.subset_closure (hSmem ϖ hϖ hϖ0)) n)
+  ⟨absoluteLocalArtinMonoidHom K, isLocalReciprocity_absoluteLocalArtinMonoidHom K⟩
 
 namespace IsLocalReciprocity
 
@@ -375,7 +182,7 @@ theorem unique (hφ : IsLocalReciprocity K φ) (hψ : IsLocalReciprocity K ψ) :
         IsOpen (V : Set (Field.absoluteGaloisGroupAbelianization K)) →
           (φ u ∈ V ↔ ψ u ∈ V) := by
       intro V hV
-      obtain ⟨L, hfin, hgal, hcomm, hmap⟩ := exists_intermediateField_of_isOpen K hV
+      obtain ⟨L, hfin, hgal, hcomm, hmap⟩ := absoluteAbelianOpenSubgroupField K hV
       haveI := hfin
       haveI := hgal
       have h1 := hφ.normKernel L hcomm
@@ -386,195 +193,15 @@ theorem unique (hφ : IsLocalReciprocity K φ) (hψ : IsLocalReciprocity K ψ) :
         exact (by rw [h2, ← h1]; exact h : u ∈ Subgroup.comap ψ V)
       · intro h
         exact (by rw [h1, ← h2]; exact h : u ∈ Subgroup.comap φ V)
-    have hC : ψ u ∈ (Subgroup.zpowers (φ u)).topologicalClosure :=
-      mem_topologicalClosure_zpowers K hmem
-    have hq1 : 1 < Nat.card 𝓀[K] := Finite.one_lt_card
-    -- the discrepancy lies in every open subgroup, hence vanishes
-    have hdis : ψ u * (φ u)⁻¹ = 1 := by
-      apply eq_one_of_forall_mem_openSubgroup K
-      intro U hU
-      haveI : Finite (Field.absoluteGaloisGroupAbelianization K ⧸ U) :=
-        U.quotient_finite_of_isOpen hU
-      -- `d`: the order of `φ u` modulo `U`
-      set d := orderOf (QuotientGroup.mk (φ u) :
-        Field.absoluteGaloisGroupAbelianization K ⧸ U) with hddef
-      have hd0 : 0 < d := orderOf_pos _
-      have hδd : (φ u) ^ d ∈ U := by
-        have hpow : (QuotientGroup.mk (φ u) :
-            Field.absoluteGaloisGroupAbelianization K ⧸ U) ^ d = 1 := pow_orderOf_eq_one _
-        rwa [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff] at hpow
-      -- the cyclotomic level `q ^ d - 1`
-      set m := Nat.card 𝓀[K] ^ d - 1 with hmdef
-      have hqd1 : 1 ≤ Nat.card 𝓀[K] ^ d := Nat.one_le_pow _ _ (by omega)
-      have hmsucc : m + 1 = Nat.card 𝓀[K] ^ d := by omega
-      have hm0 : m ≠ 0 := by
-        have : 1 < Nat.card 𝓀[K] ^ d := Nat.one_lt_pow hd0.ne' hq1
-        omega
-      have hcop : Nat.Coprime m (Nat.card 𝓀[K]) := by
-        have h1 : Nat.Coprime m (m + 1) :=
-          Nat.coprime_self_add_right.mpr (Nat.coprime_one_right m)
-        rw [hmsucc] at h1
-        exact Nat.Coprime.coprime_dvd_right (dvd_pow_self _ hd0.ne') h1
-      haveI : NeZero m := ⟨hm0⟩
-      haveI : NeZero (m : K) := ⟨Nat.cast_ne_zero.mpr hm0⟩
-      obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) m
-      have hζmem : ζ₀ ∈ cycloField K m := mem_cycloField K hm0 hζ₀.pow_eq_one
-      -- the restriction of the abelianization to the cyclotomic floor
-      set r := QuotientGroup.lift
-        (commutator (Field.absoluteGaloisGroup K)).topologicalClosure
-        (AlgEquiv.restrictNormalHom (F := K) (K₁ := AlgebraicClosure K) ↥(cycloField K m))
-        (commutator_closure_le_ker K hm0) with hrdef
-      obtain ⟨σ, hσ⟩ := QuotientGroup.mk'_surjective _ (φ u)
-      obtain ⟨τ, hτ⟩ := QuotientGroup.mk'_surjective _ (ψ u)
-      have hrφ : r (φ u) =
-          AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) σ := by
-        rw [← hσ]; rfl
-      have hrψ : r (ψ u) =
-          AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) τ := by
-        rw [← hτ]; rfl
-      have hfrobσ := hφ.frobenius u hu hirr σ hσ m hcop
-      have hfrobτ := hψ.frobenius u hu hirr τ hτ m hcop
-      -- the restricted action on a root of unity is the `q`-power map
-      have hact : ∀ ρ : AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K,
-          (∀ ζ : AlgebraicClosure K, ζ ^ m = 1 → ρ ζ = ζ ^ Nat.card 𝓀[K]) →
-          ∀ (x : AlgebraicClosure K) (hx : x ∈ cycloField K m), x ^ m = 1 →
-          ((AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) ρ ⟨x, hx⟩ :
-            ↥(cycloField K m)) : AlgebraicClosure K) = x ^ Nat.card 𝓀[K] := by
-        intro ρ hρ x hx hxm
-        have hcomm := AlgEquiv.restrictNormal_commutes ρ ↥(cycloField K m) ⟨x, hx⟩
-        exact hcomm.trans (hρ x hxm)
-      have hxroot : ∀ x : AlgebraicClosure K, x ^ m = 1 →
-          (x ^ Nat.card 𝓀[K]) ^ m = 1 := by
-        intro x hxm
-        rw [← pow_mul, Nat.mul_comm, pow_mul, hxm, one_pow]
-      -- iterating the restricted action iterates the exponent
-      have hiterσ : ∀ (j : ℕ) (x : AlgebraicClosure K) (hx : x ∈ cycloField K m),
-          x ^ m = 1 →
-          (AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) σ ^ j) ⟨x, hx⟩ =
-            (⟨x ^ Nat.card 𝓀[K] ^ j, pow_mem hx _⟩ : ↥(cycloField K m)) := by
-        intro j
-        induction j with
-        | zero => intro x hx hxm; exact Subtype.ext (by simp)
-        | succ n ih =>
-          intro x hx hxm
-          have hstep : AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) σ ⟨x, hx⟩ =
-              (⟨x ^ Nat.card 𝓀[K], pow_mem hx _⟩ : ↥(cycloField K m)) :=
-            Subtype.ext (hact σ hfrobσ x hx hxm)
-          rw [pow_succ, AlgEquiv.mul_apply, hstep,
-            ih (x ^ Nat.card 𝓀[K]) (pow_mem hx _) (hxroot x hxm)]
-          exact Subtype.ext (show (x ^ Nat.card 𝓀[K]) ^ Nat.card 𝓀[K] ^ n =
-            x ^ Nat.card 𝓀[K] ^ (n + 1) by rw [← pow_mul, ← pow_succ'])
-      -- the restriction of `φ u` has order exactly `d`
-      have hpowd : AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) σ ^ d = 1 := by
-        apply AlgEquiv.coe_toAlgHom_injective
-        refine IntermediateField.algHom_ext_of_eq_adjoin (S := cycloField K m) K rfl ?_
-        intro x hx
-        have hxm : x ^ m = 1 := cycloField_pow_eq_one_of_mem_rootSet K hx
-        simp only [AlgEquiv.coe_toAlgHom]
-        rw [hiterσ d x _ hxm]
-        refine Subtype.ext ?_
-        rw [AlgEquiv.one_apply]
-        change x ^ Nat.card 𝓀[K] ^ d = x
-        rw [← hmsucc, pow_succ, hxm, one_mul]
-      have hord : orderOf (r (φ u)) = d := by
-        rw [hrφ]
-        have hdvd : orderOf
-            (AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) σ) ∣ d :=
-          orderOf_dvd_of_pow_eq_one hpowd
-        have hfin : IsOfFinOrder
-            (AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) σ) :=
-          isOfFinOrder_iff_pow_eq_one.mpr ⟨d, hd0, hpowd⟩
-        refine Nat.le_antisymm (Nat.le_of_dvd hd0 hdvd) ?_
-        set o := orderOf (AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) σ)
-          with hodef
-        have ho0 : 0 < o := hfin.orderOf_pos
-        have h1 : (AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) σ ^ o)
-            ⟨ζ₀, hζmem⟩ = (⟨ζ₀, hζmem⟩ : ↥(cycloField K m)) := by
-          rw [hodef, pow_orderOf_eq_one]
-          rfl
-        rw [hiterσ o ζ₀ hζmem hζ₀.pow_eq_one] at h1
-        have h2 : ζ₀ ^ Nat.card 𝓀[K] ^ o = ζ₀ := congrArg Subtype.val h1
-        have hqo1 : 1 ≤ Nat.card 𝓀[K] ^ o := Nat.one_le_pow _ _ (by omega)
-        have h3 : ζ₀ ^ (Nat.card 𝓀[K] ^ o - 1) = 1 := by
-          have hζne : ζ₀ ≠ 0 := hζ₀.ne_zero hm0
-          have hsp : Nat.card 𝓀[K] ^ o = Nat.card 𝓀[K] ^ o - 1 + 1 := by omega
-          have h4 : ζ₀ ^ (Nat.card 𝓀[K] ^ o - 1) * ζ₀ = 1 * ζ₀ := by
-            rw [one_mul, ← pow_succ, ← hsp]
-            exact h2
-          exact mul_right_cancel₀ hζne h4
-        have h5 : m ∣ Nat.card 𝓀[K] ^ o - 1 := hζ₀.dvd_of_pow_eq_one _ h3
-        have hqogt : 1 < Nat.card 𝓀[K] ^ o := Nat.one_lt_pow ho0.ne' hq1
-        have h6 : m ≤ Nat.card 𝓀[K] ^ o - 1 := Nat.le_of_dvd (by omega) h5
-        have h7 : Nat.card 𝓀[K] ^ d ≤ Nat.card 𝓀[K] ^ o := by
-          rw [← hmsucc]
-          exact (Nat.le_sub_iff_add_le hqo1).mp h6
-        exact (Nat.pow_le_pow_iff_right hq1).mp h7
-      -- the two restrictions agree: both are the `q`-power map on the generators
-      have hreq : r (φ u) = r (ψ u) := by
-        rw [hrφ, hrψ]
-        apply AlgEquiv.coe_toAlgHom_injective
-        refine IntermediateField.algHom_ext_of_eq_adjoin (S := cycloField K m) K rfl ?_
-        intro x hx
-        have hxm : x ^ m = 1 := cycloField_pow_eq_one_of_mem_rootSet K hx
-        simp only [AlgEquiv.coe_toAlgHom]
-        exact Subtype.ext
-          ((hact σ hfrobσ x _ hxm).trans (hact τ hfrobτ x _ hxm).symm)
-      -- the kernel of the restriction is open
-      have hkeropen : IsOpen
-          (MonoidHom.ker r : Set (Field.absoluteGaloisGroupAbelianization K)) := by
-        rw [← QuotientGroup.isOpenQuotientMap_mk.isQuotientMap.isOpen_preimage]
-        have hpre : QuotientGroup.mk ⁻¹'
-            (MonoidHom.ker r : Set (Field.absoluteGaloisGroupAbelianization K)) =
-            ((cycloField K m).fixingSubgroup :
-              Set (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K)) := by
-          ext g
-          simp only [Set.mem_preimage, SetLike.mem_coe, MonoidHom.mem_ker]
-          have hg : r (QuotientGroup.mk g) =
-              AlgEquiv.restrictNormalHom (F := K) ↥(cycloField K m) g := rfl
-          rw [hg, ← MonoidHom.mem_ker, IntermediateField.restrictNormalHom_ker]
-          exact Iff.rfl
-        rw [hpre]
-        exact IntermediateField.fixingSubgroup_isOpen _
-      -- `ψ u` sits over `φ u` against the open subgroup `U ⊓ ker r`
-      have hVopen : IsOpen ((U ⊓ MonoidHom.ker r :
-          Subgroup (Field.absoluteGaloisGroupAbelianization K)) :
-            Set (Field.absoluteGaloisGroupAbelianization K)) := by
-        rw [Subgroup.coe_inf]
-        exact hU.inter hkeropen
-      have hψW : ψ u ∈ Subgroup.zpowers (φ u) ⊔ (U ⊓ MonoidHom.ker r) := by
-        refine Subgroup.topologicalClosure_minimal _ le_sup_left
-          (Subgroup.isClosed_of_isOpen _ (Subgroup.isOpen_mono le_sup_right hVopen)) hC
-      obtain ⟨c, hc, v, hv, hcv⟩ := Subgroup.mem_sup.mp hψW
-      obtain ⟨z, hz⟩ := Subgroup.mem_zpowers_iff.mp hc
-      have hrv : r v = 1 := MonoidHom.mem_ker.mp (Subgroup.mem_inf.mp hv).2
-      -- the exponent discrepancy is a multiple of `d`
-      have haz : r (φ u) ^ z = r (φ u) := by
-        calc r (φ u) ^ z = r ((φ u) ^ z) := (map_zpow r _ z).symm
-          _ = r ((φ u) ^ z * v) := by rw [map_mul, hrv, mul_one]
-          _ = r (ψ u) := by rw [hz, hcv]
-          _ = r (φ u) := hreq.symm
-      have hdvd : (d : ℤ) ∣ z - 1 := by
-        have h1 : r (φ u) ^ (z - 1) = 1 := by
-          rw [zpow_sub, haz, zpow_one]
-          exact mul_inv_cancel _
-        have h2 : ((orderOf (r (φ u))) : ℤ) ∣ z - 1 :=
-          orderOf_dvd_iff_zpow_eq_one.mpr h1
-        rwa [hord] at h2
-      -- assemble the discrepancy inside `U`
-      have hsplit : ψ u * (φ u)⁻¹ = (φ u) ^ (z - 1 : ℤ) * v := by
-        rw [← hcv, ← hz, mul_right_comm, zpow_sub, zpow_one]
-      rw [hsplit]
-      refine U.mul_mem ?_ (Subgroup.mem_inf.mp hv).1
-      obtain ⟨w', hw'⟩ := hdvd
-      rw [hw', zpow_mul, zpow_natCast]
-      exact U.zpow_mem hδd w'
-    have := mul_inv_eq_one.mp hdis
-    exact this.symm
+    exact abelianizedGalois_eq_of_cyclotomic K
+      (fun V hV => (hmem V hV).mp) (Nat.card 𝓀[K]) Finite.one_lt_card
+      (fun m hm σ hσ => hφ.frobenius u hu hirr σ hσ m hm)
+      (fun m hm σ hσ => hψ.frobenius u hu hirr σ hσ m hm)
   -- extend from the uniformizer units, which generate
   ext x
   have hx : x ∈ Subgroup.closure
       {u : Kˣ | ∃ hu : (u : K) ∈ 𝒪[K], Irreducible (⟨(u : K), hu⟩ : 𝒪[K])} := by
-    rw [closure_setOf_irreducible_eq_top]
+    rw [uniformizerUnits_generate]
     trivial
   induction hx using Subgroup.closure_induction with
   | mem u hu => obtain ⟨hu', hirr⟩ := hu; exact key u hu' hirr

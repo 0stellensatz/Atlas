@@ -1,5 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.IsArtinRestriction
+import Atlas.Knowledge.LocalArtinTransfer
 import Atlas.Knowledge.RestrictScalarsHomRangeEqKer
 
 /-!
@@ -11,7 +12,7 @@ The transfer (Verlagerung) between abelianized Galois groups of a tower: for fie
 of `AlgEquiv.restrictScalarsHom`, `Atlas.Knowledge.RestrictScalarsHomRangeEqKer` — descends
 to `Gal (M/K)^ab →* Gal (M/E)^ab`. This is the arrow of the transfer square of local class
 field theory: against reciprocity maps of the two base fields it completes the commuting
-square with the inclusion `Kˣ ⊆ Eˣ`, which is the recorded claim.
+square with the inclusion `Kˣ ⊆ Eˣ`.
 
 ## Main definitions
 
@@ -19,23 +20,21 @@ square with the inclusion `Kˣ ⊆ Eˣ`, which is the recorded claim.
 
 ## Main statements
 
-* `artinMap_transfer_naturality` — the transfer square: `Ver ∘ Art_K = Art_E ∘ (Kˣ ↪ Eˣ)`,
-  recorded ahead of its proof.
+* `artinMap_transfer_naturality` — the transfer square: `Ver ∘ Art_K = Art_E ∘ (Kˣ ↪ Eˣ)`.
 
 ## Implementation notes
 
 The definition is pure finite group theory atop Mathlib's `MonoidHom.transfer` — no
-normality of `E` over `K` and no valuative structure enters, and it lands sorry-free now,
-independent of the reciprocity characterization; finite index comes from
+normality of `E` over `K` and no valuative structure enters; finite index comes from
 `[FiniteDimensional K M]` through finiteness of the Galois group. The packaging composes the
 inverse of `MonoidHom.ofInjective` *into* the transferred homomorphism where the read
 repository post-composes an `abelianizationCongr` after transferring `Abelianization.of`
 (`AbstractClassFieldTheory/Reciprocity/Construction/MainTransfer.lean:172`); the two agree
-mathematically but not syntactically, which the eventual discharge of the square will have to
-cross. The square itself takes both floors' maps through
+through `Atlas.Knowledge.TransferComp`. The square takes both floors' maps through
 `Atlas.Knowledge.IsAbelianizedArtinRestriction`, each over its own local-field structure,
-`[ValuativeExtension K E]` tying the two; it is jointly owned with the Verlagerung tranche
-(#9), and this file contributes the arrow either way.
+`[ValuativeExtension K E]` tying the two. `Atlas.Knowledge.LocalArtinTransfer` identifies the
+induced symbols with these intrinsic maps and transports the abstract transfer square
+through the field and automorphism-group equivalences.
 
 ## References
 
@@ -79,7 +78,7 @@ variable [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
 /-- The **transfer square** of local class field theory: reciprocity maps of the two base
 fields of a tower `K ⊆ E ⊆ M` intertwine the transfer with the inclusion `Kˣ ⊆ Eˣ` —
-`Ver ∘ Art_K = Art_E ∘ ι`. Claim recorded ahead of its proof
+`Ver ∘ Art_K = Art_E ∘ ι`
 ([Serre 1979, Chap. XIII, §4, Prop. 10 (b), p.197][Serre1979];
 [Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldNormResidueNaturality.lean:720`]
@@ -91,7 +90,8 @@ theorem artinMap_transfer_naturality
     (hE : IsAbelianizedArtinRestriction E M artE) :
     (abelianizedGaloisTransfer K E M).comp artK
       = artE.comp (Units.map (algebraMap K E : K →* E)) := by
-  sorry
+  ext x
+  exact localArtinTransfer K E M artK artE hK hE x
 
 end Square
 
