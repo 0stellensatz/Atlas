@@ -37,6 +37,7 @@ being asked.  Build the unit after appending.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import datetime
 import re
 import string
@@ -172,11 +173,17 @@ def insert_dev_import(text, stem):
 
 # The opening of a char literal, `'x'` or `'\…'`, when the quote is not the prime of an
 # identifier (`x'`); of a raw string, `r"…"` or `r#"…"#`, which no `\` escapes and which a
-# quote closes only with as many `#`; and of an interpolated string, `s!"…"`, whose `{…}`
-# holes hold code.
+# quote closes only with as many `#`; and of an interpolated string, whose `{…}` holes hold
+# code.  Only the parser knows a string is interpolated, so the last lists the forms that
+# core and the packages declare with `interpolatedStr`---`s!"…"`, `throwError "…"`,
+# `trace[cls] "…"`---and an ordinary call whose name ends in `!` is not one: `toNat! "{"` is
+# a string holding a brace.  `throwErrorAt <term> "…"` is missing, a term standing between.
 CHAR_LIT = re.compile(r"(?<![\w'!?])'(?:\\.[^']*|[^\\'])'")
 RAW_STR = re.compile(r"(?<![\w'!?])r(#*)\"")
-INTERP_STR = re.compile(r"(?<![\w'!?])\w+!\s*\"")
+INTERP_STR = re.compile(
+    r"(?<![\w'!?])(?:[smf]!|println!|report(?:Dbg|EMatch)?Issue!|throwError"
+    r"|(?:trace|trace_goal|aesop_trace!)\[[^\]]*\])\s*\""
+)
 
 
 def bare_code(text):
@@ -255,6 +262,12 @@ def next_letter(text):
     the letter, and the keyword is matched wherever it stands, so an attribute, a modifier
     or indentation ahead of it---`@[simp] theorem question_a`---cannot hide one.
 
+    The scan can be fooled only where Lean's lexing turns on context it does not have, a
+    string after `throwErrorAt <term>` being interpolated, so the letter is checked against
+    the raw text before it is handed out: a declaration of it that the scan read as a
+    comment or literal is a duplicate in the making, and refusing costs a hand edit where a
+    duplicate costs a build.
+
     The date is not in the name: the unit's namespace already carries it, and the letters
     restart with each unit.
     """
@@ -264,7 +277,13 @@ def next_letter(text):
     nxt = string.ascii_lowercase.index(max(used)) + 1
     if nxt >= len(string.ascii_lowercase):
         die("this unit already has 26 questions; pose the rest as a unit of their own")
-    return string.ascii_lowercase[nxt]
+    letter = string.ascii_lowercase[nxt]
+    hidden = re.search(rf"\b(?:theorem|lemma)(?:\s|/-.*?-/)+question_{letter}\b", text, re.S)
+    if hidden:
+        at = text.count("\n", 0, hidden.start()) + 1
+        die(f"`question_{letter}` looks declared at line {at}, inside what reads as a comment "
+            "or literal; the scaffold cannot tell, so pose this one by hand")
+    return letter
 
 
 # A chunk is one wrappable unit. A code span is glued to whatever non-space touches it, so
@@ -413,6 +432,26 @@ def selftest():
     assert next_letter('theorem question_a : s!"{"}"}" = "" := sorry\n'
                        "theorem question_b : True := sorry") == "c"
     assert next_letter("theorem question_a («theorem question_z» : ℕ) : True := sorry") == "b"
+    # Only the forms the parser interpolates are read with holes, spaced or not; a call whose
+    # name ends in `!` takes an ordinary string, brace and all.
+    assert next_letter('theorem question_a : s! "{"theorem question_z"}" = "" := sorry') == "b"
+    assert next_letter('theorem question_a : (throwError "{"theorem question_z"}" : MetaM Unit)'
+                       " = pure () := sorry") == "b"
+    assert next_letter('theorem question_a : String.toNat! "{" = String.toNat! "{" := sorry\n'
+                       "/-- Truth. -/\ntheorem question_b : True := sorry") == "c"
+    assert next_letter('theorem question_a : panic! "{" = "" := sorry\n'
+                       "theorem question_b : True := sorry") == "c"
+    # A target the scan is fooled out of seeing---here by the one interpolation it cannot
+    # know, whose hole holds a string with an escaped quote---is caught against the raw text
+    # before the letter is handed out.
+    try:
+        with contextlib.redirect_stderr(None):
+            next_letter('theorem question_a : (throwErrorAt .missing "{"\\""}" : MetaM Unit)'
+                        " = pure () := sorry\ntheorem question_b : True := sorry")
+    except SystemExit:
+        pass
+    else:
+        raise AssertionError("a target hidden from the scan was handed out again")
     # An attribute, a modifier or indentation ahead of the keyword does not hide a target.
     assert next_letter("@[simp] theorem question_a (n : ℕ) : n + 0 = n := sorry") == "b"
     assert next_letter("  private theorem question_b : True := sorry") == "c"
