@@ -39,6 +39,7 @@ from __future__ import annotations
 import argparse
 import contextlib
 import datetime
+import io
 import re
 import string
 import sys
@@ -445,7 +446,7 @@ def selftest():
     # know, whose hole holds a string with an escaped quote---is caught against the raw text
     # before the letter is handed out.
     try:
-        with contextlib.redirect_stderr(None):
+        with contextlib.redirect_stderr(io.StringIO()):
             next_letter('theorem question_a : (throwErrorAt .missing "{"\\""}" : MetaM Unit)'
                         " = pure () := sorry\ntheorem question_b : True := sorry")
     except SystemExit:
