@@ -32,8 +32,10 @@ attached to the realization is `Kˣ/N_{L/K}(Lˣ)` itself (#104).
 * `map_finiteNormSubgroup_eq_additiveNormSubgroup` — the abstract
   finite norm subgroup corresponds to the field-norm subgroup under
   the base-unit dictionary; proved.
-* `localNormSubgroup_fieldRange_eq` — the norm subgroup is independent
-  of the chosen realization; proved.
+* `normUnits_range_fieldRange` — the unit-norm range is independent of
+  the chosen realization, across universes; proved.
+* `localNormSubgroup_fieldRange_eq` — its one-universe corollary at
+  the norm-subgroup spelling; proved.
 
 ## Implementation notes
 
@@ -244,6 +246,34 @@ theorem finiteNormQuotientEquivNormQuotient_finiteNormClass
 
 end FiniteIntermediate
 
+section NormRangeTransport
+
+variable {K Ω}
+
+omit [IsGalois K Ω] [IsSepClosed Ω] in
+/-- **The range of the unit norm is independent of the chosen realization of the extension
+inside an ambient field**, across universes: for an embedding `i` of `L` into `Ω`, the unit
+norms from `i.fieldRange` and from `L` have the same range in `Kˣ`, the norm being invariant
+under the induced isomorphism `Atlas.Knowledge.normUnits_embeddedExtensionAlgEquiv` spells at
+one universe (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:374`). -/
+theorem normUnits_range_fieldRange (L : Type*) [Field L] [Algebra K L] (i : L →ₐ[K] Ω) :
+    (Units.map (Algebra.norm K : ↥i.fieldRange →* K)).range =
+      (Units.map (Algebra.norm K : L →* K)).range := by
+  let e : L ≃ₐ[K] i.fieldRange := AlgEquiv.ofInjectiveField i
+  ext x
+  constructor
+  · rintro ⟨y, rfl⟩
+    refine ⟨Units.map e.symm.toAlgHom.toMonoidHom y, ?_⟩
+    ext
+    simp [Algebra.norm_eq_of_algEquiv]
+  · rintro ⟨y, rfl⟩
+    refine ⟨Units.map e.toAlgHom.toMonoidHom y, ?_⟩
+    ext
+    simp [Algebra.norm_eq_of_algEquiv]
+
+end NormRangeTransport
+
 section EmbeddedFiniteGaloisExtension
 
 variable (L : Type u) [Field L] [Algebra K L]
@@ -273,25 +303,12 @@ theorem normUnits_embeddedExtensionAlgEquiv (x : Lˣ) :
 omit [IsGalois K Ω] [IsSepClosed Ω] [FiniteDimensional K L] [IsGalois K L] in
 /-- **The ordinary norm subgroups are independent of the chosen
 realization of the finite extension inside the ambient Galois
-extension** (Yamaguchi 2026,
+extension** — the one-universe corollary of
+`Atlas.Knowledge.normUnits_range_fieldRange` (Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:374`). -/
 theorem localNormSubgroup_fieldRange_eq :
-    localNormSubgroup K (AlgHom.fieldRange i) = localNormSubgroup K L := by
-  ext x
-  constructor
-  · rintro ⟨y, rfl⟩
-    let z : Lˣ := Units.mapEquiv
-      (AlgEquiv.ofInjectiveField i).symm.toMulEquiv y
-    refine ⟨z, ?_⟩
-    have hz : Units.mapEquiv
-        (AlgEquiv.ofInjectiveField i).toMulEquiv z = y := by
-      exact (Units.mapEquiv
-        (AlgEquiv.ofInjectiveField i).toMulEquiv).apply_symm_apply y
-    rw [← hz, normUnits_embeddedExtensionAlgEquiv]
-  · rintro ⟨x, rfl⟩
-    refine ⟨Units.mapEquiv
-      (AlgEquiv.ofInjectiveField i).toMulEquiv x, ?_⟩
-    exact normUnits_embeddedExtensionAlgEquiv K Ω L i x
+    localNormSubgroup K (AlgHom.fieldRange i) = localNormSubgroup K L :=
+  normUnits_range_fieldRange L i
 
 omit [IsGalois K L] in
 /-- The abstract relative norm attached to an embedded finite Galois
