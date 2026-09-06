@@ -170,20 +170,61 @@ def insert_dev_import(text, stem):
     return "\n".join(lines) + "\n"
 
 
+# A char literal, `'x'` or `'\…'`, when the quote is not the prime of an identifier (`x'`).
+CHAR_LIT = re.compile(r"(?<![\w'!?])'(?:\\.[^']*|[^\\'])'")
+
+
+def bare_code(text):
+    """Return `text` with each comment and each string or char literal replaced by a space.
+
+    A scanner rather than a regex: block comments nest, so a `-/` closes only the innermost;
+    a comment opener inside a literal---an attribute's message, say---is text, as is a quote
+    inside a char literal; and a comment between two tokens kept them apart, so it becomes a
+    space rather than nothing.  Raw strings `r"…"` are read as ordinary ones, escapes and all.
+    """
+    out, i, n = [], 0, len(text)
+    while i < n:
+        if text.startswith("--", i):
+            i = text.find("\n", i)
+            if i < 0:
+                i = n
+        elif text.startswith("/-", i):
+            depth, i = 1, i + 2
+            while i < n and depth:
+                if text.startswith("/-", i):
+                    depth, i = depth + 1, i + 2
+                elif text.startswith("-/", i):
+                    depth, i = depth - 1, i + 2
+                else:
+                    i += 1
+        elif text[i] == '"':
+            i += 1
+            while i < n and text[i] != '"':
+                i += 2 if text[i] == "\\" else 1
+            i += 1
+        elif m := CHAR_LIT.match(text, i):
+            i = m.end()
+        else:
+            out.append(text[i])
+            i += 1
+            continue
+        out.append(" ")
+    return "".join(out)
+
+
 def next_letter(text):
     """The next free letter of `question_<letter>` in `text`.
 
     Lettered in the order posed, so this is one past the highest already used rather than
-    the first gap: a letter is not reused once a question has carried it.  Comments are
-    stripped before matching, so a docstring naming a target cannot advance the letter, and
-    the keyword is matched wherever it stands, so an attribute, a modifier or indentation
-    ahead of it---`@[simp] theorem question_a`---cannot hide one.
+    the first gap: a letter is not reused once a question has carried it.  Comments and
+    literals are blanked first, so a docstring or a message naming a target cannot advance
+    the letter, and the keyword is matched wherever it stands, so an attribute, a modifier
+    or indentation ahead of it---`@[simp] theorem question_a`---cannot hide one.
 
     The date is not in the name: the unit's namespace already carries it, and the letters
     restart with each unit.
     """
-    code = re.sub(r"/-.*?-/|--[^\n]*", "", text, flags=re.S)
-    used = set(re.findall(r"\btheorem\s+question_([a-z])\b", code))
+    used = set(re.findall(r"\btheorem\s+question_([a-z])\b", bare_code(text)))
     if not used:
         return "a"
     nxt = string.ascii_lowercase.index(max(used)) + 1
@@ -307,9 +348,24 @@ def selftest():
     assert next_letter("theorem question_a : True := sorry") == "b"
     assert next_letter("theorem question_a : True := sorry\n"
                        "theorem question_c : True := sorry") == "d"
-    # Prose naming a target does not advance the letter, wherever in a comment it stands.
+    # bare_code: comments and literals each become one space, and block comments nest.
+    assert bare_code('a /- b /- c -/ d -/ e "f -- g" h -- i\nj') == "a   e   h  \nj"
+    # Prose naming a target does not advance the letter, wherever in a comment it stands,
+    # nor does a target inside a nested comment or a string.
     assert next_letter("/-- Compare `question_f` of another unit. -/") == "a"
     assert next_letter("/-- Not\ntheorem question_f. -/\n-- theorem question_g\n") == "a"
+    assert next_letter("/-- Say `/- why -/ theorem question_z : True := sorry`. -/\n"
+                       "theorem question_a : True := sorry") == "b"
+    assert next_letter('@[deprecated "theorem question_z"] '
+                       "theorem question_a : True := sorry") == "b"
+    # A comment opener inside a string is text, escapes included, and so is a quote inside a
+    # char literal; a comment between two tokens keeps them apart.
+    assert next_letter('@[deprecated "Use Nat.add_zero -- directly" (since := "2026-09-07")] '
+                       "theorem question_a\n    (n : ℕ) : n + 0 = n := sorry") == "b"
+    assert next_letter('@[deprecated "say \\"--\\" /- once"] '
+                       "theorem question_a : True := sorry") == "b"
+    assert next_letter("example : Char := '\"'\ntheorem question_a : True := sorry") == "b"
+    assert next_letter("theorem/- gap -/question_a : True := sorry") == "b"
     # An attribute, a modifier or indentation ahead of the keyword does not hide a target.
     assert next_letter("@[simp] theorem question_a (n : ℕ) : n + 0 = n := sorry") == "b"
     assert next_letter("  private theorem question_b : True := sorry") == "c"
