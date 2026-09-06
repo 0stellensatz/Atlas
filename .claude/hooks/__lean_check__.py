@@ -9,7 +9,7 @@ invariants, transiently violated by any normal edit sequence---a new file exists
 for a moment before its `import` line is added, a Challenge declaration before its
 Development twin---so checking after every single edit would fire constantly on
 states that are merely half-written.
-`../../CLAUDE.md` names the moment instead: run the structural check before
+`../../AGENTS.md` names the moment instead: run the structural check before
 declaring work done.  That is the Stop event.
 
 One entry point serves both hook events, dispatching on `hook_event_name`:
