@@ -170,45 +170,79 @@ def insert_dev_import(text, stem):
     return "\n".join(lines) + "\n"
 
 
-# A char literal, `'x'` or `'\…'`, when the quote is not the prime of an identifier (`x'`).
+# The opening of a char literal, `'x'` or `'\…'`, when the quote is not the prime of an
+# identifier (`x'`); of a raw string, `r"…"` or `r#"…"#`, which no `\` escapes and which a
+# quote closes only with as many `#`; and of an interpolated string, `s!"…"`, whose `{…}`
+# holes hold code.
 CHAR_LIT = re.compile(r"(?<![\w'!?])'(?:\\.[^']*|[^\\'])'")
+RAW_STR = re.compile(r"(?<![\w'!?])r(#*)\"")
+INTERP_STR = re.compile(r"(?<![\w'!?])\w+!\s*\"")
 
 
 def bare_code(text):
-    """Return `text` with each comment and each string or char literal replaced by a space.
+    """Return `text` with each comment and literal replaced by a space, holes excepted.
 
     A scanner rather than a regex: block comments nest, so a `-/` closes only the innermost;
     a comment opener inside a literal---an attribute's message, say---is text, as is a quote
-    inside a char literal; and a comment between two tokens kept them apart, so it becomes a
-    space rather than nothing.  Raw strings `r"…"` are read as ordinary ones, escapes and all.
+    inside a char literal or a raw string; a `{…}` hole of an interpolated string is code
+    again, scanned like the rest and emitted; a guillemet identifier is opaque whatever it
+    spells; and a comment between two tokens kept them apart, so it becomes a space rather
+    than nothing.
     """
-    out, i, n = [], 0, len(text)
-    while i < n:
-        if text.startswith("--", i):
-            i = text.find("\n", i)
-            if i < 0:
-                i = n
-        elif text.startswith("/-", i):
-            depth, i = 1, i + 2
-            while i < n and depth:
-                if text.startswith("/-", i):
-                    depth, i = depth + 1, i + 2
-                elif text.startswith("-/", i):
-                    depth, i = depth - 1, i + 2
-                else:
-                    i += 1
-        elif text[i] == '"':
-            i += 1
-            while i < n and text[i] != '"':
-                i += 2 if text[i] == "\\" else 1
-            i += 1
-        elif m := CHAR_LIT.match(text, i):
-            i = m.end()
-        else:
-            out.append(text[i])
-            i += 1
-            continue
-        out.append(" ")
+    out, n = [], len(text)
+
+    def literal(i, close='"', raw=False, holes=False):
+        """Scan a literal's body from just after its opener; return the index after it."""
+        while i < n and not text.startswith(close, i):
+            if not raw and text[i] == "\\":
+                i += 2
+            elif holes and text[i] == "{":
+                i = code(i + 1, hole=True)
+            else:
+                i += 1
+        return i + len(close)
+
+    def code(i, hole=False):
+        """Scan and emit code from `i` to the end or, in a hole, past the `}` closing it."""
+        depth = 0
+        while i < n:
+            if text.startswith("--", i):
+                i = text.find("\n", i)
+                if i < 0:
+                    i = n
+            elif text.startswith("/-", i):
+                nest, i = 1, i + 2
+                while i < n and nest:
+                    if text.startswith("/-", i):
+                        nest, i = nest + 1, i + 2
+                    elif text.startswith("-/", i):
+                        nest, i = nest - 1, i + 2
+                    else:
+                        i += 1
+            elif m := RAW_STR.match(text, i):
+                i = literal(m.end(), close='"' + m.group(1), raw=True)
+            elif m := INTERP_STR.match(text, i):
+                i = literal(m.end(), holes=True)
+            elif text[i] == '"':
+                i = literal(i + 1)
+            elif m := CHAR_LIT.match(text, i):
+                i = m.end()
+            elif text[i] == "«":
+                i = literal(i + 1, close="»", raw=True)
+            elif hole and depth == 0 and text[i] == "}":
+                return i + 1
+            else:
+                if text[i] == "{":
+                    depth += 1
+                elif text[i] == "}":
+                    depth -= 1
+                out.append(text[i])
+                i += 1
+                continue
+            out.append(" ")
+        return i
+
+    code(0)
     return "".join(out)
 
 
@@ -366,6 +400,19 @@ def selftest():
                        "theorem question_a : True := sorry") == "b"
     assert next_letter("example : Char := '\"'\ntheorem question_a : True := sorry") == "b"
     assert next_letter("theorem/- gap -/question_a : True := sorry") == "b"
+    # A raw string has no escapes and closes only with as many `#` as opened it; a hole of an
+    # interpolated string is code, so a string inside it neither ends the outer string nor
+    # exposes what it says; a guillemet identifier is opaque.
+    assert bare_code('r"\\" y s!"{x}"') == "  y x "
+    assert next_letter('theorem question_a : r"\\" = r"\\" := sorry\n'
+                       "theorem question_b : True := sorry") == "c"
+    assert next_letter('theorem question_a : r#"a"b"# = r#""# := sorry\n'
+                       "theorem question_b : True := sorry") == "c"
+    assert next_letter('theorem question_a : s!"{"theorem question_z"}"'
+                       ' = s!"{"theorem question_z"}" := sorry') == "b"
+    assert next_letter('theorem question_a : s!"{"}"}" = "" := sorry\n'
+                       "theorem question_b : True := sorry") == "c"
+    assert next_letter("theorem question_a («theorem question_z» : ℕ) : True := sorry") == "b"
     # An attribute, a modifier or indentation ahead of the keyword does not hide a target.
     assert next_letter("@[simp] theorem question_a (n : ℕ) : n + 0 = n := sorry") == "b"
     assert next_letter("  private theorem question_b : True := sorry") == "c"
