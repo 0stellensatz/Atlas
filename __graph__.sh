@@ -26,7 +26,41 @@ set -u
 shopt -s nullglob
 cd "$(dirname "$0")"
 
-NAME=${PWD##*/}
+# The library's name as `lakefile.toml` gives it---not the name of the directory this script
+# sits in, which need not carry it and in a git worktree does not. The selection is the one
+# `__check__.py` makes, so the picture is of the library that gets checked: the `[[lean_lib]]`
+# named in `defaultTargets` where there is one, that target's `roots` where it sets them, and
+# the first target otherwise. Read by hand rather than by a TOML parser, so an array written
+# across several lines is not seen. What is *not* done is falling back to the directory name---
+# that is the bug, and a graph named for a branch is drawn over a tree that is not there---so a
+# name that cannot be read is fatal here.
+if [ ! -f lakefile.toml ]; then
+    echo "error: $PWD is not a Lake project (no lakefile.toml)" >&2
+    exit 1
+fi
+NAME=$(awk '
+    function quoted(s) { sub(/^[^"]*"/, "", s); sub(/".*/, "", s); return s }
+    /^[[:space:]]*defaultTargets[[:space:]]*=/ { want = $0 }
+    /^[[:space:]]*\[\[lean_lib\]\]/            { n++; lib = 1; next }
+    /^[[:space:]]*\[/                          { lib = 0 }
+    lib && /^[[:space:]]*name[[:space:]]*=[[:space:]]*"/ {
+        if (!(n in name)) name[n] = quoted($0)
+    }
+    lib && /^[[:space:]]*roots[[:space:]]*=[[:space:]]*\[[[:space:]]*"/ {
+        if (!(n in root)) root[n] = quoted($0)
+    }
+    END {
+        pick = 1
+        for (i = 1; i <= n; i++)
+            if (name[i] != "" && index(want, "\"" name[i] "\"")) { pick = i; break }
+        chosen = root[pick] != "" ? root[pick] : name[pick]
+        print chosen
+    }
+' lakefile.toml)
+if [ -z "$NAME" ]; then
+    echo "error: lakefile.toml names no [[lean_lib]] to draw" >&2
+    exit 1
+fi
 LIB=$NAME
 
 src=$(
