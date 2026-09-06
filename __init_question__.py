@@ -186,6 +186,29 @@ INTERP_STR = re.compile(
     r"|(?:trace|trace_goal|aesop_trace!)\[[^\]]*\])\s*\""
 )
 
+# A declaration keyword, and a target's name, plain or in guillemets.
+DECL_KW = re.compile(
+    r"\b(?:theorem|lemma|def|abbrev|structure|class|instance|inductive|axiom|opaque)\b"
+)
+TARGET = re.compile(r"«question_([a-z])»|question_([a-z])(?![\w'!?])")
+
+
+def comment_end(text, i):
+    """Index past the comment opening at `i`: a `--` line, or a `/- -/` block, nested."""
+    n = len(text)
+    if text.startswith("--", i):
+        j = text.find("\n", i)
+        return n if j < 0 else j
+    nest, i = 1, i + 2
+    while i < n and nest:
+        if text.startswith("/-", i):
+            nest, i = nest + 1, i + 2
+        elif text.startswith("-/", i):
+            nest, i = nest - 1, i + 2
+        else:
+            i += 1
+    return i
+
 
 def bare_code(text):
     """Return `text` with each comment and literal replaced by a space, holes excepted.
@@ -194,8 +217,8 @@ def bare_code(text):
     a comment opener inside a literal---an attribute's message, say---is text, as is a quote
     inside a char literal or a raw string; a `{…}` hole of an interpolated string is code
     again, scanned like the rest and emitted; a guillemet identifier is opaque whatever it
-    spells; and a comment between two tokens kept them apart, so it becomes a space rather
-    than nothing.
+    spells, unless it spells a target; and a comment between two tokens kept them apart, so
+    it becomes a space rather than nothing.
     """
     out, n = [], len(text)
 
@@ -214,19 +237,8 @@ def bare_code(text):
         """Scan and emit code from `i` to the end or, in a hole, past the `}` closing it."""
         depth = 0
         while i < n:
-            if text.startswith("--", i):
-                i = text.find("\n", i)
-                if i < 0:
-                    i = n
-            elif text.startswith("/-", i):
-                nest, i = 1, i + 2
-                while i < n and nest:
-                    if text.startswith("/-", i):
-                        nest, i = nest + 1, i + 2
-                    elif text.startswith("-/", i):
-                        nest, i = nest - 1, i + 2
-                    else:
-                        i += 1
+            if text.startswith(("--", "/-"), i):
+                i = comment_end(text, i)
             elif m := RAW_STR.match(text, i):
                 i = literal(m.end(), close='"' + m.group(1), raw=True)
             elif m := INTERP_STR.match(text, i):
@@ -236,7 +248,11 @@ def bare_code(text):
             elif m := CHAR_LIT.match(text, i):
                 i = m.end()
             elif text[i] == "«":
-                i = literal(i + 1, close="»", raw=True)
+                j = text.find("»", i)
+                j = n if j < 0 else j + 1
+                out.append(text[i:j] if TARGET.fullmatch(text, i, j) else " ")
+                i = j
+                continue
             elif hole and depth == 0 and text[i] == "}":
                 return i + 1
             else:
@@ -252,6 +268,24 @@ def bare_code(text):
 
     code(0)
     return "".join(out)
+
+
+def targets(text):
+    """The targets `text` declares, letter to line.
+
+    A declaration is a keyword, then its name after nothing but whitespace and comments,
+    plain or in guillemets.  Run on `bare_code`'s view of a file this is its count; run on
+    the raw text it is a superset of that count which no misjudged literal can shrink, which
+    is what the guard in `next_letter` needs.
+    """
+    found = {}
+    for kw in DECL_KW.finditer(text):
+        j = kw.end()
+        while j < len(text) and (text[j].isspace() or text.startswith(("--", "/-"), j)):
+            j = j + 1 if text[j].isspace() else comment_end(text, j)
+        if m := TARGET.match(text, j):
+            found.setdefault(m.group(1) or m.group(2), text.count("\n", 0, j) + 1)
+    return found
 
 
 def next_letter(text):
@@ -272,18 +306,14 @@ def next_letter(text):
     The date is not in the name: the unit's namespace already carries it, and the letters
     restart with each unit.
     """
-    used = set(re.findall(r"\btheorem\s+question_([a-z])\b", bare_code(text)))
-    if not used:
-        return "a"
-    nxt = string.ascii_lowercase.index(max(used)) + 1
+    used = targets(bare_code(text))
+    nxt = string.ascii_lowercase.index(max(used)) + 1 if used else 0
     if nxt >= len(string.ascii_lowercase):
         die("this unit already has 26 questions; pose the rest as a unit of their own")
     letter = string.ascii_lowercase[nxt]
-    hidden = re.search(rf"\b(?:theorem|lemma)(?:\s|/-.*?-/)+question_{letter}\b", text, re.S)
-    if hidden:
-        at = text.count("\n", 0, hidden.start()) + 1
-        die(f"`question_{letter}` looks declared at line {at}, inside what reads as a comment "
-            "or literal; the scaffold cannot tell, so pose this one by hand")
+    if letter in (raw := targets(text)):
+        die(f"`question_{letter}` looks declared at line {raw[letter]}, inside what reads as a "
+            "comment or literal; the scaffold cannot tell, so pose this one by hand")
     return letter
 
 
@@ -442,17 +472,37 @@ def selftest():
                        "/-- Truth. -/\ntheorem question_b : True := sorry") == "c"
     assert next_letter('theorem question_a : panic! "{" = "" := sorry\n'
                        "theorem question_b : True := sorry") == "c"
+    # A declaration is its keyword, whitespace and comments, then its name, plain or in
+    # guillemets; a guillemet identifier spelling anything else is opaque, a quote inside it
+    # included.  On the raw text the scan is a superset: a keyword in a comment counts.
+    assert next_letter("theorem -- Truth.\n  question_a : True := sorry") == "b"
+    assert next_letter("theorem question_a : True := sorry\n"
+                       "theorem «question_b» : True := sorry") == "c"
+    assert next_letter("def question_a : True := trivial") == "b"
+    assert next_letter('theorem question_a («x"» : ℕ) : True := sorry\n'
+                       "theorem question_b : True := sorry") == "c"
+    assert targets("theorem /- /- n -/ -/ question_c : True := sorry\n"
+                   "-- theorem question_d") == {"c": 1, "d": 2}
     # A target the scan is fooled out of seeing---here by the one interpolation it cannot
     # know, whose hole holds a string with an escaped quote---is caught against the raw text
-    # before the letter is handed out.
-    try:
-        with contextlib.redirect_stderr(io.StringIO()):
-            next_letter('theorem question_a : (throwErrorAt .missing "{"\\""}" : MetaM Unit)'
-                        " = pure () := sorry\ntheorem question_b : True := sorry")
-    except SystemExit:
-        pass
-    else:
-        raise AssertionError("a target hidden from the scan was handed out again")
+    # before the letter is handed out, however the declaration is spelled.
+    fooled = ('theorem question_a : (throwErrorAt .missing "{"\\""}" : MetaM Unit)'
+              " = pure () := sorry\n")
+
+    def refuses(text):
+        try:
+            with contextlib.redirect_stderr(io.StringIO()):
+                next_letter(text)
+        except SystemExit:
+            return True
+        return False
+
+    assert refuses(fooled + "theorem question_b : True := sorry")
+    assert refuses(fooled + "theorem -- Truth.\n  question_b : True := sorry")
+    assert refuses(fooled + "theorem /- /- nested -/ -/ question_b : True := sorry")
+    assert refuses(fooled + "theorem «question_b» : True := sorry")
+    assert refuses(fooled + "def question_b : True := trivial")
+    assert not refuses("theorem question_a : True := sorry")
     # An attribute, a modifier or indentation ahead of the keyword does not hide a target.
     assert next_letter("@[simp] theorem question_a (n : ℕ) : n + 0 = n := sorry") == "b"
     assert next_letter("  private theorem question_b : True := sorry") == "c"
