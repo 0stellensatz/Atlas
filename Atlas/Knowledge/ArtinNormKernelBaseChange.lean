@@ -34,13 +34,13 @@ namespace Atlas.Knowledge
 
 noncomputable section
 
-variable (K E : Type*) [Field K] [Field E] [Algebra K E] [FiniteDimensional K E]
+variable (K E : Type*) [Field K] [Field E] [Algebra K E]
   [ValuativeRel E] [TopologicalSpace E] [IsMixedCharLocalField E]
 
-omit [FiniteDimensional K E] in
 /-- The norm of an input whose upstairs Artin lift fixes an abelian field is a norm from
 that field ([Serre 1979, Chap. XIII, §4, Prop. 10 (a), p.197][Serre1979]). -/
 theorem IsLocalReciprocity.norm_mem_normRange_of_restriction_eq_one
+    [FiniteDimensional K E]
     {φ : Eˣ →* Field.absoluteGaloisGroupAbelianization E} (hφ : IsLocalReciprocity E φ)
     (e : AlgebraicClosure E ≃ₐ[K] AlgebraicClosure K)
     (L : IntermediateField K (AlgebraicClosure K))
