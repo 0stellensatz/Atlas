@@ -33,8 +33,9 @@ search on the subtype `↥(𝓂[K] ^ i : Ideal ↥𝒪[K])`, which is the expens
 ## References
 
 * [Pagano2022] C. Pagano, *Jump sets in local fields*, J. Algebra **593** (2022), 398–476.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -91,9 +92,8 @@ set_option synthInstance.maxHeartbeats 40000 in
 /-- Membership in the higher unit group through the units of the integer ring: `x ∈ U i (K)`
 iff some unit `u` of `𝒪[K]` congruent to `1` modulo `𝓂[K] ^ i` maps to `x` under the
 inclusion `𝒪[K]ˣ → Kˣ` — the translate-set carrier identified with the mapped-subgroup
-presentation of the principal units
-([Yamaguchi 2026,
-`LocalFieldTheory/NonarchimedeanLocalField/PrincipalUnits.lean:18`][Yamaguchi2026]). -/
+presentation of the principal units (Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/PrincipalUnits.lean:18`). -/
 theorem mem_higherUnitGroup_iff (K : Type*) [Field K] [ValuativeRel K] (i : ℕ+) (x : Kˣ) :
     x ∈ higherUnitGroup K i ↔
       ∃ u : (↥𝒪[K])ˣ,

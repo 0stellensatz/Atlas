@@ -32,8 +32,9 @@ completions is injective.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField RestrictedProduct
@@ -50,17 +51,16 @@ private noncomputable def finiteUnitsEquiv :
   RestrictedProduct.unitsEquiv (fun v : HeightOneSpectrum (𝓞 K) => v.adicCompletion K)
 
 /-- The **principal idele** of a field unit: the diagonal embedding `Kˣ →* 𝕀_K`, the field
-placed in all of its completions at once
-([Milne 2020, Chap. V, §4, 4.2, p.170][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalCore.lean:21`][Yamaguchi2026]). -/
+placed in all of its completions at once ([Milne 2020, Chap. V, §4, 4.2, p.170][MilneCFT];
+Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalCore.lean:21`). -/
 noncomputable def principalIdele : Kˣ →* IdeleGroup K :=
   (Units.map (algebraMap K (InfiniteAdeleRing K)).toMonoidHom).prod
     ((finiteUnitsEquiv K).toMonoidHom.comp
       (Units.map (algebraMap K (FiniteAdeleRing (𝓞 K) K)).toMonoidHom))
 
 /-- The diagonal is injective: a field unit is recovered from the archimedean factor
-([Milne 2020, Chap. V, §4, 4.2, p.170][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalCore.lean:48`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §4, 4.2, p.170][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/PrincipalCore.lean:48`). -/
 theorem principalIdele_injective : Function.Injective (principalIdele K) := by
   intro x y h
   have h1 : Units.map (algebraMap K (InfiniteAdeleRing K)).toMonoidHom x
@@ -70,8 +70,8 @@ theorem principalIdele_injective : Function.Injective (principalIdele K) := by
     (congrArg Units.val h1))
 
 /-- The subgroup of **principal ideles**, the range of the diagonal — the `K^×` the idele
-class group divides out ([Milne 2020, Chap. V, §4, p.171][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalCore.lean:55`][Yamaguchi2026]). -/
+class group divides out ([Milne 2020, Chap. V, §4, p.171][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/PrincipalCore.lean:55`). -/
 noncomputable def principalIdeleSubgroup : Subgroup (IdeleGroup K) :=
   MonoidHom.range (principalIdele K)
 

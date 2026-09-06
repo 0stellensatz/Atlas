@@ -75,8 +75,9 @@ orbit vocabulary.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -93,7 +94,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /- Under the fiber equivalence a double-coset norm summand is the
 corresponding summand of the conjugate-prime norm
-([Yamaguchi 2026, `MainTransferFrobenius.lean:835`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:835`). -/
 private theorem transferNormNaturalityTransferNormFiber_term
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -173,8 +174,7 @@ private theorem transferNormNaturalityTransferNormFiber_term
   rfl
 
 /- The inner double-coset sum of a transfer orbit is the norm of the
-conjugated prime
-([Yamaguchi 2026, `MainTransferFrobenius.lean:915`][Yamaguchi2026]). -/
+conjugated prime (Yamaguchi 2026, `MainTransferFrobenius.lean:915`). -/
 private theorem transferNormNaturalityTransferNormFiber_sum
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -282,7 +282,7 @@ namespace DegreeData
 
 /-- **The fixed field `Σₜ` of a transfer Frobenius factor contains the
 conjugate field `Σᵗ`** — on absolute groups, `G_{Σₜ} ≤ G_{Σᵗ}`
-([Yamaguchi 2026, `MainTransferFrobenius.lean:1024`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:1024`). -/
 theorem transferNormNaturalityTransferFrobenius_fixedField_le_conjugate
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -342,8 +342,8 @@ theorem transferNormNaturalityTransferFrobenius_fixedField_le_conjugate
   exact hmem
 
 /-- **The extension `Σₜ | Σᵗ` attached to one transfer orbit is
-unramified**
-([Yamaguchi 2026, `MainTransferFrobenius.lean:1087`][Yamaguchi2026]). -/
+unramified** (Yamaguchi 2026,
+`MainTransferFrobenius.lean:1087`). -/
 theorem transferNormNaturalityTransferFrobenius_fixedField_isUnramified_conjugate
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]
@@ -437,8 +437,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **A prime of `Σ`, conjugated and included into the unramified
-extension `Σₜ`, remains prime**
-([Yamaguchi 2026, `MainTransferFrobenius.lean:1182`][Yamaguchi2026]). -/
+extension `Σₜ`, remains prime** (Yamaguchi 2026,
+`MainTransferFrobenius.lean:1182`). -/
 theorem transferNormNaturalityTransferFrobenius_conjugatePrime_isPrime
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
@@ -629,8 +629,8 @@ theorem transferNormNaturalityTransferFrobenius_conjugatePrime_isPrime
 
 /-- **The norm identity of transfer–norm naturality**: the included
 `N_{Σ|K}(π)` is the sum over transfer double cosets of the conjugated
-primes' norms `N_{Σₜ|K'}(πᵗ)`
-([Yamaguchi 2026, `MainTransferFrobenius.lean:1382`][Yamaguchi2026]). -/
+primes' norms `N_{Σₜ|K'}(πᵗ)` (Yamaguchi 2026,
+`MainTransferFrobenius.lean:1382`). -/
 theorem transferNormNaturalityNorm_eq_sum_transferNorms
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -826,8 +826,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The classical transfer `G(L̃|K)ᵃᵇ →* G(L̃|K')ᵃᵇ`**, before
-passage to the finite Galois quotient
-([Yamaguchi 2026, `MainTransferFrobenius.lean:1583`][Yamaguchi2026]). -/
+passage to the finite Galois quotient (Yamaguchi 2026,
+`MainTransferFrobenius.lean:1583`). -/
 noncomputable def transferNormNaturalityFrobeniusTransfer
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -851,7 +851,7 @@ noncomputable def transferNormNaturalityFrobeniusTransfer
 
 /-- **The double-coset formula for the Frobenius-level transfer** —
 every factor is the positive Frobenius lift constructed before
-([Yamaguchi 2026, `MainTransferFrobenius.lean:1606`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:1606`). -/
 theorem transferNormNaturalityFrobeniusTransfer_doubleCoset_formula
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)

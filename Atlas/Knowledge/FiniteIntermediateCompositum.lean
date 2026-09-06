@@ -40,8 +40,9 @@ rationale that hung on it.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -55,9 +56,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace FiniteIntermediateField
 
 /-- **The compositum of two finite intermediate fields of `E | K`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:21`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:21`). -/
 def compositum {E K : ClosedSubgroup G}
     (M N : FiniteIntermediateField E K) :
     FiniteIntermediateField E K where
@@ -71,26 +71,23 @@ def compositum {E K : ClosedSubgroup G}
       N.finite
     exact M.compositumWith_finite_over_base N.field
 
-/-- The compositum lies below its left input ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:34`]
-[Yamaguchi2026]). -/
+/-- The compositum lies below its left input (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:34`). -/
 theorem compositum_le_left {E K : ClosedSubgroup G}
     (M N : FiniteIntermediateField E K) :
     (M.compositum N).field.toSubgroup ≤ M.field.toSubgroup :=
   inf_le_left
 
-/-- The compositum lies below its right input ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:40`]
-[Yamaguchi2026]). -/
+/-- The compositum lies below its right input (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:40`). -/
 theorem compositum_le_right {E K : ClosedSubgroup G}
     (M N : FiniteIntermediateField E K) :
     (M.compositum N).field.toSubgroup ≤ N.field.toSubgroup :=
   inf_le_right
 
 /-- **A finite intermediate field over a finite base is finite absolutely**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:47`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateCompositum.lean:47`). -/
 theorem absoluteFinite {E K : ClosedSubgroup G}
     [hKfinite : Finite ((baseField G).toSubgroup ⧸
       K.toSubgroup.subgroupOf (baseField G).toSubgroup)]
@@ -104,16 +101,14 @@ theorem absoluteFinite {E K : ClosedSubgroup G}
     (le_baseField K)
 
 /-- **The cardinality of the finite relative Galois quotient**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:32`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:32`). -/
 noncomputable def quotientCard {E K : ClosedSubgroup G}
     (M : FiniteIntermediateField E K) : ℕ :=
   Nat.card (K.toSubgroup ⧸ M.field.toSubgroup.subgroupOf K.toSubgroup)
 
-/-- The recorded cardinality is positive ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:40`]
-[Yamaguchi2026]). -/
+/-- The recorded cardinality is positive (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:40`). -/
 theorem quotientCard_pos {E K : ClosedSubgroup G}
     (M : FiniteIntermediateField E K) : 0 < M.quotientCard := by
   letI : Finite
@@ -123,9 +118,8 @@ theorem quotientCard_pos {E K : ClosedSubgroup G}
 
 /-- **Finitely many stages have a common finite overfield below a given one**
 — existentially, avoiding an artificial ordering of the family
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:49`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteIntermediateFieldCompositum.lean:49`). -/
 theorem exists_common_compositum {E K : ClosedSubgroup G} {ι : Type*}
     (M : FiniteIntermediateField E K) (s : Finset ι)
     (F : ι → FiniteIntermediateField E K) :

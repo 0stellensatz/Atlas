@@ -22,15 +22,16 @@ think under.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
 
 /-- **The quotient of a profinite group by a closed normal subgroup is
 totally disconnected** — Hausdorffness of the ambient group is not needed
-([Yamaguchi 2026, `Topology.lean:15`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `Topology.lean:15`). -/
 theorem quotient_totallyDisconnected_of_profinite
     {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [CompactSpace G] [TotallyDisconnectedSpace G]

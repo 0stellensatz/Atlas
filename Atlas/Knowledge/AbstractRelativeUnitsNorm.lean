@@ -41,8 +41,9 @@ consumer vacuous, which the P-phase disproved.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -59,10 +60,10 @@ variable (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
 
 include hnormal in
 /-- **The engine's relative norm of an upper unit is the field norm** of the
-concrete Galois extension of fixed fields ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:112`]
-[Yamaguchi2026] — the bottom-base form; here at an arbitrary base through
-the relative dictionary). -/
+concrete Galois extension of fixed fields (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:112`
+— the bottom-base form; here at an arbitrary base through the relative
+dictionary). -/
 theorem relativeNorm_abstractRelativeFixedFieldUnit_val
     [Finite ((baseField (Ω ≃ₐ[k] Ω)).toSubgroup ⧸
       K.toSubgroup.subgroupOf (baseField (Ω ≃ₐ[k] Ω)).toSubgroup)]
@@ -131,9 +132,9 @@ theorem relativeNorm_abstractRelativeFixedFieldUnit_val
 
 include hnormal in
 /-- **The engine's finite norm subgroup corresponds to the field-norm
-subgroup** under the unit dictionary at the base ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:193`]
-[Yamaguchi2026] — the bottom-base form; here at an arbitrary base). -/
+subgroup** under the unit dictionary at the base (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:193`
+— the bottom-base form; here at an arbitrary base). -/
 theorem map_finiteNormSubgroup_eq_relativeAdditiveNormSubgroup
     [Finite ((baseField (Ω ≃ₐ[k] Ω)).toSubgroup ⧸
       K.toSubgroup.subgroupOf (baseField (Ω ≃ₐ[k] Ω)).toSubgroup)]
@@ -178,9 +179,9 @@ theorem map_finiteNormSubgroup_eq_relativeAdditiveNormSubgroup
 
 include hnormal in
 /-- **The engine's finite norm quotient is the multiplicative norm quotient
-`Fˣ / N(Eˣ)`, written additively** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:233`]
-[Yamaguchi2026] — the bottom-base form; here at an arbitrary base). -/
+`Fˣ / N(Eˣ)`, written additively** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:233`
+— the bottom-base form; here at an arbitrary base). -/
 def finiteNormQuotientEquivRelativeNormQuotient
     [Finite ((baseField (Ω ≃ₐ[k] Ω)).toSubgroup ⧸
       K.toSubgroup.subgroupOf (baseField (Ω ≃ₐ[k] Ω)).toSubgroup)]
@@ -276,9 +277,9 @@ def finiteNormQuotientEquivRelativeNormQuotient
 
 include hnormal in
 /-- The norm-quotient equivalence computes on classes: the class of `a` goes
-to the class of the unit the dictionary attaches to `a` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:307`]
-[Yamaguchi2026] — the bottom-base form; here at an arbitrary base). -/
+to the class of the unit the dictionary attaches to `a` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:307`
+— the bottom-base form; here at an arbitrary base). -/
 @[simp]
 theorem finiteNormQuotientEquivRelativeNormQuotient_finiteNormClass
     [Finite ((baseField (Ω ≃ₐ[k] Ω)).toSubgroup ⧸

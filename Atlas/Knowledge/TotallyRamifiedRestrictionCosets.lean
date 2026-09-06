@@ -64,8 +64,9 @@ source's `TotallyRamifiedCase/RestrictionCosets.lean` whole.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -79,9 +80,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace FiniteGaloisSubextension
 
 /-- Restriction between the named finite Galois quotient boundaries
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:23`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:23`). -/
 def bundledRestrictionHom
     {K : ClosedSubgroup G}
     (M L : FiniteGaloisSubextension K)
@@ -93,9 +93,8 @@ def bundledRestrictionHom
         M.extensionQuotientMulEquiv.toMonoidHom)
 
 /-- The coset map from the lower maximal-unramified quotient to a
-totally ramified quotient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:35`]
-[Yamaguchi2026]). -/
+totally ramified quotient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:35`). -/
 def abstractReciprocityRestrictionCosetMap
     (D : DegreeData G) [IsTopologicalGroup G]
     (E : AbstractExtension G)
@@ -121,10 +120,9 @@ def abstractReciprocityRestrictionCosetMap
       exact hME hxy)
 
 /-- **The restriction coset map is bijective when the upper extension is
-totally ramified and the auxiliary field contains the relevant
-inertia** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:61`]
-[Yamaguchi2026]). -/
+totally ramified and the auxiliary field contains the relevant inertia**
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:61`). -/
 theorem abstractReciprocityRestrictionCosetMap_bijective
     (D : DegreeData G) [IsTopologicalGroup G]
     (E : AbstractExtension G)
@@ -214,9 +212,8 @@ theorem abstractReciprocityRestrictionCosetMap_bijective
     simpa [i, eK, eE, mul_inv_rev, mul_assoc] using eE.2
 
 /-- The equivalence induced by the totally ramified restriction coset
-map ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:148`]
-[Yamaguchi2026]). -/
+map (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:148`). -/
 def abstractReciprocityRestrictionCosetEquiv
     (D : DegreeData G) [IsTopologicalGroup G]
     (E : AbstractExtension G)
@@ -236,9 +233,8 @@ def abstractReciprocityRestrictionCosetEquiv
       D E hME hTot hInertia)
 
 /-- **The multiplicative restriction equivalence from the lower Galois
-group to the original totally ramified quotient** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:168`]
-[Yamaguchi2026]). -/
+group to the original totally ramified quotient** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:168`). -/
 def abstractReciprocityRestrictionMulEquiv
     (D : DegreeData G) [IsTopologicalGroup G]
     (E : AbstractExtension G)
@@ -295,9 +291,8 @@ def abstractReciprocityRestrictionMulEquiv
     D E hME hTot hInertia
 
 /-- Relative coset actions are transported by the restriction coset
-equivalence ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:223`]
-[Yamaguchi2026]). -/
+equivalence (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:223`). -/
 theorem relativeCosetAction_abstractReciprocityRestrictionCosetEquiv
     (A : Rep ℤ G) (D : DegreeData G) [IsTopologicalGroup G]
     (E : AbstractExtension G)
@@ -331,9 +326,8 @@ theorem relativeCosetAction_abstractReciprocityRestrictionCosetEquiv
   rfl
 
 /-- **Relative norm commutes with fixed-field inclusion along the
-totally ramified restriction equivalence** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:257`]
-[Yamaguchi2026]). -/
+totally ramified restriction equivalence** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:257`). -/
 theorem abstractReciprocity_relativeNorm_fixedFieldInclusion
     (A : Rep ℤ G) (D : DegreeData G) [IsTopologicalGroup G]
     (E : FiniteAbstractExtension G)
@@ -399,9 +393,8 @@ theorem abstractReciprocity_relativeNorm_fixedFieldInclusion
 
 /-- **Two auxiliary quotient elements commute when they have the same
 restriction and the auxiliary field contains the inertia subgroup**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:320`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:320`). -/
 theorem commute_of_same_restriction_of_inertia_le
     (D : DegreeData G)
     (E : AbstractExtension G)
@@ -491,9 +484,8 @@ theorem commute_of_same_restriction_of_inertia_le
     _ = t * g := by rw [map_mul, ha, hb]
 
 /-- Equal restrictions induce equal relative coset actions on elements
-fixed by the upper field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:406`]
-[Yamaguchi2026]). -/
+fixed by the upper field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionCosets.lean:406`). -/
 theorem relativeCosetAction_eq_of_restriction_eq
     (A : Rep ℤ G) (E : AbstractExtension G)
     (M : FiniteGaloisSubextension E.base)

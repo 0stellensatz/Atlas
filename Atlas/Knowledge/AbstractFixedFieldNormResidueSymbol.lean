@@ -24,8 +24,9 @@ map of the fixed field is a separate comparison.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -38,10 +39,8 @@ variable (k : Type u) (Ω : Type v) [Field k] [Field Ω] [Algebra k Ω] [IsGaloi
 
 /-- The norm-residue symbol on the actual units of a concrete fixed field,
 obtained from the abstract class-formation symbol through the canonical
-fixed-unit and relative-Galois identifications
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldNormResidueNaturality.lean:56`]
-[Yamaguchi2026]). -/
+fixed-unit and relative-Galois identifications (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldNormResidueNaturality.lean:56`). -/
 noncomputable def abstractFixedFieldNormResidueSymbol
     (D : DegreeData (Gal(Ω/k)))
     (v : ValuationData D (galoisAmbientUnitsRep k Ω))

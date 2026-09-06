@@ -71,8 +71,9 @@ monogenicity input, is the layer's own.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -132,10 +133,10 @@ coprime to `q = Nat.card 𝓀[K]`, the zeroth lower-numbering
 ramification group of `Atlas.Knowledge.cycloField K m` is trivial —
 an inertia element fixes every `m`-th root of unity because reduction
 is injective on them, and the roots generate the floor
-([Yamaguchi 2026,
-`LocalFieldTheory/Padic/Cyclotomic/Unramified/ArithmeticFrobenius.lean:590`]
-[Yamaguchi2026], its Henselian monogenic form; nothing in the source
-speaks the layer's `lowerRamificationGroup` rendering). -/
+(Yamaguchi 2026,
+`LocalFieldTheory/Padic/Cyclotomic/Unramified/ArithmeticFrobenius.lean:590`,
+its Henselian monogenic form; nothing in the source speaks the
+layer's `lowerRamificationGroup` rendering). -/
 theorem cycloField_lowerRamificationGroup_eq_bot {m : ℕ}
     (hm : Nat.Coprime m (Nat.card 𝓀[K])) :
     lowerRamificationGroup K ↥(cycloField K m) 0 = ⊥ := by

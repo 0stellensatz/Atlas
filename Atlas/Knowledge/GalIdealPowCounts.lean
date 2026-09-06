@@ -44,8 +44,9 @@ elaborates exactly as in the toolkit's own context.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel Nat
@@ -644,9 +645,8 @@ cyclic Galois group, the additive action of `Atlas.Knowledge.galIdealPow` on `�
 has `#Ĥ⁰ = #Ĥ¹`, both finite — every exponent, zero included; depth enters only where the
 exponential's consumer needs it. The lattice computation of the class field axiom
 ([Milne 2020, Chap. III, Lemma 2.3, p.104][MilneCFT]; the multiplicative principal-unit
-counterpart is
-[Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/NormalBasisCohomology.lean:33`]
-[Yamaguchi2026]). -/
+counterpart is Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/NormalBasisCohomology.lean:33`). -/
 theorem galIdealPowCounts
     (hgen : ∀ τ : L ≃ₐ[K] L, τ ∈ Subgroup.zpowers σ) (i : ℕ) :
     (Nat.card (H0 (AddEquiv.toMultiplicative (galIdealPow K L σ i)) (orderOf σ)) =

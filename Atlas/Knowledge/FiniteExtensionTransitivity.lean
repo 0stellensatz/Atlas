@@ -31,8 +31,9 @@ spelling.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -42,9 +43,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **Finiteness is transitive in a tower of abstract fields** — the order
-hypotheses are inert semantic guards ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:217`]
-[Yamaguchi2026]). -/
+hypotheses are inert semantic guards (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:217`). -/
 theorem finite_extension_trans
     {P L K : ClosedSubgroup G}
     (_hPL : P.toSubgroup ≤ L.toSubgroup)
@@ -68,9 +68,8 @@ theorem finite_extension_trans
     Subgroup.relIndex_ne_zero_trans hPL0 hLK0
 
 /-- **A finite extension remains finite over every intermediate field**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:240`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:240`). -/
 theorem finite_extension_over_intermediate
     {P M K : ClosedSubgroup G}
     (_hPK : P.toSubgroup ≤ K.toSubgroup)

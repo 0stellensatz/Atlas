@@ -37,8 +37,9 @@ states.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open NumberField
@@ -50,9 +51,8 @@ variable (K : Type*) [Field K] [NumberField K]
 open scoped Classical in
 /-- The **infinite-place Hilbert symbol**: `-1` when the exponent is `2`, the place is
 real, and both arguments are negative there; `1` otherwise
-([Milne 2020, Chap. VIII, §5, p.248][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/InfinitePlace.lean:28`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, p.248][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/InfinitePlace.lean:28`). -/
 noncomputable def infinitePlaceHilbertSymbol (n : ℕ) (v : InfinitePlace K)
     (a b : Kˣ) : Kˣ :=
   if n = 2 ∧ ∃ hv : v.IsReal,
@@ -79,9 +79,8 @@ theorem infinitePlaceHilbertSymbol_pow_eq_one (n : ℕ) (v : InfinitePlace K)
 omit [NumberField K] in
 /-- A complex place contributes the trivial factor
 ([Milne 2020, Chap. VIII, §5, p.248][MilneCFT];
-[Yamaguchi 2026,
-`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/InfinitePlace.lean:47`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/InfinitePlace.lean:47`). -/
 theorem infinitePlaceHilbertSymbol_eq_one_of_isComplex (n : ℕ) {v : InfinitePlace K}
     (hv : v.IsComplex) (a b : Kˣ) : infinitePlaceHilbertSymbol K n v a b = 1 := by
   rw [infinitePlaceHilbertSymbol, if_neg]
@@ -90,10 +89,8 @@ theorem infinitePlaceHilbertSymbol_eq_one_of_isComplex (n : ℕ) {v : InfinitePl
 
 omit [NumberField K] in
 /-- Away from the quadratic exponent the infinite factor is trivial — `μₙ ⊄ ℝ` past
-`n = 2`, so only the quadratic case can see a real place
-([Yamaguchi 2026,
-`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/InfinitePlace.lean:59`]
-[Yamaguchi2026]). -/
+`n = 2`, so only the quadratic case can see a real place (Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/InfinitePlace.lean:59`). -/
 theorem infinitePlaceHilbertSymbol_eq_one_of_ne_two {n : ℕ} (hn : n ≠ 2)
     (v : InfinitePlace K) (a b : Kˣ) : infinitePlaceHilbertSymbol K n v a b = 1 := by
   rw [infinitePlaceHilbertSymbol, if_neg]
@@ -103,10 +100,8 @@ theorem infinitePlaceHilbertSymbol_eq_one_of_ne_two {n : ℕ} (hn : n ≠ 2)
 omit [NumberField K] in
 /-- The real-place evaluation of the quadratic symbol: `-1` exactly when both arguments
 are negative — Milne's `(a,b)_v = 1 ⟺ a > 0` or `b > 0`
-([Milne 2020, Chap. VIII, §5, p.248][MilneCFT];
-[Yamaguchi 2026,
-`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/InfinitePlace.lean:67`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, p.248][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/InfinitePlace.lean:67`). -/
 theorem infinitePlaceHilbertSymbol_apply_of_isReal {v : InfinitePlace K}
     (hv : v.IsReal) (a b : Kˣ) :
     infinitePlaceHilbertSymbol K 2 v a b =

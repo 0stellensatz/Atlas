@@ -56,8 +56,9 @@ plugs into `card_H0_congr` and `card_H1_congr` with no adapter.
   edition, 2002.
 * [Hyeon2025] S.-H. Hyeon, *The m-step solvable anabelian geometry of mixed-characteristic
   local fields*, J. London Math. Soc. **112** (2025), e70402.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel Nat
@@ -208,9 +209,9 @@ theorem algEquivIntegerRestrict_mem_pow (σ : L ≃ₐ[K] L) (i : ℕ) {x : ↥�
 
 omit [IsValuativeTopology L] in
 /-- The unit action preserves the higher unit groups
-([Yamaguchi 2026,
-`LocalClassFieldTheory/ClassFormation/NormalBasisGaloisAction.lean:90`, the stability this
-level-wise form feeds][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/NormalBasisGaloisAction.lean:90`,
+the stability this level-wise form feeds). -/
 theorem galUnits_mem_higherUnitGroup (σ : L ≃ₐ[K] L) (i : ℕ+) {u : Lˣ}
     (hu : u ∈ higherUnitGroup L i) :
     Units.mapEquiv σ.toMulEquiv u ∈ higherUnitGroup L i := by

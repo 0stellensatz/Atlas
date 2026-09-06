@@ -77,8 +77,9 @@ respelling.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -91,9 +92,8 @@ variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
 /-- **The finite Artin coordinate at an open normal subgroup of the
-abelianized absolute Galois group** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:25`]
-[Yamaguchi2026]). -/
+abelianized absolute Galois group** (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:25`). -/
 noncomputable def absoluteFiniteArtinMap
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     Kˣ →* Field.absoluteGaloisGroupAbelianization K ⧸ N.toSubgroup :=
@@ -101,9 +101,8 @@ noncomputable def absoluteFiniteArtinMap
     (abelianLocalArtinMonoidHom K (absoluteFiniteQuotientField K N))
 
 /-- Every finite coordinate of the absolute Artin map is onto
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:33`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:33`). -/
 theorem absoluteFiniteArtinMap_surjective
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     Function.Surjective (absoluteFiniteArtinMap K N) :=
@@ -113,9 +112,8 @@ theorem absoluteFiniteArtinMap_surjective
 
 /-- **The kernel of a finite absolute Artin coordinate is the ordinary
 norm subgroup of its corresponding finite abelian fixed field**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:42`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:42`). -/
 theorem absoluteFiniteArtinMap_ker
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     (absoluteFiniteArtinMap K N).ker =
@@ -131,9 +129,8 @@ theorem absoluteFiniteArtinMap_ker
     simpa using congrArg (absoluteFiniteQuotientMulEquiv K N).symm ha
 
 /-- Finite absolute Artin coordinates commute with quotient transition
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:57`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:57`). -/
 theorem absoluteFiniteArtinMap_transition
     {N M : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)}
     (hNM : N ≤ M) :

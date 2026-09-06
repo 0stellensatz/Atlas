@@ -43,8 +43,9 @@ representation-free).
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -55,9 +56,8 @@ variable {G : Type*} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
-/-- The image of `G_L` in `G_K / I_L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:23`]
-[Yamaguchi2026]). -/
+/-- The image of `G_L` in `G_K / I_L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:23`). -/
 def extensionImageInInertiaQuotient (D : DegreeData G)
     (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -67,9 +67,8 @@ def extensionImageInInertiaQuotient (D : DegreeData G)
     (QuotientGroup.mk' (D.extensionInertiaWithin K L hLK))
 
 /-- The image of `G_L` in `G_K / I_L` is closed — the finite-index
-subgroup is clopen, and quotient maps are open ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:33`]
-[Yamaguchi2026]). -/
+subgroup is clopen, and quotient maps are open (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:33`). -/
 theorem extensionImageInInertiaQuotient_isClosed
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -103,9 +102,8 @@ theorem extensionImageInInertiaQuotient_isClosed
 
 /-- **A finite field fixed by the relative inertia and one representative
 of a Frobenius lift is contained in the lift's Frobenius fixed field** —
-the closed-subgroup minimality argument ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:67`]
-[Yamaguchi2026]). -/
+the closed-subgroup minimality argument (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:67`). -/
 theorem frobeniusFixedField_le_of_inertia_le_of_lift_mem
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L M : ClosedSubgroup G)
@@ -165,9 +163,8 @@ theorem frobeniusFixedField_le_of_inertia_le_of_lift_mem
   exact hkE
 
 /-- **A Frobenius lift restricting trivially to `L` has its fixed field
-containing `L`** — equivalently `G_Σ ≤ G_L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:128`]
-[Yamaguchi2026]). -/
+containing `L`** — equivalently `G_Σ ≤ G_L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:128`). -/
 theorem frobeniusFixedField_le_of_restriction_eq_one
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -215,9 +212,8 @@ theorem frobeniusFixedField_le_of_restriction_eq_one
   exact hkE
 
 /-- **Restriction and normalized degree jointly distinguish elements of
-`G(L̃/K)`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:176`]
-[Yamaguchi2026]). -/
+`G(L̃/K)`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:176`). -/
 theorem extensionRestriction_normalizedDegree_joint_injective
     (D : DegreeData G) (K : FiniteResidueAbstractField D)
     (L : ClosedSubgroup G)
@@ -245,9 +241,8 @@ theorem extensionRestriction_normalizedDegree_joint_injective
   change D.normalizedDegree K (a⁻¹ * b) = 1
   rw [map_mul, map_inv, hDegree, inv_mul_cancel]
 
-/-- The Frobenius restriction is multiplicative ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:208`]
-[Yamaguchi2026]). -/
+/-- The Frobenius restriction is multiplicative (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:208`). -/
 @[simp]
 theorem frobeniusRestriction_mul (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -263,9 +258,8 @@ theorem frobeniusRestriction_mul (D : DegreeData G)
   exact map_mul _ _ _
 
 /-- **Frobenius elements with equal restriction and equal normalized
-degree are equal** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:223`]
-[Yamaguchi2026]). -/
+degree are equal** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusDescent.lean:223`). -/
 theorem frobenius_eq_of_restriction_eq_of_degree_eq
     (D : DegreeData G) (K : FiniteResidueAbstractField D)
     (L : ClosedSubgroup G)

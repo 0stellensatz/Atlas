@@ -59,8 +59,9 @@ it.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -75,9 +76,9 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 /-- **The absolute extension valuation ring** of a mixed-characteristic local
 field: the integral closure of `𝒪[K]` in the algebraic closure, a valuation
 subring because on each finite subextension it is the integer ring of a
-Chevalley extension of the valuation ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:52` and `:80`]
-[Yamaguchi2026]). -/
+Chevalley extension of the valuation (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:52` and
+`:80`). -/
 def localAbsoluteValuationSubring : ValuationSubring (AlgebraicClosure K) where
   toSubring := (integralClosure 𝒪[K] (AlgebraicClosure K)).toSubring
   mem_or_inv_mem' x := by
@@ -111,9 +112,8 @@ theorem mem_localAbsoluteValuationSubring_iff {x : AlgebraicClosure K} :
 /-- **The restriction to any finite subextension is its canonical integer
 ring**, for every compatible valuative structure — the choice-independence the
 source obtains from Henselian uniqueness, here the integrality reading of the
-carrier ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:108`]
-[Yamaguchi2026]). -/
+carrier (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:108`). -/
 theorem localAbsoluteValuationSubring_restrict
     (E : IntermediateField K (AlgebraicClosure K)) [FiniteDimensional K E]
     [ValuativeRel E] [ValuativeExtension K E] (z : E) :
@@ -125,9 +125,8 @@ theorem localAbsoluteValuationSubring_restrict
     (IntermediateField.val E).injective (x := z)
 
 /-- **The pullback of the absolute valuation ring to `K` is `𝒪[K]`**: an
-element of `K` integral over `𝒪[K]` already lies in it ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:60`]
-[Yamaguchi2026]). -/
+element of `K` integral over `𝒪[K]` already lies in it (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:60`). -/
 theorem localAbsoluteValuationSubring_pullback (x : K) :
     algebraMap K (AlgebraicClosure K) x ∈ localAbsoluteValuationSubring K ↔
       x ∈ 𝒪[K] := by
@@ -146,9 +145,8 @@ theorem localAbsoluteValuationSubring_pullback (x : K) :
 /-- **Every automorphism preserves the absolute valuation ring**: integrality
 over `𝒪[K]` is Galois-stable, so the decomposition group is everything — the
 source pins this with Henselian uniqueness, Atlas reads it off the carrier
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:150`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:150`). -/
 theorem localAbsoluteDecompositionGroup_eq_top :
     decompositionGroup K (localAbsoluteValuationSubring K) = ⊤ := by
   apply top_unique
@@ -164,9 +162,8 @@ theorem localAbsoluteDecompositionGroup_eq_top :
     exact IsIntegral.map (AlgEquiv.restrictScalars 𝒪[K] sigma).toAlgHom h
 
 /-- **The finite residue field of `K` is the decomposition residue field** of
-the absolute valuation ring ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:214`]
-[Yamaguchi2026]). -/
+the absolute valuation ring (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:214`). -/
 def localBaseResidueEquivDecompositionResidue :
     𝓀[K] ≃+*
       decompositionResidueField K (localAbsoluteValuationSubring K) :=
@@ -181,9 +178,8 @@ def localBaseResidueEquivDecompositionResidue :
 /-- The base-residue comparison is the literal reduction into the selected
 residue field on representatives — the scalar square used when transporting
 residue degrees back to the residue fields of local extensions
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:226`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:226`). -/
 theorem localBaseResidueEquivDecompositionResidue_algebraMap (x : 𝒪[K]) :
     algebraMap
         (decompositionResidueField K (localAbsoluteValuationSubring K))
@@ -196,27 +192,24 @@ theorem localBaseResidueEquivDecompositionResidue_algebraMap (x : 𝒪[K]) :
             x.property⟩ : localAbsoluteValuationSubring K) := by
   rfl
 
-/-- **The decomposition residue field is finite** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:240`]
-[Yamaguchi2026]). -/
+/-- **The decomposition residue field is finite** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:240`). -/
 instance localDecompositionResidueFinite :
     Finite (decompositionResidueField K (localAbsoluteValuationSubring K)) :=
   Finite.of_equiv 𝓀[K]
     (localBaseResidueEquivDecompositionResidue K).toEquiv
 
 /-- The finite decomposition residue field, canonically enumerated
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:250`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:250`). -/
 instance localDecompositionResidueFintype :
     Fintype (decompositionResidueField K (localAbsoluteValuationSubring K)) :=
   Fintype.ofFinite _
 
 /-- **The selected residue field is algebraically closed** — in mixed
 characteristic directly by `Atlas.Knowledge.valuationSubring_residueField_isAlgClosed`,
-with the source's purely inseparable descent gone ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:256`]
-[Yamaguchi2026]). -/
+with the source's purely inseparable descent gone (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:256`). -/
 instance localSelectedResidueIsAlgClosed :
     IsAlgClosed (selectedResidueField (localAbsoluteValuationSubring K)) :=
   valuationSubring_residueField_isAlgClosed (localAbsoluteValuationSubring K)

@@ -52,8 +52,9 @@ is the source file's `GroupOnly` section whole; its two
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -70,9 +71,8 @@ variable {K : ClosedSubgroup G}
 
 /-- The inclusion `G(L/M) → G(L/K)` for the actual intermediate field,
 obtained from `G(L/M) ≃ S` followed by the subgroup inclusion
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:224`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:224`). -/
 def lowerInclusionHom (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     (L.intermediateField S).toSubgroup ⧸
@@ -81,9 +81,8 @@ def lowerInclusionHom (L : FiniteGaloisSubextension K)
   S.subtype.comp (L.lowerQuotientEquiv S).toMonoidHom
 
 /-- Representative formula for the actual lower inclusion
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:234`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:234`). -/
 @[simp]
 theorem lowerInclusionHom_mk (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient)
@@ -94,9 +93,8 @@ theorem lowerInclusionHom_mk (L : FiniteGaloisSubextension K)
           ⟨m.1, L.intermediateField_le_base S m.property⟩ := by
   exact L.lowerQuotientEquiv_mk_coe S m
 
-/-- The lower inclusion is injective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:244`]
-[Yamaguchi2026]). -/
+/-- The lower inclusion is injective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:244`). -/
 theorem lowerInclusionHom_injective (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     Function.Injective (L.lowerInclusionHom S) := by
@@ -105,9 +103,8 @@ theorem lowerInclusionHom_injective (L : FiniteGaloisSubextension K)
   exact Subtype.ext hxy
 
 /-- Every lower quotient of a cyclic extension is cyclic
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:252`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:252`). -/
 theorem lowerQuotient_isCyclic (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [IsCyclic L.extensionQuotient] :
     IsCyclic
@@ -117,9 +114,8 @@ theorem lowerQuotient_isCyclic (L : FiniteGaloisSubextension K)
 
 /-- The actual restriction arrow `G(L/K) → G(M/K)` attached to a normal
 subgroup `S ◁ G(L/K)`, expressed through the third-isomorphism
-identification ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:263`]
-[Yamaguchi2026]). -/
+identification (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:263`). -/
 def upperRestrictionHom (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal] :
     L.extensionQuotient →*
@@ -128,9 +124,8 @@ def upperRestrictionHom (L : FiniteGaloisSubextension K)
   (L.upperQuotientEquiv S).toMonoidHom.comp (QuotientGroup.mk' S)
 
 /-- Representative formula for the actual upper restriction arrow
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:272`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:272`). -/
 @[simp]
 theorem upperRestrictionHom_mk (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal] (k : K.toSubgroup) :
@@ -140,9 +135,8 @@ theorem upperRestrictionHom_mk (L : FiniteGaloisSubextension K)
   exact L.upperQuotientEquiv_mk_mk S k
 
 /-- Restriction to a normal intermediate field is surjective
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:280`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:280`). -/
 theorem upperRestrictionHom_surjective (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal] :
     Function.Surjective (L.upperRestrictionHom S) :=
@@ -150,9 +144,8 @@ theorem upperRestrictionHom_surjective (L : FiniteGaloisSubextension K)
     (QuotientGroup.mk'_surjective S)
 
 /-- Every upper quotient of a cyclic extension is cyclic
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:287`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:287`). -/
 theorem upperQuotient_isCyclic (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal]
     [IsCyclic L.extensionQuotient] :
@@ -165,9 +158,8 @@ theorem upperQuotient_isCyclic (L : FiniteGaloisSubextension K)
   exact (L.upperQuotientEquiv S).isCyclic.1 hsource
 
 /-- Its kernel is exactly the subgroup defining the intermediate field
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:299`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:299`). -/
 theorem upperRestrictionHom_eq_one_iff (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal]
     (q : L.extensionQuotient) :
@@ -189,9 +181,8 @@ theorem upperRestrictionHom_eq_one_iff (L : FiniteGaloisSubextension K)
 
 /-- **Exactness of the actual upper row for an intermediate field, in
 additive form** for direct use with the reciprocity homomorphisms
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:320`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:320`). -/
 theorem intermediateGalois_exact (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal] :
     Function.Exact
@@ -221,17 +212,15 @@ theorem intermediateGalois_exact (L : FiniteGaloisSubextension K)
 
 /-- **The maximal abelian intermediate field in the first reduction: the
 actual field cut out by the commutator subgroup of `G(L/K)`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:349`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:349`). -/
 def abelianIntermediateField (L : FiniteGaloisSubextension K) :
     ClosedSubgroup G :=
   L.intermediateField (commutator L.extensionQuotient)
 
 /-- Normality of the maximal abelian intermediate extension
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:354`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:354`). -/
 instance abelianIntermediateField_normalInstance
     (L : FiniteGaloisSubextension K) :
     (L.abelianIntermediateField.toSubgroup.subgroupOf
@@ -243,9 +232,8 @@ instance abelianIntermediateField_normalInstance
     (commutator L.extensionQuotient) inferInstance
 
 /-- Restriction to the maximal abelian intermediate field
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:367`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:367`). -/
 def abelianRestrictionHom (L : FiniteGaloisSubextension K) :
     L.extensionQuotient →*
       K.toSubgroup ⧸ L.abelianIntermediateField.toSubgroup.subgroupOf
@@ -253,9 +241,8 @@ def abelianRestrictionHom (L : FiniteGaloisSubextension K) :
   L.upperRestrictionHom (commutator L.extensionQuotient)
 
 /-- The first reduction's exact upper-row assertion: the kernel of
-restriction to `L^ab` is the commutator subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:376`]
-[Yamaguchi2026]). -/
+restriction to `L^ab` is the commutator subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:376`). -/
 theorem abelianRestrictionHom_eq_one_iff
     (L : FiniteGaloisSubextension K) (q : L.extensionQuotient) :
     L.abelianRestrictionHom q = 1 ↔
@@ -264,9 +251,8 @@ theorem abelianRestrictionHom_eq_one_iff
 
 /-- A jointly faithful family of quotient coordinates gives a jointly
 faithful family of actual restriction maps to the corresponding
-intermediate fields ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:385`]
-[Yamaguchi2026]). -/
+intermediate fields (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:385`). -/
 theorem upperRestrictionHom_jointlyFaithful
     (L : FiniteGaloisSubextension K)
     {I : Type*} {C : I → Type*} [∀ i, Group (C i)]
@@ -289,9 +275,8 @@ theorem upperRestrictionHom_jointlyFaithful
     exact map_one _
 
 /-- For a coordinate homomorphism, the actual restriction map has
-exactly the same kernel ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:408`]
-[Yamaguchi2026]). -/
+exactly the same kernel (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:408`). -/
 theorem upperRestrictionHom_ker_factor
     (L : FiniteGaloisSubextension K) {C : Type*} [Group C]
     (f : L.extensionQuotient →* C) (q : L.extensionQuotient) :
@@ -302,9 +287,8 @@ theorem upperRestrictionHom_ker_factor
 /-- **A finite abelian `G(L/K)` supplies the actual cyclic intermediate
 extensions used in the second reduction**: the coordinate kernels have
 trivial intersection, and the corresponding groups `G(Mᵢ/K)` are finite
-cyclic ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:419`]
-[Yamaguchi2026]). -/
+cyclic (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:419`). -/
 theorem exists_cyclicIntermediateFields
     (L : FiniteGaloisSubextension K)
     [IsMulCommutative L.extensionQuotient] :
@@ -345,9 +329,8 @@ theorem exists_cyclicIntermediateFields
 /-! ## The maximal unramified subextension in the third reduction -/
 
 /-- The inertia subgroup of `G(L/K)`: the image of `I_K` in the actual
-finite quotient; its fixed field is `L ∩ K̃` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:459`]
-[Yamaguchi2026]). -/
+finite quotient; its fixed field is `L ∩ K̃` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:459`). -/
 def inertiaImage (D : DegreeData G) (L : FiniteGaloisSubextension K) :
     Subgroup L.extensionQuotient :=
   (D.fieldInertiaWithin K).map
@@ -355,9 +338,8 @@ def inertiaImage (D : DegreeData G) (L : FiniteGaloisSubextension K) :
 
 omit [IsTopologicalGroup G] in
 /-- The inertia image is normal, since it is the image of the normal
-inertia subgroup under a surjective quotient map ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:467`]
-[Yamaguchi2026]). -/
+inertia subgroup under a surjective quotient map (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:467`). -/
 theorem inertiaImage_normal (D : DegreeData G)
     (L : FiniteGaloisSubextension K) : (L.inertiaImage D).Normal := by
   exact (inferInstance : (D.fieldInertiaWithin K).Normal).map
@@ -366,32 +348,28 @@ theorem inertiaImage_normal (D : DegreeData G)
       (L.field.toSubgroup.subgroupOf K.toSubgroup))
 
 /-- The inertia image in a finite Galois quotient is normal
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:475`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:475`). -/
 instance inertiaImage_normalInstance (D : DegreeData G)
     (L : FiniteGaloisSubextension K) : (L.inertiaImage D).Normal :=
   L.inertiaImage_normal D
 
 /-- **The actual maximal unramified subextension `M = L ∩ K̃`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:480`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:480`). -/
 def maximalUnramifiedSubextension (D : DegreeData G)
     (L : FiniteGaloisSubextension K) : ClosedSubgroup G :=
   L.intermediateField (L.inertiaImage D)
 
-/-- `M/K` as an actual finite Galois extension ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:485`]
-[Yamaguchi2026]). -/
+/-- `M/K` as an actual finite Galois extension (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:485`). -/
 def maximalUnramifiedFiniteGalois (D : DegreeData G)
     (L : FiniteGaloisSubextension K) : FiniteGaloisSubextension K :=
   L.intermediateFiniteGalois (L.inertiaImage D)
     (L.inertiaImage_normal D)
 
-/-- The constructed `M/K` is unramified ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:491`]
-[Yamaguchi2026]). -/
+/-- The constructed `M/K` is unramified (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:491`). -/
 theorem maximalUnramifiedSubextension_isUnramified
     (D : DegreeData G) (L : FiniteGaloisSubextension K) :
     (AbstractExtension.mk (L.maximalUnramifiedSubextension D) K
@@ -419,9 +397,8 @@ theorem maximalUnramifiedSubextension_isUnramified
   exact ⟨k, hkP, rfl⟩
 
 /-- The complementary extension `L/M` is totally ramified, i.e.
-`f_{L/M}=1` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:517`]
-[Yamaguchi2026]). -/
+`f_{L/M}=1` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:517`). -/
 theorem maximalUnramifiedSubextension_isTotallyRamified
     (D : DegreeData G) (L : FiniteGaloisSubextension K) :
     (AbstractExtension.mk L.field
@@ -459,9 +436,8 @@ theorem maximalUnramifiedSubextension_isTotallyRamified
 
 /-- **Maximality: every unramified intermediate extension of `L/K` is
 contained in the field cut out by the inertia image** — in subgroup
-order, the displayed inclusion ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:553`]
-[Yamaguchi2026]). -/
+order, the displayed inclusion (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:553`). -/
 theorem maximalUnramifiedSubextension_le_of_isUnramified
     (D : DegreeData G) (L : FiniteGaloisSubextension K)
     (N : ClosedSubgroup G)

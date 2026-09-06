@@ -36,8 +36,9 @@ predicate of `Atlas.Knowledge.IsGlobalArtinMap` is arithmetic from the start.
   2020.
 * [NeukirchEtAl2008] J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of number fields*,
   Grundlehren der mathematischen Wissenschaften **323**, Springer Berlin Heidelberg, 2008.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField
@@ -52,9 +53,8 @@ variable (K : Type*) [Field K] [NumberField K]
 /-- **Finite-level reciprocity, normalized**: the Artin map restricted to a finite
 subextension of `K^ab` has kernel exactly the norm subgroup — `φ` itself induces
 `C_K / N_{L/K} (C_L) ≅ Gal (L/K)`. Claim recorded ahead of its proof
-([Milne 2020, Chap. V, §5, Thm. 5.3, pp.178–179][MilneCFT];
-[Yamaguchi 2026,
-`GlobalClassFieldTheory/Reciprocity/ArithmeticNormalization.lean:140`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §5, Thm. 5.3, pp.178–179][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/ArithmeticNormalization.lean:140`). -/
 theorem globalReciprocity_ker
     {φ : IdeleClassGroup K →ₜ*
       (maximalAbelianExtension K ≃ₐ[K] maximalAbelianExtension K)}
@@ -68,8 +68,8 @@ theorem globalReciprocity_ker
 finite Galois extension. Claim recorded ahead of its proof
 ([Neukirch–Schmidt–Wingberg 2008, Chap. VIII, §1, (8.1.23), p.441][NeukirchEtAl2008];
 [Milne 2020, Chap. V, §5, Thm. 5.3, pp.178–179][MilneCFT];
-[Yamaguchi 2026,
-`GlobalClassFieldTheory/Reciprocity/ArithmeticNormalization.lean:140`][Yamaguchi2026]). -/
+Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/ArithmeticNormalization.lean:140`). -/
 theorem globalReciprocity_abelianization (L : Type*) [Field L]
     [Algebra K L] [FiniteDimensional K L] [IsGalois K L] :
     Nonempty (Abelianization (L ≃ₐ[K] L) ≃*

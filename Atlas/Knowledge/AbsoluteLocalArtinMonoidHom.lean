@@ -63,8 +63,9 @@ the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -78,18 +79,16 @@ variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-- **The absolute local Artin homomorphism** into the abelianized
 absolute Galois group: the compatible cone of finite Artin coordinates
-read back through the limit identification ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:206`]
-[Yamaguchi2026]). -/
+read back through the limit identification (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:206`). -/
 noncomputable def absoluteLocalArtinMonoidHom :
     Kˣ →* Field.absoluteGaloisGroupAbelianization K :=
   ((absoluteGaloisAbelianizationLimitEquiv K).symm.toMulEquiv.toMonoidHom).comp
     (absoluteFiniteArtinLimitMap K)
 
 /-- Projection of the absolute local Artin map to an open finite
-quotient is the corresponding finite Artin coordinate ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:215`]
-[Yamaguchi2026]). -/
+quotient is the corresponding finite Artin coordinate (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:215`). -/
 @[simp]
 theorem absoluteLocalArtinMonoidHom_finiteProjection
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) (a : Kˣ) :
@@ -104,9 +103,8 @@ theorem absoluteLocalArtinMonoidHom_finiteProjection
       absoluteFiniteArtinMap K N a at h
   exact h
 
-/-- **The absolute local Artin map has dense range** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:229`]
-[Yamaguchi2026]). -/
+/-- **The absolute local Artin map has dense range** (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:229`). -/
 theorem absoluteLocalArtinMonoidHom_denseRange :
     DenseRange (absoluteLocalArtinMonoidHom K) := by
   let e := absoluteGaloisAbelianizationLimitEquiv K

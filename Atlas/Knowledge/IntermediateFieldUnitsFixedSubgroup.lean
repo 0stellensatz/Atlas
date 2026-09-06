@@ -41,8 +41,9 @@ the file is universe-polymorphic like the rest of the engine layer.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -55,24 +56,21 @@ variable (K : Type u) (Ω : Type v) [Field K] [Field Ω] [Algebra K Ω]
 
 /-- **The Galois representation on the ambient units**, written additively for
 the group-cohomology API — Mathlib's `Rep.ofAlgebraAutOnUnits` behind a
-reducible name that simp does not unfold ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:29`]
-[Yamaguchi2026]). -/
+reducible name that simp does not unfold (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:29`). -/
 abbrev galoisAmbientUnitsRep : Rep ℤ (Ω ≃ₐ[K] Ω) :=
   Rep.ofAlgebraAutOnUnits K Ω
 
 /-- Inclusion of the units of an intermediate field into the ambient units,
-in additive notation ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:34`]
-[Yamaguchi2026]). -/
+in additive notation (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:34`). -/
 def intermediateFieldUnitsToGaloisAmbient
     (E : IntermediateField K Ω) :
     Additive Eˣ →+ Additive Ωˣ :=
   MonoidHom.toAdditive (Units.map E.val.toRingHom)
 
-/-- The inclusion computes as the mapped unit ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:41`]
-[Yamaguchi2026]). -/
+/-- The inclusion computes as the mapped unit (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:41`). -/
 @[simp]
 theorem intermediateFieldUnitsToGaloisAmbient_apply
     (E : IntermediateField K Ω) (x : Eˣ) :
@@ -83,9 +81,8 @@ theorem intermediateFieldUnitsToGaloisAmbient_apply
 variable [IsGalois K Ω]
 
 /-- **An ambient unit is fixed by `Gal(Ω/E)` exactly when it lies in `E`**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:51`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:51`). -/
 theorem mem_galoisAmbientUnits_fixed_iff
     (E : IntermediateField K Ω)
     (x : Additive Ωˣ) :
@@ -133,9 +130,8 @@ theorem mem_galoisAmbientUnits_fixed_iff
     rfl
 
 /-- **The image of `Eˣ` in the ambient units is the fixed subgroup** the
-engine attaches to `E` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:101`]
-[Yamaguchi2026]). -/
+engine attaches to `E` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:101`). -/
 theorem intermediateFieldUnitsToGaloisAmbient_range
     (E : IntermediateField K Ω) :
     (intermediateFieldUnitsToGaloisAmbient K Ω E).range =
@@ -176,9 +172,8 @@ theorem intermediateFieldUnitsToGaloisAmbient_range
     rfl
 
 /-- **The canonical additive equivalence `Eˣ ≃ A^{Gal(Ω/E)}`** for the
-ambient-unit representation ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:142`]
-[Yamaguchi2026]). -/
+ambient-unit representation (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:142`). -/
 def intermediateFieldUnitsEquivGaloisFixed
     (E : IntermediateField K Ω) :
     Additive Eˣ ≃+ ambientFixedAddSubgroup (galoisAmbientUnitsRep K Ω)
@@ -193,9 +188,8 @@ def intermediateFieldUnitsEquivGaloisFixed
     (AddEquiv.addSubgroupCongr
       (intermediateFieldUnitsToGaloisAmbient_range K Ω E))
 
-/-- The equivalence forgets to the inclusion ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:158`]
-[Yamaguchi2026]). -/
+/-- The equivalence forgets to the inclusion (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:158`). -/
 @[simp]
 theorem intermediateFieldUnitsEquivGaloisFixed_coe
     (E : IntermediateField K Ω) (x : Additive Eˣ) :
@@ -205,9 +199,8 @@ theorem intermediateFieldUnitsEquivGaloisFixed_coe
 
 /-- **The fixed coefficient group of an embedded extension is its unit
 group**: the form the engine's realized finite extensions use
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:168`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:168`). -/
 def embeddedFieldUnitsEquivGaloisFixed
     (L : Type w) [Field L] [Algebra K L]
     (i : L →ₐ[K] Ω) :
@@ -217,9 +210,8 @@ def embeddedFieldUnitsEquivGaloisFixed
     (Units.mapEquiv (AlgEquiv.ofInjectiveField i).toMulEquiv)).trans
       (intermediateFieldUnitsEquivGaloisFixed K Ω (AlgHom.fieldRange i))
 
-/-- The embedded equivalence forgets to the mapped unit ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:179`]
-[Yamaguchi2026]). -/
+/-- The embedded equivalence forgets to the mapped unit (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbsoluteUnitsFixedField.lean:179`). -/
 @[simp]
 theorem embeddedFieldUnitsEquivGaloisFixed_coe
     (L : Type w) [Field L] [Algebra K L]

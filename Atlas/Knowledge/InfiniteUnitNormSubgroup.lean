@@ -49,8 +49,9 @@ group to its subtype instead.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -66,9 +67,8 @@ namespace ValuationData
 variable {D : DegreeData G} {A : Rep ℤ G}
 
 /-- **The image `N_{M/K} U_M` from one finite intermediate field**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:30`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:30`). -/
 def finiteIntermediateUnitNormRange
     (v : ValuationData D A) (E : ClosedSubgroup G)
     (K : FiniteAbstractField G)
@@ -83,9 +83,8 @@ def finiteIntermediateUnitNormRange
 
 /-- **A unit norm from a finite overfield of `M` already lies in the unit
 norm range attached to `M`**, by transitivity of the actual norm
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:43`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:43`). -/
 theorem mem_finiteIntermediateUnitNormRange_of_overfield
     (v : ValuationData D A) (E : ClosedSubgroup G)
     (K : FiniteAbstractField G)
@@ -140,9 +139,8 @@ theorem mem_finiteIntermediateUnitNormRange_of_overfield
     _ = aK := haK
 
 /-- **The universal unit norm group `N_{E/K} U_E = ⋂_M N_{M/K} U_M`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:95`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:95`). -/
 def infiniteUnitNormSubgroup
     (v : ValuationData D A) (E : ClosedSubgroup G)
     (K : FiniteAbstractField G) :
@@ -151,9 +149,8 @@ def infiniteUnitNormSubgroup
     v.finiteIntermediateUnitNormRange E K M
 
 /-- Membership in the universal unit norm group is membership in every
-finite-level range ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:107`]
-[Yamaguchi2026]). -/
+finite-level range (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:107`). -/
 @[simp]
 theorem mem_infiniteUnitNormSubgroup_iff
     (v : ValuationData D A) (E : ClosedSubgroup G)
@@ -165,9 +162,8 @@ theorem mem_infiniteUnitNormSubgroup_iff
   simp [infiniteUnitNormSubgroup]
 
 /-- Each unit norm range sits inside the corresponding ambient norm range
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:120`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:120`). -/
 theorem finiteIntermediateUnitNormRange_le_normRange
     (v : ValuationData D A) (E : ClosedSubgroup G)
     (K : FiniteAbstractField G)
@@ -186,9 +182,8 @@ theorem finiteIntermediateUnitNormRange_le_normRange
   exact AddSubgroup.map_le_range _ _
 
 /-- **The universal unit norm group sits inside the ambient norm
-subgroup** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:137`]
-[Yamaguchi2026]). -/
+subgroup** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitNormSubgroup.lean:137`). -/
 theorem infiniteUnitNormSubgroup_le_normSubgroup
     (v : ValuationData D A) (E : ClosedSubgroup G)
     (K : FiniteAbstractField G) :

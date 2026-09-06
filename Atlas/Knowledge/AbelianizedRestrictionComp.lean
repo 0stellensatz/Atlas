@@ -24,17 +24,17 @@ required. This supplies the embedding comparison in `Atlas.Knowledge.ArtinMapNor
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
 
 /-- Restriction through normal extensions composes on abelianizations even for independent
 embeddings into the ambient field. This removes the compatible-embedding hypothesis from the
-restriction arrow used in the norm-residue triangle
-([Yamaguchi 2026, `LocalClassFieldTheory/Finite/LocalReciprocity/NormResidueNaturality.lean:34`]
-[Yamaguchi2026]). -/
+restriction arrow used in the norm-residue triangle (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidueNaturality.lean:34`). -/
 theorem abelianizedRestrictionComp
     (K M M' Ω : Type*) [Field K] [Field M] [Field M'] [Field Ω]
     [Algebra K M] [Algebra K M'] [Algebra K Ω]

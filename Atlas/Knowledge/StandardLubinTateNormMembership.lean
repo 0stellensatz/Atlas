@@ -42,8 +42,9 @@ quotient of the two negated roots, whose norms divide to the unit's image.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -60,10 +61,9 @@ variable {π : ↥𝒪[K]} (hπ : Irreducible π)
 `πu` is the norm of a negated element of the `π`-level field
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (c), p.38, proof p.39][MilneCFT] — Milne's
 computation is the `u = 1` case, and the changed parameter needs the depth-`n + 1`
-root;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/ChangedUniformizer.lean:147`][Yamaguchi2026]
-— the source computes the norm over the changed level field and reaches the `π`-level
-only through its changed-level equivalence, where the power basis lands directly). -/
+root; Yamaguchi 2026, `LubinTate/FiniteLevel/ChangedUniformizer.lean:147` — the source
+computes the norm over the changed level field and reaches the `π`-level only through
+its changed-level equivalence, where the power basis lands directly). -/
 theorem exists_standardLubinTate_norm_neg_eq_changedUniformizer {n : ℕ}
     {u : (↥𝒪[K])ˣ} (hu : u ∈ integerHigherUnitGroup K (n + 1)) :
     ∃ z : ↥(standardLubinTateLevelField K hπ n),
@@ -118,7 +118,7 @@ uniformizer and the `(n+1)`-st higher units lies inside the norms from level `n`
 the containment half of the norm-subgroup description
 ([Milne 2020, Chap. I, §1, p.25][MilneCFT] — the containment half of
 `Nm(K_{π,n+1}ˣ) = (1 + 𝔪^{n+1}) · π^ℤ`, rendered at Atlas level `n`;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:1393`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:1393`). -/
 theorem standardLubinTateNormMembership_le (n : ℕ) :
     Subgroup.zpowers (standardLubinTateUniformizerUnit K hπ) ⊔
         (integerHigherUnitGroup K (n + 1)).map

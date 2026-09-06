@@ -27,8 +27,9 @@ an arbitrary universe; only the engine's own instantiation pins it to `Type 0`.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -37,7 +38,7 @@ namespace Atlas.Knowledge
 `G_L`-fixed vectors of the restriction to `G_K`, with the descended `G_K ⧸ G_L`
 action — the module `A_L` of the extension, as acted on by its Galois group
 ([Milne 2020, Chap. II, §1, p.60][MilneCFT] — the `(−)^G` functor;
-[Yamaguchi 2026, `CyclicCohomology/NormKernelVanishing.lean:53`][Yamaguchi2026]). -/
+Yamaguchi 2026, `CyclicCohomology/NormKernelVanishing.lean:53`). -/
 noncomputable def extensionFixedRepresentation {G : Type*} [Group G]
     [TopologicalSpace G] (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (_hLK : L.toSubgroup ≤ K.toSubgroup)

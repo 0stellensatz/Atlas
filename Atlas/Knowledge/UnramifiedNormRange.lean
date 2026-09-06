@@ -47,8 +47,9 @@ equality.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -160,9 +161,8 @@ theorem normalizedValuation_norm_of_unramified
 powers**: both it and the preimage have index the degree — the class field axiom on one
 side, the reduction to `ZMod n` on the other — and one contains the other
 ([Serre 1979, Chap. V, §2, Prop. 3 and Cor., p.82][Serre1979]; the source counterpart, in
-its own valuation vocabulary, is
-[Yamaguchi 2026, `LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormComparison.lean:149`]
-[Yamaguchi2026]). -/
+its own valuation vocabulary, is Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormComparison.lean:149`). -/
 theorem unramifiedNormRange (h : lowerRamificationGroup K L 0 = ⊥) :
     (Units.map ((Algebra.norm K) : L →* K)).range =
       Subgroup.comap (normalizedValuationHom K)
@@ -262,9 +262,8 @@ variable (K L : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
 spelling — one universe for both fields, the norm-subgroup binder's shape: at trivial
 inertia the norm subgroup is the preimage of the degree's powers under the bundled
 valuation ([Serre 1979, Chap. V, §2, Prop. 3 and Cor., p.82][Serre1979]; the source
-counterpart, in its own valuation vocabulary, is [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormComparison.lean:149`]
-[Yamaguchi2026]). -/
+counterpart, in its own valuation vocabulary, is Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormComparison.lean:149`). -/
 theorem localNormSubgroup_eq_comap_normalizedValuationHom
     (h : lowerRamificationGroup K L 0 = ⊥) :
     localNormSubgroup K L =

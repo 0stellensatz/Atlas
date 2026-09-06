@@ -47,8 +47,9 @@ at every use site.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -62,9 +63,8 @@ variable (K : Type u) (Ω : Type v) [Field K] [Field Ω] [Algebra K Ω]
 
 omit [IsSepClosed Ω] in
 /-- **`Kˣ` is the coefficient group fixed by the bottom fixing subgroup**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:32`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:32`). -/
 def baseUnitsEquivGaloisAmbientFixed :
     Additive Kˣ ≃+ ambientFixedAddSubgroup
       (galoisAmbientUnitsRep K Ω)
@@ -78,9 +78,8 @@ def baseUnitsEquivGaloisAmbientFixed :
 
 omit [IsSepClosed Ω] in
 /-- The base equivalence reads as the structure map on the underlying element
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:45`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:45`). -/
 @[simp]
 theorem baseUnitsEquivGaloisAmbientFixed_val (x : Kˣ) :
     ((Additive.toMul
@@ -94,9 +93,8 @@ variable (E : IntermediateField K Ω)
 
 omit [IsSepClosed Ω] in
 /-- Restriction to `E` sends a left coset of its fixing subgroup to a
-`K`-embedding of `E` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:36`]
-[Yamaguchi2026]). -/
+`K`-embedding of `E` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:36`). -/
 def baseFixingCosetToAlgHom :
     ((closedFixingSubgroup (⊥ : IntermediateField K Ω)).toSubgroup ⧸
       (closedFixingSubgroup E).toSubgroup.subgroupOf
@@ -132,9 +130,8 @@ def baseFixingCosetToAlgHom :
         _ = τ.1 (x : Ω) := by rw [hτ'])
 
 omit [IsSepClosed Ω] in
-/-- The coset reading restricts the representative ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:75`]
-[Yamaguchi2026]). -/
+/-- The coset reading restricts the representative (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:75`). -/
 @[simp]
 theorem baseFixingCosetToAlgHom_mk
     (σ : (closedFixingSubgroup
@@ -144,9 +141,8 @@ theorem baseFixingCosetToAlgHom_mk
   rfl
 
 /- Surjectivity: every embedding extends to the ambient field
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:82`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:82`). -/
 private theorem baseFixingCosetToAlgHom_surjective
     [FiniteDimensional K E] [Algebra.IsSeparable K E] :
     Function.Surjective (baseFixingCosetToAlgHom K Ω E) := by
@@ -177,9 +173,8 @@ private theorem baseFixingCosetToAlgHom_surjective
 
 omit [IsSepClosed Ω] in
 /- Injectivity: agreeing on `E` means lying in the same coset
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:111`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:111`). -/
 private theorem baseFixingCosetToAlgHom_injective :
     Function.Injective (baseFixingCosetToAlgHom K Ω E) := by
   intro q r hqr
@@ -199,9 +194,8 @@ private theorem baseFixingCosetToAlgHom_injective :
   simp [y]
 
 /-- **Left cosets of the fixing subgroup are the `K`-embeddings** of a finite
-separable subextension ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:134`]
-[Yamaguchi2026]). -/
+separable subextension (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:134`). -/
 def baseFixingCosetEquivAlgHom
     [FiniteDimensional K E] [Algebra.IsSeparable K E] :
     ((closedFixingSubgroup (⊥ : IntermediateField K Ω)).toSubgroup ⧸
@@ -213,9 +207,8 @@ def baseFixingCosetEquivAlgHom
       baseFixingCosetToAlgHom_surjective K Ω E⟩
 
 /-- The engine's relative coset space at a finite separable subextension is
-finite ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:146`]
-[Yamaguchi2026]). -/
+finite (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:146`). -/
 instance baseFixingExtensionQuotient_finite_of_isSeparable
     [FiniteDimensional K E] [Algebra.IsSeparable K E] :
     Finite
@@ -233,9 +226,8 @@ variable (E : IntermediateField K Ω)
 
 omit [IsSepClosed Ω] [FiniteDimensional K E] [Algebra.IsSeparable K E] in
 /-- The coset action on an `E`-unit is evaluation under the corresponding
-embedding ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:173`]
-[Yamaguchi2026]). -/
+embedding (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:173`). -/
 theorem relativeCosetAction_intermediateFieldUnit_val_of_isSeparable
     (x : Eˣ)
     (q : (closedFixingSubgroup
@@ -254,9 +246,8 @@ theorem relativeCosetAction_intermediateFieldUnit_val_of_isSeparable
   rfl
 
 /-- **The engine's coset norm is the field norm**, for every finite separable
-subextension, normal or not ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:193`]
-[Yamaguchi2026]). -/
+subextension, normal or not (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:193`). -/
 theorem relativeNorm_intermediateFieldUnit_val_of_isSeparable (x : Eˣ) :
     ((Additive.toMul
       ((relativeNorm (galoisAmbientUnitsRep K Ω)
@@ -322,9 +313,8 @@ theorem relativeNorm_intermediateFieldUnit_val_of_isSeparable (x : Eˣ) :
 
 /-- Equivariant form of the nonnormal finite-separable norm comparison, with
 both fixed coefficient groups identified with the corresponding field unit
-groups ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:258`]
-[Yamaguchi2026]). -/
+groups (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableFixedFieldNorm.lean:258`). -/
 theorem relativeNorm_intermediateFieldUnit_of_isSeparable (x : Eˣ) :
     relativeNorm (galoisAmbientUnitsRep K Ω)
         (closedFixingSubgroup (⊥ : IntermediateField K Ω))

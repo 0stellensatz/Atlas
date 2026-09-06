@@ -24,8 +24,9 @@ neighbourhood up along the compositum with `E`, which stays finite over `E`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -35,9 +36,8 @@ noncomputable section
 universe u v
 
 /-- **The inclusion** `Gal(M/E) → Gal(M/K)`: restriction of scalars
-([Yamaguchi 2026,
-`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:622`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:622`). -/
 def ofIntermediateFieldInExtension
     {K : Type u} {M : Type v} [Field K] [Field M] [Algebra K M]
     (E : IntermediateField K M) :
@@ -55,9 +55,8 @@ theorem ofIntermediateFieldInExtension_apply
   rfl
 
 /-- **The image of the inclusion is the fixing subgroup** of `E`
-([Yamaguchi 2026,
-`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:639`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:639`). -/
 theorem range_ofIntermediateFieldInExtension
     {K : Type u} {M : Type v} [Field K] [Field M] [Algebra K M]
     (E : IntermediateField K M) :
@@ -76,9 +75,8 @@ theorem range_ofIntermediateFieldInExtension
     rfl
 
 /-- **A compositum with a finite intermediate field is finite over it**
-([Yamaguchi 2026,
-`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:718`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:718`). -/
 theorem finiteDimensional_extendScalars_sup
     (k : Type u) (M : Type v) [Field k] [Field M] [Algebra k M]
     (E F : IntermediateField k M)
@@ -122,9 +120,8 @@ theorem finiteDimensional_extendScalars_sup
 
 /-- **The inclusion is continuous** for the two Krull topologies when `E/K` is
 finite: a fixing-subgroup neighbourhood is met by the compositum with `E`
-([Yamaguchi 2026,
-`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:762`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:762`). -/
 theorem ofIntermediateFieldInExtension_continuous
     {k : Type u} {M : Type v} [Field k] [Field M] [Algebra k M]
     [IsGalois k M]

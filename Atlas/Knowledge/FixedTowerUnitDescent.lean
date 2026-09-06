@@ -73,8 +73,9 @@ the two `obtain`s.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -91,9 +92,8 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 
 /-- **The stabilizing action on the upper unit group, expressed directly
 on a fixed-field tower** — the bundle-native boundary used by the descent
-construction ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:33`]
-[Yamaguchi2026]). -/
+construction (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:33`). -/
 noncomputable def fixedTowerUnitAction
     (v : ValuationData D A) [IsTopologicalGroup G]
     (T : DegreeData.FrobeniusFixedFieldTower D)
@@ -118,9 +118,8 @@ noncomputable def fixedTowerUnitAction
 /-- **The corrected upper unit associated with a power-fixed-field
 tower**: all fixed fields and finiteness witnesses come from `P`, so
 callers no longer align independently constructed unit-group types
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:59`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:59`). -/
 noncomputable def powerTowerCorrection
     (v : ValuationData D A) [IsTopologicalGroup G] [T2Space G]
     (P : DegreeData.FrobeniusPowerFixedFieldTower D)
@@ -151,9 +150,8 @@ noncomputable def powerTowerCorrection
 
 /-- The cyclic generator selected on the lower fixed field acts on the
 upper unit group as the concrete quotient element defining that field
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:91`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:91`). -/
 theorem unitRepresentation_generator_action_eq
     (v : ValuationData D A) [IsTopologicalGroup G]
     (T : DegreeData.FrobeniusFixedFieldTower D)
@@ -196,9 +194,8 @@ theorem unitRepresentation_generator_action_eq
 
 /-- **The unit-cohomology axiom supplies the barred unit lifts and the
 corrected upper unit in the exact power-fixed-field tower used**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:134`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:134`). -/
 theorem universalNormDescent_fixedTower_solution
     (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
@@ -373,9 +370,8 @@ theorem universalNormDescent_fixedTower_solution
 
 /-- **The maximal-unramified norm of a relative norm in the power-fixed
 tower is the corresponding orbit sum** — the actual norm-enumeration
-step behind the factor `z^n` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:316`]
-[Yamaguchi2026]). -/
+step behind the factor `z^n` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:316`). -/
 theorem maximalNorm_relativeNorm_fixedTower
     [IsTopologicalGroup G] (v : ValuationData D A)
     (FT : DegreeData.FiniteAmbientFrobeniusFixedFieldTower D)
@@ -561,9 +557,8 @@ theorem maximalNorm_relativeNorm_fixedTower
 
 /-- **The corrected barred unit satisfies the original coinvariant
 equation after inclusion into the maximal unramified field**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:495`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitDescent.lean:495`). -/
 theorem universalNormDescent_correctedEquation
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)

@@ -44,8 +44,9 @@ source also carries the same object at `:37`, over the separable closure.
   2020.
 * [NeukirchEtAl2008] J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of number fields*,
   Grundlehren der mathematischen Wissenschaften **323**, Springer Berlin Heidelberg, 2008.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 noncomputable section
@@ -56,9 +57,8 @@ variable (K : Type*) [Field K] [NumberField K]
 
 /-- The **maximal abelian extension** `K^ab`: the fixed field of the topological closure of
 the commutator subgroup of the absolute Galois group
-([Milne 2020, Introduction, pp.11–12][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:37`]
-[Yamaguchi2026]). -/
+([Milne 2020, Introduction, pp.11–12][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:37`). -/
 noncomputable def maximalAbelianExtension : IntermediateField K (AlgebraicClosure K) :=
   IntermediateField.fixedField
     (Subgroup.topologicalClosure (commutator (Field.absoluteGaloisGroup K)))

@@ -49,8 +49,9 @@ carry it.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open NumberField IsDedekindDomain
@@ -61,9 +62,8 @@ namespace Atlas.Knowledge
 variable (K : Type*) [Field K] [NumberField K] (v : HeightOneSpectrum (𝓞 K))
 
 /-- The canonical valuative relation on the completion at a finite place, induced by the
-`v`-adic valuation ([Serre 1979, Chap. II, §1, p.27][Serre1979];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/FinitePlaceArtin/Construction.lean:294`]
-[Yamaguchi2026]). -/
+`v`-adic valuation ([Serre 1979, Chap. II, §1, p.27][Serre1979]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/FinitePlaceArtin/Construction.lean:294`). -/
 noncomputable instance adicCompletionValuativeRel : ValuativeRel (v.adicCompletion K) :=
   ValuativeRel.ofValuation (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰)
 
@@ -83,9 +83,8 @@ field. Three obligations remain open at the pinned Mathlib — the `Valued` topo
 valuative one, the valuation is nontrivial, and local compactness — the first two routine,
 the last Serre's Proposition 1 (a complete discretely valued field is locally compact iff
 its residue field is finite) plus the finiteness of that residue field; recorded ahead of
-its proof ([Serre 1979, Chap. II, §1, Prop. 1, p.27][Serre1979];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/FinitePlaceArtin/Construction.lean:305`]
-[Yamaguchi2026]). -/
+its proof ([Serre 1979, Chap. II, §1, Prop. 1, p.27][Serre1979]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/FinitePlaceArtin/Construction.lean:305`). -/
 theorem adicCompletion_isMixedCharLocalField :
     IsMixedCharLocalField (v.adicCompletion K) := by
   sorry

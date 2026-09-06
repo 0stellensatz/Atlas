@@ -35,8 +35,9 @@ instance` topology on the abelianization that Mathlib does not carry
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -57,9 +58,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 Galois floors `M` over `K` inside `M'` over `E`, the reciprocity maps intertwine the field
 norm with the abelianized restriction — `res ∘ Art_E = Art_K ∘ N_{E/K}`
 ([Serre 1979, Chap. XIII, §4, Prop. 10 (a) composed with Prop. 12, p.197][Serre1979];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldNormResidueNaturality.lean:561`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldNormResidueNaturality.lean:561`). -/
 theorem artinMap_norm_naturality
     (artK : Kˣ →* Abelianization (M ≃ₐ[K] M))
     (artE : Eˣ →* Abelianization (M' ≃ₐ[E] M'))
@@ -117,10 +117,8 @@ variable [Algebra M' (AlgebraicClosure K)] [IsScalarTower K M' (AlgebraicClosure
 /-- **Restriction naturality** of the Artin map: over one base `K`, the reciprocity map of a
 smaller Galois floor is the abelianized restriction of that of a larger — the compatibility
 that glues the floors into one absolute map
-([Serre 1979, Chap. XIII, §4, Prop. 12, p.197][Serre1979];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidueNaturality.lean:34`]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. XIII, §4, Prop. 12, p.197][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidueNaturality.lean:34`). -/
 theorem artinMap_restriction_naturality
     (artM : Kˣ →* Abelianization (M ≃ₐ[K] M))
     (artM' : Kˣ →* Abelianization (M' ≃ₐ[K] M'))

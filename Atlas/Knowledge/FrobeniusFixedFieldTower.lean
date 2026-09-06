@@ -46,8 +46,9 @@ only `extensionSubgroup`, goes. The ambient group is generic
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -61,9 +62,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The Frobenius fixed field bundled with its proved absolute finiteness**
-— the field object used by valuation and unit APIs ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:24`]
-[Yamaguchi2026]). -/
+— the field object used by valuation and unit APIs (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:24`). -/
 noncomputable def frobeniusFixedAbstractField
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -80,9 +80,8 @@ noncomputable def frobeniusFixedAbstractField
 /-- **A finite normal tower between two Frobenius fixed fields**: the
 ambient Galois extension, both Frobenius elements, the fixed-field
 inclusion, and exactly the finiteness hypotheses needed by the unit
-representation, stored once ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:45`]
-[Yamaguchi2026]). -/
+representation, stored once (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:45`). -/
 structure FrobeniusFixedFieldTower
     (D : DegreeData G) [IsTopologicalGroup G] where
   /-- The finite-residue field in which the ambient Galois extension
@@ -139,9 +138,8 @@ namespace FrobeniusFixedFieldTower
 variable {D : DegreeData G} [IsTopologicalGroup G]
 
 /-- The lower fixed field, finite over the distinguished base
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:112`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:112`). -/
 noncomputable def base (T : FrobeniusFixedFieldTower D) :
     FiniteAbstractField G := by
   letI : Finite
@@ -154,9 +152,8 @@ noncomputable def base (T : FrobeniusFixedFieldTower D) :
     T.ambient.below T.baseFrobenius
 
 /-- The upper fixed field, finite over the distinguished base
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:127`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:127`). -/
 noncomputable def field (T : FrobeniusFixedFieldTower D) :
     FiniteAbstractField G := by
   letI : Finite
@@ -169,9 +166,8 @@ noncomputable def field (T : FrobeniusFixedFieldTower D) :
     T.ambient.below T.fieldFrobenius
 
 /-- The fixed-field inclusion as a bundled Galois subextension
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:142`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:142`). -/
 noncomputable def toGaloisSubextension (T : FrobeniusFixedFieldTower D) :
     GaloisSubextension T.base.field where
   field := T.field.field
@@ -179,9 +175,8 @@ noncomputable def toGaloisSubextension (T : FrobeniusFixedFieldTower D) :
   normal := T.normal
 
 /-- The finite extension between the two bundled fixed fields
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:149`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:149`). -/
 noncomputable def extension (T : FrobeniusFixedFieldTower D) :
     FiniteAbstractFieldExtension G where
   field := T.field
@@ -190,9 +185,8 @@ noncomputable def extension (T : FrobeniusFixedFieldTower D) :
   finiteQuotient := T.finiteQuotient
 
 /-- A concrete lower-fixed-field element representing its Frobenius class
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:157`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:157`). -/
 structure Representative (T : FrobeniusFixedFieldTower D) where
   /-- The chosen element in the base fixed-field subgroup. -/
   element : T.extension.base.field.toSubgroup
@@ -205,18 +199,16 @@ structure Representative (T : FrobeniusFixedFieldTower D) where
         T.ambient.below T.baseFrobenius
 
 /-- The extension subgroup of a bundled Frobenius fixed-field tower is
-normal ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:168`]
-[Yamaguchi2026]). -/
+normal (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:168`). -/
 instance extensionNormal (T : FrobeniusFixedFieldTower D) :
     (T.extension.field.field.toSubgroup.subgroupOf
       T.extension.base.field.toSubgroup).Normal :=
   T.normal
 
 /-- A representative which generates the finite fixed-field quotient
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:174`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:174`). -/
 structure CyclicGenerator (T : FrobeniusFixedFieldTower D)
     extends Representative T where
   /-- Every relative Galois element is a power of the representative's
@@ -229,9 +221,8 @@ structure CyclicGenerator (T : FrobeniusFixedFieldTower D)
       x ∈ Subgroup.zpowers (QuotientGroup.mk toRepresentative.element)
 
 /-- The Galois quotient of a bundled Frobenius fixed-field extension is
-finite ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:185`]
-[Yamaguchi2026]). -/
+finite (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:185`). -/
 instance extensionFinite (T : FrobeniusFixedFieldTower D) :
     Finite
       (T.extension.base.field.toSubgroup ⧸
@@ -240,9 +231,8 @@ instance extensionFinite (T : FrobeniusFixedFieldTower D) :
   T.finiteQuotient
 
 /-- The lower Frobenius fixed field in the tower is finite over the
-distinguished base field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:193`]
-[Yamaguchi2026]). -/
+distinguished base field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:193`). -/
 instance baseAbsoluteFiniteInstance (T : FrobeniusFixedFieldTower D) :
     Finite
       ((baseField G).toSubgroup ⧸
@@ -252,9 +242,8 @@ instance baseAbsoluteFiniteInstance (T : FrobeniusFixedFieldTower D) :
   T.baseAbsoluteFinite
 
 /-- The upper Frobenius fixed field in the tower is finite over the
-distinguished base field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:205`]
-[Yamaguchi2026]). -/
+distinguished base field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:205`). -/
 instance fieldAbsoluteFiniteInstance (T : FrobeniusFixedFieldTower D) :
     Finite
       ((baseField G).toSubgroup ⧸
@@ -267,9 +256,8 @@ end FrobeniusFixedFieldTower
 
 /-- **A Frobenius fixed-field tower whose ambient Galois extension is finite**
 — the additional finiteness lives on the opaque quotient object
-`GaloisSubextension` exposes ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:221`]
-[Yamaguchi2026]). -/
+`GaloisSubextension` exposes (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:221`). -/
 structure FiniteAmbientFrobeniusFixedFieldTower
     (D : DegreeData G) [IsTopologicalGroup G]
     extends FrobeniusFixedFieldTower D where
@@ -281,18 +269,16 @@ namespace FiniteAmbientFrobeniusFixedFieldTower
 variable {D : DegreeData G} [IsTopologicalGroup G]
 
 /-- The ambient Galois quotient stored in a finite Frobenius fixed-field
-tower is finite ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:234`]
-[Yamaguchi2026]). -/
+tower is finite (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:234`). -/
 instance ambientQuotientFinite
     (T : FiniteAmbientFrobeniusFixedFieldTower D) :
     Finite T.ambient.extensionQuotient :=
   T.ambientFinite
 
 /-- Finiteness transported to the quotient presentation required by the
-underlying Frobenius calculations ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:241`]
-[Yamaguchi2026]). -/
+underlying Frobenius calculations (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:241`). -/
 noncomputable instance ambientRepresentedQuotientFinite
     (T : FiniteAmbientFrobeniusFixedFieldTower D) :
     Finite
@@ -308,9 +294,8 @@ end FiniteAmbientFrobeniusFixedFieldTower
 norm-descent construction already requires — the finite ambient Galois
 extension, a degree-one Frobenius, its positive exponent, and the three
 fixed-field finiteness witnesses; inclusion, normality, and commutation
-are consequences of the power construction ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:259`]
-[Yamaguchi2026]). -/
+are consequences of the power construction (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:259`). -/
 structure FrobeniusPowerFixedFieldTower
     (D : DegreeData G) [IsTopologicalGroup G] where
   /-- The finite-residue field at the base of the ambient extension. -/
@@ -365,26 +350,23 @@ namespace FrobeniusPowerFixedFieldTower
 variable {D : DegreeData G} [IsTopologicalGroup G]
 
 /-- Forget ambient finiteness while retaining its Galois structure
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:315`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:315`). -/
 noncomputable def ambientGalois (P : FrobeniusPowerFixedFieldTower D) :
     GaloisSubextension P.ambientBase.field :=
   P.ambient.toGaloisSubextension
 
 /-- The Frobenius element `φⁿ` defining the lower fixed field
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:320`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:320`). -/
 def baseFrobenius (P : FrobeniusPowerFixedFieldTower D) :
     D.FrobeniusElements P.ambientBase P.ambient.field P.ambient.below :=
   D.frobeniusPowerOfDegreeOne P.ambientBase P.ambient.field P.ambient.below
     P.frobenius P.exponent_one P.n P.n_pos
 
 /-- The Frobenius element `φⁿ²` defining the upper fixed field
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:326`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:326`). -/
 def fieldFrobenius (P : FrobeniusPowerFixedFieldTower D) :
     D.FrobeniusElements P.ambientBase P.ambient.field P.ambient.below :=
   D.frobeniusPowerOfDegreeOne P.ambientBase P.ambient.field P.ambient.below
@@ -392,9 +374,8 @@ def fieldFrobenius (P : FrobeniusPowerFixedFieldTower D) :
       (Nat.mul_pos P.n_pos P.n_pos)
 
 /-- The original Frobenius commutes with its `n`-th power
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:333`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:333`). -/
 theorem frobenius_commute_base (P : FrobeniusPowerFixedFieldTower D) :
     P.frobenius.1 * P.baseFrobenius.1 =
       P.baseFrobenius.1 * P.frobenius.1 := by
@@ -402,9 +383,8 @@ theorem frobenius_commute_base (P : FrobeniusPowerFixedFieldTower D) :
     ((Commute.refl P.frobenius.1).pow_right P.n).eq
 
 /-- The original Frobenius commutes with its `n²`-th power
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:340`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:340`). -/
 theorem frobenius_commute_field (P : FrobeniusPowerFixedFieldTower D) :
     P.frobenius.1 * P.fieldFrobenius.1 =
       P.fieldFrobenius.1 * P.frobenius.1 := by
@@ -412,9 +392,8 @@ theorem frobenius_commute_field (P : FrobeniusPowerFixedFieldTower D) :
     ((Commute.refl P.frobenius.1).pow_right (P.n * P.n)).eq
 
 /-- Inclusion of the field fixed by `φⁿ²` into the field fixed by `φⁿ`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:347`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:347`). -/
 theorem field_le_base (P : FrobeniusPowerFixedFieldTower D) :
     (D.frobeniusFixedField P.ambientBase P.ambient.field P.ambient.below
         P.fieldFrobenius).toSubgroup ≤
@@ -425,9 +404,8 @@ theorem field_le_base (P : FrobeniusPowerFixedFieldTower D) :
 
 /-- Relative finiteness in the fixed-field presentation used by the
 Frobenius action and norm lemmas — the witness is projected from the
-power tower rather than requested again from callers ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:358`]
-[Yamaguchi2026]). -/
+power tower rather than requested again from callers (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:358`). -/
 instance relativeRepresentedQuotientFinite
     (P : FrobeniusPowerFixedFieldTower D) :
     Finite
@@ -440,9 +418,8 @@ instance relativeRepresentedQuotientFinite
   P.relativeFinite
 
 /-- Absolute finiteness of the lower fixed field in the presentation used
-by the Frobenius action API ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:373`]
-[Yamaguchi2026]). -/
+by the Frobenius action API (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:373`). -/
 instance baseRepresentedAbsoluteFinite
     (P : FrobeniusPowerFixedFieldTower D) :
     Finite
@@ -453,9 +430,8 @@ instance baseRepresentedAbsoluteFinite
   P.baseAbsoluteFinite
 
 /-- Absolute finiteness of the upper fixed field in the presentation used
-by the Frobenius action API ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:387`]
-[Yamaguchi2026]). -/
+by the Frobenius action API (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:387`). -/
 instance fieldRepresentedAbsoluteFinite
     (P : FrobeniusPowerFixedFieldTower D) :
     Finite
@@ -466,9 +442,8 @@ instance fieldRepresentedAbsoluteFinite
   P.fieldAbsoluteFinite
 
 /-- **The power construction as the canonical fixed-field tower bundle**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:400`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:400`). -/
 noncomputable def toFrobeniusFixedFieldTower
     (P : FrobeniusPowerFixedFieldTower D) [T2Space G] :
     FrobeniusFixedFieldTower D where
@@ -490,9 +465,8 @@ noncomputable def toFrobeniusFixedFieldTower
       ((Commute.refl P.frobenius.1).pow_pow P.n (P.n * P.n)).eq
 
 /-- The power tower together with the already assumed finiteness of its
-ambient extension ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:422`]
-[Yamaguchi2026]). -/
+ambient extension (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldTower.lean:422`). -/
 noncomputable def toFiniteAmbientFrobeniusFixedFieldTower
     (P : FrobeniusPowerFixedFieldTower D) [T2Space G] :
     FiniteAmbientFrobeniusFixedFieldTower D where

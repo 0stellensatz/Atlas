@@ -48,8 +48,9 @@ of `Atlas.Knowledge.PowerResidueReciprocity` with unit arguments.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open NumberField IsDedekindDomain
@@ -59,9 +60,8 @@ namespace Atlas.Knowledge
 variable (K : Type*) [Field K] [NumberField K]
 
 /-- The **exponent places**: the finitely many primes dividing `n` — Milne's `S`
-([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:506`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, p.244][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:506`). -/
 noncomputable def powerResidueExponentFinitePlaces (n : ℕ) (hn : n ≠ 0) :
     Finset (HeightOneSpectrum (𝓞 K)) :=
   (Ideal.finite_factors (I := Ideal.span {(n : 𝓞 K)})
@@ -81,8 +81,8 @@ theorem mem_powerResidueExponentFinitePlaces (n : ℕ) (hn : n ≠ 0)
 open scoped Classical in
 /-- The **bad places** of a pair: the supports of the two arguments and the exponent
 places ([Milne 2020, Chap. VIII, §5, p.244 and Thm. 5.11, p.247][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1207`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1207`). -/
 noncomputable def powerResidueBadFinitePlaces (n : ℕ) (hn : n ≠ 0) (a b : Kˣ) :
     Finset (HeightOneSpectrum (𝓞 K)) :=
   (unitFiniteSupport K a ∪ unitFiniteSupport K b) ∪
@@ -91,8 +91,8 @@ noncomputable def powerResidueBadFinitePlaces (n : ℕ) (hn : n ≠ 0) (a b : K�
 /-- Off the bad places of a pair, its finite-place Hilbert factor is trivial: both
 arguments are local units at an unramified place prime to the exponent. Claim recorded
 ahead of its proof ([Milne 2020, Chap. VIII, §5, 5.8, p.246][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1236`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1236`). -/
 theorem IsFinitePlaceHilbertSymbol.eq_one_of_notMem_powerResidueBadFinitePlaces
     {n : ℕ} (hn : n ≠ 0) (hmu : (primitiveRoots n K).Nonempty)
     {v : HeightOneSpectrum (𝓞 K)} {h : Kˣ → Kˣ → Kˣ}
@@ -103,9 +103,8 @@ theorem IsFinitePlaceHilbertSymbol.eq_one_of_notMem_powerResidueBadFinitePlaces
 /-- The **bad-place correction** of power-residue reciprocity: all infinite-place
 factors and the finite-place factors at the exponent places — Milne's `∏_{v∈S} (b,a)_v`
 with the infinite primes included in `S`, parametric in the finite-place symbol family
-([Milne 2020, Chap. VIII, §5, Thm. 5.11, p.247][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1216`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, Thm. 5.11, p.247][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1216`). -/
 noncomputable def powerResidueBadPlaceCorrection (n : ℕ) (hn : n ≠ 0)
     (h : ∀ _v : HeightOneSpectrum (𝓞 K), Kˣ → Kˣ → Kˣ) (a b : Kˣ) : Kˣ :=
   (∏ v : InfinitePlace K, infinitePlaceHilbertSymbol K n v a b) *

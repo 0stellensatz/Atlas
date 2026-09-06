@@ -38,8 +38,9 @@ source carries the same three layers with a named multiplicity function
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open NumberField IsDedekindDomain
@@ -49,9 +50,8 @@ namespace Atlas.Knowledge
 variable (K : Type*) [Field K] [NumberField K]
 
 /-- The prime divisors of a nonzero integral ideal, as a `Finset`
-([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:300`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, p.244][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:300`). -/
 noncomputable def idealPrimeDivisors (I : Ideal (𝓞 K)) (hI : I ≠ 0) :
     Finset (HeightOneSpectrum (𝓞 K)) :=
   (Ideal.finite_factors hI).toFinset
@@ -65,9 +65,8 @@ theorem mem_idealPrimeDivisors (I : Ideal (𝓞 K)) (hI : I ≠ 0)
 
 /-- The **ideal power residue symbol** `(a/𝔟) = ∏ (a/𝔭)^{v_𝔭(𝔟)}`: the prime symbols of
 the divisors of the denominator, each raised to its multiplicity
-([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:323`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, p.244][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:323`). -/
 noncomputable def idealPowerResidueSymbol (I : Ideal (𝓞 K)) (hI : I ≠ 0) {n : ℕ}
     (hn : n ≠ 0) (hmu : (primitiveRoots n K).Nonempty) (a : 𝓞 K)
     (hcoprime : ∀ P : HeightOneSpectrum (𝓞 K), P.asIdeal ∣ I →
@@ -82,10 +81,8 @@ noncomputable def idealPowerResidueSymbol (I : Ideal (𝓞 K)) (hI : I ≠ 0) {n
 
 open scoped Classical in
 /-- The prime-by-prime factor of the ideal symbol, extended by `1` away from the
-divisors of the denominator
-([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:347`]
-[Yamaguchi2026]). -/
+divisors of the denominator ([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
+Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:347`). -/
 noncomputable def idealPowerResidueFactor (I : Ideal (𝓞 K)) {n : ℕ} (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) (a : 𝓞 K)
     (hcoprime : ∀ P : HeightOneSpectrum (𝓞 K), P.asIdeal ∣ I →
@@ -99,8 +96,8 @@ noncomputable def idealPowerResidueFactor (I : Ideal (𝓞 K)) {n : ℕ} (hn : n
     1
 
 /-- Only divisors of the denominator contribute a nontrivial factor
-([Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:369`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:369`). -/
 theorem idealPowerResidueFactor_mulSupport_finite (I : Ideal (𝓞 K)) (hI : I ≠ 0)
     {n : ℕ} (hn : n ≠ 0) (hmu : (primitiveRoots n K).Nonempty) (a : 𝓞 K)
     (hcoprime : ∀ P : HeightOneSpectrum (𝓞 K), P.asIdeal ∣ I →

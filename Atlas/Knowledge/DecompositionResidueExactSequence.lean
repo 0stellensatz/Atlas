@@ -56,8 +56,9 @@ identification itself stays, as the payoff of the fixed-subring presentation.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -72,21 +73,20 @@ variable (K : Type u) {L : Type v} [Field K] [Field L] [Algebra K L]
 
 /-- **The decomposition group** of a valuation subring — Mathlib's
 `ValuationSubring.decompositionSubgroup`, named for the layer
-([Yamaguchi 2026, `RamificationTheory/HilbertRamification/ValuationSubring.lean:30`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ValuationSubring.lean:30`). -/
 abbrev decompositionGroup (A : ValuationSubring L) : Subgroup (L ≃ₐ[K] L) :=
   A.decompositionSubgroup K
 
 /-- **The inertia group** — Mathlib's `ValuationSubring.inertiaSubgroup`
-([Yamaguchi 2026, `RamificationTheory/HilbertRamification/ValuationSubring.lean:36`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026, `RamificationTheory/HilbertRamification/ValuationSubring.lean:36`). -/
 abbrev inertiaGroup (A : ValuationSubring L) :
     Subgroup (decompositionGroup K A) :=
   A.inertiaSubgroup K
 
 /-- The residue action of the decomposition group on the residue field
-([Yamaguchi 2026, `RamificationTheory/HilbertRamification/ValuationSubring.lean:41`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ValuationSubring.lean:41`). -/
 abbrev residueAction (A : ValuationSubring L) :
     decompositionGroup K A →*
       (IsLocalRing.ResidueField A ≃+* IsLocalRing.ResidueField A) :=
@@ -94,24 +94,23 @@ abbrev residueAction (A : ValuationSubring L) :
     (A.decompositionSubgroup K) (IsLocalRing.ResidueField A)
 
 /-- The inertia group is the kernel of the residue action
-([Yamaguchi 2026, `RamificationTheory/HilbertRamification/ValuationSubring.lean:48`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ValuationSubring.lean:48`). -/
 theorem residueAction_ker (A : ValuationSubring L) :
     MonoidHom.ker (residueAction K A) = inertiaGroup K A := by
   rfl
 
 /-- The inertia group is normal: it is a kernel
-([Yamaguchi 2026, `RamificationTheory/HilbertRamification/ValuationSubring.lean:53`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ValuationSubring.lean:53`). -/
 instance inertiaGroup_normal (A : ValuationSubring L) :
     (inertiaGroup K A).Normal := by
   rw [← residueAction_ker (K := K) A]
   infer_instance
 
 /-- **The decomposition field** `Z_w`: the fixed field of the decomposition
-group ([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ValuationSubring.lean:148`]
-[Yamaguchi2026]). -/
+group (Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ValuationSubring.lean:148`). -/
 abbrev decompositionField (A : ValuationSubring L) : IntermediateField K L :=
   IntermediateField.fixedField (decompositionGroup K A)
 
@@ -138,9 +137,8 @@ theorem mem_decompositionGroup_iff_apply_mem
 
 /-- **The decomposition group is closed** in the Krull topology: an
 automorphism moving the ring out of itself does so on an adjoined finite
-subextension
-([Yamaguchi 2026, `RamificationTheory/ClosedSubgroups.lean:49`]
-[Yamaguchi2026]). -/
+subextension (Yamaguchi 2026,
+`RamificationTheory/ClosedSubgroups.lean:49`). -/
 theorem decompositionGroup_isClosed [Algebra.IsAlgebraic K L]
     (A : ValuationSubring L) :
     IsClosed (decompositionGroup K A : Set (L ≃ₐ[K] L)) where
@@ -193,9 +191,8 @@ abbrev decompositionFieldValuationSubring (A : ValuationSubring L) :
   A.comap (decompositionField K A).val
 
 /-- **The fixed-subring presentation is the literal valuation ring on `Z_w`**
-([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:60`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:60`). -/
 def decompositionFieldValuationSubringEquivFixedSubring
     (A : ValuationSubring L) :
     decompositionFieldValuationSubring K A ≃+*
@@ -342,9 +339,8 @@ theorem decompositionFixedMaximalIdeal_eq_maximalIdeal
     (decompositionFixedMaximalIdeal.instIsMaximal (K := K) A)
 
 /-- **The literal residue field of `Z_w` is the base residue field**
-([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:208`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:208`). -/
 def decompositionFieldResidueEquiv (A : ValuationSubring L) :
     IsLocalRing.ResidueField (decompositionFieldValuationSubring K A) ≃+*
       decompositionResidueField K A :=
@@ -356,9 +352,8 @@ def decompositionFieldResidueEquiv (A : ValuationSubring L) :
 
 /-- **Under a full decomposition group, the decomposition-field valuation
 ring is any pulled-back valuation ring on the ground field**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:31`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:31`). -/
 def valuationSubringEquivDecompositionFieldOfEqTop
     (A : ValuationSubring L) (C : ValuationSubring K)
     (hC : A.comap (algebraMap K L) = C)
@@ -409,9 +404,8 @@ def valuationSubringEquivDecompositionFieldOfEqTop
     exact hz
 
 /-- **The literal residue field of any pulled-back valuation ring is the
-base residue field**, under a full decomposition group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:84`]
-[Yamaguchi2026]). -/
+base residue field**, under a full decomposition group (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:84`). -/
 def residueFieldEquivDecompositionResidueOfEqTop
     (A : ValuationSubring L) (C : ValuationSubring K)
     (hC : A.comap (algebraMap K L) = C)
@@ -443,9 +437,8 @@ noncomputable instance selectedResidueField.instAlgebra
       (decompositionFixedMaximalIdeal K A)))
 
 /-- The residue equivalence reduces representatives into the selected residue
-field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:97`]
-[Yamaguchi2026]). -/
+field (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:97`). -/
 theorem residueFieldEquivDecompositionResidueOfEqTop_algebraMap
     (A : ValuationSubring L) (C : ValuationSubring K)
     (hC : A.comap (algebraMap K L) = C)
@@ -497,9 +490,8 @@ private def decompositionGroupToMaximalIdealStabilizer
   map_mul' _ _ := rfl
 
 /-- **The residue action of `G_w` on `λ/κ`**
-([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:277`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:277`). -/
 def decompositionGroupResidueAction (A : ValuationSubring L) :
     decompositionGroup K A →*
       (selectedResidueField A ≃ₐ[decompositionResidueField K A]
@@ -522,9 +514,8 @@ omit [IsGalois K L] in
 
 omit [IsGalois K L] in
 /-- **The kernel of the residue action is the inertia group**
-([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:325`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:325`). -/
 theorem decompositionGroupResidueAction_ker (A : ValuationSubring L) :
     MonoidHom.ker (decompositionGroupResidueAction (K := K) A) =
       inertiaGroup K A := by
@@ -546,10 +537,8 @@ theorem decompositionGroupResidueAction_ker (A : ValuationSubring L) :
 
 /-- **Reduction is onto the full residue Galois group**, including the
 infinite case — Mathlib's profinite stabilizer surjectivity applied to the
-whole decomposition group
-([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:347`]
-[Yamaguchi2026]). -/
+whole decomposition group (Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:347`). -/
 theorem decompositionGroupResidueAction_surjective (A : ValuationSubring L) :
     Function.Surjective (decompositionGroupResidueAction (K := K) A) := by
   letI : TopologicalSpace A := ⊥
@@ -603,10 +592,8 @@ theorem inertiaGroup_mulExact_decompositionGroupResidueAction
   exact (Subgroup.range_subtype _).symm
 
 /-- **The residue-action exact sequence**
-`1 → I_w → G_w → Gal(λ/κ) → 1`
-([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:415`]
-[Yamaguchi2026]). -/
+`1 → I_w → G_w → Gal(λ/κ) → 1` (Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:415`). -/
 theorem decompositionGroupResidueAction_shortExact (A : ValuationSubring L) :
     Function.Injective (inertiaGroup K A).subtype ∧
       Function.MulExact (inertiaGroup K A).subtype
@@ -617,9 +604,8 @@ theorem decompositionGroupResidueAction_shortExact (A : ValuationSubring L) :
     decompositionGroupResidueAction_surjective (K := K) A⟩
 
 /-- **The quotient form** `G_w ⧸ I_w ≃* Gal(λ/κ)`
-([Yamaguchi 2026,
-`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:426`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/HilbertRamification/ResidueExactSequence.lean:426`). -/
 def decompositionQuotientEquivResidueGalois (A : ValuationSubring L) :
     decompositionGroup K A ⧸ inertiaGroup K A ≃*
       (selectedResidueField A ≃ₐ[decompositionResidueField K A]

@@ -50,8 +50,9 @@ the axiom audit.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open NumberField IsDedekindDomain
@@ -63,9 +64,8 @@ variable (K : Type*) [Field K] [NumberField K]
 /-- The **finite-place Hilbert symbol** characterization of `h : Kˣ → Kˣ → Kˣ`: some
 `n`-th local Hilbert symbol `H` of the completion at `v` restricts to `h` along the
 completion embedding — the local pairing on global arguments, descended to `μₙ(K)`
-([Milne 2020, Chap. VIII, §5, Rem. 5.9, p.247][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/Core.lean:158`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, Rem. 5.9, p.247][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/Core.lean:158`). -/
 def IsFinitePlaceHilbertSymbol (n : ℕ) (v : HeightOneSpectrum (𝓞 K))
     (h : Kˣ → Kˣ → Kˣ) : Prop :=
   ∀ _cert : IsMixedCharLocalField (v.adicCompletion K),
@@ -78,9 +78,8 @@ def IsFinitePlaceHilbertSymbol (n : ℕ) (v : HeightOneSpectrum (𝓞 K))
 
 /-- An `n`-th Hilbert symbol exists at every finite place once `K` contains the `n`-th
 roots of unity. Claim recorded ahead of its proof
-([Milne 2020, Chap. VIII, §5, pp.245–247][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/Core.lean:158`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, pp.245–247][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/Core.lean:158`). -/
 theorem exists_isFinitePlaceHilbertSymbol (n : ℕ) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) (v : HeightOneSpectrum (𝓞 K)) :
     ∃ h : Kˣ → Kˣ → Kˣ, IsFinitePlaceHilbertSymbol K n v h := by

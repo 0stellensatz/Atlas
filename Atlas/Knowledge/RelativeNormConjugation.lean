@@ -38,8 +38,9 @@ its head fully determined without it.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -50,9 +51,8 @@ universe u
 
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
-/-- Conjugation preserves inclusions of abstract fields ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormConjugation.lean:28`]
-[Yamaguchi2026]). -/
+/-- Conjugation preserves inclusions of abstract fields (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormConjugation.lean:28`). -/
 theorem conjugateClosedSubgroup_mono [ContinuousMul G]
     {K L : ClosedSubgroup G} (hLK : L.toSubgroup ≤ K.toSubgroup)
     (s : G) :
@@ -65,9 +65,8 @@ theorem conjugateClosedSubgroup_mono [ContinuousMul G]
   exact hLK hx
 
 /-- **Conjugation identifies a field's subgroup with its right conjugate's**
-by `k ↦ s⁻¹ks` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormConjugation.lean:41`]
-[Yamaguchi2026]). -/
+by `k ↦ s⁻¹ks` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormConjugation.lean:41`). -/
 def conjugateSubgroupEquiv [ContinuousMul G]
     (K : ClosedSubgroup G) (s : G) :
     K.toSubgroup ≃* (conjugateClosedSubgroup K s).toSubgroup where
@@ -96,9 +95,8 @@ theorem conjugateSubgroupEquiv_apply_coe [ContinuousMul G]
   rfl
 
 /-- **The relative subgroup of `L | K` maps onto that of `L^s | K^s`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormConjugation.lean:70`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormConjugation.lean:70`). -/
 theorem map_extensionSubgroup_conjugate [ContinuousMul G]
     (K L : ClosedSubgroup G) (s : G) :
     (L.toSubgroup.subgroupOf K.toSubgroup).map
@@ -119,9 +117,8 @@ theorem map_extensionSubgroup_conjugate [ContinuousMul G]
     · exact (conjugateSubgroupEquiv K s).apply_symm_apply x
 
 /-- **Conjugation identifies the relative coset spaces**, Galois or not
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormConjugation.lean:92`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormConjugation.lean:92`). -/
 noncomputable def relativeConjugateCosetEquiv [ContinuousMul G]
     (K L : ClosedSubgroup G) (s : G) :
     (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup) ≃
@@ -158,9 +155,8 @@ theorem relativeConjugateCosetEquiv_mk [ContinuousMul G]
       QuotientGroup.mk (conjugateSubgroupEquiv K s k) :=
   rfl
 
-/-- **A conjugate of a Galois extension is Galois** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormConjugation.lean:136`]
-[Yamaguchi2026]). -/
+/-- **A conjugate of a Galois extension is Galois** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormConjugation.lean:136`). -/
 instance conjugateExtension_normal [ContinuousMul G]
     (K L : ClosedSubgroup G) (s : G)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal] :
@@ -172,9 +168,8 @@ instance conjugateExtension_normal [ContinuousMul G]
     (conjugateSubgroupEquiv K s).surjective
 
 /-- **The left vertical of the norm–conjugation naturality diagram**:
-`τ ↦ s⁻¹τs` on the Galois quotients ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormConjugation.lean:150`]
-[Yamaguchi2026]). -/
+`τ ↦ s⁻¹τs` on the Galois quotients (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormConjugation.lean:150`). -/
 noncomputable def finiteReciprocityNaturalityConjugation
     [ContinuousMul G] (K L : ClosedSubgroup G) (s : G)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal] :
@@ -197,9 +192,8 @@ theorem finiteReciprocityNaturalityConjugation_mk [ContinuousMul G]
       QuotientGroup.mk (conjugateSubgroupEquiv K s k) :=
   rfl
 
-/-- **A conjugate of a finite extension is finite** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormConjugation.lean:182`]
-[Yamaguchi2026]). -/
+/-- **A conjugate of a finite extension is finite** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormConjugation.lean:182`). -/
 theorem finite_conjugateExtension [ContinuousMul G]
     (K L : ClosedSubgroup G) (s : G)
     [hLfinite : Finite
@@ -212,9 +206,8 @@ theorem finite_conjugateExtension [ContinuousMul G]
     (relativeConjugateCosetEquiv K L s)
 
 /- Conjugation intertwines the two relative coset actions
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormConjugation.lean:203`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormConjugation.lean:203`). -/
 private theorem relativeCosetAction_conjugate
     [ContinuousMul G] (A : Rep ℤ G)
     (K L : ClosedSubgroup G)
@@ -244,9 +237,8 @@ private theorem relativeCosetAction_conjugate
       exact congrArg (fun φ => φ a.1) (map_mul A.ρ s⁻¹ k.1)
 
 /-- **Relative norms commute with conjugation**:
-`N_{L^s|K^s}(a^s) = N_{L|K}(a)^s` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormConjugation.lean:234`]
-[Yamaguchi2026]). -/
+`N_{L^s|K^s}(a^s) = N_{L|K}(a)^s` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormConjugation.lean:234`). -/
 theorem relativeNorm_conjugate_apply
     [ContinuousMul G] (A : Rep ℤ G)
     (K L : ClosedSubgroup G)

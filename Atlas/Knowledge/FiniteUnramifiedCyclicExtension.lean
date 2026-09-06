@@ -29,8 +29,9 @@ resolution reaches the parent's through the projection.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -43,9 +44,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 variable {D : DegreeData G}
 
 /-- **A finite cyclic extension bundled with its unramifiedness for a fixed
-degree datum** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:103`]
-[Yamaguchi2026]). -/
+degree datum** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:103`). -/
 structure FiniteUnramifiedCyclicExtension
     (D : DegreeData G) (K : FiniteAbstractField G)
     extends FiniteCyclicSubextension K where
@@ -57,27 +57,24 @@ namespace FiniteUnramifiedCyclicExtension
 variable {K : FiniteAbstractField G}
 
 /-- Forget cyclic and unramified structure while retaining both finite
-endpoint fields and the relative finite quotient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:116`]
-[Yamaguchi2026]). -/
+endpoint fields and the relative finite quotient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:116`). -/
 noncomputable def toFiniteAbstractFieldExtension
     (E : FiniteUnramifiedCyclicExtension D K) :
     FiniteAbstractFieldExtension G :=
   E.toFiniteCyclicSubextension.toFiniteAbstractFieldExtension
 
 /-- The unramified proof, transported to the canonical finite
-field-extension bundle ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:123`]
-[Yamaguchi2026]). -/
+field-extension bundle (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:123`). -/
 theorem toFiniteAbstractFieldExtension_isUnramified
     (E : FiniteUnramifiedCyclicExtension D K) :
     E.toFiniteAbstractFieldExtension.IsUnramified D := by
   exact E.unramified
 
 /-- The absolute quotient attached to a finite unramified cyclic extension
-is finite ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:139`]
-[Yamaguchi2026]). -/
+is finite (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:139`). -/
 noncomputable instance (E : FiniteUnramifiedCyclicExtension D K) :
     Finite ((baseField G).toSubgroup ⧸
       E.field.toSubgroup.subgroupOf (baseField G).toSubgroup) :=

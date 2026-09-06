@@ -33,8 +33,9 @@ determined by its unit values.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -109,9 +110,8 @@ twisted sum `∑ aᵢ σⁱ(c)` with the running partial norms as coefficients i
 `c` by Dedekind's independence of characters, and `x` shifts it onto itself. Stated and
 proved at `Type*`: Mathlib's `groupCohomology.exists_div_of_norm_eq_one` pins `K L : Type`,
 which the layer's carriers do not satisfy
-([Serre 1979, Chap. X, §1, Prop. 2, p.150, and Cor., p.151][Serre1979];
-[Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/Hilbert90.lean:17`]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. X, §1, Prop. 2, p.150, and Cor., p.151][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/Hilbert90.lean:17`). -/
 theorem hilbertNinety (hgen : ∀ τ, τ ∈ Subgroup.zpowers σ)
     {x : L} (hx : Algebra.norm K x = 1) :
     ∃ y : Lˣ, (y : L) / σ (y : L) = x := by

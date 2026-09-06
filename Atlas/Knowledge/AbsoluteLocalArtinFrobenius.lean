@@ -50,7 +50,7 @@ from `Atlas.Knowledge.exists_extension_isMixedCharLocalField` and is
 inert in the statement, as the #218 review recorded. Layer-original:
 the source states no Frobenius property of its absolute map —
 `absoluteLocalArtinMap` is consumed only inside
-`LocalClassFieldTheory/Infinite/` [Yamaguchi2026], and no
+`LocalClassFieldTheory/Infinite/` (Yamaguchi 2026), and no
 arithmetic-Frobenius statement exists at its infinite level — and the
 field-level `ζ ↦ ζ ^ q` reading has been the layer's own since the
 cyclotomic floor (#219).
@@ -61,8 +61,9 @@ cyclotomic floor (#219).
   2020.
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge

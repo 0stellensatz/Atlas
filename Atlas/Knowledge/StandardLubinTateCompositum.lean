@@ -50,8 +50,9 @@ statements need none of it. The integer scalar tower is supplied by hand as
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -65,9 +66,9 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 variable {π π' : ↥𝒪[K]} (hπ : Irreducible π) (hπ' : Irreducible π') (n : ℕ)
 
 /-- The **compositum of two standard level fields** inside the separable closure — the
-common carrier of the changed-uniformizer comparison
-([Yamaguchi 2026, `LubinTate/FiniteLevel/ChangedLevelCompositum.lean:37`]
-[Yamaguchi2026] — the source's join is the same, specialized there to `π` and `πu`). -/
+common carrier of the changed-uniformizer comparison (Yamaguchi 2026,
+`LubinTate/FiniteLevel/ChangedLevelCompositum.lean:37` — the source's join is the
+same, specialized there to `π` and `πu`). -/
 noncomputable def standardLubinTateCompositum : IntermediateField K (SeparableClosure K) :=
   standardLubinTateLevelField K hπ n ⊔ standardLubinTateLevelField K hπ' n
 
@@ -79,9 +80,8 @@ instance standardLubinTateCompositum_finiteDimensional :
 
 /-- **The compositum is Galois over the base**: the join of two Galois intermediates of
 the separable closure ([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT] — each
-level is abelian, so the join is Galois;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/ChangedLevelCompositum.lean:85`]
-[Yamaguchi2026]). -/
+level is abelian, so the join is Galois; Yamaguchi 2026,
+`LubinTate/FiniteLevel/ChangedLevelCompositum.lean:85`). -/
 instance standardLubinTateCompositum_isGalois :
     IsGalois K ↥(standardLubinTateCompositum K hπ hπ' n) := by
   unfold standardLubinTateCompositum

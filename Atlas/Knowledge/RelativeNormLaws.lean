@@ -47,8 +47,9 @@ universe-polymorphic like the rest of the engine layer.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -62,8 +63,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **The subgroup of the conjugate abstract field `K^σ`** — the construction
-uses a right exponent, hence `G_{K^σ} = σ⁻¹ G_K σ` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:26`][Yamaguchi2026]). -/
+uses a right exponent, hence `G_{K^σ} = σ⁻¹ G_K σ` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:26`). -/
 def conjugateClosedSubgroup [ContinuousMul G]
     (K : ClosedSubgroup G) (σ : G) : ClosedSubgroup G where
   toSubgroup := ConjAct.toConjAct σ⁻¹ • K.toSubgroup
@@ -77,8 +78,8 @@ def conjugateClosedSubgroup [ContinuousMul G]
     simp only [ConjAct.toConjAct_inv, inv_inv, ConjAct.toConjAct_smul]
 
 /-- Membership in the conjugate subgroup is conjugate membership
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:43`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:43`). -/
 @[simp]
 theorem conjugateClosedSubgroup_mem [ContinuousMul G]
     (K : ClosedSubgroup G) (σ x : G) :
@@ -88,8 +89,8 @@ theorem conjugateClosedSubgroup_mem [ContinuousMul G]
   rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
   simp only [ConjAct.toConjAct_inv, inv_inv, ConjAct.toConjAct_smul]
 
-/-- **The right-conjugate `a^σ`**, through the left action ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:53`][Yamaguchi2026]). -/
+/-- **The right-conjugate `a^σ`**, through the left action (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:53`). -/
 def conjugateFixedElement [ContinuousMul G]
     (A : Rep ℤ G) (K : ClosedSubgroup G) (σ : G)
     (a : ambientFixedAddSubgroup A K) :
@@ -109,8 +110,8 @@ def conjugateFixedElement [ContinuousMul G]
     _ = A.ρ σ⁻¹ a.1 := by rw [a.2 k]
 
 /-- The conjugate reads as the inverse action on the coefficient
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:76`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:76`). -/
 @[simp]
 theorem conjugateFixedElement_coe [ContinuousMul G]
     (A : Rep ℤ G) (K : ClosedSubgroup G) (σ : G)
@@ -120,8 +121,8 @@ theorem conjugateFixedElement_coe [ContinuousMul G]
       A.ρ σ⁻¹ a.1 :=
   rfl
 
-/- Conjugation as a self-equivalence of the base subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:84`][Yamaguchi2026]). -/
+/- Conjugation as a self-equivalence of the base subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:84`). -/
 private def absoluteConjugationEquiv (σ : G) :
     (baseField G).toSubgroup ≃
       (baseField G).toSubgroup where
@@ -135,8 +136,7 @@ private def absoluteConjugationEquiv (σ : G) :
     simp [mul_assoc]
 
 /-- **Conjugation identifies the absolute coset spaces of `K^σ` and `K`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:105`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/NormLaws.lean:105`). -/
 def absoluteConjugateCosetEquiv [ContinuousMul G]
     (K : ClosedSubgroup G) (σ : G) :
     ((baseField G).toSubgroup ⧸
@@ -159,8 +159,8 @@ def absoluteConjugateCosetEquiv [ContinuousMul G]
 
 /-- The conjugate coset equivalence acts on representatives — not a simp
 lemma here: the base subgroup rewrites to `⊤` under the layer's simp set, so
-the left-hand side is not normal ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:129`][Yamaguchi2026]). -/
+the left-hand side is not normal (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:129`). -/
 theorem absoluteConjugateCosetEquiv_mk [ContinuousMul G]
     (K : ClosedSubgroup G) (σ : G)
     (x : (baseField G).toSubgroup) :
@@ -169,8 +169,8 @@ theorem absoluteConjugateCosetEquiv_mk [ContinuousMul G]
   rfl
 
 /- The coset action of the conjugate is the conjugated coset action
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:137`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:137`). -/
 private theorem relativeCosetAction_absoluteConjugate [ContinuousMul G]
     (A : Rep ℤ G) (K : ClosedSubgroup G) (σ : G)
     (a : ambientFixedAddSubgroup A K)
@@ -199,8 +199,8 @@ private theorem relativeCosetAction_absoluteConjugate [ContinuousMul G]
       rfl
 
 /-- **The absolute norm commutes with conjugation**: the norm of `a^σ` from
-`K^σ` is the `σ`-conjugate of the norm of `a` from `K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:169`][Yamaguchi2026]). -/
+`K^σ` is the `σ`-conjugate of the norm of `a` from `K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:169`). -/
 theorem relativeNorm_absoluteConjugate_apply [ContinuousMul G]
     (A : Rep ℤ G) (K : ClosedSubgroup G) (σ : G)
     [Finite
@@ -263,8 +263,8 @@ theorem relativeNorm_absoluteConjugate_apply [ContinuousMul G]
             rw [(absoluteConjugateCosetEquiv K σ).sum_comp]
 
 /-- **The `G_K`-action on `A_L` for Galois `L | K`** — normality proves the
-translate is still fixed by `G_L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:240`][Yamaguchi2026]). -/
+translate is still fixed by `G_L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:240`). -/
 def normalExtensionAction
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -285,8 +285,8 @@ def normalExtensionAction
     _ = A.ρ k.1 (A.ρ l'.1 a.1) := by rw [map_mul]; rfl
     _ = A.ρ k.1 a.1 := by rw [a.2 l']
 
-/-- The action reads on the coefficient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:265`][Yamaguchi2026]). -/
+/-- The action reads on the coefficient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:265`). -/
 @[simp]
 theorem normalExtensionAction_coe
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
@@ -299,8 +299,7 @@ theorem normalExtensionAction_coe
   rfl
 
 /-- **The relative norm is invariant under the `G_K`-action** on `A_L`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:276`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/NormLaws.lean:276`). -/
 theorem relativeNorm_normalExtensionAction
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -333,8 +332,8 @@ theorem relativeNorm_normalExtensionAction
   simp_rw [hterm]
   exact e.sum_comp (relativeCosetAction A K L hLK a)
 
-/-- **Finiteness composes in a tower of closed subgroups** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:307`][Yamaguchi2026]). -/
+/-- **Finiteness composes in a tower of closed subgroups** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:307`). -/
 theorem relativeTowerQuotientFinite
     (K L M : ClosedSubgroup G)
     (hML : M.toSubgroup ≤ L.toSubgroup)
@@ -352,15 +351,15 @@ namespace FiniteTower
 
 variable (T : FiniteTower G)
 
-/-- **The composite of a finite tower, finite** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:326`][Yamaguchi2026]). -/
+/-- **The composite of a finite tower, finite** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:326`). -/
 def totalExtension : FiniteAbstractExtension G where
   toAbstractExtension := T.toTower.totalExtension
   finiteQuotient := relativeTowerQuotientFinite
     T.base T.middle T.top T.top_le_middle T.middle_le_base
 
-/-- The top-to-base quotient of a finite tower is finite ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:332`][Yamaguchi2026]). -/
+/-- The top-to-base quotient of a finite tower is finite (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:332`). -/
 instance totalQuotientFinite :
     Finite (T.base.toSubgroup ⧸
       T.top.toSubgroup.subgroupOf T.base.toSubgroup) :=
@@ -368,8 +367,8 @@ instance totalQuotientFinite :
 
 end FiniteTower
 
-/- The coset action along the tower product ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:340`][Yamaguchi2026]). -/
+/- The coset action along the tower product (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:340`). -/
 private theorem relativeCosetAction_towerProductEquiv
     (A : Rep ℤ G) (K L M : ClosedSubgroup G)
     (hML : M.toSubgroup ≤ L.toSubgroup)
@@ -391,8 +390,8 @@ private theorem relativeCosetAction_towerProductEquiv
   rw [map_mul]
   rfl
 
-/- Transitivity on elements, over bare subgroup data ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:361`][Yamaguchi2026]). -/
+/- Transitivity on elements, over bare subgroup data (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:361`). -/
 private theorem finiteTowerNormTransApplyAux
     (A : Rep ℤ G) (K L M : ClosedSubgroup G)
     (hML : M.toSubgroup ≤ L.toSubgroup)
@@ -460,8 +459,8 @@ namespace FiniteTower
 variable (T : FiniteTower G)
 
 /-- **Relative norms are transitive along a finite tower** — the containments
-and finiteness witnesses all come from the tower ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:423`][Yamaguchi2026]). -/
+and finiteness witnesses all come from the tower (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:423`). -/
 theorem norm_trans_apply (A : Rep ℤ G)
     (a : ambientFixedAddSubgroup A T.top) :
     relativeNorm A T.base T.middle T.middle_le_base
@@ -471,8 +470,8 @@ theorem norm_trans_apply (A : Rep ℤ G)
   finiteTowerNormTransApplyAux A T.base T.middle T.top
     T.top_le_middle T.middle_le_base a
 
-/-- **Norm transitivity, in homomorphism form** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/NormLaws.lean:433`][Yamaguchi2026]). -/
+/-- **Norm transitivity, in homomorphism form** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/NormLaws.lean:433`). -/
 theorem norm_trans (A : Rep ℤ G) :
     (relativeNorm A T.base T.middle T.middle_le_base).comp
         (relativeNorm A T.middle T.top T.top_le_middle) =

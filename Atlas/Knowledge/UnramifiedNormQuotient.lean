@@ -67,8 +67,9 @@ half since the #104 hoist unpinned the chain it draws on.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -84,9 +85,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- The degree-one lift `φ_K` used in the unramified norm-quotient
-equivalence ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:31`]
-[Yamaguchi2026]). -/
+equivalence (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:31`). -/
 def chosenUnramifiedFrobeniusLift
     (D : DegreeData G) (K : FiniteResidueAbstractField D)
     (L : ClosedSubgroup G)
@@ -104,9 +104,8 @@ def chosenUnramifiedFrobeniusLift
   refine ⟨QuotientGroup.mk φ, 1, Nat.zero_lt_one, ?_⟩
   rw [D.extensionNormalizedDegree_mk K L hLK φ, hφ, pow_one]
 
-/-- The chosen lift has Frobenius exponent one ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:53`]
-[Yamaguchi2026]). -/
+/-- The chosen lift has Frobenius exponent one (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:53`). -/
 @[simp]
 theorem chosenUnramifiedFrobeniusLift_exponent
     (D : DegreeData G) (K : FiniteResidueAbstractField D)
@@ -135,9 +134,8 @@ theorem chosenUnramifiedFrobeniusLift_exponent
     _ = (Multiplicative.ofAdd (1 : ProfiniteInteger)) ^ 1 := (pow_one _).symm
 
 /-- **The arithmetic Frobenius `φ_{L/K}`, obtained by restricting `φ_K`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:80`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:80`). -/
 def unramifiedFrobenius
     (D : DegreeData G) (K : FiniteResidueAbstractField D)
     (L : ClosedSubgroup G)
@@ -148,9 +146,8 @@ def unramifiedFrobenius
     (D.chosenUnramifiedFrobeniusLift K L hLK)
 
 /-- **In an unramified extension, arithmetic Frobenius generates the finite
-Galois quotient** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:91`]
-[Yamaguchi2026]). -/
+Galois quotient** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:91`). -/
 theorem unramifiedFrobenius_generates
     (D : DegreeData G) (K : FiniteResidueAbstractField D)
     (L : ClosedSubgroup G)
@@ -177,9 +174,8 @@ theorem unramifiedFrobenius_generates
 
 /-- Additive form of the generator statement, matching the domain of the
 reciprocity homomorphism in the finite reciprocity equivalence
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:116`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:116`). -/
 theorem unramifiedFrobenius_zmultiples_eq_top
     (D : DegreeData G) (K : FiniteResidueAbstractField D)
     (L : ClosedSubgroup G)
@@ -214,9 +210,8 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 
 namespace ValuationData
 
-/- Zero modulo `n` means an `n`-fold value ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:151`]
-[Yamaguchi2026]). -/
+/- Zero modulo `n` means an `n`-fold value (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:151`). -/
 private theorem valueModulo_eq_zero_iff
     (v : ValuationData D A) (n : ℕ) [NeZero n]
     (z : v.valueGroup) :
@@ -240,9 +235,8 @@ private theorem valueModulo_eq_zero_iff
         ((QuotientAddGroup.mk' (nsmulWithin v.valueGroup n)) (n • w)) = 0
     rw [hq, map_zero]
 
-/- The valuation reduced modulo the degree ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:174`]
-[Yamaguchi2026]). -/
+/- The valuation reduced modulo the degree (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:174`). -/
 private def unramifiedValuationHom
     (v : ValuationData D A) (K : FiniteAbstractField G)
     (L : ClosedSubgroup G)
@@ -258,9 +252,8 @@ private def unramifiedValuationHom
     (v.valuationAt K)
 
 /- Norms die modulo the degree — the norm–valuation tower read through
-unramifiedness ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:186`]
-[Yamaguchi2026]). -/
+unramifiedness (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:186`). -/
 private theorem finiteNormSubgroup_le_unramifiedValuationHom_ker
     (v : ValuationData D A)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -291,9 +284,8 @@ private theorem finiteNormSubgroup_le_unramifiedValuationHom_ker
     ⟨v.valuationAt E.field a, rfl⟩
 
 /-- The valuation map induced on the finite norm quotient
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:215`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:215`). -/
 def unramifiedNormQuotientValuation
     (v : ValuationData D A)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -322,9 +314,8 @@ theorem unramifiedNormQuotientValuation_finiteNormClass
       v.unramifiedValuationHom K L hLK a :=
   rfl
 
-/-- The induced valuation is surjective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:250`]
-[Yamaguchi2026]). -/
+/-- The induced valuation is surjective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:250`). -/
 theorem unramifiedNormQuotientValuation_surjective
     (v : ValuationData D A)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -349,9 +340,8 @@ theorem unramifiedNormQuotientValuation_surjective
   exact hc
 
 /-- **The unit argument**: modulo valuation, the unit-cohomology axiom
-makes the remaining unit an actual norm ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:274`]
-[Yamaguchi2026]). -/
+makes the remaining unit an actual norm (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:274`). -/
 theorem unramifiedNormQuotientValuation_injective
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -434,9 +424,8 @@ theorem unramifiedNormQuotientValuation_injective
 
 /-- **The unramified norm-quotient equivalence**: for finite unramified
 `L / K`, valuation induces `A_K / N_{L/K} A_L ≃ ℤ/[L:K]ℤ`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:365`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:365`). -/
 def unramifiedReciprocity_valuationEquiv
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -455,9 +444,8 @@ def unramifiedReciprocity_valuationEquiv
 
 /-- **A prime class has exact additive order `[L : K]` in an unramified
 norm quotient**: the lower bound is read after reduction in `ℤ̂/nℤ̂`, the
-upper bound is the norm of the included prime ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:384`]
-[Yamaguchi2026]). -/
+upper bound is the norm of the included prime (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:384`). -/
 theorem primeClass_addOrderOf
     (v : ValuationData D A)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -527,9 +515,8 @@ theorem primeClass_addOrderOf
   · exact hdiv (addOrderOf g) (addOrderOf_nsmul_eq_zero g)
 
 /-- **The prime class generates the full unramified norm quotient**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:454`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnramifiedNormQuotient.lean:454`). -/
 theorem primeClass_zmultiples_eq_top
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)

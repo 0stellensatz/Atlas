@@ -114,8 +114,9 @@ token-for-token; the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -128,9 +129,8 @@ universe u
 `Kˣ`** — a genuine public object rather than a transparent subtype
 alias, so that its topological and finite-index contracts remain
 available without exposing a particular nested-pair representation
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:26`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:26`). -/
 structure OpenFiniteIndexSubgroup
     (K : Type u) [Field K] [TopologicalSpace K] where
   /-- The underlying subgroup of field units. -/
@@ -145,16 +145,14 @@ namespace OpenFiniteIndexSubgroup
 variable {K : Type u} [Field K] [TopologicalSpace K]
 
 /-- An open finite-index subgroup coerces to its underlying subgroup
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:40`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:40`). -/
 instance : Coe (OpenFiniteIndexSubgroup K) (Subgroup Kˣ) :=
   ⟨OpenFiniteIndexSubgroup.subgroup⟩
 
 /-- Two open finite-index subgroups with the same underlying subgroup
-are equal ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:45`]
-[Yamaguchi2026]). -/
+are equal (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:45`). -/
 @[ext]
 theorem ext {H H' : OpenFiniteIndexSubgroup K}
     (h : H.subgroup = H'.subgroup) : H = H' := by
@@ -164,9 +162,8 @@ theorem ext {H H' : OpenFiniteIndexSubgroup K}
   rfl
 
 /-- Open finite-index subgroups inherit the inclusion order of their
-underlying subgroups ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:53`]
-[Yamaguchi2026]). -/
+underlying subgroups (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:53`). -/
 instance : PartialOrder (OpenFiniteIndexSubgroup K) :=
   PartialOrder.lift OpenFiniteIndexSubgroup.subgroup
     (fun _ _ h ↦ OpenFiniteIndexSubgroup.ext h)
@@ -179,9 +176,8 @@ variable (Ω : Type u) [Field Ω] [Algebra K Ω] [IsGalois K Ω] [IsSepClosed Ω
 omit [IsSepClosed Ω] in
 /-- **Normality over the abstract base fixing group makes the
 represented fixed field Galois over the concrete base field**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:61`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:61`). -/
 theorem abstractFixedField_isGalois_of_base_normal
     (H : ClosedSubgroup (Ω ≃ₐ[K] Ω))
     (hnormal :
@@ -210,9 +206,8 @@ theorem abstractFixedField_isGalois_of_base_normal
 omit [IsSepClosed Ω] in
 /-- The closed fixing group of the ground field is absolutely finite in
 the abstract Galois-theoretic sense — it is the full absolute Galois
-group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:101`]
-[Yamaguchi2026]). -/
+group (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/LocalAbsoluteData.lean:101`). -/
 instance galoisAmbientBase_index_finite :
     Finite ((baseField (Ω ≃ₐ[K] Ω)).toSubgroup ⧸
       (closedFixingSubgroup (⊥ : IntermediateField K Ω)).toSubgroup.subgroupOf
@@ -222,9 +217,8 @@ instance galoisAmbientBase_index_finite :
 omit [IsSepClosed Ω] in
 /-- Finiteness over the concrete fixing group of the ground field
 implies finiteness over the abstract class-formation `baseField`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:27`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:27`). -/
 theorem finiteAbelianSubextension_finite_over_absoluteBase
     (L : FiniteAbelianSubextension (closedFixingSubgroup (⊥ : IntermediateField K Ω))) :
     Finite ((baseField (Ω ≃ₐ[K] Ω)).toSubgroup ⧸
@@ -239,9 +233,8 @@ theorem finiteAbelianSubextension_finite_over_absoluteBase
 
 omit [IsSepClosed Ω] in
 /-- Normality over the concrete ground-field fixing group is normality
-over the abstract class-formation `baseField` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:41`]
-[Yamaguchi2026]). -/
+over the abstract class-formation `baseField` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:41`). -/
 theorem finiteAbelianSubextension_normal_over_absoluteBase
     (L : FiniteAbelianSubextension (closedFixingSubgroup (⊥ : IntermediateField K Ω))) :
     (L.field.toSubgroup.subgroupOf (baseField (Ω ≃ₐ[K] Ω)).toSubgroup).Normal := by
@@ -268,9 +261,8 @@ theorem finiteAbelianSubextension_normal_over_absoluteBase
 
 omit [IsSepClosed Ω] in
 /-- **The ordinary norm subgroup of the fixed field represented by an
-abstract finite abelian extension** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:70`]
-[Yamaguchi2026]). -/
+abstract finite abelian extension** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:70`). -/
 def finiteAbelianNormSubgroup
     (L : FiniteAbelianSubextension (closedFixingSubgroup (⊥ : IntermediateField K Ω))) :
     Subgroup Kˣ :=
@@ -281,9 +273,8 @@ omit [IsSepClosed Ω] in
 is an actual finite abelian extension of `K`; the commutativity
 assertion is transported across the concrete quotient–Galois-group
 equivalence, rather than being inferred merely from the name of the
-abstract package ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:78`]
-[Yamaguchi2026]). -/
+abstract package (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:78`). -/
 theorem finiteAbelianSubextension_fixedField_isAbelianGalois
     (L : FiniteAbelianSubextension (closedFixingSubgroup (⊥ : IntermediateField K Ω))) :
     IsAbelianGalois K
@@ -325,9 +316,8 @@ theorem finiteAbelianSubextension_fixedField_isAbelianGalois
 omit [IsSepClosed Ω] in
 /-- The concrete fixed field of an abstract compositum is the
 compositum of the two concrete fixed fields inside the ambient
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:119`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:119`). -/
 theorem finiteAbelianSubextension_compositum_fixedField
     (U T : FiniteAbelianSubextension (closedFixingSubgroup (⊥ : IntermediateField K Ω))) :
     abstractFixedField K Ω (U.compositum T).field =
@@ -348,9 +338,8 @@ theorem finiteAbelianSubextension_compositum_fixedField
 
 /-- The relative class-formation norm of a unit in an arbitrary
 abstract fixed field is the ordinary field norm, before identifying the
-base fixed units with `Kˣ` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:140`]
-[Yamaguchi2026]). -/
+base fixed units with `Kˣ` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:140`). -/
 theorem relativeNorm_abstractFixedFieldUnit_val_of_isGalois
     (H : ClosedSubgroup (Ω ≃ₐ[K] Ω))
     (hH : H.toSubgroup ≤ (closedFixingSubgroup (⊥ : IntermediateField K Ω)).toSubgroup)
@@ -405,9 +394,8 @@ theorem relativeNorm_abstractFixedFieldUnit_val_of_isGalois
   exact htransport'.symm.trans hnorm
 
 /-- The preceding norm identity after identifying the base fixed units
-with `Additive Kˣ` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:192`]
-[Yamaguchi2026]). -/
+with `Additive Kˣ` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:192`). -/
 theorem baseUnitsEquivGaloisAmbientFixed_symm_relativeNorm_abstractFixedFieldUnit_eq_normUnits
     (H : ClosedSubgroup (Ω ≃ₐ[K] Ω))
     (hH : H.toSubgroup ≤ (closedFixingSubgroup (⊥ : IntermediateField K Ω)).toSubgroup)
@@ -444,9 +432,8 @@ theorem baseUnitsEquivGaloisAmbientFixed_symm_relativeNorm_abstractFixedFieldUni
 
 /-- **Transporting the abstract finite norm subgroup back to `Kˣ` gives
 literally the ordinary norm subgroup of the represented fixed field**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:227`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:227`). -/
 theorem map_finiteAbelianNormSubgroup_eq_additiveNormSubgroup
     (L : FiniteAbelianSubextension (closedFixingSubgroup (⊥ : IntermediateField K Ω))) :
     (L.normSubgroup (galoisAmbientUnitsRep K Ω)).map
@@ -518,9 +505,8 @@ theorem map_finiteAbelianNormSubgroup_eq_additiveNormSubgroup
 
 /-- An abstract fixed-coefficient norm containment transports back to
 the corresponding containment of ordinary norm subgroups in `Kˣ`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:296`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:296`). -/
 theorem finiteAbelianNormSubgroup_le_of_abstractNormSubgroup_le_map
     (L : FiniteAbelianSubextension (closedFixingSubgroup (⊥ : IntermediateField K Ω)))
     (H : Subgroup Kˣ)
@@ -556,9 +542,8 @@ omit [IsSepClosed Ω] in
 /-- The ordinary norm subgroup of a represented finite abelian
 extension has finite index: its quotient is the finite abelianized
 Galois group under the layer's finite local reciprocity,
-`abelianizationEquivNormQuotient` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:345`]
-[Yamaguchi2026]). -/
+`abelianizationEquivNormQuotient` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:345`). -/
 theorem finiteAbelianNormSubgroup_finiteIndex
     (L : FiniteAbelianSubextension (closedFixingSubgroup (⊥ : IntermediateField K Ω))) :
     (finiteAbelianNormSubgroup K Ω L).FiniteIndex := by
@@ -591,9 +576,8 @@ omit [IsSepClosed Ω] in
 /-- The ordinary norm subgroup of a represented finite abelian
 extension is open — by the layer's openness of every finite-index
 subgroup of `Kˣ`, where the source argues through its topological
-reciprocity ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:328`]
-[Yamaguchi2026]). -/
+reciprocity (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:328`). -/
 theorem finiteAbelianNormSubgroup_isOpen
     (L : FiniteAbelianSubextension (closedFixingSubgroup (⊥ : IntermediateField K Ω))) :
     IsOpen (finiteAbelianNormSubgroup K Ω L : Set Kˣ) :=
@@ -603,9 +587,8 @@ theorem finiteAbelianNormSubgroup_isOpen
 omit [IsSepClosed Ω] in
 /-- **The norm subgroup map**, sending a finite abelian extension to
 its ordinary norm subgroup, with native openness and finite index
-recorded ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:376`]
-[Yamaguchi2026]). -/
+recorded (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:376`). -/
 def finiteAbelianNormSubgroupMap :
     FiniteAbelianSubextension (closedFixingSubgroup (⊥ : IntermediateField K Ω)) →
       OpenFiniteIndexSubgroup K :=
@@ -614,9 +597,8 @@ def finiteAbelianNormSubgroupMap :
     finiteAbelianNormSubgroup_finiteIndex K Ω L⟩
 
 /-- The norm subgroup map is injective, given the reciprocity inputs
-over the ambient ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:384`]
-[Yamaguchi2026]). -/
+over the ambient (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:384`). -/
 theorem finiteAbelianNormSubgroupMap_injective
     (D : DegreeData (Ω ≃ₐ[K] Ω)) (v : ValuationData D (galoisAmbientUnitsRep K Ω))
     (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω))
@@ -643,9 +625,8 @@ theorem finiteAbelianNormSubgroupMap_injective
 omit [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K] in
 /-- **The order reversal for finite abelian subextensions**, expressed
 for the actual fixed fields and their ordinary norm subgroups, given
-the reciprocity inputs over the ambient ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:408`]
-[Yamaguchi2026]). -/
+the reciprocity inputs over the ambient (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:408`). -/
 theorem finiteAbelianSubextension_le_iff_normSubgroup_le
     (D : DegreeData (Ω ≃ₐ[K] Ω)) (v : ValuationData D (galoisAmbientUnitsRep K Ω))
     (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω))
@@ -665,9 +646,8 @@ theorem finiteAbelianSubextension_le_iff_normSubgroup_le
 
 /-- **The ordinary norm-subgroup assignment is an order embedding into
 the opposite poset of native open finite-index subgroups**, given the
-reciprocity inputs over the ambient ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:426`]
-[Yamaguchi2026]). -/
+reciprocity inputs over the ambient (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:426`). -/
 def finiteAbelianNormSubgroupOrderEmbedding
     (D : DegreeData (Ω ≃ₐ[K] Ω)) (v : ValuationData D (galoisAmbientUnitsRep K Ω))
     (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω))
@@ -689,9 +669,8 @@ section AlgebraicClosure
 variable [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
 /-- The norm subgroup map is injective at the algebraic closure, with
-the layer's local data supplied ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:384`]
-[Yamaguchi2026]). -/
+the layer's local data supplied (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:384`). -/
 theorem localFiniteAbelianNormSubgroupMap_injective :
     Function.Injective (finiteAbelianNormSubgroupMap K (AlgebraicClosure K)) := by
   exact finiteAbelianNormSubgroupMap_injective K (AlgebraicClosure K)
@@ -700,9 +679,8 @@ theorem localFiniteAbelianNormSubgroupMap_injective :
     (localHenselianValuation_satisfiesUnramifiedUnitCohomology K)
 
 /-- The order reversal at the algebraic closure, with the layer's local
-data supplied ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:408`]
-[Yamaguchi2026]). -/
+data supplied (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:408`). -/
 theorem localFiniteAbelianSubextension_le_iff_normSubgroup_le
     (L₁ L₂ : FiniteAbelianSubextension
       (closedFixingSubgroup (⊥ : IntermediateField K (AlgebraicClosure K)))) :
@@ -715,9 +693,8 @@ theorem localFiniteAbelianSubextension_le_iff_normSubgroup_le
     (localHenselianValuation_satisfiesUnramifiedUnitCohomology K) L₁ L₂
 
 /-- **The order embedding at the algebraic closure**, with the layer's
-local data supplied ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:426`]
-[Yamaguchi2026]). -/
+local data supplied (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupOrderEmbedding.lean:426`). -/
 def localFiniteAbelianNormSubgroupOrderEmbedding :
     FiniteAbelianSubextension
         (closedFixingSubgroup (⊥ : IntermediateField K (AlgebraicClosure K))) ↪o

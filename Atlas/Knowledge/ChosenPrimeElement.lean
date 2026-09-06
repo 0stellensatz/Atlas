@@ -24,8 +24,9 @@ independence arguments run on (#104).
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -41,34 +42,30 @@ namespace ValuationData
 
 /-- **The chosen prime element of a finite abstract field**, from the
 surjectivity of the normalized valuation; the later independence lemmas show
-the reciprocity class does not depend on this choice ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:27`]
-[Yamaguchi2026]). -/
+the reciprocity class does not depend on this choice (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:27`). -/
 def chosenPrimeElement (v : ValuationData D A) (K : FiniteAbstractField G) :
     ambientFixedAddSubgroup A K.field :=
   Classical.choose (v.normalizedValuation_surjective K v.oneValue)
 
-/-- The chosen prime element has value `1` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:33`]
-[Yamaguchi2026]). -/
+/-- The chosen prime element has value `1` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:33`). -/
 @[simp]
 theorem valuationAt_chosenPrimeElement (v : ValuationData D A)
     (K : FiniteAbstractField G) :
     v.valuationAt K (v.chosenPrimeElement K) = v.oneValue :=
   Classical.choose_spec (v.normalizedValuation_surjective K v.oneValue)
 
-/-- The chosen prime element is prime ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:39`]
-[Yamaguchi2026]). -/
+/-- The chosen prime element is prime (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:39`). -/
 theorem chosenPrimeElement_isPrime (v : ValuationData D A)
     (K : FiniteAbstractField G) :
     v.IsPrimeElement K (v.chosenPrimeElement K) :=
   v.valuationAt_chosenPrimeElement K
 
 /-- **Two prime elements differ by a unit**, in additive notation
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:45`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:45`). -/
 theorem sub_mem_unitAddSubgroup_of_prime
     (v : ValuationData D A) (K : FiniteAbstractField G)
     {π π' : ambientFixedAddSubgroup A K.field}
@@ -78,9 +75,8 @@ theorem sub_mem_unitAddSubgroup_of_prime
   exact sub_self _
 
 /-- A prime element differs from the chosen one by a unit
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:54`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/PrimeChoice.lean:54`). -/
 theorem sub_chosenPrimeElement_mem_unitAddSubgroup
     (v : ValuationData D A) (K : FiniteAbstractField G)
     {π : ambientFixedAddSubgroup A K.field}

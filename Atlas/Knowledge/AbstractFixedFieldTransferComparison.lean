@@ -16,8 +16,9 @@ commute with the subgroup inclusions on representatives.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -33,7 +34,7 @@ variable (k Ω : Type*) [Field k] [Field Ω] [Algebra k Ω] [IsGalois k Ω]
     K.toSubgroup.subgroupOf (baseField (Ω ≃ₐ[k] Ω)).toSubgroup)]
 
 /-- The transfer induced on fixed fields is the concrete automorphism-group transfer
-([Yamaguchi 2026, `MainTransfer.lean:172`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:172`). -/
 theorem abstractFixedFieldTransferComparison :
     let F := abstractFixedField k Ω K
     let E := abstractFixedField k Ω K'

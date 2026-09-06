@@ -38,8 +38,9 @@ and the value is junk; on `v > 0` the encoding is the source's.
 
 * [Mochizuki1997] S. Mochizuki, *A version of the Grothendieck conjecture for p-adic local
   fields*, Int. J. Math. **8** (1997), 499–506.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -82,7 +83,7 @@ set_option synthInstance.maxHeartbeats 40000 in
 for `t > 0`, `x ∈ U^t (K)` iff some unit of `𝒪[K]` congruent to `1` modulo `𝓂[K] ^ ⌈t⌉₊`
 maps to `x` — the `ℕ`-ceiling made explicit, so the `Int`-ceiling-then-clamp indexing of the
 definition and the `⌈t⌉₊` stepping of the literature read alongside are pinned to agree on
-`t > 0` ([Yamaguchi 2026, `RamificationTheory/Filtration.lean:23`][Yamaguchi2026]). -/
+`t > 0` (Yamaguchi 2026, `RamificationTheory/Filtration.lean:23`). -/
 theorem mem_realHigherUnitGroup_iff (K : Type*) [Field K] [ValuativeRel K]
     {t : ℝ} (ht : 0 < t) (x : Kˣ) :
     x ∈ realHigherUnitGroup K t ↔

@@ -18,8 +18,9 @@ the valuation datum's norm-range computation consumes (#104).
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -32,9 +33,8 @@ variable (k : Type u) (Ω : Type v) [Field k] [Field Ω] [Algebra k Ω]
   [IsGalois k Ω]
 
 /-- **The units of the fixed field of a closed subgroup are the coefficients
-it fixes** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:32`]
-[Yamaguchi2026]). -/
+it fixes** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:32`). -/
 def abstractFixedFieldUnitsEquivGaloisFixed
     (H : ClosedSubgroup (Ω ≃ₐ[k] Ω)) :
     Additive (abstractFixedField k Ω H)ˣ ≃+
@@ -77,9 +77,8 @@ def abstractFixedFieldUnitsEquivGaloisFixed
     rfl
 
 omit [IsGalois k Ω] in
-/-- The equivalence forgets to the ambient inclusion ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:76`]
-[Yamaguchi2026]). -/
+/-- The equivalence forgets to the ambient inclusion (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:76`). -/
 @[simp]
 theorem abstractFixedFieldUnitsEquivGaloisFixed_coe
     (H : ClosedSubgroup (Ω ≃ₐ[k] Ω))

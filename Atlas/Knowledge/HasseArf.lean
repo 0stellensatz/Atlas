@@ -30,8 +30,9 @@ floors to `Atlas.Knowledge.ramificationFiltration`.
   Springer New York, 1979.
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -41,9 +42,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] (L : Type*) [Field L] [Algebra K
 
 /-- An **upper ramification jump**: the upper group at `t` differs from its right limit
 ([Serre 1979, Chap. IV, §3, Thm. (Hasse–Arf), p.76, "a jump in the filtration"]
-[Serre1979];
-[Yamaguchi 2026, `RamificationTheory/LocalField/Core.lean:773`,
-`IsLocalUpperRamificationJump`][Yamaguchi2026]). -/
+[Serre1979]; Yamaguchi 2026, `RamificationTheory/LocalField/Core.lean:773`,
+`IsLocalUpperRamificationJump`). -/
 def IsUpperRamificationJump (t : ℝ) : Prop :=
   upperRamificationGroup K L t ≠
     ⨆ s : {s : ℝ // t < s}, upperRamificationGroup K L (s : ℝ)
@@ -52,10 +52,8 @@ def IsUpperRamificationJump (t : ℝ) : Prop :=
 extension of a mixed-characteristic local field is an integer. Claim recorded ahead of
 its proof — the source derives it from filtered local reciprocity, Phase 2's engine
 ([Serre 1979, Chap. IV, §3, Thm. (Hasse–Arf), p.76, proof Chap. V, §7, p.93]
-[Serre1979];
-[Milne 2020, Chap. I, §4, p.47][MilneCFT];
-[Yamaguchi 2026, `HasseArf.lean:120`, `isLocalUpperRamificationJump_int`]
-[Yamaguchi2026]). -/
+[Serre1979]; [Milne 2020, Chap. I, §4, p.47][MilneCFT]; Yamaguchi 2026,
+`HasseArf.lean:120`, `isLocalUpperRamificationJump_int`). -/
 theorem hasseArf [TopologicalSpace K] [IsMixedCharLocalField K]
     [FiniteDimensional K L] [IsAbelianGalois K L]
     {t : ℝ} (ht : IsUpperRamificationJump K L t) : ∃ z : ℤ, t = z := by

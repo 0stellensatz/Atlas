@@ -45,8 +45,9 @@ to its single file, split here — goes through the public
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -60,9 +61,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /- Quotient projection carries the actual cosets `G_K/G_Σ` to the cosets
-of `Γ` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:471`]
-[Yamaguchi2026]). -/
+of `Γ` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:471`). -/
 private noncomputable def frobeniusFixedCosetToClosureCoset
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -82,9 +82,8 @@ private noncomputable def frobeniusFixedCosetToClosureCoset
       rw [D.subgroupOf_frobeniusFixedField K L hLK σ] at hxy
       exact hxy)
 
-/- The projection of cosets is bijective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:490`]
-[Yamaguchi2026]). -/
+/- The projection of cosets is bijective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:490`). -/
 private theorem frobeniusFixedCosetToClosureCoset_bijective
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -115,9 +114,8 @@ private theorem frobeniusFixedCosetToClosureCoset_bijective
     rw [hk]
 
 /-- **The actual cosets `G_K/G_Σ` are the cosets of `Γ` in `G(L̃|K)`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:519`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:519`). -/
 noncomputable def frobeniusFixedCosetClosureEquiv
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -134,9 +132,8 @@ noncomputable def frobeniusFixedCosetClosureEquiv
     (D.frobeniusFixedCosetToClosureCoset_bijective K L hLK σ)
 
 /- The procyclic degree isomorphism makes `Γ` meet the degree kernel
-trivially ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:535`]
-[Yamaguchi2026]). -/
+trivially (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:535`). -/
 private theorem frobeniusClosure_inf_degreeKernel (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]
@@ -175,9 +172,8 @@ private theorem frobeniusClosure_inf_degreeKernel (D : DegreeData G)
 
 /- Candidate enumeration of the cosets of `Γ`: an inertia element followed
 by one of the first `d_K(σ)` powers of a degree-one Frobenius
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:571`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:571`). -/
 private def kernelPowerCosetMap (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -189,9 +185,8 @@ private def kernelPowerCosetMap (D : DegreeData G) [IsTopologicalGroup G]
         (D.frobeniusClosure K L hLK σ).toSubgroup) :=
   fun p => QuotientGroup.mk (φ.1 ^ p.2.1 * p.1.1)
 
-/- The enumeration is injective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:582`]
-[Yamaguchi2026]). -/
+/- The enumeration is injective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:582`). -/
 private theorem kernelPowerCosetMap_injective (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]
@@ -277,9 +272,8 @@ private theorem kernelPowerCosetMap_injective (D : DegreeData G)
   subst h'
   rfl
 
-/- The enumeration is bijective, by the index count ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:664`]
-[Yamaguchi2026]). -/
+/- The enumeration is bijective, by the index count (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:664`). -/
 private theorem kernelPowerCosetMap_bijective (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]
@@ -356,9 +350,8 @@ private theorem kernelPowerCosetMap_bijective (D : DegreeData G)
     by simpa [H, n, Q, Γ, dQ] using hcard⟩
 
 /-- **The kernel-times-powers enumeration of the cosets of `Γ`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:740`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:740`). -/
 noncomputable def kernelPowerCosetEquiv (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]
@@ -378,9 +371,8 @@ noncomputable def kernelPowerCosetEquiv (D : DegreeData G)
     (D.kernelPowerCosetMap_bijective K L hLK φ σ hφ)
 
 /- Explicit version of the decomposition, with representatives in the
-order `φ^i·τ` occurring in `φ_n ∘ N` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:759`]
-[Yamaguchi2026]). -/
+order `φ^i·τ` occurring in `φ_n ∘ N` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:759`). -/
 private noncomputable def frobeniusNormIdentityCosetMap
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -401,9 +393,8 @@ private noncomputable def frobeniusNormIdentityCosetMap
     QuotientGroup.mk (kφ * (⟨kI.1, kI.2.1⟩ : K.field.toSubgroup))
 
 /- The explicit decomposition commutes with the projections
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:778`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:778`). -/
 private theorem frobeniusNormIdentityCosetMap_commutes (D : DegreeData G)
     [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -445,9 +436,8 @@ private theorem frobeniusNormIdentityCosetMap_commutes (D : DegreeData G)
         (D.inertiaQuotientDegreeKernelEquiv K L hLK p.1).1)
   rw [map_mul, hkφ, hkI]
 
-/- The explicit decomposition is bijective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:819`]
-[Yamaguchi2026]). -/
+/- The explicit decomposition is bijective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:819`). -/
 private theorem frobeniusNormIdentityCosetMap_bijective (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]
@@ -497,9 +487,8 @@ private theorem frobeniusNormIdentityCosetMap_bijective (D : DegreeData G)
   exact ⟨hinj, hsurj⟩
 
 /-- **The composite enumeration of `G_K/G_Σ` by pairs, in the `φ^i·τ`
-order** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:862`]
-[Yamaguchi2026]). -/
+order** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:862`). -/
 noncomputable def frobeniusNormIdentityCosetEquiv (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]

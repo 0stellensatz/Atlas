@@ -16,8 +16,9 @@ importing the statement they feed.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped ValuativeRel
@@ -28,7 +29,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
 /-- The uniformizer as a unit of the fraction field
-([Yamaguchi 2026, `LubinTate/FiniteLevel/NormSubgroup.lean:36`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LubinTate/FiniteLevel/NormSubgroup.lean:36`). -/
 noncomputable def standardLubinTateUniformizerUnit {π : 𝒪[K]} (hπ : Irreducible π) :
     Kˣ :=
   Units.mk0 (algebraMap 𝒪[K] K π) (by

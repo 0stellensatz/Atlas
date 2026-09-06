@@ -78,8 +78,9 @@ whole.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -92,9 +93,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **A finite abelian extension `L / K`**: a finite Galois
 subextension together with commutativity of its actual quotient
-`G_K / G_L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:36`]
-[Yamaguchi2026]). -/
+`G_K / G_L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:36`). -/
 structure FiniteAbelianSubextension (K : ClosedSubgroup G) where
   /-- The underlying finite Galois subextension. -/
   toFiniteGaloisExtension : FiniteGaloisSubextension K
@@ -105,43 +105,37 @@ namespace FiniteAbelianSubextension
 
 variable {K : ClosedSubgroup G}
 
-/-- The top field's subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:47`]
-[Yamaguchi2026]). -/
+/-- The top field's subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:47`). -/
 abbrev field (L : FiniteAbelianSubextension K) : ClosedSubgroup G :=
   L.toFiniteGaloisExtension.field
 
-/-- The top field lies over the base ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:51`]
-[Yamaguchi2026]). -/
+/-- The top field lies over the base (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:51`). -/
 abbrev below (L : FiniteAbelianSubextension K) : L.field.toSubgroup ≤ K.toSubgroup :=
   L.toFiniteGaloisExtension.below
 
-/-- Normality of the relative subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:56`]
-[Yamaguchi2026]). -/
+/-- Normality of the relative subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:56`). -/
 abbrev normal (L : FiniteAbelianSubextension K) :
     (L.field.toSubgroup.subgroupOf K.toSubgroup).Normal := L.toFiniteGaloisExtension.normal
 
-/-- Finiteness of the relative quotient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:61`]
-[Yamaguchi2026]). -/
+/-- Finiteness of the relative quotient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:61`). -/
 abbrev finite (L : FiniteAbelianSubextension K) :
     Finite (K.toSubgroup ⧸ L.field.toSubgroup.subgroupOf K.toSubgroup) :=
   L.toFiniteGaloisExtension.finite
 
 /-- The finite abelian quotient, inherited through the finite Galois
-boundary ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:69`]
-[Yamaguchi2026]). -/
+boundary (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:69`). -/
 @[implicit_reducible]
 def extensionQuotient (L : FiniteAbelianSubextension K) : Type u :=
   L.toFiniteGaloisExtension.extensionQuotient
 
 /-- The quotient of a finite abelian subextension is a commutative
-group ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:74`]
-[Yamaguchi2026]). -/
+group (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:74`). -/
 @[implicit_reducible]
 instance extensionQuotient_commGroup (L : FiniteAbelianSubextension K) :
     CommGroup L.extensionQuotient := by
@@ -150,34 +144,30 @@ instance extensionQuotient_commGroup (L : FiniteAbelianSubextension K) :
   exact { (inferInstance : Group L.toFiniteGaloisExtension.extensionQuotient) with
     mul_comm := L.commutative.is_comm.comm }
 
-/-- The quotient of a finite abelian subextension is finite ([Yamaguchi
-2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:85`]
-[Yamaguchi2026]). -/
+/-- The quotient of a finite abelian subextension is finite
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:85`). -/
 instance extensionQuotient_finite (L : FiniteAbelianSubextension K) :
     Finite L.extensionQuotient := by
   unfold extensionQuotient
   infer_instance
 
 /-- Comparison with the quotient presentation of the group library
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:92`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:92`). -/
 def extensionQuotientMulEquiv (L : FiniteAbelianSubextension K) :
     L.extensionQuotient ≃* (K.toSubgroup ⧸ L.field.toSubgroup.subgroupOf K.toSubgroup) :=
   L.toFiniteGaloisExtension.extensionQuotientMulEquiv
 
-/-- The canonical quotient projection ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:98`]
-[Yamaguchi2026]). -/
+/-- The canonical quotient projection (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:98`). -/
 def extensionQuotientMk (L : FiniteAbelianSubextension K) :
     K.toSubgroup →* L.extensionQuotient :=
   L.toFiniteGaloisExtension.extensionQuotientMk
 
 /-- The named projection agrees with the underlying quotient map
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:104`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:104`). -/
 @[simp]
 theorem extensionQuotientMk_apply (L : FiniteAbelianSubextension K) (k : K.toSubgroup) :
     L.extensionQuotientMulEquiv (L.extensionQuotientMk k) =
@@ -185,18 +175,16 @@ theorem extensionQuotientMk_apply (L : FiniteAbelianSubextension K) (k : K.toSub
   L.toFiniteGaloisExtension.extensionQuotientMk_apply k
 
 /-- Eliminate an abelian extension quotient without choosing a
-representative ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:112`]
-[Yamaguchi2026]). -/
+representative (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:112`). -/
 protected theorem extensionQuotient_inductionOn (L : FiniteAbelianSubextension K)
     {motive : L.extensionQuotient → Prop} (q : L.extensionQuotient)
     (mk : ∀ k : K.toSubgroup, motive (L.extensionQuotientMk k)) : motive q :=
   L.toFiniteGaloisExtension.extensionQuotient_inductionOn q mk
 
 /-- Two packages with the same closed subgroup are the same finite
-abelian extension ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:122`]
-[Yamaguchi2026]). -/
+abelian extension (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:122`). -/
 @[ext]
 theorem ext {L₁ L₂ : FiniteAbelianSubextension K} (h : L₁.field = L₂.field) : L₁ = L₂ := by
   cases L₁ with
@@ -212,10 +200,9 @@ theorem ext {L₁ L₂ : FiniteAbelianSubextension K} (h : L₁.field = L₂.fie
                   rfl
 
 /-- The order is field inclusion — the opposite of the subgroup order,
-fields being represented by their absolute Galois subgroups ([Yamaguchi
-2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:138`]
-[Yamaguchi2026]). -/
+fields being represented by their absolute Galois subgroups
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:138`). -/
 instance : PartialOrder (FiniteAbelianSubextension K) where
   le L₁ L₂ := L₂.field.toSubgroup ≤ L₁.field.toSubgroup
   le_refl _ := le_rfl
@@ -227,17 +214,15 @@ instance : PartialOrder (FiniteAbelianSubextension K) where
     exact congrArg (fun H : Subgroup G => H.carrier) hs
 
 /-- The order is containment of the fields' subgroups, reversed
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:150`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:150`). -/
 theorem le_iff (L₁ L₂ : FiniteAbelianSubextension K) :
     L₁ ≤ L₂ ↔ L₂.field.toSubgroup ≤ L₁.field.toSubgroup := Iff.rfl
 
 /-- **Base change of a finite abelian extension** to an intermediate
 abstract field: the new top subgroup is the intersection with the new
-base subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:157`]
-[Yamaguchi2026]). -/
+base subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:157`). -/
 def baseChange (M : FiniteAbelianSubextension K) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup) : FiniteAbelianSubextension L where
   toFiniteGaloisExtension := M.toFiniteGaloisExtension.baseChange L hLK
@@ -269,9 +254,8 @@ def baseChange (M : FiniteAbelianSubextension K) (L : ClosedSubgroup G)
       exact h
 
 /-- **The compositum `L₁L₂`**, contravariantly `G_{L₁} ∩ G_{L₂}`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:206`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:206`). -/
 def compositum (L₁ L₂ : FiniteAbelianSubextension K) : FiniteAbelianSubextension K where
   toFiniteGaloisExtension := L₁.toFiniteGaloisExtension.compositum L₂.toFiniteGaloisExtension
   commutative := by
@@ -302,26 +286,23 @@ def compositum (L₁ L₂ : FiniteAbelianSubextension K) : FiniteAbelianSubexten
       simp only [map_mul, L₂.extensionQuotientMk_apply] at hcommRaw
       exact Subgroup.mem_subgroupOf.1 (QuotientGroup.eq.mp hcommRaw)
 
-/-- The left subextension embeds into the compositum ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:244`]
-[Yamaguchi2026]). -/
+/-- The left subextension embeds into the compositum (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:244`). -/
 theorem le_compositum_left (L₁ L₂ : FiniteAbelianSubextension K) :
     L₁ ≤ L₁.compositum L₂ := by
   change (L₁.field.toSubgroup ⊓ L₂.field.toSubgroup) ≤ L₁.field.toSubgroup
   exact inf_le_left
 
-/-- The right subextension embeds into the compositum ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:252`]
-[Yamaguchi2026]). -/
+/-- The right subextension embeds into the compositum (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:252`). -/
 theorem le_compositum_right (L₁ L₂ : FiniteAbelianSubextension K) :
     L₂ ≤ L₁.compositum L₂ := by
   change (L₁.field.toSubgroup ⊓ L₂.field.toSubgroup) ≤ L₂.field.toSubgroup
   exact inf_le_right
 
 /-- The compositum is the least subextension containing both inputs
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:260`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:260`). -/
 theorem compositum_le {L₁ L₂ P : FiniteAbelianSubextension K} (h₁ : L₁ ≤ P) (h₂ : L₂ ≤ P) :
     L₁.compositum L₂ ≤ P :=
   fun _ hp => ⟨h₁ hp, h₂ hp⟩
@@ -329,9 +310,8 @@ theorem compositum_le {L₁ L₂ P : FiniteAbelianSubextension K} (h₁ : L₁ �
 section Intersection
 
 /-- Each field subgroup normalizes the other, from the packaged
-normality of `G_L` inside `G_K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:273`]
-[Yamaguchi2026]). -/
+normality of `G_L` inside `G_K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:273`). -/
 theorem field_le_normalizer (L₁ L₂ : FiniteAbelianSubextension K) :
     L₁.field.toSubgroup ≤ Subgroup.normalizer L₂.field.toSubgroup := by
   letI : (L₂.field.toSubgroup.subgroupOf K.toSubgroup).Normal := L₂.normal
@@ -341,9 +321,8 @@ variable [IsTopologicalGroup G] [CompactSpace G]
 
 /-- **The field intersection `L₁ ∩ L₂`**, contravariantly the subgroup
 generated by `G_{L₁}` and `G_{L₂}`, closed by the product description
-and compactness ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:285`]
-[Yamaguchi2026]). -/
+and compactness (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:285`). -/
 def intersectionField (L₁ L₂ : FiniteAbelianSubextension K) : ClosedSubgroup G where
   toSubgroup := L₁.field.toSubgroup ⊔ L₂.field.toSubgroup
   isClosed' := by
@@ -351,17 +330,15 @@ def intersectionField (L₁ L₂ : FiniteAbelianSubextension K) : ClosedSubgroup
     rw [Subgroup.coe_mul_of_left_le_normalizer_right _ _ (field_le_normalizer L₁ L₂)]
     exact L₂.field.isClosed'.mul_left_of_isCompact L₁.field.isClosed'.isCompact
 
-/-- The intersection field lies over the base ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:297`]
-[Yamaguchi2026]). -/
+/-- The intersection field lies over the base (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:297`). -/
 theorem intersectionField_below (L₁ L₂ : FiniteAbelianSubextension K) :
     (intersectionField L₁ L₂).toSubgroup ≤ K.toSubgroup :=
   sup_le L₁.below L₂.below
 
 /-- Inside `G_K` the generated subgroup is the supremum of the two
-relative subgroups ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:303`]
-[Yamaguchi2026]). -/
+relative subgroups (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:303`). -/
 theorem subgroupOf_intersectionField (L₁ L₂ : FiniteAbelianSubextension K) :
     (intersectionField L₁ L₂).toSubgroup.subgroupOf K.toSubgroup =
       L₁.field.toSubgroup.subgroupOf K.toSubgroup ⊔
@@ -369,9 +346,8 @@ theorem subgroupOf_intersectionField (L₁ L₂ : FiniteAbelianSubextension K) :
   simpa [intersectionField] using (Subgroup.subgroupOf_sup L₁.below L₂.below)
 
 /-- The finite Galois package underlying the intersection field
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:313`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:313`). -/
 def intersectionGalois (L₁ L₂ : FiniteAbelianSubextension K) : FiniteGaloisSubextension K where
   field := intersectionField L₁ L₂
   below := intersectionField_below L₁ L₂
@@ -390,10 +366,9 @@ def intersectionGalois (L₁ L₂ : FiniteAbelianSubextension K) : FiniteGaloisS
       Subgroup.finiteIndex_of_le le_sup_left
     exact Subgroup.finite_quotient_of_finiteIndex
 
-/-- **The intersection of two finite abelian extensions** ([Yamaguchi
-2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:333`]
-[Yamaguchi2026]). -/
+/-- **The intersection of two finite abelian extensions**
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:333`). -/
 def intersection (L₁ L₂ : FiniteAbelianSubextension K) : FiniteAbelianSubextension K where
   toFiniteGaloisExtension := intersectionGalois L₁ L₂
   commutative := by
@@ -423,26 +398,23 @@ def intersection (L₁ L₂ : FiniteAbelianSubextension K) : FiniteAbelianSubext
       L₁.field.toSubgroup.subgroupOf K.toSubgroup ⊔ L₂.field.toSubgroup.subgroupOf K.toSubgroup
       from le_sup_left) hin
 
-/-- The intersection lies below its left input ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:369`]
-[Yamaguchi2026]). -/
+/-- The intersection lies below its left input (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:369`). -/
 theorem intersection_le_left (L₁ L₂ : FiniteAbelianSubextension K) :
     L₁.intersection L₂ ≤ L₁ := by
   change L₁.field.toSubgroup ≤ L₁.field.toSubgroup ⊔ L₂.field.toSubgroup
   exact le_sup_left
 
-/-- The intersection lies below its right input ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:376`]
-[Yamaguchi2026]). -/
+/-- The intersection lies below its right input (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:376`). -/
 theorem intersection_le_right (L₁ L₂ : FiniteAbelianSubextension K) :
     L₁.intersection L₂ ≤ L₂ := by
   change L₂.field.toSubgroup ≤ L₁.field.toSubgroup ⊔ L₂.field.toSubgroup
   exact le_sup_right
 
 /-- A subextension below both inputs lies below their intersection
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:383`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:383`). -/
 theorem le_intersection {P L₁ L₂ : FiniteAbelianSubextension K} (h₁ : P ≤ L₁) (h₂ : P ≤ L₂) :
     P ≤ L₁.intersection L₂ := by
   change L₁.field.toSubgroup ⊔ L₂.field.toSubgroup ≤ P.field.toSubgroup
@@ -451,9 +423,8 @@ theorem le_intersection {P L₁ L₂ : FiniteAbelianSubextension K} (h₁ : P �
 end Intersection
 
 /-- **The norm subgroup `N_L = N_{L/K} A_L` of a finite abelian
-extension** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:407`]
-[Yamaguchi2026]). -/
+extension** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:407`). -/
 def normSubgroup (A : Rep ℤ G) (L : FiniteAbelianSubextension K) :
     AddSubgroup (ambientFixedAddSubgroup A K) := by
   letI : Finite (K.toSubgroup ⧸ L.field.toSubgroup.subgroupOf K.toSubgroup) := L.finite
@@ -470,9 +441,8 @@ theorem normSubgroup_eq_galois (A : Rep ℤ G) (L : FiniteAbelianSubextension K)
   rfl
 
 /-- **An inclusion of fields reverses the inclusion of norm subgroups**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:415`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:415`). -/
 theorem normSubgroup_antitone (A : Rep ℤ G) {L₁ L₂ : FiniteAbelianSubextension K}
     (h : L₁ ≤ L₂) :
     normSubgroup A L₂ ≤ normSubgroup A L₁ := by
@@ -494,10 +464,9 @@ theorem normSubgroup_antitone (A : Rep ℤ G) {L₁ L₂ : FiniteAbelianSubexten
   refine ⟨relativeNorm A L₁.field L₂.field h a, ?_⟩
   exact T.norm_trans_apply A a
 
-/-- The unconditional half of `N_{L₁L₂} = N_{L₁} ∩ N_{L₂}` ([Yamaguchi
-2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:445`]
-[Yamaguchi2026]). -/
+/-- The unconditional half of `N_{L₁L₂} = N_{L₁} ∩ N_{L₂}`
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:445`). -/
 theorem normSubgroup_compositum_le_inf (A : Rep ℤ G) (L₁ L₂ : FiniteAbelianSubextension K) :
     normSubgroup A (L₁.compositum L₂) ≤ normSubgroup A L₁ ⊓ normSubgroup A L₂ := by
   intro x hx
@@ -505,9 +474,8 @@ theorem normSubgroup_compositum_le_inf (A : Rep ℤ G) (L₁ L₂ : FiniteAbelia
     normSubgroup_antitone A (le_compositum_right L₁ L₂) hx⟩
 
 /-- The unconditional half of `N_{L₁ ∩ L₂} = N_{L₁} N_{L₂}`, in
-additive notation ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:455`]
-[Yamaguchi2026]). -/
+additive notation (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianSubextension.lean:455`). -/
 theorem sup_normSubgroup_le_intersection [IsTopologicalGroup G] [CompactSpace G] (A : Rep ℤ G)
     (L₁ L₂ : FiniteAbelianSubextension K) :
     normSubgroup A L₁ ⊔ normSubgroup A L₂ ≤ normSubgroup A (L₁.intersection L₂) := by

@@ -36,8 +36,9 @@ bare basename; it lives at
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -50,8 +51,8 @@ open scoped Pointwise
 variable {P : Type*} {Q : Type*} [Group P] [Group Q]
 
 /-- **A surjection identifies left cosets of `H` with left cosets of
-its image when its kernel is contained in `H`**
-([Yamaguchi 2026, `TransferNaturality.lean:23`][Yamaguchi2026]). -/
+its image when its kernel is contained in `H`** (Yamaguchi 2026,
+`TransferNaturality.lean:23`). -/
 noncomputable def leftCosetEquivMapOfSurjective
     (f : P →* Q) (hf : Function.Surjective f)
     (H : Subgroup P) (hker : f.ker ≤ H) :
@@ -79,7 +80,7 @@ noncomputable def leftCosetEquivMapOfSurjective
     exact ⟨QuotientGroup.mk p, rfl⟩
 
 /-- **The coset equivalence evaluates by the map on representatives**
-([Yamaguchi 2026, `TransferNaturality.lean:54`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `TransferNaturality.lean:54`). -/
 @[simp]
 theorem leftCosetEquivMapOfSurjective_mk
     (f : P →* Q) (hf : Function.Surjective f)
@@ -89,7 +90,7 @@ theorem leftCosetEquivMapOfSurjective_mk
   rfl
 
 /-- **The coset equivalence is equivariant**
-([Yamaguchi 2026, `TransferNaturality.lean:66`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `TransferNaturality.lean:66`). -/
 @[simp]
 theorem leftCosetEquivMapOfSurjective_smul
     (f : P →* Q) (hf : Function.Surjective f)
@@ -103,8 +104,8 @@ theorem leftCosetEquivMapOfSurjective_smul
 
 /-- **A left transversal descends along the quotient map**: built from
 the coset equivalence, its chosen representatives are literally the
-images of the original ones
-([Yamaguchi 2026, `TransferNaturality.lean:79`][Yamaguchi2026]). -/
+images of the original ones (Yamaguchi 2026,
+`TransferNaturality.lean:79`). -/
 noncomputable def leftTransversalMapOfSurjective
     (f : P →* Q) (hf : Function.Surjective f)
     (H : Subgroup P) (hker : f.ker ≤ H)
@@ -122,8 +123,7 @@ noncomputable def leftTransversalMapOfSurjective
   exact ⟨Set.range u, Subgroup.isComplement_range_left hu⟩
 
 /-- **The descended transversal's representatives are the images of the
-original ones**
-([Yamaguchi 2026, `TransferNaturality.lean:101`][Yamaguchi2026]). -/
+original ones** (Yamaguchi 2026, `TransferNaturality.lean:101`). -/
 @[simp]
 theorem leftTransversalMapOfSurjective_apply
     (f : P →* Q) (hf : Function.Surjective f)
@@ -146,7 +146,7 @@ theorem leftTransversalMapOfSurjective_apply
   exact Subgroup.IsComplement.leftQuotientEquiv_apply hu q
 
 /- A transversal member represents its own coset
-([Yamaguchi 2026, `TransferNaturality.lean:121`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `TransferNaturality.lean:121`). -/
 private theorem leftQuotientEquiv_mk_of_mem
     (H : Subgroup P) (T : H.LeftTransversal) (p : P)
     (hp : p ∈ (T : Set P)) :
@@ -158,8 +158,8 @@ private theorem leftQuotientEquiv_mk_of_mem
     rfl
   exact congrArg Subtype.val heq
 
-/- Membership in the descended transversal
-([Yamaguchi 2026, `TransferNaturality.lean:132`][Yamaguchi2026]). -/
+/- Membership in the descended transversal (Yamaguchi 2026,
+`TransferNaturality.lean:132`). -/
 private theorem mem_leftTransversalMapOfSurjective_iff
     (f : P →* Q) (hf : Function.Surjective f)
     (H : Subgroup P) (hker : f.ker ≤ H)
@@ -180,7 +180,7 @@ private theorem mem_leftTransversalMapOfSurjective_iff
     rw [e.symm_apply_apply, leftQuotientEquiv_mk_of_mem H T p hp]
 
 /- Descending commutes with the translation action on transversals
-([Yamaguchi 2026, `TransferNaturality.lean:151`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `TransferNaturality.lean:151`). -/
 private theorem leftTransversalMapOfSurjective_smul
     (f : P →* Q) (hf : Function.Surjective f)
     (H : Subgroup P) (hker : f.ker ≤ H)
@@ -210,7 +210,7 @@ private theorem leftTransversalMapOfSurjective_smul
     simp [map_mul, hfx]
 
 /- The transversal difference is natural under the surjection
-([Yamaguchi 2026, `TransferNaturality.lean:179`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `TransferNaturality.lean:179`). -/
 private theorem leftTransversals_diff_natural_of_surjective
     (f : P →* Q) (hf : Function.Surjective f)
     (H : Subgroup P) (hker : f.ker ≤ H) [H.FiniteIndex]
@@ -247,7 +247,7 @@ private theorem leftTransversals_diff_natural_of_surjective
 /-- **Transfer is natural for a surjection whose kernel is contained in
 the finite-index subgroup** — both transfers are Mathlib's actual
 `MonoidHom.transfer`, compared through a descended transversal term by
-term ([Yamaguchi 2026, `TransferNaturality.lean:216`][Yamaguchi2026]). -/
+term (Yamaguchi 2026, `TransferNaturality.lean:216`). -/
 theorem abelianization_transfer_natural_of_surjective
     (f : P →* Q) (hf : Function.Surjective f)
     (H : Subgroup P) (hker : f.ker ≤ H) [H.FiniteIndex] :
@@ -283,8 +283,8 @@ theorem abelianization_transfer_natural_of_surjective
     f hf H hker T (p • T)
 
 /-- **Replacing a finite-index subgroup by an equal one transports the
-transfer's codomain along the canonical equivalence**
-([Yamaguchi 2026, `TransferNaturality.lean:252`][Yamaguchi2026]). -/
+transfer's codomain along the canonical equivalence** (Yamaguchi 2026,
+`TransferNaturality.lean:252`). -/
 theorem abelianization_transfer_congr_subgroup
     (H J : Subgroup P) (h : H = J)
     [H.FiniteIndex] [J.FiniteIndex] :

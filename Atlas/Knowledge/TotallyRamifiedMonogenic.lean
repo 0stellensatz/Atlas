@@ -39,8 +39,9 @@ is the whole of what the approximation lemma asks.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -144,10 +145,10 @@ maximal ideal generates the full-degree power of the maximal ideal upstairs, the
 adjoin of any irreducible of the integral closure is everything
 ([Serre 1979, Chap. I, §6, Prop. 18, p.19][Serre1979] — Serre states the isomorphism
 `B_f ≅ B` for the Eisenstein characteristic polynomial of a uniformizer, of which the
-generation is the substance;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:394`][Yamaguchi2026]
-— the source proves the adjoin conclusion at its level tower only, where this statement
-is the abstract totally ramified fact). -/
+generation is the substance; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveUniformizer.lean:394` — the source proves the adjoin
+conclusion at its level tower only, where this statement is the abstract totally
+ramified fact). -/
 theorem totallyRamifiedMonogenic
     (h𝒪 : Ideal.map (algebraMap ↥𝒪[K] ↥𝒪[L]) 𝓂[K] = 𝓂[L] ^ Module.finrank K L)
     {x : integralClosure ↥𝒪[K] L} (hx : Irreducible x) :

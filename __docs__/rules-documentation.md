@@ -74,6 +74,26 @@ Sections that do not apply are omitted rather than left empty. In a source-forma
 	```
 
 	This replaces the older habit of opening the docstring with a bold marker. The content of the statement comes first and the provenance last, so the hover text reads as mathematics rather than as a catalog entry. An unnumbered claim taken from running text cites the page in the same slot—`([Serre 1978, p.5][Serre1978])`.
+- **A code repository is cited by a Markdown link, and never by a bibliography key.** A repository is not a work the bibliography can hold: it has no publication that fixes it, it moves under its own name, and what is actually being cited is a path and a line inside one snapshot of it. So the URL is carried in the citation itself, in the `[text](url)` form of *Declaration docstrings*, and no entry is added to the bibliography. The `## References` entry names the repository, links it, and pins the commit the pinpoints were read at:
+
+	```lean
+	/-!
+	## References
+
+	* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+	  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+	  `6010237`, 2026.
+	-/
+	```
+
+	A declaration transcribing an item of such a repository then cites it as a plain parenthetical—author, year, and the file and line as the pinpoint—with no bracketed key and no repeated URL, because the link that resolves the name is in the same file's `## References`:
+
+	```lean
+	/-- The cardinal degree: the size of the coset space—infinity is not encoded as zero
+	(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:241`). -/
+	```
+
+	Repeating the URL at every pinpoint is what this avoids: a repository URL runs to fifty columns and a knowledge layer cites one item of a repository thousands of times, which is more than a doc comment hard-wrapped at 100 has room for.
 - The file's `## References` section lists every work cited in it, **spelled out in full** and not only by key—the project is not built by `doc-gen`, so a bare key resolves to nothing for a reader who does not have the bibliography at hand:
 
 	```lean

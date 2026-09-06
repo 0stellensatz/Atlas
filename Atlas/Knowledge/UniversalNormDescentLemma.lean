@@ -69,8 +69,9 @@ the layer's simp set over-reduces the unit group to its subtype.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -87,9 +88,8 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 
 
 /-- **The first descent step**: the maximal-unramified norm of `u` is
-represented by a genuine unit over `K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/Universal.lean:27`]
-[Yamaguchi2026]). -/
+represented by a genuine unit over `K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/Universal.lean:27`). -/
 theorem universalNormDescent_endpoint_descent
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -134,9 +134,8 @@ theorem universalNormDescent_endpoint_descent
 
 /-- **The finite target step**: after placing the finite support in a
 common finite Galois overfield, the descended unit is a norm from every
-prescribed finite intermediate field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/Universal.lean:74`]
-[Yamaguchi2026]). -/
+prescribed finite intermediate field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/Universal.lean:74`). -/
 theorem universalNormDescent_mem_finiteUnitNormRange
     (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -672,9 +671,8 @@ theorem universalNormDescent_mem_finiteUnitNormRange
 /-- **The universal norm-descent lemma**: a finite Frobenius coboundary
 relation for an infinite-level unit forces its maximal-unramified norm to
 descend to a `K`-unit which is a unit norm from every finite intermediate
-field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/Universal.lean:610`]
-[Yamaguchi2026]). -/
+field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/Universal.lean:610`). -/
 theorem universalNormDescent
     (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

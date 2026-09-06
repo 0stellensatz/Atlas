@@ -96,8 +96,9 @@ ports token-for-token; the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -111,9 +112,8 @@ variable (Ω : Type u) [Field Ω] [Algebra K Ω] [IsGalois K Ω] [IsSepClosed Ω
 
 /-- **The ordinary norm subgroup of a compositum is the intersection of
 the two ordinary norm subgroups**, given the reciprocity inputs over
-the ambient ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:31`]
-[Yamaguchi2026]). -/
+the ambient (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:31`). -/
 theorem finiteAbelianNormSubgroup_compositum
     (D : DegreeData (Ω ≃ₐ[K] Ω)) (v : ValuationData D (galoisAmbientUnitsRep K Ω))
     (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω))
@@ -156,9 +156,8 @@ theorem finiteAbelianNormSubgroup_compositum
 
 /-- **The ordinary norm subgroup of an intersection field is the
 supremum of the two ordinary norm subgroups**, given the reciprocity
-inputs over the ambient ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:72`]
-[Yamaguchi2026]). -/
+inputs over the ambient (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:72`). -/
 theorem finiteAbelianNormSubgroup_intersection
     (D : DegreeData (Ω ≃ₐ[K] Ω)) (v : ValuationData D (galoisAmbientUnitsRep K Ω))
     (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω))
@@ -199,9 +198,8 @@ theorem finiteAbelianNormSubgroup_intersection
 
 /-- **A finite Galois extension whose ordinary norm subgroup is
 contained in `H` witnesses that `H` is open for the abstract norm
-topology** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:188`]
-[Yamaguchi2026]). -/
+topology** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:188`). -/
 theorem finiteIndexSubgroup_isNormOpen_of_normSubgroup_le
     (E : Type u) [Field E] [Algebra K E]
     [FiniteDimensional K E] [IsGalois K E]
@@ -254,9 +252,8 @@ theorem finiteIndexSubgroup_isNormOpen_of_normSubgroup_le
 
 /-- Package a concrete finite Galois extension in the absolute Galois
 model, retaining a prescribed upper bound for its ordinary norm
-subgroup ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:243`]
-[Yamaguchi2026]). -/
+subgroup (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:243`). -/
 theorem exists_finiteGaloisExtension_normSubgroup_map_le_of_normSubgroup_le
     (E : Type u) [Field E] [Algebra K E]
     [FiniteDimensional K E] [IsGalois K E]
@@ -301,9 +298,8 @@ variable [ValuativeRel K] [TopologicalSpace K]
 /-- A native open finite-index subgroup which is open for the abstract
 norm topology is the ordinary norm subgroup of a finite abelian
 subextension, given the reciprocity inputs over the ambient `Ω`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:111`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:111`). -/
 theorem exists_finiteAbelianNormSubgroup_eq_of_normOpen
     (D : DegreeData (Ω ≃ₐ[K] Ω)) (v : ValuationData D (galoisAmbientUnitsRep K Ω))
     (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω))
@@ -366,9 +362,8 @@ theorem exists_finiteAbelianNormSubgroup_eq_of_normOpen
 
 /-- **If all native finite-index subgroups are norm-open, the ordinary
 norm-subgroup map is surjective**, given the reciprocity inputs over
-the ambient ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:171`]
-[Yamaguchi2026]). -/
+the ambient (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:171`). -/
 theorem finiteAbelianNormSubgroupMap_surjective_of_normOpen
     (D : DegreeData (Ω ≃ₐ[K] Ω)) (v : ValuationData D (galoisAmbientUnitsRep K Ω))
     (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K Ω))
@@ -392,9 +387,8 @@ section AlgebraicClosure
 variable [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
 /-- The compositum norm law at the algebraic closure, with the layer's
-local data supplied ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:31`]
-[Yamaguchi2026]). -/
+local data supplied (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:31`). -/
 theorem localFiniteAbelianNormSubgroup_compositum
     (L₁ L₂ : FiniteAbelianSubextension
       (closedFixingSubgroup (⊥ : IntermediateField K (AlgebraicClosure K)))) :
@@ -407,9 +401,8 @@ theorem localFiniteAbelianNormSubgroup_compositum
     (localHenselianValuation_satisfiesUnramifiedUnitCohomology K) L₁ L₂
 
 /-- The intersection norm law at the algebraic closure, with the
-layer's local data supplied ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:72`]
-[Yamaguchi2026]). -/
+layer's local data supplied (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:72`). -/
 theorem localFiniteAbelianNormSubgroup_intersection
     (L₁ L₂ : FiniteAbelianSubextension
       (closedFixingSubgroup (⊥ : IntermediateField K (AlgebraicClosure K)))) :
@@ -423,9 +416,8 @@ theorem localFiniteAbelianNormSubgroup_intersection
 
 /-- **Surjectivity of the norm-subgroup map at the algebraic closure**
 from norm-openness of every finite-index subgroup, with the layer's
-local data supplied ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:171`]
-[Yamaguchi2026]). -/
+local data supplied (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/NormSubgroupSurjectivity.lean:171`). -/
 theorem localFiniteAbelianNormSubgroupMap_surjective_of_normOpen
     (hnormOpen : ∀ (H : Subgroup Kˣ) [H.FiniteIndex],
       IsNormOpen (galoisAmbientUnitsRep K (AlgebraicClosure K))

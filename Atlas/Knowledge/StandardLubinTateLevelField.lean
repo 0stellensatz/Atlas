@@ -43,8 +43,9 @@ ambient field.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open Polynomial
@@ -57,7 +58,8 @@ variable (A : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
 
 /-- The primitive division polynomial over the fraction field
 ([Milne 2020, Chap. I, §3, pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:65`][Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveRoot.lean:65`). -/
 noncomputable def standardLubinTatePrimitivePolynomialOverField (π : A) (n : ℕ) :
     Polynomial K :=
   (standardLubinTatePrimitivePolynomial A π n).map (algebraMap A K)
@@ -119,8 +121,8 @@ private theorem isEisensteinAt_primitive {π : A} (hπ : Irreducible π) (n : �
     exact hπ.not_isUnit (isUnit_of_dvd_one ⟨c, h2⟩)
 
 /-- `Qₙ` is irreducible over the fraction field: Eisenstein at `π`
-([Milne 2020, Chap. I, §3, pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:101`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, pp.38–39][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveRoot.lean:101`). -/
 theorem standardLubinTatePrimitivePolynomialOverField_irreducible {π : A}
     (hπ : Irreducible π) (n : ℕ) :
     Irreducible (standardLubinTatePrimitivePolynomialOverField A K π n) := by
@@ -178,7 +180,7 @@ private theorem derivative_iterate_eval_zero (π : A) (n : ℕ) :
     rw [zero_pow hq1, mul_zero, zero_add, pow_succ]
 
 /-- `Qₙ` over `K` is separable: its derivative is a product of nonzero factors
-([Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:181`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:181`). -/
 theorem standardLubinTatePrimitivePolynomialOverField_separable {π : A}
     (hπ : Irreducible π) (n : ℕ) :
     (standardLubinTatePrimitivePolynomialOverField A K π n).Separable := by
@@ -236,7 +238,7 @@ theorem exists_standardLubinTatePrimitiveRoot {π : A} (hπ : Irreducible π) (n
   · exact (standardLubinTatePrimitivePolynomialOverField_separable K hπ n).map
 
 /-- A **chosen primitive root** of level `n + 1` in the separable closure
-([Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:212`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:212`). -/
 noncomputable def chosenStandardLubinTatePrimitiveRoot {π : A} (hπ : Irreducible π)
     (n : ℕ) : SeparableClosure K :=
   Classical.choose (exists_standardLubinTatePrimitiveRoot K hπ n)
@@ -257,15 +259,15 @@ theorem chosenStandardLubinTatePrimitiveRoot_isIntegral {π : A} (hπ : Irreduci
 
 /-- The **standard Lubin–Tate level field**: the simple extension of the chosen
 primitive level-`n + 1` root inside the separable closure
-([Milne 2020, Chap. I, §3, Thm. 3.6, p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:258`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, Thm. 3.6, p.38][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveRoot.lean:258`). -/
 noncomputable def standardLubinTateLevelField {π : A} (hπ : Irreducible π) (n : ℕ) :
     IntermediateField K (SeparableClosure K) :=
   IntermediateField.adjoin K {chosenStandardLubinTatePrimitiveRoot K hπ n}
 
 /-- The chosen root as an element of its level field
-([Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:131`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveUniformizer.lean:131`). -/
 noncomputable def standardLubinTateLevelGenerator {π : A} (hπ : Irreducible π)
     (n : ℕ) : standardLubinTateLevelField K hπ n :=
   ⟨chosenStandardLubinTatePrimitiveRoot K hπ n,
@@ -279,7 +281,7 @@ instance standardLubinTateLevelField_finiteDimensional {π : A} (hπ : Irreducib
     (chosenStandardLubinTatePrimitiveRoot_isIntegral K hπ n)
 
 /-- The primitive polynomial is the minimal polynomial of the chosen root
-([Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:243`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:243`). -/
 theorem standardLubinTatePrimitivePolynomialOverField_eq_minpoly {π : A}
     (hπ : Irreducible π) (n : ℕ) :
     standardLubinTatePrimitivePolynomialOverField A K π n =
@@ -292,7 +294,8 @@ theorem standardLubinTatePrimitivePolynomialOverField_eq_minpoly {π : A}
 
 /-- The level-`n + 1` extension has degree `(q − 1) · qⁿ`
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (a), p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveRoot.lean:276`][Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveRoot.lean:276`). -/
 theorem standardLubinTateLevelField_finrank {π : A} (hπ : Irreducible π) (n : ℕ) :
     Module.finrank K (standardLubinTateLevelField K hπ n) =
       (Nat.card (IsLocalRing.ResidueField A) - 1) *

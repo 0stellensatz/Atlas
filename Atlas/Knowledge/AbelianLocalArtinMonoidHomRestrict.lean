@@ -34,8 +34,9 @@ else ports token-for-token; the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -48,9 +49,8 @@ variable (K : Type u) [Field K]
   [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
 /-- **Finite Artin homomorphisms commute with restriction along a tower
-of finite abelian intermediate fields** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidueNaturality.lean:34`]
-[Yamaguchi2026]). -/
+of finite abelian intermediate fields** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidueNaturality.lean:34`). -/
 theorem abelianLocalArtinMonoidHom_restrict
     (E F : IntermediateField K (AlgebraicClosure K)) (hEF : E ≤ F)
     [FiniteDimensional K E] [FiniteDimensional K F]

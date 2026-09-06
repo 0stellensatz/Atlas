@@ -34,8 +34,9 @@ assuming a section.
   York, 1979.
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -44,8 +45,8 @@ variable (K L : Type*) [Field K] [Field L] [Algebra K L]
 
 /-- The **Kummer radical subgroup** `Δ = Kˣ ∩ (Lˣ)ⁿ`: base units with an `n`-th root in the
 extension ([Milne 2020, Chap. VII, App. A, Thm. A.3, p.226][MilneCFT];
-[Serre 1979, Chap. X, §3, p.155][Serre1979];
-[Yamaguchi 2026, `KummerTheory/Concrete/FiniteCharacterEquiv.lean:32`][Yamaguchi2026]). -/
+[Serre 1979, Chap. X, §3, p.155][Serre1979]; Yamaguchi 2026,
+`KummerTheory/Concrete/FiniteCharacterEquiv.lean:32`). -/
 def kummerRadicalSubgroup (n : ℕ) : Subgroup Kˣ where
   carrier := {a | ∃ β : Lˣ, β ^ n = Units.map (algebraMap K L).toMonoidHom a}
   one_mem' := ⟨1, by simp⟩

@@ -30,8 +30,9 @@ outright and the attribute could never contribute.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -45,9 +46,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The product of two Frobenius elements**: exponents add
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusSemigroup.lean:21`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusSemigroup.lean:21`). -/
 def frobeniusMul (D : DegreeData G) (K : FiniteResidueAbstractField D)
     (L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.field.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal]
@@ -63,9 +63,8 @@ def frobeniusMul (D : DegreeData G) (K : FiniteResidueAbstractField D)
     pow_add]
 
 /-- Multiplication of Frobenius elements is induced by multiplication of
-their quotient representatives ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusSemigroup.lean:40`]
-[Yamaguchi2026]). -/
+their quotient representatives (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusSemigroup.lean:40`). -/
 instance frobeniusElementsMul (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -83,9 +82,8 @@ theorem frobeniusMul_coe (D : DegreeData G)
     (σ * τ).1 = σ.1 * τ.1 :=
   rfl
 
-/-- **The Frobenius elements form a semigroup** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusSemigroup.lean:60`]
-[Yamaguchi2026]). -/
+/-- **The Frobenius elements form a semigroup** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusSemigroup.lean:60`). -/
 instance frobeniusElementsSemigroup (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -97,9 +95,8 @@ instance frobeniusElementsSemigroup (D : DegreeData G)
     exact mul_assoc σ.1 τ.1 υ.1
 
 /-- **The normalized degree is multiplicative on the Frobenius semigroup**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusSemigroup.lean:77`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusSemigroup.lean:77`). -/
 theorem extensionNormalizedDegree_frobenius_mul (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)

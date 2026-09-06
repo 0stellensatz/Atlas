@@ -45,8 +45,9 @@ the equivalences, never in the index laws.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -112,7 +113,7 @@ private theorem kernelCosetToSaturationCoset_surjective (d : G →* D) {L K : Su
 /-- **The kernel cosets are the cosets of the kernel-saturated part**: for `L ≤ K`,
 the coset type of `L ⊓ ker d` in `K ⊓ ker d` is the coset type of `L` in
 `K ⊓ (L ⊔ ker d)` — the set-level second-isomorphism argument, with no normality of `L`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:76`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:76`). -/
 noncomputable def kernelCosetEquivSaturation (d : G →* D) {L K : Subgroup G}
     (hLK : L ≤ K) :
     (↑(K ⊓ d.ker) ⧸ (L ⊓ d.ker).subgroupOf (K ⊓ d.ker)) ≃
@@ -141,8 +142,8 @@ theorem map_relIndex_eq_saturation_relIndex (d : G →* D)
 /-- **The natural-valued image–kernel splitting**: along a homomorphism, a relative
 index is the relative index of the images times the relative index inside the
 kernel — valid with no finiteness assumption, under Mathlib's convention that an
-infinite relative index is zero
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:106`][Yamaguchi2026]). -/
+infinite relative index is zero (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Indices.lean:106`). -/
 theorem relIndex_eq_map_relIndex_mul_inf_ker_relIndex (d : G →* D) {L K : Subgroup G}
     (hLK : L ≤ K) :
     L.relIndex K =
@@ -154,14 +155,14 @@ theorem relIndex_eq_map_relIndex_mul_inf_ker_relIndex (d : G →* D) {L K : Subg
 
 /-- **The intersection index as a cardinal**: the cardinality of the coset type,
 for arbitrary subgroups; for the index of an inclusion, `relativeIndexCardinal`
-records the containment in its domain
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:128`][Yamaguchi2026]). -/
+records the containment in its domain (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Indices.lean:128`). -/
 noncomputable def intersectionIndexCardinal (L K : Subgroup G) : Cardinal :=
   Cardinal.mk (K ⧸ L.subgroupOf K)
 
 /-- **The cardinal relative index of an inclusion**: the coset-type cardinality,
 with the inclusion recorded in the domain — an infinite index stays an infinite cardinal
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:132`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:132`). -/
 noncomputable def relativeIndexCardinal {L K : Subgroup G} (_ : L ≤ K) : Cardinal :=
   intersectionIndexCardinal L K
 
@@ -192,7 +193,8 @@ theorem relativeIndexCardinal_eq_index_of_finite {L K : Subgroup G} (hLK : L ≤
 
 /-- **Relative cardinal indices multiply in every subgroup tower** —
 `Atlas.Knowledge.quotientTowerEquiv` read through `Cardinal.mk_congr`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:160`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Indices.lean:160`). -/
 theorem relativeIndexCardinal_mul {M L K : Subgroup G}
     (hML : M ≤ L) (hLK : L ≤ K) :
     relativeIndexCardinal hML * relativeIndexCardinal hLK =
@@ -297,8 +299,8 @@ theorem relativeIndexCardinal_kernel_eq_saturation (d : G →* D)
 /-- **The cardinal image–kernel splitting**: along a homomorphism, the cardinal
 relative index of an inclusion is the index of the images times the relative index
 inside the kernel — every factor an actual coset-type cardinality, so the identity
-holds with no finiteness assumption
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Indices.lean:263`][Yamaguchi2026]). -/
+holds with no finiteness assumption (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Indices.lean:263`). -/
 theorem relativeIndexCardinal_eq_map_mul_inf_ker (d : G →* D)
     {L K : Subgroup G} (hLK : L ≤ K) :
     Cardinal.lift.{v} (relativeIndexCardinal hLK) =

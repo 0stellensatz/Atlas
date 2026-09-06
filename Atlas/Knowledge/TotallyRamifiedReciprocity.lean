@@ -67,8 +67,9 @@ directory.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -84,9 +85,8 @@ namespace ValuationData
 variable {D : DegreeData G} {A : Rep ℤ G}
 
 /-- The exponent in the chosen cyclic decomposition is zero
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/Conclusion.lean:25`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/Conclusion.lean:25`). -/
 theorem abstractReciprocity_cyclicTotallyRamified_exponent_eq_zero
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -219,9 +219,8 @@ theorem abstractReciprocity_cyclicTotallyRamified_exponent_eq_zero
 
 /-- In the cyclic totally ramified case, the reciprocity homomorphism
 of the finite reciprocity equivalence has trivial kernel — the final
-kernel calculation ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/Conclusion.lean:154`]
-[Yamaguchi2026]). -/
+kernel calculation (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/Conclusion.lean:154`). -/
 theorem abstractReciprocity_cyclicTotallyRamified_finiteReciprocityHom_injective
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -336,9 +335,8 @@ theorem abstractReciprocity_cyclicTotallyRamified_finiteReciprocityHom_injective
   rw [hxrepr, hkzero, zero_nsmul]
 
 /-- **The cyclic totally ramified instance of the abstract reciprocity
-theorem** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/Conclusion.lean:273`]
-[Yamaguchi2026]). -/
+theorem** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/Conclusion.lean:273`). -/
 theorem abstractReciprocity_cyclicTotallyRamified_finiteReciprocityHom_bijective
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]

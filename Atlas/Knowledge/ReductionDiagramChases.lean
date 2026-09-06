@@ -66,8 +66,9 @@ sections' contents. This completes `Reciprocity/Reduction.lean`: the
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -83,9 +84,8 @@ namespace FiniteGaloisSubextension
 variable {K : ClosedSubgroup G}
 
 /-- **Inclusion of fixed elements, descended to the two actual norm
-quotients — the map `i` in the Sylow argument** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:100`]
-[Yamaguchi2026]). -/
+quotients — the map `i` in the Sylow argument** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:100`). -/
 def intermediateNormQuotientInclusion (A : Rep ℤ G)
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     letI : Finite (K.toSubgroup ⧸
@@ -113,9 +113,8 @@ def intermediateNormQuotientInclusion (A : Rep ℤ G)
       (L.intermediateField_le_base S)
 
 /-- Representative formula for the inclusion used in the Sylow
-reduction ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:128`]
-[Yamaguchi2026]). -/
+reduction (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:128`). -/
 @[simp]
 theorem intermediateNormQuotientInclusion_finiteNormClass (A : Rep ℤ G)
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient)
@@ -151,9 +150,8 @@ end FiniteGaloisSubextension
 /-- The diagram chase used twice in the first reduction: the middle
 vertical arrow is surjective when the two outside vertical arrows are
 surjective, the top-right arrow is surjective, and the bottom row is
-exact ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:663`]
-[Yamaguchi2026]). -/
+exact (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:663`). -/
 theorem abstractReciprocity_surjective_of_exact_diagram
     {Q₀ Q Q₁ B₀ B B₁ : Type*}
     [AddGroup Q₀] [AddGroup Q] [AddGroup Q₁]
@@ -191,9 +189,8 @@ theorem abstractReciprocity_surjective_of_exact_diagram
 /-- **The diagram chase in the third reduction: if both outside
 reciprocity arrows are bijective and the first lower arrow is
 injective, then the middle reciprocity arrow is bijective**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:700`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:700`). -/
 theorem abstractReciprocity_bijective_of_exact_diagram
     {Q₀ Q Q₁ B₀ B B₁ : Type*}
     [AddGroup Q₀] [AddGroup Q] [AddGroup Q₁]
@@ -237,9 +234,8 @@ theorem abstractReciprocity_bijective_of_exact_diagram
 
 /-- Every additive homomorphism from a group into an abelian group
 kills the commutator subgroup — the automatic inclusion in the kernel
-statement of the first reduction ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:744`]
-[Yamaguchi2026]). -/
+statement of the first reduction (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:744`). -/
 theorem abstractReciprocity_commutator_mem_kernel
     {Q : Type*} {B : Type*} [Group Q] [AddCommGroup B]
     (r : Additive Q →+ B) (q : Q)
@@ -257,9 +253,8 @@ theorem abstractReciprocity_commutator_mem_kernel
 /-- Exact remaining kernel calculation in the first reduction: for the
 actual maximal abelian intermediate field, commutativity of the right
 square and injectivity of its reciprocity arrow identify the kernel of
-the middle arrow with the commutator subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:762`]
-[Yamaguchi2026]). -/
+the middle arrow with the commutator subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:762`). -/
 theorem abstractReciprocity_abelianReduction_kernel
     {K : ClosedSubgroup G} {B : Type*} {C : Type*}
     [AddCommGroup B] [AddCommGroup C]
@@ -295,9 +290,8 @@ theorem abstractReciprocity_abelianReduction_kernel
 reciprocity arrows for a jointly faithful family of cyclic quotients
 forces injectivity of the original arrow; all horizontal maps are the
 actual restrictions to the intermediate fields cut out by the
-coordinate kernels ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:798`]
-[Yamaguchi2026]). -/
+coordinate kernels (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:798`). -/
 theorem abstractReciprocity_cyclicFactors_injective
     {K : ClosedSubgroup G} {I : Type*} {C : I → Type*}
     [∀ i, Group (C i)]
@@ -343,9 +337,8 @@ variable {K : ClosedSubgroup G}
 
 /-- **The norm arrow `A_M / N_{L/M} A_L → A_K / N_{L/K} A_L` for the
 actual intermediate field cut out by `S ≤ G(L/K)`; no normality of
-`M/K` is used** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:42`]
-[Yamaguchi2026]). -/
+`M/K` is used** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:42`). -/
 def intermediateNormMap (A : Rep ℤ G) (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     let M := L.intermediateField S
@@ -373,9 +366,8 @@ def intermediateNormMap (A : Rep ℤ G) (L : FiniteGaloisSubextension K)
     L.below hLM hMK le_rfl
 
 /-- Representative formula for the nonnormal-intermediate norm arrow
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:67`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:67`). -/
 @[simp]
 theorem intermediateNormMap_finiteNormClass (A : Rep ℤ G)
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient)
@@ -409,9 +401,8 @@ theorem intermediateNormMap_finiteNormClass (A : Rep ℤ G)
     (L.field_le_intermediateField S) (L.intermediateField_le_base S) le_rfl a
 
 /-- **The exact identity `N_{M/K} ∘ i = [M:K]`, now for an arbitrary
-(possibly nonnormal) intermediate field** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:159`]
-[Yamaguchi2026]). -/
+(possibly nonnormal) intermediate field** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:159`). -/
 theorem intermediateNormMap_comp_inclusion (A : Rep ℤ G)
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     letI : Finite (K.toSubgroup ⧸
@@ -465,9 +456,8 @@ theorem intermediateNormMap_comp_inclusion (A : Rep ℤ G)
 
 /-- **In the cyclic case, the lower norm arrow for `L / (L ∩ K̃) / K` is
 injective by the order calculation**, specialized to the inertia-image
-intermediate field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Reduction.lean:603`]
-[Yamaguchi2026]). -/
+intermediate field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Reduction.lean:603`). -/
 theorem maximalUnramified_normMap_injective
     (A : Rep ℤ G) (hcf : SatisfiesClassFieldAxiom A)
     (D : DegreeData G) (L : FiniteGaloisSubextension K)

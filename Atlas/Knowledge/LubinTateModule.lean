@@ -67,8 +67,9 @@ theorems are correctly separate, not one general lemma awaiting unification.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -83,7 +84,7 @@ variable {π : ↥𝒪[K]}
 
 /-- The **evaluated formal-group addition** on the integers of the extension
 ([Milne 2020, Chap. I, §2, Cor. 2.17 and the remark following it, p.34][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/CompletedEvaluation.lean:109`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/CompletedEvaluation.lean:109`). -/
 noncomputable def lubinTateAdd (hπ : Irreducible π) (e : LubinTateSeries ↥𝒪[K] π)
     (x y : ↥𝒪[E]) : ↥𝒪[E] :=
   letI : UniformSpace ↥𝒪[K] := ⊥
@@ -696,8 +697,8 @@ theorem lubinTateSMul_sub_eq_zero (hπ : Irreducible π) (e : LubinTateSeries �
 
 /-- **The `K`-automorphisms commute with evaluation**: the coefficients are fixed and
 the evaluation points transported
-([Milne 2020, Chap. I, §3, Lem. 3.5, p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/LevelAutomorphisms.lean:362`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, Lem. 3.5, p.38][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/LevelAutomorphisms.lean:362`). -/
 theorem eval₂_algEquiv (σ : E ≃ₐ[K] E) {τ : Type*} [Finite τ]
     {v : τ → ↥𝒪[E]} (hv : ∀ s, v s ∈ 𝓂[E]) (F : MvPowerSeries τ ↥𝒪[K]) :
     algEquivIntegerRestrict K E σ

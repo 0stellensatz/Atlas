@@ -44,8 +44,9 @@ representation, which rewrites an explicit argument, stays as written.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -59,9 +60,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The fixed field `Σ` as a finite intermediate field of `L̃ | K`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:33`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:33`). -/
 def frobeniusFixedIntermediateField (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -77,9 +77,8 @@ def frobeniusFixedIntermediateField (D : DegreeData G)
   finite := D.frobeniusFixedField_finite K L hLK σ
 
 /-- **The extension `Σ | k` is finite**, from the finite tower `Σ | K | k`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:48`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:48`). -/
 theorem frobeniusFixedField_absoluteFinite (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -108,9 +107,8 @@ theorem frobeniusFixedField_absoluteFinite (D : DegreeData G)
     (D.frobeniusFixedField_le KR L hLK σ) (le_baseField K.field)
 
 /-- **The reciprocity construction at an explicit prime element `π_Σ`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:94`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:94`). -/
 def reciprocityValueOfPrime (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -133,9 +131,8 @@ def reciprocityValueOfPrime (D : DegreeData G) (A : Rep ℤ G)
 /-- **The reciprocity map on the Frobenius semigroup**, at the canonical
 chosen prime supplied by surjectivity of `v_Σ`; the later independence
 theorem identifies this value with the formula for every prime element
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:117`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:117`). -/
 def reciprocityMap (D : DegreeData G) (A : Rep ℤ G)
     (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -165,9 +162,8 @@ def reciprocityMap (D : DegreeData G) (A : Rep ℤ G)
       (v.chosenPrimeElement Sigma)
 
 /-- **The reciprocity map at a Frobenius element is represented by the
-chosen prime element of its fixed field** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:150`]
-[Yamaguchi2026]). -/
+chosen prime element of its fixed field** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityDefinition.lean:150`). -/
 theorem reciprocityMap_eq_chosenPrime (D : DegreeData G) (A : Rep ℤ G)
     (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

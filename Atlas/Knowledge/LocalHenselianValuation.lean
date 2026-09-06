@@ -33,8 +33,9 @@ inside the norm law.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -48,9 +49,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-- **The valuation datum of a mixed-characteristic local field**: the
 normalized valuation on the base fixed coefficients is a Henselian valuation
-for the local residue degree datum ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalHenselianValuation.lean:25`]
-[Yamaguchi2026]). -/
+for the local residue degree datum (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalHenselianValuation.lean:25`). -/
 def localHenselianValuation :
     ValuationData (localResidueDatum K)
       (galoisAmbientUnitsRep K (AlgebraicClosure K)) := by

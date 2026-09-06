@@ -94,8 +94,9 @@ without their intrinsic abbreviations.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -111,9 +112,8 @@ variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCh
 omit [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K] in
 /-- Norms from a larger intermediate field are norms from a smaller
 one: the norm subgroup is antitone in the field, by transitivity of the
-norm along the inclusion ([Yamaguchi 2026,
-`LocalFieldTheory/NonarchimedeanLocalField/NormSubgroupFunctoriality.lean:19`]
-[Yamaguchi2026]). -/
+norm along the inclusion (Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/NormSubgroupFunctoriality.lean:19`). -/
 theorem localNormSubgroup_le_of_le {Ω : Type u} [Field Ω] [Algebra K Ω]
     {E₁ E₂ : IntermediateField K Ω} (h : E₁ ≤ E₂) [FiniteDimensional K E₂] :
     localNormSubgroup K E₂ ≤ localNormSubgroup K E₁ := by
@@ -126,9 +126,8 @@ theorem localNormSubgroup_le_of_le {Ω : Type u} [Field Ω] [Algebra K Ω]
 /-- **The standard-subgroup intersection**: for a uniformizer `ϖ` of
 normalized valuation one, an element of `⟨ϖ⟩ ⊔ U^{(i)}` whose
 normalized valuation is divisible by `d` lies in `⟨ϖᵈ⟩ ⊔ U^{(i)}`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/StandardSubgroupIntersection.lean:29`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/StandardSubgroupIntersection.lean:29`). -/
 theorem zpowers_sup_higherUnitGroup_inf_comap_le (ϖ : Kˣ) (hϖ : normalizedValuation K ϖ = 1)
     (d : ℕ) (i : ℕ+) :
     (Subgroup.zpowers ϖ ⊔ higherUnitGroup K i) ⊓
@@ -163,11 +162,10 @@ level field with the abstract unramified extension of degree the index,
 whose norm subgroup lies in the standard subgroup the given subgroup
 contains. The source's equal-characteristic assembly, which its
 characteristic-zero input reaches through Kummer theory instead
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/StandardLubinTate.lean:142`]
-[Yamaguchi2026]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/CyclotomicKummerDescent.lean:27`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/StandardLubinTate.lean:142`;
+Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/CyclotomicKummerDescent.lean:27`). -/
 theorem exists_finiteGalois_localNormSubgroup_le (H : Subgroup Kˣ) [H.FiniteIndex] :
     ∃ E : IntermediateField K (AlgebraicClosure K),
       FiniteDimensional K E ∧ IsGalois K E ∧ localNormSubgroup K E ≤ H := by

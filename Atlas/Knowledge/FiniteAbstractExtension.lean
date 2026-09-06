@@ -47,8 +47,9 @@ degree it computes, though the source keeps it beside the norm quotients.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -59,8 +60,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **A finite abstract extension**: finiteness of the relative coset space is
 carried by the object, so the numerical invariants are positive naturals rather
-than the raw index convention encoding infinity as zero
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:552`][Yamaguchi2026]). -/
+than the raw index convention encoding infinity as zero (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:552`). -/
 structure FiniteAbstractExtension (G : Type*) [Group G] [TopologicalSpace G]
     extends AbstractExtension G where
   /-- The relative quotient of the base subgroup by the extension subgroup is
@@ -85,7 +86,7 @@ def quotient : Type u :=
 
 /-- Bundle an inclusion whose relative coset type is known finite — the
 canonical boundary from subgroup data to the finite extension API
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:577`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:577`). -/
 def ofInclusion (field base : ClosedSubgroup G)
     (below : field.toSubgroup ≤ base.toSubgroup)
     [hfinite : Finite
@@ -190,7 +191,7 @@ private theorem relativeDegreeCardinals_lt_aleph0 (D : DegreeData G) :
 /-- **The relative residue cardinal of a finite extension is finite** — from the
 cardinal fundamental identity, the argument the zero convention cannot make;
 public here because the residue-field bundles consume it across files
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:683`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:683`). -/
 theorem relativeResidueDegreeCardinal_lt_aleph0 (D : DegreeData G) :
     E.toAbstractExtension.relativeResidueDegreeCardinal D <
       Cardinal.aleph0 :=
@@ -204,7 +205,7 @@ private theorem relativeRamificationIndexCardinal_lt_aleph0 (D : DegreeData G) :
 
 /-- **The residue coset type of a finite extension is finite** — derived from
 the cardinal fundamental identity, not from a natural-valued index
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:698`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:698`). -/
 instance residueQuotientFinite (D : DegreeData G) :
     Finite
       (↥(E.base.toSubgroup.map D.degree.toMonoidHom) ⧸
@@ -228,13 +229,15 @@ instance ramificationQuotientFinite (D : DegreeData G) :
       E.relativeRamificationIndexCardinal_lt_aleph0 D
 
 /-- **The positive degree** of a finite abstract extension
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:721`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:721`). -/
 noncomputable def degree : ℕ+ := by
   letI : Nonempty E.quotient := ⟨QuotientGroup.mk 1⟩
   exact ⟨Nat.card E.quotient, Nat.card_pos⟩
 
 /-- **The positive relative residue degree**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:728`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:728`). -/
 noncomputable def residueDegree (D : DegreeData G) : ℕ+ :=
   ⟨Nat.card
       (↥(E.base.toSubgroup.map D.degree.toMonoidHom) ⧸
@@ -243,7 +246,8 @@ noncomputable def residueDegree (D : DegreeData G) : ℕ+ :=
     Nat.card_pos⟩
 
 /-- **The positive relative ramification index**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:736`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:736`). -/
 noncomputable def ramificationIndex (D : DegreeData G) : ℕ+ :=
   ⟨Nat.card
       (↥(E.base.toSubgroup ⊓ D.degree.toMonoidHom.ker) ⧸
@@ -301,8 +305,8 @@ cardinality. -/
   rw [Subgroup.relIndex, Subgroup.index, E.ramificationIndex_coe]
 
 /-- **The finite fundamental identity** `[L : K] = f · e`, in the positive
-invariants alone
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:799`][Yamaguchi2026]). -/
+invariants alone (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:799`). -/
 theorem degree_eq_residueDegree_mul_ramificationIndex (D : DegreeData G) :
     (E.degree : ℕ) =
       (E.residueDegree D : ℕ) * (E.ramificationIndex D : ℕ) := by
@@ -328,7 +332,7 @@ theorem residueDegree_eq_one_of_isTotallyRamified (D : DegreeData G)
 
 /-- **Residue degree one characterizes total ramification** — keeping callers on
 the structural predicate rather than the image-index implementation
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:827`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:827`). -/
 theorem isTotallyRamified_iff_residueDegree_eq_one (D : DegreeData G) :
     E.IsTotallyRamified D ↔ (E.residueDegree D : ℕ) = 1 := by
   constructor
@@ -401,9 +405,8 @@ theorem ramificationIndex_eq_degree_of_isTotallyRamified (D : DegreeData G)
 end FiniteAbstractExtension
 
 /-- **The additive Galois quotient has the degree as its order**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:537`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:537`). -/
 theorem additiveExtensionQuotient_card
     (E : FiniteAbstractExtension G) :
     Nat.card

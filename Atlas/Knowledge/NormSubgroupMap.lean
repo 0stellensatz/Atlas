@@ -88,8 +88,9 @@ layer's items carry none.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -105,18 +106,16 @@ namespace FiniteAbelianSubextension
 variable {K : ClosedSubgroup G}
 
 /-- The relative subgroup of a finite abelian subextension is normal,
-as an instance local to the section ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:28`]
-[Yamaguchi2026]). -/
+as an instance local to the section (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:28`). -/
 local instance extensionQuotient_normal
     (L : FiniteAbelianSubextension K) :
     (L.field.toSubgroup.subgroupOf K.toSubgroup).Normal :=
   L.normal
 
 /-- The relative quotient of a finite abelian subextension is finite,
-as an instance local to the section ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:34`]
-[Yamaguchi2026]). -/
+as an instance local to the section (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:34`). -/
 local instance representedQuotient_finite
     (L : FiniteAbelianSubextension K) :
     Finite (K.toSubgroup ⧸ L.field.toSubgroup.subgroupOf K.toSubgroup) :=
@@ -125,9 +124,8 @@ local instance representedQuotient_finite
 /-- **The norm-open subgroups**: additive subgroups which are open for
 the explicitly declared norm topology. The topology is part of the
 predicate, so no ambient topology instance is changed outside the
-finite abelian classification theorem ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:43`]
-[Yamaguchi2026]). -/
+finite abelian classification theorem (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:43`). -/
 def NormOpenAddSubgroup (A : Rep ℤ G) (K : ClosedSubgroup G) :=
   {H : AddSubgroup (ambientFixedAddSubgroup A K) //
     IsNormOpen A K (H : Set (ambientFixedAddSubgroup A K))}
@@ -135,18 +133,16 @@ def NormOpenAddSubgroup (A : Rep ℤ G) (K : ClosedSubgroup G) :=
 /-- Norm-open subgroups inherit the literal inclusion order of their
 underlying additive subgroups; the instance is stated explicitly
 because `NormOpenAddSubgroup` is an opaque boundary type, not a
-transparent alias ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:50`]
-[Yamaguchi2026]). -/
+transparent alias (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:50`). -/
 instance normOpenAddSubgroupPartialOrder (A : Rep ℤ G)
     (K : ClosedSubgroup G) : PartialOrder (NormOpenAddSubgroup A K) :=
   PartialOrder.lift (fun H => H.1) (fun _ _ h => Subtype.ext h)
 
 /-- **The norm subgroup map** `L ↦ N_{L/K} A_L` of the finite abelian
 classification theorem, with openness carried by the codomain rather
-than assumed ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:56`]
-[Yamaguchi2026]). -/
+than assumed (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:56`). -/
 def normSubgroupMap (A : Rep ℤ G)
     (L : FiniteAbelianSubextension K) : NormOpenAddSubgroup A K := by
   refine ⟨L.normSubgroup A, ?_⟩
@@ -156,9 +152,8 @@ def normSubgroupMap (A : Rep ℤ G)
       L.toFiniteGaloisExtension
 
 /-- The underlying subgroup of `L.normSubgroupMap A` is
-`L.normSubgroup A` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:66`]
-[Yamaguchi2026]). -/
+`L.normSubgroup A` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:66`). -/
 @[simp]
 theorem normSubgroupMap_val
     (A : Rep ℤ G) (L : FiniteAbelianSubextension K) :
@@ -167,9 +162,8 @@ theorem normSubgroupMap_val
 
 /-- The subgroup product `N_{L₁} N_{L₂}` (a supremum in additive
 notation) is open in the norm topology: it contains the defining norm
-neighbourhood attached to `L₁` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:74`]
-[Yamaguchi2026]). -/
+neighbourhood attached to `L₁` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:74`). -/
 theorem sup_normSubgroup_isOpen (A : Rep ℤ G)
     (L₁ L₂ : FiniteAbelianSubextension K) :
     IsNormOpen A K
@@ -184,9 +178,8 @@ theorem sup_normSubgroup_isOpen (A : Rep ℤ G)
 
 /-- Restriction along an inclusion of finite abelian subextensions. The
 proof-dependent raw quotient map is transported through the two named
-quotient boundaries here and nowhere in its callers ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:230`]
-[Yamaguchi2026]). -/
+quotient boundaries here and nowhere in its callers (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:230`). -/
 def restriction
     {L₁ L₂ : FiniteAbelianSubextension K} (h₁₂ : L₁ ≤ L₂) :
     L₂.extensionQuotient →* L₁.extensionQuotient := by
@@ -197,9 +190,8 @@ def restriction
       L₂.extensionQuotientMulEquiv.toMonoidHom)
 
 /-- Restriction sends the class of `k` in the larger quotient to its
-class in the smaller ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:244`]
-[Yamaguchi2026]). -/
+class in the smaller (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:244`). -/
 @[simp]
 theorem restriction_mk
     {L₁ L₂ : FiniteAbelianSubextension K} (h₁₂ : L₁ ≤ L₂)
@@ -210,27 +202,24 @@ theorem restriction_mk
   simp [restriction]
 
 /-- Restriction from the actual Galois quotient of `L₁L₂ / K` to that
-of `L₁ / K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:255`]
-[Yamaguchi2026]). -/
+of `L₁ / K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:255`). -/
 def compositumRestrictionLeft
     (L₁ L₂ : FiniteAbelianSubextension K) :
     (L₁.compositum L₂).extensionQuotient →* L₁.extensionQuotient :=
   restriction (L₁.le_compositum_left L₂)
 
 /-- Restriction from the actual Galois quotient of `L₁L₂ / K` to that
-of `L₂ / K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:263`]
-[Yamaguchi2026]). -/
+of `L₂ / K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:263`). -/
 def compositumRestrictionRight
     (L₁ L₂ : FiniteAbelianSubextension K) :
     (L₁.compositum L₂).extensionQuotient →* L₂.extensionQuotient :=
   restriction (L₁.le_compositum_right L₂)
 
 /-- The left compositum restriction sends the class of `k` in
-`G(L₁L₂/K)` to its class in `G(L₁/K)` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:274`]
-[Yamaguchi2026]). -/
+`G(L₁L₂/K)` to its class in `G(L₁/K)` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:274`). -/
 @[simp]
 theorem compositumRestrictionLeft_mk
     (L₁ L₂ : FiniteAbelianSubextension K) (k : K.toSubgroup) :
@@ -240,9 +229,8 @@ theorem compositumRestrictionLeft_mk
   exact restriction_mk (L₁.le_compositum_left L₂) k
 
 /-- The right compositum restriction sends the class of `k` in
-`G(L₁L₂/K)` to its class in `G(L₂/K)` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:287`]
-[Yamaguchi2026]). -/
+`G(L₁L₂/K)` to its class in `G(L₂/K)` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:287`). -/
 @[simp]
 theorem compositumRestrictionRight_mk
     (L₁ L₂ : FiniteAbelianSubextension K) (k : K.toSubgroup) :
@@ -255,9 +243,8 @@ theorem compositumRestrictionRight_mk
 are jointly injective**, proved on the literal quotient
 representatives: an element trivial modulo both field subgroups lies in
 their intersection, which is the subgroup representing the compositum
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:299`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:299`). -/
 theorem compositumRestriction_joint_injective
     (L₁ L₂ : FiniteAbelianSubextension K) :
     Function.Injective (fun q : (L₁.compositum L₂).extensionQuotient ↦
@@ -302,9 +289,8 @@ theorem compositumRestriction_joint_injective
 
 /-- Equivalently, the kernels of the two restrictions have trivial
 intersection — the literal group statement used in the first paragraph
-of the classification theorem's proof ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:348`]
-[Yamaguchi2026]). -/
+of the classification theorem's proof (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:348`). -/
 theorem ker_compositumRestrictionLeft_inf_ker_compositumRestrictionRight
     (L₁ L₂ : FiniteAbelianSubextension K) :
     (compositumRestrictionLeft L₁ L₂).ker ⊓
@@ -327,9 +313,8 @@ theorem ker_compositumRestrictionLeft_inf_ker_compositumRestrictionRight
 quotients have the same finite cardinality is an equality** — the
 group-theoretic final step of the injectivity argument of the finite
 classification, where equality of cardinalities comes from finite
-reciprocity ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:374`]
-[Yamaguchi2026]). -/
+reciprocity (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:374`). -/
 theorem eq_of_le_of_extensionQuotient_card_eq
     {L₁ L₂ : FiniteAbelianSubextension K} (h₁₂ : L₁ ≤ L₂)
     (hcard : Nat.card L₂.extensionQuotient =
@@ -365,9 +350,8 @@ theorem eq_of_le_of_extensionQuotient_card_eq
 
 /-- **The final surjectivity step**: surjectivity and order reversal
 turn the unconditional inclusion for an intersection field into
-equality ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:479`]
-[Yamaguchi2026]). -/
+equality (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:479`). -/
 theorem normSubgroup_intersection_eq_sup_of_surjective_and_order
     [IsTopologicalGroup G] [CompactSpace G]
     (A : Rep ℤ G) (K : ClosedSubgroup G)
@@ -404,27 +388,24 @@ namespace FiniteGaloisSubextension
 variable {K : ClosedSubgroup G} [IsTopologicalGroup G]
 
 /-- The relative quotient of a finite Galois subextension is finite, as
-an instance local to the section ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:514`]
-[Yamaguchi2026]). -/
+an instance local to the section (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:514`). -/
 local instance classification_extensionQuotient_finite
     (E : FiniteGaloisSubextension K) :
     Finite (K.toSubgroup ⧸ E.field.toSubgroup.subgroupOf K.toSubgroup) :=
   E.finite
 
 /-- The relative subgroup of a finite abelian subextension is normal,
-as an instance local to the section ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:519`]
-[Yamaguchi2026]). -/
+as an instance local to the section (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:519`). -/
 local instance classification_abelianExtension_normal
     (M : FiniteAbelianSubextension K) :
     (M.field.toSubgroup.subgroupOf K.toSubgroup).Normal :=
   M.normal
 
 /-- The relative quotient of a finite abelian subextension is finite,
-as an instance local to the section ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:524`]
-[Yamaguchi2026]). -/
+as an instance local to the section (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:524`). -/
 local instance classification_abelianExtension_finite
     (M : FiniteAbelianSubextension K) :
     Finite (K.toSubgroup ⧸ M.field.toSubgroup.subgroupOf K.toSubgroup) :=
@@ -432,9 +413,8 @@ local instance classification_abelianExtension_finite
 
 /-- The original finite Galois subextension's subgroup lies below the
 class field candidate's — the candidate, cut out inside `E`, is the
-smaller field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:531`]
-[Yamaguchi2026]). -/
+smaller field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:531`). -/
 theorem classFieldCandidate_field_le
     (E : FiniteGaloisSubextension K) (A : Rep ℤ G)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -448,9 +428,8 @@ theorem classFieldCandidate_field_le
 
 /-- **Restriction from `E / K` to its class field candidate is trivial
 exactly on the pulled-back subgroup** used to define that candidate
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:544`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:544`). -/
 theorem classFieldCandidate_restriction_eq_one_iff
     (E : FiniteGaloisSubextension K) (A : Rep ℤ G)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -496,9 +475,8 @@ theorem classFieldCandidate_restriction_eq_one_iff
 `E / K` to the intermediate field fixed by `S` — the
 representative-level identity connecting the candidate quotient in the
 surjectivity construction of the finite abelian classification theorem
-to the restriction map of restriction compatibility ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:707`]
-[Yamaguchi2026]). -/
+to the restriction map of restriction compatibility (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:707`). -/
 theorem upperQuotientEquiv_quotientMk_eq_restriction
     (E : FiniteGaloisSubextension K) (S : Subgroup E.extensionQuotient)
     [hS : S.Normal] (q : E.extensionQuotient) :

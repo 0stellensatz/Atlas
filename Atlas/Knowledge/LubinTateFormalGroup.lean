@@ -49,8 +49,9 @@ collapse into `ℕ`. Everything is stated over the abstract discrete valuation r
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open MvPowerSeries
@@ -61,15 +62,15 @@ variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
   [Finite (IsLocalRing.ResidueField A)] {π : A}
 
 /-- The **Lubin–Tate formal group law**: the unique self-intertwiner of `e` with linear
-term `X + Y` ([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:497`][Yamaguchi2026]). -/
+term `X + Y` ([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/StandardFormalGroup.lean:497`). -/
 noncomputable def lubinTateFormalGroupPowerSeries (hπ : Irreducible π) (e : LubinTateSeries A π) :
     MvPowerSeries (Fin 2) A :=
   lubinTateIntertwiner hπ e e (fun _ => 1)
 
 /-- The **scalar series** `[a]`: the unique self-intertwiner of `e` with linear term
 `a X` — Milne's `[a]_f` ([Milne 2020, Chap. I, §2, Cor. 2.17, p.34][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:901`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:901`). -/
 noncomputable def lubinTateScalar (hπ : Irreducible π) (e : LubinTateSeries A π) (a : A) :
     PowerSeries A :=
   lubinTateIntertwiner hπ e e (fun _ : Unit => a)
@@ -386,8 +387,8 @@ section Laws
 
 /-- **Commutativity of the formal group law**: the swapped series has the same linear
 term and intertwines, so uniqueness closes
-([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:625`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/StandardFormalGroup.lean:625`). -/
 theorem lubinTateFormalGroupPowerSeries_comm (hπ : Irreducible π) (e : LubinTateSeries A π) :
     MvPowerSeries.subst (![MvPowerSeries.X 1, MvPowerSeries.X 0] :
       Fin 2 → MvPowerSeries (Fin 2) A) (lubinTateFormalGroupPowerSeries hπ e) =
@@ -518,8 +519,8 @@ theorem lubinTateScalar_lubinTateFormalGroupPowerSeries (hπ : Irreducible π)
 
 /-- **Associativity of the formal group law**: both bracketings have linear term
 `X₀ + X₁ + X₂` and intertwine
-([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:497`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/StandardFormalGroup.lean:497`). -/
 theorem lubinTateFormalGroupPowerSeries_assoc (hπ : Irreducible π) (e : LubinTateSeries A π) :
     MvPowerSeries.subst
       (![MvPowerSeries.subst (![MvPowerSeries.X 0, MvPowerSeries.X 1] :
@@ -629,8 +630,8 @@ section Bundle
 
 /-- The **Lubin–Tate formal group**, in Mathlib's own `FormalGroup`: the group law
 bundled with its associativity
-([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:497`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/StandardFormalGroup.lean:497`). -/
 noncomputable def lubinTateFormalGroup (hπ : Irreducible π) (e : LubinTateSeries A π) :
     FormalGroup A where
   toPowerSeries := lubinTateFormalGroupPowerSeries hπ e
@@ -648,7 +649,8 @@ noncomputable def lubinTateFormalGroup (hπ : Irreducible π) (e : LubinTateSeri
 
 /-- The Lubin–Tate formal group is **commutative**
 ([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:625`][Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LubinTate/FormalModule/StandardFormalGroup.lean:625`). -/
 instance lubinTateFormalGroup_isComm (hπ : Irreducible π) (e : LubinTateSeries A π) :
     (lubinTateFormalGroup hπ e).IsComm where
   comm := by

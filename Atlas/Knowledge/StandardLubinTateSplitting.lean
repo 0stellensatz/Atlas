@@ -39,8 +39,9 @@ chosen by hand, and all bounds meet at the degree by `omega`.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -59,7 +60,7 @@ variable (E : Type*) [Field E] [ValuativeRel E] [TopologicalSpace E] [Algebra K 
 root, the unit-parameter orbit provides as many distinct integral roots as the degree —
 the roots multiset is full and duplicate-free
 ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6 (a), (b), p.39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:55`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:55`). -/
 theorem standardLubinTateSplitting {π : 𝒪[K]} (hπ : Irreducible π) {n : ℕ}
     {x : ↥𝒪[E]}
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
@@ -126,8 +127,8 @@ theorem standardLubinTateSplitting {π : 𝒪[K]} (hπ : Irreducible π) {n : �
 
 /-- **The splitting in Mathlib's predicate form**: over the integers of the carrier the
 mapped primitive polynomial satisfies `Polynomial.Splits` — the counterpart source's
-spelling, read off the cardinality
-([Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:55`][Yamaguchi2026]). -/
+spelling, read off the cardinality (Yamaguchi 2026,
+`LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:55`). -/
 theorem standardLubinTatePrimitivePolynomial_map_splits {π : 𝒪[K]} (hπ : Irreducible π)
     {n : ℕ} {x : ↥𝒪[E]}
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
@@ -142,8 +143,7 @@ theorem standardLubinTatePrimitivePolynomial_map_splits {π : 𝒪[K]} (hπ : Ir
 exactly the unit-scalar orbit of a primitive root — the class-indexed injection of the
 splitting count, forced surjective by the equal cardinalities
 ([Milne 2020, Chap. I, §3, Prop. 3.4, p.38][MilneCFT] — the module structure of the
-root set; [Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:55`]
-[Yamaguchi2026]). -/
+root set; Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:55`). -/
 theorem exists_unit_lubinTateSMul_of_mem_roots {π : 𝒪[K]} (hπ : Irreducible π) {n : ℕ}
     {x : ↥𝒪[E]}
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)

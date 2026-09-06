@@ -46,8 +46,9 @@ instantiation.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -251,7 +252,7 @@ include hπ in
 each application of the standard polynomial multiplies the valuation by `q`, because
 below the top the `q`-power summand of the recursion sits strictly under the `π`-summand
 ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6 and Summary 3.7, pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/CompletedIterates.lean:73`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/CompletedIterates.lean:73`). -/
 theorem integerValuation_aeval_standardLubinTatePolynomialIterate
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)
     {i : ℕ} (hi : i ≤ n) :
@@ -290,7 +291,7 @@ include hπ in
 primitive root in any carrier — the abstract form of total ramification of the level
 tower, closed from the iterate valuations by the top identity `t_n^{q−1} = −π`
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (a) and its proof, pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:811`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:811`). -/
 theorem standardLubinTatePrimitiveValuation
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
     ((Nat.card 𝓀[K] : ℤ) - 1) * (Nat.card 𝓀[K] : ℤ) ^ n * integerValuation E x =

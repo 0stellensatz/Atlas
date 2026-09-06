@@ -40,8 +40,9 @@ as everywhere on the arc.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -51,9 +52,8 @@ namespace Atlas.Knowledge
 noncomputable section
 
 /-- **The class-field axiom for the units of a Galois ambient field** over a
-mixed-characteristic local field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalClassFieldAxiom.lean:33`]
-[Yamaguchi2026]). -/
+mixed-characteristic local field (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalClassFieldAxiom.lean:33`). -/
 theorem galoisAmbientUnits_satisfiesClassFieldAxiom
     (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K]
@@ -200,9 +200,8 @@ theorem galoisAmbientUnits_satisfiesClassFieldAxiom
 
 /-- **The algebraic-closure specialization** — the form the reciprocity
 assembly consumes; the source's is at the separable closure
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalClassFieldAxiom.lean:140`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalClassFieldAxiom.lean:140`). -/
 theorem algebraicClosureUnits_satisfiesClassFieldAxiom
     (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] :

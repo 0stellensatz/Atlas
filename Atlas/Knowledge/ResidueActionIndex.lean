@@ -47,8 +47,9 @@ weight, so the source's scope instances are not replicated — through
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -62,9 +63,8 @@ variable (K : Type u) {L : Type v} [Field K] [Field L] [Algebra K L]
 
 /-- View every ambient Galois automorphism as a decomposition-group element
 when the chosen extension valuation has full decomposition group
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueActionIndex.lean:36`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueActionIndex.lean:36`). -/
 def toDecompositionGroupOfEqTop
     (A : ValuationSubring L)
     (hA : decompositionGroup K A = ⊤) :
@@ -75,9 +75,8 @@ def toDecompositionGroupOfEqTop
 
 omit [IsGalois K L] in
 /-- The decomposition-group view forgets back to the automorphism
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueActionIndex.lean:46`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueActionIndex.lean:46`). -/
 @[simp] theorem toDecompositionGroupOfEqTop_coe
     (A : ValuationSubring L)
     (hA : decompositionGroup K A = ⊤)
@@ -86,9 +85,8 @@ omit [IsGalois K L] in
   rfl
 
 /-- **The residue action on the whole Galois group** when the chosen
-extension valuation has full decomposition group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueActionIndex.lean:55`]
-[Yamaguchi2026]). -/
+extension valuation has full decomposition group (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueActionIndex.lean:55`). -/
 def residueAlgActionOfEqTop
     (A : ValuationSubring L)
     (hA : decompositionGroup K A = ⊤) :
@@ -98,9 +96,8 @@ def residueAlgActionOfEqTop
   (decompositionGroupResidueAction (K := K) A).comp
     (toDecompositionGroupOfEqTop K A hA)
 
-/-- **The whole-group residue action is surjective** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueActionIndex.lean:65`]
-[Yamaguchi2026]). -/
+/-- **The whole-group residue action is surjective** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueActionIndex.lean:65`). -/
 theorem residueAlgActionOfEqTop_surjective
     (A : ValuationSubring L)
     (hA : decompositionGroup K A = ⊤) :
@@ -122,9 +119,8 @@ variable (Omega : Type v) [Field Omega] [Algebra k Omega]
   [Algebra.IsAlgebraic k Omega] [IsAlgClosed Omega]
 
 /-- **A subgroup whose residue-action image is a finite fixing subgroup has
-degree image of index the residue degree** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueActionIndex.lean:88`]
-[Yamaguchi2026]). -/
+degree image of index the residue degree** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueActionIndex.lean:88`). -/
 theorem residueDegreeImage_index_eq_finrank_of_map_eq_fixingSubgroup
     {G : Type*} [Group G]
     (rho : G →* (Omega ≃ₐ[k] Omega))

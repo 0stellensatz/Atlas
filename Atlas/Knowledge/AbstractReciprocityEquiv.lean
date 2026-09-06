@@ -51,8 +51,9 @@ source's `Reciprocity/Main.lean:847`–`:961`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -68,8 +69,7 @@ namespace DegreeData
 /-- **The abstract reciprocity theorem (reciprocity isomorphism): for a
 finite Galois extension `L/K`, the reciprocity homomorphism identifies
 the abelianized Galois group with the finite norm quotient**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:852`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Reciprocity/Main.lean:852`). -/
 def abstractReciprocityEquiv
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     (hcf : SatisfiesClassFieldAxiom A)
@@ -92,8 +92,8 @@ def abstractReciprocityEquiv
       hcf hAxiom K L)
 
 /-- On a Galois element, the reciprocity isomorphism is the reciprocity
-homomorphism of the finite reciprocity equivalence ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:876`][Yamaguchi2026]). -/
+homomorphism of the finite reciprocity equivalence (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:876`). -/
 @[simp]
 theorem abstractReciprocityEquiv_apply_of
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
@@ -119,8 +119,8 @@ theorem abstractReciprocityEquiv_apply_of
       q
 
 /-- **The norm-residue symbol `(·, L/K)`, defined in this construction
-as the inverse of the reciprocity isomorphism** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:900`][Yamaguchi2026]). -/
+as the inverse of the reciprocity isomorphism** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:900`). -/
 def normResidueSymbol
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     (hcf : SatisfiesClassFieldAxiom A)
@@ -139,8 +139,8 @@ def normResidueSymbol
   exact (D.abstractReciprocityEquiv A v hcf hAxiom K L).symm
 
 /-- The norm-residue symbol sends the reciprocity class of a Galois
-element back to its class in the abelianization ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:919`][Yamaguchi2026]). -/
+element back to its class in the abelianization (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:919`). -/
 @[simp]
 theorem normResidueSymbol_finiteReciprocityHom
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
@@ -165,8 +165,8 @@ theorem normResidueSymbol_finiteReciprocityHom
   exact (D.abstractReciprocityEquiv A v hcf hAxiom K L).symm_apply_apply _
 
 /-- Reciprocity followed by the norm-residue symbol inverse is the
-identity on the finite norm quotient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:943`][Yamaguchi2026]). -/
+identity on the finite norm quotient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:943`). -/
 @[simp]
 theorem abstractReciprocity_normResidueSymbol
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)

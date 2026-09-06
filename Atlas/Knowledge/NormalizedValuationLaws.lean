@@ -46,8 +46,9 @@ relative subgroup.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -59,8 +60,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **Conjugation fixes the degree image**: `d(G_{K^σ}) = d(G_K)`, the degree
-landing in a commutative group ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/ValuationLaws.lean:24`][Yamaguchi2026]). -/
+landing in a commutative group (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ValuationLaws.lean:24`). -/
 theorem DegreeData.fieldImage_conjugate [ContinuousMul G]
     (D : DegreeData G) (K : ClosedSubgroup G) (σ : G) :
     D.fieldImage (conjugateClosedSubgroup K σ) = D.fieldImage K := by
@@ -84,8 +85,8 @@ theorem DegreeData.fieldImage_conjugate [ContinuousMul G]
 variable {D : DegreeData G}
 
 /-- **The conjugate of a residue-finite field**: the transported finiteness
-comes from the conjugation invariance of the degree image ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/ValuationLaws.lean:48`][Yamaguchi2026]). -/
+comes from the conjugation invariance of the degree image (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ValuationLaws.lean:48`). -/
 def FiniteResidueAbstractField.conjugate [ContinuousMul G]
     (K : FiniteResidueAbstractField D) (σ : G) :
     FiniteResidueAbstractField D where
@@ -96,8 +97,7 @@ def FiniteResidueAbstractField.conjugate [ContinuousMul G]
     exact K.finiteResidueQuotient
 
 /-- **Conjugation fixes the residue degree at the residue-finite boundary**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/ValuationLaws.lean:60`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ValuationLaws.lean:60`). -/
 theorem FiniteResidueAbstractField.residueDegree_conjugate [ContinuousMul G]
     (K : FiniteResidueAbstractField D) (σ : G) :
     (K.conjugate σ).residueDegree = K.residueDegree := by
@@ -119,8 +119,8 @@ theorem FiniteResidueAbstractField.residueDegree_conjugate [ContinuousMul G]
       himage)
 
 /-- **The conjugate of a field finite over the base**: the transported
-finiteness comes from the conjugate coset equivalence ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/ValuationLaws.lean:82`][Yamaguchi2026]). -/
+finiteness comes from the conjugate coset equivalence (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ValuationLaws.lean:82`). -/
 def FiniteAbstractField.conjugate [ContinuousMul G]
     (K : FiniteAbstractField G) (σ : G) :
     FiniteAbstractField G where
@@ -130,8 +130,8 @@ def FiniteAbstractField.conjugate [ContinuousMul G]
       K.field.toSubgroup.subgroupOf (baseField G).toSubgroup)
     (absoluteConjugateCosetEquiv K.field σ).symm
 
-/-- **Conjugation fixes the residue degree** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/ValuationLaws.lean:93`][Yamaguchi2026]). -/
+/-- **Conjugation fixes the residue degree** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ValuationLaws.lean:93`). -/
 theorem FiniteAbstractField.residueDegree_conjugate [ContinuousMul G]
     (K : FiniteAbstractField G) (D : DegreeData G) (σ : G) :
     (K.conjugate σ).residueDegree D = K.residueDegree D :=
@@ -141,9 +141,10 @@ namespace ValuationData
 
 variable {A : Rep ℤ G}
 
-/-- **Normalized valuations are conjugation-invariant**: `v_{K^σ}(a^σ) =
-v_K(a)`, in the construction's right-action notation ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/ValuationLaws.lean:119`][Yamaguchi2026]). -/
+/-- **Normalized valuations are conjugation-invariant**:
+`v_{K^σ}(a^σ) = v_K(a)`, in the construction's right-action notation
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ValuationLaws.lean:119`). -/
 theorem normalizedValuation_conjugate [ContinuousMul G]
     (v : ValuationData D A) (K : FiniteAbstractField G) (σ : G)
     (a : ambientFixedAddSubgroup A K.field) :
@@ -190,8 +191,8 @@ theorem normalizedValuation_conjugate [ContinuousMul G]
       (v.residueDegree_nsmul_dividedAt K a).symm
 
 /-- **The norm–valuation formula**: `v_K ∘ N_{L|K} = f_{L|K}·v_L` for a
-finite extension `L | K` of fields finite over the base ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/ValuationLaws.lean:166`][Yamaguchi2026]). -/
+finite extension `L | K` of fields finite over the base (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ValuationLaws.lean:166`). -/
 theorem normalizedValuation_tower (v : ValuationData D A)
     (E : FiniteAbstractFieldExtension G)
     (a : ambientFixedAddSubgroup A E.field.field) :

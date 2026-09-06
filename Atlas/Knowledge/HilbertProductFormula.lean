@@ -38,8 +38,9 @@ factors of a principal idele through the Kummer root character
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open NumberField IsDedekindDomain
@@ -51,10 +52,8 @@ variable (K : Type*) [Field K] [NumberField K]
 /-- A finite-place Hilbert symbol family evaluates to `1` at all but finitely many
 places: away from the divisors of `n` and the supports of the two arguments, the symbol
 is tame with unit arguments. Claim recorded ahead of its proof
-([Milne 2020, Chap. VIII, §5, 5.8, p.246][MilneCFT];
-[Yamaguchi 2026,
-`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/FinitePlaceFiniteSupport.lean:29`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, 5.8, p.246][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/FinitePlaceFiniteSupport.lean:29`). -/
 theorem hilbertSymbol_mulSupport_finite (n : ℕ) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), Kˣ → Kˣ → Kˣ)
@@ -64,10 +63,8 @@ theorem hilbertSymbol_mulSupport_finite (n : ℕ) (hn : n ≠ 0)
 
 /-- The **Hilbert product formula**: over all places of a number field containing the
 `n`-th roots of unity, the Hilbert symbols of two global units multiply to one. Claim
-recorded ahead of its proof
-([Milne 2020, Chap. VIII, §5, 5.10, p.247][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/HilbertProductFormula.lean:172`]
-[Yamaguchi2026]). -/
+recorded ahead of its proof ([Milne 2020, Chap. VIII, §5, 5.10, p.247][MilneCFT];
+Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/HilbertProductFormula.lean:172`). -/
 theorem hilbertProductFormula (n : ℕ) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), Kˣ → Kˣ → Kˣ)

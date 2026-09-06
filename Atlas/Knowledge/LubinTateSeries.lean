@@ -36,8 +36,9 @@ degenerate reading.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -45,8 +46,8 @@ namespace Atlas.Knowledge
 /-- A **Lubin–Tate series** over a local ring `A` with prescribed linear coefficient
 `π`: constant term zero, linear coefficient `π`, and reduction modulo the maximal ideal
 the `q`-power map for `q` the residue cardinality — Milne's `ℱ_π`
-([Milne 2020, Chap. I, §2, Defn. 2.9, pp.31–32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/Series.lean:28`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §2, Defn. 2.9, pp.31–32][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/Series.lean:28`). -/
 structure LubinTateSeries (A : Type*) [CommRing A] [IsLocalRing A] (π : A) where
   /-- The underlying one-variable power series over `A`. -/
   toPowerSeries : PowerSeries A

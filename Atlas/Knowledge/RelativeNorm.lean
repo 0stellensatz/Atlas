@@ -34,8 +34,9 @@ definition so the fixedness proof can name it before the bundling.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -46,7 +47,7 @@ variable {G : Type*} [Group G] [TopologicalSpace G]
 
 /-- **The value of a fixed coefficient at a left coset** — independent of the
 representative exactly because the coefficient is fixed by the smaller subgroup
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:30`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:30`). -/
 def relativeCosetAction
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -76,7 +77,8 @@ theorem relativeCosetAction_mk
   rfl
 
 /-- **The additive norm value**: the sum over the left cosets
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:73`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Norm.lean:73`). -/
 def relativeNormValue
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -112,8 +114,8 @@ theorem relativeCosetAction_zero
   exact map_zero (A.ρ k.1)
 
 /-- **The norm value is fixed by the base subgroup**: the action permutes the
-cosets and the sum reindexes
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:108`][Yamaguchi2026]). -/
+cosets and the sum reindexes (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Norm.lean:108`). -/
 theorem relativeNormValue_fixed
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -139,8 +141,8 @@ theorem relativeNormValue_fixed
   exact Equiv.sum_comp (MulAction.toPerm k) (relativeCosetAction A K L hLK a)
 
 /-- **The relative norm of a finite abstract extension**: the coset sum, with
-its fixedness, landing in the base field's fixed module
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Norm.lean:137`][Yamaguchi2026]). -/
+its fixedness, landing in the base field's fixed module (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Norm.lean:137`). -/
 def relativeNorm
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)

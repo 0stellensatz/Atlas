@@ -46,8 +46,9 @@ is the source's `TotallyRamifiedCase/RestrictionEquiv.lean` whole.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -61,9 +62,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **Restriction identifies the actual lower Galois group `G(M/M⁰)`
-with the original totally ramified group `G(L/K)`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:25`]
-[Yamaguchi2026]). -/
+with the original totally ramified group `G(L/K)`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:25`). -/
 def abstractReciprocityTotallyRamifiedRestrictionEquiv
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -109,9 +109,8 @@ def abstractReciprocityTotallyRamifiedRestrictionEquiv
 
 /-- **Restriction identifies the degree of the totally ramified lower
 extension `M/M⁰` with the original cyclic degree `[L:K]`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:67`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:67`). -/
 theorem abstractReciprocityTotallyRamifiedLowerDegree_eq
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -152,9 +151,8 @@ theorem abstractReciprocityTotallyRamifiedLowerDegree_eq
       exact h
 
 /-- The generator of `G(M/M⁰)` corresponding to the prescribed
-generator of `G(L/K)` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:107`]
-[Yamaguchi2026]). -/
+generator of `G(L/K)` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:107`). -/
 def abstractReciprocityTotallyRamifiedLowerGenerator
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -174,9 +172,8 @@ def abstractReciprocityTotallyRamifiedLowerGenerator
     K L hTot q).symm q
 
 /-- The restriction equivalence sends the constructed lower generator
-to the target generator ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:127`]
-[Yamaguchi2026]). -/
+to the target generator (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:127`). -/
 @[simp]
 theorem abstractReciprocityTotallyRamifiedRestrictionEquiv_lowerGenerator
     (D : DegreeData G)
@@ -191,9 +188,8 @@ theorem abstractReciprocityTotallyRamifiedRestrictionEquiv_lowerGenerator
   exact MulEquiv.apply_symm_apply _ q
 
 /-- **The constructed lower automorphism generates the relevant cyclic
-quotient** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:140`]
-[Yamaguchi2026]). -/
+quotient** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/RestrictionEquiv.lean:140`). -/
 theorem abstractReciprocityTotallyRamifiedLowerGenerator_generates
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]

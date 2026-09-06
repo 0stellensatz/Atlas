@@ -36,8 +36,9 @@ and a private lemma still enters the global simp set.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -50,9 +51,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 namespace DegreeData
 
-/-- **The actual action of `G(L̃|K)` on `A_{L̃}`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:178`]
-[Yamaguchi2026]). -/
+/-- **The actual action of `G(L̃|K)` on `A_{L̃}`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:178`). -/
 def frobeniusQuotientAction (D : DegreeData G) (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
@@ -98,9 +98,8 @@ theorem frobeniusQuotientAction_mk (D : DegreeData G) (A : Rep ℤ G)
 
 /- Conjugation by an element of `G_K` preserves the inertia group `I_K`;
 the inverse convention makes the coset permutation rewrite `τ·φ` as
-`φ·(φ⁻¹τφ)` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:227`]
-[Yamaguchi2026]). -/
+`φ·(φ⁻¹τφ)` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:227`). -/
 private def inertiaConjugationEquiv (D : DegreeData G)
     (K : ClosedSubgroup G) (k : K.toSubgroup) :
     (D.maximalUnramifiedField K).toSubgroup ≃
@@ -127,9 +126,8 @@ private def inertiaConjugationEquiv (D : DegreeData G)
     simp [mul_assoc]
 
 /- Conjugation by `G_K` preserves `I_L` when `L | K` is Galois
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:253`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:253`). -/
 private theorem conjugate_mem_maximalUnramifiedField (D : DegreeData G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
@@ -145,9 +143,8 @@ private theorem conjugate_mem_maximalUnramifiedField (D : DegreeData G)
     rw [map_mul, map_mul, map_inv, hlDegree]
     simp
 
-/- The coset permutation `τ ↦ φ⁻¹τφ` of `G(L̃|K̃)` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:270`]
-[Yamaguchi2026]). -/
+/- The coset permutation `τ ↦ φ⁻¹τφ` of `G(L̃|K̃)` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:270`). -/
 private noncomputable def inertiaConjugationCosetEquiv (D : DegreeData G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
@@ -185,9 +182,8 @@ private theorem inertiaConjugationCosetEquiv_mk (D : DegreeData G)
   rfl
 
 /- Conjugation intertwines the coset action with the normalizing action
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:309`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:309`). -/
 private theorem relativeCosetAction_inertiaConjugation (D : DegreeData G)
     (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -222,9 +218,8 @@ private theorem relativeCosetAction_inertiaConjugation (D : DegreeData G)
       rfl
 
 /- The norm `N_{L̃|K̃}` is equivariant for the normalizing `G_K`-action
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:344`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:344`). -/
 private theorem relativeNorm_normalizingAction (D : DegreeData G)
     (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -280,9 +275,8 @@ private theorem relativeNorm_normalizingAction (D : DegreeData G)
       rw [e.sum_comp]
 
 /-- **The relative norm commutes with the Frobenius quotient action**,
-after including the norm into the upper fixed field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:397`]
-[Yamaguchi2026]). -/
+after including the norm into the upper fixed field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:397`). -/
 theorem relativeNorm_frobeniusQuotientAction (D : DegreeData G)
     (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -311,9 +305,8 @@ theorem relativeNorm_frobeniusQuotientAction (D : DegreeData G)
   exact D.relativeNorm_normalizingAction A K L hLK k a
 
 /-- **The additive power-sum operator** `φ_n = 1 + φ + ⋯ + φ^{n-1}`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:424`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:424`). -/
 def frobeniusPowerSum (D : DegreeData G) (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
@@ -324,9 +317,8 @@ def frobeniusPowerSum (D : DegreeData G) (A : Rep ℤ G)
   ∑ i : Fin n, D.frobeniusQuotientAction A K L hLK (φ ^ i.1) a
 
 /-- The power sum reads as the sum of the actions on coefficients
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:439`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:439`). -/
 @[simp]
 theorem frobeniusPowerSum_coe (D : DegreeData G) (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)

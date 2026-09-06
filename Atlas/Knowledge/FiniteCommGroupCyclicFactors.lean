@@ -26,8 +26,9 @@ and wait for whichever brick takes that assembly on.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -35,9 +36,8 @@ namespace Atlas.Knowledge
 noncomputable section
 
 /-- **Coordinate characters obtained from the structure theorem separate
-the elements of a finite commutative group** ([Yamaguchi 2026,
-`KummerTheory/Abstract/KummerAbelianCyclicFactors.lean:28`]
-[Yamaguchi2026]). -/
+the elements of a finite commutative group** (Yamaguchi 2026,
+`KummerTheory/Abstract/KummerAbelianCyclicFactors.lean:28`). -/
 theorem finiteCommGroup_exists_jointlyFaithful_cyclic_factors
     (Q : Type*) [CommGroup Q] [Finite Q] :
     ∃ (ι : Type 0) (_ : Fintype ι) (m : ι → ℕ),

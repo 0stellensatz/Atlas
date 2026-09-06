@@ -37,8 +37,9 @@ left dead on all three declarations.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -55,9 +56,8 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 
 /-- **The unit-valued correction term on the upper Frobenius fixed field**
 — the additive form of the right-hand side of the corrected equation
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitCorrection.lean:30`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitCorrection.lean:30`). -/
 noncomputable def fixedTowerCorrection
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -84,9 +84,8 @@ noncomputable def fixedTowerCorrection
           (τ i) (hτσn i) (uBarᵢ i) - uBarᵢ i)
 
 /-- The underlying fixed-tower correction is the Frobenius difference
-minus the prescribed finite sum of correction terms ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitCorrection.lean:62`]
-[Yamaguchi2026]). -/
+minus the prescribed finite sum of correction terms (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitCorrection.lean:62`). -/
 theorem fixedTowerCorrection_coe
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -119,9 +118,8 @@ theorem fixedTowerCorrection_coe
 
 /-- **Applying the lower norm to the correction term gives zero** — the
 norm calculation immediately before the use of `Ĥ⁻¹ = 0`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitCorrection.lean:97`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FixedTowerUnitCorrection.lean:97`). -/
 theorem fixedTowerCorrection_relativeNorm_eq_zero
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)

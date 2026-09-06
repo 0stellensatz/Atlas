@@ -30,8 +30,9 @@ the DVR normal form `v − 1 = πʲ w` of the displacement item, with `j ≤ n` 
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -49,10 +50,8 @@ variable {π : ↥𝒪[K]} (hπ : Irreducible π) {n : ℕ} {x : ↥𝒪[E]}
 include hπ in
 /-- **The conjugate ceiling**: any root of the primitive polynomial other than a given
 primitive root sits at value at most `qⁿ ν(x)` from it — the bound the Krasner gap
-strictly beats
-([Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveDisplacement.lean:905`]
-[Yamaguchi2026] — the source's Galois form; the orbit form here needs no
-automorphism). -/
+strictly beats (Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveDisplacement.lean:905`
+— the source's Galois form; the orbit form here needs no automorphism). -/
 theorem standardLubinTateConjugateCeiling
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)
     {r : ↥𝒪[E]}

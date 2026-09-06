@@ -39,8 +39,9 @@ section is `zpowersHom` at the uniformizer itself, with no inverse twist.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -194,9 +195,8 @@ private theorem fieldCharacter_ker {π : 𝒪[K]} (hπ : Irreducible π) (n : �
 
 /-- **The candidate norm subgroup has index the level degree**:
 `[Kˣ : ⟨π⟩ ⊔ U^{(n+1)}] = (q − 1) · qⁿ`
-([Milne 2020, Chap. I, §1, p.25][MilneCFT];
-[Yamaguchi 2026, `LocalClassFieldTheory/LubinTateApplication/StandardSubgroupIndex.lean:74`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §1, p.25][MilneCFT]; Yamaguchi 2026,
+`LocalClassFieldTheory/LubinTateApplication/StandardSubgroupIndex.lean:74`). -/
 theorem standardLubinTateSubgroupIndex {π : 𝒪[K]} (hπ : Irreducible π) (n : ℕ) :
     (Subgroup.zpowers (standardLubinTateUniformizerUnit K hπ) ⊔
       (integerHigherUnitGroup K (n + 1)).map

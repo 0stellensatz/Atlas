@@ -52,8 +52,9 @@ passes.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -67,9 +68,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- Underlying coefficient of the actual quotient action, expressed
-through the chosen quotient representative ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:35`]
-[Yamaguchi2026]). -/
+through the chosen quotient representative (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:35`). -/
 theorem frobeniusQuotientAction_coe_out (D : DegreeData G) (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
@@ -90,9 +90,8 @@ theorem frobeniusQuotientAction_coe_out (D : DegreeData G) (A : Rep ℤ G)
     _ = A.ρ (Quotient.out q).1 a.1 := rfl
 
 /-- The linear action of `G(L̃/K)` on `A_{L̃}` — the concrete quotient
-action packaged for the Tate-cohomology calculation ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:56`]
-[Yamaguchi2026]). -/
+action packaged for the Tate-cohomology calculation (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:56`). -/
 noncomputable def frobeniusQuotientActionLinearMap (D : DegreeData G)
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -115,9 +114,8 @@ noncomputable def frobeniusQuotientActionLinearMap (D : DegreeData G)
     exact map_zsmul (A.ρ k.1) n a.1
 
 /-- **The actual `G(L̃/K)`-representation on `A_{L̃}`** used in the
-universal norm-descent lemma ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:79`]
-[Yamaguchi2026]). -/
+universal norm-descent lemma (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:79`). -/
 noncomputable def frobeniusQuotientRepresentation (D : DegreeData G)
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -152,9 +150,8 @@ theorem frobeniusQuotientRepresentation_apply (D : DegreeData G)
   rfl
 
 /-- **The Birkhoff sum of the quotient action is the corresponding sum of
-Frobenius powers** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:112`]
-[Yamaguchi2026]). -/
+Frobenius powers** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:112`). -/
 theorem birkhoffSum_eq_frobeniusPowerSum (D : DegreeData G)
     (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -178,9 +175,8 @@ theorem birkhoffSum_eq_frobeniusPowerSum (D : DegreeData G)
       D.frobeniusQuotientRepresentation_apply A K L hLK (φ ^ i) a
 
 /-- A Frobenius power sum splits into its first `n` terms and a
-translated block of `m` terms ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:136`]
-[Yamaguchi2026]). -/
+translated block of `m` terms (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:136`). -/
 theorem frobeniusPowerSum_add (D : DegreeData G) (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal]
@@ -205,9 +201,8 @@ theorem frobeniusPowerSum_add (D : DegreeData G) (A : Rep ℤ G)
   exact h
 
 /-- Actual additive telescoping identity for the Frobenius power sum
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:160`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:160`). -/
 theorem frobeniusPowerSum_action_sub (D : DegreeData G)
     (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -245,9 +240,8 @@ theorem frobeniusPowerSum_action_sub (D : DegreeData G)
   exact h
 
 /-- The Frobenius power sum distributes over differences
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:197`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:197`). -/
 theorem frobeniusPowerSum_sub_universalNormDescent (D : DegreeData G)
     (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -269,9 +263,8 @@ theorem frobeniusPowerSum_sub_universalNormDescent (D : DegreeData G)
   simp only [map_sub, Finset.sum_sub_distrib]
 
 /-- An orbit sum of an element fixed by its first translate is scalar
-multiplication by the orbit length ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:218`]
-[Yamaguchi2026]). -/
+multiplication by the orbit length (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:218`). -/
 theorem frobeniusPowerSum_eq_nsmul_of_fixed (D : DegreeData G)
     (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -295,9 +288,8 @@ theorem frobeniusPowerSum_eq_nsmul_of_fixed (D : DegreeData G)
   simp
 
 /-- Equivariance of `N_{L̃/K̃}` expressed inside `A_{L̃}`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:241`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:241`). -/
 theorem maximalUnramifiedNorm_frobeniusQuotientAction (D : DegreeData G)
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -333,9 +325,8 @@ theorem maximalUnramifiedNorm_frobeniusQuotientAction (D : DegreeData G)
   exact D.relativeNorm_frobeniusQuotientAction A K L hLK q a
 
 /-- A degree-zero element acts trivially on an element already defined
-over `K̃` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:276`]
-[Yamaguchi2026]). -/
+over `K̃` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:276`). -/
 theorem frobeniusQuotientAction_fixed_of_degreeZero (D : DegreeData G)
     (A : Rep ℤ G) (K : FiniteResidueAbstractField D)
     (L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -375,9 +366,8 @@ theorem frobeniusQuotientAction_fixed_of_degreeZero (D : DegreeData G)
 
 /-- **Applying `N_{L̃/K̃}` to equation `(*)` kills all degree-zero
 differences** — hence the norm of `u` is fixed by the chosen degree-one
-Frobenius element ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:312`]
-[Yamaguchi2026]). -/
+Frobenius element (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:312`). -/
 theorem maximalUnramifiedNorm_fixed_of_hstar (D : DegreeData G)
     (A : Rep ℤ G) (K : FiniteResidueAbstractField D)
     (L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -454,9 +444,8 @@ theorem maximalUnramifiedNorm_fixed_of_hstar (D : DegreeData G)
 /-- **A `K̃`-fixed element with finite Galois support descends to `K` as
 soon as it is fixed by a degree-one Frobenius lift**: the finite
 degree-quotient decomposition writes each element of `Gal(P/K)` as a
-positive Frobenius power up to inertia ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:383`]
-[Yamaguchi2026]). -/
+positive Frobenius power up to inertia (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusQuotientDescent.lean:383`). -/
 theorem descend_maximalUnramified_fixed_of_finiteSupport (D : DegreeData G)
     (A : Rep ℤ G) (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)

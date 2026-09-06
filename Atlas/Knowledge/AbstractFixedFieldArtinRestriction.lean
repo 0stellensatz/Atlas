@@ -21,8 +21,9 @@ prime norms are read using the residue degree of an Artin uniformizer.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -67,9 +68,9 @@ variable [Algebra (abstractRelativeFixedField K (AlgebraicClosure K) L.below)
 set_option maxHeartbeats 800000 in
 -- The prime-norm comparison unfolds nested fixed fields and both absolute Galois presentations.
 /-- The abstract symbol at a finite fixed field is its intrinsic Artin restriction.
-This generalizes the abelian-floor comparison in
-[Yamaguchi 2026, `FixedFieldIntrinsicReciprocity/AmbientPrimeComparison.lean:188`]
-[Yamaguchi2026] to arbitrary finite Galois floors. -/
+This generalizes the abelian-floor comparison in Yamaguchi 2026,
+`FixedFieldIntrinsicReciprocity/AmbientPrimeComparison.lean:188` to arbitrary
+finite Galois floors. -/
 theorem abstractFixedFieldArtinRestriction
     (hcf : SatisfiesClassFieldAxiom (galoisAmbientUnitsRep K (AlgebraicClosure K)))
     (hAxiom : (localHenselianValuation K).SatisfiesUnramifiedUnitCohomology (localResidueDatum K))

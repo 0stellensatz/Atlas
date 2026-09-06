@@ -39,8 +39,9 @@ the `ℤ̂` item, and the multiplicative reading is `AddSubgroup.toSubgroup` of
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -55,9 +56,8 @@ variable {F : Type u} {M : Type v} [Field F] [Field M] [Algebra F M]
   [IsGalois F M]
 
 /-- **A subextension's fixing subgroup as a closed subgroup** — closedness is
-Mathlib's `InfiniteGalois.fixingSubgroup_isClosed`
-([Yamaguchi 2026, `RamificationTheory/GaloisValuation/ClosedFixingSubgroup.lean:17`]
-[Yamaguchi2026]). -/
+Mathlib's `InfiniteGalois.fixingSubgroup_isClosed` (Yamaguchi 2026,
+`RamificationTheory/GaloisValuation/ClosedFixingSubgroup.lean:17`). -/
 def closedFixingSubgroup (E : IntermediateField F M) :
     ClosedSubgroup (M ≃ₐ[F] M) where
   toSubgroup := E.fixingSubgroup
@@ -79,9 +79,8 @@ set_option linter.unusedFintypeInType false in
 local instance : IsGalois k Omega := inferInstance
 
 /-- **The residue degree datum**: the intrinsic degree map with its
-surjectivity ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueDatum.lean:29`]
-[Yamaguchi2026]). -/
+surjectivity (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueDatum.lean:29`). -/
 def residueDatumIn : DegreeData (Omega ≃ₐ[k] Omega) where
   degree := residueAbsoluteDegreeIn k Omega
   degree_surjective := (residueAbsoluteFrobeniusEquivIn k Omega).symm.surjective
@@ -113,9 +112,8 @@ private theorem mem_fixingSubgroup_iff_restrictNormalHom_eq_one
 
 /-- **The degree image of the fixing subgroup of a degree-`n` subextension is
 `n·ℤ̂`** — the finite-coordinate compatibility read through the span–kernel
-identity ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueDatum.lean:59`]
-[Yamaguchi2026]). -/
+identity (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueDatum.lean:59`). -/
 theorem residueDatumIn_fieldImage_closedFixingSubgroup
     (E : FiniteGaloisIntermediateField k Omega) :
     (residueDatumIn k Omega).fieldImage
@@ -161,9 +159,8 @@ theorem residueDatumIn_fieldImage_closedFixingSubgroup
 
 /-- **The degree image of the fixing subgroup has index the field degree** —
 the finite-coordinate calculation behind the engine's residue degrees
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueDatum.lean:104`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueDatum.lean:104`). -/
 theorem residueDatumIn_fieldImage_index_closedFixingSubgroup
     (E : FiniteGaloisIntermediateField k Omega) :
     ((residueDatumIn k Omega).fieldImage

@@ -48,8 +48,9 @@ with the negation recorded in `Atlas.Knowledge.NormalizedValuation`.
   2020.
 * [Hyeon2025] S.-H. Hyeon, *The m-step solvable anabelian geometry of mixed-characteristic
   local fields*, J. London Math. Soc. **112** (2025), e70402.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -64,10 +65,9 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 uniformizer, uniformizer ↦ arithmetic Frobenius
 ([Serre 1979, Chap. XIII, §4, Prop. 13, p.197][Serre1979];
 [Milne 2020, Chap. I, §1, Thm. 1.1 (a), p.20][MilneCFT];
-[Hyeon 2025, §3, p.10][Hyeon2025];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:383`, valuation
-sign reversed][Yamaguchi2026]). -/
+[Hyeon 2025, §3, p.10][Hyeon2025]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:383`,
+valuation sign reversed). -/
 def IsFrobeniusNormalized (ρ : Kˣ →* (L ≃ₐ[K] L)) : Prop :=
   ∀ σ : L ≃ₐ[K] L, IsArithmeticFrobenius K L σ →
     ∀ x : Kˣ, ρ x = σ ^ normalizedValuation K x

@@ -43,8 +43,9 @@ relative subgroup is Mathlib's `Subgroup.mem_subgroupOf`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -58,9 +59,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The maximal unramified extension `L̃`**, represented by
-`I_L = G_L ∩ ker d` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:198`]
-[Yamaguchi2026]). -/
+`I_L = G_L ∩ ker d` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:198`). -/
 def maximalUnramifiedField (D : DegreeData G) (L : ClosedSubgroup G) :
     ClosedSubgroup G :=
   D.fieldInertia L
@@ -74,9 +74,8 @@ theorem maximalUnramifiedField_eq_fieldInertia
   rfl
 
 /-- Membership in the maximal unramified field is the inertia condition
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:213`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:213`). -/
 @[simp]
 theorem mem_maximalUnramifiedField_iff
     (D : DegreeData G) (L : ClosedSubgroup G) (g : G) :
@@ -84,9 +83,8 @@ theorem mem_maximalUnramifiedField_iff
   rw [D.maximalUnramifiedField_eq_fieldInertia]
   exact D.mem_fieldInertia_iff L g
 
-/-- The maximal unramified field extends its field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:220`]
-[Yamaguchi2026]). -/
+/-- The maximal unramified field extends its field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:220`). -/
 theorem maximalUnramifiedField_le (D : DegreeData G)
     (L : ClosedSubgroup G) :
     (D.maximalUnramifiedField L).toSubgroup ≤ L.toSubgroup := by
@@ -94,17 +92,15 @@ theorem maximalUnramifiedField_le (D : DegreeData G)
   exact inf_le_left
 
 /-- The maximal unramified field extends any field its field extends
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:226`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:226`). -/
 theorem maximalUnramifiedField_le_of_le (D : DegreeData G)
     {L K : ClosedSubgroup G} (hLK : L.toSubgroup ≤ K.toSubgroup) :
     (D.maximalUnramifiedField L).toSubgroup ≤ K.toSubgroup :=
   (D.maximalUnramifiedField_le L).trans hLK
 
-/-- Monotonicity of maximal unramified fields ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:232`]
-[Yamaguchi2026]). -/
+/-- Monotonicity of maximal unramified fields (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:232`). -/
 theorem maximalUnramifiedField_mono (D : DegreeData G)
     {K L : ClosedSubgroup G} (hLK : L.toSubgroup ≤ K.toSubgroup) :
     (D.maximalUnramifiedField L).toSubgroup ≤
@@ -115,9 +111,8 @@ theorem maximalUnramifiedField_mono (D : DegreeData G)
   exact (D.mem_maximalUnramifiedField_iff K g).2 ⟨hLK hgL, hgd⟩
 
 /-- **Inside `G_K`, the subgroup of `L̃` is the relative inertia**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:243`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:243`). -/
 theorem subgroupOf_maximalUnramifiedField (D : DegreeData G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup) :
     (D.maximalUnramifiedField L).toSubgroup.subgroupOf K.toSubgroup =
@@ -137,9 +132,8 @@ theorem subgroupOf_maximalUnramifiedField (D : DegreeData G)
       (D.mem_fieldInertiaWithin_iff K k).1 hk.2⟩
 
 /-- The subgroup of the maximal unramified field is normal in the base
-subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:265`]
-[Yamaguchi2026]). -/
+subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:265`). -/
 theorem subgroupOf_maximalUnramifiedField_normal (D : DegreeData G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal] :
@@ -149,9 +143,8 @@ theorem subgroupOf_maximalUnramifiedField_normal (D : DegreeData G)
   infer_instance
 
 /-- **The norm subgroup `N_{L̃|K} A_{L̃}` of the reciprocity construction**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:285`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:285`). -/
 def maximalUnramifiedNormSubgroup (D : DegreeData G) (A : Rep ℤ G)
     (K L : ClosedSubgroup G) :
     AddSubgroup (ambientFixedAddSubgroup A K) :=
@@ -166,9 +159,8 @@ theorem maximalUnramifiedNormSubgroup_eq_infiniteNormSubgroup
   rfl
 
 /-- Membership in the maximal-unramified norm subgroup, levelwise
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:300`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:300`). -/
 @[simp]
 theorem mem_maximalUnramifiedNormSubgroup_iff
     (D : DegreeData G) (A : Rep ℤ G) (K L : ClosedSubgroup G)
@@ -178,17 +170,15 @@ theorem mem_maximalUnramifiedNormSubgroup_iff
   rw [D.maximalUnramifiedNormSubgroup_eq_infiniteNormSubgroup]
 
 /-- **The quotient `A_K / N_{L̃|K} A_{L̃}`** — opaque, not a reducible alias
-for the infinite norm quotient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:311`]
-[Yamaguchi2026]). -/
+for the infinite norm quotient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:311`). -/
 def MaximalUnramifiedNormQuotient (D : DegreeData G) (A : Rep ℤ G)
     (K L : ClosedSubgroup G) :=
   InfiniteNormQuotient A (D.maximalUnramifiedField L) K
 
 /-- The additive group structure on the maximal-unramified norm quotient
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:316`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:316`). -/
 instance maximalUnramifiedNormQuotientAddCommGroup
     (D : DegreeData G) (A : Rep ℤ G) (K L : ClosedSubgroup G) :
     AddCommGroup (D.MaximalUnramifiedNormQuotient A K L) := by
@@ -196,9 +186,8 @@ instance maximalUnramifiedNormQuotientAddCommGroup
   infer_instance
 
 /-- The explicit boundary to the corresponding infinite norm quotient
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:323`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:323`). -/
 def maximalUnramifiedNormQuotientInfiniteEquiv
     (D : DegreeData G) (A : Rep ℤ G) (K L : ClosedSubgroup G) :
     D.MaximalUnramifiedNormQuotient A K L ≃+
@@ -207,9 +196,8 @@ def maximalUnramifiedNormQuotientInfiniteEquiv
   exact AddEquiv.refl _
 
 /-- **The canonical class map into the maximal-unramified norm quotient**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:331`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:331`). -/
 def maximalUnramifiedNormClass
     (D : DegreeData G) (A : Rep ℤ G) (K L : ClosedSubgroup G) :
     ambientFixedAddSubgroup A K →+
@@ -228,9 +216,8 @@ theorem maximalUnramifiedNormQuotientInfiniteEquiv_maximalUnramifiedNormClass
   rfl
 
 /-- **A class vanishes exactly on the defining norm subgroup**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:350`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:350`). -/
 @[simp]
 theorem maximalUnramifiedNormClass_eq_zero_iff
     (D : DegreeData G) (A : Rep ℤ G) (K L : ClosedSubgroup G)
@@ -240,9 +227,8 @@ theorem maximalUnramifiedNormClass_eq_zero_iff
   unfold maximalUnramifiedNormClass MaximalUnramifiedNormQuotient
   exact infiniteNormClass_eq_zero_iff A (D.maximalUnramifiedField L) K a
 
-/-- **Every class has an ambient representative** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:359`]
-[Yamaguchi2026]). -/
+/-- **Every class has an ambient representative** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:359`). -/
 theorem maximalUnramifiedNormClass_surjective
     (D : DegreeData G) (A : Rep ℤ G) (K L : ClosedSubgroup G) :
     Function.Surjective (D.maximalUnramifiedNormClass A K L) := by
@@ -252,9 +238,8 @@ theorem maximalUnramifiedNormClass_surjective
   exact ⟨a, ha⟩
 
 /-- **Eliminate a class through an ambient representative**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:370`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:370`). -/
 @[elab_as_elim]
 theorem MaximalUnramifiedNormQuotient.induction_on
     (D : DegreeData G) (A : Rep ℤ G) (K L : ClosedSubgroup G)
@@ -266,9 +251,8 @@ theorem MaximalUnramifiedNormQuotient.induction_on
   exact h a
 
 /-- **Descend a homomorphism that kills the norm subgroup**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:379`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:379`). -/
 def maximalUnramifiedNormQuotientLift
     {B : Type*} [AddCommGroup B]
     (D : DegreeData G) (A : Rep ℤ G) (K L : ClosedSubgroup G)
@@ -281,9 +265,8 @@ def maximalUnramifiedNormQuotientLift
   exact hf ((D.mem_maximalUnramifiedNormSubgroup_iff A K L a).2 ha)
 
 /-- The lift sends a class back to its representative's value
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:392`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:392`). -/
 @[simp]
 theorem maximalUnramifiedNormQuotientLift_maximalUnramifiedNormClass
     {B : Type*} [AddCommGroup B]

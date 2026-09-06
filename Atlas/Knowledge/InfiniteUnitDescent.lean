@@ -69,8 +69,9 @@ calculation runs need the anchor spelled.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -84,9 +85,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace FiniteIntermediateField
 
 /-- The canonical finite-field extension bundle carried by a finite
-intermediate field over a bundled finite base ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:30`]
-[Yamaguchi2026]). -/
+intermediate field over a bundled finite base (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:30`). -/
 noncomputable def toFiniteAbstractFieldExtension
     {E : ClosedSubgroup G} (K : FiniteAbstractField G)
     (M : FiniteIntermediateField E K.field) :
@@ -98,9 +98,8 @@ noncomputable def toFiniteAbstractFieldExtension
   exact FiniteAbstractFieldExtension.ofInclusion M.field K M.below
 
 /-- The upper endpoint of the canonical finite-field extension bundle
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:40`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:40`). -/
 noncomputable def toFiniteAbstractField
     {E : ClosedSubgroup G} (K : FiniteAbstractField G)
     (M : FiniteIntermediateField E K.field) : FiniteAbstractField G :=
@@ -114,9 +113,8 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 
 /-- **Unit-valued strengthening of finite-support descent**: if the
 chosen finite support is a unit, the descended `K`-rational element is a
-unit as well ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:54`]
-[Yamaguchi2026]). -/
+unit as well (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:54`). -/
 theorem descend_maximalUnramified_fixed_unit_of_finiteSupport
     (v : ValuationData D A)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -207,9 +205,8 @@ theorem descend_maximalUnramified_fixed_unit_of_finiteSupport
   exact ⟨⟨bK, hbKunit⟩, hbK⟩
 
 /-- **Unit at some finite intermediate stage** — the literal
-finite-support meaning of `U_E = ⋃_M U_M` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:136`]
-[Yamaguchi2026]). -/
+finite-support meaning of `U_E = ⋃_M U_M` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:136`). -/
 def IsFiniteStageUnit
     (v : ValuationData D A) (E : ClosedSubgroup G)
     (K : FiniteAbstractField G)
@@ -219,9 +216,8 @@ def IsFiniteStageUnit
       fixedFieldInclusion A M.field E M.above u.1 = a
 
 /-- **The actual finite-stage unit group `U_E` inside `A_E`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:145`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:145`). -/
 noncomputable def infiniteUnitAddSubgroup
     (v : ValuationData D A) (E : ClosedSubgroup G)
     (K : FiniteAbstractField G)
@@ -305,9 +301,8 @@ noncomputable def infiniteUnitAddSubgroup
     exact congrArg Neg.neg (congrArg Subtype.val hu)
 
 /-- Membership in the finite-stage unit group is the finite-stage
-condition ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:225`]
-[Yamaguchi2026]). -/
+condition (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:225`). -/
 @[simp]
 theorem mem_infiniteUnitAddSubgroup_iff
     (v : ValuationData D A) (E : ClosedSubgroup G)
@@ -321,9 +316,8 @@ theorem mem_infiniteUnitAddSubgroup_iff
 /-- **The actual `G(L̃/K)`-action preserves the finite-stage unit group
 `U_{L̃}`**: a unit is first moved to a finite Galois refinement of its
 support; the refinement is stable under the chosen representative, so
-the translated element still has finite unit support ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:238`]
-[Yamaguchi2026]). -/
+the translated element still has finite unit support (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:238`). -/
 theorem frobeniusQuotientAction_mem_infiniteUnitAddSubgroup
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -389,9 +383,8 @@ theorem frobeniusQuotientAction_mem_infiniteUnitAddSubgroup
   rw [huR, huval]
 
 /-- The Frobenius power sum preserves the finite-stage unit group of the
-maximal unramified extension ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:299`]
-[Yamaguchi2026]). -/
+maximal unramified extension (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:299`). -/
 theorem frobeniusPowerSum_mem_infiniteUnit_universalNormDescent
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -413,9 +406,8 @@ theorem frobeniusPowerSum_mem_infiniteUnit_universalNormDescent
     K L hLK (φ ^ i.1) x hx
 
 /-- **The relative norm from `L̃` to `K̃`, included back in `A_{L̃}`,
-preserves finite-stage units** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:321`]
-[Yamaguchi2026]). -/
+preserves finite-stage units** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:321`). -/
 theorem maximalUnramifiedNorm_mem_infiniteUnitAddSubgroup
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -505,9 +497,8 @@ theorem maximalUnramifiedNorm_mem_infiniteUnitAddSubgroup
 
 /-- **A maximal-unramified norm of a finite-stage unit descends to a
 genuine unit of `K` once it is fixed by a degree-one Frobenius lift**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:406`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/InfiniteUnitDescent.lean:406`). -/
 theorem descend_maximalUnramifiedNorm_unit
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)

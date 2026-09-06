@@ -40,8 +40,9 @@ through the field and automorphism-group equivalences.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -55,8 +56,8 @@ variable (K : Type*) [Field K] (E : Type*) [Field E] (M : Type*) [Field M]
 /-- The **abelianized Galois transfer** of a tower `K ⊆ E ⊆ M`: the group-theoretic
 transfer of `Gal (M/K)` into the finite-index subgroup fixing `E`, descended to the
 abelianizations, `Gal (M/K)^ab →* Gal (M/E)^ab` — Mathlib's `MonoidHom.transfer` in Galois
-clothing ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/MainTransfer.lean:172`][Yamaguchi2026]). -/
+clothing (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/MainTransfer.lean:172`). -/
 noncomputable def abelianizedGaloisTransfer :
     Abelianization (M ≃ₐ[K] M) →* Abelianization (M ≃ₐ[E] M) :=
   letI : ((AlgEquiv.restrictScalarsHom (S := E) (A := M) K).range).FiniteIndex :=
@@ -78,11 +79,9 @@ variable [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
 /-- The **transfer square** of local class field theory: reciprocity maps of the two base
 fields of a tower `K ⊆ E ⊆ M` intertwine the transfer with the inclusion `Kˣ ⊆ Eˣ` —
-`Ver ∘ Art_K = Art_E ∘ ι`
-([Serre 1979, Chap. XIII, §4, Prop. 10 (b), p.197][Serre1979];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldNormResidueNaturality.lean:720`]
-[Yamaguchi2026]). -/
+`Ver ∘ Art_K = Art_E ∘ ι` ([Serre 1979, Chap. XIII, §4, Prop. 10 (b), p.197][Serre1979];
+Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldNormResidueNaturality.lean:720`). -/
 theorem artinMap_transfer_naturality
     (artK : Kˣ →* Abelianization (M ≃ₐ[K] M))
     (artE : Eˣ →* Abelianization (M ≃ₐ[E] M))

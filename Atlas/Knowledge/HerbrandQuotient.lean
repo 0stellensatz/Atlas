@@ -71,8 +71,9 @@ that the consuming phase carries only the arithmetic.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -641,9 +642,8 @@ instance (σ : A ≃* A) (n : ℕ) [Finite A] : Finite (H1 σ n) :=
 short exact sequence `1 → A → B → C → 1` of cyclic actions at one order `n`, with all six
 graded pieces finite, `#Ĥ⁰(B) ⬝ #Ĥ¹(A) ⬝ #Ĥ¹(C) = #Ĥ⁰(A) ⬝ #Ĥ⁰(C) ⬝ #Ĥ¹(B)` — Serre's
 `h(B) = h(A) h(C)`, counted through the exact hexagon
-([Serre 1979, Chap. VIII, §4, Prop. 7, p.134][Serre1979];
-[Yamaguchi 2026, `CyclicCohomology/Herbrand/HerbrandLowDegree/Core.lean:67`]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. VIII, §4, Prop. 7, p.134][Serre1979]; Yamaguchi 2026,
+`CyclicCohomology/Herbrand/HerbrandLowDegree/Core.lean:67`). -/
 theorem card_identity_of_exact
     {C : Type*} [CommGroup C]
     {σA : A ≃* A} {σB : B ≃* B} {σC : C ≃* C} {n : ℕ}
@@ -937,10 +937,8 @@ private theorem norm_refl_int (n : ℕ) (a : Multiplicative ℤ) :
 /-- **`Ĥ⁰` of the trivial action on `ℤ` counts `n`**: the difference kernel is everything,
 the norms are the `n`-th powers, and reduction to `ZMod n` is onto with kernel exactly
 them. At `n = 0` the quotient is infinite and the equation reads through the `Nat.card`
-junk value
-([Serre 1979, Chap. VIII, §4, p.133][Serre1979];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/ClassFormation/ValueGroupCohomology.lean:132`][Yamaguchi2026]). -/
+junk value ([Serre 1979, Chap. VIII, §4, p.133][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/ValueGroupCohomology.lean:132`). -/
 theorem card_H0_int (n : ℕ) :
     Nat.card (H0 (MulEquiv.refl (Multiplicative ℤ)) n) = n := by
   set D := diff (MulEquiv.refl (Multiplicative ℤ)) with hD
@@ -991,9 +989,8 @@ theorem card_H0_int (n : ℕ) :
   rw [hfinal, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
 
 /-- **`Ĥ¹` of the trivial action on `ℤ` is trivial**: the norm is the injective `n`-th
-power ([Serre 1979, Chap. VIII, §4, p.133][Serre1979];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/ClassFormation/ValueGroupCohomology.lean:155`][Yamaguchi2026]). -/
+power ([Serre 1979, Chap. VIII, §4, p.133][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/ValueGroupCohomology.lean:155`). -/
 theorem card_H1_int (n : ℕ) (hn : n ≠ 0) :
     Nat.card (H1 (MulEquiv.refl (Multiplicative ℤ)) n) = 1 := by
   have hker : (norm (MulEquiv.refl (Multiplicative ℤ)) n).ker = ⊥ := by
@@ -1088,9 +1085,8 @@ theorem shiftAut_diff_ker [NeZero n] (f : ZMod n → M)
 /-- **`Ĥ⁰` of the co-induced module is trivial**: every difference-kernel member is the
 norm of the delta function at its constant value
 ([Serre 1979, Chap. VII, §5, Exercise, pp.116–117, read through the two-periodicity of
-Chap. VIII, §4][Serre1979];
-[Yamaguchi 2026, `CyclicCohomology/Herbrand/Induced.lean:703`, specialized at the trivial
-subgroup][Yamaguchi2026]). -/
+Chap. VIII, §4][Serre1979]; Yamaguchi 2026,
+`CyclicCohomology/Herbrand/Induced.lean:703`, specialized at the trivial subgroup). -/
 theorem shiftAut_norm_range_subgroupOf_eq_top [NeZero n] :
     (norm (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n).range.subgroupOf
       (diff (shiftAut n : (ZMod n → M) ≃* (ZMod n → M))).ker = ⊤ := by
@@ -1123,9 +1119,8 @@ theorem shiftAut_norm_range_subgroupOf_eq_top [NeZero n] :
 /-- **`Ĥ¹` of the co-induced module is trivial**: a norm-kernel member telescopes into a
 difference through its running products
 ([Serre 1979, Chap. VII, §5, Exercise, pp.116–117, read through the two-periodicity of
-Chap. VIII, §4][Serre1979];
-[Yamaguchi 2026, `CyclicCohomology/Herbrand/Induced.lean:1095`, specialized at the trivial
-subgroup][Yamaguchi2026]). -/
+Chap. VIII, §4][Serre1979]; Yamaguchi 2026,
+`CyclicCohomology/Herbrand/Induced.lean:1095`, specialized at the trivial subgroup). -/
 theorem shiftAut_ker_norm_le_range_diff [NeZero n] :
     (norm (shiftAut n : (ZMod n → M) ≃* (ZMod n → M)) n).ker ≤
       (diff (shiftAut n : (ZMod n → M) ≃* (ZMod n → M))).range := by
@@ -1212,9 +1207,8 @@ end HerbrandQuotient
 
 /-- The **Herbrand quotient** of the cyclic action: `q = #Ĥ⁰ / #Ĥ¹` in `ℚ`, with the
 `Nat.card` junk value `0` on an infinite piece — every consuming statement re-imposes
-finiteness ([Serre 1979, Chap. VIII, §4, p.133][Serre1979];
-[Yamaguchi 2026, `CyclicCohomology/Herbrand/HerbrandLowDegree/Core.lean:31`]
-[Yamaguchi2026]). -/
+finiteness ([Serre 1979, Chap. VIII, §4, p.133][Serre1979]; Yamaguchi 2026,
+`CyclicCohomology/Herbrand/HerbrandLowDegree/Core.lean:31`). -/
 noncomputable def herbrandQuotient {A : Type*} [CommGroup A] (σ : A ≃* A) (n : ℕ) : ℚ :=
   (Nat.card (HerbrandQuotient.H0 σ n) : ℚ) / (Nat.card (HerbrandQuotient.H1 σ n) : ℚ)
 
@@ -1228,9 +1222,8 @@ theorem herbrandQuotient_finite {A : Type*} [CommGroup A] {σ : A ≃* A} {n : �
 
 /-- **The Herbrand quotient is multiplicative** along an equivariant short exact sequence
 with finite graded pieces: `q(B) = q(A) ⬝ q(C)`
-([Serre 1979, Chap. VIII, §4, Prop. 7, p.134][Serre1979];
-[Yamaguchi 2026, `CyclicCohomology/Herbrand/HerbrandLowDegree/Core.lean:67`]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. VIII, §4, Prop. 7, p.134][Serre1979]; Yamaguchi 2026,
+`CyclicCohomology/Herbrand/HerbrandLowDegree/Core.lean:67`). -/
 theorem herbrandQuotient_mul {A B C : Type*} [CommGroup A] [CommGroup B] [CommGroup C]
     {σA : A ≃* A} {σB : B ≃* B} {σC : C ≃* C} {n : ℕ}
     (hσA : σA ^ n = 1) (hσB : σB ^ n = 1)

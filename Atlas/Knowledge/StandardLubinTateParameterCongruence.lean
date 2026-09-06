@@ -38,8 +38,9 @@ divisibility by `π^{n+2}` and no ideal-membership plumbing survives to the stat
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -89,10 +90,9 @@ variable (E : Type*) [Field E] [ValuativeRel E] [TopologicalSpace E] [Algebra K 
 
 omit [TopologicalSpace E] [IsMixedCharLocalField E] in
 /-- **The parameter congruence**: the difference of the two parameters divides the
-difference of the two primitive evaluations
-([Yamaguchi 2026, `LubinTate/FiniteLevel/ParameterCongruence.lean:97`][Yamaguchi2026]
-— the source states membership in an arbitrary ideal; the principal case is this
-statement). -/
+difference of the two primitive evaluations (Yamaguchi 2026,
+`LubinTate/FiniteLevel/ParameterCongruence.lean:97` — the source states membership
+in an arbitrary ideal; the principal case is this statement). -/
 theorem sub_dvd_aeval_standardLubinTatePrimitivePolynomial_sub
     (π π' : ↥𝒪[K]) (n : ℕ) (x : ↥𝒪[E]) :
     algebraMap ↥𝒪[K] ↥𝒪[E] (π' - π) ∣
@@ -128,8 +128,7 @@ change of depth `n + 1` evaluates the changed primitive polynomial into
 — the tower recursion `f(π_n) = π_{n−1}` that a changed uniformizer perturbs; Milne's own
 independence-of-`π` argument is Thm. 3.9 and Prop. 3.10, pp.40–41, and runs through a
 formal-group isomorphism over `K^un`'s completion rather than through this congruence;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/ChangedPrimitiveEvaluation.lean:46` and
-`:114`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/ChangedPrimitiveEvaluation.lean:46` and `:114`). -/
 theorem pow_dvd_aeval_changed_standardLubinTatePrimitivePolynomial
     {π : ↥𝒪[K]} (hπ : Irreducible π) {n : ℕ} {x : ↥𝒪[E]}
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)

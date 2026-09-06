@@ -58,8 +58,9 @@ delivers its Frobenii
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -113,11 +114,10 @@ variable {K E}
 by `ζ ↦ ζ ^ q` exactly**, `q = Nat.card 𝓀[K]`: the substitution
 congruence pins the image modulo the maximal ideal of the integral
 closure, and reduction is injective on `m`-th roots of unity for `m`
-prime to `q`
-([Milne 2020, Chap. I, §1, p.20][MilneCFT]; [Yamaguchi 2026,
-`LocalFieldTheory/Padic/Cyclotomic/Unramified/ArithmeticFrobenius.lean:1054`]
-[Yamaguchi2026], its constructed Frobenius at the chosen primitive
-root). -/
+prime to `q` ([Milne 2020, Chap. I, §1, p.20][MilneCFT];
+Yamaguchi 2026,
+`LocalFieldTheory/Padic/Cyclotomic/Unramified/ArithmeticFrobenius.lean:1054`,
+its constructed Frobenius at the chosen primitive root). -/
 theorem IsArithmeticFrobenius.apply_of_pow_eq_one [FiniteDimensional K E] {σ : E ≃ₐ[K] E}
     (hσ : IsArithmeticFrobenius K E σ) {m : ℕ} (hm : Nat.Coprime m (Nat.card 𝓀[K]))
     {ζ : E} (hζ : ζ ^ m = 1) : σ ζ = ζ ^ Nat.card 𝓀[K] := by

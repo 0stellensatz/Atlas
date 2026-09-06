@@ -39,8 +39,9 @@ source's integer-level principal units is recorded on
   York, 1979.
 * [Hyeon2025] S.-H. Hyeon, *The m-step solvable anabelian geometry of mixed-characteristic
   local fields*, J. London Math. Soc. **112** (2025), e70402.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -55,10 +56,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 /-- **Ramification compatibility** of the Artin map: for a finite abelian extension of a
 mixed-characteristic local field, the reciprocity image of the `t`th higher unit group is
 the `t`th upper-numbering ramification group, `t > 0`. Claim recorded ahead of its proof
-([Serre 1979, Chap. XV, §2, Thm. 2 and Remark, p.228][Serre1979];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/FiniteAbelian.lean:30`]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. XV, §2, Thm. 2 and Remark, p.228][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/FiniteAbelian.lean:30`). -/
 theorem artinRamificationCompatibility (ρ : Kˣ →* (L ≃ₐ[K] L))
     (hρ : IsArtinRestriction K L ρ) {t : ℝ} (ht : 0 < t) :
     Subgroup.map ρ (realHigherUnitGroup K t) = upperRamificationGroup K L t := by
@@ -69,10 +68,8 @@ full unit group `U^0 = 𝒪[K]ˣ` is `G^0`, the inertia group. Stated separately
 `Atlas.Knowledge.realHigherUnitGroup` clamps `t = 0` to `U^1`, where the compatibility would
 be false for every ramified extension. Claim recorded ahead of its proof
 ([Serre 1979, Chap. XIII, §4, Cor. to Prop. 13, p.198][Serre1979];
-[Hyeon 2025, §3, p.10][Hyeon2025];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/FiniteAbelian.lean:30`]
-[Yamaguchi2026]). -/
+[Hyeon 2025, §3, p.10][Hyeon2025]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/FiniteAbelian.lean:30`). -/
 theorem artinRamificationCompatibility_zero (ρ : Kˣ →* (L ≃ₐ[K] L))
     (hρ : IsArtinRestriction K L ρ) :
     Subgroup.map ρ (MonoidHom.range (Units.map (𝒪[K].subtype : ↥𝒪[K] →* K))) =

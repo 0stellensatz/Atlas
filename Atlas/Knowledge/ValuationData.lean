@@ -46,8 +46,9 @@ pins `Type 0`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -57,7 +58,8 @@ noncomputable section
 variable {G : Type*} [Group G] [TopologicalSpace G]
 
 /-- **The norm to the base** `N_{K|k}` on the fixed modules
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:27`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Valuation.lean:27`). -/
 def normToBase (A : Rep ℤ G) (K : ClosedSubgroup G)
     [Finite ((baseField G).toSubgroup ⧸
       K.toSubgroup.subgroupOf (baseField G).toSubgroup)] :
@@ -72,12 +74,13 @@ def nsmulOnAddSubgroup (Z : AddSubgroup ProfiniteInteger) (n : ℕ) : Z →+ Z w
   map_add' x y := by ext; simp
 
 /-- **The subgroup `nZ` inside a value group**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:41`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Valuation.lean:41`). -/
 def nsmulWithin (Z : AddSubgroup ProfiniteInteger) (n : ℕ) : AddSubgroup Z :=
   (nsmulOnAddSubgroup Z n).range
 
-/-- **The ambient subgroup `nZ ⊆ ℤ̂`**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:45`][Yamaguchi2026]). -/
+/-- **The ambient subgroup `nZ ⊆ ℤ̂`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Valuation.lean:45`). -/
 def nsmulImage (Z : AddSubgroup ProfiniteInteger) (n : ℕ) :
     AddSubgroup ProfiniteInteger :=
   Z.map
@@ -112,8 +115,8 @@ def valueGroupReduction (Z : AddSubgroup ProfiniteInteger) (n : ℕ) [NeZero n] 
 
 /-- **The canonical map `Z/nZ →+ ℤ/nℤ`** — inclusion followed by reduction,
 the specific map of the valuation-quotient axiom rather than an arbitrary
-equivalence
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:81`][Yamaguchi2026]). -/
+equivalence (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Valuation.lean:81`). -/
 def canonicalValueQuotientMap (Z : AddSubgroup ProfiniteInteger)
     (n : ℕ) [NeZero n] : (Z ⧸ nsmulWithin Z n) →+ ZMod n :=
   QuotientAddGroup.lift (nsmulWithin Z n) (valueGroupReduction Z n) (by
@@ -132,8 +135,8 @@ theorem canonicalValueQuotientMap_mk (Z : AddSubgroup ProfiniteInteger)
   rfl
 
 /-- **The full value group satisfies the quotient condition**: the canonical
-map is bijective for `Z = ℤ̂`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:100`][Yamaguchi2026]). -/
+map is bijective for `Z = ℤ̂` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Valuation.lean:100`). -/
 theorem canonicalValueQuotientMap_top_bijective (n : ℕ) [NeZero n] :
     Function.Bijective
       (canonicalValueQuotientMap (⊤ : AddSubgroup ProfiniteInteger) n) := by
@@ -172,7 +175,8 @@ theorem canonicalValueQuotientMap_top_bijective (n : ℕ) [NeZero n] :
         hz⟩
 
 /-- The quotient used by the norm has the field's positive degree
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:141`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Valuation.lean:141`). -/
 @[simp] theorem FiniteAbstractField.normToBase_index_eq_degree
     (K : FiniteAbstractField G) :
     (K.field.toSubgroup.subgroupOf (baseField G).toSubgroup).index =
@@ -181,8 +185,8 @@ theorem canonicalValueQuotientMap_top_bijective (n : ℕ) [NeZero n] :
 
 /-- **The valuation datum** — the henselian-valuation axiom of the engine:
 `integers_mem` and `canonical_value_quotient_bijective` are its condition (i),
-`norm_range` its condition (ii)
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:153`][Yamaguchi2026]). -/
+`norm_range` its condition (ii) (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Valuation.lean:153`). -/
 structure ValuationData (D : DegreeData G) (A : Rep ℤ G) where
   /-- The additive valuation on the base-field fixed module. -/
   toAddMonoidHom : ambientFixedAddSubgroup A (baseField G) →+ ProfiniteInteger
@@ -212,7 +216,7 @@ def canonicalQuotientMap (v : ValuationData D A) (n : ℕ) [NeZero n] :
   canonicalValueQuotientMap v.valueGroup n
 
 /-- **The cyclic value quotients**, derived from the axiom's bijectivity
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:185`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:185`). -/
 def cyclic_value_quotients (v : ValuationData D A) (n : ℕ) [NeZero n] :
     (v.valueGroup ⧸ nsmulWithin v.valueGroup n) ≃+ ZMod n :=
   AddEquiv.ofBijective (v.canonicalQuotientMap n)
@@ -276,7 +280,8 @@ def dividedAt (v : ValuationData D A) (K : FiniteAbstractField G) :
     (v.normCompositeAtInSpan K)
 
 /-- **The defining identity** `f_K·v_K = v ∘ N_{K|k}`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:249`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Valuation.lean:249`). -/
 theorem residueDegree_nsmul_dividedAt (v : ValuationData D A)
     (K : FiniteAbstractField G)
     (a : ambientFixedAddSubgroup A K.field) :
@@ -307,8 +312,8 @@ theorem dividedAt_mem_valueGroup (v : ValuationData D A)
   exact hzZ
 
 /-- **The normalized valuation** `v_K = (1/f_K)·(v ∘ N_{K|k})`, with the exact
-value-group codomain
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:279`][Yamaguchi2026]). -/
+value-group codomain (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Valuation.lean:279`). -/
 def valuationAt (v : ValuationData D A) (K : FiniteAbstractField G) :
     ambientFixedAddSubgroup A K.field →+ v.valueGroup :=
   (v.dividedAt K).codRestrict v.valueGroup
@@ -322,7 +327,8 @@ theorem valuationAt_coe (v : ValuationData D A) (K : FiniteAbstractField G)
   rfl
 
 /-- **Every normalized valuation maps onto the value group**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Valuation.lean:292`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Valuation.lean:292`). -/
 theorem normalizedValuation_surjective (v : ValuationData D A)
     (K : FiniteAbstractField G) :
     Function.Surjective (v.valuationAt K) := by

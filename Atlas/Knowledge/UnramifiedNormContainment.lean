@@ -80,8 +80,9 @@ consumer `Atlas.Knowledge.LocalNormSubgroupExistence`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -95,9 +96,8 @@ variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCh
 /-- **The norm subgroup of the canonical unramified extension of degree `d`**,
 transported from the fixed coefficients to `Kˣ`, is contained in the
 subgroup of elements whose normalized valuation is divisible by `d`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/UnramifiedNormContainment.lean:78`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/UnramifiedNormContainment.lean:78`). -/
 theorem finiteUnramifiedNormSubgroup_map_le_comap_normalizedValuationHom
     (d : ℕ) [NeZero d] :
     let D := localResidueDatum K

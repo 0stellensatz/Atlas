@@ -25,8 +25,9 @@ fields occupy independent universes. The source's relative subgroup is expressed
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -40,9 +41,8 @@ variable (k : Type u) (Ω : Type v) [Field k] [Field Ω] [Algebra k Ω]
 
 /-- A left coset of the abstract fixing subgroup restricts to an embedding
 of the upper concrete fixed field into the common ambient field.
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldRelativeNorm.lean:37`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldRelativeNorm.lean:37`). -/
 def abstractFixedFieldCosetToAlgHom
     (K L : ClosedSubgroup (Gal(Ω/k)))
     (hLK : L.toSubgroup ≤ K.toSubgroup) :
@@ -78,7 +78,7 @@ def abstractFixedFieldCosetToAlgHom
 
 omit [IsSepClosed Ω] in
 /-- The embedding attached to a coset representative is its restriction to the upper field
-([Yamaguchi 2026, `FixedFieldRelativeNorm.lean:73`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `FixedFieldRelativeNorm.lean:73`). -/
 @[simp]
 theorem abstractFixedFieldCosetToAlgHom_mk
     (K L : ClosedSubgroup (Gal(Ω/k)))
@@ -156,9 +156,8 @@ private theorem abstractFixedFieldCosetToAlgHom_injective
 
 /-- Abstract relative left cosets are precisely the embeddings of the upper
 concrete fixed field into the ambient separably closed field.
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldRelativeNorm.lean:151`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldRelativeNorm.lean:151`). -/
 def abstractFixedFieldCosetEquivAlgHom
     (K L : ClosedSubgroup (Gal(Ω/k)))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -173,10 +172,8 @@ def abstractFixedFieldCosetEquivAlgHom
 
 omit [IsSepClosed Ω] in
 /-- The action of a relative coset on a fixed-field unit is evaluation under its associated
-field embedding.
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldRelativeNorm.lean:165`]
-[Yamaguchi2026]). -/
+field embedding. (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldRelativeNorm.lean:165`). -/
 theorem relativeCosetAction_abstractFixedFieldUnit_val
     (K L : ClosedSubgroup (Gal(Ω/k)))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -195,10 +192,8 @@ theorem relativeCosetAction_abstractFixedFieldUnit_val
 
 /-- The class-formation relative norm on fixed coefficients is the ordinary
 field norm between the two concrete fixed fields, without a normality
-assumption on the intermediate extension.
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldRelativeNorm.lean:184`]
-[Yamaguchi2026]). -/
+assumption on the intermediate extension. (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldRelativeNorm.lean:184`). -/
 theorem relativeNorm_abstractFixedFieldUnit_eq_normUnits
     (K L : ClosedSubgroup (Gal(Ω/k)))
     (hLK : L.toSubgroup ≤ K.toSubgroup)

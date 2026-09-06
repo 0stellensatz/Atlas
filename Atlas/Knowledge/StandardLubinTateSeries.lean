@@ -35,8 +35,9 @@ use.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -46,8 +47,8 @@ variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
 
 /-- The **standard Lubin–Tate series** `π X + X ^ q`, `q` the residue cardinality, as a
 Lubin–Tate series over a discrete valuation ring with finite residue field
-([Milne 2020, Chap. I, §2, Ex. 2.10 (a), p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardSeries.lean:35`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §2, Ex. 2.10 (a), p.32][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/StandardSeries.lean:35`). -/
 noncomputable def standardLubinTateSeries (hπ : Irreducible π) : LubinTateSeries A π where
   toPowerSeries := PowerSeries.C π * PowerSeries.X +
     PowerSeries.X ^ Nat.card (IsLocalRing.ResidueField A)

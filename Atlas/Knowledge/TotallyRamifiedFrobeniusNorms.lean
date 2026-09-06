@@ -65,8 +65,9 @@ Everything else ports token-for-token; the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -80,9 +81,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The restriction `σ̃|_M`, an element of the actual upper quotient
-`G(M/K)`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:24`]
-[Yamaguchi2026]). -/
+`G(M/K)`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:24`). -/
 def abstractReciprocityTotallyRamifiedFrobeniusInM
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -118,9 +118,8 @@ def abstractReciprocityTotallyRamifiedFrobeniusInM
   exact M.extensionQuotientMulEquiv.symm (r σ.1)
 
 /-- The Frobenius chosen in the auxiliary field has the expected
-restriction ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:58`]
-[Yamaguchi2026]). -/
+restriction (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:58`). -/
 @[simp]
 theorem abstractReciprocityTotallyRamifiedFrobeniusInM_restriction
     (D : DegreeData G)
@@ -181,9 +180,8 @@ theorem abstractReciprocityTotallyRamifiedFrobeniusInM_restriction
     K L hTot q
 
 /-- Including the lower generator and then restricting recovers its
-prescribed action ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:114`]
-[Yamaguchi2026]). -/
+prescribed action (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:114`). -/
 @[simp]
 theorem abstractReciprocityTotallyRamifiedLowerGenerator_inclusion_restriction
     (D : DegreeData G)
@@ -226,9 +224,8 @@ theorem abstractReciprocityTotallyRamifiedLowerGenerator_inclusion_restriction
     K L hTot q
 
 /-- **The lower cyclic generator commutes with the selected Frobenius
-element** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:155`]
-[Yamaguchi2026]). -/
+element** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:155`). -/
 theorem abstractReciprocityTotallyRamified_generator_commutes_frobenius
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -284,9 +281,8 @@ theorem abstractReciprocityTotallyRamified_generator_commutes_frobenius
   simpa only [map_mul] using hcommRaw.eq
 
 /-- Frobenius fixes the automorphism used in the totally ramified
-construction ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:210`]
-[Yamaguchi2026]). -/
+construction (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:210`). -/
 theorem abstractReciprocityTotallyRamified_frobenius_fixes_sigma
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -359,9 +355,8 @@ theorem abstractReciprocityTotallyRamified_frobenius_fixes_sigma
   exact a.2 xSigma
 
 /-- The two constructed automorphisms induce the same action on the
-extension field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:280`]
-[Yamaguchi2026]). -/
+extension field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:280`). -/
 theorem abstractReciprocityTotallyRamified_actions_agree_on_L
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -412,9 +407,8 @@ theorem abstractReciprocityTotallyRamified_actions_agree_on_L
         D.abstractReciprocityTotallyRamifiedFrobeniusInM_restriction])
 
 /-- **The first norm restriction used: `N_{M/M⁰}|_{A_L} = N_{L/K}`,
-with both sides included in `A_{M⁰}`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:331`]
-[Yamaguchi2026]). -/
+with both sides included in `A_{M⁰}`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:331`). -/
 theorem abstractReciprocity_totallyRamified_relativeNorm_L
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -463,9 +457,8 @@ theorem abstractReciprocity_totallyRamified_relativeNorm_L
     A D L.toFiniteAbstractExtension hML hTot hInertia a
 
 /-- **The second norm restriction used: `N_{M/M⁰}|_{A_Σ} = N_{Σ/K}`,
-again in the actual fixed group `A_{M⁰}`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:378`]
-[Yamaguchi2026]). -/
+again in the actual fixed group `A_{M⁰}`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusNorms.lean:378`). -/
 theorem abstractReciprocity_totallyRamified_relativeNorm_sigma
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G]

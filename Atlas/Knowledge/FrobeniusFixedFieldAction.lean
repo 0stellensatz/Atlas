@@ -48,8 +48,9 @@ there.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -63,9 +64,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The action a commuting quotient element induces on a Frobenius fixed field**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:36`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:36`). -/
 noncomputable def frobeniusFixedFieldAction (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -107,9 +107,8 @@ noncomputable def frobeniusFixedFieldAction (D : DegreeData G) (A : Rep ℤ G)
         exact map_add _ _ _ }
 
 /-- The fixed-field action has the expected ambient automorphism after
-coercion ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:80`]
-[Yamaguchi2026]). -/
+coercion (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:80`). -/
 @[simp]
 theorem frobeniusFixedFieldAction_coe (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -126,9 +125,8 @@ theorem frobeniusFixedFieldAction_coe (D : DegreeData G) (A : Rep ℤ G)
   rfl
 
 /-- On a quotient representative, the fixed-field action coerces to the
-represented action ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:96`]
-[Yamaguchi2026]). -/
+represented action (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:96`). -/
 theorem frobeniusFixedFieldAction_coe_of_mk (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -164,9 +162,8 @@ theorem frobeniusFixedFieldAction_coe_of_mk (D : DegreeData G) (A : Rep ℤ G)
     _ = A.ρ k.1 a.1 := by simp [r, t]
 
 /-- The fixed-field action coincides with the conjugation-stable action
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:133`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:133`). -/
 theorem frobeniusFixedFieldAction_eq_conjugateStableAction
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -191,9 +188,8 @@ theorem frobeniusFixedFieldAction_eq_conjugateStableAction
 
 /-- **The relative norm in a power-fixed-field tower is equivariant for
 every quotient element commuting with both defining powers**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:159`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:159`). -/
 theorem relativeNorm_frobeniusFixedFieldAction (D : DegreeData G)
     (A : Rep ℤ G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -229,9 +225,8 @@ theorem relativeNorm_frobeniusFixedFieldAction (D : DegreeData G)
 
 /-- **Inclusion of a stabilized Frobenius fixed field intertwines its
 action with the actual quotient action on the maximal unramified field**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:195`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:195`). -/
 theorem frobeniusFixedFieldAction_inclusion (D : DegreeData G)
     (A : Rep ℤ G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -272,9 +267,8 @@ theorem frobeniusFixedFieldAction_inclusion (D : DegreeData G)
 
 /-- A Frobenius power sum commutes with the relative norm in a
 fixed-field tower whenever the quotient element stabilizes both fields
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:235`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:235`). -/
 theorem fixedFieldPowerSum_relativeNorm (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -308,9 +302,8 @@ theorem fixedFieldPowerSum_relativeNorm (D : DegreeData G) (A : Rep ℤ G)
       (Commute.pow_left hq' i.1) a
 
 /-- **The fixed-field power sum becomes the global Frobenius power sum
-after inclusion into the maximal unramified field** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:271`]
-[Yamaguchi2026]). -/
+after inclusion into the maximal unramified field** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusFixedFieldAction.lean:271`). -/
 theorem fixedFieldPowerSum_inclusion (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)

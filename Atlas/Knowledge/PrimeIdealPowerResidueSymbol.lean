@@ -43,8 +43,9 @@ at `:174`).
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open NumberField IsDedekindDomain
@@ -66,9 +67,8 @@ theorem card_quotient_eq_absNorm (P : HeightOneSpectrum (𝓞 K)) :
   rw [← Nat.card_eq_fintype_card, Ideal.absNorm_apply, Submodule.cardQuot_apply]
 
 /-- If `K` contains the `n`-th roots of unity, then `n` divides `N𝔭 − 1` at every prime
-`𝔭` away from `n` ([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:66`]
-[Yamaguchi2026]). -/
+`𝔭` away from `n` ([Milne 2020, Chap. VIII, §5, p.244][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:66`). -/
 theorem dvd_absNorm_sub_one_of_primitiveRoots (P : HeightOneSpectrum (𝓞 K)) {n : ℕ}
     (hn : n ≠ 0) (hmu : (primitiveRoots n K).Nonempty)
     (hcoprime : (Ideal.absNorm P.asIdeal).Coprime n) :
@@ -121,9 +121,8 @@ private theorem rootsOfUnityQuotientHom_bijective (P : HeightOneSpectrum (𝓞 K
 
 /-- Away from `n`, reduction identifies the integral `n`-th roots of unity with those of
 the residue field — Milne's bijection `μₙ(K) → μₙ(𝒪_K/𝔭)`
-([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:94`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, p.244][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:94`). -/
 noncomputable def rootsOfUnityQuotientEquiv (P : HeightOneSpectrum (𝓞 K)) {n : ℕ}
     (hn : n ≠ 0) (hmu : (primitiveRoots n K).Nonempty)
     (hcoprime : (Ideal.absNorm P.asIdeal).Coprime n) :
@@ -141,9 +140,8 @@ theorem rootsOfUnityQuotientEquiv_apply (P : HeightOneSpectrum (𝓞 K)) {n : �
   rfl
 
 /-- An algebraic integer prime to `𝔭`, regarded as a unit of the residue field
-([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:152`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, p.244][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:152`). -/
 noncomputable def primeIdealResidueUnit (P : HeightOneSpectrum (𝓞 K)) (a : 𝓞 K)
     (ha : a ∉ P.asIdeal) : (𝓞 K ⧸ P.asIdeal)ˣ :=
   Units.mk0 (Ideal.Quotient.mk P.asIdeal a) (by
@@ -160,9 +158,8 @@ theorem primeIdealResidueUnit_mul (P : HeightOneSpectrum (𝓞 K)) (a b : 𝓞 K
 
 /-- The **prime-ideal power residue symbol** `(a/𝔭)`, valued in the integral `n`-th roots
 of unity: the finite-field character of the residue of `a`, pulled back along the
-reduction equivalence ([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:174`]
-[Yamaguchi2026]). -/
+reduction equivalence ([Milne 2020, Chap. VIII, §5, p.244][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:174`). -/
 noncomputable def primeIdealPowerResidueSymbol (P : HeightOneSpectrum (𝓞 K)) {n : ℕ}
     (hn : n ≠ 0) (hmu : (primitiveRoots n K).Nonempty)
     (hcoprime : (Ideal.absNorm P.asIdeal).Coprime n) (a : 𝓞 K) (ha : a ∉ P.asIdeal) :
@@ -176,8 +173,8 @@ noncomputable def primeIdealPowerResidueSymbol (P : HeightOneSpectrum (𝓞 K)) 
 
 /-- Reduction sends `(a/𝔭)` to `a^{(N𝔭−1)/n}` — the defining congruence
 `(a/𝔭) ≡ a^{(N𝔭−1)/n} mod 𝔭` ([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:190`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:190`). -/
 theorem rootsOfUnityQuotientEquiv_primeIdealPowerResidueSymbol
     (P : HeightOneSpectrum (𝓞 K)) {n : ℕ} (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty)
@@ -191,9 +188,8 @@ theorem rootsOfUnityQuotientEquiv_primeIdealPowerResidueSymbol
   exact (rootsOfUnityQuotientEquiv K P hn hmu hcoprime).apply_symm_apply _
 
 /-- The prime-ideal symbol is one exactly when `a` is an `n`-th power modulo `𝔭`
-([Milne 2020, Chap. VIII, §5, 5.2, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:208`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, 5.2, p.244][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:208`). -/
 theorem primeIdealPowerResidueSymbol_eq_one_iff (P : HeightOneSpectrum (𝓞 K)) {n : ℕ}
     (hn : n ≠ 0) (hmu : (primitiveRoots n K).Nonempty)
     (hcoprime : (Ideal.absNorm P.asIdeal).Coprime n) (a : 𝓞 K) (ha : a ∉ P.asIdeal) :
@@ -213,8 +209,8 @@ theorem primeIdealPowerResidueSymbol_eq_one_iff (P : HeightOneSpectrum (𝓞 K))
 
 /-- Multiplicativity of `(a/𝔭)` in the numerator
 ([Milne 2020, Chap. VIII, §5, 5.1, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:238`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/Ideal.lean:238`). -/
 theorem primeIdealPowerResidueSymbol_mul (P : HeightOneSpectrum (𝓞 K)) {n : ℕ}
     (hn : n ≠ 0) (hmu : (primitiveRoots n K).Nonempty)
     (hcoprime : (Ideal.absNorm P.asIdeal).Coprime n) (a b : 𝓞 K) (ha : a ∉ P.asIdeal)

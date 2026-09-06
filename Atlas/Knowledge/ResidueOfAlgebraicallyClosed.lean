@@ -41,8 +41,9 @@ subring, so the root comes back through `IsIntegrallyClosed.isIntegral_iff`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -58,9 +59,8 @@ variable {Omega : Type u} [Field Omega] [IsAlgClosed Omega]
 /-- **The residue field of a valuation subring of an algebraically closed
 field is algebraically closed**: a monic irreducible residue polynomial is
 lifted monically to the valuation ring, and a root in the ambient field is
-integral, hence lies back in the valuation ring and reduces ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:27`]
-[Yamaguchi2026]). -/
+integral, hence lies back in the valuation ring and reduces (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:27`). -/
 theorem valuationSubring_residueField_isAlgClosed
     (A : ValuationSubring Omega) :
     IsAlgClosed (IsLocalRing.ResidueField A) := by
@@ -105,9 +105,8 @@ section PurelyInseparableComap
 variable {F Omega : Type u} [Field F] [Field Omega] [Algebra F Omega]
 
 /-- The inclusion from the pullback of a valuation ring to the ambient
-valuation ring ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:79`]
-[Yamaguchi2026]). -/
+valuation ring (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:79`). -/
 def valuationSubringComapMap (A : ValuationSubring Omega) :
     A.comap (algebraMap F Omega) →+* A where
   toFun x := ⟨algebraMap F Omega x, x.property⟩
@@ -117,9 +116,8 @@ def valuationSubringComapMap (A : ValuationSubring Omega) :
   map_add' x y := by ext; simp
 
 /-- Pullback along a field embedding gives a local map of valuation rings
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:88`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:88`). -/
 theorem valuationSubringComapMap_isLocalHom (A : ValuationSubring Omega) :
     IsLocalHom (valuationSubringComapMap (F := F) A) := by
   constructor
@@ -155,9 +153,8 @@ theorem valuationSubringComapMap_isLocalHom (A : ValuationSubring Omega) :
   exact ⟨xu, rfl⟩
 
 /-- **The residue-field embedding induced by pullback of a valuation ring**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:123`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:123`). -/
 def valuationSubringComapResidueMap
     (A : ValuationSubring Omega) :
     IsLocalRing.ResidueField (A.comap (algebraMap F Omega)) →+*
@@ -166,9 +163,8 @@ def valuationSubringComapResidueMap
     valuationSubringComapMap_isLocalHom (F := F) A
   exact IsLocalRing.ResidueField.map (valuationSubringComapMap (F := F) A)
 
-/-- The residue embedding computes on residues ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:132`]
-[Yamaguchi2026]). -/
+/-- The residue embedding computes on residues (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:132`). -/
 @[simp] theorem valuationSubringComapResidueMap_residue
     (A : ValuationSubring Omega)
     (x : A.comap (algebraMap F Omega)) :
@@ -180,9 +176,8 @@ def valuationSubringComapResidueMap
 /-- **A purely inseparable ambient extension is purely inseparable on residue
 fields** — in positive characteristic by the same Frobenius-power argument, in
 characteristic zero because the ambient extension is already trivial
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:144`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicallyClosed.lean:144`). -/
 theorem valuationSubring_comap_residueField_isPurelyInseparable
     [IsPurelyInseparable F Omega] (A : ValuationSubring Omega) :
     letI : Algebra

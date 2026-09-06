@@ -36,8 +36,9 @@ automorphisms restrict to it and commute there.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -46,8 +47,7 @@ variable (K : Type*) [Field K]
 
 /-- The **maximal abelian subextension** of `L / K`: the supremum of the abelian Galois
 intermediate fields ([Milne 2020, Chap. VIII, §4, Thm. 4.8, p.242][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Galois/MaximalAbelianSubextension.lean:47`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026, `AlgebraicNumberTheory/Galois/MaximalAbelianSubextension.lean:47`). -/
 noncomputable def maximalAbelianSubextension (L : Type*) [Field L] [Algebra K L] :
     IntermediateField K L :=
   sSup {M : IntermediateField K L | IsAbelianGalois K M}

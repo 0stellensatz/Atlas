@@ -19,8 +19,9 @@ quotients through these.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -29,8 +30,7 @@ open Subgroup
 
 /-- **Viewing a subgroup inside a larger one does not change its quotients**: the
 quotient of `H.subgroupOf K` by the subgroup `M` induces is the quotient of `H`
-itself by `M` ([Yamaguchi 2026, `GroupTheory/QuotientTower.lean:22`]
-[Yamaguchi2026]). -/
+itself by `M` (Yamaguchi 2026, `GroupTheory/QuotientTower.lean:22`). -/
 def quotientSubgroupOfEquiv {G : Type*} [Group G] {H K M : Subgroup G}
     (hHK : H ≤ K) :
     (↑(H.subgroupOf K) ⧸ (M.subgroupOf K).subgroupOf (H.subgroupOf K)) ≃
@@ -58,8 +58,8 @@ def quotientSubgroupOfEquiv {G : Type*} [Group G] {H K M : Subgroup G}
 
 /-- **The quotient by the bottom of a subgroup tower splits**: for `M ≤ L ≤ K`,
 `K ⧸ M ≃ (K ⧸ L) × (L ⧸ M)` as types — Mathlib's `quotientEquivProdOfLE`
-composed with the `subgroupOf` reading
-([Yamaguchi 2026, `GroupTheory/QuotientTower.lean:48`][Yamaguchi2026]). -/
+composed with the `subgroupOf` reading (Yamaguchi 2026,
+`GroupTheory/QuotientTower.lean:48`). -/
 noncomputable def quotientTowerEquiv {G : Type*} [Group G] {M L K : Subgroup G}
     (hML : M ≤ L) (hLK : L ≤ K) :
     (K ⧸ M.subgroupOf K) ≃

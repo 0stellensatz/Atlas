@@ -94,8 +94,9 @@ call-site names.
   2020.
 * [Hyeon2025] S.-H. Hyeon, *The m-step solvable anabelian geometry of mixed-characteristic
   local fields*, J. London Math. Soc. **112** (2025), e70402.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -109,9 +110,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 arithmetic Frobenius normalization. These are the properties that pin the Artin map
 ([Serre 1979, Chap. XIII, §4, pp.195–198][Serre1979];
 [Milne 2020, Chap. I, §1, Thm. 1.1, p.20][MilneCFT];
-[Hyeon 2025, §3, p.10][Hyeon2025];
-[Yamaguchi 2026, `LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:144`]
-[Yamaguchi2026]). -/
+[Hyeon 2025, §3, p.10][Hyeon2025]; Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:144`). -/
 structure IsLocalReciprocity (φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K) :
     Prop where
   /-- The range is dense: at every finite abelian level the induced map surjects. -/
@@ -140,8 +140,8 @@ structure IsLocalReciprocity (φ : Kˣ →* Field.absoluteGaloisGroupAbelianizat
 the norm kernels, and the Frobenius normalization
 ([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979];
 [Milne 2020, Chap. I, §1, Thm. 1.1, p.20][MilneCFT];
-[Yamaguchi 2026, `LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:144`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:144`). -/
 theorem isLocalReciprocity_absoluteLocalArtinMonoidHom :
     IsLocalReciprocity K (absoluteLocalArtinMonoidHom K) where
   denseRange := absoluteLocalArtinMonoidHom_denseRange K

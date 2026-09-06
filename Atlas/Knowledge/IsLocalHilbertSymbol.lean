@@ -55,8 +55,9 @@ tracks that inheritance — the proof is genuine, the taint deliberate.
   York, 1979.
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -70,9 +71,9 @@ reciprocity map `φ` has every lift of `φ (b)` multiplying every `n`-th root of
 algebraic closure by `h a b` — the norm-residue symbol of the second slot acting on the
 radicals of the first
 ([Serre 1979, Chap. XIV, §2, p.206 and Prop. 6, p.208][Serre1979];
-[Milne 2020, Chap. III, §4, Rem. 4.5, p.114][MilneCFT];
-[Yamaguchi 2026, `LocalClassFieldTheory/Kummer/LocalHilbertSymbol.lean:44`, slots transposed
-and normalization inverted, equal by skew-symmetry][Yamaguchi2026]). -/
+[Milne 2020, Chap. III, §4, Rem. 4.5, p.114][MilneCFT]; Yamaguchi 2026,
+`LocalClassFieldTheory/Kummer/LocalHilbertSymbol.lean:44`, slots transposed and
+normalization inverted, equal by skew-symmetry). -/
 def IsLocalHilbertSymbol (n : ℕ) (h : Kˣ → Kˣ → Kˣ) : Prop :=
   ∃ φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K, IsLocalReciprocity K φ ∧
     ∀ (a b : Kˣ) (σ : AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K),
@@ -83,7 +84,7 @@ def IsLocalHilbertSymbol (n : ℕ) (h : Kˣ → Kˣ → Kˣ) : Prop :=
 
 /-- An `n`-th Hilbert symbol exists once `K` contains the `n`-th roots of unity. Claim
 recorded ahead of its proof ([Serre 1979, Chap. XIV, §2, p.206][Serre1979];
-[Yamaguchi 2026, `LocalClassFieldTheory/Kummer/LocalHilbertSymbol.lean:44`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LocalClassFieldTheory/Kummer/LocalHilbertSymbol.lean:44`). -/
 theorem exists_isLocalHilbertSymbol (n : ℕ) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) :
     ∃ h : Kˣ → Kˣ → Kˣ, IsLocalHilbertSymbol K n h := by

@@ -52,8 +52,9 @@ extension, and `n = 0` degenerates consistently throughout.
   York, 1979.
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open groupCohomology
@@ -185,7 +186,8 @@ variable (K L)
 the class of `a` acts by `σ ↦ σ (β) / β` for a root `β ^ n = a`
 ([Serre 1979, Chap. X, §3, p.155][Serre1979];
 [Milne 2020, Chap. VII, App. A, Thm. A.3, p.226][MilneCFT];
-[Yamaguchi 2026, `KummerTheory/Concrete/FiniteCharacterEquiv.lean:141`][Yamaguchi2026]). -/
+Yamaguchi 2026,
+`KummerTheory/Concrete/FiniteCharacterEquiv.lean:141`). -/
 noncomputable def kummerCharacterHom (n : ℕ)
     (hmu : ∀ u : Lˣ, u ^ n = 1 → ∃ ζ : Kˣ, Units.map (algebraMap K L).toMonoidHom ζ = u) :
     ↥(kummerRadicalSubgroup K L n) ⧸
@@ -208,7 +210,7 @@ theorem kummerCharacterHom_apply (n : ℕ)
 /-- The Kummer character homomorphism is injective: a class with trivial character has a
 Galois-fixed root, which descends to the base and exhibits the class as a power. Proved —
 no recorded claim ([Milne 2020, Chap. VII, App. A, Thm. A.3, p.226][MilneCFT];
-[Yamaguchi 2026, `KummerTheory/Concrete/RadicalQuotient.lean:269`][Yamaguchi2026]). -/
+Yamaguchi 2026, `KummerTheory/Concrete/RadicalQuotient.lean:269`). -/
 theorem kummerCharacterHom_injective [FiniteDimensional K L] [IsGalois K L] (n : ℕ)
     (hmu : ∀ u : Lˣ, u ^ n = 1 → ∃ ζ : Kˣ, Units.map (algebraMap K L).toMonoidHom ζ = u) :
     Function.Injective (kummerCharacterHom K L n hmu) := by
@@ -232,9 +234,8 @@ theorem kummerCharacterHom_injective [FiniteDimensional K L] [IsGalois K L] (n :
 /-- The Kummer character homomorphism is surjective: a character is a cocycle by the
 roots-in-base hypothesis, Hilbert 90 writes it as a root quotient `σ (β) / β`, and `β ^ n`
 is Galois-fixed, hence a base unit whose class maps to the character. Proved — no recorded
-claim; the Hilbert 90 input is Mathlib's
-([Serre 1979, Chap. X, §3, p.155][Serre1979];
-[Yamaguchi 2026, `KummerTheory/Concrete/FiniteCharacterEquiv.lean:78`][Yamaguchi2026]). -/
+claim; the Hilbert 90 input is Mathlib's ([Serre 1979, Chap. X, §3, p.155][Serre1979];
+Yamaguchi 2026, `KummerTheory/Concrete/FiniteCharacterEquiv.lean:78`). -/
 theorem kummerCharacterHom_surjective [FiniteDimensional K L] [IsGalois K L] (n : ℕ)
     (hmu : ∀ u : Lˣ, u ^ n = 1 → ∃ ζ : Kˣ, Units.map (algebraMap K L).toMonoidHom ζ = u) :
     Function.Surjective (kummerCharacterHom K L n hmu) := by
@@ -268,8 +269,8 @@ theorem kummerCharacterHom_surjective [FiniteDimensional K L] [IsGalois K L] (n 
 fully proved: bijectivity is the two statements above, injectivity by the fixed-field
 computation and surjectivity by Hilbert 90
 ([Serre 1979, Chap. X, §3, p.155][Serre1979];
-[Milne 2020, Chap. VII, App. A, Thm. A.3, p.226][MilneCFT];
-[Yamaguchi 2026, `KummerTheory/Concrete/FiniteCharacterEquiv.lean:141`][Yamaguchi2026]). -/
+[Milne 2020, Chap. VII, App. A, Thm. A.3, p.226][MilneCFT]; Yamaguchi 2026,
+`KummerTheory/Concrete/FiniteCharacterEquiv.lean:141`). -/
 noncomputable def kummerCharacterEquiv [FiniteDimensional K L] [IsGalois K L] (n : ℕ)
     (hmu : ∀ u : Lˣ, u ^ n = 1 → ∃ ζ : Kˣ, Units.map (algebraMap K L).toMonoidHom ζ = u) :
     (↥(kummerRadicalSubgroup K L n) ⧸

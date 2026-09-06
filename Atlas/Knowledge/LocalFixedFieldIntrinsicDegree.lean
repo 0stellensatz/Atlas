@@ -25,8 +25,9 @@ ambient degree. The residue comparison follows the source's semilinear square.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -64,7 +65,7 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [ValuativeExtension K (abstractFixedField K (AlgebraicClosure K) H.field)]
 
 /-- The intrinsic residue degree over a finite fixed field is the normalized ambient degree
-([Yamaguchi 2026, `FixedFieldLocalData.lean:768`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `FixedFieldLocalData.lean:768`). -/
 theorem localResidueDegree_eq_normalizedDegree_abstractFixedFieldEquiv
     (e : AlgebraicClosure (abstractFixedField K (AlgebraicClosure K) H.field)
       ≃ₐ[abstractFixedField K (AlgebraicClosure K) H.field] AlgebraicClosure K)

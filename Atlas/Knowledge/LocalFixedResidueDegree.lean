@@ -23,8 +23,9 @@ is `AlgebraicClosure K`, and the local field may occupy any universe.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -36,7 +37,7 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-- The residue action of `H`, with scalars restricted to the actual finite
 residue subfield selected by `H` inside the common residue algebraic
-closure ([Yamaguchi 2026, `FiniteSubgroupResidueDegree.lean:217`][Yamaguchi2026]). -/
+closure (Yamaguchi 2026, `FiniteSubgroupResidueDegree.lean:217`). -/
 noncomputable def localAbstractFixedResidueActionOverIntermediateField
     (H : ClosedSubgroup (Field.absoluteGaloisGroup K)) :
     H.toSubgroup →*
@@ -60,7 +61,7 @@ noncomputable def localAbstractFixedResidueActionOverIntermediateField
 
 /-- Restricting residue scalars changes only the scalar-linearity proof,
 not the underlying automorphism of the selected residue field
-([Yamaguchi 2026, `FiniteSubgroupResidueDegree.lean:238`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `FiniteSubgroupResidueDegree.lean:238`). -/
 @[simp]
 theorem localAbstractFixedResidueActionOverIntermediateField_apply
     (H : ClosedSubgroup (Field.absoluteGaloisGroup K))
@@ -73,8 +74,8 @@ theorem localAbstractFixedResidueActionOverIntermediateField_apply
 /-- **Finite local reciprocity, pointwise fixed-field degree comparison.**
 The normalized degree on a finite abstract field is the ordinary intrinsic
 absolute residue degree after changing the finite residue base to the
-residue subfield selected by that fixed field
-([Yamaguchi 2026, `FiniteSubgroupResidueDegree.lean:383`][Yamaguchi2026]). -/
+residue subfield selected by that fixed field (Yamaguchi 2026,
+`FiniteSubgroupResidueDegree.lean:383`). -/
 theorem localResidueDatum_normalizedDegree_eq_residueAbsoluteDegreeIn
     (H : FiniteAbstractField (Field.absoluteGaloisGroup K))
     (sigma : H.field.toSubgroup) :

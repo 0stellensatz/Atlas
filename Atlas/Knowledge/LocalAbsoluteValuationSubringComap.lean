@@ -23,8 +23,9 @@ choice of a topology on the extension is imposed.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -32,7 +33,7 @@ open ValuativeRel
 namespace Atlas.Knowledge
 
 /-- Pullback along an embedding of a finite extension recovers its given integer ring
-([Yamaguchi 2026, `UnramifiedComparison.lean:150`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `UnramifiedComparison.lean:150`). -/
 theorem localAbsoluteValuationSubring_comap_embedding
     (K F : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] [Field F] [ValuativeRel F]
@@ -45,7 +46,7 @@ theorem localAbsoluteValuationSubring_comap_embedding
   exact isIntegral_algHom_iff (i.restrictScalars 𝒪[K]) i.injective
 
 /-- An equivalence of algebraic closures over a finite extension identifies the two absolute
-valuation rings ([Yamaguchi 2026, `FixedFieldLocalData.lean:188`][Yamaguchi2026]). -/
+valuation rings (Yamaguchi 2026, `FixedFieldLocalData.lean:188`). -/
 theorem localAbsoluteValuationSubring_comap_equiv
     (K F : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] [Field F] [ValuativeRel F] [TopologicalSpace F]
@@ -64,7 +65,7 @@ theorem localAbsoluteValuationSubring_comap_equiv
   exact ⟨fun h => isIntegral_trans x h, fun h => h.tower_top⟩
 
 /-- The whole Galois group over an extension preserves the ambient absolute valuation
-ring ([Yamaguchi 2026, `FixedFieldLocalData.lean:240`][Yamaguchi2026]). -/
+ring (Yamaguchi 2026, `FixedFieldLocalData.lean:240`). -/
 theorem localAbsoluteDecompositionGroup_eq_top_over
     (K F : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K] [Field F] [Algebra K F]

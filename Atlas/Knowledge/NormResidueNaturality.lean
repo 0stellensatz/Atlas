@@ -58,8 +58,9 @@ the file is the source's `Reciprocity/Main.lean:987`–`:1007` and
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -72,8 +73,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- A commutative square of additive isomorphisms remains commutative
 after replacing both horizontal isomorphisms by their inverses
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:989`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:989`). -/
 private theorem normResidueNaturality_symm_naturality
     {Q B Q' B' : Type*}
     [AddCommGroup Q] [AddCommGroup B]
@@ -98,8 +99,8 @@ namespace DegreeData
 
 /-- **Reciprocity naturality, first diagram.** The norm-residue symbol
 commutes with restriction on Galois groups and the relative norm on
-norm quotients ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1337`][Yamaguchi2026]). -/
+norm quotients (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1337`). -/
 theorem normResidueNaturality_norm_restriction
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     (hcf : SatisfiesClassFieldAxiom A)
@@ -174,8 +175,8 @@ theorem normResidueNaturality_norm_restriction
 
 /-- **Reciprocity naturality, second diagram.** The norm-residue symbol
 commutes with conjugation of the extension and of norm classes
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1410`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1410`). -/
 theorem normResidueNaturality_conjugation
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     (hcf : SatisfiesClassFieldAxiom A)
@@ -251,8 +252,8 @@ theorem normResidueNaturality_conjugation
 
 /-- **Reciprocity naturality, third diagram.** The norm-residue symbol
 commutes with transfer on abelianized Galois groups and inclusion on
-norm quotients ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1482`][Yamaguchi2026]). -/
+norm quotients (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1482`). -/
 theorem normResidueNaturality_transfer_inclusion
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     (hcf : SatisfiesClassFieldAxiom A)

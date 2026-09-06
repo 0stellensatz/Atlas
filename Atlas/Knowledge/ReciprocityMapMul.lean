@@ -65,8 +65,9 @@ one namespace.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -84,7 +85,7 @@ multiplicative on Frobenius elements, written additively on the
 norm-class quotient. The endpoint of the calculation — the group-ring
 identity `(*)` supplies the hypothesis of the universal norm-descent
 lemma, whose universal-unit norm descends the resulting norm relation
-to `K` ([Yamaguchi 2026, `ReciprocityMapMul.lean:43`][Yamaguchi2026]). -/
+to `K` (Yamaguchi 2026, `ReciprocityMapMul.lean:43`). -/
 theorem reciprocityMap_mul
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

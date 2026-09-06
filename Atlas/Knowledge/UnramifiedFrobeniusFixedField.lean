@@ -58,8 +58,9 @@ source's `open`s go — the layer keeps everything in one namespace.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -75,8 +76,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **For an unramified `L | K`, the fixed field of the degree-one
-Frobenius lift is itself unramified over `K`**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:805`][Yamaguchi2026]). -/
+Frobenius lift is itself unramified over `K`** (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:805`). -/
 theorem unramifiedFrobenius_fixedField_isUnramified
     (D : DegreeData G)
     [IsTopologicalGroup G]
@@ -104,8 +105,7 @@ theorem unramifiedFrobenius_fixedField_isUnramified
 
 /-- **The fixed field of the degree-one lift has degree one over `K` in
 the unramified case** — `f_{Σ|K} = d_K(φ_K) = 1` together with
-`[Σ:K] = f_{Σ|K}`
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:833`][Yamaguchi2026]). -/
+`[Σ:K] = f_{Σ|K}` (Yamaguchi 2026, `MainFiniteReciprocity.lean:833`). -/
 theorem unramifiedFrobenius_fixedField_degree
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -158,7 +158,7 @@ namespace ValuationData
 
 /-- **The prime element of `K`, included into the fixed field of the
 degree-one lift, has norm equal to the original prime element**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:887`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:887`). -/
 theorem unramifiedFrobenius_primeNorm
     (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -214,8 +214,8 @@ theorem unramifiedFrobenius_primeNorm
     _ = v.chosenPrimeElement K := one_nsmul _
 
 /-- **The included prime element is a prime element of the degree-one
-lift's fixed field**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:947`][Yamaguchi2026]). -/
+lift's fixed field** (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:947`). -/
 theorem unramifiedFrobenius_includedPrime_isPrime
     (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

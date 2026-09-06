@@ -46,8 +46,9 @@ enters.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField TensorProduct
@@ -61,19 +62,16 @@ variable (K : Type*) [Field K] [NumberField K]
 
 /-- The **ray class field** characterization: the norm subgroup of `M` is exactly the
 congruence subgroup of `𝔪`, so the Artin map identifies `Gal (M/K)` with the ray class
-group of `𝔪` ([Milne 2020, Chap. V, §3, p.158][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/GlobalClassFields/RayClassFieldRealization.lean:81`]
-[Yamaguchi2026]). -/
+group of `𝔪` ([Milne 2020, Chap. V, §3, p.158][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/GlobalClassFields/RayClassFieldRealization.lean:81`). -/
 def IsRayClassField (m : Modulus K) (M : Type*) [Field M] [NumberField M] [Algebra K M]
     [FiniteDimensional K M] : Prop :=
   ideleClassNormRange K M = congruenceSubgroup K m
 
 /-- **The conductor criterion**: an abelian extension embeds into the ray class field of
 `𝔪` exactly when its conductor divides `𝔪`. Claim recorded ahead of its proof
-([Milne 2020, Chap. V, §3, Rem. 3.8 and footnote 3, p.158][MilneCFT];
-[Yamaguchi 2026,
-`GlobalClassFieldTheory/GlobalClassFields/FullConductorRayClassField.lean:26`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §3, Rem. 3.8 and footnote 3, p.158][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/GlobalClassFields/FullConductorRayClassField.lean:26`). -/
 theorem nonempty_algHom_isRayClassField_iff (m : Modulus K)
     (M : Type*) [Field M] [NumberField M] [Algebra K M] [FiniteDimensional K M]
     (hM : IsRayClassField K m M)
@@ -85,11 +83,9 @@ theorem nonempty_algHom_isRayClassField_iff (m : Modulus K)
 
 /-- **Conductor exactness**: the finite conductor exponent at `v` is the least level at
 which the local higher unit group is contained in the tensor-model local norms. Claim
-recorded ahead of its proof
-([Milne 2020, Chap. I, 1.9, p.23][MilneCFT];
-[Yamaguchi 2026,
-`GlobalClassFieldTheory/GlobalClassFields/AbelianConductorExactness.lean:111`]
-[Yamaguchi2026]). -/
+recorded ahead of its proof ([Milne 2020, Chap. I, 1.9, p.23][MilneCFT];
+Yamaguchi 2026,
+`GlobalClassFieldTheory/GlobalClassFields/AbelianConductorExactness.lean:111`). -/
 theorem isConductor_finitePart_eq_local
     (L : Type*) [Field L] [NumberField L] [Algebra K L] [FiniteDimensional K L]
     [IsAbelianGalois K L] (f : Modulus K)
@@ -101,10 +97,9 @@ theorem isConductor_finitePart_eq_local
 
 /-- **Ramification support**: the finite conductor is supported exactly on the finite
 places ramified in `L`. Claim recorded ahead of its proof
-([Milne 2020, Chap. V, §3, Rem. 3.8, p.158][MilneCFT];
-[Yamaguchi 2026,
+([Milne 2020, Chap. V, §3, Rem. 3.8, p.158][MilneCFT]; Yamaguchi 2026,
 `GlobalClassFieldTheory/GlobalClassFields/AbelianConductorRamification.lean:68`, the
-forward implication on chosen completions][Yamaguchi2026]). -/
+forward implication on chosen completions). -/
 theorem isConductor_finitePart_support_iff
     (L : Type*) [Field L] [NumberField L] [Algebra K L] [FiniteDimensional K L]
     [IsAbelianGalois K L] (f : Modulus K)

@@ -55,8 +55,9 @@ inside the norm-inclusion rewrite is flattened to `from`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -70,9 +71,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace FiniteAbstractField
 
 /-- Normality transports across the canonical residue-field enrichment
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:30`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:30`). -/
 instance toFiniteResidueAbstractField_extensionNormal
     (K : FiniteAbstractField G) (D : DegreeData G) (L : ClosedSubgroup G)
     [hnormal : (L.toSubgroup.subgroupOf K.field.toSubgroup).Normal] :
@@ -82,9 +82,8 @@ instance toFiniteResidueAbstractField_extensionNormal
   exact hnormal
 
 /-- Relative finiteness transports across the canonical residue-field
-enrichment ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:39`]
-[Yamaguchi2026]). -/
+enrichment (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:39`). -/
 instance toFiniteResidueAbstractField_extensionFinite
     (K : FiniteAbstractField G) (D : DegreeData G) (L : ClosedSubgroup G)
     [hfinite : Finite
@@ -104,9 +103,8 @@ namespace ValuationData
 variable {D : DegreeData G} {A : Rep ℤ G}
 
 /- Transport along an equality of finite fields keeps the ambient
-coefficient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:56`]
-[Yamaguchi2026]). -/
+coefficient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:56`). -/
 private theorem ambientFixedAddSubgroup_transport_coe
     (K L : FiniteAbstractField G) (h : K = L)
     (a : ambientFixedAddSubgroup A K.field) :
@@ -114,9 +112,8 @@ private theorem ambientFixedAddSubgroup_transport_coe
   cases h
   rfl
 
-/- The valuation is transport-invariant ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:63`]
-[Yamaguchi2026]). -/
+/- The valuation is transport-invariant (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:63`). -/
 private theorem valuationAt_transport
     (v : ValuationData D A) (K L : FiniteAbstractField G) (h : K = L)
     (a : ambientFixedAddSubgroup A K.field) :
@@ -125,9 +122,8 @@ private theorem valuationAt_transport
   rfl
 
 /-- **A quotient element stabilizing a Frobenius fixed field preserves its normalized valuation**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:72`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:72`). -/
 theorem valuationAt_frobeniusFixedFieldAction
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -178,9 +174,8 @@ theorem valuationAt_frobeniusFixedFieldAction
     _ = v.valuationAt TF a := by simpa [CF, C, bC] using hconj
 
 /-- **The stabilizing action restricted to the unit group of a Frobenius fixed field**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:124`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:124`). -/
 noncomputable def frobeniusFixedFieldUnitAction
     (v : ValuationData D A) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -203,9 +198,8 @@ noncomputable def frobeniusFixedFieldUnitAction
 
 /-- **Units stay units after inclusion into any finite extension** — the
 construction uses this silently when all finitely many terms of `(*)`
-are placed in one finite Galois field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:150`]
-[Yamaguchi2026]). -/
+are placed in one finite Galois field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:150`). -/
 theorem fixedFieldInclusion_mem_unitAddSubgroup
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (u : v.unitAddSubgroup E.base) :
@@ -246,9 +240,8 @@ theorem fixedFieldInclusion_mem_unitAddSubgroup
   simp [hu]
 
 /-- **Inclusion of units along an arbitrary finite extension**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:187`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:187`). -/
 def finiteUnitInclusion
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G) :
     v.unitAddSubgroup E.base →+ v.unitAddSubgroup E.field where
@@ -259,9 +252,8 @@ def finiteUnitInclusion
   map_add' _ _ := by apply Subtype.ext; rfl
 
 /-- Transporting a finite-unit inclusion along equality of its target
-field does not change its ambient coefficient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:197`]
-[Yamaguchi2026]). -/
+field does not change its ambient coefficient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:197`). -/
 theorem finiteUnitInclusion_transport_coe
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (F : FiniteAbstractField G) (h : E.field = F)
@@ -273,9 +265,8 @@ theorem finiteUnitInclusion_transport_coe
 
 /-- **The norm of a unit through an arbitrary finite extension is a unit**
 — the valuation-theoretic step when a finite Galois refinement is pushed
-back down to the prescribed intermediate field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:209`]
-[Yamaguchi2026]). -/
+back down to the prescribed intermediate field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:209`). -/
 theorem relativeNorm_mem_unitAddSubgroup
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (u : v.unitAddSubgroup E.field) :
@@ -294,9 +285,8 @@ theorem relativeNorm_mem_unitAddSubgroup
   simpa [hu] using h.symm
 
 /-- **The relative norm restricted to the finite unit groups**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:227`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FiniteFieldUnitMaps.lean:227`). -/
 def finiteUnitNorm
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G) :
     v.unitAddSubgroup E.field →+ v.unitAddSubgroup E.base where

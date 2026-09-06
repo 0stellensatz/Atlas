@@ -72,8 +72,9 @@ orbit vocabulary.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -89,8 +90,8 @@ section transferWitness
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /- The quotient action on the invariant carrier agrees with the
-relative coset action defining the norm
-([Yamaguchi 2026, `MainTransfer.lean:619`][Yamaguchi2026]). -/
+relative coset action defining the norm (Yamaguchi 2026,
+`MainTransfer.lean:619`). -/
 private theorem transferNormNaturality_relativeCosetAction_eq_extensionAction
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -110,8 +111,8 @@ private theorem transferNormNaturality_relativeCosetAction_eq_extensionAction
   rfl
 
 /- Restricting the quotient action to `G(L|K')` agrees with the
-relative coset action for `L | K'`
-([Yamaguchi 2026, `MainTransfer.lean:640`][Yamaguchi2026]). -/
+relative coset action for `L | K'` (Yamaguchi 2026,
+`MainTransfer.lean:640`). -/
 private theorem transferNormNaturality_relativeCosetAction_intermediate
     (A : Rep ℤ G) (K K' L : ClosedSubgroup G)
     (hLK' : L.toSubgroup ≤ K'.toSubgroup)
@@ -137,8 +138,8 @@ private theorem transferNormNaturality_relativeCosetAction_intermediate
 
 /-- **The element of `A_L` summing the conjugates over a right
 transversal of `G(L|K')` in `G(L|K)`** — its `L | K'` norm is the
-`L | K` norm of the original element
-([Yamaguchi 2026, `MainTransfer.lean:667`][Yamaguchi2026]). -/
+`L | K` norm of the original element (Yamaguchi 2026,
+`MainTransfer.lean:667`). -/
 noncomputable def transferNormNaturalityNormWitness
     (A : Rep ℤ G) (K K' L : ClosedSubgroup G)
     (hLK' : L.toSubgroup ≤ K'.toSubgroup)
@@ -162,7 +163,7 @@ noncomputable def transferNormNaturalityNormWitness
   exact eA (∑ t : (T : Set _), E.ρ t.1 (eA.symm a))
 
 /- The decomposition splits the quotient action multiplicatively
-([Yamaguchi 2026, `MainTransfer.lean:689`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:689`). -/
 private theorem transferNormNaturality_extensionAction_product
     (A : Rep ℤ G) (K K' L : ClosedSubgroup G)
     (hLK' : L.toSubgroup ≤ K'.toSubgroup)
@@ -187,8 +188,8 @@ private theorem transferNormNaturality_extensionAction_product
   rfl
 
 /-- **The norm identity of the right vertical arrow** — the additive
-form of the product calculation
-([Yamaguchi 2026, `MainTransfer.lean:713`][Yamaguchi2026]). -/
+form of the product calculation (Yamaguchi 2026,
+`MainTransfer.lean:713`). -/
 theorem transferNormNaturality_norm_doubleCoset_formula
     (A : Rep ℤ G) (K K' L : ClosedSubgroup G)
     (hLK' : L.toSubgroup ≤ K'.toSubgroup)
@@ -334,7 +335,7 @@ theorem transferNormNaturality_norm_doubleCoset_formula
 
 /-- **The right vertical arrow of transfer–norm naturality**: the
 inclusion `A_K → A_K'` descended to the finite norm quotients
-([Yamaguchi 2026, `MainTransfer.lean:858`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:858`). -/
 def transferNormNaturalityNormQuotientInclusion
     (A : Rep ℤ G) (K K' L : ClosedSubgroup G)
     (hLK' : L.toSubgroup ≤ K'.toSubgroup)
@@ -368,8 +369,8 @@ def transferNormNaturalityNormQuotientInclusion
     A K K' L hLK' hK'K a).symm
 
 /-- **The descended inclusion carries a finite norm class to the class
-of its fixed-field inclusion**
-([Yamaguchi 2026, `MainTransfer.lean:892`][Yamaguchi2026]). -/
+of its fixed-field inclusion** (Yamaguchi 2026,
+`MainTransfer.lean:892`). -/
 @[simp]
 theorem transferNormNaturality_normQuotientInclusion_finiteNormClass
     (A : Rep ℤ G) (K K' L : ClosedSubgroup G)
@@ -413,8 +414,8 @@ namespace DegreeData
 /-- **Transfer–norm naturality on one Frobenius generator**: transfer
 expands over double cosets, the reciprocity homomorphism evaluates
 every positive Frobenius factor, and the prime norms are identified by
-`transferNormNaturalityNorm_eq_sum_transferNorms`
-([Yamaguchi 2026, `MainTransfer.lean:928`][Yamaguchi2026]). -/
+`transferNormNaturalityNorm_eq_sum_transferNorms` (Yamaguchi 2026,
+`MainTransfer.lean:928`). -/
 theorem transferNormNaturality_generator_square
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -687,8 +688,8 @@ theorem transferNormNaturality_generator_square
 
 /-- **Transfer–norm naturality**: for a finite Galois extension
 `L | K` and an intermediate `K'`, reciprocity commutes with transfer —
-`r_{L|K'} ∘ Ver = inclusion ∘ r_{L|K}`
-([Yamaguchi 2026, `MainTransfer.lean:1203`][Yamaguchi2026]). -/
+`r_{L|K'} ∘ Ver = inclusion ∘ r_{L|K}` (Yamaguchi 2026,
+`MainTransfer.lean:1203`). -/
 theorem transferNormNaturality
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

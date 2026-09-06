@@ -54,8 +54,9 @@ source's `open`s go — the layer keeps everything in one namespace.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -70,8 +71,8 @@ namespace DegreeData
 
 /-- **The finite reciprocity value**: the reciprocity value of a
 Frobenius element after passage from the universal norm quotient to the
-finite quotient by `N_{L|K} A_L`
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:37`][Yamaguchi2026]). -/
+finite quotient by `N_{L|K} A_L` (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:37`). -/
 def finiteReciprocityValue (D : DegreeData G) (A : Rep ℤ G)
     (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -86,8 +87,8 @@ def finiteReciprocityValue (D : DegreeData G) (A : Rep ℤ G)
     (D.reciprocityMap A v K L hLK σ)
 
 /-- **Reciprocity multiplicativity remains additive after passage to
-the finite quotient**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:52`][Yamaguchi2026]). -/
+the finite quotient** (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:52`). -/
 theorem finiteReciprocityValue_mul
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -108,8 +109,8 @@ theorem finiteReciprocityValue_mul
     (D.maximalUnramifiedToFiniteNormQuotient A K.field L hLK) _ _
 
 /-- **The finite reciprocity value is the finite class of the chosen
-prime's relative norm**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:73`][Yamaguchi2026]). -/
+prime's relative norm** (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:73`). -/
 theorem finiteReciprocityValue_eq_primeNormClass
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -140,8 +141,8 @@ theorem finiteReciprocityValue_eq_primeNormClass
 
 /-- **The same formula for any prime element of the fixed field** —
 prime-choice independence is exactly the reciprocity construction's
-consequence of the unit-cohomology axiom
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:103`][Yamaguchi2026]). -/
+consequence of the unit-cohomology axiom (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:103`). -/
 theorem finiteReciprocityValue_eq_primeNormClass_of_isPrime
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

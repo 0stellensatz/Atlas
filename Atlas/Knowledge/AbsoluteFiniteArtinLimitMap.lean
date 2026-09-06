@@ -62,8 +62,9 @@ which the plain arrow no longer needs.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -80,9 +81,8 @@ variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
 /-- **The compatible cone of the finite Artin coordinates**: the
 homomorphism from `Kˣ` into the inverse limit of the finite quotients
 whose coordinate at `N` is the finite Artin coordinate at `N`,
-compatible along quotient transition ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:123`]
-[Yamaguchi2026]). -/
+compatible along quotient transition (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:123`). -/
 noncomputable def absoluteFiniteArtinLimitMap :
     Kˣ →* absoluteFiniteArtinLimit K where
   toFun a :=
@@ -104,9 +104,8 @@ noncomputable def absoluteFiniteArtinLimitMap :
     exact (absoluteFiniteArtinMap K N).map_mul x y
 
 /-- The coordinate of the assembled cone at an open normal subgroup is
-the finite Artin coordinate there — definitionally ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:164`]
-[Yamaguchi2026]). -/
+the finite Artin coordinate there — definitionally (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:164`). -/
 @[simp]
 theorem absoluteFiniteArtinLimitMap_apply
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) (a : Kˣ) :
@@ -114,9 +113,8 @@ theorem absoluteFiniteArtinLimitMap_apply
   rfl
 
 /-- **Surjectivity at every finite Artin coordinate makes the assembled
-cone dense in the inverse limit** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:172`]
-[Yamaguchi2026]). -/
+cone dense in the inverse limit** (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:172`). -/
 theorem absoluteFiniteArtinLimitMap_denseRange :
     DenseRange (absoluteFiniteArtinLimitMap K) := by
   apply dense_iff_inter_open.mpr

@@ -33,8 +33,9 @@ the source's universe-device import and no-op opens go.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -52,9 +53,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 /-- Membership in the stabilizer of a left coset is the literal
 conjugate-intersection condition — for the representative `t⁻¹` it reads
 `k' ∈ K' ∩ t⁻¹ S t`, the subgroup of the classical double-coset norm
-calculation ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:34`]
-[Yamaguchi2026]). -/
+calculation (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:34`). -/
 theorem mem_relativeNormDoubleCoset_stabilizer_iff
     (K K' S : ClosedSubgroup G) (t : K.toSubgroup)
     (k' : K'.toSubgroup.subgroupOf K.toSubgroup) :
@@ -76,9 +76,8 @@ theorem mem_relativeNormDoubleCoset_stabilizer_iff
 
 /-- **The class-formula decomposition of the cosets of `S`'s subgroup in
 `G_K` into orbits under the subgroup `K'` cuts there, with the
-corresponding stabilizer cosets** — the double cosets ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:59`]
-[Yamaguchi2026]). -/
+corresponding stabilizer cosets** — the double cosets (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:59`). -/
 noncomputable def relativeNormDoubleCosetEquiv
     (K K' S : ClosedSubgroup G) :
     (K.toSubgroup ⧸ S.toSubgroup.subgroupOf K.toSubgroup) ≃
@@ -92,9 +91,8 @@ noncomputable def relativeNormDoubleCosetEquiv
 
 /-- The inverse class-formula map is left multiplication of the selected
 orbit representative by the selected stabilizer-coset representative
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:75`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:75`). -/
 @[simp]
 theorem relativeNormDoubleCosetEquiv_symm_apply
     (K K' S : ClosedSubgroup G)
@@ -131,9 +129,8 @@ end doubleCosetEquivalences
 /-- The class-formula inverse for an arbitrary chosen representative of
 each orbit — the form transfer–norm naturality uses to choose the norm
 representative `t⁻¹` attached to a transfer representative `t`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:113`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:113`). -/
 @[simp]
 theorem chosenOrbitClassEquiv_symm_apply
     {M : Type*} {X : Type*} [Group M] [MulAction M X]
@@ -162,9 +159,8 @@ section relativeNormFormulas
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- The relative norm reindexed by arbitrary chosen representatives of
-the intermediate-subgroup orbits ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:142`]
-[Yamaguchi2026]). -/
+the intermediate-subgroup orbits (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:142`). -/
 theorem relativeNorm_eq_sum_chosenOrbit_of_fintype
     (A : Rep ℤ G) (K S : ClosedSubgroup G)
     (hSK : S.toSubgroup ≤ K.toSubgroup)
@@ -195,9 +191,8 @@ theorem relativeNorm_eq_sum_chosenOrbit_of_fintype
       (e.symm.sum_comp (relativeCosetAction A K S hSK a)).symm
     _ = _ := Fintype.sum_sigma _
 
-/- The sigma type of the decomposition is finite ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:173`]
-[Yamaguchi2026]). -/
+/- The sigma type of the decomposition is finite (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:173`). -/
 @[implicit_reducible]
 private noncomputable def relativeNormDoubleCosetSigmaFintype
     (K K' S : ClosedSubgroup G)
@@ -213,9 +208,8 @@ private noncomputable def relativeNormDoubleCosetSigmaFintype
     (K.toSubgroup ⧸ S.toSubgroup.subgroupOf K.toSubgroup)
     (relativeNormDoubleCosetEquiv K K' S)
 
-/- The orbit set is finite ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:190`]
-[Yamaguchi2026]). -/
+/- The orbit set is finite (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:190`). -/
 @[implicit_reducible]
 private noncomputable def relativeNormDoubleCosetOrbitFintype
     (K K' S : ClosedSubgroup G)
@@ -232,9 +226,8 @@ private noncomputable def relativeNormDoubleCosetOrbitFintype
       intro q q' h
       exact congrArg Sigma.fst h)
 
-/- Each stabilizer-coset space is finite ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:208`]
-[Yamaguchi2026]). -/
+/- Each stabilizer-coset space is finite (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:208`). -/
 @[implicit_reducible]
 private noncomputable def relativeNormDoubleCosetStabilizerFintype
     (K K' S : ClosedSubgroup G)
@@ -255,9 +248,8 @@ private noncomputable def relativeNormDoubleCosetStabilizerFintype
 
 /-- The double-coset norm formula with caller-supplied finite
 enumerations of the orbit set and the stabilizer cosets — independent of
-their ordering ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:231`]
-[Yamaguchi2026]). -/
+their ordering (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:231`). -/
 theorem relativeNorm_eq_sum_doubleCoset_of_fintype
     (A : Rep ℤ G) (K K' S : ClosedSubgroup G)
     (hSK : S.toSubgroup ≤ K.toSubgroup)
@@ -288,9 +280,8 @@ theorem relativeNorm_eq_sum_doubleCoset_of_fintype
 /-- **The norm `N_{S/K}` reindexed first by intermediate-subgroup
 orbits and then by stabilizer cosets** — the additive form of the
 double-coset product decomposition behind transfer–norm naturality
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:262`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/RelativeNormDoubleCoset.lean:262`). -/
 theorem relativeNorm_eq_sum_doubleCoset
     (A : Rep ℤ G) (K K' S : ClosedSubgroup G)
     (hSK : S.toSubgroup ≤ K.toSubgroup)

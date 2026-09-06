@@ -31,8 +31,9 @@ is the dead `let` the source leaves at the head of the second proof.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -46,9 +47,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **Commuting with the generator is commuting with its closed procyclic closure**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusClosureCommutation.lean:31`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusClosureCommutation.lean:31`). -/
 theorem frobeniusClosure_commutes_of_commutes_generator (D : DegreeData G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -81,9 +81,8 @@ theorem frobeniusClosure_commutes_of_commutes_generator (D : DegreeData G)
   exact (Subgroup.mem_centralizer_singleton_iff.mp (htop hc)).symm
 
 /-- **A quotient element commuting with the lift stabilizes the fixed field**:
-conjugation by its representative carries `G_Σ` to itself ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusClosureCommutation.lean:64`]
-[Yamaguchi2026]). -/
+conjugation by its representative carries `G_Σ` to itself (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusClosureCommutation.lean:64`). -/
 theorem conjugate_frobeniusFixedField_eq_of_commutes (D : DegreeData G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)

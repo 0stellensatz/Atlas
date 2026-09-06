@@ -38,8 +38,9 @@ each component lands in a discrete finite group.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -130,9 +131,8 @@ theorem residueFrobeniusToLimit_apply_component (z : ProfiniteIntegerMul)
 /-- **The Frobenius-parameter homomorphism** `ℤ̂ → Gal(Ω/k)` for an algebraic
 Galois extension of a finite field
 ([Milne 2020, Chap. I, Appendix A, p.55][MilneCFT] — the Galois group as the
-projective limit of the finite ones;
-[Yamaguchi 2026, `LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAbsoluteFrobenius.lean:102`]
-[Yamaguchi2026]). -/
+projective limit of the finite ones; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAbsoluteFrobenius.lean:102`). -/
 def residueAbsoluteFrobenius : ProfiniteIntegerMul →ₜ* (Omega ≃ₐ[k] Omega) :=
   (ContinuousMonoidHom.toContinuousMonoidHom
     (InfiniteGalois.continuousMulEquivToLimit k Omega).symm).comp
@@ -184,8 +184,8 @@ theorem restrictNormalHom_frobeniusAlgEquivOfAlgebraic
       exact (map_pow (algebraMap E Omega) x (Fintype.card k)).symm
 
 /-- **`1 ∈ ℤ̂` acts as the arithmetic Frobenius on the whole extension**
-([Yamaguchi 2026, `LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAbsoluteFrobenius.lean:156`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAbsoluteFrobenius.lean:156`). -/
 @[simp]
 theorem residueAbsoluteFrobenius_one :
     residueAbsoluteFrobenius k Omega

@@ -29,8 +29,9 @@ mention `[NumberField K]` in its fields, so statements about bare moduli omit it
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField
@@ -46,8 +47,8 @@ abbrev RealPlace : Type _ := {v : InfinitePlace K // v.IsReal}
 
 /-- A **modulus**: a finitely supported exponent at each finite place and a set of real
 places — `𝔪 = ∏ 𝔭^{m(𝔭)} · ∏ v` with real places squarefree and complex places absent
-([Milne 2020, Chap. V, §1, Def. 1.3, pp.148–149][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/FullModulus.lean:26`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §1, Def. 1.3, pp.148–149][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/RayClass/FullModulus.lean:26`). -/
 structure Modulus where
   /-- The finite prime-power part. -/
   finitePart : HeightOneSpectrum (𝓞 K) →₀ ℕ
