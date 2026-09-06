@@ -174,13 +174,16 @@ def next_letter(text):
     """The next free letter of `question_<letter>` in `text`.
 
     Lettered in the order posed, so this is one past the highest already used rather than
-    the first gap: a letter is not reused once a question has carried it.  Matched at the
-    start of a line, so a docstring naming a target cannot advance the letter.
+    the first gap: a letter is not reused once a question has carried it.  Comments are
+    stripped before matching, so a docstring naming a target cannot advance the letter, and
+    the keyword is matched wherever it stands, so an attribute, a modifier or indentation
+    ahead of it---`@[simp] theorem question_a`---cannot hide one.
 
     The date is not in the name: the unit's namespace already carries it, and the letters
     restart with each unit.
     """
-    used = set(re.findall(r"^theorem question_([a-z])\b", text, re.M))
+    code = re.sub(r"/-.*?-/|--[^\n]*", "", text, flags=re.S)
+    used = set(re.findall(r"\btheorem\s+question_([a-z])\b", code))
     if not used:
         return "a"
     nxt = string.ascii_lowercase.index(max(used)) + 1
@@ -304,8 +307,13 @@ def selftest():
     assert next_letter("theorem question_a : True := sorry") == "b"
     assert next_letter("theorem question_a : True := sorry\n"
                        "theorem question_c : True := sorry") == "d"
-    # Matched at the start of a line, so prose naming a target does not advance the letter.
+    # Prose naming a target does not advance the letter, wherever in a comment it stands.
     assert next_letter("/-- Compare `question_f` of another unit. -/") == "a"
+    assert next_letter("/-- Not\ntheorem question_f. -/\n-- theorem question_g\n") == "a"
+    # An attribute, a modifier or indentation ahead of the keyword does not hide a target.
+    assert next_letter("@[simp] theorem question_a (n : ℕ) : n + 0 = n := sorry") == "b"
+    assert next_letter("  private theorem question_b : True := sorry") == "c"
+    assert next_letter("@[simp,\n  norm_cast]\ntheorem question_c : True := sorry") == "d"
     # Letters restart with each unit: another unit's file says nothing about this one.
 
     # Docstrings wrap to 100 columns and never break inside a code span.
