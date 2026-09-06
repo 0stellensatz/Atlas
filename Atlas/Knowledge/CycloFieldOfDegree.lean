@@ -6,6 +6,7 @@ import Atlas.Knowledge.IsArithmeticFrobenius
 import Atlas.Knowledge.IsArithmeticFrobeniusApplyOfPowEqOne
 import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.LowerRamificationGroup
+import Atlas.Knowledge.NormQuotient
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.UnramifiedNormRange
 import Atlas.Knowledge.UpperRamificationGroup
@@ -13,35 +14,42 @@ import Atlas.Knowledge.UpperRamificationGroup
 /-!
 # cyclotomic floor of prescribed degree
 
-The unramified extension of degree `d` of a mixed-characteristic local field `K`, realized
-as the cyclotomic floor `K (μ_{q ^ d - 1})` of `Atlas.Knowledge.CycloField`, `q` the residue
+The unramified extension of degree `d` of a mixed-characteristic local field `K`, realized as
+the cyclotomic floor `K (μ_{q ^ d - 1})` of `Atlas.Knowledge.CycloField`, `q` the residue
 cardinality: it has degree exactly `d`, its norm subgroup is the set of elements whose
-normalized valuation is divisible by `d`, and its upper ramification groups vanish from
-index `0` on. This is the unramified factor the ramification-compatibility descent needs as
-a concrete subfield of the algebraic closure with a computable norm subgroup and a
-computable filtration.
+normalized valuation is divisible by `d`, and its upper ramification groups vanish from index
+`0` on. This is the unramified factor the ramification-compatibility descent needs as a
+concrete subfield of the algebraic closure with a computable norm subgroup and a computable
+filtration.
 
 ## Main statements
 
+* `cycloField_lowerRamificationGroup_eq_bot_of_pos` — the floor is unramified.
 * `cycloField_finrank` — `[K (μ_{q ^ d - 1}) : K] = d`.
-* `cycloField_normRange` — the norm subgroup is the preimage of `d ℤ` under the
-  normalized valuation.
+* `cycloField_normRange` / `cycloField_localNormSubgroup` — the norm subgroup is the preimage
+  of `d ℤ` under the normalized valuation, in the unit-norm-range and the norm-subgroup
+  spellings.
 * `cycloField_upperRamificationGroup_eq_bot` — `G^t = ⊥` for `t ≥ 0`.
 
 ## Implementation notes
 
 The degree is the order of the arithmetic Frobenius, which generates the Galois group of an
 unramified extension (`Atlas.Knowledge.orderOf_of_isArithmeticFrobenius`): its `d`th power
-fixes every generator because `ζ ↦ ζ ^ q` iterated `d` times is `ζ ↦ ζ ^ (q ^ d) = ζ` on
-the `(q ^ d - 1)`th roots of unity, and no smaller power fixes a primitive root, since
+fixes every generator because `ζ ↦ ζ ^ q` iterated `d` times is `ζ ↦ ζ ^ (q ^ d) = ζ` on the
+`(q ^ d - 1)`th roots of unity, and no smaller power fixes a primitive root, since
 `ζ ^ (q ^ o) = ζ` forces `q ^ d - 1 ∣ q ^ o - 1`. The layer's inertia triviality for
 prime-to-`q` cyclotomic floors, `Atlas.Knowledge.cycloField_lowerRamificationGroup_eq_bot`,
-is what makes the Frobenius theory apply; `q ^ d - 1` is prime to `q` because it is one
-less than a power of `q`. The norm subgroup is then `Atlas.Knowledge.unramifiedNormRange`
-at that degree, the floor equipped with the local-field structure of
+is what makes the Frobenius theory apply; `q ^ d - 1` is prime to `q` because it is one less
+than a power of `q`. The norm subgroup is then `Atlas.Knowledge.unramifiedNormRange` at that
+degree, the floor equipped with the local-field structure of
 `Atlas.Knowledge.exists_extension_isMixedCharLocalField` inside the proof. The upper groups
 vanish by antitonicity from `G^0 = G_0 = ⊥`; the statement is at `t ≥ 0` because the
-compositum argument reads it at every positive index.
+compositum argument reads it at every positive index. The norm subgroup is exported in both
+spellings the layer uses, as `Atlas.Knowledge.UnramifiedNormRange` does, since the order
+reversal and the compositum law speak `Atlas.Knowledge.localNormSubgroup`. The same extension
+is constructed abstractly, as a fixed field of the degree datum, in
+`Atlas.Knowledge.UnramifiedExtensionOfDegree`; this item is its concrete cyclotomic
+realization, not a second construction of the abstract one.
 
 ## References
 
@@ -65,8 +73,8 @@ private theorem coprime_pow_sub_one {d : ℕ} (hd : 0 < d) :
   rw [Nat.sub_add_cancel hqd1] at h1
   exact Nat.Coprime.coprime_dvd_right (dvd_pow_self _ hd.ne') h1
 
-/-- The cyclotomic floor at level `q ^ d - 1` has trivial inertia: the level is prime to
-`q` ([Serre 1979, Chap. IV, §4, Prop. 16, p.77][Serre1979]). -/
+/-- The cyclotomic floor at level `q ^ d - 1` has trivial inertia: the level is prime to `q`
+([Serre 1979, Chap. IV, §4, Prop. 16, p.77][Serre1979]). -/
 theorem cycloField_lowerRamificationGroup_eq_bot_of_pos {d : ℕ} (hd : 0 < d) :
     lowerRamificationGroup K (cycloField K (Nat.card 𝓀[K] ^ d - 1)) 0 = ⊥ :=
   cycloField_lowerRamificationGroup_eq_bot K (coprime_pow_sub_one K hd)
@@ -165,6 +173,15 @@ theorem cycloField_normRange {d : ℕ} (hd : 0 < d) :
   haveI := hMCL
   rw [unramifiedNormRange K _ (cycloField_lowerRamificationGroup_eq_bot_of_pos K hd),
     cycloField_finrank K hd]
+
+/-- The norm subgroup of the cyclotomic floor at level `q ^ d - 1`, in the norm-subgroup
+spelling ([Serre 1979, Chap. V, §2, Prop. 3 and Cor., p.82][Serre1979]). -/
+theorem cycloField_localNormSubgroup {d : ℕ} (hd : 0 < d) :
+    localNormSubgroup K (cycloField K (Nat.card 𝓀[K] ^ d - 1)) =
+      Subgroup.comap (normalizedValuationHom K)
+        (Subgroup.zpowers (Multiplicative.ofAdd (d : ℤ))) := by
+  rw [← cycloField_normRange K hd]
+  rfl
 
 /-- The upper ramification groups of the cyclotomic floor at level `q ^ d - 1` vanish from
 index `0` on: `G^t ≤ G^0 = G_0 = ⊥` for `t ≥ 0`

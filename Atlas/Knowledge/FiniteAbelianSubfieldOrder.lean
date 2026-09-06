@@ -36,7 +36,9 @@ arbitrary abelian floor sits inside a standard compositum this way.
 The packaging takes the closed fixing subgroup of the field, over the fixing subgroup of the
 bottom field, with normality the instance of `Atlas.Knowledge.GaloisExtensionQuotient` and
 finiteness the instance of `Atlas.Knowledge.SeparableFixedFieldNorm` — that file is imported
-for the instance alone — and with commutativity transported from the Galois group along
+for the instance alone, and is also reachable through
+`Atlas.Knowledge.NormSubgroupOrderEmbedding`, the edge being made explicit rather than left
+to transitivity — and with commutativity transported from the Galois group along
 `Atlas.Knowledge.baseFixingExtensionQuotientEquivGaloisGroup`. Its fixed field is the field
 again by `InfiniteGalois.fixedField_fixingSubgroup`, which is what identifies the abstract
 norm subgroup with `Atlas.Knowledge.localNormSubgroup`. The order on the abstract side is the

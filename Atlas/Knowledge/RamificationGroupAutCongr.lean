@@ -9,13 +9,12 @@ import Atlas.Knowledge.UpperRamificationGroup
 # ramification groups under field isomorphisms
 
 The ramification filtrations are invariants of the extension up to `K`-isomorphism of the top
-field: an isomorphism `e : L ≃ₐ[K] L'` conjugates the Galois groups by
-`AlgEquiv.autCongr e`, and conjugation carries `G_i (L/K)` onto `G_i (L'/K)`, leaves the
-Herbrand functions unchanged, and so carries `G^v (L/K)` onto `G^v (L'/K)`. The layer's
-concrete extensions are stated where they are constructed — the Lubin–Tate level fields inside
-the separable closure, the cyclotomic floors inside the algebraic closure — and this item is
-what lets a filtration computed at one realization be read at another, with its
-cardinalities.
+field: an isomorphism `e : L ≃ₐ[K] L'` conjugates the Galois groups by `AlgEquiv.autCongr e`,
+and conjugation carries `G_i (L/K)` onto `G_i (L'/K)`, leaves the Herbrand functions
+unchanged, and so carries `G^v (L/K)` onto `G^v (L'/K)`. The layer's concrete extensions are
+stated where they are constructed — the Lubin–Tate level fields inside the separable closure,
+the cyclotomic floors inside the algebraic closure — and this item is what lets a filtration
+computed at one realization be read at another, with its cardinalities.
 
 ## Main statements
 
@@ -37,7 +36,12 @@ for `e.symm` give the equality. The Herbrand function is an integral of orders o
 groups, so it is unchanged once the orders are; `ψ` is its inverse, and `G^v = G_{ψ (v)}`
 transports as the lower groups do. The variables are the two algebraic extensions with no
 finiteness — `Atlas.Knowledge.herbrandPhi` needs none — and every statement binds `e`
-explicitly, since a statement about the two filtrations does not mention it.
+explicitly, since a statement about the two filtrations does not mention it. The three
+`card_*` lemmas put `L'` on the left, opposite to the `Subgroup.map` statements: that
+orientation is what lets `herbrandPhi_autCongr` rewrite the integrand of `L'`'s Herbrand
+function into `L`'s by `simp only`, and a consumer reading them the other way should take
+their `symm`. Serre's pages define the filtrations and the Herbrand functions; none states
+this invariance, which every citation here says.
 
 ## References
 
@@ -111,7 +115,8 @@ theorem lowerRamificationGroup_map_autCongr_le (e : L ≃ₐ[K] L') (i : ℤ) :
 
 /-- **Lower ramification groups transport along field isomorphisms**: conjugation by
 `e : L ≃ₐ[K] L'` carries `G_i (L/K)` onto `G_i (L'/K)`
-([Serre 1979, Chap. IV, §1, p.62][Serre1979]). -/
+([Serre 1979, Chap. IV, §1, p.62][Serre1979] — the invariance its definition leaves
+implicit). -/
 theorem lowerRamificationGroup_map_autCongr (e : L ≃ₐ[K] L') (i : ℤ) :
     Subgroup.map (AlgEquiv.autCongr e).toMonoidHom (lowerRamificationGroup K L i) =
       lowerRamificationGroup K L' i := by
@@ -142,7 +147,8 @@ theorem card_realLowerRamificationGroup_autCongr (e : L ≃ₐ[K] L') (u : ℝ) 
   card_lowerRamificationGroup_autCongr K e ⌈u⌉
 
 /-- **The Herbrand function is invariant under field isomorphisms**: it is an integral of
-orders of lower groups, which agree ([Serre 1979, Chap. IV, §3, p.73][Serre1979]). -/
+orders of lower groups, which agree ([Serre 1979, Chap. IV, §3, p.73][Serre1979] — the
+invariance its definition leaves implicit). -/
 theorem herbrandPhi_autCongr (e : L ≃ₐ[K] L') : herbrandPhi K L' = herbrandPhi K L := by
   funext u
   unfold herbrandPhi
@@ -156,7 +162,8 @@ theorem herbrandPsi_autCongr (e : L ≃ₐ[K] L') : herbrandPsi K L' = herbrandP
 
 /-- **Upper ramification groups transport along field isomorphisms**: conjugation by
 `e : L ≃ₐ[K] L'` carries `G^v (L/K)` onto `G^v (L'/K)`
-([Serre 1979, Chap. IV, §3, p.74][Serre1979]). -/
+([Serre 1979, Chap. IV, §3, p.74][Serre1979] — the invariance its definition leaves
+implicit). -/
 theorem upperRamificationGroup_map_autCongr (e : L ≃ₐ[K] L') (v : ℝ) :
     Subgroup.map (AlgEquiv.autCongr e).toMonoidHom (upperRamificationGroup K L v) =
       upperRamificationGroup K L' v := by
