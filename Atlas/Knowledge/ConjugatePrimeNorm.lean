@@ -49,8 +49,9 @@ no-op opens go.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -67,9 +68,8 @@ namespace DegreeData
 the conjugate of a prime in the original fixed field, with equal norms
 in `A_K`**: conjugation compatibility of normalized valuations preserves
 primality, and conjugation equivariance of the relative norm with the
-representative lying in `G_K` equates the norms
-([Yamaguchi 2026, `ConjugatePrimeNorm.lean:36`]
-[Yamaguchi2026]). -/
+representative lying in `G_K` equates the norms (Yamaguchi 2026,
+`ConjugatePrimeNorm.lean:36`). -/
 theorem exists_primeElement_frobeniusActionConjugate_norm_eq
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

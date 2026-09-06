@@ -43,8 +43,9 @@ conjunct.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -68,9 +69,8 @@ degree squeeze
 Thm. 3.9 gives the independence only after composing with `K^{un}` and for every unit,
 through the formal-group isomorphism of Prop. 3.10 over the completion of `K^{un}`;
 the depth-`n + 1` restriction here is what buys the equality at finite level;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:1363`]
-[Yamaguchi2026] — the source's changed-level equivalence, whose field-level input this
-root existence is). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:1363` — the source's
+changed-level equivalence, whose field-level input this root existence is). -/
 theorem exists_standardLubinTateChangedRoot {u : (↥𝒪[K])ˣ}
     (hu : u ∈ integerHigherUnitGroup K (n + 1)) :
     ∃ z : ↥(standardLubinTateLevelField K hπ n),

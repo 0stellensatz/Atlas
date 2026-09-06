@@ -41,8 +41,9 @@ and the isomorphism it rides is rebuilt inside the proof from `QuotientGroup.con
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -97,9 +98,8 @@ theorem herbrandNorm_galUnits (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgro
 /-- **Hilbert 90 in the graded vocabulary**: on the unit action of a generator, the norm
 kernel lies inside the difference range — `Ĥ¹ (Lˣ)` of
 `Atlas.Knowledge.HerbrandQuotient.H1` is trivial
-([Serre 1979, Chap. X, §1, Prop. 2, p.150, and Cor., p.151][Serre1979];
-[Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/Hilbert90.lean:17`]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. X, §1, Prop. 2, p.150, and Cor., p.151][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/Hilbert90.lean:17`). -/
 theorem galUnits_ker_norm_le_range_diff (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgroup.zpowers σ) :
     (HerbrandQuotient.norm (galUnits σ) (orderOf σ)).ker ≤
       (HerbrandQuotient.diff (galUnits σ)).range := by
@@ -235,10 +235,9 @@ theorem baseUnitsToKerDiff_map_norm_range (σ : L ≃ₐ[K] L)
 /-- **`Ĥ⁰` of the unit action counts the norm quotient of the base**:
 `#Ĥ⁰(Gal, Lˣ) = #(Kˣ ⧸ N Lˣ)`, through the explicit isomorphism of the difference kernel
 with `Kˣ` matching the norm parts
-([Serre 1979, Chap. VIII, §4, p.133][Serre1979];
-[Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/Main.lean:92`, whose count this
-identification feeds]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. VIII, §4, p.133][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/Main.lean:92`, whose count this
+identification feeds). -/
 theorem card_H0_galUnits (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgroup.zpowers σ) :
     Nat.card (HerbrandQuotient.H0 (galUnits σ) (orderOf σ)) =
       Nat.card (Kˣ ⧸ (Units.map (Algebra.norm K : L →* K)).range) := by

@@ -62,8 +62,9 @@ source's `open`s go — the layer keeps everything in one namespace.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -81,8 +82,8 @@ namespace DegreeData
 /-- **The complete degree comparison**: two lifts of the same finite
 automorphism are either equal, or the larger-degree lift is the smaller
 one times a positive Frobenius lift which restricts trivially and
-therefore has zero value in the finite norm quotient
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:327`][Yamaguchi2026]). -/
+therefore has zero value in the finite norm quotient (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:327`). -/
 theorem finiteReciprocityHom_lift_comparison
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -149,8 +150,7 @@ namespace DegreeData
 
 /-- **A specified Frobenius lift of a finite Galois automorphism**,
 chosen from the surjectivity in the finite degree-quotient
-decomposition
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:395`][Yamaguchi2026]). -/
+decomposition (Yamaguchi 2026, `MainFiniteReciprocity.lean:395`). -/
 def chosenFiniteReciprocityFrobeniusLift (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -162,7 +162,7 @@ def chosenFiniteReciprocityFrobeniusLift (D : DegreeData G)
   Classical.choose (D.frobeniusRestriction_surjective K L hLK q)
 
 /-- **The chosen lift restricts to the prescribed automorphism**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:407`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:407`). -/
 @[simp]
 theorem frobeniusRestriction_chosenFiniteReciprocityFrobeniusLift (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -189,7 +189,7 @@ namespace DegreeData
 equivalence**: choose the finite degree-quotient decomposition lift and
 evaluate in the finite norm quotient; lift-independence and additivity
 reduce to the concrete steps above and reciprocity multiplicativity
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:433`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:433`). -/
 def finiteReciprocityCandidate (D : DegreeData G) (A : Rep ℤ G)
     (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -205,7 +205,7 @@ def finiteReciprocityCandidate (D : DegreeData G) (A : Rep ℤ G)
       (K.toFiniteResidueAbstractField D) L hLK q.toMul)
 
 /-- **The candidate evaluates through the chosen lift**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:449`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:449`). -/
 @[simp]
 theorem finiteReciprocityCandidate_apply (D : DegreeData G) (A : Rep ℤ G)
     (v : ValuationData D A)
@@ -224,8 +224,8 @@ theorem finiteReciprocityCandidate_apply (D : DegreeData G) (A : Rep ℤ G)
   rfl
 
 /-- **The candidate is the finite class of the chosen prime's relative
-norm from the chosen lift's fixed field**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:467`][Yamaguchi2026]). -/
+norm from the chosen lift's fixed field** (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:467`). -/
 theorem finiteReciprocityCandidate_eq_primeNormClass
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -256,8 +256,8 @@ theorem finiteReciprocityCandidate_eq_primeNormClass
       (D.chosenFiniteReciprocityFrobeniusLift
         (K.toFiniteResidueAbstractField D) L hLK q.toMul)
 
-/-- **The candidate sends zero to zero**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:501`][Yamaguchi2026]). -/
+/-- **The candidate sends zero to zero** (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:501`). -/
 theorem finiteReciprocityCandidate_zero (D : DegreeData G) (A : Rep ℤ G)
     (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

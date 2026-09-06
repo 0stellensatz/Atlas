@@ -61,8 +61,9 @@ token-for-token; the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -76,9 +77,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **Every automorphism of a totally ramified Galois extension has a
-Frobenius lift of exponent one** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:24`]
-[Yamaguchi2026]). -/
+Frobenius lift of exponent one** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:24`). -/
 theorem exists_degreeOneFrobeniusLiftOfTotallyRamified
     (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : GaloisSubextension K.field)
@@ -174,9 +174,8 @@ theorem exists_degreeOneFrobeniusLiftOfTotallyRamified
 
 /-- In a totally ramified finite Galois extension every finite
 automorphism has a degree-one Frobenius lift — the element
-`σ̃ = σφ_L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:109`]
-[Yamaguchi2026]). -/
+`σ̃ = σφ_L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:109`). -/
 def chosenDegreeOneFrobeniusLiftOfTotallyRamified
     (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : GaloisSubextension K.field)
@@ -188,9 +187,8 @@ def chosenDegreeOneFrobeniusLiftOfTotallyRamified
       K L hTot q)
 
 /-- The chosen Frobenius lift for a totally ramified extension has
-exponent one ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:120`]
-[Yamaguchi2026]). -/
+exponent one (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:120`). -/
 @[simp]
 theorem frobeniusExponent_chosenDegreeOneFrobeniusLiftOfTotallyRamified
     (D : DegreeData G)
@@ -205,9 +203,8 @@ theorem frobeniusExponent_chosenDegreeOneFrobeniusLiftOfTotallyRamified
       K L hTot q)).1
 
 /-- The chosen degree-one Frobenius lift restricts to the prescribed
-automorphism ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:133`]
-[Yamaguchi2026]). -/
+automorphism (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:133`). -/
 @[simp]
 theorem frobeniusRestriction_chosenDegreeOneFrobeniusLiftOfTotallyRamified
     (D : DegreeData G)
@@ -223,9 +220,8 @@ theorem frobeniusRestriction_chosenDegreeOneFrobeniusLiftOfTotallyRamified
       K L hTot q)).2
 
 /-- Underlying quotient form of the Galois-bundle restriction theorem
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:146`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:146`). -/
 theorem frobeniusRestriction_chosenDegreeOneFrobeniusLiftOfTotallyRamified_underlying
     (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : GaloisSubextension K.field)
@@ -243,9 +239,8 @@ theorem frobeniusRestriction_chosenDegreeOneFrobeniusLiftOfTotallyRamified_under
 /-- **The degree-one lift specialized to a bundled finite Galois
 extension**; the conversion to the non-finite Galois boundary and the
 quotient comparison are performed once in this definition
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:162`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:162`). -/
 def chosenDegreeOneFrobeniusLiftOfFiniteTotallyRamified
     (D : DegreeData G)
     (K : FiniteResidueAbstractField D)
@@ -259,9 +254,8 @@ def chosenDegreeOneFrobeniusLiftOfFiniteTotallyRamified
       (L.toGaloisExtensionQuotientMulEquiv q)
 
 /-- The finite totally ramified Frobenius lift has exponent one
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:175`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:175`). -/
 @[simp]
 theorem frobeniusExponent_chosenDegreeOneFrobeniusLiftOfFiniteTotallyRamified
     (D : DegreeData G)
@@ -278,9 +272,8 @@ theorem frobeniusExponent_chosenDegreeOneFrobeniusLiftOfFiniteTotallyRamified
       (L.toGaloisExtensionQuotientMulEquiv q)
 
 /-- The finite totally ramified Frobenius lift restricts to the chosen
-automorphism ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:190`]
-[Yamaguchi2026]). -/
+automorphism (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:190`). -/
 @[simp]
 theorem frobeniusRestriction_chosenDegreeOneFrobeniusLiftOfFiniteTotallyRamified
     (D : DegreeData G)
@@ -309,9 +302,8 @@ theorem frobeniusRestriction_chosenDegreeOneFrobeniusLiftOfFiniteTotallyRamified
   exact h
 
 /-- Underlying quotient form of the preceding finite-bundle theorem
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:216`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:216`). -/
 theorem frobeniusRestriction_chosenDegreeOneFrobeniusLiftOfFiniteTotallyRamified_underlying
     (D : DegreeData G)
     (K : FiniteResidueAbstractField D)
@@ -329,9 +321,8 @@ theorem frobeniusRestriction_chosenDegreeOneFrobeniusLiftOfFiniteTotallyRamified
 
 /-- **The finite Galois extension `M / K` chosen**: it contains both
 `L` and the degree-one Frobenius fixed field `Σ`, and is contained in
-the maximal unramified extension of `L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:233`]
-[Yamaguchi2026]). -/
+the maximal unramified extension of `L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:233`). -/
 def abstractReciprocityTotallyRamifiedFiniteGaloisExtension
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -361,9 +352,8 @@ def abstractReciprocityTotallyRamifiedFiniteGaloisExtension
       finite := M.finite }
 
 /-- The auxiliary reciprocity extension contains the given totally
-ramified extension: its subgroup lies below `G_L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:260`]
-[Yamaguchi2026]). -/
+ramified extension: its subgroup lies below `G_L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:260`). -/
 theorem abstractReciprocityTotallyRamifiedFiniteGaloisExtension_le_L
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -390,9 +380,8 @@ theorem abstractReciprocityTotallyRamifiedFiniteGaloisExtension_le_L
     (FiniteIntermediateField.compositum_le_right SigmaI LI)
 
 /-- The auxiliary reciprocity extension contains the degree-one
-Frobenius fixed field: its subgroup lies below `G_Σ` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:284`]
-[Yamaguchi2026]). -/
+Frobenius fixed field: its subgroup lies below `G_Σ` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:284`). -/
 theorem abstractReciprocityTotallyRamifiedFiniteGaloisExtension_le_sigma
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -422,9 +411,8 @@ theorem abstractReciprocityTotallyRamifiedFiniteGaloisExtension_le_sigma
     (FiniteIntermediateField.compositum_le_left SigmaI LI)
 
 /-- The auxiliary reciprocity field is contained in the maximal
-unramified extension: `G_L̃` lies below its subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:312`]
-[Yamaguchi2026]). -/
+unramified extension: `G_L̃` lies below its subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FrobeniusLift.lean:312`). -/
 theorem maximalUnramifiedField_le_abstractReciprocityTotallyRamifiedFiniteGaloisExtension
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]

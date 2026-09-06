@@ -35,8 +35,9 @@ statement about the reciprocity kernel and stays with Phase 5, not with the defi
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField
@@ -48,7 +49,7 @@ variable (K : Type*) [Field K] [NumberField K]
 
 /-- The **identity component** `C_K°` of the idele class group, as a subgroup
 ([Milne 2020, Chap. V, §5, Rem. 5.7 (a), p.179, and Introduction, pp.11–12][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/IdentityComponent.lean:20`][Yamaguchi2026]). -/
+Yamaguchi 2026, `AlgebraicNumberTheory/Idele/IdentityComponent.lean:20`). -/
 noncomputable def ideleClassIdentityComponent : Subgroup (IdeleClassGroup K) :=
   Subgroup.connectedComponentOfOne (IdeleClassGroup K)
 
@@ -61,16 +62,16 @@ theorem coe_ideleClassIdentityComponent :
 
 /-- The identity component is closed — components are closed, and this is what lets the
 reciprocity kernel of Phase 5 contain the closure Milne describes
-([Milne 2020, Chap. V, §5, Rem. 5.7 (a), p.179][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/IdentityComponent.lean:30`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §5, Rem. 5.7 (a), p.179][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/IdentityComponent.lean:30`). -/
 theorem ideleClassIdentityComponent_isClosed :
     IsClosed (ideleClassIdentityComponent K : Set (IdeleClassGroup K)) :=
   isClosed_connectedComponent
 
 /-- The **component quotient** `C_K / C_K°` — the group global reciprocity identifies with
 the Galois group of the maximal abelian extension, in Phase 5's vocabulary
-([Milne 2020, Introduction, pp.11–12][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/IdentityComponent.lean:40`][Yamaguchi2026]). -/
+([Milne 2020, Introduction, pp.11–12][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/IdentityComponent.lean:40`). -/
 abbrev ideleClassComponentQuotient : Type _ :=
   IdeleClassGroup K ⧸ ideleClassIdentityComponent K
 

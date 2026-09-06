@@ -51,8 +51,9 @@ outright.
   York, 1979.
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -133,9 +134,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 /-- When `K` contains the `n`-th roots of unity and `n` is a unit, `n` divides `q - 1`: the
 `n` roots of unity reduce injectively into the residue units, and Lagrange counts. This is
 what makes the exponent `(q - 1) / n` of the tame formula the literature's integer
-([Serre 1979, Chap. XIV, §3, Example, p.210][Serre1979];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:380`][Yamaguchi2026]). -/
+([Serre 1979, Chap. XIV, §3, Example, p.210][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:380`). -/
 theorem dvd_card_residueField_sub_one {n : ℕ} (hn : valuation K ((n : ℕ) : K) = 1)
     (hmu : (primitiveRoots n K).Nonempty) : n ∣ Nat.card 𝓀[K] - 1 := by
   have hn0 : n ≠ 0 := by rintro rfl; simp at hn
@@ -205,10 +205,9 @@ Hilbert symbol `(a, b)` is congruent modulo the maximal ideal to
 `((-1) ^ (v a · v b) · a ^ v b · b ^ (- v a)) ^ ((q - 1) / n)` — Serre's
 `c = (-1)^{αβ} a^β / b^α` raised to `(q - 1) / n`, read through the reduction that
 `eq_one_of_pow_eq_one_of_valuation_sub_one_lt` makes exact. Claim recorded ahead of its
-proof ([Serre 1979, Chap. XIV, §3, Prop. 8 and Cor., pp.210–211][Serre1979];
-[Yamaguchi 2026,
+proof ([Serre 1979, Chap. XIV, §3, Prop. 8 and Cor., pp.210–211][Serre1979]; Yamaguchi 2026,
 `LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:937`, the unit-first special
-case][Yamaguchi2026]). -/
+case). -/
 theorem localHilbertSymbol_tame_formula {n : ℕ} {h : Kˣ → Kˣ → Kˣ}
     (hh : IsLocalHilbertSymbol K n h) (hn : valuation K ((n : ℕ) : K) = 1)
     (hmu : (primitiveRoots n K).Nonempty) (a b : Kˣ) :

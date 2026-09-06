@@ -54,8 +54,9 @@ reading the layer replaces.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -69,9 +70,9 @@ universe u
 /-- **The top-field residue dictionary in the relative spelling**: the
 abstract residue degree of the top field of a finite unramified cyclic
 extension is the residue finrank of its relative fixed field
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:123`]
-[Yamaguchi2026], read at the relative spelling). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:123`,
+read at the relative spelling). -/
 theorem localResidueDatum_residueDegree_top_eq_relativeResidueFinrank
     (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K]
@@ -108,9 +109,8 @@ finite unramified cyclic extension of the local datum has trivial
 zeroth ramification group at its fixed fields — the inertia half of
 the local unramified-unit-cohomology discharge. The source's
 comparison of the two notions runs the other way, on realizations
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:291`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:291`). -/
 theorem lowerRamificationGroup_eq_bot_of_isUnramified
     (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsMixedCharLocalField K]

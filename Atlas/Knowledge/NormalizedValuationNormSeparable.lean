@@ -44,8 +44,9 @@ valuation-extension instances, reached through the layer's
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -89,9 +90,9 @@ theorem integerValuation_intNorm_of_irreducible {ϖ : ↥𝒪[L]} (hϖ : Irreduc
 separable extension: `v_K(N y) = f · v_L(y)` — a uniformizer decomposition of `y`, the
 norm of an integer unit landing at value zero and the norm of the uniformizer at `f`.
 The pointwise law the reciprocity engine's `norm_range` axiom is discharged from
-([Serre 1979, Chap. I, §5, p.16][Serre1979];
-[Yamaguchi 2026, `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableNormValuation.lean:513`,
-`v_normUnits_eq_residue_finrank_mul_of_isSeparable`][Yamaguchi2026]). -/
+([Serre 1979, Chap. I, §5, p.16][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableNormValuation.lean:513`,
+`v_normUnits_eq_residue_finrank_mul_of_isSeparable`). -/
 theorem normalizedValuation_norm_of_isSeparable (y : Lˣ) :
     normalizedValuation K (Units.map ((Algebra.norm K) : L →* K) y) =
       (Ideal.inertiaDeg (𝓂[L] : Ideal ↥𝒪[L]) ↥𝒪[K] : ℤ) * normalizedValuation L y := by

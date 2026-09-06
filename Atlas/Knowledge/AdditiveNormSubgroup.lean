@@ -26,8 +26,9 @@ only slice of that file the quotient transport consumes.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -37,15 +38,14 @@ noncomputable section
 universe u
 
 /-- The additive subgroup of `Additive Kˣ` attached to the
-multiplicative norm subgroup ([Yamaguchi 2026,
-`CyclicCohomology/TateH0/NormImage.lean:108`][Yamaguchi2026]). -/
+multiplicative norm subgroup (Yamaguchi 2026,
+`CyclicCohomology/TateH0/NormImage.lean:108`). -/
 def additiveNormSubgroup (K L : Type u) [Field K] [Field L] [Algebra K L] :
     AddSubgroup (Additive Kˣ) :=
   (localNormSubgroup K L).toAddSubgroup
 
 /-- The additive norm subgroup is the kernel of the norm-quotient map
-([Yamaguchi 2026,
-`CyclicCohomology/TateH0/NormImage.lean:113`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `CyclicCohomology/TateH0/NormImage.lean:113`). -/
 lemma additiveNormSubgroup_eq_ker_quotient_map (K L : Type u)
     [Field K] [Field L] [Algebra K L] :
     additiveNormSubgroup K L =

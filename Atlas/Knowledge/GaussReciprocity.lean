@@ -43,8 +43,9 @@ Jacobi symbol) is the future work that would close that loop formally.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberTheorySymbols
@@ -56,11 +57,9 @@ namespace Atlas.Knowledge
 sign `(-1)^{a/2 · b/2}`: the infinite factor is trivial on positives and the sole
 exponent place is the dyadic one, whose wild Hilbert symbol Milne's formula
 `(u2^r, v2^s)_2 = (-1)^{(u-1)/2·(v-1)/2 + r(v²-1)/8 + s(u²-1)/8}` evaluates. Claim
-recorded ahead of its proof
-([Milne 2020, Chap. VIII, §5, p.248][MilneCFT];
-[Yamaguchi 2026,
-`GlobalClassFieldTheory/Reciprocity/RationalQuadraticPowerResidueReciprocity.lean:980`]
-[Yamaguchi2026]). -/
+recorded ahead of its proof ([Milne 2020, Chap. VIII, §5, p.248][MilneCFT];
+Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/RationalQuadraticPowerResidueReciprocity.lean:980`). -/
 theorem powerResidueBadPlaceCorrection_rat_two
     (h : ∀ _v : HeightOneSpectrum (𝓞 ℚ), ℚˣ → ℚˣ → ℚˣ)
     (hh : ∀ v, IsFinitePlaceHilbertSymbol ℚ 2 v (h v))
@@ -75,10 +74,9 @@ theorem powerResidueBadPlaceCorrection_rat_two
 reciprocity with the dyadic correction evaluated, proved here from Mathlib's
 `jacobiSym.quadratic_reciprocity`; the statements differ by the coprimality that cancels
 `J(b|a)²`, and the tie to the recorded class-field chain is future work
-([Milne 2020, Chap. VIII, §5, pp.243, 248][MilneCFT];
-[Yamaguchi 2026,
+([Milne 2020, Chap. VIII, §5, pp.243, 248][MilneCFT]; Yamaguchi 2026,
 `GlobalClassFieldTheory/Reciprocity/RationalQuadraticPowerResidueReciprocity.lean:1040`,
-identification at `:1202`][Yamaguchi2026]). -/
+identification at `:1202`). -/
 theorem gaussReciprocity {a b : ℕ} (ha : Odd a) (hb : Odd b) (hab : a.Coprime b) :
     J(a | b) * J(b | a) = (-1) ^ (a / 2 * (b / 2)) := by
   have hsq : J(b | a) ^ 2 = 1 := by

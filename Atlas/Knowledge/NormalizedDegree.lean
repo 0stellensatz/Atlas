@@ -43,8 +43,9 @@ multiplication throughout, as in the `ℤ̂` item.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -56,7 +57,8 @@ variable {G : Type*} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The degree image, written additively** in `ℤ̂`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:20`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Frobenius.lean:20`). -/
 def fieldImageAdd (D : DegreeData G) (K : ClosedSubgroup G) :
     AddSubgroup ProfiniteInteger :=
   Subgroup.toAddSubgroup' (D.fieldImage K)
@@ -73,7 +75,7 @@ theorem fieldImageAdd_index (D : DegreeData G)
 
 /-- **Finite residue degree identifies `d(G_K)` with `f_K·ℤ̂`** — the
 classification of finite-index subgroups of `ℤ̂` read at the degree image
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:34`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:34`). -/
 theorem fieldImageAdd_eq_spanAddSubgroup (D : DegreeData G)
     (K : FiniteResidueAbstractField D) :
     D.fieldImageAdd K.field =
@@ -100,7 +102,8 @@ theorem restrictedDegreeInSpan_coe (D : DegreeData G)
   rfl
 
 /-- **The normalized degree** `d_K = (1/f_K)·d`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:59`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Frobenius.lean:59`). -/
 def normalizedDegree (D : DegreeData G) (K : FiniteResidueAbstractField D) :
     K.field.toSubgroup →ₜ* ProfiniteIntegerMul where
   toFun k := Multiplicative.ofAdd
@@ -152,8 +155,8 @@ theorem residueDegree_nsmul_normalizedDegree (D : DegreeData G)
   exact ProfiniteInteger.mul_divide (K.residueDegree : ℕ)
     (D.restrictedDegreeInSpan K k)
 
-/-- **The normalized degree is surjective**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:112`][Yamaguchi2026]). -/
+/-- **The normalized degree is surjective** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Frobenius.lean:112`). -/
 theorem normalizedDegree_surjective (D : DegreeData G)
     (K : FiniteResidueAbstractField D) :
     Function.Surjective (D.normalizedDegree K) := by
@@ -175,7 +178,8 @@ theorem normalizedDegree_surjective (D : DegreeData G)
   exact congrArg Multiplicative.toAdd hk
 
 /-- **The kernel of the normalized degree is the inertia**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:132`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Frobenius.lean:132`). -/
 theorem normalizedDegree_ker (D : DegreeData G)
     (K : FiniteResidueAbstractField D) :
     (D.normalizedDegree K).toMonoidHom.ker = D.fieldInertiaWithin K.field := by
@@ -203,7 +207,8 @@ private theorem fieldInertiaWithin_le_normalizedDegree_ker
   rw [D.normalizedDegree_ker K]
 
 /-- **The isomorphism** `d_K : G(K̃|K) ≃ ℤ̂`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:159`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Frobenius.lean:159`). -/
 def maximalUnramifiedDegreeEquiv (D : DegreeData G)
     (K : FiniteResidueAbstractField D) :
     (K.field.toSubgroup ⧸ D.fieldInertiaWithin K.field) ≃* ProfiniteIntegerMul := by
@@ -240,7 +245,8 @@ theorem maximalUnramifiedDegreeEquiv_mk (D : DegreeData G)
   rfl
 
 /-- **The Frobenius over `K`**: the unique class with `d_K(φ_K) = 1`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:195`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Frobenius.lean:195`). -/
 def frobenius (D : DegreeData G) (K : FiniteResidueAbstractField D) :
     K.field.toSubgroup ⧸ D.fieldInertiaWithin K.field :=
   (D.maximalUnramifiedDegreeEquiv K).symm
@@ -255,7 +261,8 @@ theorem maximalUnramifiedDegreeEquiv_frobenius (D : DegreeData G)
   (D.maximalUnramifiedDegreeEquiv K).apply_symm_apply _
 
 /-- **The uniqueness clause of the Frobenius**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:209`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Frobenius.lean:209`). -/
 theorem eq_frobenius_iff (D : DegreeData G)
     (K : FiniteResidueAbstractField D)
     (σ : K.field.toSubgroup ⧸ D.fieldInertiaWithin K.field) :
@@ -272,7 +279,7 @@ theorem eq_frobenius_iff (D : DegreeData G)
 end DegreeData
 
 /-- **Residue degrees multiply to the absolute one**: `f_{L|K} · f_K = f_L`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:224`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:224`). -/
 theorem FiniteResidueAbstractExtension.residueDegree_mul_absoluteResidueDegree
     (D : DegreeData G) (E : FiniteResidueAbstractExtension D) :
     (E.residueDegree : ℕ) * (E.base.residueDegree : ℕ) =
@@ -300,7 +307,8 @@ theorem frobeniusRestrictionNaturality_residueDegree (D : DegreeData G)
   exact (Nat.mul_div_cancel_left _ E.base.residueDegree.property).symm
 
 /-- **The commutative square on `G_L`**: `d_K = f_{L|K}·d_L`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:251`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Frobenius.lean:251`). -/
 theorem frobeniusRestrictionNaturality_normalizedDegree (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D)
     (l : E.field.field.toSubgroup) :
@@ -326,7 +334,8 @@ private theorem fieldInertiaWithin_le_comap_inclusion
   exact hl
 
 /-- **Restriction** `G(L̃|L) → G(K̃|K)` for `L | K`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:278`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Frobenius.lean:278`). -/
 def maximalUnramifiedRestriction (D : DegreeData G) {L K : ClosedSubgroup G}
     (hLK : L.toSubgroup ≤ K.toSubgroup) :
     (L.toSubgroup ⧸ D.fieldInertiaWithin L) →*
@@ -356,7 +365,8 @@ theorem frobeniusRestrictionNaturality_quotient_square (D : DegreeData G)
   simpa using D.frobeniusRestrictionNaturality_normalizedDegree E l
 
 /-- **Frobenius restriction is a power**: `φ_L|_K̃ = φ_K^{f_{L|K}}`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Frobenius.lean:309`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Frobenius.lean:309`). -/
 theorem frobenius_restriction_eq_power (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) :
     D.maximalUnramifiedRestriction E.below (D.frobenius E.field) =

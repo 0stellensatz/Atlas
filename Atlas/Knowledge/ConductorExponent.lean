@@ -51,8 +51,9 @@ full generality. Declarations touching the subtype `↥(𝓂[K] ^ m)` carry a sc
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -64,8 +65,8 @@ set_option synthInstance.maxHeartbeats 40000 in
 /-- The **conductor exponent** of an extension `L` of a valued field `K`: the least level
 `n` whose unit step — the units of `𝒪[K]` congruent to `1` modulo `𝓂[K] ^ n`, read in `Kˣ`
 — lies in the norm group of `L` over `K`, as an element of `ℕ∞`, with `⊤` when no level
-works ([Serre 1979, Chap. XV, §2, Cor. 2 to Thm. 1, p.228][Serre1979];
-[Yamaguchi 2026, `LocalClassFieldTheory/Finite/Conductor.lean:48`][Yamaguchi2026]). -/
+works ([Serre 1979, Chap. XV, §2, Cor. 2 to Thm. 1, p.228][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Conductor.lean:48`). -/
 noncomputable def conductorExponent (K L : Type*) [Field K] [ValuativeRel K]
     [Field L] [Algebra K L] : ℕ∞ :=
   sInf {n : ℕ∞ | ∃ m : ℕ, n = m ∧
@@ -107,8 +108,8 @@ theorem conductorExponent_le_iff (K L : Type*) [Field K] [ValuativeRel K]
 finite: the norm subgroup is open and the unit steps are cofinal among neighborhoods of `1`.
 This is the identification with the source's ℕ-valued conductor, and the one genuinely
 class-field-theoretic input of the item. Claim recorded ahead of its proof
-([Serre 1979, Chap. XV, §2, Cor. 2 to Thm. 1, p.228][Serre1979];
-[Yamaguchi 2026, `LocalClassFieldTheory/Finite/Conductor.lean:35`][Yamaguchi2026]). -/
+([Serre 1979, Chap. XV, §2, Cor. 2 to Thm. 1, p.228][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Conductor.lean:35`). -/
 theorem conductorExponent_ne_top (K L : Type*) [Field K] [ValuativeRel K]
     [TopologicalSpace K] [IsNonarchimedeanLocalField K]
     [Field L] [Algebra K L] [FiniteDimensional K L] [IsAbelianGalois K L] :
@@ -124,9 +125,8 @@ variable (K L : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-- The conductor exponent as the cutoff of the Artin images: the reciprocity image of the
 `n`th higher unit group is trivial iff `n` reaches the exponent. Claim recorded ahead of its
-proof ([Serre 1979, Chap. XV, §2, Cor. 3 to Thm. 1, p.228][Serre1979];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/Core.lean:43`][Yamaguchi2026]). -/
+proof ([Serre 1979, Chap. XV, §2, Cor. 3 to Thm. 1, p.228][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/Core.lean:43`). -/
 theorem conductorExponent_cutoff (ρ : Kˣ →* (L ≃ₐ[K] L))
     (hρ : IsArtinRestriction K L ρ) (n : ℕ+) :
     Subgroup.map ρ (higherUnitGroup K n) = ⊥ ↔
@@ -135,10 +135,8 @@ theorem conductorExponent_cutoff (ρ : Kˣ →* (L ≃ₐ[K] L))
 
 /-- The `U^0` endpoint of the cutoff: the reciprocity image of the full unit group is
 trivial iff the conductor exponent is `0` — iff the extension is unramified. Claim recorded
-ahead of its proof
-([Serre 1979, Chap. XV, §2, Cor. 3 to Thm. 1, p.228][Serre1979];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/Core.lean:43`][Yamaguchi2026]). -/
+ahead of its proof ([Serre 1979, Chap. XV, §2, Cor. 3 to Thm. 1, p.228][Serre1979];
+Yamaguchi 2026, `LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/Core.lean:43`). -/
 theorem conductorExponent_cutoff_zero (ρ : Kˣ →* (L ≃ₐ[K] L))
     (hρ : IsArtinRestriction K L ρ) :
     Subgroup.map ρ (MonoidHom.range (Units.map (𝒪[K].subtype : ↥𝒪[K] →* K))) = ⊥ ↔

@@ -22,8 +22,9 @@ source is `AlgebraicNumberTheory/SeparableClosureEmbedding.lean`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -36,9 +37,8 @@ variable (K : Type u) (L : Type v) [Field K] [Field L] [Algebra K L]
   [Algebra.IsSeparable K L]
 
 /-- **A chosen embedding of a separable extension into the separable
-closure of its base field** ([Yamaguchi 2026,
-`AlgebraicNumberTheory/SeparableClosureEmbedding.lean:56`]
-[Yamaguchi2026]). -/
+closure of its base field** (Yamaguchi 2026,
+`AlgebraicNumberTheory/SeparableClosureEmbedding.lean:56`). -/
 noncomputable def separableEmbeddingIntoSeparableClosure :
     L →ₐ[K] SeparableClosure K :=
   IsSepClosed.lift

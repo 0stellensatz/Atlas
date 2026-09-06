@@ -30,8 +30,9 @@ drops out here.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -45,9 +46,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /- The inclusion of inertia cosets into the finite extension cosets
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:33`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:33`). -/
 private noncomputable def inertiaCosetToExtensionCoset (D : DegreeData G)
     (K L : ClosedSubgroup G) :
     ((D.maximalUnramifiedField K).toSubgroup ⧸
@@ -62,9 +62,8 @@ private noncomputable def inertiaCosetToExtensionCoset (D : DegreeData G)
       rw [QuotientGroup.leftRel_apply] at hxy ⊢
       exact hxy.1)
 
-/- The coset inclusion is injective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:48`]
-[Yamaguchi2026]). -/
+/- The coset inclusion is injective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:48`). -/
 private theorem inertiaCosetToExtensionCoset_injective (D : DegreeData G)
     (K L : ClosedSubgroup G) :
     Function.Injective (D.inertiaCosetToExtensionCoset K L) := by
@@ -85,9 +84,8 @@ private theorem inertiaCosetToExtensionCoset_injective (D : DegreeData G)
     show D.degree b.1 = 1 from b.2.2]
   simp
 
-/-- **The extension `L̃ | K̃` is finite when `L | K` is** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:70`]
-[Yamaguchi2026]). -/
+/-- **The extension `L̃ | K̃` is finite when `L | K` is** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:70`). -/
 theorem maximalUnramifiedExtension_finite (D : DegreeData G)
     (K L : ClosedSubgroup G)
     [Finite (K.toSubgroup ⧸ L.toSubgroup.subgroupOf K.toSubgroup)] :
@@ -98,9 +96,8 @@ theorem maximalUnramifiedExtension_finite (D : DegreeData G)
   Finite.of_injective (D.inertiaCosetToExtensionCoset K L)
     (D.inertiaCosetToExtensionCoset_injective K L)
 
-/- The inertia quotient maps into the degree kernel ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:83`]
-[Yamaguchi2026]). -/
+/- The inertia quotient maps into the degree kernel (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:83`). -/
 private noncomputable def inertiaCosetToDegreeKernel (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -125,9 +122,8 @@ private noncomputable def inertiaCosetToDegreeKernel (D : DegreeData G)
       rw [QuotientGroup.leftRel_apply] at hxy
       exact hxy)
 
-/- The kernel comparison is bijective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:108`]
-[Yamaguchi2026]). -/
+/- The kernel comparison is bijective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:108`). -/
 private theorem inertiaCosetToDegreeKernel_bijective (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -173,9 +169,8 @@ private theorem inertiaCosetToDegreeKernel_bijective (D : DegreeData G)
 
 /-- **The Galois quotient `G(L̃|K̃)` is the kernel of `d_K` in `G(L̃|K)`**
 — the canonical actual-group identification of the Frobenius norm-identity
-lemma ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:151`]
-[Yamaguchi2026]). -/
+lemma (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:151`). -/
 noncomputable def inertiaQuotientDegreeKernelEquiv (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)

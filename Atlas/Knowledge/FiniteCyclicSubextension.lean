@@ -27,8 +27,9 @@ layer.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -41,9 +42,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **A finite cyclic extension of a bundled finite abstract field** — the
 generator and its cyclicity proof travel with the finite normal extension
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:30`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:30`). -/
 structure FiniteCyclicSubextension (K : FiniteAbstractField G) where
   /-- The closed subgroup representing the top field. -/
   field : ClosedSubgroup G
@@ -65,9 +65,8 @@ namespace FiniteCyclicSubextension
 variable {K : FiniteAbstractField G}
 
 /-- Forget the cyclic generator and normality, retaining the underlying
-finite abstract extension ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:52`]
-[Yamaguchi2026]). -/
+finite abstract extension (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:52`). -/
 def toFiniteAbstractExtension (E : FiniteCyclicSubextension K) :
     FiniteAbstractExtension G where
   field := E.field
@@ -76,24 +75,21 @@ def toFiniteAbstractExtension (E : FiniteCyclicSubextension K) :
   finiteQuotient := E.finite
 
 /-- Structural unramifiedness of the underlying finite extension
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:60`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:60`). -/
 def IsUnramified (E : FiniteCyclicSubextension K) (D : DegreeData G) : Prop :=
   E.toFiniteAbstractExtension.IsUnramified D
 
 /-- Structural total ramification of the underlying finite extension
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:64`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:64`). -/
 def IsTotallyRamified (E : FiniteCyclicSubextension K)
     (D : DegreeData G) : Prop :=
   E.toFiniteAbstractExtension.IsTotallyRamified D
 
 /-- Retain the finite-over-base endpoint bundles as well as the relative
-finite quotient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:71`]
-[Yamaguchi2026]). -/
+finite quotient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:71`). -/
 def toFiniteAbstractFieldExtension
     (E : FiniteCyclicSubextension K) : FiniteAbstractFieldExtension G := by
   letI : Finite
@@ -103,26 +99,23 @@ def toFiniteAbstractFieldExtension
   exact FiniteAbstractFieldExtension.ofInclusion E.field K E.below
 
 /-- A finite cyclic subextension supplies normality of its relative subgroup
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:79`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:79`). -/
 instance (E : FiniteCyclicSubextension K) :
     (E.field.toSubgroup.subgroupOf K.field.toSubgroup).Normal :=
   E.normal
 
 /-- A finite cyclic subextension supplies finiteness of its Galois quotient
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:84`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:84`). -/
 instance (E : FiniteCyclicSubextension K) :
     Finite (K.field.toSubgroup ⧸
       E.field.toSubgroup.subgroupOf K.field.toSubgroup) :=
   E.finite
 
 /-- The finite quotient of a cyclic subextension, canonically enumerated
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:89`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:89`). -/
 noncomputable instance (E : FiniteCyclicSubextension K) :
     Fintype (K.field.toSubgroup ⧸
       E.field.toSubgroup.subgroupOf K.field.toSubgroup) :=

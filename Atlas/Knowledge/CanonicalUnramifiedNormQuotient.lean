@@ -49,8 +49,9 @@ rule does, for the simp-normal-form linter.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -65,17 +66,15 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 namespace ValuationData
 
 /-- Reduction modulo `n` restricted to the actual value subgroup
-`Z ⊆ ℤ̂` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:30`]
-[Yamaguchi2026]). -/
+`Z ⊆ ℤ̂` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:30`). -/
 def canonicalValueReduction
     (v : ValuationData D A) (n : ℕ) [NeZero n] :
     v.valueGroup →+ ZMod n :=
   v.valueModulo n
 
-/-- The canonical value reduction sends the one-value to one ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:37`]
-[Yamaguchi2026]). -/
+/-- The canonical value reduction sends the one-value to one (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:37`). -/
 @[simp]
 theorem canonicalValueReduction_one
     (v : ValuationData D A) (n : ℕ) [NeZero n] :
@@ -83,17 +82,15 @@ theorem canonicalValueReduction_one
   change ProfiniteInteger.reduction n (1 : ProfiniteInteger) = 1
   rfl
 
-/-- The canonical value reduction is surjective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:44`]
-[Yamaguchi2026]). -/
+/-- The canonical value reduction is surjective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:44`). -/
 theorem canonicalValueReduction_surjective
     (v : ValuationData D A) (n : ℕ) [NeZero n] :
     Function.Surjective (v.canonicalValueReduction n) :=
   v.valueModulo_surjective n
 
-/-- Canonical reduction descended to `Z/nZ` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:50`]
-[Yamaguchi2026]). -/
+/-- Canonical reduction descended to `Z/nZ` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:50`). -/
 def canonicalValueQuotientHom
     (v : ValuationData D A) (n : ℕ) [NeZero n] :
     (v.valueGroup ⧸ nsmulWithin v.valueGroup n) →+ ZMod n :=
@@ -110,26 +107,23 @@ theorem canonicalValueQuotientHom_mk
         v.canonicalValueReduction n z := by
   rfl
 
-/-- The induced canonical value map on the quotient is surjective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:66`]
-[Yamaguchi2026]). -/
+/-- The induced canonical value map on the quotient is surjective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:66`). -/
 theorem canonicalValueQuotientHom_surjective
     (v : ValuationData D A) (n : ℕ) [NeZero n] :
     Function.Surjective (v.canonicalValueQuotientHom n) :=
   (v.canonical_value_quotient_bijective n).2
 
 /-- The canonical isomorphism `Z/nZ ≃ ℤ/nℤ` from the valuation-quotient
-axiom ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:72`]
-[Yamaguchi2026]). -/
+axiom (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:72`). -/
 def canonicalValueQuotientEquiv
     (v : ValuationData D A) (n : ℕ) [NeZero n] :
     (v.valueGroup ⧸ nsmulWithin v.valueGroup n) ≃+ ZMod n :=
   v.cyclic_value_quotients n
 
-/-- Canonical valuation modulo `[L : K]` on `A_K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:78`]
-[Yamaguchi2026]). -/
+/-- Canonical valuation modulo `[L : K]` on `A_K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:78`). -/
 def canonicalUnramifiedValuationHom
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G) :
     ambientFixedAddSubgroup A E.base.field →+ ZMod (E.degree : ℕ) :=
@@ -137,9 +131,8 @@ def canonicalUnramifiedValuationHom
   (v.canonicalValueReduction (E.degree : ℕ)).comp
     (v.valuationAt E.base)
 
-/- Norms die under the canonical valuation ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:84`]
-[Yamaguchi2026]). -/
+/- Norms die under the canonical valuation (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:84`). -/
 private theorem finiteNormSubgroup_le_canonicalUnramifiedValuationHom_ker
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hUnramified : E.IsUnramified D) :
@@ -167,9 +160,8 @@ private theorem finiteNormSubgroup_le_canonicalUnramifiedValuationHom_ker
   simp [n]
 
 /-- The canonical valuation induced on the finite unramified norm
-quotient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:113`]
-[Yamaguchi2026]). -/
+quotient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:113`). -/
 def canonicalUnramifiedNormQuotientValuation
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hUnramified : E.IsUnramified D) :
@@ -192,9 +184,8 @@ theorem canonicalUnramifiedNormQuotientValuation_finiteNormClass
         v.canonicalUnramifiedValuationHom E a := by
   rfl
 
-/-- The valuation map from the unramified norm quotient is surjective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:135`]
-[Yamaguchi2026]). -/
+/-- The valuation map from the unramified norm quotient is surjective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:135`). -/
 theorem canonicalUnramifiedNormQuotientValuation_surjective
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hUnramified : E.IsUnramified D) :
@@ -212,9 +203,8 @@ theorem canonicalUnramifiedNormQuotientValuation_surjective
   exact hw
 
 /-- **The valuation map separates classes in the unramified norm
-quotient** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:152`]
-[Yamaguchi2026]). -/
+quotient** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:152`). -/
 theorem canonicalUnramifiedNormQuotientValuation_injective
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)
     (E : FiniteAbstractFieldExtension G)
@@ -313,9 +303,8 @@ theorem canonicalUnramifiedNormQuotientValuation_injective
   rw [map_sub, hxy, sub_self]
 
 /-- **Canonical form of the valuation isomorphism in the unramified
-norm-quotient equivalence** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:256`]
-[Yamaguchi2026]). -/
+norm-quotient equivalence** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CanonicalUnramifiedNormQuotient.lean:256`). -/
 def canonicalUnramifiedNormQuotientEquiv
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)
     (E : FiniteAbstractFieldExtension G)

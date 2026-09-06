@@ -113,8 +113,9 @@ Frobenius's ambient spelling, and a base-spelling `Abelianization.of`.
   2020.
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -137,9 +138,9 @@ variable [IsGalois K L]
 prime to the class of the realized arithmetic Frobenius: the merged
 abstract generator calculation, carried through the reciprocity
 transport down to `Atlas.Knowledge.localArtinMonoidHom` ([Serre 1979,
-Chap. XIII, §4, Prop. 13, p.197][Serre1979]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:195`]
-[Yamaguchi2026], which lands on its constructed Frobenius under its
+Chap. XIII, §4, Prop. 13, p.197][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:195`,
+which lands on its constructed Frobenius under its
 unramified-valued-extension hypothesis). -/
 theorem localArtinMonoidHom_localAbstractPrimeFieldUnit
     (h : lowerRamificationGroup K L 0 = ⊥) :
@@ -421,9 +422,9 @@ variable [ValuativeRel L] [TopologicalSpace L] [ValuativeExtension K L]
 /-- The full unramified Artin formula: the constructed local Artin
 map sends every field unit to the class of the realized arithmetic
 Frobenius raised to its normalized valuation ([Serre 1979, Chap. XIII,
-§4, Prop. 13, p.197][Serre1979]; [Yamaguchi 2026,
+§4, Prop. 13, p.197][Serre1979]; Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:383`,
-valuation sign reversed][Yamaguchi2026]). -/
+valuation sign reversed). -/
 theorem localArtinMonoidHom_eq_frobenius_zpow
     (h : lowerRamificationGroup K L 0 = ⊥) (x : Kˣ) :
     localArtinMonoidHom K L x =
@@ -477,9 +478,9 @@ unramified levels** — the arithmetic normalization of local class field
 theory, stated through the layer's predicate against every arithmetic
 Frobenius, which trivial inertia pins to the realization ([Serre 1979,
 Chap. XIII, §4, Prop. 13, p.197][Serre1979]; [Milne 2020, Chap. I, §1,
-Thm. 1.1 (a), p.20][MilneCFT]; [Yamaguchi 2026,
+Thm. 1.1 (a), p.20][MilneCFT]; Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:479`,
-at the layer's valuation sign][Yamaguchi2026]). -/
+at the layer's valuation sign). -/
 theorem isFrobeniusNormalized_abelianLocalArtinMonoidHom
     (h : lowerRamificationGroup K L 0 = ⊥) :
     IsFrobeniusNormalized K L (abelianLocalArtinMonoidHom K L) := by
@@ -499,10 +500,10 @@ theorem isFrobeniusNormalized_abelianLocalArtinMonoidHom
 Frobenius under the abelian local Artin homomorphism** — uniformizer to
 Frobenius, read at every uniformizer rather than at a chosen one
 ([Milne 2020, Chap. I, §1, Thm. 1.1 (a), p.20][MilneCFT];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:366`]
-[Yamaguchi2026], its chosen-inverse-uniformizer form at the opposite
-sign, with the topological `@[simp]` reading at its `:437`). -/
+Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:366`,
+its chosen-inverse-uniformizer form at the opposite sign, with the
+topological `@[simp]` reading at its `:437`). -/
 theorem isArithmeticFrobenius_abelianLocalArtinMonoidHom
     (h : lowerRamificationGroup K L 0 = ⊥) (u : Kˣ)
     (hu : normalizedValuation K u = 1) :

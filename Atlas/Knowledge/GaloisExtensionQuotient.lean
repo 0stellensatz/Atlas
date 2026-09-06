@@ -37,8 +37,9 @@ provides. The remaining normality statement is an instance, keyed to
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -51,9 +52,8 @@ variable (K : Type u) (Ω : Type v) [Field K] [Field Ω] [Algebra K Ω]
   [IsGalois K Ω]
 
 /-- **The bottom fixing subgroup is the engine's base field**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:25`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:25`). -/
 theorem closedFixingSubgroup_bot_eq_baseField :
     closedFixingSubgroup (⊥ : IntermediateField K Ω) =
       baseField (Ω ≃ₐ[K] Ω) := by
@@ -63,9 +63,8 @@ theorem closedFixingSubgroup_bot_eq_baseField :
   rw [IntermediateField.fixingSubgroup_bot]
 
 /-- The fixing subgroup of an intermediate field lies in the bottom fixing
-subgroup ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:35`]
-[Yamaguchi2026]). -/
+subgroup (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:35`). -/
 theorem fixingSubgroupLeBase
     (E : IntermediateField K Ω) :
     (closedFixingSubgroup E).toSubgroup ≤
@@ -73,18 +72,16 @@ theorem fixingSubgroupLeBase
   IntermediateField.fixingSubgroup_le bot_le
 
 /-- The fixing subgroup of a Galois subextension is normal in the ambient
-Galois group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:54`]
-[Yamaguchi2026]). -/
+Galois group (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:54`). -/
 instance closedFixingSubgroup_normal
     (E : IntermediateField K Ω) [IsGalois K E] :
     (closedFixingSubgroup E).toSubgroup.Normal :=
   (InfiniteGalois.normal_iff_isGalois E).2 inferInstance
 
 /-- Restriction to the ambient quotient by the fixing subgroup of `E`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:71`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:71`). -/
 def baseFixingToAmbientQuotient
     (E : IntermediateField K Ω) [IsGalois K E] :
     (closedFixingSubgroup (⊥ : IntermediateField K Ω)).toSubgroup →*
@@ -93,9 +90,8 @@ def baseFixingToAmbientQuotient
     (closedFixingSubgroup (⊥ : IntermediateField K Ω)).toSubgroup.subtype
 
 /-- **The kernel of the ambient quotient map is the engine's relative
-subgroup** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:80`]
-[Yamaguchi2026]). -/
+subgroup** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:80`). -/
 theorem baseFixingToAmbientQuotient_ker
     (E : IntermediateField K Ω) [IsGalois K E] :
     (baseFixingToAmbientQuotient K Ω E).ker =
@@ -107,9 +103,8 @@ theorem baseFixingToAmbientQuotient_ker
       x.1 ∈ (closedFixingSubgroup E).toSubgroup
   exact QuotientGroup.eq_one_iff x.1
 
-/-- The ambient quotient map is onto ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:95`]
-[Yamaguchi2026]). -/
+/-- The ambient quotient map is onto (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:95`). -/
 theorem baseFixingToAmbientQuotient_surjective
     (E : IntermediateField K Ω) [IsGalois K E] :
     Function.Surjective (baseFixingToAmbientQuotient K Ω E) := by
@@ -125,9 +120,8 @@ theorem baseFixingToAmbientQuotient_surjective
   exact ⟨⟨σ, hσ⟩, rfl⟩
 
 /-- **The engine's quotient at the base is the ambient quotient** by the
-fixing subgroup of `E` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:111`]
-[Yamaguchi2026]). -/
+fixing subgroup of `E` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:111`). -/
 def baseFixingExtensionQuotientEquivAmbient
     (E : IntermediateField K Ω) [IsGalois K E] :
     ((closedFixingSubgroup (⊥ : IntermediateField K Ω)).toSubgroup ⧸
@@ -140,9 +134,8 @@ def baseFixingExtensionQuotientEquivAmbient
       (baseFixingToAmbientQuotient K Ω E)
       (baseFixingToAmbientQuotient_surjective K Ω E))
 
-/-- The ambient reading acts on representatives ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:126`]
-[Yamaguchi2026]). -/
+/-- The ambient reading acts on representatives (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:126`). -/
 @[simp]
 theorem baseFixingExtensionQuotientEquivAmbient_mk
     (E : IntermediateField K Ω) [IsGalois K E]
@@ -153,9 +146,8 @@ theorem baseFixingExtensionQuotientEquivAmbient_mk
   rfl
 
 /-- **The engine's quotient at the base is `Gal(E/K)`** for a Galois
-subextension ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:136`]
-[Yamaguchi2026]). -/
+subextension (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/GaloisExtensionQuotient.lean:136`). -/
 def baseFixingExtensionQuotientEquivGaloisGroup
     (E : IntermediateField K Ω) [IsGalois K E] :
     ((closedFixingSubgroup (⊥ : IntermediateField K Ω)).toSubgroup ⧸

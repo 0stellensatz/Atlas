@@ -44,8 +44,9 @@ carried as `NeZero` throughout, matching the valuation datum's own fields.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -58,18 +59,16 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
 /-- The normalized valuation, read additively on the unit group — the
-negative of the source's inverse-standard valuation map ([Yamaguchi 2026,
-`LocalFieldTheory/NonarchimedeanLocalField/ValuationExactSequence.lean:31`]
-[Yamaguchi2026]). -/
+negative of the source's inverse-standard valuation map (Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/ValuationExactSequence.lean:31`). -/
 def normalizedValuationAddHom : Additive Kˣ →+ ℤ where
   toFun x := normalizedValuation K (Additive.toMul x)
   map_zero' := normalizedValuation_one K
   map_add' x y := normalizedValuation_mul K (Additive.toMul x) (Additive.toMul y)
 
 /-- **`Kˣ` is the coefficient group fixed by the distinguished base
-subgroup** of the absolute Galois group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:34`]
-[Yamaguchi2026]). -/
+subgroup** of the absolute Galois group (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:34`). -/
 def baseFieldUnitsEquiv :
     Additive Kˣ ≃+ ambientFixedAddSubgroup
       (galoisAmbientUnitsRep K (AlgebraicClosure K))
@@ -81,9 +80,8 @@ def baseFieldUnitsEquiv :
         (closedFixingSubgroup_bot_eq_baseField K (AlgebraicClosure K))))
 
 /-- The base equivalence reads as the structure map on the underlying element
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:44`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:44`). -/
 @[simp]
 theorem baseFieldUnitsEquiv_val (x : Kˣ) :
     ((Additive.toMul
@@ -99,9 +97,8 @@ theorem baseFieldUnitsEquiv_val (x : Kˣ) :
   exact baseUnitsEquivGaloisAmbientFixed_val K (AlgebraicClosure K) x
 
 /-- **The normalized valuation on the base fixed coefficients**, embedded in
-the profinite integers ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:59`]
-[Yamaguchi2026]). -/
+the profinite integers (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:59`). -/
 def localBaseValuation :
     ambientFixedAddSubgroup
       (galoisAmbientUnitsRep K (AlgebraicClosure K))
@@ -112,9 +109,8 @@ def localBaseValuation :
       (baseFieldUnitsEquiv K).symm.toAddMonoidHom)
 
 /-- The base valuation computes through the unit equivalence
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:67`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:67`). -/
 @[simp]
 theorem localBaseValuation_baseFieldUnitsEquiv (x : Additive Kˣ) :
     localBaseValuation K (baseFieldUnitsEquiv K x) =
@@ -123,9 +119,8 @@ theorem localBaseValuation_baseFieldUnitsEquiv (x : Additive Kˣ) :
   simp [localBaseValuation]
 
 /-- **The value group is the copy of the ordinary integers** in the
-profinite integers ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:75`]
-[Yamaguchi2026]). -/
+profinite integers (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:75`). -/
 theorem localBaseValuation_range :
     (localBaseValuation K).range =
       (Int.castRingHom ProfiniteInteger).toAddMonoidHom.range := by
@@ -141,26 +136,23 @@ theorem localBaseValuation_range :
     rw [hx]
     rfl
 
-/-- Every ordinary integer occurs as a value ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:90`]
-[Yamaguchi2026]). -/
+/-- Every ordinary integer occurs as a value (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:90`). -/
 theorem intCast_mem_localBaseValuation_range (m : ℤ) :
     Int.castRingHom ProfiniteInteger m ∈
       (localBaseValuation K).range := by
   rw [localBaseValuation_range]
   exact ⟨m, rfl⟩
 
-/-- Reduction modulo `n` on the value group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:97`]
-[Yamaguchi2026]). -/
+/-- Reduction modulo `n` on the value group (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:97`). -/
 def localValueGroupReduction (n : ℕ) [NeZero n] :
     (localBaseValuation K).range →+ ZMod n :=
   (ProfiniteInteger.reduction n).toAddMonoidHom.comp
     (localBaseValuation K).range.subtype
 
-/-- Reduction on the value group is onto ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:103`]
-[Yamaguchi2026]). -/
+/-- Reduction on the value group is onto (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:103`). -/
 theorem localValueGroupReduction_surjective (n : ℕ) [NeZero n] :
     Function.Surjective (localValueGroupReduction K n) := by
   intro a
@@ -171,9 +163,8 @@ theorem localValueGroupReduction_surjective (n : ℕ) [NeZero n] :
   refine ⟨z, ?_⟩
   exact ProfiniteInteger.reduction_intCast n m
 
-/-- **The kernel of reduction on the value group is `nZ`** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:114`]
-[Yamaguchi2026]). -/
+/-- **The kernel of reduction on the value group is `nZ`** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:114`). -/
 theorem localValueGroupReduction_ker (n : ℕ) [NeZero n] :
     (localValueGroupReduction K n).ker =
       nsmulWithin (localBaseValuation K).range n := by
@@ -213,9 +204,8 @@ theorem localValueGroupReduction_ker (n : ℕ) [NeZero n] :
     simp [nsmul_eq_mul]
 
 /-- The cyclic value quotient, for the actual local value group
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:150`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:150`). -/
 def localValueGroupQuotientEquivZMod (n : ℕ) [NeZero n] :
     ((localBaseValuation K).range ⧸
         nsmulWithin (localBaseValuation K).range n) ≃+ ZMod n :=
@@ -226,9 +216,8 @@ def localValueGroupQuotientEquivZMod (n : ℕ) [NeZero n] :
       (localValueGroupReduction_surjective K n))
 
 /-- **The canonical value-quotient map is bijective** at every positive
-modulus ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:161`]
-[Yamaguchi2026]). -/
+modulus (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/HenselianValuationBase.lean:161`). -/
 theorem localCanonicalValueQuotientMap_bijective (n : ℕ) [NeZero n] :
     Function.Bijective
       (canonicalValueQuotientMap (localBaseValuation K).range n) := by

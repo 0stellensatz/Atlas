@@ -61,8 +61,9 @@ callees that no longer ask, and are dropped.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -76,9 +77,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The subgroup `G_Σ ≤ G_K`**: the inverse image of `Γ = closure ⟨σ⟩`
-under `G_K → G_K/I_L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:23`]
-[Yamaguchi2026]). -/
+under `G_K → G_K/I_L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:23`). -/
 def frobeniusFixedSubgroupWithin (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -102,9 +102,8 @@ theorem mem_frobeniusFixedSubgroupWithin_iff (D : DegreeData G)
   Iff.rfl
 
 /-- The Frobenius-fixed subgroup is closed in the base subgroup
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:46`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:46`). -/
 theorem frobeniusFixedSubgroupWithin_isClosed (D : DegreeData G)
     [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -123,9 +122,8 @@ theorem frobeniusFixedSubgroupWithin_isClosed (D : DegreeData G)
 
 /-- **The abstract field `Σ` fixed by the chosen Frobenius lift**: the
 inverse image of `Γ`, regarded as a closed subgroup of the ambient group
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:64`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:64`). -/
 def frobeniusFixedField (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -156,9 +154,8 @@ theorem mem_frobeniusFixedField_iff (D : DegreeData G)
         k ∈ D.frobeniusFixedSubgroupWithin K L hLK σ ∧ k.1 = g := by
   rfl
 
-/-- The field `Σ` extends `K`: `G_Σ ≤ G_K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:93`]
-[Yamaguchi2026]). -/
+/-- The field `Σ` extends `K`: `G_Σ ≤ G_K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:93`). -/
 theorem frobeniusFixedField_le (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -170,9 +167,8 @@ theorem frobeniusFixedField_le (D : DegreeData G) [IsTopologicalGroup G]
   exact k.2
 
 /-- Inside `G_K`, the subgroup of the field `Σ` is the defining inverse
-image ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:104`]
-[Yamaguchi2026]). -/
+image (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:104`). -/
 theorem subgroupOf_frobeniusFixedField (D : DegreeData G)
     [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -197,9 +193,8 @@ theorem subgroupOf_frobeniusFixedField (D : DegreeData G)
     exact ⟨k, hk, rfl⟩
 
 /-- The subgroup `I_L = G_L̃` lies in `G_Σ`, internally
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:128`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:128`). -/
 theorem extensionInertiaWithin_le_frobeniusFixedSubgroupWithin
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -214,9 +209,8 @@ theorem extensionInertiaWithin_le_frobeniusFixedSubgroupWithin
   rw [(QuotientGroup.eq_one_iff k).2 hk]
   exact Subgroup.one_mem _
 
-/-- The ambient form of `I_L ≤ G_Σ` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:143`]
-[Yamaguchi2026]). -/
+/-- The ambient form of `I_L ≤ G_Σ` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:143`). -/
 theorem fieldInertia_le_frobeniusFixedField (D : DegreeData G)
     [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -235,9 +229,8 @@ theorem fieldInertia_le_frobeniusFixedField (D : DegreeData G)
     rfl⟩
 
 /-- **The extension `Σ | K` is finite** — the fixed-field finiteness on the
-actual field side ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:161`]
-[Yamaguchi2026]). -/
+actual field side (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:161`). -/
 theorem frobeniusFixedField_finite (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -273,9 +266,8 @@ theorem frobeniusFixedField_finite (D : DegreeData G)
   exact hS
 
 /-- **The Frobenius fixed field bundled with its finite extension data**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:195`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:195`). -/
 def frobeniusFixedFiniteExtension (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -291,9 +283,8 @@ def frobeniusFixedFiniteExtension (D : DegreeData G)
   finiteQuotient := D.frobeniusFixedField_finite K L hLK σ
 
 /-- **For a degree-one lift, `[Σ : K] ≤ [L : K]`** — the index estimate on
-the actual-field side ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:210`]
-[Yamaguchi2026]). -/
+the actual-field side (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:210`). -/
 theorem frobeniusFixedField_index_le_extensionIndex_of_exponent_eq_one
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
@@ -323,9 +314,8 @@ theorem frobeniusFixedField_index_le_extensionIndex_of_exponent_eq_one
     K L hLK σ hσ
 
 /-- **`G_Σ ∩ I_K = I_L`** — the procyclic degree isomorphism pulled back
-along `G_K → G_K/I_L`, the subgroup form of `Σ̃ = L̃` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:240`]
-[Yamaguchi2026]). -/
+along `G_K → G_K/I_L`, the subgroup form of `Σ̃ = L̃` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:240`). -/
 theorem frobeniusFixedSubgroupWithin_inf_fieldInertiaWithin
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
@@ -370,9 +360,8 @@ theorem frobeniusFixedSubgroupWithin_inf_fieldInertiaWithin
 
 /-- **`I_Σ = I_L`** — the ambient version: the maximal unramified
 extensions of `Σ` and `L` have the same absolute Galois subgroup
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:284`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:284`). -/
 theorem frobeniusFixedField_fieldInertia (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]
@@ -406,9 +395,8 @@ theorem frobeniusFixedField_fieldInertia (D : DegreeData G)
     exact ⟨⟨k, hkS, rfl⟩, hg.2⟩
 
 /-- The normalized-degree image of `G_Σ` is the image computed on `Γ`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:318`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:318`). -/
 theorem frobeniusFixedSubgroupWithin_normalizedDegree_image
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -441,9 +429,8 @@ theorem frobeniusFixedSubgroupWithin_normalizedDegree_image
         congrArg (D.extensionNormalizedDegree K L hLK) hk
 
 /- The mapped relative index of `G_Σ` in `G_K` is the Frobenius exponent
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:347`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:347`). -/
 private theorem frobeniusFixedField_mappedRelIndex (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -512,9 +499,8 @@ private theorem frobeniusFixedField_mappedRelIndex (D : DegreeData G)
     ProfiniteInteger.index_span_natCast]
 
 /-- **The fixed-field residue-degree formula on the finite extension**:
-`f_{Σ|K} = d_K(σ)` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:416`]
-[Yamaguchi2026]). -/
+`f_{Σ|K} = d_K(σ)` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:416`). -/
 theorem frobeniusFixedField_residueDegreeOverBase (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -531,9 +517,8 @@ theorem frobeniusFixedField_residueDegreeOverBase (D : DegreeData G)
     D.frobeniusFixedField_mappedRelIndex K L hLK σ
 
 /-- The relative residue quotient of `Σ` over `K` is finite: positivity of
-the mapped relative index gives the finite-index witness ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:433`]
-[Yamaguchi2026]). -/
+the mapped relative index gives the finite-index witness (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:433`). -/
 theorem frobeniusFixedField_relativeResidueQuotientFinite
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -554,9 +539,8 @@ theorem frobeniusFixedField_relativeResidueQuotientFinite
   exact (D.frobeniusExponent_pos K L hLK σ).ne'
 
 /-- **The Frobenius fixed field with its finite residue quotient**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:454`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:454`). -/
 noncomputable def frobeniusFixedResidueField (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -570,9 +554,8 @@ noncomputable def frobeniusFixedResidueField (D : DegreeData G)
     (D.frobeniusFixedField_le K L hLK σ)
 
 /-- **The absolute residue-degree formula** `f_Σ = d_K(σ)·f_K`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:468`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:468`). -/
 theorem frobeniusFixedResidueField_residueDegree (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -609,9 +592,8 @@ theorem frobeniusFixedResidueField_residueDegree (D : DegreeData G)
   exact_mod_cast hcard.symm
 
 /-- Restriction from the actual group `G_Σ` to the group-dual `Γ`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:504`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:504`). -/
 def frobeniusFixedFieldToClosure (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -652,9 +634,8 @@ theorem frobeniusFixedFieldToClosure_apply (D : DegreeData G)
   rfl
 
 /-- Every element of the closure lifts from the fixed field
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:544`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:544`). -/
 theorem frobeniusFixedFieldToClosure_surjective (D : DegreeData G)
     [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -677,9 +658,8 @@ theorem frobeniusFixedFieldToClosure_surjective (D : DegreeData G)
   exact hk
 
 /-- The kernel of `G_Σ → Γ` is `I_Σ` — by the procyclic degree
-isomorphism, equally `I_L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:566`]
-[Yamaguchi2026]). -/
+isomorphism, equally `I_L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:566`). -/
 theorem frobeniusFixedFieldToClosure_ker (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]
@@ -714,9 +694,8 @@ theorem frobeniusFixedFieldToClosure_ker (D : DegreeData G)
     apply Subtype.ext
     exact (QuotientGroup.eq_one_iff k).mpr hkN
 
-/-- **The canonical identification `G_Σ/I_Σ ≃* Γ`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:602`]
-[Yamaguchi2026]). -/
+/-- **The canonical identification `G_Σ/I_Σ ≃* Γ`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:602`). -/
 def frobeniusFixedFieldQuotientEquiv (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]
@@ -749,9 +728,8 @@ theorem frobeniusFixedFieldQuotientEquiv_mk (D : DegreeData G)
   rfl
 
 /-- The degree constructed on `Γ` is the intrinsic normalized degree of
-`Σ` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:635`]
-[Yamaguchi2026]). -/
+`Σ` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:635`). -/
 theorem frobeniusFixedField_normalizedDegree_compatibility
     (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
@@ -796,9 +774,8 @@ theorem frobeniusFixedField_normalizedDegree_compatibility
           exact (D.residueDegree_nsmul_normalizedDegree Sigma s).symm
 
 /-- **The identification carries `d_Σ` to the fixed-field normalized degree**
-— the quotient-level compatibility ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:678`]
-[Yamaguchi2026]). -/
+— the quotient-level compatibility (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:678`). -/
 theorem frobeniusFixedFieldQuotientEquiv_degree (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]
@@ -818,9 +795,8 @@ theorem frobeniusFixedFieldQuotientEquiv_degree (D : DegreeData G)
     K L hLK σ s
 
 /-- **Under the identification with `Γ`, the Frobenius of `Σ` is the originally chosen lift**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:698`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusField.lean:698`). -/
 theorem frobeniusFixedField_frobenius_eq_inClosure (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]

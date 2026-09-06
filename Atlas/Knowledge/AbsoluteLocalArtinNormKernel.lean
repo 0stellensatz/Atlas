@@ -65,8 +65,9 @@ the assembly needs no bridge lemma there.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -80,9 +81,8 @@ variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-- **Pulling a finite restriction kernel back along the absolute local
 Artin map gives exactly the norm subgroup of that finite abelian
-subextension** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:138`]
-[Yamaguchi2026]). -/
+subextension** (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:138`). -/
 theorem absoluteLocalArtinMonoidHom_comap_restrictionKernel
     (E : IntermediateField K (AlgebraicClosure K))
     [FiniteDimensional K E] [IsAbelianGalois K E] :

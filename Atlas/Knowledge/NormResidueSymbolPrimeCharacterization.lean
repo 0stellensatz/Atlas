@@ -15,8 +15,9 @@ The reciprocity isomorphism and its prime-norm formula make this characterizatio
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -29,7 +30,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
   [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
 
 /-- Degree one in the Frobenius fixed field singles out the original Frobenius lift
-([Yamaguchi 2026, `FrobeniusField.lean:698`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `FrobeniusField.lean:698`). -/
 theorem DegreeData.frobeniusRestriction_of_fixedField_degree_one
     (D : DegreeData G) [T2Space G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -50,7 +51,7 @@ theorem DegreeData.frobeniusRestriction_of_fixedField_degree_one
   exact congrArg (D.extensionRestriction K.field L hLK) (congrArg Subtype.val hclosure)
 
 /-- Recognition of the symbol from its prime-norm values, using the reciprocity formula
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:746`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:746`). -/
 theorem DegreeData.normResidueSymbol_eq_of_primeNorms
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     (hcf : SatisfiesClassFieldAxiom A) (hAxiom : v.SatisfiesUnramifiedUnitCohomology D)

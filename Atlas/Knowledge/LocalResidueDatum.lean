@@ -41,8 +41,9 @@ through `Atlas.Knowledge.residueAbsoluteDegreeIn`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -128,9 +129,8 @@ private theorem localResidueAlgAction_continuous :
   exact hfix
 
 /-- **The continuous residue action** of the absolute Galois group on the
-selected residue algebraic closure ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:369`]
-[Yamaguchi2026]). -/
+selected residue algebraic closure (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:369`). -/
 def localResidueAlgAction :
     Field.absoluteGaloisGroup K →ₜ*
       (selectedResidueField (localAbsoluteValuationSubring K) ≃ₐ[
@@ -143,9 +143,8 @@ def localResidueAlgAction :
   continuous_toFun := localResidueAlgAction_continuous K
 
 /-- **Every automorphism of the selected residue extension lifts** to the
-absolute Galois group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:381`]
-[Yamaguchi2026]). -/
+absolute Galois group (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:381`). -/
 theorem localResidueAlgAction_surjective :
     Function.Surjective (localResidueAlgAction K) :=
   residueAlgActionOfEqTop_surjective K
@@ -153,9 +152,8 @@ theorem localResidueAlgAction_surjective :
     (localAbsoluteDecompositionGroup_eq_top K)
 
 /-- **The local degree map**: the residue Frobenius degree on the absolute
-Galois group of a mixed-characteristic local field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:390`]
-[Yamaguchi2026]). -/
+Galois group of a mixed-characteristic local field (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:390`). -/
 def localResidueDegree :
     Field.absoluteGaloisGroup K →ₜ* ProfiniteIntegerMul where
   toMonoidHom :=
@@ -171,9 +169,8 @@ def localResidueDegree :
         (localAbsoluteValuationSubring K))).continuous_toFun.comp
       (localResidueAlgAction K).continuous_toFun
 
-/-- **The local degree map is surjective** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:405`]
-[Yamaguchi2026]). -/
+/-- **The local degree map is surjective** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:405`). -/
 theorem localResidueDegree_surjective :
     Function.Surjective (localResidueDegree K) := by
   intro z
@@ -194,9 +191,8 @@ theorem localResidueDegree_surjective :
 
 /-- **The local degree datum**: the abstract class-formation datum
 `d : Γ_K →ₜ* ℤ̂` furnished by the residue action of a mixed-characteristic
-local field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:425`]
-[Yamaguchi2026]). -/
+local field (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/LocalResidueDatum.lean:425`). -/
 def localResidueDatum :
     DegreeData (Field.absoluteGaloisGroup K) where
   degree := localResidueDegree K

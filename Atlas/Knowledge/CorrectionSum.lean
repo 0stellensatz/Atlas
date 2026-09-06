@@ -39,8 +39,9 @@ in the source. The source's no-op opens go.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 universe u
@@ -51,7 +52,7 @@ noncomputable section
 
 /-- **The correction coefficients**, in the order the left-action
 translation of the Frobenius multiplicativity identity produces
-([Yamaguchi 2026, `CorrectionSum.lean:24`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `CorrectionSum.lean:24`). -/
 def frobeniusMultiplicativityCorrectionTerm
     {R : Type u} [Monoid R]
     (B : Rep ℤ R) (τ₁ : R) (p₁ p₃ p₄ : B.V) : Fin 3 → B.V :=
@@ -59,7 +60,7 @@ def frobeniusMultiplicativityCorrectionTerm
 
 /-- **The correction action elements** `τ₄, τ₁, τ₄` — the last is `τ₄`
 because the product in the actual `(*)` identity is `τ₄τ₁`
-([Yamaguchi 2026, `CorrectionSum.lean:32`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `CorrectionSum.lean:32`). -/
 def frobeniusMultiplicativityCorrectionAction {R : Type*}
     (τ₁ τ₄ : R) : Fin 3 → R :=
   ![τ₄, τ₁, τ₄]
@@ -71,7 +72,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **All three correction actions have normalized degree zero**, as the
-universal norm-descent lemma requires ([Yamaguchi 2026, `CorrectionSum.lean:44`][Yamaguchi2026]). -/
+universal norm-descent lemma requires (Yamaguchi 2026,
+`CorrectionSum.lean:44`). -/
 theorem frobeniusMultiplicativityCorrectionAction_mem_degreeKernel
     (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -106,8 +108,8 @@ end DegreeData
 end correctionActionDegrees
 
 /-- **The explicit left-action form of the group-ring identity**, factor
-order and first two terms as they occur in `(*)`
-([Yamaguchi 2026, `CorrectionSum.lean:79`][Yamaguchi2026]). -/
+order and first two terms as they occur in `(*)` (Yamaguchi 2026,
+`CorrectionSum.lean:79`). -/
 theorem frobeniusMultiplicativity_actionDifference_eq_correctionSum
     {R : Type u} [Monoid R] (B : Rep ℤ R)
     (τ₁ τ₄ : R) (p₁ p₃ p₄ : B.V) :

@@ -71,8 +71,9 @@ whole.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -82,9 +83,8 @@ noncomputable section
 variable (K : Type*) [Field K]
 
 /-- Pullback of open normal subgroups of the abelianization to the
-absolute Galois group is monotone ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:21`]
-[Yamaguchi2026]). -/
+absolute Galois group is monotone (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:21`). -/
 theorem absoluteFiniteQuotientPreimage_mono
     {N M : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)}
     (hNM : N ≤ M) :
@@ -94,9 +94,8 @@ theorem absoluteFiniteQuotientPreimage_mono
   exact hNM hσ
 
 /-- Inclusion of open normal subgroups reverses the corresponding
-fixed fields ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:31`]
-[Yamaguchi2026]). -/
+fixed fields (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:31`). -/
 theorem absoluteFiniteQuotientField_antitone
     {N M : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)}
     (hNM : N ≤ M) :
@@ -112,9 +111,8 @@ theorem absoluteFiniteQuotientField_antitone
   exact hx σ (absoluteFiniteQuotientPreimage_mono K hNM hσ)
 
 /-- The canonical transition map between two finite quotients along an
-inclusion of open normal subgroups ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:46`]
-[Yamaguchi2026]). -/
+inclusion of open normal subgroups (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:46`). -/
 noncomputable def absoluteFiniteQuotientTransition
     {N M : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)}
     (hNM : N ≤ M) :
@@ -124,9 +122,8 @@ noncomputable def absoluteFiniteQuotientTransition
     (fun _ hx => hNM hx)
 
 /-- The transition map fixes representatives: the class of `x` modulo
-`N` goes to the class of `x` modulo `M` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:64`]
-[Yamaguchi2026]). -/
+`N` goes to the class of `x` modulo `M` (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:64`). -/
 @[simp]
 theorem absoluteFiniteQuotientTransition_mk
     {N M : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)}
@@ -139,9 +136,8 @@ variable [CharZero K]
 
 /-- **Under the finite quotient identifications, quotient transition is
 exactly restriction of automorphisms to the smaller fixed field**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:73`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotientTransitions.lean:73`). -/
 theorem absoluteFiniteQuotientMulEquiv_transition
     {N M : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)}
     (hNM : N ≤ M) :

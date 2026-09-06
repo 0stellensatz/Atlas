@@ -45,8 +45,9 @@ Everything else ports token-for-token; the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -56,17 +57,15 @@ noncomputable section
 universe u
 
 /-- The absolute Galois group of a field, formed using its chosen
-separable closure ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:20`]
-[Yamaguchi2026]). -/
+separable closure (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:20`). -/
 abbrev intrinsicAbsoluteGalois
     (F : Type u) [Field F] :=
   SeparableClosure F ≃ₐ[F] SeparableClosure F
 
 /-- The integral representation of the intrinsic absolute Galois group
-on the units of the chosen separable closure ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:26`]
-[Yamaguchi2026]). -/
+on the units of the chosen separable closure (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:26`). -/
 abbrev intrinsicAbsoluteUnits
     (F : Type u) [Field F] :
     Rep ℤ (intrinsicAbsoluteGalois F) :=
@@ -74,18 +73,16 @@ abbrev intrinsicAbsoluteUnits
 
 /-- The closed base subgroup of the intrinsic absolute Galois group,
 expressed as the fixing subgroup of the bottom intermediate field
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:33`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:33`). -/
 abbrev intrinsicAbstractBase
     (F : Type u) [Field F] :
     ClosedSubgroup (intrinsicAbsoluteGalois F) :=
   closedFixingSubgroup (⊥ : IntermediateField F (SeparableClosure F))
 
 /-- The canonical equivalence from the intrinsic abstract base
-subgroup to the full absolute Galois group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:41`]
-[Yamaguchi2026]). -/
+subgroup to the full absolute Galois group (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:41`). -/
 noncomputable def intrinsicAbstractBaseEquivAbsolute
     (F : Type u) [Field F] :
     (intrinsicAbstractBase F).toSubgroup ≃*
@@ -96,9 +93,8 @@ noncomputable def intrinsicAbstractBaseEquivAbsolute
       baseField_toSubgroup])).trans Subgroup.topEquiv
 
 /-- The inverse intrinsic-base equivalence has underlying automorphism
-equal to the supplied absolute Galois automorphism ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:53`]
-[Yamaguchi2026]). -/
+equal to the supplied absolute Galois automorphism (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:53`). -/
 @[simp]
 theorem intrinsicAbstractBaseEquivAbsolute_symm_apply_val
     (F : Type u) [Field F] (σ : intrinsicAbsoluteGalois F) :
@@ -107,9 +103,8 @@ theorem intrinsicAbstractBaseEquivAbsolute_symm_apply_val
 
 /-- **The intrinsic abstract base packaged as a finite abstract
 field**; its defining quotient is the trivial finite quotient
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:61`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:61`). -/
 @[reducible]
 noncomputable def intrinsicFiniteAbstractBase
     (F : Type u) [Field F] :
@@ -120,9 +115,8 @@ noncomputable def intrinsicFiniteAbstractBase
     exact (FiniteAbstractField.base (intrinsicAbsoluteGalois F)).finite
 
 /-- The finite intrinsic base is the distinguished finite base of the
-abstract class formation ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:72`]
-[Yamaguchi2026]). -/
+abstract class formation (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:72`). -/
 @[simp]
 theorem intrinsicFiniteAbstractBase_eq_base
     (F : Type u) [Field F] :

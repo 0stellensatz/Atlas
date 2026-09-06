@@ -54,8 +54,9 @@ field mirrors the source's, stored before either cardinality is formed.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -69,9 +70,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 /-- **The class-field axiom at one finite cyclic extension**: the norm
 quotient is finite of cardinality the degree, and a vanishing norm is a
 `σ − 1`-difference — stated elementarily where the source asserts the two
-Tate-cohomology cardinalities ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldAxiom.lean:30`]
-[Yamaguchi2026]). -/
+Tate-cohomology cardinalities (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldAxiom.lean:30`). -/
 structure ClassFieldAxiomData (A : Rep ℤ G) (K : FiniteAbstractField G)
     (E : FiniteCyclicSubextension K) : Prop where
   /-- The finite norm quotient is finite. -/
@@ -94,17 +94,15 @@ structure ClassFieldAxiomData (A : Rep ℤ G) (K : FiniteAbstractField G)
 
 /-- **The class-field axiom**: the data above at every finite cyclic
 extension of every finite abstract field — the source's name, for the
-elementary reformulation the notes record ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldAxiom.lean:52`]
-[Yamaguchi2026]). -/
+elementary reformulation the notes record (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldAxiom.lean:52`). -/
 def SatisfiesClassFieldAxiom (A : Rep ℤ G) : Prop :=
   ∀ (K : FiniteAbstractField G) (E : FiniteCyclicSubextension K),
     ClassFieldAxiomData A K E
 
 /-- **The norm quotient of a cyclic extension is finite** under the axiom
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:585`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:585`). -/
 theorem finiteNormQuotient_finite_of_classFieldAxiom
     (A : Rep ℤ G) (hcf : SatisfiesClassFieldAxiom A)
     (E : FiniteAbstractExtension G)
@@ -124,9 +122,8 @@ theorem finiteNormQuotient_finite_of_classFieldAxiom
       generates := hg }).finiteNormQuotient
 
 /-- **The norm quotient of a cyclic extension has the degree as its order**
-under the axiom ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:490`]
-[Yamaguchi2026]). -/
+under the axiom (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:490`). -/
 theorem finiteNormQuotient_card_of_classFieldAxiom
     (A : Rep ℤ G) (hcf : SatisfiesClassFieldAxiom A)
     (E : FiniteAbstractExtension G)
@@ -147,9 +144,8 @@ theorem finiteNormQuotient_card_of_classFieldAxiom
       generates := hg }).card_finiteNormQuotient
 
 /-- **The cyclic Galois quotient and the norm quotient have the same order**
-under the axiom ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:566`]
-[Yamaguchi2026]). -/
+under the axiom (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:566`). -/
 theorem cyclicReciprocity_card_equality
     (A : Rep ℤ G) (hcf : SatisfiesClassFieldAxiom A)
     (E : FiniteAbstractExtension G)
@@ -169,9 +165,8 @@ theorem cyclicReciprocity_card_equality
       A hcf E hnormal g hg]
 
 /-- **A vanishing norm is a `σ − 1`-difference**, in representative form
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamified.lean:230`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamified.lean:230`). -/
 theorem abstractReciprocity_exists_hMinusOne_primitive
     {A : Rep ℤ G}
     (hcf : SatisfiesClassFieldAxiom A)

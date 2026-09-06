@@ -49,8 +49,9 @@ the source's, specializing back to it.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -64,9 +65,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace FiniteIntermediateField
 
 /-- **The normal core of a finite intermediate field**, embedded back into
-the ambient absolute Galois group ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:28`]
-[Yamaguchi2026]). -/
+the ambient absolute Galois group (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:28`). -/
 def normalCoreField [IsTopologicalGroup G]
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K) :
     ClosedSubgroup G where
@@ -83,9 +83,8 @@ def normalCoreField [IsTopologicalGroup G]
         (M.field.isClosed'.preimage continuous_subtype_val))
 
 /-- The normal core field lies below the base of the construction
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:43`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:43`). -/
 theorem normalCoreField_le [IsTopologicalGroup G]
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K) :
     (M.normalCoreField).toSubgroup ≤ K.toSubgroup := by
@@ -93,9 +92,8 @@ theorem normalCoreField_le [IsTopologicalGroup G]
   exact k.2
 
 /-- The normal core is contained in the field it refines
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:50`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:50`). -/
 theorem normalCoreField_le_field [IsTopologicalGroup G]
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K) :
     (M.normalCoreField).toSubgroup ≤ M.field.toSubgroup := by
@@ -103,9 +101,8 @@ theorem normalCoreField_le_field [IsTopologicalGroup G]
   exact Subgroup.mem_subgroupOf.1
     ((M.field.toSubgroup.subgroupOf K.toSubgroup).normalCore_le hk)
 
-/-- **The refinement's subgroup is the normal core** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:58`]
-[Yamaguchi2026]). -/
+/-- **The refinement's subgroup is the normal core** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:58`). -/
 theorem subgroupOf_normalCoreField [IsTopologicalGroup G]
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K) :
     M.normalCoreField.toSubgroup.subgroupOf K.toSubgroup =
@@ -122,9 +119,8 @@ theorem subgroupOf_normalCoreField [IsTopologicalGroup G]
     exact ⟨k, hk, rfl⟩
 
 /-- **The finite Galois refinement of a finite intermediate field**, once
-the bottom extension is normal ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:75`]
-[Yamaguchi2026]). -/
+the bottom extension is normal (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:75`). -/
 def galoisRefinement [IsTopologicalGroup G]
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K)
     [hEnormal :
@@ -154,9 +150,8 @@ def galoisRefinement [IsTopologicalGroup G]
     rw [M.subgroupOf_normalCoreField]
     infer_instance
 
-/-- A Galois refinement lies below the field it refines ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:105`]
-[Yamaguchi2026]). -/
+/-- A Galois refinement lies below the field it refines (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:105`). -/
 theorem galoisRefinement_le_field [IsTopologicalGroup G]
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K)
     [_hEnormal :
@@ -165,9 +160,8 @@ theorem galoisRefinement_le_field [IsTopologicalGroup G]
   M.normalCoreField_le_field
 
 /-- The subgroup representing a Galois refinement is normal
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:113`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:113`). -/
 instance galoisRefinement_normal [IsTopologicalGroup G]
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K)
     [hEnormal :
@@ -179,44 +173,39 @@ instance galoisRefinement_normal [IsTopologicalGroup G]
   infer_instance
 
 /-- **The field compositum `MΣ`**, contravariantly the intersection
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:125`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:125`). -/
 def compositumWith
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K)
     (S : ClosedSubgroup G) : ClosedSubgroup G :=
   M.field ⊓ S
 
-/-- The compositum lies below its left input ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:131`]
-[Yamaguchi2026]). -/
+/-- The compositum lies below its left input (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:131`). -/
 theorem compositumWith_le_left
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K)
     (S : ClosedSubgroup G) :
     (M.compositumWith S).toSubgroup ≤ M.field.toSubgroup :=
   inf_le_left
 
-/-- The compositum lies below its right input ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:138`]
-[Yamaguchi2026]). -/
+/-- The compositum lies below its right input (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:138`). -/
 theorem compositumWith_le_right
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K)
     (S : ClosedSubgroup G) :
     (M.compositumWith S).toSubgroup ≤ S.toSubgroup :=
   inf_le_right
 
-/-- A field above both inputs lies above the compositum ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:145`]
-[Yamaguchi2026]). -/
+/-- A field above both inputs lies above the compositum (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:145`). -/
 theorem above_le_compositumWith
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K)
     (S : ClosedSubgroup G) (hES : E.toSubgroup ≤ S.toSubgroup) :
     E.toSubgroup ≤ (M.compositumWith S).toSubgroup :=
   fun _ h => ⟨M.above h, hES h⟩
 
-/-- **The compositum is finite over the second input** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:152`]
-[Yamaguchi2026]). -/
+/-- **The compositum is finite over the second input** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:152`). -/
 theorem compositumWith_finite
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K)
     (S : ClosedSubgroup G) (hSK : S.toSubgroup ≤ K.toSubgroup) :
@@ -243,9 +232,8 @@ theorem compositumWith_finite
   rw [hsub]
   simpa [Subgroup.relIndex] using hinter
 
-/-- **Normality passes to the compositum** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:181`]
-[Yamaguchi2026]). -/
+/-- **Normality passes to the compositum** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:181`). -/
 theorem compositumWith_normal
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K)
     (S : ClosedSubgroup G) (hSK : S.toSubgroup ≤ K.toSubgroup)
@@ -272,10 +260,9 @@ theorem compositumWith_normal
       (S.toSubgroup.mul_mem s.2 p.2) (S.toSubgroup.inv_mem s.2)
 
 /-- **The compositum with a finite extension of the base is finite over the base**
-— contravariantly, the finite-index theorem for an intersection; no
-containment of the second input enters ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:211`]
-[Yamaguchi2026]). -/
+— contravariantly, the finite-index theorem for an intersection; no containment of
+the second input enters (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:211`). -/
 theorem compositumWith_finite_over_base
     {E K : ClosedSubgroup G} (M : FiniteIntermediateField E K)
     (S : ClosedSubgroup G)
@@ -303,9 +290,8 @@ theorem compositumWith_finite_over_base
     Subgroup.relIndex_inf_ne_zero hMindex hSindex
 
 /-- **A finite extension of the base is finite over any intermediate field**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:240`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:240`). -/
 theorem finite_extension_of_le
     {P M K : ClosedSubgroup G}
     (hMK : M.toSubgroup ≤ K.toSubgroup)

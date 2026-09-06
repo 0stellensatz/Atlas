@@ -34,8 +34,9 @@ in the source. The source's no-op opens go.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -50,8 +51,8 @@ namespace DegreeData
 
 /-- **The three Frobenius power sums attached to `σ₁`, `σ₁σ₂`, and the
 left-action conjugate of `σ₂` satisfy the action-difference relation
-universal norm descent consumes**
-([Yamaguchi 2026, `FrobeniusPowerSumRelation.lean:28`][Yamaguchi2026]). -/
+universal norm descent consumes** (Yamaguchi 2026,
+`FrobeniusPowerSumRelation.lean:28`). -/
 theorem frobeniusPowerSum_mul_action_sub (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)

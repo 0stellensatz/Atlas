@@ -38,8 +38,9 @@ hence nonempty, so equal `Nat.card` moves `Finite` without an equivalence.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -210,9 +211,9 @@ end ExactWithInt
 /-- **The norm index of a cyclic extension is its degree** — the class field axiom of
 local class field theory, at a generator of the Galois group:
 `h(Lˣ) = h(U_L) · h(ℤ) = n` with `Ĥ¹(Lˣ)` trivial, so `#Ĥ⁰(Lˣ) = #(Kˣ ⧸ N Lˣ) = n`
-([Milne 2020, Chap. III, Lemma 2.5, pp.104–105][MilneCFT];
-[Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/Main.lean:92`, stated there as the
-Tate-cohomology count][Yamaguchi2026]). -/
+([Milne 2020, Chap. III, Lemma 2.5, pp.104–105][MilneCFT]; Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/Main.lean:92`, stated there as the
+Tate-cohomology count). -/
 theorem normIndexCyclic (σ : L ≃ₐ[K] L)
     (hgen : ∀ τ : L ≃ₐ[K] L, τ ∈ Subgroup.zpowers σ) :
     Nat.card (Kˣ ⧸ (Units.map (Algebra.norm K : L →* K)).range) = Module.finrank K L := by

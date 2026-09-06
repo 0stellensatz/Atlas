@@ -57,8 +57,9 @@ it, so the omission is refused.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -107,10 +108,8 @@ private def finiteResidueExtensionEquivIntermediateIn (n : ℕ) [NeZero n] :
 
 /-- **A degree-`n` finite Galois subextension of any residue algebraic
 closure**, for every positive `n` — the embedded image of Mathlib's
-`FiniteField.Extension`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:75`]
-[Yamaguchi2026]). -/
+`FiniteField.Extension` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:75`). -/
 def finiteResidueGaloisIntermediateFieldIn (n : ℕ) [NeZero n] :
     FiniteGaloisIntermediateField k Omega where
   toIntermediateField := finiteResidueIntermediateFieldIn k Omega n
@@ -134,10 +133,8 @@ theorem finrank_finiteResidueGaloisIntermediateFieldIn (n : ℕ) [NeZero n] :
     _ = n := FiniteField.finrank_extension k (ringChar k) n
 
 /-- **The Frobenius homomorphism is injective**: finite subextensions of every
-positive degree detect every coordinate
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:101`]
-[Yamaguchi2026]). -/
+positive degree detect every coordinate (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:101`). -/
 theorem residueAbsoluteFrobenius_isAlgClosure_injective :
     Function.Injective (residueAbsoluteFrobenius k Omega) := by
   intro z w hzw
@@ -173,10 +170,8 @@ theorem residueAbsoluteFrobenius_isAlgClosure_injective :
 
 omit [IsAlgClosed Omega] in
 /-- **The fixed points of the arithmetic Frobenius are the base field**: fixed
-elements are roots of `X^q − X`, which splits over the base
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:134`]
-[Yamaguchi2026]). -/
+elements are roots of `X^q − X`, which splits over the base (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:134`). -/
 theorem mem_range_algebraMap_iff_frobenius_fixed_in (x : Omega) :
     x ∈ Set.range (algebraMap k Omega) ↔
       FiniteField.frobeniusAlgEquivOfAlgebraic k Omega x = x := by
@@ -233,9 +228,8 @@ private theorem fixedField_residueAbsoluteFrobeniusRangeIn :
 
 /-- **The Frobenius homomorphism is surjective**: its compact image is closed
 and fixes only the base field, so the Galois correspondence makes it
-everything ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:199`]
-[Yamaguchi2026]). -/
+everything (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:199`). -/
 theorem residueAbsoluteFrobenius_isAlgClosure_surjective :
     Function.Surjective (residueAbsoluteFrobenius k Omega) := by
   intro sigma
@@ -252,10 +246,8 @@ theorem residueAbsoluteFrobenius_isAlgClosure_surjective :
   exact hsigma
 
 /-- **The Frobenius parameter is a topological isomorphism**
-`ℤ̂ ≃ₜ* Gal(Ω/k)`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:210`]
-[Yamaguchi2026]). -/
+`ℤ̂ ≃ₜ* Gal(Ω/k)` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:210`). -/
 def residueAbsoluteFrobeniusEquivIn :
     ProfiniteIntegerMul ≃ₜ* (Omega ≃ₐ[k] Omega) where
   toMulEquiv := MulEquiv.ofBijective
@@ -272,10 +264,8 @@ def residueAbsoluteFrobeniusEquivIn :
       (residueAbsoluteFrobenius k Omega).continuous_toFun
 
 /-- **The intrinsic residue degree**: the inverse of the arithmetic Frobenius
-coordinates on the actual residue algebraic closure
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:227`]
-[Yamaguchi2026]). -/
+coordinates on the actual residue algebraic closure (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:227`). -/
 def residueAbsoluteDegreeIn : (Omega ≃ₐ[k] Omega) →ₜ* ProfiniteIntegerMul :=
   ContinuousMonoidHom.toContinuousMonoidHom
     (residueAbsoluteFrobeniusEquivIn k Omega).symm
@@ -283,9 +273,8 @@ def residueAbsoluteDegreeIn : (Omega ≃ₐ[k] Omega) →ₜ* ProfiniteIntegerMu
 /-- **The intrinsic degree is invariant under simultaneous semilinear
 equivalence** of the residue base and its closure — choice-independence of the
 degree datum; the conjugate automorphism is written locally in the statement
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:236`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:236`). -/
 theorem residueAbsoluteDegreeIn_semilinear_conjugation
     {k' : Type*} {Omega' : Type*}
     [Field k'] [Fintype k']
@@ -416,9 +405,8 @@ theorem residueAbsoluteDegreeIn_semilinear_conjugation
 
 /-- **Frobenius under a finite change of residue base**: forgetting the
 `E`-linear structure multiplies the coordinate by `[E : k]`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:367`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:367`). -/
 theorem residueAbsoluteFrobenius_restrictScalars
     (E : IntermediateField k Omega) [FiniteDimensional k E]
     (z : ProfiniteIntegerMul) :
@@ -512,10 +500,8 @@ theorem residueAbsoluteFrobenius_restrictScalars
   exact heq z
 
 /-- **The intrinsic degree under a finite change of residue base** scales by
-the degree
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:455`]
-[Yamaguchi2026]). -/
+the degree (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:455`). -/
 theorem residueAbsoluteDegreeIn_restrictScalars
     (E : IntermediateField k Omega) [FiniteDimensional k E]
     (sigma : Omega ≃ₐ[E] Omega) :
@@ -563,9 +549,8 @@ theorem residueAbsoluteDegreeIn_frobenius :
 
 /-- **Finite-coordinate compatibility**: the inverse finite Frobenius
 coordinate of a restriction is the reduction of the intrinsic degree
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:501`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:501`). -/
 theorem finiteResidueFrobeniusExponentEquiv_symm_restrict_in
     (sigma : Omega ≃ₐ[k] Omega)
     (E : FiniteGaloisIntermediateField k Omega) :

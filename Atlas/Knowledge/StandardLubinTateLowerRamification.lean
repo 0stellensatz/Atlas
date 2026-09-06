@@ -53,8 +53,9 @@ the character's kernel by the first isomorphism theorem.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -221,9 +222,8 @@ private theorem levelCharacter_mem_lowerRamificationGroup_iff {u : 𝒪[K]ˣ} {k
 character of the `k`-th higher unit group — Serre's cyclotomic computation, at the
 standard Lubin–Tate tower
 ([Serre 1979, Chap. IV, §4, Prop. 18, pp.78–79][Serre1979] — the cyclotomic case is
-the tower over `ℚ_p`;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/LowerRamificationFormula.lean:126`]
-[Yamaguchi2026]). -/
+the tower over `ℚ_p`; Yamaguchi 2026,
+`LubinTate/FiniteLevel/LowerRamificationFormula.lean:126`). -/
 theorem standardLubinTateLowerRamification_eq {k r : ℕ}
     (hk1 : 1 ≤ k) (hkn : k ≤ n + 1)
     (hr1 : Nat.card 𝓀[K] ^ (k - 1) ≤ r) (hr2 : r < Nat.card 𝓀[K] ^ k) :
@@ -328,9 +328,7 @@ private theorem card_map_levelCharacter {k : ℕ} (hk1 : 1 ≤ k) (hkn : k ≤ n
 order `q^(n+1−k)` — the relative index of the higher unit levels, carried through the
 character's kernel
 ([Serre 1979, Chap. IV, §4, Prop. 18, pp.78–79][Serre1979] — the `Card = p^v` line of
-its proof;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/LowerRamificationFormula.lean:145`]
-[Yamaguchi2026]). -/
+its proof; Yamaguchi 2026, `LubinTate/FiniteLevel/LowerRamificationFormula.lean:145`). -/
 theorem standardLubinTateLowerRamification_natCard {k r : ℕ}
     (hk1 : 1 ≤ k) (hkn : k ≤ n + 1)
     (hr1 : Nat.card 𝓀[K] ^ (k - 1) ≤ r) (hr2 : r < Nat.card 𝓀[K] ^ k) :

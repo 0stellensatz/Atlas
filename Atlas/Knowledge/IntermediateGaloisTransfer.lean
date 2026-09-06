@@ -75,8 +75,9 @@ orbit vocabulary.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -93,7 +94,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 
 /-- **The inclusion `G(L|K') →* G(L|K)` induced by `G_K' ≤ G_K`**
-([Yamaguchi 2026, `MainTransfer.lean:28`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:28`). -/
 def transferNormNaturalityIntermediateInclusion
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -104,7 +105,7 @@ def transferNormNaturalityIntermediateInclusion
   finiteReciprocityNaturalityRestriction K K' L L hK'K le_rfl
 
 /-- The inclusion evaluates by `Subgroup.inclusion` on representatives
-([Yamaguchi 2026, `MainTransfer.lean:44`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:44`). -/
 @[simp]
 theorem transferNormNaturalityIntermediateInclusion_mk
     (K K' L : ClosedSubgroup G)
@@ -118,7 +119,7 @@ theorem transferNormNaturalityIntermediateInclusion_mk
   rfl
 
 /-- **The inclusion of finite Galois groups is injective**
-([Yamaguchi 2026, `MainTransfer.lean:58`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:58`). -/
 theorem transferNormNaturalityIntermediateInclusion_injective
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -142,7 +143,7 @@ theorem transferNormNaturalityIntermediateInclusion_injective
   simpa using hG
 
 /-- **The copy of `G(L|K')` inside `G(L|K)`**
-([Yamaguchi 2026, `MainTransfer.lean:84`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:84`). -/
 def transferNormNaturalityIntermediateSubgroup
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -153,7 +154,7 @@ def transferNormNaturalityIntermediateSubgroup
   (transferNormNaturalityIntermediateInclusion K K' L hK'K).range
 
 /-- **The canonical identification of `G(L|K')` with its image**
-([Yamaguchi 2026, `MainTransfer.lean:96`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:96`). -/
 noncomputable def transferNormNaturalityIntermediateQuotientEquiv
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -169,7 +170,7 @@ noncomputable def transferNormNaturalityIntermediateQuotientEquiv
       MonoidHom.rangeRestrict_surjective _⟩
 
 /-- The identification evaluates by inclusion on representatives
-([Yamaguchi 2026, `MainTransfer.lean:116`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:116`). -/
 @[simp]
 theorem transferNormNaturalityIntermediateQuotientEquiv_mk
     (K K' L : ClosedSubgroup G)
@@ -186,7 +187,7 @@ namespace DegreeData
 
 /-- **Restriction sends the Frobenius-level intermediate subgroup
 exactly onto the finite intermediate Galois subgroup**
-([Yamaguchi 2026, `MainTransfer.lean:132`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:132`). -/
 theorem transferNormNaturalityFrobeniusIntermediate_map_restriction
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -226,8 +227,8 @@ end DegreeData
 
 /-- **The left vertical arrow of transfer–norm naturality**: Mathlib's
 actual transfer into the intermediate subgroup's abelianization,
-transported along the identification with `G(L|K')`
-([Yamaguchi 2026, `MainTransfer.lean:172`][Yamaguchi2026]). -/
+transported along the identification with `G(L|K')` (Yamaguchi 2026,
+`MainTransfer.lean:172`). -/
 noncomputable def transferNormNaturalityTransfer
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -249,7 +250,7 @@ namespace DegreeData
 
 /-- **Transfer commutes with restriction from the infinite Frobenius
 quotients to the finite Galois quotients** — the quotient-naturality
-step ([Yamaguchi 2026, `MainTransfer.lean:195`][Yamaguchi2026]). -/
+step (Yamaguchi 2026, `MainTransfer.lean:195`). -/
 theorem transferNormNaturalityTransfer_restriction_natural
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -380,8 +381,8 @@ theorem transferNormNaturalityTransfer_restriction_natural
 
 /-- **Finite transfer of a positive Frobenius lift is the product of
 the restrictions of the positive transfer factors** — the first
-displayed transfer identity
-([Yamaguchi 2026, `MainTransfer.lean:326`][Yamaguchi2026]). -/
+displayed transfer identity (Yamaguchi 2026,
+`MainTransfer.lean:326`). -/
 theorem transferNormNaturalityTransfer_frobenius_product
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -462,8 +463,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The finite reciprocity homomorphism factored through the maximal
-abelian quotient** — the horizontal reciprocity arrow
-([Yamaguchi 2026, `MainTransfer.lean:408`][Yamaguchi2026]). -/
+abelian quotient** — the horizontal reciprocity arrow (Yamaguchi 2026,
+`MainTransfer.lean:408`). -/
 noncomputable def transferNormNaturalityAbelianizedReciprocity
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -483,8 +484,7 @@ noncomputable def transferNormNaturalityAbelianizedReciprocity
         (D.finiteReciprocityHom A v hAxiom K L hLK)))
 
 /-- The abelianized reciprocity evaluates by the reciprocity
-homomorphism
-([Yamaguchi 2026, `MainTransfer.lean:432`][Yamaguchi2026]). -/
+homomorphism (Yamaguchi 2026, `MainTransfer.lean:432`). -/
 @[simp]
 theorem transferNormNaturalityAbelianizedReciprocity_of
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
@@ -514,8 +514,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **The double-coset transfer formula**, indexed by
 `⟨σ⟩\\G(L|K)/G(L|K')` as the orbit quotient of `zpowers σ` on the
-left-coset space
-([Yamaguchi 2026, `MainTransfer.lean:461`][Yamaguchi2026]). -/
+left-coset space (Yamaguchi 2026, `MainTransfer.lean:461`). -/
 theorem transferNormNaturality_transfer_doubleCoset_formula
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -567,7 +566,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **The invariant carrier of `extensionFixedRepresentation` is
 canonically the ambient fixed subgroup `A_L`**
-([Yamaguchi 2026, `MainTransfer.lean:514`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:514`). -/
 def transferNormNaturalityExtensionFixedEquiv
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -587,7 +586,7 @@ def transferNormNaturalityExtensionFixedEquiv
   map_add' _ _ := rfl
 
 /-- The carrier identification is the identity on ambient values
-([Yamaguchi 2026, `MainTransfer.lean:537`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:537`). -/
 @[simp]
 theorem transferNormNaturalityExtensionFixedEquiv_apply_coe
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
@@ -599,7 +598,7 @@ theorem transferNormNaturalityExtensionFixedEquiv_apply_coe
   rfl
 
 /-- The inverse identification is the identity on ambient values
-([Yamaguchi 2026, `MainTransfer.lean:551`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:551`). -/
 @[simp]
 theorem transferNormNaturalityExtensionFixedEquiv_symm_coe
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
@@ -617,7 +616,7 @@ section GroupOnly
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- A fixed choice of right-coset representatives for the intermediate
-subgroup ([Yamaguchi 2026, `MainTransfer.lean:568`][Yamaguchi2026]). -/
+subgroup (Yamaguchi 2026, `MainTransfer.lean:568`). -/
 noncomputable def chosenTransferNormNaturalityRightTransversal
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -627,7 +626,7 @@ noncomputable def chosenTransferNormNaturalityRightTransversal
   ⟨Set.range Quotient.out, Subgroup.isComplement_range_right Quotient.out_eq'⟩
 
 /-- Multiplication as the right-coset decomposition `G(L|K') × T ≃ G(L|K)`
-([Yamaguchi 2026, `MainTransfer.lean:579`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:579`). -/
 noncomputable def transferNormNaturalityRightCosetProductEquiv
     (K K' L : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -644,7 +643,7 @@ noncomputable def transferNormNaturalityRightCosetProductEquiv
     (chosenTransferNormNaturalityRightTransversal K K' L hK'K).2.equiv.symm
 
 /-- The decomposition evaluates by inclusion and multiplication
-([Yamaguchi 2026, `MainTransfer.lean:596`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:596`). -/
 @[simp]
 theorem transferNormNaturalityRightCosetProductEquiv_apply
     (K K' L : ClosedSubgroup G)

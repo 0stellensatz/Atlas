@@ -55,8 +55,9 @@ proves the identity by hand.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -68,9 +69,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **A finite Galois extension `L / K`, represented by `G_L ≤ G_K`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:26`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:26`). -/
 structure FiniteGaloisSubextension (K : ClosedSubgroup G) where
   /-- The closed subgroup representing the top field. -/
   field : ClosedSubgroup G
@@ -86,9 +86,8 @@ namespace FiniteGaloisSubextension
 variable {K : ClosedSubgroup G}
 
 /-- Forget only finiteness from a finite Galois subextension
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:41`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:41`). -/
 def toGaloisSubextension (L : FiniteGaloisSubextension K) :
     GaloisSubextension K where
   field := L.field
@@ -97,9 +96,8 @@ def toGaloisSubextension (L : FiniteGaloisSubextension K) :
 
 /-- Forget normality, retaining the underlying finite abstract extension —
 the canonical bridge from a finite Galois subextension to the degree and
-ramification API ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:50`]
-[Yamaguchi2026]). -/
+ramification API (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:50`). -/
 def toFiniteAbstractExtension (L : FiniteGaloisSubextension K) :
     FiniteAbstractExtension G where
   field := L.field
@@ -108,39 +106,34 @@ def toFiniteAbstractExtension (L : FiniteGaloisSubextension K) :
   finiteQuotient := L.finite
 
 /-- **The actual finite quotient `G(L/K)`, kept behind a named object boundary**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:59`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:59`). -/
 def extensionQuotient (L : FiniteGaloisSubextension K) : Type u :=
   K.toSubgroup ⧸ L.field.toSubgroup.subgroupOf K.toSubgroup
 
 /-- Structural unramifiedness of the underlying finite extension
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:63`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:63`). -/
 def IsUnramified (L : FiniteGaloisSubextension K) (D : DegreeData G) : Prop :=
   L.toFiniteAbstractExtension.IsUnramified D
 
 /-- Structural total ramification of the underlying finite extension
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:67`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:67`). -/
 def IsTotallyRamified (L : FiniteGaloisSubextension K)
     (D : DegreeData G) : Prop :=
   L.toFiniteAbstractExtension.IsTotallyRamified D
 
 /-- A finite Galois subextension is represented by a normal subgroup
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:72`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:72`). -/
 instance subgroupOf_normalInstance (L : FiniteGaloisSubextension K) :
     (L.field.toSubgroup.subgroupOf K.toSubgroup).Normal :=
   L.normal
 
 /-- The group structure transported across the named finite quotient
-boundary ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:78`]
-[Yamaguchi2026]). -/
+boundary (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:78`). -/
 instance extensionQuotient_groupInstance (L : FiniteGaloisSubextension K) :
     Group L.extensionQuotient := by
   change Group
@@ -148,34 +141,30 @@ instance extensionQuotient_groupInstance (L : FiniteGaloisSubextension K) :
   infer_instance
 
 /-- The quotient represented by a finite Galois subextension is finite
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:85`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:85`). -/
 instance extensionQuotient_finiteInstance (L : FiniteGaloisSubextension K) :
     Finite L.extensionQuotient :=
   L.finite
 
 /-- Comparison with the quotient presentation used by the underlying group
-library ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:91`]
-[Yamaguchi2026]). -/
+library (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:91`). -/
 def extensionQuotientMulEquiv (L : FiniteGaloisSubextension K) :
     L.extensionQuotient ≃*
       (K.toSubgroup ⧸ L.field.toSubgroup.subgroupOf K.toSubgroup) :=
   MulEquiv.refl _
 
 /-- **The canonical quotient projection for a finite Galois subextension**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:97`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:97`). -/
 def extensionQuotientMk (L : FiniteGaloisSubextension K) :
     K.toSubgroup →* L.extensionQuotient :=
   QuotientGroup.mk' (L.field.toSubgroup.subgroupOf K.toSubgroup)
 
 /-- The named finite Galois quotient projection agrees with
-`QuotientGroup.mk` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:103`]
-[Yamaguchi2026]). -/
+`QuotientGroup.mk` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:103`). -/
 @[simp]
 theorem extensionQuotientMk_apply (L : FiniteGaloisSubextension K)
     (k : K.toSubgroup) :
@@ -185,9 +174,8 @@ theorem extensionQuotientMk_apply (L : FiniteGaloisSubextension K)
   rfl
 
 /-- A quotient representative is trivial exactly when it lies in the
-relative subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:112`]
-[Yamaguchi2026]). -/
+relative subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:112`). -/
 @[simp]
 theorem extensionQuotientMk_eq_one_iff (L : FiniteGaloisSubextension K)
     (k : K.toSubgroup) :
@@ -210,9 +198,8 @@ theorem extensionQuotientMk_eq_one_iff (L : FiniteGaloisSubextension K)
     exact (QuotientGroup.eq_one_iff k).2 hk
 
 /-- The canonical projection onto the finite Galois quotient is surjective
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:132`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:132`). -/
 theorem extensionQuotientMk_surjective (L : FiniteGaloisSubextension K) :
     Function.Surjective L.extensionQuotientMk := by
   intro q
@@ -225,18 +212,16 @@ theorem extensionQuotientMk_surjective (L : FiniteGaloisSubextension K) :
 
 /-- The finite and non-finite Galois bundles have the same quotient; this
 named equivalence is the only public comparison clients need
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:143`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:143`). -/
 def toGaloisExtensionQuotientMulEquiv (L : FiniteGaloisSubextension K) :
     L.extensionQuotient ≃* L.toGaloisSubextension.extensionQuotient :=
   L.extensionQuotientMulEquiv.trans
     L.toGaloisSubextension.extensionQuotientMulEquiv.symm
 
 /-- Eliminate a finite Galois quotient without exposing a chosen
-representative ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:150`]
-[Yamaguchi2026]). -/
+representative (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:150`). -/
 protected theorem extensionQuotient_inductionOn
     (L : FiniteGaloisSubextension K) {motive : L.extensionQuotient → Prop}
     (q : L.extensionQuotient)
@@ -247,9 +232,8 @@ protected theorem extensionQuotient_inductionOn
     motive q mk
 
 /-- Transport a total-ramification proof through the finite-to-Galois
-forgetful map ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:183`]
-[Yamaguchi2026]). -/
+forgetful map (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:183`). -/
 theorem isTotallyRamified_toGaloisSubextension
     (L : FiniteGaloisSubextension K) (D : DegreeData G)
     (hL : L.IsTotallyRamified D) :
@@ -257,9 +241,8 @@ theorem isTotallyRamified_toGaloisSubextension
   hL
 
 /-- Unramifiedness is the canonical inertia-containment condition
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:190`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:190`). -/
 theorem isUnramified_iff_inertia_le (L : FiniteGaloisSubextension K)
     (D : DegreeData G) :
     L.IsUnramified D ↔
@@ -267,9 +250,8 @@ theorem isUnramified_iff_inertia_le (L : FiniteGaloisSubextension K)
   L.toFiniteAbstractExtension.isUnramified_iff_inertia_le D
 
 /-- Total ramification is the canonical containment of degree images
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:197`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:197`). -/
 theorem isTotallyRamified_iff_image_le (L : FiniteGaloisSubextension K)
     (D : DegreeData G) :
     L.IsTotallyRamified D ↔
@@ -279,9 +261,8 @@ theorem isTotallyRamified_iff_image_le (L : FiniteGaloisSubextension K)
 
 /-- Retain the finite-over-base endpoint bundles of a finite Galois
 subextension of an abstract field which is finite over the distinguished
-base ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:207`]
-[Yamaguchi2026]). -/
+base (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:207`). -/
 def toFiniteAbstractFieldExtension
     {K : FiniteAbstractField G} (L : FiniteGaloisSubextension K.field) :
     FiniteAbstractFieldExtension G := by
@@ -291,9 +272,8 @@ def toFiniteAbstractFieldExtension
     L.finite
   exact FiniteAbstractFieldExtension.ofInclusion L.field K L.below
 
-/-- The trivial extension `K / K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:332`]
-[Yamaguchi2026]). -/
+/-- The trivial extension `K / K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:332`). -/
 def refl (K : ClosedSubgroup G) : FiniteGaloisSubextension K where
   field := K
   below := le_rfl
@@ -305,9 +285,8 @@ def refl (K : ClosedSubgroup G) : FiniteGaloisSubextension K where
     infer_instance
 
 /-- **The compositum `L₁L₂`, represented by `G_{L₁} ∩ G_{L₂}`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:351`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:351`). -/
 def compositum (L₁ L₂ : FiniteGaloisSubextension K) :
     FiniteGaloisSubextension K where
   field := L₁.field ⊓ L₂.field
@@ -347,16 +326,14 @@ def compositum (L₁ L₂ : FiniteGaloisSubextension K) :
     rw [heq]
     exact Subgroup.finite_quotient_of_finiteIndex
 
-/-- The compositum lies below its left input ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:393`]
-[Yamaguchi2026]). -/
+/-- The compositum lies below its left input (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:393`). -/
 theorem compositum_le_left (L₁ L₂ : FiniteGaloisSubextension K) :
     (L₁.compositum L₂).field.toSubgroup ≤ L₁.field.toSubgroup :=
   inf_le_left
 
-/-- The compositum lies below its right input ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:398`]
-[Yamaguchi2026]). -/
+/-- The compositum lies below its right input (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:398`). -/
 theorem compositum_le_right (L₁ L₂ : FiniteGaloisSubextension K) :
     (L₁.compositum L₂).field.toSubgroup ≤ L₂.field.toSubgroup :=
   inf_le_right
@@ -364,9 +341,8 @@ theorem compositum_le_right (L₁ L₂ : FiniteGaloisSubextension K) :
 /-- **Base change of a finite Galois extension** `M / K` to an
 intermediate field `L / K`: contravariantly the compositum `ML` is
 `G_M ∩ G_L`, with normality and finite index pulled back from
-`G_M ◁ G_K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:291`]
-[Yamaguchi2026]). -/
+`G_M ◁ G_K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:291`). -/
 def baseChange (M : FiniteGaloisSubextension K) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup) : FiniteGaloisSubextension L where
   field := L ⊓ M.field

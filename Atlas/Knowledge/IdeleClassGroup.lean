@@ -27,8 +27,9 @@ class group; that comparison map is later-phase vocabulary, deliberately not thi
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField
@@ -39,8 +40,8 @@ namespace Atlas.Knowledge
 variable (K : Type*) [Field K] [NumberField K]
 
 /-- The **idele class group** `C_K = 𝕀_K / K^×`: the ideles modulo the principal ideles
-([Milne 2020, Chap. V, §4, p.171][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalCore.lean:71`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §4, p.171][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/PrincipalCore.lean:71`). -/
 abbrev IdeleClassGroup : Type _ :=
   IdeleGroup K ⧸ principalIdeleSubgroup K
 

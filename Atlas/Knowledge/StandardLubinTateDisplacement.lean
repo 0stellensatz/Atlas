@@ -44,8 +44,9 @@ converts once.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -292,8 +293,7 @@ private theorem lubinTateSMul_factor (e : LubinTateSeries ↥𝒪[K] π) (a : �
 
 /-- **The right displacement takes the displacing value**: `ν(x +[e] y − x) = ν(y)` —
 the cofactor of the factorization `F − X₀ = X₁ · G` evaluates to a principal unit
-([Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveDisplacement.lean:291`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveDisplacement.lean:291`). -/
 theorem integerValuation_lubinTateAdd_sub_left (e : LubinTateSeries ↥𝒪[K] π)
     {x y : ↥𝒪[E]} (hx : x ∈ 𝓂[E]) (hy : y ∈ 𝓂[E]) :
     integerValuation E (lubinTateAdd K E hπ e x y - x) = integerValuation E y := by
@@ -309,8 +309,7 @@ theorem integerValuation_lubinTateAdd_sub_left (e : LubinTateSeries ↥𝒪[K] �
 
 /-- **A unit scalar preserves the value**: `ν([a] x) = ν(x)` for `a` a unit — the
 scalar endomorphism is `X` times a series whose evaluation is congruent to `a`
-([Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveDisplacement.lean:345`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveDisplacement.lean:345`). -/
 theorem integerValuation_lubinTateSMul_isUnit (e : LubinTateSeries ↥𝒪[K] π)
     {a : ↥𝒪[K]} (ha : IsUnit a) {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E]) :
     integerValuation E (lubinTateSMul K E hπ e a x) = integerValuation E x := by
@@ -346,9 +345,8 @@ theorem integerValuation_lubinTateSMul_sub_self (e : LubinTateSeries ↥𝒪[K] 
 /-- **The displacement spectrum at a primitive root**: a scalar whose distance from
 one has depth exactly `j ≤ n` displaces the root by value `qʲ ν(x)`
 ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6 (a), (b), pp.38–39][MilneCFT] — the tower
-structure behind the conjugate distances;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveDisplacement.lean:494`]
-[Yamaguchi2026]). -/
+structure behind the conjugate distances; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveDisplacement.lean:494`). -/
 theorem integerValuation_standardLubinTateSMul_sub_self
     {n : ℕ} {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E])
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)

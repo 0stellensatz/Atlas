@@ -78,8 +78,9 @@ orbit vocabulary.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -95,8 +96,8 @@ section transferFrobeniusGeometry
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- The chosen representative of a norm orbit: the inverse of the
-corresponding transfer orbit's representative
-([Yamaguchi 2026, `MainTransferFrobenius.lean:35`][Yamaguchi2026]). -/
+corresponding transfer orbit's representative (Yamaguchi 2026,
+`MainTransferFrobenius.lean:35`). -/
 noncomputable def chosenTransferNormNaturalityNormOrbitRepresentative
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -118,7 +119,7 @@ noncomputable def chosenTransferNormNaturalityNormOrbitRepresentative
   QuotientGroup.mk (Quotient.out qT.out.out)⁻¹
 
 /-- The chosen representative represents its orbit
-([Yamaguchi 2026, `MainTransferFrobenius.lean:56`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:56`). -/
 theorem chosenTransferNormNaturalityNormOrbitRepresentative_spec
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -145,8 +146,8 @@ section transferOrbitNorms
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /- The relative norm as the double sum over norm double cosets and
-stabilizer cosets, at the chosen representatives
-([Yamaguchi 2026, `MainTransferFrobenius.lean:93`][Yamaguchi2026]). -/
+stabilizer cosets, at the chosen representatives (Yamaguchi 2026,
+`MainTransferFrobenius.lean:93`). -/
 private theorem transferNormNaturalityNorm_eq_sum_transferOrbitRepresentatives
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -219,8 +220,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The canonical identification of the two realizations of
-`G(L̃|K')`**
-([Yamaguchi 2026, `MainTransferFrobenius.lean:168`][Yamaguchi2026]). -/
+`G(L̃|K')`** (Yamaguchi 2026,
+`MainTransferFrobenius.lean:168`). -/
 noncomputable def transferNormNaturalityFrobeniusIntermediateEquiv
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -240,7 +241,7 @@ noncomputable def transferNormNaturalityFrobeniusIntermediateEquiv
       MonoidHom.rangeRestrict_surjective _⟩
 
 /-- The identification evaluates by inclusion on representatives
-([Yamaguchi 2026, `MainTransferFrobenius.lean:191`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:191`). -/
 @[simp]
 theorem transferNormNaturalityFrobeniusIntermediateEquiv_mk
     (D : DegreeData G)
@@ -255,8 +256,8 @@ theorem transferNormNaturalityFrobeniusIntermediateEquiv_mk
       QuotientGroup.mk (Subgroup.inclusion E.below k') := rfl
 
 /-- **A divisibility fact in `ℤ̂`** recognizing every transfer term as a
-positive Frobenius element over `K'`
-([Yamaguchi 2026, `MainTransferFrobenius.lean:205`][Yamaguchi2026]). -/
+positive Frobenius element over `K'` (Yamaguchi 2026,
+`MainTransferFrobenius.lean:205`). -/
 theorem transferNormNaturality_profiniteInteger_positive_nat_of_nsmul_eq_nat
     (f N : ℕ) (hf : 0 < f) (hN : 0 < N) (z : ProfiniteInteger)
     (h : f • z = N • (1 : ProfiniteInteger)) :
@@ -278,8 +279,8 @@ theorem transferNormNaturality_profiniteInteger_positive_nat_of_nsmul_eq_nat
   rw [h, smul_smul, ← hN_eq]
 
 /-- **The element `τ⁻¹σ^{f(τ)}τ` of `H` attached to one double coset in
-the transfer formula on `G(L̃|K)`**
-([Yamaguchi 2026, `MainTransferFrobenius.lean:235`][Yamaguchi2026]). -/
+the transfer formula on `G(L̃|K)`** (Yamaguchi 2026,
+`MainTransferFrobenius.lean:235`). -/
 noncomputable def transferNormNaturalityFrobeniusTransferTerm
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -300,7 +301,7 @@ noncomputable def transferNormNaturalityFrobeniusTransferTerm
     QuotientGroup.out_conj_pow_minimalPeriod_mem H σ.1 q.out⟩
 
 /-- **The transfer term pulled back from `H` to `G(L̃|K')`**
-([Yamaguchi 2026, `MainTransferFrobenius.lean:256`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:256`). -/
 noncomputable def transferNormNaturalityFrobeniusTransferTermPreimage
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -319,8 +320,8 @@ noncomputable def transferNormNaturalityFrobeniusTransferTermPreimage
     (D.transferNormNaturalityFrobeniusTransferTerm E L hL σ q)
 
 /-- **The pullback of each double-coset term has strictly positive
-integral normalized degree**
-([Yamaguchi 2026, `MainTransferFrobenius.lean:275`][Yamaguchi2026]). -/
+integral normalized degree** (Yamaguchi 2026,
+`MainTransferFrobenius.lean:275`). -/
 theorem transferNormNaturalityFrobeniusTransferTermPreimage_degree
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -408,8 +409,8 @@ theorem transferNormNaturalityFrobeniusTransferTermPreimage_degree
   exact hnEq
 
 /-- **The Frobenius lift over `K'` represented by one term of the
-transfer product**
-([Yamaguchi 2026, `MainTransferFrobenius.lean:363`][Yamaguchi2026]). -/
+transfer product** (Yamaguchi 2026,
+`MainTransferFrobenius.lean:363`). -/
 noncomputable def transferNormNaturalityTransferFrobeniusLift
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -430,7 +431,7 @@ noncomputable def transferNormNaturalityTransferFrobeniusLift
       E L hL σ q⟩
 
 /-- The transfer lift coerces to the pulled-back term
-([Yamaguchi 2026, `MainTransferFrobenius.lean:387`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:387`). -/
 @[simp]
 theorem transferNormNaturalityTransferFrobeniusLift_coe
     (D : DegreeData G)
@@ -451,7 +452,7 @@ theorem transferNormNaturalityTransferFrobeniusLift_coe
         E L hL σ q := rfl
 
 /-- **The transfer lift maps to the transfer term under the tower map**
-([Yamaguchi 2026, `MainTransferFrobenius.lean:407`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:407`). -/
 theorem transferNormNaturalityTransferFrobeniusLift_towerMap
     (D : DegreeData G)
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -479,8 +480,8 @@ theorem transferNormNaturalityTransferFrobeniusLift_towerMap
           E L hL σ q))
 
 /-- **The closed subgroup generated by a transfer lift maps onto the
-closed subgroup generated by its transfer term**
-([Yamaguchi 2026, `MainTransferFrobenius.lean:435`][Yamaguchi2026]). -/
+closed subgroup generated by its transfer term** (Yamaguchi 2026,
+`MainTransferFrobenius.lean:435`). -/
 theorem transferNormNaturalityTransferFrobeniusLift_closure_map
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -589,8 +590,8 @@ theorem transferNormNaturalityTransferFrobeniusLift_closure_map
 
 /-- **For a transfer orbit represented by `t`, membership in the fixed
 subgroup of its Frobenius lift over `K'` is stabilization of the norm
-coset `t⁻¹G_Σ`** — the intersection `G_K' ∩ t⁻¹G_Σt`
-([Yamaguchi 2026, `MainTransferFrobenius.lean:545`][Yamaguchi2026]). -/
+coset `t⁻¹G_Σ`** — the intersection `G_K' ∩ t⁻¹G_Σt` (Yamaguchi 2026,
+`MainTransferFrobenius.lean:545`). -/
 theorem transferNormNaturalityTransferFrobeniusLift_mem_fixedSubgroup_iff_stabilizer
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -735,7 +736,7 @@ theorem transferNormNaturalityTransferFrobeniusLift_mem_fixedSubgroup_iff_stabil
 
 /-- **The fixed-subgroup calculation as a literal subgroup equality**,
 identifying the stabilizer-coset fiber with the norm fiber
-([Yamaguchi 2026, `MainTransferFrobenius.lean:695`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:695`). -/
 theorem transferNormNaturalityTransferFrobeniusLift_fixedSubgroup_map
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -783,7 +784,7 @@ end DegreeData
 
 /-- The quotient by a transfer factor's fixed subgroup as the
 stabilizer-coset fiber of its norm double coset
-([Yamaguchi 2026, `MainTransferFrobenius.lean:756`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:756`). -/
 noncomputable def chosenTransferNormNaturalityTransferNormFiberEquiv
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]
     (E : FiniteResidueAbstractExtension D) (L : ClosedSubgroup G)
@@ -820,7 +821,7 @@ noncomputable def chosenTransferNormNaturalityTransferNormFiberEquiv
     (Subgroup.quotientEquivOfEq hEq)
 
 /-- The fiber equivalence evaluates by the absolute identification
-([Yamaguchi 2026, `MainTransferFrobenius.lean:797`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransferFrobenius.lean:797`). -/
 @[simp]
 theorem chosenTransferNormNaturalityTransferNormFiberEquiv_mk
     (D : DegreeData G) [IsTopologicalGroup G] [CompactSpace G]

@@ -23,8 +23,9 @@ identities are the source of truth; no natural-valued index enters.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -38,8 +39,8 @@ namespace FiniteResidueAbstractField
 /-- **Residue finiteness ascends along a finite relative residue quotient**:
 if the base has finite absolute residue quotient and the relative residue
 quotient is finite, so is the upper absolute residue quotient — by the cardinal
-Frobenius compatibility
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:951`][Yamaguchi2026]). -/
+Frobenius compatibility (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:951`). -/
 noncomputable def ofRelativeInclusion (D : DegreeData G)
     (field : ClosedSubgroup G) (base : FiniteResidueAbstractField D)
     (below : field.toSubgroup ≤ base.field.toSubgroup)
@@ -73,7 +74,7 @@ end FiniteResidueAbstractField
 
 /-- **A finite extension with residue-finite endpoints**: both endpoints carry
 their finite absolute residue quotients, and the relative quotient is finite
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:985`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:985`). -/
 structure FiniteResidueAbstractExtension (D : DegreeData G) where
   /-- The top endpoint with its finite residue quotient. -/
   field : FiniteResidueAbstractField D
@@ -91,7 +92,7 @@ namespace FiniteResidueAbstractExtension
 
 /-- **Enrich a finite extension of a residue-finite base**: finiteness of the
 upper absolute residue quotient is deduced from the cardinal tower identity
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1006`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1006`). -/
 noncomputable def ofInclusion (D : DegreeData G)
     (field : ClosedSubgroup G) (base : FiniteResidueAbstractField D)
     (below : field.toSubgroup ≤ base.field.toSubgroup)

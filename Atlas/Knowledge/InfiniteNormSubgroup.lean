@@ -38,8 +38,9 @@ hand.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -52,9 +53,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **A finite intermediate field `M` of an abstract extension `E | K`**:
 contravariantly, its subgroup lies between `G_E` and `G_K`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:28`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:28`). -/
 structure FiniteIntermediateField (E K : ClosedSubgroup G) where
   /-- The closed subgroup representing the intermediate field. -/
   field : ClosedSubgroup G
@@ -68,9 +68,8 @@ structure FiniteIntermediateField (E K : ClosedSubgroup G) where
 
 namespace FiniteIntermediateField
 
-/-- The base field itself is a finite intermediate field ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:42`]
-[Yamaguchi2026]). -/
+/-- The base field itself is a finite intermediate field (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:42`). -/
 def base (E K : ClosedSubgroup G) (hEK : E.toSubgroup ≤ K.toSubgroup) :
     FiniteIntermediateField E K where
   field := K
@@ -83,9 +82,8 @@ def base (E K : ClosedSubgroup G) (hEK : E.toSubgroup ≤ K.toSubgroup) :
 end FiniteIntermediateField
 
 /-- The norm image from a finite intermediate field `M` to `K`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:68`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:68`). -/
 def finiteIntermediateNormRange
     (A : Rep ℤ G) (E K : ClosedSubgroup G)
     (M : FiniteIntermediateField E K) :
@@ -95,9 +93,8 @@ def finiteIntermediateNormRange
 
 /-- **The norm subgroup of a possibly infinite extension**:
 `N_{E|K} A_E = ⋂_M N_{M|K} A_M` over the finite intermediate fields
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:78`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:78`). -/
 def infiniteNormSubgroup
     (A : Rep ℤ G) (E K : ClosedSubgroup G) :
     AddSubgroup (ambientFixedAddSubgroup A K) :=
@@ -105,9 +102,8 @@ def infiniteNormSubgroup
     finiteIntermediateNormRange A E K M
 
 /-- **Membership in the infinite norm subgroup is being a norm from every
-finite level** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:86`]
-[Yamaguchi2026]). -/
+finite level** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:86`). -/
 @[simp]
 theorem mem_infiniteNormSubgroup_iff
     (A : Rep ℤ G) (E K : ClosedSubgroup G)
@@ -120,17 +116,15 @@ theorem mem_infiniteNormSubgroup_iff
 /-- **The quotient `A_K / N_{E|K} A_E` the reciprocity map lands in** —
 opaque: clients use `infiniteNormClass`,
 `InfiniteNormQuotient.induction_on`, or `infiniteNormQuotientLift`, never
-the concrete quotient representation ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:99`]
-[Yamaguchi2026]). -/
+the concrete quotient representation (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:99`). -/
 def InfiniteNormQuotient
     (A : Rep ℤ G) (E K : ClosedSubgroup G) :=
   ambientFixedAddSubgroup A K ⧸ infiniteNormSubgroup A E K
 
 /-- The additive group structure on the infinite norm quotient
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:104`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:104`). -/
 instance infiniteNormQuotientAddCommGroup
     (A : Rep ℤ G) (E K : ClosedSubgroup G) :
     AddCommGroup (InfiniteNormQuotient A E K) := by
@@ -138,9 +132,8 @@ instance infiniteNormQuotientAddCommGroup
   infer_instance
 
 /-- The explicit boundary to the concrete quotient implementation
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:111`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:111`). -/
 def infiniteNormQuotientConcreteEquiv
     (A : Rep ℤ G) (E K : ClosedSubgroup G) :
     InfiniteNormQuotient A E K ≃+
@@ -149,9 +142,8 @@ def infiniteNormQuotientConcreteEquiv
   exact AddEquiv.refl _
 
 /-- **The canonical class map into the infinite norm quotient**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:119`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:119`). -/
 def infiniteNormClass
     (A : Rep ℤ G) (E K : ClosedSubgroup G) :
     ambientFixedAddSubgroup A K →+
@@ -169,9 +161,8 @@ theorem infiniteNormQuotientConcreteEquiv_infiniteNormClass
   rfl
 
 /-- **A norm class vanishes exactly on the norm subgroup**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:138`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:138`). -/
 @[simp]
 theorem infiniteNormClass_eq_zero_iff
     (A : Rep ℤ G) (E K : ClosedSubgroup G)
@@ -182,9 +173,8 @@ theorem infiniteNormClass_eq_zero_iff
   exact QuotientAddGroup.eq_zero_iff a
 
 /-- **Every norm-quotient class has an ambient representative**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:147`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:147`). -/
 theorem infiniteNormClass_surjective
     (A : Rep ℤ G) (E K : ClosedSubgroup G) :
     Function.Surjective (infiniteNormClass A E K) := by
@@ -194,9 +184,8 @@ theorem infiniteNormClass_surjective
   exact ⟨a, rfl⟩
 
 /-- **Eliminate a norm-quotient class through an ambient representative**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:158`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:158`). -/
 @[elab_as_elim]
 theorem InfiniteNormQuotient.induction_on
     (A : Rep ℤ G) (E K : ClosedSubgroup G)
@@ -207,9 +196,8 @@ theorem InfiniteNormQuotient.induction_on
   exact h a
 
 /-- **Descend an additive homomorphism that kills the norm subgroup**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:167`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/NormSubgroup.lean:167`). -/
 def infiniteNormQuotientLift
     {B : Type*} [AddCommGroup B]
     (A : Rep ℤ G) (E K : ClosedSubgroup G)

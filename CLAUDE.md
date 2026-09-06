@@ -15,7 +15,7 @@ Two layers, and the whole design is in the relation between them:
 
 **Why the comparator is here at all:** an agent writing a proof can edit the statement in the same edit, and no `git diff` flags that, because a diff on the file the proof goes into is exactly what an answer looks like. The fourth check of `__check__.py` is the only thing that says the statement in the file the agent edited still matches the statement in the file it did not. That is the threat model, and the second file is the mechanism—not overhead.
 
-**Citations resolve against** `bib/__main__.bib` in the `knowledge-base` repository this project is developed alongside—or `bib/__main__.ja.bib`, whose keys carry a `ja_` prefix, for a Japanese-language work. Adding an entry there is that repository's `/pdf-to-bib` skill's job. `@./__docs__/rules-documentation.md` defers to this line for which bibliography a cite key lives in and names none itself, because the rest of it has to hold when this repository is read on its own.
+**Citations resolve against** `bib/__main__.bib` in the `knowledge-base` repository this project is developed alongside—or `bib/__main__.ja.bib`, whose keys carry a `ja_` prefix, for a Japanese-language work. Adding an entry there is that repository's `/pdf-to-bib` skill's job. **A code repository is the exception**: it gets no entry and no key, and is cited by a Markdown link carrying its URL—see `@./__docs__/rules-documentation.md`. `@./__docs__/rules-documentation.md` defers to this line for which bibliography a cite key lives in and names none itself, because the rest of it has to hold when this repository is read on its own.
 
 ## Architecture
 

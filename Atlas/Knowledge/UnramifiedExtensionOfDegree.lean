@@ -71,8 +71,9 @@ the arc strips. Everything else ports token-for-token.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -86,9 +87,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- Reduction modulo `f` after the normalized degree `d_K` of the base
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:30`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:30`). -/
 def unramifiedDegreeHom (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (f : ℕ) [NeZero f] :
     K.field.toSubgroup →ₜ* Multiplicative (ZMod f) where
@@ -102,18 +102,16 @@ def unramifiedDegreeHom (D : DegreeData G)
       (continuous_toAdd.comp (D.normalizedDegree K).continuous))
 
 /-- The subgroup of `G_K` fixing the degree-`f` unramified extension
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:36`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:36`). -/
 def unramifiedDegreeKernelWithin (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (f : ℕ) [NeZero f] :
     Subgroup K.field.toSubgroup :=
   (unramifiedDegreeHom D K f).toMonoidHom.ker
 
 /-- The defining kernel equation for the reduction subgroup, by
-definition ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:42`]
-[Yamaguchi2026]). -/
+definition (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:42`). -/
 theorem unramifiedDegreeKernelWithin_eq_ker (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (f : ℕ) [NeZero f] :
     unramifiedDegreeKernelWithin D K f =
@@ -121,9 +119,8 @@ theorem unramifiedDegreeKernelWithin_eq_ker (D : DegreeData G)
   rfl
 
 /-- The kernel of normalized degree modulo a positive integer is closed
-inside the finite-residue field subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:52`]
-[Yamaguchi2026]). -/
+inside the finite-residue field subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:52`). -/
 theorem unramifiedDegreeKernelWithin_isClosed (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (f : ℕ) [NeZero f] :
     IsClosed (unramifiedDegreeKernelWithin D K f :
@@ -135,9 +132,8 @@ theorem unramifiedDegreeKernelWithin_isClosed (D : DegreeData G)
     (unramifiedDegreeHom D K f).continuous_toFun
 
 /-- **The actual fixed field of the reduction-modulo-`f` kernel of `d_K`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:64`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:64`). -/
 def unramifiedExtensionOfDegree (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D)
     (f : ℕ) [NeZero f] : ClosedSubgroup G where
@@ -151,9 +147,8 @@ def unramifiedExtensionOfDegree (D : DegreeData G) [IsTopologicalGroup G]
       (unramifiedDegreeKernelWithin_isClosed D K f)
 
 /-- Membership in the unramified extension of degree `f` is membership
-of a representative in the reduction kernel ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:81`]
-[Yamaguchi2026]). -/
+of a representative in the reduction kernel (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:81`). -/
 @[simp]
 theorem mem_unramifiedExtensionOfDegree_iff (D : DegreeData G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D)
@@ -164,9 +159,8 @@ theorem mem_unramifiedExtensionOfDegree_iff (D : DegreeData G)
   Iff.rfl
 
 /-- The unramified extension of degree `f` lies over the base `K`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:90`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:90`). -/
 theorem unramifiedExtensionOfDegree_le (D : DegreeData G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D)
     (f : ℕ) [NeZero f] :
@@ -176,9 +170,8 @@ theorem unramifiedExtensionOfDegree_le (D : DegreeData G)
   exact k.2
 
 /-- The relative subgroup of the unramified extension of degree `f` is
-the reduction kernel ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:102`]
-[Yamaguchi2026]). -/
+the reduction kernel (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:102`). -/
 theorem subgroupOf_unramifiedExtensionOfDegree (D : DegreeData G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D)
     (f : ℕ) [NeZero f] :
@@ -196,9 +189,8 @@ theorem subgroupOf_unramifiedExtensionOfDegree (D : DegreeData G)
   · intro hk
     exact ⟨k, hk, rfl⟩
 
-/-- The reduced normalized degree is surjective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:120`]
-[Yamaguchi2026]). -/
+/-- The reduced normalized degree is surjective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:120`). -/
 theorem unramifiedDegreeHom_surjective (D : DegreeData G)
     (K : FiniteResidueAbstractField D)
     (f : ℕ) [NeZero f] :
@@ -214,9 +206,8 @@ theorem unramifiedDegreeHom_surjective (D : DegreeData G)
   exact hw
 
 /-- The extension subgroup of the canonical unramified degree-`f`
-extension is normal ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:137`]
-[Yamaguchi2026]). -/
+extension is normal (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:137`). -/
 instance unramifiedExtensionOfDegree_normal (D : DegreeData G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D)
     (f : ℕ) [NeZero f] :
@@ -226,9 +217,8 @@ instance unramifiedExtensionOfDegree_normal (D : DegreeData G)
   infer_instance
 
 /-- **The reduction kernel packages an actual finite Galois extension of `K`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:147`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:147`). -/
 def finiteUnramifiedExtension (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D)
     (f : ℕ) [NeZero f] : FiniteGaloisSubextension K.field where
@@ -248,9 +238,8 @@ def finiteUnramifiedExtension (D : DegreeData G) [IsTopologicalGroup G]
         (unramifiedDegreeHom_surjective D K f)).injective
 
 /-- The extension subgroup carried by the bundled finite unramified
-extension is the reduction kernel that constructed it ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:168`]
-[Yamaguchi2026]). -/
+extension is the reduction kernel that constructed it (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:168`). -/
 theorem subgroupOf_finiteUnramifiedExtension
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (f : ℕ) [NeZero f] :
@@ -261,9 +250,8 @@ theorem subgroupOf_finiteUnramifiedExtension
 
 /-- **The finite unramified extension is abelian**: its Galois quotient
 is the cyclic quotient detected by the normalized degree modulo `f`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:179`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:179`). -/
 def finiteUnramifiedAbelianExtension (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D)
     (f : ℕ) [NeZero f] : FiniteAbelianSubextension K.field where
@@ -296,9 +284,8 @@ def finiteUnramifiedAbelianExtension (D : DegreeData G) [IsTopologicalGroup G]
           rw [map_mul, map_mul, mul_comm] }
 
 /-- Forgetting commutativity from the abelian package recovers the
-canonical finite unramified Galois extension ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:219`]
-[Yamaguchi2026]). -/
+canonical finite unramified Galois extension (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:219`). -/
 @[simp]
 theorem finiteUnramifiedAbelianExtension_toFiniteGaloisExtension
     (D : DegreeData G) [IsTopologicalGroup G]
@@ -309,9 +296,8 @@ theorem finiteUnramifiedAbelianExtension_toFiniteGaloisExtension
   rfl
 
 /-- The reduction kernel contains inertia, so its fixed field is
-unramified ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:228`]
-[Yamaguchi2026]). -/
+unramified (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:228`). -/
 theorem unramifiedExtensionOfDegree_isUnramified (D : DegreeData G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D)
     (f : ℕ) [NeZero f] :
@@ -337,9 +323,8 @@ theorem unramifiedExtensionOfDegree_isUnramified (D : DegreeData G)
   exact ⟨k, hkReduction, rfl⟩
 
 /-- **The finite extension cut out by reduction modulo `f` has degree `f`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:253`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:253`). -/
 theorem finiteUnramifiedExtension_degree (D : DegreeData G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D)
     (f : ℕ) [NeZero f] :
@@ -371,9 +356,8 @@ theorem finiteUnramifiedExtension_degree (D : DegreeData G)
     _ = f := Nat.card_zmod f
 
 /-- Thus the positive relative residue degree is `f` as well
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:286`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ValuationContinuity.lean:286`). -/
 theorem finiteUnramifiedExtension_residueDegree (D : DegreeData G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D)
     (f : ℕ) [NeZero f] :

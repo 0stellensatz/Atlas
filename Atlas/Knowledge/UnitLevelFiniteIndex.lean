@@ -37,8 +37,9 @@ kernel is the ultrametric evaluation `v (1 + m) = 1` on a maximal-ideal element 
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -76,9 +77,8 @@ normalized valuation is the compact unit group of the integers and the level is 
 the quotient is finite — "because `U_L` is compact, the quotient `U_L/V` is finite"
 ([Milne 2020, Chap. III, proof of Lemma 2.5, p.105][MilneCFT]; the source counterpart,
 over the integer-unit carrier and through the principal-unit level tower — residue-field
-counting rather than compactness — is
-[Yamaguchi 2026, `LocalClassFieldTheory/ClassFormation/NormalBasisFiniteQuotient.lean:77`]
-[Yamaguchi2026]). -/
+counting rather than compactness — is Yamaguchi 2026,
+`LocalClassFieldTheory/ClassFormation/NormalBasisFiniteQuotient.lean:77`). -/
 theorem unitLevelFiniteIndex (i : ℕ+) :
     Finite (↥(normalizedValuationHom L).ker ⧸
       (higherUnitGroup L i).subgroupOf (normalizedValuationHom L).ker) := by

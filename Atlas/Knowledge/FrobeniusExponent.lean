@@ -60,8 +60,9 @@ topological-group binder.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -73,9 +74,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /- The quotient projection with its quotient topology, used locally below
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:23`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:23`). -/
 private def continuousQuotientMk
     {A : Type*} [Group A] [TopologicalSpace A]
     (N : Subgroup A) [N.Normal] : A →ₜ* A ⧸ N where
@@ -83,9 +83,8 @@ private def continuousQuotientMk
   continuous_toFun := continuous_quotient_mk'
 
 /- The continuous lift of a homomorphism through a quotient, used locally
-below ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:31`]
-[Yamaguchi2026]). -/
+below (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:31`). -/
 private def continuousQuotientLift
     {A : Type*} {B : Type*} [Group A] [TopologicalSpace A]
     [Group B] [TopologicalSpace B]
@@ -101,9 +100,8 @@ private def continuousQuotientLift
           (N := N)).continuous_iff.2 hcomp }
 
 /- A nonidentity element of a profinite group is omitted by some open normal
-subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:65`]
-[Yamaguchi2026]). -/
+subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:65`). -/
 private theorem exists_openNormalSubgroup_not_mem
     {A : Type*} [Group A] [TopologicalSpace A] [IsTopologicalGroup A]
     [CompactSpace A] [T2Space A] [TotallyDisconnectedSpace A]
@@ -123,9 +121,8 @@ private theorem exists_openNormalSubgroup_not_mem
   exact hxW (by simp)
 
 /-- **Reduction modulo `n`, in the multiplicative presentation**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:111`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:111`). -/
 def profiniteIntegerReductionMul (n : ℕ) [NeZero n] :
     ProfiniteIntegerMul →ₜ* Multiplicative (ZMod n) where
   toFun z := Multiplicative.ofAdd (ProfiniteInteger.reduction n z.toAdd)
@@ -150,9 +147,8 @@ theorem profiniteIntegerReductionMul_apply_toAdd (n : ℕ) [NeZero n]
 `1` is injective**, the cardinal comparison of the classical Frobenius
 fixed-field proof: any nonvanishing kernel element survives into a finite
 quotient that the corresponding finite reduction of `ℤ̂` matches exactly
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:132`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:132`). -/
 theorem injective_of_topologicallyGenerates_ofAdd_one
     {A : Type*} [CommGroup A] [TopologicalSpace A]
     [IsTopologicalGroup A] [CompactSpace A] [T2Space A]
@@ -310,9 +306,8 @@ theorem injective_of_topologicallyGenerates_ofAdd_one
 namespace DegreeData
 
 /-- **The Frobenius exponent** `d_K(σ)` of a Frobenius element
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:295`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:295`). -/
 def frobeniusExponent (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -320,9 +315,8 @@ def frobeniusExponent (D : DegreeData G)
     (σ : D.FrobeniusElements K L hLK) : ℕ :=
   Exists.choose σ.2
 
-/-- **The Frobenius exponent is strictly positive** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:302`]
-[Yamaguchi2026]). -/
+/-- **The Frobenius exponent is strictly positive** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:302`). -/
 theorem frobeniusExponent_pos (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -342,9 +336,8 @@ instance frobeniusExponent_neZero (D : DegreeData G)
   ⟨(D.frobeniusExponent_pos K L hLK σ).ne'⟩
 
 /-- **The normalized degree of a Frobenius element is the exponent's power
-of the generator** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:310`]
-[Yamaguchi2026]). -/
+of the generator** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:310`). -/
 theorem extensionNormalizedDegree_frobenius_eq_pow (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -356,9 +349,8 @@ theorem extensionNormalizedDegree_frobenius_eq_pow (D : DegreeData G)
   (Exists.choose_spec σ.2).2
 
 /-- **The normalized-degree equation determines the Frobenius exponent**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:322`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:322`). -/
 theorem frobeniusExponent_unique (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -373,9 +365,8 @@ theorem frobeniusExponent_unique (D : DegreeData G)
     (D.extensionNormalizedDegree_frobenius_eq_pow K L hLK σ)
 
 /-- **The factorized normalized degree as a continuous homomorphism**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:336`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:336`). -/
 def extensionNormalizedDegreeContinuous (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -412,9 +403,8 @@ theorem extensionNormalizedDegreeContinuous_toMonoidHom (D : DegreeData G)
   rfl
 
 /-- **The continuous normalized degree of the extension is surjective**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:372`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:372`). -/
 theorem extensionNormalizedDegreeContinuous_surjective (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -427,9 +417,8 @@ theorem extensionNormalizedDegreeContinuous_surjective (D : DegreeData G)
   simpa using hk
 
 /-- **Restriction embeds the degree kernel on `G(L̃|K)` into the finite
-group `G(L|K)`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:385`]
-[Yamaguchi2026]). -/
+group `G(L|K)`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:385`). -/
 def extensionDegreeKernelRestriction (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -440,9 +429,8 @@ def extensionDegreeKernelRestriction (D : DegreeData G)
   (D.extensionRestriction K.field L hLK).comp
     (D.extensionNormalizedDegreeContinuous K L hLK).toMonoidHom.ker.subtype
 
-/-- **Restriction is injective on the degree kernel** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:395`]
-[Yamaguchi2026]). -/
+/-- **Restriction is injective on the degree kernel** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:395`). -/
 theorem extensionDegreeKernelRestriction_injective (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -486,9 +474,9 @@ theorem extensionDegreeKernelRestriction_injective (D : DegreeData G)
   apply Subtype.ext
   exact inv_mul_eq_one.mp hcOne
 
-/-- **The relative inertia is closed in the base subgroup** ([Yamaguchi
-2026, `AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:438`]
-[Yamaguchi2026]). -/
+/-- **The relative inertia is closed in the base subgroup**
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusFixedField.lean:438`). -/
 theorem extensionInertiaWithin_isClosed (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup) :

@@ -34,8 +34,9 @@ the two sign factors as an even power of `−1`. The source's proof is the same 
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open Polynomial
@@ -43,8 +44,8 @@ open Polynomial
 namespace Atlas.Knowledge
 
 /-- The **norm of a negation** carries the sign `(−1)^{[L:K]}` — the general field step
-behind the level norm computations
-([Yamaguchi 2026, `LubinTate/FiniteLevel/NormUniformizer.lean:25`][Yamaguchi2026]). -/
+behind the level norm computations (Yamaguchi 2026,
+`LubinTate/FiniteLevel/NormUniformizer.lean:25`). -/
 theorem algebraNorm_neg (K : Type*) [Field K] {L : Type*} [Field L] [Algebra K L]
     [FiniteDimensional K L] (x : L) :
     Algebra.norm K (-x) = (-1 : K) ^ Module.finrank K L * Algebra.norm K x := by
@@ -58,7 +59,7 @@ variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
 
 /-- The **norm of the negated level generator is the uniformizer**: `N(−λₙ) = π`
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (c), p.38, proof p.39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/NormUniformizer.lean:43`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/NormUniformizer.lean:43`). -/
 theorem standardLubinTate_norm_neg_levelGenerator {π : A} (hπ : Irreducible π) (n : ℕ) :
     Algebra.norm K (-(standardLubinTateLevelGenerator K hπ n :
         standardLubinTateLevelField K hπ n)) =

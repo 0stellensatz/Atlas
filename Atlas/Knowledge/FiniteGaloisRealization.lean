@@ -48,8 +48,9 @@ source's `LocalReciprocity/FiniteGaloisRealization.lean`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -66,36 +67,32 @@ variable (Ω : Type u) [Field Ω] [Algebra K Ω] [IsGalois K Ω]
 /-- The embedded copy of `L` determined by an explicit embedding into
 the fixed separable closure; keeping the embedding visible is what
 makes the canonicity argument in the finite local reciprocity theorem
-meaningful ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:32`]
-[Yamaguchi2026]). -/
+meaningful (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:32`). -/
 def finiteGaloisFieldRangeOfEmbedding
     (i : L →ₐ[K] Ω) :
     IntermediateField K Ω :=
   AlgHom.fieldRange i
 
 /-- An explicit embedding identifies `L` with its field range
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:38`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:38`). -/
 def finiteGaloisFieldRangeEquivOfEmbedding
     (i : L →ₐ[K] Ω) :
     L ≃ₐ[K] finiteGaloisFieldRangeOfEmbedding K L Ω i :=
   AlgEquiv.ofInjectiveField i
 
 /-- The image of an embedded finite Galois extension is again Galois
-over the base field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:44`]
-[Yamaguchi2026]). -/
+over the base field (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:44`). -/
 noncomputable instance finiteGaloisFieldRangeOfEmbedding_isGalois
     (i : L →ₐ[K] Ω) :
     IsGalois K (finiteGaloisFieldRangeOfEmbedding K L Ω i) :=
   IsGalois.of_algEquiv (finiteGaloisFieldRangeEquivOfEmbedding K L Ω i)
 
 /-- The image of an embedded finite extension is finite-dimensional
-over the base field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:50`]
-[Yamaguchi2026]). -/
+over the base field (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:50`). -/
 noncomputable instance finiteGaloisFieldRangeOfEmbedding_finiteDimensional
     (i : L →ₐ[K] Ω) :
     FiniteDimensional K (finiteGaloisFieldRangeOfEmbedding K L Ω i) :=
@@ -103,18 +100,16 @@ noncomputable instance finiteGaloisFieldRangeOfEmbedding_finiteDimensional
     K L Ω i).toLinearEquiv.finiteDimensional
 
 /-- The closed fixing subgroup attached to an explicit realization of
-`L/K` in the separable closure ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:57`]
-[Yamaguchi2026]). -/
+`L/K` in the separable closure (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:57`). -/
 def finiteGaloisClosedFixingSubgroupOfEmbedding
     (i : L →ₐ[K] Ω) :
     ClosedSubgroup (Ω ≃ₐ[K] Ω) :=
   closedFixingSubgroup (finiteGaloisFieldRangeOfEmbedding K L Ω i)
 
 /-- The fixing subgroup of an embedded finite Galois extension is
-normal in the absolute subgroup ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:64`]
-[Yamaguchi2026]). -/
+normal in the absolute subgroup (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:64`). -/
 noncomputable instance finiteGaloisExtensionSubgroupOfEmbedding_normal
     (i : L →ₐ[K] Ω) :
     ((finiteGaloisClosedFixingSubgroupOfEmbedding
@@ -129,9 +124,8 @@ noncomputable instance finiteGaloisExtensionSubgroupOfEmbedding_normal
   infer_instance
 
 /-- The fixed coefficient group attached to an explicit realization is
-canonically the actual unit group `Lˣ` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:84`]
-[Yamaguchi2026]). -/
+canonically the actual unit group `Lˣ` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:84`). -/
 def finiteGaloisUnitsEquivAbstractFixedOfEmbedding
     (i : L →ₐ[K] Ω) :
     Additive Lˣ ≃+
@@ -142,9 +136,8 @@ def finiteGaloisUnitsEquivAbstractFixedOfEmbedding
 
 omit [FiniteDimensional K L] [IsGalois K L] in
 /-- The fixed-module equivalence sends a field unit to the unit
-induced by the chosen embedding ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:95`]
-[Yamaguchi2026]). -/
+induced by the chosen embedding (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:95`). -/
 @[simp]
 theorem finiteGaloisUnitsEquivAbstractFixedOfEmbedding_coe
     (i : L →ₐ[K] Ω) (x : Lˣ) :
@@ -155,9 +148,8 @@ theorem finiteGaloisUnitsEquivAbstractFixedOfEmbedding_coe
 
 /-- The abstract class-formation extension quotient attached to an
 explicit realization of `L/K` is the actual relative Galois group
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:104`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:104`). -/
 def finiteGaloisAbstractQuotientEquivGaloisGroupOfEmbedding
     (i : L →ₐ[K] Ω) :
     ((closedFixingSubgroup
@@ -173,9 +165,8 @@ def finiteGaloisAbstractQuotientEquivGaloisGroupOfEmbedding
         (finiteGaloisFieldRangeEquivOfEmbedding K L Ω i)).symm
 
 /-- The subgroup attached to an explicit finite Galois realization has
-index equal to the ordinary field degree ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:122`]
-[Yamaguchi2026]). -/
+index equal to the ordinary field degree (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:122`). -/
 theorem finiteGaloisExtensionSubgroupOfEmbedding_index_eq_finrank
     (i : L →ₐ[K] Ω) :
     ((finiteGaloisClosedFixingSubgroupOfEmbedding
@@ -209,53 +200,47 @@ theorem finiteGaloisExtensionSubgroupOfEmbedding_index_eq_finrank
     _ = Module.finrank K L := IsGalois.card_aut_eq_finrank K L
 
 /-- The embedded copy of `L` inside the fixed separable closure
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:161`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:161`). -/
 def finiteGaloisFieldRange : IntermediateField K (SeparableClosure K) :=
   finiteGaloisFieldRangeOfEmbedding K L (SeparableClosure K)
     (separableEmbeddingIntoSeparableClosure K L)
 
 /-- The chosen embedding identifies `L` with its actual field range
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:166`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:166`). -/
 def finiteGaloisFieldRangeEquiv :
     L ≃ₐ[K] finiteGaloisFieldRange K L :=
   finiteGaloisFieldRangeEquivOfEmbedding K L (SeparableClosure K)
     (separableEmbeddingIntoSeparableClosure K L)
 
 /-- The canonical realization of a finite Galois extension is Galois
-over the base field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:172`]
-[Yamaguchi2026]). -/
+over the base field (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:172`). -/
 instance finiteGaloisFieldRange_isGalois :
     IsGalois K (finiteGaloisFieldRange K L) :=
   finiteGaloisFieldRangeOfEmbedding_isGalois K L (SeparableClosure K)
     (separableEmbeddingIntoSeparableClosure K L)
 
 /-- The canonical realization of a finite extension is
-finite-dimensional over the base field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:178`]
-[Yamaguchi2026]). -/
+finite-dimensional over the base field (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:178`). -/
 instance finiteGaloisFieldRange_finiteDimensional :
     FiniteDimensional K (finiteGaloisFieldRange K L) :=
   finiteGaloisFieldRangeOfEmbedding_finiteDimensional K L (SeparableClosure K)
     (separableEmbeddingIntoSeparableClosure K L)
 
 /-- **The concrete closed subgroup of the absolute separable Galois
-group attached to `L/K`** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:185`]
-[Yamaguchi2026]). -/
+group attached to `L/K`** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:185`). -/
 def finiteGaloisClosedFixingSubgroup :
     ClosedSubgroup (SeparableClosure K ≃ₐ[K] SeparableClosure K) :=
   finiteGaloisClosedFixingSubgroupOfEmbedding K L (SeparableClosure K)
     (separableEmbeddingIntoSeparableClosure K L)
 
 /-- The fixing subgroup of the canonical finite Galois realization is
-normal ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:191`]
-[Yamaguchi2026]). -/
+normal (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:191`). -/
 instance finiteGaloisExtensionSubgroup_normal :
     ((finiteGaloisClosedFixingSubgroup K L).toSubgroup.subgroupOf
       (closedFixingSubgroup
@@ -267,9 +252,8 @@ instance finiteGaloisExtensionSubgroup_normal :
   infer_instance
 
 /-- **The actual coefficient group fixed by the concrete subgroup
-attached to `L/K` is canonically `Lˣ`** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:210`]
-[Yamaguchi2026]). -/
+attached to `L/K` is canonically `Lˣ`** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:210`). -/
 def finiteGaloisUnitsEquivAbstractFixed :
     Additive Lˣ ≃+
       ambientFixedAddSubgroup
@@ -280,9 +264,8 @@ def finiteGaloisUnitsEquivAbstractFixed :
 
 omit [FiniteDimensional K L] in
 /-- The canonical fixed-module equivalence sends a unit through the
-chosen embedding ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:221`]
-[Yamaguchi2026]). -/
+chosen embedding (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:221`). -/
 @[simp]
 theorem finiteGaloisUnitsEquivAbstractFixed_coe (x : Lˣ) :
     (finiteGaloisUnitsEquivAbstractFixed K L (Additive.ofMul x)).1 =
@@ -294,9 +277,8 @@ theorem finiteGaloisUnitsEquivAbstractFixed_coe (x : Lˣ) :
 
 /-- **For the concrete realization of `L/K`, the exact quotient used
 by the abstract class-formation framework is canonically the actual
-Galois group** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:231`]
-[Yamaguchi2026]). -/
+Galois group** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:231`). -/
 def finiteGaloisAbstractQuotientEquivGaloisGroup :
     ((closedFixingSubgroup
         (⊥ : IntermediateField K (SeparableClosure K))).toSubgroup ⧸
@@ -308,9 +290,8 @@ def finiteGaloisAbstractQuotientEquivGaloisGroup :
     (SeparableClosure K) (separableEmbeddingIntoSeparableClosure K L)
 
 /-- The chosen realization has subgroup index equal to `[L : K]`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:245`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteGaloisRealization.lean:245`). -/
 theorem finiteGaloisExtensionSubgroup_index_eq_finrank :
     ((finiteGaloisClosedFixingSubgroup K L).toSubgroup.subgroupOf
       (closedFixingSubgroup

@@ -30,8 +30,9 @@ is canonical.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open NumberField IsDedekindDomain
@@ -66,9 +67,9 @@ private theorem valuation_support_finite (a : Kˣ) :
     v.valuation_eq_one_iff_notMem.mpr hmem.2, one_div_one]
 
 /-- The **valuation support** of a global unit: the finite places at which it is not a
-local unit ([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `KummerTheory/Concrete/SUnitPreparation/FiniteRadicalSupport.lean:86`,
-a chosen superset where this set is canonical][Yamaguchi2026]). -/
+local unit ([Milne 2020, Chap. VIII, §5, p.244][MilneCFT]; Yamaguchi 2026,
+`KummerTheory/Concrete/SUnitPreparation/FiniteRadicalSupport.lean:86`, a chosen
+superset where this set is canonical). -/
 noncomputable def unitFiniteSupport (a : Kˣ) : Finset (HeightOneSpectrum (𝓞 K)) :=
   (valuation_support_finite K a).toFinset
 

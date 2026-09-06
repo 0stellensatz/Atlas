@@ -56,8 +56,9 @@ read the bare form correctly — and bundled as `normalizedValuationHom` into
   York, 1979.
 * [Hyeon2025] S.-H. Hyeon, *The m-step solvable anabelian geometry of mixed-characteristic
   local fields*, J. London Math. Soc. **112** (2025), e70402.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -167,9 +168,8 @@ private theorem neg_one_le_toAdd_unzero {a : WithZero (Multiplicative ℤ)} (ha 
 exactly `1`: the value of an irreducible is nonzero and strictly below one, and it dominates
 every value strictly below one, because the maximal ideal is what the irreducible
 generates — under the order isomorphism that pins `ofAdd (-1)`, and the normalization negates
-([Serre 1979, Chap. XIII, §4, Prop. 13, p.197][Serre1979];
-[Yamaguchi 2026, `LocalFieldTheory/NonarchimedeanLocalField/IdealQuotients.lean:204`, sign
-reversed][Yamaguchi2026]). -/
+([Serre 1979, Chap. XIII, §4, Prop. 13, p.197][Serre1979]; Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/IdealQuotients.lean:204`, sign reversed). -/
 theorem normalizedValuation_irreducible (π : 𝒪[K]) (hπ : Irreducible π) (x : Kˣ)
     (hx : (x : K) = (π : K)) : normalizedValuation K x = 1 := by
   set e := IsNonarchimedeanLocalField.valueGroupWithZeroIsoInt K

@@ -24,8 +24,9 @@ The base and ambient fields occupy independent universes. The source's relative 
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -37,8 +38,8 @@ universe u v
 variable (k : Type u) (Ω : Type v) [Field k] [Field Ω] [Algebra k Ω] [IsGalois k Ω]
 
 /-- Inclusion of the units of the lower concrete fixed field in the units
-of the larger concrete fixed field
-([Yamaguchi 2026, `FixedFieldNormResidueNaturality.lean:26`][Yamaguchi2026]). -/
+of the larger concrete fixed field (Yamaguchi 2026,
+`FixedFieldNormResidueNaturality.lean:26`). -/
 def abstractFixedFieldUnitsInclusion
     (K K' : ClosedSubgroup (Gal(Ω/k)))
     (hK'K : K'.toSubgroup ≤ K.toSubgroup) :
@@ -51,8 +52,8 @@ def abstractFixedFieldUnitsInclusion
 
 omit [IsGalois k Ω] in
 /-- The concrete fixed-field unit equivalences identify actual unit
-inclusion with inclusion of fixed coefficients
-([Yamaguchi 2026, `FixedFieldNormResidueNaturality.lean:39`][Yamaguchi2026]). -/
+inclusion with inclusion of fixed coefficients (Yamaguchi 2026,
+`FixedFieldNormResidueNaturality.lean:39`). -/
 theorem abstractFixedFieldUnitsEquiv_inclusion
     (K K' : ClosedSubgroup (Gal(Ω/k)))
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -83,8 +84,8 @@ private theorem fixedFieldIntermediateFinite
 
 /-- Transfer between the abelianized actual relative Galois groups in a
 fixed-field tower, transported through the two canonical quotient/Galois
-equivalences
-([Yamaguchi 2026, `FixedFieldNormResidueNaturality.lean:282`][Yamaguchi2026]). -/
+equivalences (Yamaguchi 2026,
+`FixedFieldNormResidueNaturality.lean:282`). -/
 noncomputable def abstractFixedFieldAbelianizedTransfer
     (K K' L : ClosedSubgroup (Gal(Ω/k)))
     (hLK' : L.toSubgroup ≤ K'.toSubgroup)
@@ -123,8 +124,7 @@ noncomputable def abstractFixedFieldAbelianizedTransfer
 /-- Transfer-inclusion naturality for actual fixed fields.
 Transfer of the actual relative Galois abelianizations is compatible with
 inclusion of actual fixed-field units and the unit-level norm-residue
-symbols
-([Yamaguchi 2026, `FixedFieldNormResidueNaturality.lean:321`][Yamaguchi2026]). -/
+symbols (Yamaguchi 2026, `FixedFieldNormResidueNaturality.lean:321`). -/
 theorem abstractFixedFieldNormResidueSymbol_transfer_inclusion
     (D : DegreeData (Gal(Ω/k)))
     (v : ValuationData D (galoisAmbientUnitsRep k Ω))

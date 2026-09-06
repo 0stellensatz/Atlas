@@ -77,8 +77,9 @@ else ports token-for-token; the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -91,9 +92,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- If two commuting group elements act compatibly on a coboundary, the
 standard corrected combination is fixed by the first element
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:23`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:23`). -/
 theorem abstractReciprocity_fixedCombination_of_commute
     {Q : Type*} [Group Q] (B : Rep ℤ Q)
     (g t : Q) (hcomm : Commute g t) (c b a : B.V)
@@ -135,9 +135,8 @@ theorem abstractReciprocity_fixedCombination_of_commute
 namespace FiniteGaloisSubextension
 
 /-- The lower inclusion homomorphism preserves the relative coset
-action ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:63`]
-[Yamaguchi2026]). -/
+action (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:63`). -/
 theorem relativeCosetAction_lowerInclusionHom
     (A : Rep ℤ G) [IsTopologicalGroup G] {K : ClosedSubgroup G}
     (M : FiniteGaloisSubextension K) (S : Subgroup M.extensionQuotient)
@@ -161,9 +160,8 @@ variable {K : FiniteAbstractField G}
 
 /-- **Forget only the chosen cyclic generator; the resulting finite
 Galois bundle is the canonical input to the finite reciprocity
-construction** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:83`]
-[Yamaguchi2026]). -/
+construction** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:83`). -/
 def toFiniteGaloisSubextension (E : FiniteCyclicSubextension K) :
     FiniteGaloisSubextension K.field where
   field := E.field
@@ -172,17 +170,15 @@ def toFiniteGaloisSubextension (E : FiniteCyclicSubextension K) :
   finite := E.finite
 
 /-- The cyclic generator transported across the finite Galois quotient
-boundary ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:91`]
-[Yamaguchi2026]). -/
+boundary (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:91`). -/
 def galoisGenerator (E : FiniteCyclicSubextension K) :
     E.toFiniteGaloisSubextension.extensionQuotient :=
   E.toFiniteGaloisSubextension.extensionQuotientMulEquiv.symm E.generator
 
 /-- The transported generator still generates the whole finite Galois
-quotient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:96`]
-[Yamaguchi2026]). -/
+quotient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:96`). -/
 theorem galoisGenerator_generates (E : FiniteCyclicSubextension K) :
     ∀ x, x ∈ Subgroup.zpowers E.galoisGenerator := by
   intro x
@@ -205,9 +201,8 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 ramified case of the abstract reciprocity theorem.** All fields,
 restriction maps, norm identities, and action identities are
 constructed from the original data; none is exposed as a hypothesis
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:118`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamifiedCase/FixedSource.lean:118`). -/
 theorem abstractReciprocity_cyclicTotallyRamified_fixedSource
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]

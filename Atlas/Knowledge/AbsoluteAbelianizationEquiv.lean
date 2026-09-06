@@ -97,8 +97,9 @@ unconditionally, whence `T3` and Hausdorff.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -109,40 +110,36 @@ variable (K : Type*) [Field K]
 
 /-- The fixed field, inside the algebraic closure, of the topological
 closure of the commutator subgroup of the absolute Galois group — in
-characteristic zero the maximal abelian subextension ([Yamaguchi 2026,
+characteristic zero the maximal abelian subextension (Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteGaloisAbelianization.lean:29`,
-`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:37`]
-[Yamaguchi2026]). -/
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:37`). -/
 def absoluteAbelianizationFixedField : IntermediateField K (AlgebraicClosure K) :=
   IntermediateField.fixedField
     (commutator (Field.absoluteGaloisGroup K)).topologicalClosure
 
 /- The commutator closure packaged as a closed subgroup, at the
 automorphism-group spelling the infinite Galois correspondence expects
-([Yamaguchi 2026,
+(Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteGaloisAbelianization.lean:19`,
-`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:23`]
-[Yamaguchi2026]). -/
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:23`). -/
 private def commutatorClosedSubgroup :
     ClosedSubgroup (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K) where
   toSubgroup := (commutator (Field.absoluteGaloisGroup K)).topologicalClosure
   isClosed' := Subgroup.isClosed_topologicalClosure _
 
 /- Normality of the packaged commutator closure, read off Mathlib's
-instance on the raw subgroup ([Yamaguchi 2026,
+instance on the raw subgroup (Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteGaloisAbelianization.lean:24`,
-`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:30`]
-[Yamaguchi2026]). -/
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:30`). -/
 private instance : (commutatorClosedSubgroup K).Normal :=
   Field.absoluteGaloisGroup.commutator_closure_isNormal K
 
 variable [CharZero K]
 
 /-- The maximal abelian subextension is Galois over the base field
-([Yamaguchi 2026,
+(Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteGaloisAbelianization.lean:35`,
-`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:42`]
-[Yamaguchi2026]). -/
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:42`). -/
 instance absoluteAbelianizationFixedField_isGalois :
     IsGalois K (absoluteAbelianizationFixedField K) := by
   apply (InfiniteGalois.normal_iff_isGalois (absoluteAbelianizationFixedField K)).1
@@ -153,30 +150,27 @@ instance absoluteAbelianizationFixedField_isGalois :
 
 /-- The algebraic identification of the abelianized absolute Galois
 group with the Galois group of the maximal abelian subextension
-([Yamaguchi 2026,
+(Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteGaloisAbelianization.lean:40`,
-`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:55`]
-[Yamaguchi2026]). -/
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:55`). -/
 def absoluteAbelianizationMulEquiv :
     Field.absoluteGaloisGroupAbelianization K ≃*
       (absoluteAbelianizationFixedField K ≃ₐ[K] absoluteAbelianizationFixedField K) :=
   InfiniteGalois.normalAutEquivQuotient (commutatorClosedSubgroup K)
 
 /-- The identification sends a quotient class to the restriction of any
-representative ([Yamaguchi 2026,
+representative (Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteGaloisAbelianization.lean:47`,
-`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:63`]
-[Yamaguchi2026]). -/
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:63`). -/
 @[simp]
 theorem absoluteAbelianizationMulEquiv_mk (σ : Field.absoluteGaloisGroup K) :
     absoluteAbelianizationMulEquiv K (QuotientGroup.mk σ) =
       AlgEquiv.restrictNormalHom (absoluteAbelianizationFixedField K) σ :=
   rfl
 
-/-- The algebraic identification is continuous ([Yamaguchi 2026,
+/-- The algebraic identification is continuous (Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteGaloisAbelianization.lean:54`,
-`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:71`]
-[Yamaguchi2026]). -/
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:71`). -/
 theorem absoluteAbelianizationMulEquiv_continuous :
     Continuous (absoluteAbelianizationMulEquiv K) := by
   apply (QuotientGroup.isQuotientMap_mk
@@ -189,10 +183,9 @@ theorem absoluteAbelianizationMulEquiv_continuous :
 /-- The canonical topological identification of the abelianized
 absolute Galois group with the Galois group of the maximal abelian
 subextension: a continuous bijective homomorphism from a compact group
-to a Hausdorff one is a homeomorphism ([Yamaguchi 2026,
+to a Hausdorff one is a homeomorphism (Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteGaloisAbelianization.lean:59`,
-`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:83`]
-[Yamaguchi2026]). -/
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:83`). -/
 def absoluteAbelianizationEquiv :
     Field.absoluteGaloisGroupAbelianization K ≃ₜ*
       (absoluteAbelianizationFixedField K ≃ₐ[K] absoluteAbelianizationFixedField K) := by
@@ -205,10 +198,9 @@ def absoluteAbelianizationEquiv :
       continuous_invFun := h.symm.continuous }
 
 /-- The abelianized absolute Galois group is totally disconnected
-([Yamaguchi 2026,
+(Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteGaloisAbelianization.lean:65`,
-`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:94`]
-[Yamaguchi2026]). -/
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:94`). -/
 instance absoluteGaloisGroupAbelianization_totallyDisconnectedSpace :
     TotallyDisconnectedSpace (Field.absoluteGaloisGroupAbelianization K) := by
   haveI : CompactSpace (Field.absoluteGaloisGroup K) :=
@@ -220,9 +212,8 @@ instance absoluteGaloisGroupAbelianization_totallyDisconnectedSpace :
 
 /-- The abelianized absolute Galois group is compact: the quotient of
 the compact absolute Galois group under the continuous surjective
-quotient map ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:26`]
-[Yamaguchi2026]). -/
+quotient map (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:26`). -/
 instance absoluteGaloisGroupAbelianization_compactSpace :
     CompactSpace (Field.absoluteGaloisGroupAbelianization K) :=
   haveI : CompactSpace (Field.absoluteGaloisGroup K) :=
@@ -230,10 +221,9 @@ instance absoluteGaloisGroupAbelianization_compactSpace :
   inferInstance
 
 /-- The maximal abelian subextension is abelian Galois: its Galois
-group receives the commutative abelianization ([Yamaguchi 2026,
+group receives the commutative abelianization (Yamaguchi 2026,
 `LocalClassFieldTheory/Infinite/AbsoluteGaloisAbelianization.lean:71`,
-`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:101`]
-[Yamaguchi2026]). -/
+`AlgebraicNumberTheory/Galois/AbsoluteAbelianization.lean:101`). -/
 instance absoluteAbelianizationFixedField_isAbelianGalois :
     IsAbelianGalois K (absoluteAbelianizationFixedField K) where
   is_comm := ⟨fun σ τ => (absoluteAbelianizationMulEquiv K).symm.injective (by

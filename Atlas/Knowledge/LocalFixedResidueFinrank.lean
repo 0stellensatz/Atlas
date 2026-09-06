@@ -34,8 +34,9 @@ them beside this comparison.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -49,9 +50,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-- **The residue degree of a finite abstract field is the literal residue
 degree of its fixed field**, for any compatible valuative structure on it
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:123`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteResidueFinrankTransfer.lean:123`). -/
 theorem localResidueDatum_residueDegree_eq_residueFinrank
     (H : FiniteAbstractField (Field.absoluteGaloisGroup K))
     [FiniteDimensional K

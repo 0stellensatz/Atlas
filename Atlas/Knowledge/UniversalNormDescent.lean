@@ -54,8 +54,9 @@ current Mathlib, is dropped.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -66,9 +67,8 @@ universe u v
 
 /- The norm over a finite normal subgroup commutes with every ambient
 group action — the equivariance used when the construction applies the
-norm to equation `(*)` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:27`]
-[Yamaguchi2026]). -/
+norm to equation `(*)` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:27`). -/
 private theorem restricted_norm_action
     {R : Type u} [Group R] (H : Subgroup R) [H.Normal] [Fintype H]
     (B : Rep ℤ R) (r : R) (x : B.V) :
@@ -97,9 +97,8 @@ private theorem restricted_norm_action
       exact e.sum_comp (fun h : H => B.ρ r (B.ρ h.1 x))
 
 /- The restricted representation's norm commutes with the ambient action
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:54`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:54`). -/
 private theorem restricted_rep_norm_action
     {R : Type u} [Group R] (H : Subgroup R) [H.Normal] [Fintype H]
     (B : Rep ℤ R) (r : R) (x : B.V) :
@@ -110,9 +109,8 @@ private theorem restricted_rep_norm_action
     restricted_norm_action H B r x
 
 /-- **The conjugation action transported back to a field it stabilizes**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:65`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:65`). -/
 noncomputable def conjugateStableAction
     {R : Type u} [Group R] [TopologicalSpace R] [ContinuousMul R]
     (B : Rep ℤ R) (F : ClosedSubgroup R) (s : R)
@@ -121,9 +119,8 @@ noncomputable def conjugateStableAction
   hF ▸ conjugateFixedElement B F s a
 
 /- Transport along an equality of fields leaves the ambient value alone
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:72`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:72`). -/
 private theorem transport_fixed_coe
     {R : Type u} [Group R] [TopologicalSpace R]
     (B : Rep ℤ R) (F' F : ClosedSubgroup R) (h : F' = F)
@@ -133,9 +130,8 @@ private theorem transport_fixed_coe
   rfl
 
 /- The relative norm commutes with transport along equalities of both
-fields ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:80`]
-[Yamaguchi2026]). -/
+fields (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:80`). -/
 private theorem relativeNorm_transport_coe
     {R : Type u} [Group R] [TopologicalSpace R]
     (B : Rep ℤ R)
@@ -155,9 +151,8 @@ private theorem relativeNorm_transport_coe
   rfl
 
 /-- The conjugation-stable action agrees with its ambient action after
-coercion ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:98`]
-[Yamaguchi2026]). -/
+coercion (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:98`). -/
 @[simp]
 theorem conjugateStableAction_coe
     {R : Type u} [Group R] [TopologicalSpace R] [ContinuousMul R]
@@ -170,9 +165,8 @@ theorem conjugateStableAction_coe
   exact transport_fixed_coe B _ F hF _
 
 /-- **The relative norm is equivariant for a conjugation stabilizing both fields**
-in the tower ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:109`]
-[Yamaguchi2026]). -/
+in the tower (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:109`). -/
 theorem relativeNorm_conjugateStableAction
     {R : Type u} [Group R] [TopologicalSpace R] [ContinuousMul R]
     (B : Rep ℤ R) (F E : ClosedSubgroup R)
@@ -212,10 +206,9 @@ theorem relativeNorm_conjugateStableAction
 /-- **The calculation in the first half of the universal norm-descent lemma**:
 the hypothesis `hstar` is equation `(*)` — the class of `u` in
 coinvariants is fixed by `φ`; the elementwise content of `Ĥ⁰ = 0`
-(`hnormSurj`) produces the barred lifts, and that of `Ĥ⁻¹ = 0`
-(`hnormKer`) the correction term `y` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:149`]
-[Yamaguchi2026]). -/
+(`hnormSurj`) produces the barred lifts, and that of `Ĥ⁻¹ = 0` (`hnormKer`)
+the correction term `y` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:149`). -/
 theorem universalNormDescent_cyclic_lift_and_correction
     {R : Type u} [Group R] (H : Subgroup R) [H.Normal] [Fintype H]
     (B : Rep ℤ R) (g : H)
@@ -274,9 +267,8 @@ theorem universalNormDescent_cyclic_lift_and_correction
   · simpa [delta] using hy
 
 /-- The norm of a finite cyclic representation enumerated by the first
-`n` powers of a specified generator ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:212`]
-[Yamaguchi2026]). -/
+`n` powers of a specified generator (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:212`). -/
 theorem rep_norm_eq_generatorPowerSum
     {Q : Type u} [Group Q] [Fintype Q]
     (B : Rep ℤ Q) (g : Q) (hg : ∀ q, q ∈ Subgroup.zpowers g)
@@ -312,9 +304,8 @@ theorem rep_norm_eq_generatorPowerSum
     (e.sum_comp (fun q : Q => B.ρ q x)).symm
 
 /-- Powers in a representation are the iterates of the corresponding
-action map ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:247`]
-[Yamaguchi2026]). -/
+action map (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:247`). -/
 theorem rep_action_pow_eq_iterate {R : Type u} [Group R]
     (B : Rep ℤ R) (g : R) (n : ℕ) (x : B.V) :
     B.ρ (g ^ n) x = ((B.ρ g)^[n]) x := by
@@ -322,9 +313,8 @@ theorem rep_action_pow_eq_iterate {R : Type u} [Group R]
   rw [map_pow, Module.End.coe_pow]
 
 /-- **The norm as the iterate sum of any pointwise-equal endomorphism**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:255`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:255`). -/
 theorem rep_norm_eq_generatorIterateSum
     {Q : Type u} [Group Q] [Fintype Q]
     (B : Rep ℤ Q) (g : Q) (hg : ∀ q, q ∈ Subgroup.zpowers g)
@@ -338,9 +328,8 @@ theorem rep_norm_eq_generatorIterateSum
   exact congrFun (congrArg (fun h : B.V → B.V => h^[i.1]) (funext hf)) x
 
 /-- Every nonnegative power fixes an element fixed by the original group
-element ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:269`]
-[Yamaguchi2026]). -/
+element (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UniversalNormDescent.lean:269`). -/
 theorem rep_action_pow_fixed {R : Type u} [Group R]
     (B : Rep ℤ R) (g : R) (x : B.V) (hx : B.ρ g x = x) (n : ℕ) :
     B.ρ (g ^ n) x = x := by

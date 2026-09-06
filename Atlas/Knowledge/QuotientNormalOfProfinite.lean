@@ -17,8 +17,9 @@ in the reciprocity engine's instantiation (#104).
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -38,9 +39,8 @@ attribute [local instance] Ideal.Quotient.field
 include G in
 /-- **The residue extension of a profinite invariant ring is normal**: an open
 normal subgroup fixes a representative, and the orbit polynomial of the finite
-quotient action splits the minimal polynomial
-([Yamaguchi 2026, `RamificationTheory/ProfiniteInvariant.lean:37`]
-[Yamaguchi2026]). -/
+quotient action splits the minimal polynomial (Yamaguchi 2026,
+`RamificationTheory/ProfiniteInvariant.lean:37`). -/
 theorem quotient_normal_of_profinite
     (P : Ideal A) (Q : Ideal B) [P.IsMaximal] [Q.IsMaximal] [Q.LiesOver P] :
     Normal (A ⧸ P) (B ⧸ Q) := by

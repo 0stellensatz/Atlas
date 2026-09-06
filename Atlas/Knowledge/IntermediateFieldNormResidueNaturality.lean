@@ -99,8 +99,9 @@ whole. The source's `τ` binders are spelled `tau`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -116,9 +117,8 @@ variable (Ω : Type u) [Field Ω] [Algebra K Ω] [IsGalois K Ω] [IsSepClosed Ω
 
 /-- **The bottom fixing subgroup packaged as a finite abstract field**;
 its defining quotient is the trivial finite quotient. The source's
-separable-closure form, hoisted over the ambient `Ω` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:61`]
-[Yamaguchi2026]). -/
+separable-closure form, hoisted over the ambient `Ω` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntrinsicAbsoluteData.lean:61`). -/
 @[reducible]
 def galoisAmbientFiniteAbstractBase :
     FiniteAbstractField (Ω ≃ₐ[K] Ω) where
@@ -129,9 +129,8 @@ def galoisAmbientFiniteAbstractBase :
 
 omit [IsSepClosed Ω] in
 /-- The engine's quotient equivalence at the base evaluates a
-representative through the ambient inclusion ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityCanonical.lean:573`]
-[Yamaguchi2026]). -/
+representative through the ambient inclusion (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityCanonical.lean:573`). -/
 private theorem baseFixingExtensionQuotientEquivGaloisGroup_mk_apply
     (E : IntermediateField K Ω) [FiniteDimensional K E] [IsGalois K E]
     (tau : (closedFixingSubgroup
@@ -177,9 +176,8 @@ variable (L : Type u) [Field L] [Algebra K L]
 omit [IsSepClosed Ω] in
 /-- **Formula for the quotient equivalence on a representative**,
 expressed without mentioning the auxiliary fixed-field equality used
-internally ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityCanonical.lean:612`]
-[Yamaguchi2026]). -/
+internally (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityCanonical.lean:612`). -/
 @[simp]
 theorem finiteGaloisAbstractQuotientEquivGaloisGroupOfEmbedding_mk_apply
     (i : L →ₐ[K] Ω)
@@ -204,9 +202,8 @@ theorem finiteGaloisAbstractQuotientEquivGaloisGroupOfEmbedding_mk_apply
     _ = tau.1 (i x) := rfl
 
 /-- The finite abstract norm class represented by a base-field unit in
-an explicit ambient realization ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:50`]
-[Yamaguchi2026]). -/
+an explicit ambient realization (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:50`). -/
 private def embeddedBaseNormClass (i : L →ₐ[K] Ω) (a : Kˣ) :
     letI := (finiteGaloisAbstractExtensionOfEmbedding K L Ω i).finite
     FiniteNormQuotient (galoisAmbientUnitsRep K Ω)
@@ -222,9 +219,8 @@ private def embeddedBaseNormClass (i : L →ₐ[K] Ω) (a : Kˣ) :
 
 /-- The explicit norm-quotient comparison sends a base-unit
 representative to the same representative in the ordinary field norm
-quotient ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityCanonical.lean:635`]
-[Yamaguchi2026]). -/
+quotient (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityCanonical.lean:635`). -/
 private theorem
     finiteNormQuotientEquivEmbeddedNormQuotient_finiteNormClass_baseUnit
     (i : L →ₐ[K] Ω) (a : Kˣ) :
@@ -253,9 +249,8 @@ private theorem
 symbol is the abstract norm-residue class transported through the
 canonical quotient equivalence.** This pointwise transport formula
 expresses abstract restriction naturality as a statement about actual
-field automorphisms ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:65`]
-[Yamaguchi2026]). -/
+field automorphisms (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:65`). -/
 theorem concreteNormResidueSymbolOfEmbedding_eq_abstract
     (i : L →ₐ[K] Ω)
     (D : DegreeData (Ω ≃ₐ[K] Ω))
@@ -322,9 +317,8 @@ omit [IsSepClosed Ω] in
 intermediate field evaluates through the inclusion as well: the
 embedding restricts to an automorphism of the field, and conjugation by
 it is trivial on the abelian Galois group. The `E.val`-definitional
-step of the source, generalized past the inclusion ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityCanonical.lean:612`]
-[Yamaguchi2026]). -/
+step of the source, generalized past the inclusion (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/ConcreteReciprocityCanonical.lean:612`). -/
 private theorem
     finiteGaloisAbstractQuotientEquivGaloisGroupOfEmbedding_mk_apply_val
     (E : IntermediateField K Ω)
@@ -357,9 +351,8 @@ private theorem
 omit [IsSepClosed Ω] in
 /-- Restriction between the actual Galois groups is compatible with the
 abstract quotient presentations attached to arbitrary embeddings
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:132`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:132`). -/
 private theorem intermediateFieldRestrict_abstractQuotient_mk
     (E F : IntermediateField K Ω) (hEF : E ≤ F)
     [FiniteDimensional K E] [FiniteDimensional K F]
@@ -397,9 +390,8 @@ private theorem intermediateFieldRestrict_abstractQuotient_mk
           K Ω E iE (Subgroup.inclusion le_rfl sigma) x).symm
 
 /-- Containment of the abstract extension subgroups attached to
-arbitrary embeddings of nested intermediate fields ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:165`]
-[Yamaguchi2026]). -/
+arbitrary embeddings of nested intermediate fields (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:165`). -/
 private theorem embeddedAbstractExtension_field_le
     (E F : IntermediateField K Ω) (hEF : E ≤ F)
     [FiniteDimensional K E] [FiniteDimensional K F]
@@ -417,9 +409,8 @@ private theorem embeddedAbstractExtension_field_le
 
 /-- Restriction of actual Galois groups transports the abstract
 abelianized restriction across the quotient equivalences of arbitrary
-embeddings ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:181`]
-[Yamaguchi2026]). -/
+embeddings (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:181`). -/
 private theorem intermediateFieldRestrict_abstractAbelianization
     (E F : IntermediateField K Ω) (hEF : E ≤ F)
     [FiniteDimensional K E] [FiniteDimensional K F]
@@ -491,9 +482,8 @@ private theorem intermediateFieldRestrict_abstractAbelianization
 before specializing the four structures of the local class formation.**
 Both extensions are literal intermediate fields of the ambient closure,
 realized through arbitrary embeddings, and the vertical Galois map is
-the actual restriction map ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:250`]
-[Yamaguchi2026]). -/
+the actual restriction map (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:250`). -/
 theorem concreteNormResidueAutomorphism_restrict
     (E F : IntermediateField K Ω) (hEF : E ≤ F)
     [FiniteDimensional K E] [FiniteDimensional K F]
@@ -610,9 +600,8 @@ variable [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
 
 /-- **Restriction naturality for the canonical local norm-residue
 symbol**, expressed through automorphisms of finite abelian
-intermediate fields of the algebraic closure ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:359`]
-[Yamaguchi2026]). -/
+intermediate fields of the algebraic closure (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/IntermediateFieldNormResidueNaturality.lean:359`). -/
 theorem localArtinAutomorphism_restrict
     (E F : IntermediateField K (AlgebraicClosure K)) (hEF : E ≤ F)
     [FiniteDimensional K E] [FiniteDimensional K F]

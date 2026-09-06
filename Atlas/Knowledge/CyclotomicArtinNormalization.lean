@@ -52,8 +52,9 @@ the instance values themselves typecheck and `FiniteDimensional` synthesizes fin
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField WithZero
@@ -68,8 +69,8 @@ the primes over `q` are unramified, so the characterization makes the restrictio
 arithmetic Frobenius at one of them, whose congruence pins the image of the chosen root
 of unity exactly, `m` being invertible at that prime
 ([Milne 2020, Introduction, p.7, and Chap. V, §3, Ex. 3.2, p.157][MilneCFT];
-[Yamaguchi 2026, `KroneckerWeber/RationalRayClassFieldCyclotomic.lean:510`, transported
-definition at `:492`][Yamaguchi2026]). -/
+Yamaguchi 2026, `KroneckerWeber/RationalRayClassFieldCyclotomic.lean:510`, transported
+definition at `:492`). -/
 theorem cyclotomicArtinNormalization
     {φ : IdeleClassGroup ℚ →ₜ*
       (maximalAbelianExtension ℚ ≃ₐ[ℚ] maximalAbelianExtension ℚ)}

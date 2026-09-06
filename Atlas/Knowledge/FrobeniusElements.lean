@@ -41,8 +41,9 @@ containments enter only as semantic guards, as in
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -54,8 +55,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **Every class of a finite cyclic quotient of `ℤ̂` has a strictly positive
-representative**: shift the residue by the modulus
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/FrobeniusLift.lean:23`][Yamaguchi2026]). -/
+representative**: shift the residue by the modulus (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusLift.lean:23`). -/
 theorem exists_positive_nsmul_one_sub_mem_of_index_ne_zero
     (H : AddSubgroup ProfiniteInteger) (hH : H.index ≠ 0) (z : ProfiniteInteger) :
     ∃ n : ℕ, 0 < n ∧ z - n • (1 : ProfiniteInteger) ∈ H := by
@@ -79,7 +80,8 @@ theorem exists_positive_nsmul_one_sub_mem_of_index_ne_zero
 namespace DegreeData
 
 /-- **`I_L` viewed inside `G_K`** — the subgroup of `L̃`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/FrobeniusLift.lean:50`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusLift.lean:50`). -/
 def extensionInertiaWithin (D : DegreeData G) (K L : ClosedSubgroup G)
     (_hLK : L.toSubgroup ≤ K.toSubgroup) : Subgroup K.toSubgroup :=
   L.toSubgroup.subgroupOf K.toSubgroup ⊓ D.fieldInertiaWithin K
@@ -103,7 +105,8 @@ private theorem extensionInertiaWithin_le_normalizedDegree_ker
   exact hx.2
 
 /-- **The factorized normalized degree** `d_K : G(L̃|K) → ℤ̂`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/FrobeniusLift.lean:75`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusLift.lean:75`). -/
 def extensionNormalizedDegree (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -125,8 +128,8 @@ theorem extensionNormalizedDegree_mk (D : DegreeData G)
       D.normalizedDegree K k :=
   rfl
 
-/-- **Restriction** `G(L̃|K) → G(L|K)`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/FrobeniusLift.lean:99`][Yamaguchi2026]). -/
+/-- **Restriction** `G(L̃|K) → G(L|K)` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusLift.lean:99`). -/
 def extensionRestriction (D : DegreeData G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
     [hLnormal : (L.toSubgroup.subgroupOf K.toSubgroup).Normal] :
@@ -147,8 +150,8 @@ theorem extensionRestriction_mk (D : DegreeData G)
   rfl
 
 /-- **The Frobenius semigroup** `Frob(L̃|K)`: the classes of strictly positive
-integral normalized degree
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/FrobeniusLift.lean:122`][Yamaguchi2026]). -/
+integral normalized degree (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusLift.lean:122`). -/
 def FrobeniusElements (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -199,8 +202,8 @@ private theorem normalizedExtensionImageAdd_index_ne_zero
 
 /-- **The Frobenius semigroup restricts onto the finite Galois group**: correct
 a preimage by an extension element whose degree shifts the class to a positive
-multiple of one
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/FrobeniusLift.lean:171`][Yamaguchi2026]). -/
+multiple of one (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/FrobeniusLift.lean:171`). -/
 theorem frobeniusRestriction_surjective (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)

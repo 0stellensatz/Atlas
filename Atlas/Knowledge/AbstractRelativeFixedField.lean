@@ -43,8 +43,9 @@ layer's name for the source's `extensionSubgroup_index_eq_degree`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -57,9 +58,8 @@ variable (k : Type u) (Ω : Type v) [Field k] [Field Ω] [Algebra k Ω]
   [IsGalois k Ω]
 
 /-- **The upper fixed field over the lower** in a relative abstract extension
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:110`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:110`). -/
 abbrev abstractRelativeFixedField
     {K L : ClosedSubgroup (Ω ≃ₐ[k] Ω)}
     (hLK : L.toSubgroup ≤ K.toSubgroup) :
@@ -68,9 +68,8 @@ abbrev abstractRelativeFixedField
 
 /-- **The engine's relative subgroup maps onto the fixing subgroup of the
 upper field** under the Galois-group reading of the lower subgroup
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:118`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:118`). -/
 theorem map_extensionSubgroup_abstractSubgroupEquiv
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup) :
@@ -113,9 +112,8 @@ theorem map_extensionSubgroup_abstractSubgroupEquiv
     exact hσfix
 
 /-- **The engine's normality witness is normality of the upper fixing
-subgroup** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:161`]
-[Yamaguchi2026]). -/
+subgroup** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:161`). -/
 theorem abstractRelativeFixingSubgroup_normal
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -129,9 +127,8 @@ theorem abstractRelativeFixingSubgroup_normal
   exact hmap
 
 /-- **The engine's normality witness makes the concrete extension Galois**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:175`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:175`). -/
 theorem abstractRelativeFixedField_isGalois
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -143,9 +140,8 @@ theorem abstractRelativeFixedField_isGalois
   exact abstractRelativeFixingSubgroup_normal k Ω K L hLK hnormal
 
 /-- Restriction through the lower fixed field, followed by quotienting by
-the upper fixing subgroup ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:187`]
-[Yamaguchi2026]). -/
+the upper fixing subgroup (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:187`). -/
 def abstractRelativeToAmbientQuotient
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -161,9 +157,8 @@ def abstractRelativeToAmbientQuotient
       (abstractSubgroupEquivGaloisGroup k Ω K).toMonoidHom
 
 /-- The kernel of the ambient quotient map is the engine's relative subgroup
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:203`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:203`). -/
 theorem abstractRelativeToAmbientQuotient_ker
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -188,9 +183,8 @@ theorem abstractRelativeToAmbientQuotient_ker
   · intro hσ
     exact ⟨σ, hσ, rfl⟩
 
-/-- The ambient quotient map is surjective ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:228`]
-[Yamaguchi2026]). -/
+/-- The ambient quotient map is surjective (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:228`). -/
 theorem abstractRelativeToAmbientQuotient_surjective
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -211,9 +205,8 @@ theorem abstractRelativeToAmbientQuotient_surjective
   rw [(abstractSubgroupEquivGaloisGroup k Ω K).apply_symm_apply]
 
 /-- **The engine's relative quotient is the ambient quotient** by the upper
-fixing subgroup ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:250`]
-[Yamaguchi2026]). -/
+fixing subgroup (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:250`). -/
 def abstractExtensionQuotientEquivAmbient
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -235,9 +228,8 @@ def abstractExtensionQuotientEquivAmbient
         k Ω K L hLK hnormal))
 
 /-- **The engine's relative quotient is the concrete Galois group** of the
-two fixed fields ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:272`]
-[Yamaguchi2026]). -/
+two fixed fields (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:272`). -/
 def abstractExtensionQuotientEquivGaloisGroup
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -262,9 +254,8 @@ def abstractExtensionQuotientEquivGaloisGroup
             (abstractRelativeFixedField k Ω hLK)))))
 
 /-- **In a finite abstract tower the upper fixed field is finite over the
-lower** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:297`]
-[Yamaguchi2026]). -/
+lower** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:297`). -/
 theorem abstractFixedField_relativeFiniteDimensional
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -297,9 +288,8 @@ theorem abstractFixedField_relativeFiniteDimensional
     (abstractFixedField k Ω K) (abstractFixedField k Ω L)
 
 /-- The same relative finiteness in the scalar-extended presentation
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:330`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:330`). -/
 theorem abstractRelativeFixedField_finiteDimensional
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -327,9 +317,8 @@ theorem abstractRelativeFixedField_finiteDimensional
   exact e.finiteDimensional
 
 /-- **The abstract degree is the concrete degree** of the finite Galois
-extension the same pair of fixed fields presents ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:358`]
-[Yamaguchi2026]). -/
+extension the same pair of fixed fields presents (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FiniteAbstractFixedField.lean:358`). -/
 theorem finiteAbstractExtension_degree_eq_finrank
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)

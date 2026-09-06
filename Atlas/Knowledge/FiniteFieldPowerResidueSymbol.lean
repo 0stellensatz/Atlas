@@ -31,8 +31,9 @@ the source's route verbatim (`AlgebraicNumberTheory/PowerResidueSymbols/FiniteFi
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -41,9 +42,8 @@ variable (k : Type*) [Field k] [Fintype k]
 
 /-- The **finite-field power residue symbol**: for `n ∣ q - 1`, the character
 `u ↦ u ^ ((q - 1) / n)` into the `n`-th roots of unity
-([Milne 2020, Chap. VIII, §5, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/FiniteField.lean:21`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, p.244][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/PowerResidueSymbols/FiniteField.lean:21`). -/
 def finiteFieldPowerResidueSymbol (n : ℕ) (hn : n ∣ Fintype.card k - 1) :
     kˣ →* rootsOfUnity n k where
   toFun u :=
@@ -70,8 +70,7 @@ theorem finiteFieldPowerResidueSymbol_apply (n : ℕ) (hn : n ∣ Fintype.card k
 
 /-- The symbol is trivial exactly on the `n`-th powers — the kernel computation through
 the cyclic unit group ([Milne 2020, Chap. VIII, §5, 5.2, p.244][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/FiniteField.lean:47`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026, `AlgebraicNumberTheory/PowerResidueSymbols/FiniteField.lean:47`). -/
 theorem finiteFieldPowerResidueSymbol_eq_one_iff (n : ℕ)
     (hn : n ∣ Fintype.card k - 1) (u : kˣ) :
     finiteFieldPowerResidueSymbol k n hn u = 1 ↔ ∃ v : kˣ, v ^ n = u := by

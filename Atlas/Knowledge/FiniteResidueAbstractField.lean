@@ -31,8 +31,9 @@ first needs it.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -43,8 +44,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **An abstract field of finite residue degree**: the field together with
 finiteness of its residue quotient, making the numerical residue degree
-genuinely positive
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:163`][Yamaguchi2026]). -/
+genuinely positive (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:163`). -/
 structure FiniteResidueAbstractField (D : DegreeData G) where
   /-- The closed subgroup representing the abstract field. -/
   field : ClosedSubgroup G
@@ -72,7 +73,8 @@ instance (K : FiniteResidueAbstractField D) :
   K.finiteResidueQuotient
 
 /-- **The positive absolute residue degree**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:192`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:192`). -/
 noncomputable def residueDegree (K : FiniteResidueAbstractField D) : ℕ+ := by
   letI : Nonempty (D.residueQuotient K.field) := ⟨QuotientGroup.mk 1⟩
   exact ⟨Nat.card (D.residueQuotient K.field), Nat.card_pos⟩

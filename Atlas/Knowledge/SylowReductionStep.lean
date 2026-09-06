@@ -44,8 +44,9 @@ instance its own coprimality argument requires. This completes the
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -60,8 +61,8 @@ variable {K : ClosedSubgroup G}
 
 /-- For `M = L^P`, the actual lower quotient `G(L/M)` is a `p`-group —
 the identification `G(L/M) ≃ P` applied to an actual Sylow subgroup of
-the actual finite quotient `G(L/K)` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Sylow.lean:43`][Yamaguchi2026]). -/
+the actual finite quotient `G(L/K)` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Sylow.lean:43`). -/
 theorem abstractReciprocity_sylow_lowerQuotient_isPGroup
     (L : FiniteGaloisSubextension K) {p : ℕ}
     (P : Sylow p L.extensionQuotient) :
@@ -75,8 +76,8 @@ theorem abstractReciprocity_sylow_lowerQuotient_isPGroup
 
 /-- **Consequently, the actual extension `L/M` cut out by a Sylow
 subgroup is solvable** — by the standard chain finite `p`-group ⇒
-nilpotent ⇒ solvable ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Sylow.lean:58`][Yamaguchi2026]). -/
+nilpotent ⇒ solvable (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Sylow.lean:58`). -/
 theorem abstractReciprocity_sylow_lowerQuotient_isSolvable
     (L : FiniteGaloisSubextension K) {p : ℕ} [Fact p.Prime]
     (P : Sylow p L.extensionQuotient) :
@@ -102,8 +103,8 @@ theorem abstractReciprocity_sylow_lowerQuotient_isSolvable
 
 /-- The degree of the actual fixed field `M = L^P` over `K` is the
 index of `P` in `G(L/K)`; no normality of `P`, and hence none of
-`M/K`, is used ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Sylow.lean:87`][Yamaguchi2026]). -/
+`M/K`, is used (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Sylow.lean:87`). -/
 theorem abstractReciprocity_sylow_intermediateDegree_eq_index
     (L : FiniteGaloisSubextension K) {p : ℕ}
     (P : Sylow p L.extensionQuotient) :
@@ -122,8 +123,8 @@ theorem abstractReciprocity_sylow_intermediateDegree_eq_index
       (L.field.toSubgroup.subgroupOf K.toSubgroup))
 
 /-- Hence the actual degree `[M:K]` is prime to the chosen Sylow prime
-`p` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Sylow.lean:106`][Yamaguchi2026]). -/
+`p` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Sylow.lean:106`). -/
 theorem abstractReciprocity_sylow_intermediateDegree_coprime
     (L : FiniteGaloisSubextension K) {p : ℕ} [Fact p.Prime]
     (P : Sylow p L.extensionQuotient) :
@@ -138,8 +139,8 @@ theorem abstractReciprocity_sylow_intermediateDegree_coprime
 prime to `p`, then `S` lies in the range of the additive `n`-fold map
 on `B` — `S` has `p`-power order, so the `n`-fold map is a bijection on
 `S`, and a preimage in `S` is in particular a preimage in `B`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Sylow.lean:125`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Sylow.lean:125`). -/
 theorem sylowAddSubgroup_le_nsmul_range_of_coprime
     {B : Type*} [AddCommGroup B]
     {p n : ℕ}
@@ -159,8 +160,8 @@ theorem sylowAddSubgroup_le_nsmul_range_of_coprime
 /-- **The exact specialization: for `M = L^P`, every Sylow `p`-subgroup
 of an abelian group `B` lies in the image of the `[M:K]`-fold map on
 `B`** — the group-theoretic input the identity `N_{M/K} ∘ i = [M:K]`
-later converts into norm-map containment ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Sylow.lean:145`][Yamaguchi2026]). -/
+later converts into norm-map containment (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Sylow.lean:145`). -/
 theorem abstractReciprocity_sylowAddSubgroup_le_intermediateDegree_nsmul_range
     (L : FiniteGaloisSubextension K) {p : ℕ} [Fact p.Prime]
     (P : Sylow p L.extensionQuotient)

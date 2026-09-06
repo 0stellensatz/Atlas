@@ -56,8 +56,9 @@ through the induced category of finite groups and defeats `map_one`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -93,9 +94,8 @@ theorem proj_lift_apply (f : G ⟶ GrpCat.of P) (N : OpenNormalSubgroup P) (x : 
   exact congrFun h x
 
 /-- The induced map on finite quotients has trivial kernel: the
-preimage is the full kernel ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/ProfiniteCompletionCriteria.lean:25`]
-[Yamaguchi2026]). -/
+preimage is the full kernel (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteCompletionCriteria.lean:25`). -/
 theorem quotientMap_eq_one (f : G ⟶ GrpCat.of P) (N : OpenNormalSubgroup P)
     (y : G ⧸ (preimage f N).toSubgroup) (hy : (quotientMap f N).hom y = 1) : y = 1 := by
   induction y using QuotientGroup.induction_on with
@@ -106,9 +106,8 @@ theorem quotientMap_eq_one (f : G ⟶ GrpCat.of P) (N : OpenNormalSubgroup P)
 
 /-- **Cofinality of the preimages makes the lift injective**: when
 every finite-index normal subgroup of the group contains the preimage
-of an open normal subgroup of the target ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/ProfiniteCompletionCriteria.lean:60`]
-[Yamaguchi2026]). -/
+of an open normal subgroup of the target (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteCompletionCriteria.lean:60`). -/
 theorem lift_injective_of_cofinal (f : G ⟶ GrpCat.of P)
     (hcof : ∀ H : FiniteIndexNormalSubgroup G, ∃ N : OpenNormalSubgroup P, preimage f N ≤ H) :
     Function.Injective (lift f).hom := by
@@ -128,9 +127,8 @@ theorem lift_injective_of_cofinal (f : G ⟶ GrpCat.of P)
 
 /-- **A dense-range homomorphism lifts onto the target**: the lift's
 range is closed, the completion being compact and the target Hausdorff,
-and contains the dense range ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/ProfiniteCompletionCriteria.lean:43`]
-[Yamaguchi2026]). -/
+and contains the dense range (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteCompletionCriteria.lean:43`). -/
 theorem lift_surjective_of_denseRange (f : G ⟶ GrpCat.of P)
     (hdense : DenseRange f.hom) : Function.Surjective (lift f).hom := by
   have hclosed : IsClosed (Set.range (lift f).hom) :=
@@ -145,9 +143,8 @@ theorem lift_surjective_of_denseRange (f : G ⟶ GrpCat.of P)
 
 /-- A bijective lift as a continuous multiplicative equivalence: the
 inverse is continuous because the completion is compact and the target
-Hausdorff ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:115`]
-[Yamaguchi2026]). -/
+Hausdorff (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:115`). -/
 def liftContinuousMulEquiv (f : G ⟶ GrpCat.of P) (hinj : Function.Injective (lift f).hom)
     (hsurj : Function.Surjective (lift f).hom) : completion G ≃ₜ* P :=
   { Continuous.homeoOfEquivCompactToT2 (f := Equiv.ofBijective (lift f).hom ⟨hinj, hsurj⟩)

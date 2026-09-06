@@ -51,8 +51,9 @@ the layer's Hilbert-90 direction `y / σ y`.
   2020.
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -69,9 +70,8 @@ variable (L : Type*) [Field L] [ValuativeRel L] [TopologicalSpace L] [Algebra K 
 unit** — the elementwise `Ĥ⁰(G, U_L) = 0` ([Milne 2020, Chap. III, §1,
 Prop. 1.2, p.98][MilneCFT]; [Serre 1979, Chap. V, §2, Prop. 3 and Cor.,
 p.82][Serre1979]; the source counterpart, in its integral vocabulary,
-is [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Unramified/Norm.lean:19`]
-[Yamaguchi2026]). -/
+is Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Unramified/Norm.lean:19`). -/
 theorem unramifiedUnitNorm_surjective
     (h : lowerRamificationGroup K L 0 = ⊥)
     (u : Kˣ) (hu : normalizedValuation K u = 0) :
@@ -96,9 +96,8 @@ theorem unramifiedUnitNorm_surjective
 of a unit at a generator** — the elementwise `Ĥ⁻¹(G, U_L) = 0`, by
 Hilbert 90 with the witness rescaled to a unit by a base uniformizer
 power ([Milne 2020, Chap. III, §1, Prop. 1.1, p.97][MilneCFT]; the
-source counterpart, in its Herbrand vocabulary, is [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Unramified/Cohomology.lean:382`]
-[Yamaguchi2026]). -/
+source counterpart, in its Herbrand vocabulary, is Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Unramified/Cohomology.lean:382`). -/
 theorem unramifiedUnitPrimitive
     (h : lowerRamificationGroup K L 0 = ⊥)
     (σ : L ≃ₐ[K] L) (hgen : ∀ τ, τ ∈ Subgroup.zpowers σ)

@@ -37,8 +37,9 @@ item states the Mathlib-native side of that equality.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField TensorProduct
@@ -53,9 +54,9 @@ variable (L : Type*) [Field L] [NumberField L] [Algebra K L] [FiniteDimensional 
 
 /-- The **finite-place local norm conditions**: at every finite place, the component is a
 norm from `K_v ⊗[K] L` ([Milne 2020, Chap. VIII, §3, Thm. 3.1, p.234][MilneCFT];
-[Yamaguchi 2026,
+Yamaguchi 2026,
 `GlobalClassFieldTheory/ClassFieldAxiom/IdelePowerLocalUnitNormContainment.lean:121`, on
-chosen completions][Yamaguchi2026]). -/
+chosen completions). -/
 noncomputable def allFinitePlaceLocalNormCondition : Subgroup (IdeleGroup K) :=
   ⨅ v : HeightOneSpectrum (𝓞 K),
     Subgroup.comap (finiteIdeleComponent K v)
@@ -65,8 +66,7 @@ noncomputable def allFinitePlaceLocalNormCondition : Subgroup (IdeleGroup K) :=
 
 /-- The **archimedean local norm conditions**: at every infinite place, the component is
 a norm from `K_v ⊗[K] L` ([Milne 2020, Chap. VIII, §3, Thm. 3.1, p.234][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/ClassFieldAxiom/HasseNormPrinciple.lean:370`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026, `GlobalClassFieldTheory/ClassFieldAxiom/HasseNormPrinciple.lean:370`). -/
 noncomputable def allInfinitePlaceLocalNormCondition : Subgroup (IdeleGroup K) :=
   ⨅ v : InfinitePlace K,
     Subgroup.comap (infiniteIdeleComponent K v)
@@ -75,15 +75,15 @@ noncomputable def allInfinitePlaceLocalNormCondition : Subgroup (IdeleGroup K) :
 
 /-- The **global norms**: the range of the field norm on units
 ([Milne 2020, Chap. VIII, §3, Thm. 3.1, p.234][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/ClassFieldAxiom/HasseNormPrinciple.lean:463`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`GlobalClassFieldTheory/ClassFieldAxiom/HasseNormPrinciple.lean:463`). -/
 noncomputable def globalNormSubgroup : Subgroup Kˣ :=
   MonoidHom.range (Units.map (Algebra.norm K : L →* K))
 
 /-- The **everywhere-local norms**: field units whose principal idele satisfies every
 local norm condition ([Milne 2020, Chap. VIII, §3, Thm. 3.1, p.234][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/ClassFieldAxiom/HasseNormPrinciple.lean:472`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`GlobalClassFieldTheory/ClassFieldAxiom/HasseNormPrinciple.lean:472`). -/
 noncomputable def everywhereLocalNormSubgroup : Subgroup Kˣ :=
   Subgroup.comap (principalIdele K)
     (allFinitePlaceLocalNormCondition K L ⊓ allInfinitePlaceLocalNormCondition K L)
@@ -91,9 +91,8 @@ noncomputable def everywhereLocalNormSubgroup : Subgroup Kˣ :=
 /-- **Hasse's norm theorem**: for a finite cyclic extension, the global norms are exactly
 the everywhere-local norms. Claim recorded ahead of its proof — and cyclicity is
 load-bearing: `5²` is an everywhere-local but not global norm from `ℚ (√13, √17)`
-([Milne 2020, Chap. VIII, §3, Thm. 3.1 and Rem. 3.2, p.234][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/ClassFieldAxiom/HasseNormPrinciple.lean:1337`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §3, Thm. 3.1 and Rem. 3.2, p.234][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/ClassFieldAxiom/HasseNormPrinciple.lean:1337`). -/
 theorem hasseNormPrinciple_cyclic [IsGalois K L] [IsCyclic (L ≃ₐ[K] L)] :
     globalNormSubgroup K L = everywhereLocalNormSubgroup K L := by
   sorry

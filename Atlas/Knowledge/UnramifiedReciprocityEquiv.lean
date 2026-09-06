@@ -70,8 +70,9 @@ source's `open`s go — the layer keeps everything in one namespace.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -88,7 +89,7 @@ namespace ValuationData
 /-- **Any homomorphism sending the arithmetic Frobenius generator to
 the prime class is bijective** — the prime class generates the norm
 quotient, and both finite groups have order `[L : K]`
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:1003`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:1003`). -/
 theorem unramifiedReciprocity_bijective_of_generator
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -139,7 +140,7 @@ theorem unramifiedReciprocity_bijective_of_generator
 /-- **The additive-equivalence form of the generator criterion**: a
 homomorphism with the required Frobenius value is canonically promoted
 to an equivalence, independently of the particular construction
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:1054`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:1054`). -/
 noncomputable def unramifiedReciprocity_equiv_of_generator
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)
     (K : FiniteAbstractField G) (L : ClosedSubgroup G)
@@ -161,7 +162,7 @@ noncomputable def unramifiedReciprocity_equiv_of_generator
       K L hLK hUnramified f hf)
 
 /-- **The generator-dependent equivalence evaluates as its homomorphism**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:1078`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:1078`). -/
 @[simp]
 theorem unramifiedReciprocity_equiv_of_generator_apply
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)
@@ -185,8 +186,8 @@ theorem unramifiedReciprocity_equiv_of_generator_apply
 
 /-- **The finite reciprocity homomorphism sends arithmetic Frobenius to
 the class of a prime element when `L | K` is unramified** — the
-generator calculation
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:1101`][Yamaguchi2026]). -/
+generator calculation (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:1101`). -/
 theorem unramifiedReciprocity_frobenius_image
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -227,8 +228,8 @@ theorem unramifiedReciprocity_frobenius_image
 
 /-- **The unramified norm-quotient equivalence**: for a finite
 unramified Galois extension, the finite reciprocity homomorphism is an
-additive equivalence
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:1143`][Yamaguchi2026]). -/
+additive equivalence (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:1143`). -/
 noncomputable def unramifiedReciprocityEquiv
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -247,7 +248,7 @@ noncomputable def unramifiedReciprocityEquiv
       K L hLK hUnramified)
 
 /-- **The equivalence evaluates as the reciprocity homomorphism**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:1162`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:1162`). -/
 @[simp]
 theorem unramifiedReciprocityEquiv_apply
     (v : ValuationData D A) (hAxiom : SatisfiesUnramifiedUnitCohomology D v)

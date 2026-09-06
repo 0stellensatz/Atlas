@@ -41,8 +41,9 @@ norm statements into this vocabulary composes with inversion, factor by factor.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField RestrictedProduct NNReal
@@ -121,9 +122,8 @@ private theorem infiniteContent_apply (a : (InfiniteAdeleRing K)ˣ) :
   simp [infiniteContent]
 
 /-- The **content** of an idele: the product of the normalized absolute values of all its
-coordinates, `c (a) = ∏ |a_v|_v`
-([Milne 2020, Chap. V, §4, 4.4, p.171][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/NormCore.lean:94`, inverted][Yamaguchi2026]). -/
+coordinates, `c (a) = ∏ |a_v|_v` ([Milne 2020, Chap. V, §4, 4.4, p.171][MilneCFT];
+Yamaguchi 2026, `AlgebraicNumberTheory/Idele/NormCore.lean:94`, inverted). -/
 noncomputable def ideleContent : IdeleGroup K →* ℝ≥0ˣ :=
   ((infiniteContent K).comp (MonoidHom.fst _ _)) *
     ((finiteContent K).comp (MonoidHom.snd _ _))
@@ -137,8 +137,8 @@ private theorem unitsVal_injective : Function.Injective unitsVal := fun _ _ h =>
 
 /-- **The product formula**: principal ideles have content one. Proved through Mathlib's
 `NumberField.prod_abs_eq_one` — the normalization of `ideleContent` is chosen to make this
-literal ([Milne 2020, Chap. V, §4, 4.4, p.171][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalNorm.lean:243`][Yamaguchi2026]). -/
+literal ([Milne 2020, Chap. V, §4, 4.4, p.171][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/PrincipalNorm.lean:243`). -/
 theorem ideleContent_principalIdele (x : Kˣ) :
     ideleContent K (principalIdele K x) = 1 := by
   have hx : (x : K) ≠ 0 := Units.ne_zero x
@@ -170,8 +170,8 @@ theorem ideleContent_principalIdele (x : Kˣ) :
   exact NumberField.prod_abs_eq_one hx
 
 /-- The content descended to the idele class group: well defined exactly by the product
-formula ([Milne 2020, Chap. V, §4, 4.4, p.171][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalNorm.lean:260`][Yamaguchi2026]). -/
+formula ([Milne 2020, Chap. V, §4, 4.4, p.171][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/PrincipalNorm.lean:260`). -/
 noncomputable def ideleClassContent : IdeleClassGroup K →* ℝ≥0ˣ :=
   QuotientGroup.lift (principalIdeleSubgroup K) (ideleContent K) (by
     rintro a ⟨x, rfl⟩
@@ -179,8 +179,8 @@ noncomputable def ideleClassContent : IdeleClassGroup K →* ℝ≥0ˣ :=
 
 /-- The **norm-one idele class group** `C_K¹`: the kernel of the descended content — the
 subgroup whose compactness is Fujisaki's theorem
-([Milne 2020, Chap. V, §4, 4.4, p.171][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/PrincipalNorm.lean:274`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §4, 4.4, p.171][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/PrincipalNorm.lean:274`). -/
 noncomputable def normOneIdeleClassGroup : Subgroup (IdeleClassGroup K) :=
   MonoidHom.ker (ideleClassContent K)
 

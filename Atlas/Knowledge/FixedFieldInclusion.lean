@@ -25,8 +25,9 @@ prime-element bookkeeping read (#104).
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -38,8 +39,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **The inclusion `A_K → A_L`** for an abstract extension `L | K`
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/PrimeElements.lean:23`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:23`). -/
 def fixedFieldInclusion (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup) :
     ambientFixedAddSubgroup A K →+ ambientFixedAddSubgroup A L where
@@ -47,8 +48,8 @@ def fixedFieldInclusion (A : Rep ℤ G) (K L : ClosedSubgroup G)
   map_zero' := rfl
   map_add' _ _ := rfl
 
-/-- The inclusion keeps the ambient coefficient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/PrimeElements.lean:35`][Yamaguchi2026]). -/
+/-- The inclusion keeps the ambient coefficient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:35`). -/
 @[simp]
 theorem fixedFieldInclusion_coe (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -58,8 +59,8 @@ theorem fixedFieldInclusion_coe (A : Rep ℤ G) (K L : ClosedSubgroup G)
   rfl
 
 /-- **The norm of an element fixed over `K` is its `[L:K]`-fold sum**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/PrimeElements.lean:42`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:42`). -/
 theorem relativeNorm_fixedFieldInclusion
     (A : Rep ℤ G) (E : FiniteAbstractExtension G)
     (a : ambientFixedAddSubgroup A E.base) :
@@ -87,8 +88,8 @@ theorem relativeNorm_fixedFieldInclusion
   rw [← E.subgroup_index_eq_degree,
     Subgroup.index, Nat.card_eq_fintype_card]
 
-/-- **The norm of the trivial extension is the identity** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/PrimeElements.lean:71`][Yamaguchi2026]). -/
+/-- **The norm of the trivial extension is the identity** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:71`). -/
 @[simp]
 theorem relativeNorm_self
     (A : Rep ℤ G) (K : ClosedSubgroup G)

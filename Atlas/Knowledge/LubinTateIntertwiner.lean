@@ -47,8 +47,9 @@ this is the deliberate generalization recorded in `Atlas.Knowledge.LubinTateSeri
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open MvPowerSeries
@@ -61,13 +62,14 @@ variable {A : Type*} [CommRing A] {σ : Type*} [Fintype σ]
 
 /-- The multivariable linear form `∑ i, Lᵢ Xᵢ`
 ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/LinearTerm.lean:20`][Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LubinTate/FormalModule/LinearTerm.lean:20`). -/
 noncomputable def lubinTateLinearForm (L : σ → A) : MvPowerSeries σ A :=
   ∑ i, MvPowerSeries.C (L i) * MvPowerSeries.X i
 
 /-- A series **has linear term** `L` when its difference from `∑ i, Lᵢ Xᵢ` has order at
-least two ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/LinearTerm.lean:31`][Yamaguchi2026]). -/
+least two ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/LinearTerm.lean:31`). -/
 def LubinTateHasLinearTerm (H : MvPowerSeries σ A) (L : σ → A) : Prop :=
   (2 : ℕ∞) ≤ (H - lubinTateLinearForm L).order
 
@@ -137,7 +139,8 @@ section Intertwines
 variable {A : Type*} [CommRing A] [IsLocalRing A] {π : A} {σ : Type*}
 
 /-- The Lubin–Tate series `e` inserted into the variable `Xᵢ`
-([Yamaguchi 2026, `LubinTate/FormalModule/Intertwiner.lean:26`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LubinTate/FormalModule/Intertwiner.lean:26`). -/
 noncomputable def lubinTateInVariable (e : LubinTateSeries A π) (i : σ) :
     MvPowerSeries σ A :=
   PowerSeries.subst (MvPowerSeries.X i) e.toPowerSeries
@@ -196,7 +199,7 @@ theorem two_le_order_lubinTateInVariable_sub (e : LubinTateSeries A π) (i : σ)
 
 /-- The **intertwining equation** `e(H(X)) = H(ē(X₁), …, ē(Xₙ))`
 ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/Intertwiner.lean:47`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FormalModule/Intertwiner.lean:47`). -/
 def LubinTateIntertwines (e ebar : LubinTateSeries A π)
     (H : MvPowerSeries σ A) : Prop :=
   PowerSeries.subst H e.toPowerSeries =
@@ -777,9 +780,8 @@ private theorem coeff_lubinTateApprox_stable (hπ : Irreducible π)
 /-- The **Lubin–Tate intertwiner**: the unique multivariable series with prescribed
 linear term `L` intertwining `e` with `ē`, built degree by degree — Milne's induction
 read off at the stabilized stage
-([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/RecursiveIntertwiner.lean:382`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/RecursiveIntertwiner.lean:382`). -/
 noncomputable def lubinTateIntertwiner (hπ : Irreducible π)
     (e ebar : LubinTateSeries A π) (L : σ → A) : MvPowerSeries σ A :=
   fun d => coeff d (lubinTateApprox hπ e ebar L d.degree)
@@ -797,8 +799,8 @@ private theorem coeff_lubinTateIntertwiner_eq (hπ : Irreducible π)
 
 /-- The intertwiner carries the prescribed linear term
 ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/RecursiveIntertwiner.lean:419`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LubinTate/FormalModule/RecursiveIntertwiner.lean:419`). -/
 theorem lubinTateIntertwiner_hasLinearTerm (hπ : Irreducible π)
     (e ebar : LubinTateSeries A π) (L : σ → A) :
     LubinTateHasLinearTerm (lubinTateIntertwiner hπ e ebar L) L := by
@@ -811,8 +813,8 @@ theorem lubinTateIntertwiner_hasLinearTerm (hπ : Irreducible π)
 
 /-- The intertwiner solves the intertwining equation
 ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/RecursiveIntertwiner.lean:485`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LubinTate/FormalModule/RecursiveIntertwiner.lean:485`). -/
 theorem lubinTateIntertwiner_intertwines (hπ : Irreducible π)
     (e ebar : LubinTateSeries A π) (L : σ → A) :
     LubinTateIntertwines e ebar (lubinTateIntertwiner hπ e ebar L) := by
@@ -856,8 +858,8 @@ theorem lubinTateIntertwiner_intertwines (hπ : Irreducible π)
 omit [Finite (IsLocalRing.ResidueField A)] in
 /-- Uniqueness: two intertwiners with the same linear term agree
 ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/RecursiveIntertwiner.lean:996`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LubinTate/FormalModule/RecursiveIntertwiner.lean:996`). -/
 theorem LubinTateIntertwines.eq_of_hasLinearTerm (hπ : Irreducible π)
     {e ebar : LubinTateSeries A π} {H H' : MvPowerSeries σ A} {L : σ → A}
     (hH : LubinTateHasLinearTerm H L) (hI : LubinTateIntertwines e ebar H)
@@ -907,9 +909,8 @@ theorem LubinTateIntertwines.eq_of_hasLinearTerm (hπ : Irreducible π)
   exact key u.degree u rfl
 
 /-- **Lubin–Tate's fundamental lemma**: a unique intertwiner with any prescribed linear
-term ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/RecursiveIntertwiner.lean:1011`]
-[Yamaguchi2026]). -/
+term ([Milne 2020, Chap. I, §2, Lem. 2.11, p.32][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/RecursiveIntertwiner.lean:1011`). -/
 theorem existsUnique_lubinTateIntertwiner (hπ : Irreducible π)
     (e ebar : LubinTateSeries A π) (L : σ → A) :
     ∃! H : MvPowerSeries σ A,

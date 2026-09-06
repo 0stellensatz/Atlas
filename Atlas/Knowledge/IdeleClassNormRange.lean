@@ -44,8 +44,9 @@ load-bearing — off it the norm degenerates and the subgroup collapses — and 
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField TensorProduct
@@ -61,8 +62,7 @@ variable (K : Type*) [Field K] [NumberField K]
 the image of `(𝔸_K ⊗[K] L)ˣ` under the `𝔸_K`-algebra norm, read through the adele-units
 comparison and the class-group projection
 ([Milne 2020, Chap. V, §4, p.177, and §5, Thm. 5.3, pp.178–179][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Extension/BaseChange.lean:104`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Extension/BaseChange.lean:104`). -/
 noncomputable def ideleClassNormRange
     (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L] :
     Subgroup (IdeleClassGroup K) :=
@@ -90,9 +90,8 @@ theorem norm_one_tmul (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L
 
 /-- The principal idele of a field norm lies in the norm subgroup: the tensor model owes
 the classical vocabulary its diagonal compatibility, and pays
-([Milne 2020, Chap. V, §4, p.177][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Extension/BaseChange.lean:161`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §4, p.177][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/Extension/BaseChange.lean:161`). -/
 theorem principalIdele_norm_mem_ideleClassNormRange
     (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L] (x : Lˣ) :
     QuotientGroup.mk' (principalIdeleSubgroup K)

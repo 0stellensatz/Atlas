@@ -82,8 +82,9 @@ topological upgrade — and the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -93,9 +94,8 @@ noncomputable section
 variable (K : Type*) [Field K]
 
 /-- The open normal pullback in the absolute Galois group of an open
-normal subgroup of its topological abelianization ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:45`]
-[Yamaguchi2026]). -/
+normal subgroup of its topological abelianization (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:45`). -/
 def absoluteFiniteQuotientPreimage
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     OpenNormalSubgroup (Field.absoluteGaloisGroup K) where
@@ -105,9 +105,8 @@ def absoluteFiniteQuotientPreimage
 
 /-- The same pullback, packaged as a closed subgroup for the infinite
 Galois correspondence — at the automorphism-group spelling
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:55`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:55`). -/
 def absoluteFiniteQuotientClosedPreimage
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     ClosedSubgroup (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K) where
@@ -116,18 +115,16 @@ def absoluteFiniteQuotientClosedPreimage
     (absoluteFiniteQuotientPreimage K N).isOpen'
 
 /-- The closed pullback of an open normal subgroup of the
-abelianization is normal ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:63`]
-[Yamaguchi2026]). -/
+abelianization is normal (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:63`). -/
 instance absoluteFiniteQuotientClosedPreimage_normal
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     (absoluteFiniteQuotientClosedPreimage K N).Normal :=
   (absoluteFiniteQuotientPreimage K N).isNormal'
 
 /-- The topological commutator closure is contained in every
-pulled-back open normal subgroup ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:106`]
-[Yamaguchi2026]). -/
+pulled-back open normal subgroup (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:106`). -/
 theorem commutator_topologicalClosure_le_absoluteFiniteQuotientPreimage
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     (commutator (Field.absoluteGaloisGroup K)).topologicalClosure ≤
@@ -142,9 +139,8 @@ theorem commutator_topologicalClosure_le_absoluteFiniteQuotientPreimage
   exact N.one_mem
 
 /-- Pullback followed by image under the abelianization quotient map
-recovers the original open normal subgroup ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:119`]
-[Yamaguchi2026]). -/
+recovers the original open normal subgroup (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:119`). -/
 theorem absoluteFiniteQuotientPreimage_map_eq
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     (absoluteFiniteQuotientPreimage K N).toSubgroup.map
@@ -157,9 +153,8 @@ theorem absoluteFiniteQuotientPreimage_map_eq
 
 /-- The finite subextension cut out by an open normal subgroup of the
 abelianized absolute Galois group: the fixed field of its pullback
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:71`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:71`). -/
 def absoluteFiniteQuotientField
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     IntermediateField K (AlgebraicClosure K) :=
@@ -168,9 +163,8 @@ def absoluteFiniteQuotientField
 variable [CharZero K]
 
 /-- The fixed field attached to an open normal subgroup of the
-abelianization is Galois over the base ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:78`]
-[Yamaguchi2026]). -/
+abelianization is Galois over the base (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:78`). -/
 instance absoluteFiniteQuotientField_isGalois
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     IsGalois K (absoluteFiniteQuotientField K N) := by
@@ -182,9 +176,8 @@ instance absoluteFiniteQuotientField_isGalois
   infer_instance
 
 /-- The fixed field attached to an open normal subgroup of the
-abelianization is finite-dimensional over the base ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:91`]
-[Yamaguchi2026]). -/
+abelianization is finite-dimensional over the base (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:91`). -/
 instance absoluteFiniteQuotientField_finiteDimensional
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     FiniteDimensional K (absoluteFiniteQuotientField K N) := by
@@ -197,9 +190,8 @@ instance absoluteFiniteQuotientField_finiteDimensional
 
 /-- The algebraic finite quotient identification, from the third
 isomorphism theorem and the infinite Galois correspondence
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:142`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:142`). -/
 def absoluteFiniteQuotientMulEquiv
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     Field.absoluteGaloisGroupAbelianization K ⧸ N.toSubgroup ≃*
@@ -214,9 +206,8 @@ def absoluteFiniteQuotientMulEquiv
 
 /-- On representatives, the algebraic finite quotient identification is
 literal restriction to the corresponding fixed field — the algebraic
-reading of the topological representative formula ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:171`]
-[Yamaguchi2026]). -/
+reading of the topological representative formula (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:171`). -/
 @[simp]
 theorem absoluteFiniteQuotientMulEquiv_mk_mk
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K))
@@ -229,9 +220,8 @@ theorem absoluteFiniteQuotientMulEquiv_mk_mk
 
 /-- The canonical topological finite quotient identification: both
 sides are discrete, the quotient because `N` is open and the Galois
-group because the fixed field is finite-dimensional ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:156`]
-[Yamaguchi2026]). -/
+group because the fixed field is finite-dimensional (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:156`). -/
 def absoluteFiniteQuotientEquiv
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     Field.absoluteGaloisGroupAbelianization K ⧸ N.toSubgroup ≃ₜ*
@@ -244,9 +234,8 @@ def absoluteFiniteQuotientEquiv
     continuous_invFun := continuous_of_discreteTopology }
 
 /-- On representatives, the finite quotient identification is literal
-restriction to the corresponding fixed field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:171`]
-[Yamaguchi2026]). -/
+restriction to the corresponding fixed field (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:171`). -/
 @[simp]
 theorem absoluteFiniteQuotientEquiv_mk_mk
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K))
@@ -259,9 +248,8 @@ theorem absoluteFiniteQuotientEquiv_mk_mk
 
 /-- The fixed field attached to an open normal subgroup of the
 abelianization is abelian Galois: its Galois group is a quotient of the
-commutative abelianization ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:199`]
-[Yamaguchi2026]). -/
+commutative abelianization (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteFiniteQuotients.lean:199`). -/
 instance absoluteFiniteQuotientField_isAbelianGalois
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) :
     IsAbelianGalois K (absoluteFiniteQuotientField K N) where

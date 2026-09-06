@@ -48,8 +48,9 @@ in the source. The source's no-op opens go.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -65,8 +66,7 @@ namespace DegreeData
 /-- **The Frobenius power-sum combination `u` of multiplicativity is a
 genuine finite-stage unit** — splitting the long sum into two blocks
 expresses it as the power sums of `p₄ - p₃` and of `p₁` minus an action
-translate of `p₃`
-([Yamaguchi 2026, `FiniteStageCorrections.lean:28`][Yamaguchi2026]). -/
+translate of `p₃` (Yamaguchi 2026, `FiniteStageCorrections.lean:28`). -/
 theorem frobeniusPowerSum_alternating_mem_infiniteUnitAddSubgroup
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -206,8 +206,8 @@ theorem frobeniusPowerSum_alternating_mem_infiniteUnitAddSubgroup
 /-- **Each of the three correction coefficients in the group-ring
 identity is a finite-stage unit** — in the left-action translation the
 product is `τ₄τ₁`, so the third coefficient is `p₃ - τ₁p₃`, acted on by
-`τ₄` in `frobeniusMultiplicativityCorrectionAction`
-([Yamaguchi 2026, `FiniteStageCorrections.lean:173`][Yamaguchi2026]). -/
+`τ₄` in `frobeniusMultiplicativityCorrectionAction` (Yamaguchi 2026,
+`FiniteStageCorrections.lean:173`). -/
 theorem frobeniusCorrectionTerms_mem_infiniteUnitAddSubgroup
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

@@ -62,8 +62,9 @@ one namespace.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -78,8 +79,8 @@ namespace DegreeData
 
 /-- **Applying the relative norm from the maximal unramified extension
 to the power-sum combination `u` gives the corresponding combination of
-the three finite fixed-field norms**
-([Yamaguchi 2026, `NormClassRelation.lean:29`][Yamaguchi2026]). -/
+the three finite fixed-field norms** (Yamaguchi 2026,
+`NormClassRelation.lean:29`). -/
 theorem relativeNorm_frobeniusPowerSum_alternating
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -189,8 +190,7 @@ theorem relativeNorm_frobeniusPowerSum_alternating
 /-- **The final quotient step of reciprocity multiplicativity**: once
 the maximal-unramified norm of `u` descends to a universal norm in
 `A_K`, the norm relation is exactly the desired equality of reciprocity
-classes
-([Yamaguchi 2026, `NormClassRelation.lean:140`][Yamaguchi2026]). -/
+classes (Yamaguchi 2026, `NormClassRelation.lean:140`). -/
 theorem maximalUnramifiedNormClass_add_eq_of_relativeNorm
     (D : DegreeData G) (A : Rep ℤ G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -230,8 +230,8 @@ theorem maximalUnramifiedNormClass_add_eq_of_relativeNorm
 
 /-- **Prime-choice independence converts an equality of the three
 explicit norm classes into reciprocity multiplicativity's equality for
-the canonical reciprocity map**
-([Yamaguchi 2026, `NormClassRelation.lean:182`][Yamaguchi2026]). -/
+the canonical reciprocity map** (Yamaguchi 2026,
+`NormClassRelation.lean:182`). -/
 theorem reciprocityMap_mul_of_primeNormClass_eq
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

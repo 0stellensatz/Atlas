@@ -68,8 +68,9 @@ source's `open`s go — the layer keeps everything in one namespace.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -86,7 +87,7 @@ namespace DegreeData
 
 /-- **The quotient between two Frobenius lifts when the exponent of the
 first is strictly smaller** — its exponent is the positive difference
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:150`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:150`). -/
 def frobeniusLiftDifference (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -111,7 +112,7 @@ def frobeniusLiftDifference (D : DegreeData G)
   simp [m]
 
 /-- **The lift difference coerces to the ambient quotient** `σ⁻¹τ`
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:175`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:175`). -/
 @[simp]
 theorem frobeniusLiftDifference_coe (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -125,8 +126,7 @@ theorem frobeniusLiftDifference_coe (D : DegreeData G)
   by simp [frobeniusLiftDifference]
 
 /-- **Multiplying the smaller lift by its quotient recovers the larger
-lift**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:187`][Yamaguchi2026]). -/
+lift** (Yamaguchi 2026, `MainFiniteReciprocity.lean:187`). -/
 theorem mul_frobeniusLiftDifference (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -140,8 +140,7 @@ theorem mul_frobeniusLiftDifference (D : DegreeData G)
   simp
 
 /-- **When the two lifts restrict equally, their quotient restricts
-trivially**
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:201`][Yamaguchi2026]). -/
+trivially** (Yamaguchi 2026, `MainFiniteReciprocity.lean:201`). -/
 theorem frobeniusRestriction_frobeniusLiftDifference (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -173,8 +172,8 @@ namespace DegreeData
 
 /-- **A Frobenius lift restricting trivially to `L` has zero finite
 reciprocity value** — its fixed field contains `L`, so its norm to `K`
-factors through `N_{L|K}`
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:234`][Yamaguchi2026]). -/
+factors through `N_{L|K}` (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:234`). -/
 theorem finiteReciprocityValue_eq_zero_of_restriction_eq_one
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -236,7 +235,7 @@ namespace DegreeData
 
 /-- **Equal restrictions and equal exponents give equal Frobenius
 lifts** — the first case in the lift-independence proof
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:297`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:297`). -/
 theorem frobenius_eq_of_restriction_eq_of_exponent_eq (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)

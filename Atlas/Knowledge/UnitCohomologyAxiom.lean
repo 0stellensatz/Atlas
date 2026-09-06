@@ -35,8 +35,9 @@ direct local discharge. This is the same reduction that axiom performs.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -53,9 +54,8 @@ cyclic extension `L | K`, every unit of `K` is a relative norm from `L`,
 and every unit of `L` of representation norm zero is a `σ − 1` difference —
 the elementwise contents of `H⁰(G(L|K), U_L) = 0` and
 `H⁻¹(G(L|K), U_L) = 0`. A predicate on the abstract valuation datum, not a
-Lean axiom ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:491`]
-[Yamaguchi2026]). -/
+Lean axiom (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:491`). -/
 def ValuationData.SatisfiesUnramifiedUnitCohomology
     (D : DegreeData G) (v : ValuationData D A) : Prop :=
   ∀ (K : FiniteAbstractField G)

@@ -42,8 +42,9 @@ suggestion.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -57,9 +58,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /- The coset action over the composite enumeration factors through the
-inclusion into the maximal unramified extension ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:897`]
-[Yamaguchi2026]). -/
+inclusion into the maximal unramified extension (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:897`). -/
 private theorem relativeCosetAction_frobeniusNormIdentityCosetEquiv
     (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
@@ -105,9 +105,8 @@ private theorem relativeCosetAction_frobeniusNormIdentityCosetEquiv
   rfl
 
 /- The quotient action of a Frobenius power on the included norm expands
-into the coset sum ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:940`]
-[Yamaguchi2026]). -/
+into the coset sum (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:940`). -/
 private theorem frobeniusQuotientAction_relativeNorm (D : DegreeData G)
     (A : Rep ℤ G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -185,9 +184,8 @@ private theorem frobeniusQuotientAction_relativeNorm (D : DegreeData G)
             (D.maximalUnramifiedField_mono hLK) a r)) := by
           rw [map_sum]
 
-/-- **The first norm identity, in the order `φ_n ∘ N`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:1020`]
-[Yamaguchi2026]). -/
+/-- **The first norm identity, in the order `φ_n ∘ N`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:1020`). -/
 theorem frobeniusNormIdentity_norm_eq_powerSum_norm (D : DegreeData G)
     (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
@@ -296,9 +294,8 @@ theorem frobeniusNormIdentity_norm_eq_powerSum_norm (D : DegreeData G)
         A K L hLK φ aI i.1).symm
 
 /-- **The norm and the power sum commute**:
-`N_{L̃|K̃} ∘ φ_n = φ_n ∘ N_{L̃|K̃}` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:1125`]
-[Yamaguchi2026]). -/
+`N_{L̃|K̃} ∘ φ_n = φ_n ∘ N_{L̃|K̃}` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:1125`). -/
 theorem frobeniusNormIdentity_norm_powerSum_eq_powerSum_norm
     (D : DegreeData G) (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -368,9 +365,8 @@ theorem frobeniusNormIdentity_norm_powerSum_eq_powerSum_norm
 /-- **The Frobenius norm-identity lemma**: for `d_K(φ) = 1`, `d_K(σ) = n`,
 and the fixed field `Σ` of `σ`, the three actual norm expressions agree —
 `N_{Σ|K}(a) = (N_{L̃|K̃} ∘ φ_n)(a) = (φ_n ∘ N_{L̃|K̃})(a)`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:1189`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/CoreFrobeniusNorm.lean:1189`). -/
 theorem frobeniusNormIdentities (D : DegreeData G) (A : Rep ℤ G)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]
     [TotallyDisconnectedSpace G]

@@ -37,8 +37,9 @@ to `qⁿ⁺¹ ν(x)`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -83,10 +84,9 @@ include hπ in
 /-- **The root-proximity pigeonhole**: at a `π`-primitive root `x` and a
 `πu`-primitive root `y` in a common carrier, some root of the changed primitive
 polynomial lies within the Krasner gap of `x` — equal to `x`, or at value at least
-`qⁿ⁺¹ ν(x)`, strictly above the conjugate ceiling `qⁿ ν(x)`
-([Yamaguchi 2026, `LocalFieldTheory/DiscreteValuationField/PolynomialRootProximity.lean:56`]
-[Yamaguchi2026] — the general maximal-root estimate this proof fuses with its
-Lubin–Tate instantiation). -/
+`qⁿ⁺¹ ν(x)`, strictly above the conjugate ceiling `qⁿ ν(x)` (Yamaguchi 2026,
+`LocalFieldTheory/DiscreteValuationField/PolynomialRootProximity.lean:56` — the
+general maximal-root estimate this proof fuses with its Lubin–Tate instantiation). -/
 theorem standardLubinTateRootProximity
     {u : (↥𝒪[K])ˣ} (hu : u ∈ integerHigherUnitGroup K (n + 1))
     {x y : ↥𝒪[E]}
@@ -230,9 +230,9 @@ theorem standardLubinTateRootProximity
 
 include hπ in
 /-- **The Krasner-ready form**: the root sits strictly beyond the conjugate ceiling
-`qⁿ ν(x)` — the strict comparison the Krasner argument consumes
-([Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:838`]
-[Yamaguchi2026] — the source's instantiated strict form). -/
+`qⁿ ν(x)` — the strict comparison the Krasner argument consumes (Yamaguchi 2026,
+`LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:838` — the source's instantiated
+strict form). -/
 theorem standardLubinTateRootProximity_lt
     {u : (↥𝒪[K])ˣ} (hu : u ∈ integerHigherUnitGroup K (n + 1))
     {x y : ↥𝒪[E]}

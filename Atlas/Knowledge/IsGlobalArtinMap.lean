@@ -54,8 +54,9 @@ every prime over `v`, Mathlib's locus vocabulary.
   2020.
 * [NeukirchEtAl2008] J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of number fields*,
   Grundlehren der mathematischen Wissenschaften **323**, Springer Berlin Heidelberg, 2008.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField WithZero
@@ -71,9 +72,9 @@ variable (K : Type*) [Field K] [NumberField K]
 normalization — at every finite abelian floor unramified over `v`, the class of a
 one-place uniformizer idele restricts to arithmetic Frobenius at every prime over `v`
 ([Milne 2020, Chap. I, §1, Thm. 1.1 (a), p.20, Chap. V, §3, p.156, and §5, Prop. 5.2,
-p.178][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/MaximalAbelianGlobalArtin.lean:24`,
-geometric normalization, inverse of this one][Yamaguchi2026]). -/
+p.178][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/MaximalAbelianGlobalArtin.lean:24`, geometric
+normalization, inverse of this one). -/
 def IsGlobalArtinMap
     (φ : IdeleClassGroup K →ₜ*
       (maximalAbelianExtension K ≃ₐ[K] maximalAbelianExtension K)) : Prop :=
@@ -90,8 +91,8 @@ def IsGlobalArtinMap
 
 /-- A global Artin map exists. Claim recorded ahead of its proof
 ([Milne 2020, Chap. V, §5, Prop. 5.2, p.178][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/MaximalAbelianGlobalArtin.lean:24`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/MaximalAbelianGlobalArtin.lean:24`). -/
 theorem exists_isGlobalArtinMap : ∃ φ, IsGlobalArtinMap K φ := by
   sorry
 
@@ -105,9 +106,8 @@ theorem IsGlobalArtinMap.unique
 
 /-- The global Artin map is surjective. Claim recorded ahead of its proof
 ([Neukirch–Schmidt–Wingberg 2008, Chap. VIII, §2, (8.2.2), p.445][NeukirchEtAl2008];
-[Milne 2020, Chap. V, §5, Rem. 5.7 (a), p.179][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/MaximalAbelianGlobalArtin.lean:58`]
-[Yamaguchi2026]). -/
+[Milne 2020, Chap. V, §5, Rem. 5.7 (a), p.179][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/MaximalAbelianGlobalArtin.lean:58`). -/
 theorem IsGlobalArtinMap.surjective
     {φ : IdeleClassGroup K →ₜ*
       (maximalAbelianExtension K ≃ₐ[K] maximalAbelianExtension K)}
@@ -118,9 +118,8 @@ theorem IsGlobalArtinMap.surjective
 group: the exact sequence `1 → C_K° → C_K → Gal (K^ab/K) → 1`. Claim recorded ahead of
 its proof
 ([Neukirch–Schmidt–Wingberg 2008, Chap. VIII, §2, (8.2.2), p.445][NeukirchEtAl2008];
-[Milne 2020, Chap. V, §5, Rem. 5.7 (a), p.179][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/MaximalAbelianKernel.lean:123`]
-[Yamaguchi2026]). -/
+[Milne 2020, Chap. V, §5, Rem. 5.7 (a), p.179][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/MaximalAbelianKernel.lean:123`). -/
 theorem IsGlobalArtinMap.ker_eq
     {φ : IdeleClassGroup K →ₜ*
       (maximalAbelianExtension K ≃ₐ[K] maximalAbelianExtension K)}
@@ -131,11 +130,9 @@ theorem IsGlobalArtinMap.ker_eq
 /-- The **infinite abelian class-field correspondence**: closed subgroups of the
 component quotient `C_K / C_K°` against intermediate fields of `K^ab`, order-reversing.
 Claim recorded ahead of its proof — the finite-level bijection this is the profinite
-limit of is Milne's corollary
-([Milne 2020, Chap. V, §5, Cor. 5.6, p.179][MilneCFT];
-[Yamaguchi 2026,
-`GlobalClassFieldTheory/GlobalClassFields/InfiniteAbelianClassFieldCorrespondence.lean:100`]
-[Yamaguchi2026]). -/
+limit of is Milne's corollary ([Milne 2020, Chap. V, §5, Cor. 5.6, p.179][MilneCFT];
+Yamaguchi 2026,
+`GlobalClassFieldTheory/GlobalClassFields/InfiniteAbelianClassFieldCorrespondence.lean:100`). -/
 theorem nonempty_infiniteAbelianClassFieldCorrespondence :
     Nonempty ((ClosedSubgroup (ideleClassComponentQuotient K))ᵒᵈ ≃o
       IntermediateField K (maximalAbelianExtension K)) := by

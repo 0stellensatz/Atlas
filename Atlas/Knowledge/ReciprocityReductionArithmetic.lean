@@ -72,8 +72,9 @@ finite extension's degree, so nothing needs unfolding.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -88,8 +89,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 group to an additive commutative group factors canonically through its
 abelianization** — the factor map used in the first reduction once the
 finite reciprocity equivalence supplies the reciprocity homomorphism
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:890`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:890`). -/
 def abstractReciprocityAbelianizationFactor
     {Q : Type*} {B : Type*} [Group Q] [AddCommGroup B]
     (f : Additive Q →+ B) : Additive (Abelianization Q) →+ B := by
@@ -105,8 +106,8 @@ def abstractReciprocityAbelianizationFactor
       map_add' := fAb.map_mul }
 
 /-- The abelianization factor restricts to the original map on images of
-`Abelianization.of` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:909`][Yamaguchi2026]). -/
+`Abelianization.of` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:909`). -/
 @[simp]
 theorem abstractReciprocityAbelianizationFactor_of
     {Q : Type*} {B : Type*} [Group Q] [AddCommGroup B]
@@ -120,8 +121,8 @@ theorem abstractReciprocityAbelianizationFactor_of
        map_mul' := f.map_add } : Q →* Multiplicative B) q
 
 /-- Restriction also induces the canonical map on abelianizations
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:921`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:921`). -/
 def abstractReciprocityAbelianizedRestriction
     (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -138,8 +139,7 @@ def abstractReciprocityAbelianizedRestriction
 the actual reciprocity-shaped homomorphism to bijectivity; the converse
 is formal, and the forward implication uses the equality of the two
 actual finite orders, not an assumed cardinality certificate
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:982`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Reciprocity/Core.lean:982`). -/
 theorem abstractReciprocity_cyclic_surjective_iff_bijective
     (A : Rep ℤ G) (hcf : SatisfiesClassFieldAxiom A)
     (K L : ClosedSubgroup G)
@@ -170,8 +170,8 @@ theorem abstractReciprocity_cyclic_surjective_iff_bijective
   · exact fun hr => hr.2
 
 /-- An elementary profinite-integer step: if `n z = k` in `ℤ̂`, with
-`0 ≤ k < n`, then `k = 0` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:1153`][Yamaguchi2026]). -/
+`0 ≤ k < n`, then `k = 0` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:1153`). -/
 theorem abstractReciprocity_profiniteInteger_nsmul_eq_natCast_forces_zero
     (n k : ℕ) (hn : 0 < n) (hk : k < n) (z : ProfiniteInteger)
     (h : n • z =
@@ -197,8 +197,8 @@ theorem abstractReciprocity_profiniteInteger_nsmul_eq_natCast_forces_zero
 /-- In a finite totally ramified extension, the normalized valuation of
 an element from the lower field is multiplied by the extension degree
 after inclusion into the upper field — the valuation identity used for
-`M/M⁰` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:1176`][Yamaguchi2026]). -/
+`M/M⁰` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:1176`). -/
 theorem abstractReciprocity_valuationAt_fixedFieldInclusion_of_totallyRamified
     {D : DegreeData G} {A : Rep ℤ G} (v : ValuationData D A)
     (E : FiniteAbstractFieldExtension G)
@@ -264,8 +264,8 @@ theorem abstractReciprocity_valuationAt_fixedFieldInclusion_of_totallyRamified
 
 /-- **The exact `k = 0` valuation endpoint of the totally ramified
 argument**; here `K = M⁰`, `L = M`, and `x` is the element constructed
-in the fixed subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:1241`][Yamaguchi2026]). -/
+in the fixed subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:1241`). -/
 theorem abstractReciprocity_totallyRamified_valuation_forces_exponent_zero
     {D : DegreeData G} {A : Rep ℤ G} (v : ValuationData D A)
     (E : FiniteAbstractFieldExtension G)
@@ -288,8 +288,8 @@ theorem abstractReciprocity_totallyRamified_valuation_forces_exponent_zero
 
 /-- The identity `N_{M/K} ∘ i = [M:K]` used in the Sylow argument of the
 first reduction; here `i` is the actual inclusion of finite norm
-quotients constructed in transfer–norm naturality ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:937`][Yamaguchi2026]). -/
+quotients constructed in transfer–norm naturality (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:937`). -/
 theorem abstractReciprocity_normMap_comp_normQuotientInclusion
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -334,8 +334,8 @@ theorem abstractReciprocity_normMap_comp_normQuotientInclusion
 /-- **In a cyclic tower, the first norm map in the lower exact row is
 injective** — the order calculation in the third reduction: the three
 norm quotients have orders `[L:M]`, `[L:K]`, and `[M:K]`, and the tower
-law cancels the last factor ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:1015`][Yamaguchi2026]). -/
+law cancels the last factor (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:1015`). -/
 theorem abstractReciprocity_cyclicTower_normMap_injective
     (A : Rep ℤ G) (hcf : SatisfiesClassFieldAxiom A)
     (K M L : ClosedSubgroup G)

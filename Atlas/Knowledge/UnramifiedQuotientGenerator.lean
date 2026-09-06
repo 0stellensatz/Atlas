@@ -21,8 +21,9 @@ input of the unit-cohomology axiom (#104).
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -36,9 +37,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **A degree-one element restricts to a generator of the unramified quotient**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:269`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:269`). -/
 theorem quotient_generator_of_unramified_degree_one (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -107,9 +107,8 @@ theorem quotient_generator_of_unramified_degree_one (D : DegreeData G)
 
 /-- **A finite unramified Galois quotient has a generator** — one is supplied
 by any element of normalized degree one — the cyclicity input of the
-unit-cohomology axiom ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:338`]
-[Yamaguchi2026]). -/
+unit-cohomology axiom (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:338`). -/
 theorem exists_quotient_generator_of_unramified
     (D : DegreeData G) (K : FiniteResidueAbstractField D)
     (L : ClosedSubgroup G)

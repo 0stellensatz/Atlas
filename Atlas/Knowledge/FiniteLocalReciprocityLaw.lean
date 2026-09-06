@@ -49,8 +49,9 @@ so no reciprocity statement in this file carries it.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -67,9 +68,8 @@ variable (K L : Type u) [Field K] [Field L] [Algebra K L]
 finite Galois extension of a mixed-characteristic local field,
 reciprocity gives the canonical isomorphism `G(L/K)ᵃᵇ ≃ Kˣ/N_{L/K}(Lˣ)`
 ([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979]; the source
-counterpart over its separable closure is [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:32`]
-[Yamaguchi2026]). -/
+counterpart over its separable closure is Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:32`). -/
 noncomputable def abelianizationEquivNormQuotient :
     Abelianization (L ≃ₐ[K] L) ≃* NormQuotient K L :=
   concreteReciprocityEquivOfEmbedding K L (AlgebraicClosure K)
@@ -81,18 +81,17 @@ noncomputable def abelianizationEquivNormQuotient :
 /-- **The local norm-residue symbol**: the inverse of reciprocity,
 preceded by the quotient map from `Kˣ`
 ([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979]; the source
-counterpart is [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:57`]
-[Yamaguchi2026]). -/
+counterpart is Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:57`). -/
 noncomputable def localArtinMonoidHom :
     Kˣ →* Abelianization (L ≃ₐ[K] L) :=
   (abelianizationEquivNormQuotient K L).symm.toMonoidHom.comp
     (normClass K L)
 
 /-- The local norm-residue symbol is surjective
-([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:85`]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979];
+Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:85`). -/
 theorem localArtinMonoidHom_surjective :
     Function.Surjective (localArtinMonoidHom K L) :=
   (abelianizationEquivNormQuotient K L).symm.surjective.comp
@@ -100,9 +99,8 @@ theorem localArtinMonoidHom_surjective :
 
 /-- **The kernel of the local norm-residue symbol is exactly the norm
 subgroup** `N_{L/K}(Lˣ)`
-([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:92`]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. XIII, §4, pp.195–197][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/Main.lean:92`). -/
 theorem localArtinMonoidHom_ker :
     (localArtinMonoidHom K L).ker = localNormSubgroup K L := by
   ext x

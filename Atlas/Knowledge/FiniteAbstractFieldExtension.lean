@@ -35,8 +35,9 @@ here, restorable at the first consumer that unfolds through them.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -47,7 +48,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **A finite extension of fields finite over the base**: both endpoint
 finiteness proofs and the relative quotient belong to the object
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1196`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1196`). -/
 structure FiniteAbstractFieldExtension (G : Type u)
     [Group G] [TopologicalSpace G] where
   /-- The top endpoint, finite over the distinguished base. -/
@@ -66,7 +67,7 @@ namespace FiniteAbstractFieldExtension
 
 /-- **Bundle a finite relative extension of a field finite over the base**:
 finiteness of the upper field follows from the quotient tower
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1216`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1216`). -/
 noncomputable def ofInclusion (field : ClosedSubgroup G)
     (base : FiniteAbstractField G)
     (below : field.toSubgroup ≤ base.field.toSubgroup)

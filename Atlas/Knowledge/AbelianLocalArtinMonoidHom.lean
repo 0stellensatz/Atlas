@@ -41,8 +41,9 @@ token-for-token; the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -58,27 +59,24 @@ variable (K L : Type u) [Field K] [Field L] [Algebra K L]
   [FiniteDimensional K L] [IsAbelianGalois K L]
 
 /-- **The finite local Artin homomorphism with values in the actual
-Galois group** of an abelian extension ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidue.lean:26`]
-[Yamaguchi2026]). -/
+Galois group** of an abelian extension (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidue.lean:26`). -/
 noncomputable def abelianLocalArtinMonoidHom :
     Kˣ →* (L ≃ₐ[K] L) :=
   ((Abelianization.equivOfComm (H := (L ≃ₐ[K] L))).symm).toMonoidHom.comp
     (localArtinMonoidHom K L)
 
 /-- The actual abelian local Artin homomorphism is surjective
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidue.lean:32`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidue.lean:32`). -/
 theorem abelianLocalArtinMonoidHom_surjective :
     Function.Surjective (abelianLocalArtinMonoidHom K L) :=
   (Abelianization.equivOfComm (H := (L ≃ₐ[K] L))).symm.surjective.comp
     (localArtinMonoidHom_surjective K L)
 
 /-- **The kernel of the actual abelian local Artin homomorphism is
-the norm subgroup** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidue.lean:39`]
-[Yamaguchi2026]). -/
+the norm subgroup** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/NormResidue.lean:39`). -/
 theorem abelianLocalArtinMonoidHom_ker :
     MonoidHom.ker (abelianLocalArtinMonoidHom K L) =
       localNormSubgroup K L := by

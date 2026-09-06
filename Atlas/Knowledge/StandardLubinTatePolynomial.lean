@@ -37,8 +37,9 @@ source keeps the same three layers and the same factorization
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open Polynomial
@@ -48,20 +49,20 @@ namespace Atlas.Knowledge
 variable (A : Type*) [CommRing A] [IsLocalRing A] (π : A)
 
 /-- The polynomial `X ^ q + π X` underlying the standard Lubin–Tate series
-([Milne 2020, Chap. I, §2, Ex. 2.10 (a), p.32][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/DivisionPolynomial.lean:43`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §2, Ex. 2.10 (a), p.32][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/DivisionPolynomial.lean:43`). -/
 noncomputable def standardLubinTatePolynomial : Polynomial A :=
   Polynomial.X ^ Nat.card (IsLocalRing.ResidueField A) + Polynomial.C π * Polynomial.X
 
 /-- The `n`-fold compositional iterate of the standard polynomial, from `X`
-([Milne 2020, Chap. I, §3, p.36][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/DivisionPolynomial.lean:124`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, p.36][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/DivisionPolynomial.lean:124`). -/
 noncomputable def standardLubinTatePolynomialIterate (n : ℕ) : Polynomial A :=
   ((standardLubinTatePolynomial A π).comp)^[n] Polynomial.X
 
 /-- The primitive quotient polynomial at level `n + 1`, `(f^[n])^(q−1) + π`
-([Milne 2020, Chap. I, §3, pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/DivisionPolynomial.lean:191`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, pp.38–39][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/DivisionPolynomial.lean:191`). -/
 noncomputable def standardLubinTatePrimitivePolynomial (n : ℕ) : Polynomial A :=
   standardLubinTatePolynomialIterate A π n ^
       (Nat.card (IsLocalRing.ResidueField A) - 1) +
@@ -89,9 +90,9 @@ theorem standardLubinTatePolynomialIterate_succ (n : ℕ) :
   Function.iterate_succ_apply' _ n _
 
 /-- The tower factorization `f^[n+1] = f^[n] · Qₙ` — purely polynomial
-([Milne 2020, Chap. I, §3, pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/DivisionPolynomial.lean:267`,
-`standardLubinTatePolynomialIterate_succ_factor`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, pp.38–39][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/DivisionPolynomial.lean:267`,
+`standardLubinTatePolynomialIterate_succ_factor`). -/
 theorem standardLubinTatePolynomialIterate_succ_factor
     [Finite (IsLocalRing.ResidueField A)] (n : ℕ) :
     standardLubinTatePolynomialIterate A π (n + 1) =
@@ -208,7 +209,8 @@ theorem standardLubinTatePrimitivePolynomial_natDegree
     exact_mod_cast hposdeg
 
 /-- The Eisenstein-side constant coefficient: `Qₙ(0) = π`
-([Yamaguchi 2026, `LubinTate/FiniteLevel/DivisionPolynomial.lean:255`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LubinTate/FiniteLevel/DivisionPolynomial.lean:255`). -/
 theorem standardLubinTatePrimitivePolynomial_coeff_zero
     [Finite (IsLocalRing.ResidueField A)] (n : ℕ) :
     (standardLubinTatePrimitivePolynomial A π n).coeff 0 = π := by

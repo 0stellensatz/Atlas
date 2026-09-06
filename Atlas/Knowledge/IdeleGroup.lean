@@ -43,8 +43,9 @@ source repository builds the same type and the same instance
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField RestrictedProduct
@@ -56,8 +57,8 @@ variable (K : Type*) [Field K] [NumberField K]
 
 /-- The **idele group** `𝕀_K`: archimedean unit blocks times the restricted product of the
 finite completions' units along the local integer units, in the restricted-product topology
-([Milne 2020, Chap. V, §4, pp.169–170][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Basic.lean:43`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §4, pp.169–170][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/Basic.lean:43`). -/
 abbrev IdeleGroup : Type _ :=
   (InfiniteAdeleRing K)ˣ ×
     Πʳ v : HeightOneSpectrum (𝓞 K),
@@ -66,15 +67,15 @@ abbrev IdeleGroup : Type _ :=
 /-- The unit subgroup of the local integers is open in the completion's units: the
 valuation subring is open and openness passes to units. This is the `Fact` that Mathlib's
 restricted-product topological-group instance is gated on
-([Milne 2020, Chap. V, §4, p.170][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Topology.lean:21`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §4, p.170][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/Topology.lean:21`). -/
 theorem isOpen_adicCompletionIntegers_units (v : HeightOneSpectrum (𝓞 K)) :
     IsOpen ((v.adicCompletionIntegers K).units : Set (v.adicCompletion K)ˣ) :=
   Submonoid.isOpen_units (Valued.isOpen_valuationSubring _)
 
 /-- The openness of the local unit subgroups, packaged as the `Fact` instance that lets
 `IsTopologicalGroup (IdeleGroup K)` and everything downstream synthesize
-([Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Topology.lean:27`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Topology.lean:27`). -/
 instance factIsOpenAdicCompletionIntegersUnits :
     Fact (∀ v : HeightOneSpectrum (𝓞 K),
       IsOpen ((v.adicCompletionIntegers K).units : Set (v.adicCompletion K)ˣ)) :=
@@ -95,8 +96,8 @@ private noncomputable def adeleRingUnitsEquiv :
 /-- The idele group is the unit group of the adele ring: `𝕀_K ≃* (𝔸_K)ˣ`, from Mathlib's
 `MulEquiv.prodUnits` and `RestrictedProduct.unitsEquiv` — algebraic only: Mathlib states
 the units equivalence with no continuity, and no homeomorphism is claimed here
-([Milne 2020, Chap. V, §4, p.169, footnote 10][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/Basic.lean:142`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §4, p.169, footnote 10][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/Basic.lean:142`). -/
 noncomputable def ideleGroupEquivAdeleRingUnits :
     IdeleGroup K ≃* (AdeleRing (𝓞 K) K)ˣ :=
   (adeleRingUnitsEquiv K).symm

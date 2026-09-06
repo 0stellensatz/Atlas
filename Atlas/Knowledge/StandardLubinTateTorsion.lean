@@ -51,8 +51,9 @@ annihilator `𝔪 ^ (n + 1)` at level `n`.
   2020.
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -69,8 +70,8 @@ omit [FiniteDimensional K E]
 
 /-- **Multiplication by `π` is evaluation of the standard polynomial**: `[π] = e` read
 through `eval₂`'s polynomial branch
-([Milne 2020, Chap. I, §2, Rem. 2.19 (a), p.35][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:60`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §2, Rem. 2.19 (a), p.35][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveAction.lean:60`). -/
 theorem standardLubinTateSMul_pi (hπ : Irreducible π) (x : ↥𝒪[E]) :
     lubinTateSMul K E hπ (standardLubinTateSeries hπ) π x =
       Polynomial.aeval x (standardLubinTatePolynomial ↥𝒪[K] π) := by
@@ -85,8 +86,8 @@ theorem standardLubinTateSMul_pi (hπ : Irreducible π) (x : ↥𝒪[E]) :
   rw [PowerSeries.eval₂_coe, Polynomial.aeval_def]
 
 /-- **Multiplication by `π ^ k` is evaluation of the `k`-th iterate**
-([Milne 2020, Chap. I, §3, p.37][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveTorsion.lean:74`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, p.37][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveTorsion.lean:74`). -/
 theorem standardLubinTateSMul_pi_pow (hπ : Irreducible π) {x : ↥𝒪[E]} (hx : x ∈ 𝓂[E])
     (k : ℕ) :
     lubinTateSMul K E hπ (standardLubinTateSeries hπ) (π ^ k) x =
@@ -149,9 +150,8 @@ theorem algebraMap_pi_ne_zero (hπ : Irreducible π) :
 ideal**: descending through the tower, each iterate value is a maximal-ideal element
 because the next one is, the ideal is prime, and the top value's `q − 1`-st power is
 `−π` — the membership half of the source's exact valuation
-([Milne 2020, Chap. I, §3, the proof of Prop. 3.4, p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:517`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, the proof of Prop. 3.4, p.38][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveUniformizer.lean:517`). -/
 theorem mem_maximalIdeal_of_aeval_primitive (hπ : Irreducible π) {n : ℕ} {x : ↥𝒪[E]}
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
     x ∈ 𝓂[E] := by
@@ -208,7 +208,7 @@ omit [TopologicalSpace E] [IsMixedCharLocalField E] in
 include hπ in
 /-- At a primitive root, the `n`-th iterate does not vanish: its `q − 1`-st power is
 `−π` ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveTorsion.lean:149`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveTorsion.lean:149`). -/
 theorem aeval_standardLubinTatePolynomialIterate_ne_zero
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
     Polynomial.aeval x (standardLubinTatePolynomialIterate ↥𝒪[K] π n) ≠ 0 := by
@@ -231,7 +231,8 @@ theorem standardLubinTateSMul_pi_pow_ne_zero (hx : x ∈ 𝓂[E])
 
 /-- **A primitive root is `π ^ (n + 1)`-torsion**
 ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveTorsion.lean:170`][Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveTorsion.lean:170`). -/
 theorem standardLubinTateSMul_pi_pow_succ_eq_zero (hx : x ∈ 𝓂[E])
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
     lubinTateSMul K E hπ (standardLubinTateSeries hπ) (π ^ (n + 1)) x = 0 := by
@@ -253,7 +254,7 @@ theorem standardLubinTateSMul_pi_pow_ne_zero_of_le (hx : x ∈ 𝓂[E])
 /-- **The annihilator of a primitive root is exactly `𝔪 ^ (n + 1)`**: the module the
 root generates is `A ⧸ 𝔪 ^ (n + 1)`
 ([Milne 2020, Chap. I, §3, Prop. 3.4 and Lem. 3.3, pp.37–38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:360`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:360`). -/
 theorem standardLubinTateSMul_eq_zero_iff (hx : x ∈ 𝓂[E])
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)
     (w : ↥𝒪[K]) :
@@ -286,8 +287,8 @@ theorem standardLubinTateSMul_eq_zero_iff (hx : x ∈ 𝓂[E])
 /-- **Two scalars agree on a primitive root iff they are congruent mod `𝔪 ^ (n + 1)`**
 — stated additively on ring elements, where the Lean counterpart states it
 multiplicatively on units, so this is the more general form
-([Milne 2020, Chap. I, §3, Prop. 3.4, p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:545`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, Prop. 3.4, p.38][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveAction.lean:545`). -/
 theorem standardLubinTateSMul_eq_iff (hx : x ∈ 𝓂[E])
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)
     (u v : ↥𝒪[K]) :
@@ -315,7 +316,7 @@ theorem standardLubinTateSMul_eq_iff (hx : x ∈ 𝓂[E])
 
 /-- **The unit orbit of a primitive root consists of primitive roots**
 ([Milne 2020, Chap. I, §3, the proof of Thm. 3.6, p.39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:755`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveAction.lean:755`). -/
 theorem standardLubinTateSMul_isRoot (hx : x ∈ 𝓂[E])
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0)
     (u : 𝒪[K]ˣ) :

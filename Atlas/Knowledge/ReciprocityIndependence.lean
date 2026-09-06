@@ -33,8 +33,9 @@ already dead in the source — are dead here and not carried.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -49,9 +50,8 @@ namespace DegreeData
 
 /-- **Independence of the prime element**: assuming the unit-cohomology axiom,
 the reciprocity value at any prime of the Frobenius fixed field is the
-reciprocity map's value ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:369`]
-[Yamaguchi2026]). -/
+reciprocity map's value (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ReciprocityIndependence.lean:369`). -/
 theorem reciprocityValueOfPrime_eq_reciprocityMap
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G] [T2Space G]

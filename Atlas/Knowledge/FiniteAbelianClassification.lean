@@ -90,8 +90,9 @@ of its `:28`, `:34`, `:514`, `:519`, and `:524`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -109,9 +110,8 @@ variable {K : ClosedSubgroup G}
 /-- The relative subgroup of a finite abelian subextension is normal,
 as an instance local to the section — the source's name is taken by
 `Atlas.Knowledge.NormSubgroupMap`'s own local instance, whose `local`
-scoping does not reach here ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:28`]
-[Yamaguchi2026]). -/
+scoping does not reach here (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:28`). -/
 local instance chase_extensionQuotient_normal
     (L : FiniteAbelianSubextension K) :
     (L.field.toSubgroup.subgroupOf K.toSubgroup).Normal :=
@@ -120,9 +120,8 @@ local instance chase_extensionQuotient_normal
 /-- The relative quotient of a finite abelian subextension is finite,
 as an instance local to the section — the source's name is taken by
 `Atlas.Knowledge.NormSubgroupMap`'s own local instance, whose `local`
-scoping does not reach here ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:34`]
-[Yamaguchi2026]). -/
+scoping does not reach here (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:34`). -/
 local instance chase_representedQuotient_finite
     (L : FiniteAbelianSubextension K) :
     Finite (K.toSubgroup ⧸ L.field.toSubgroup.subgroupOf K.toSubgroup) :=
@@ -131,9 +130,8 @@ local instance chase_representedQuotient_finite
 /-- **The finite classification compositum argument**, isolated as a
 private diagram chase; the final public theorem supplies the three
 bijectivity facts directly from finite reciprocity, so they are not
-exposed as hypotheses of the classification ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:90`]
-[Yamaguchi2026]). -/
+exposed as hypotheses of the classification (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:90`). -/
 private theorem normSubgroup_compositum_eq_inf_of_reciprocity_bijective
     [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
@@ -280,9 +278,8 @@ private theorem normSubgroup_compositum_eq_inf_of_reciprocity_bijective
 /-- The order-reversing finite classification argument, kept private
 until the public finite abelian classification theorem supplies the
 compositum formula and the two reciprocity bijectivities from finite
-reciprocity ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:411`]
-[Yamaguchi2026]). -/
+reciprocity (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:411`). -/
 private theorem le_iff_normSubgroup_le_of_compositum_and_reciprocity
     [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
@@ -358,9 +355,8 @@ variable {K : ClosedSubgroup G} [IsTopologicalGroup G]
 /-- The relative quotient of a finite Galois subextension is finite, as
 an instance local to the section — the source's name is taken by
 `Atlas.Knowledge.NormSubgroupMap`'s own local instance, whose `local`
-scoping does not reach here ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:514`]
-[Yamaguchi2026]). -/
+scoping does not reach here (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:514`). -/
 local instance chase_extensionQuotient_finite
     (E : FiniteGaloisSubextension K) :
     Finite (K.toSubgroup ⧸ E.field.toSubgroup.subgroupOf K.toSubgroup) :=
@@ -369,9 +365,8 @@ local instance chase_extensionQuotient_finite
 /-- The relative subgroup of a finite abelian subextension is normal,
 as an instance local to the section — the source's name is taken by
 `Atlas.Knowledge.NormSubgroupMap`'s own local instance, whose `local`
-scoping does not reach here ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:519`]
-[Yamaguchi2026]). -/
+scoping does not reach here (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:519`). -/
 local instance chase_abelianExtension_normal
     (M : FiniteAbelianSubextension K) :
     (M.field.toSubgroup.subgroupOf K.toSubgroup).Normal :=
@@ -380,9 +375,8 @@ local instance chase_abelianExtension_normal
 /-- The relative quotient of a finite abelian subextension is finite,
 as an instance local to the section — the source's name is taken by
 `Atlas.Knowledge.NormSubgroupMap`'s own local instance, whose `local`
-scoping does not reach here ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:524`]
-[Yamaguchi2026]). -/
+scoping does not reach here (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:524`). -/
 local instance chase_abelianExtension_finite
     (M : FiniteAbelianSubextension K) :
     Finite (K.toSubgroup ⧸ M.field.toSubgroup.subgroupOf K.toSubgroup) :=
@@ -391,9 +385,8 @@ local instance chase_abelianExtension_finite
 /-- **The finite classification surjectivity diagram chase.** The final
 public theorem feeds `rE` and its compatibility from finite
 reciprocity, so neither appears as an assumption of the classification
-endpoint ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:591`]
-[Yamaguchi2026]). -/
+endpoint (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:591`). -/
 private theorem classFieldCandidate_normSubgroup_eq_of_reciprocity
     [CompactSpace G] [TotallyDisconnectedSpace G]
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
@@ -518,9 +511,8 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 extension: the two halves are supplied by the general Sylow
 surjectivity argument and the cyclic-coordinate injectivity argument,
 so no bijectivity premise is exposed by the finite abelian
-classification theorem ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:746`]
-[Yamaguchi2026]). -/
+classification theorem (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:746`). -/
 private theorem reciprocityEquiv_bijective
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -548,9 +540,8 @@ private theorem reciprocityEquiv_bijective
 theorem**: the norm subgroup of the compositum is the intersection of
 the two norm subgroups — the first paragraph of the finite
 classification proof, with finite reciprocity supplying all three
-vertical isomorphisms ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:773`]
-[Yamaguchi2026]). -/
+vertical isomorphisms (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:773`). -/
 theorem normSubgroup_compositum
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -571,9 +562,8 @@ theorem normSubgroup_compositum
 
 /-- **The order reversal of the finite abelian classification
 theorem**: field inclusion is exactly reverse inclusion of norm
-subgroups ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:793`]
-[Yamaguchi2026]). -/
+subgroups (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:793`). -/
 theorem le_iff_normSubgroup_le
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -591,9 +581,8 @@ theorem le_iff_normSubgroup_le
         v hcf hAxiom K L₂)
 
 /-- The forward map of the finite abelian classification theorem is
-injective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:810`]
-[Yamaguchi2026]). -/
+injective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:810`). -/
 theorem normSubgroupMap_injective
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -614,9 +603,8 @@ theorem normSubgroupMap_injective
 /-- **The kernel equality of the surjectivity step**: starting from
 `N_E ≤ H`, pull `H / N_E` back through the actual norm-residue symbol
 of finite reciprocity and take its fixed field; the norm subgroup of
-that concrete finite abelian candidate is exactly `H` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:830`]
-[Yamaguchi2026]). -/
+that concrete finite abelian candidate is exactly `H` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:830`). -/
 theorem classFieldCandidate_normSubgroup_eq
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -649,9 +637,8 @@ theorem classFieldCandidate_normSubgroup_eq
 /-- **Every open subgroup in the norm topology is the norm subgroup of
 an actual finite abelian extension** — the fixed field of the literal
 preimage of `H / N_E` under the norm-residue symbol of finite
-reciprocity ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:863`]
-[Yamaguchi2026]). -/
+reciprocity (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:863`). -/
 theorem normSubgroupMap_surjective
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -677,9 +664,8 @@ theorem normSubgroupMap_surjective
   exact hM
 
 /-- The norm subgroup map of the finite abelian classification theorem
-is bijective ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:887`]
-[Yamaguchi2026]). -/
+is bijective (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:887`). -/
 theorem normSubgroupMap_bijective
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -693,9 +679,8 @@ theorem normSubgroupMap_bijective
 
 /-- **The finite abelian classification theorem**: finite abelian
 extensions of the base are order-isomorphic to the opposite poset of
-norm-open subgroups ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:899`]
-[Yamaguchi2026]). -/
+norm-open subgroups (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:899`). -/
 def normSubgroupOrderIso
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -712,9 +697,8 @@ def normSubgroupOrderIso
 
 /-- The defining evaluation formula for `normSubgroupOrderIso`: the
 underlying subgroup of the image of `L` is `L.normSubgroup A`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:917`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:917`). -/
 @[simp]
 theorem normSubgroupOrderIso_apply
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
@@ -730,9 +714,8 @@ theorem normSubgroupOrderIso_apply
 /-- **The second displayed formula of the finite abelian classification
 theorem**: the norm subgroup of the intersection field is the product
 of the two norm subgroups (their supremum in additive notation)
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:930`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteAbelianClassification.lean:930`). -/
 theorem normSubgroup_intersection
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     [IsTopologicalGroup G] [CompactSpace G]

@@ -44,8 +44,9 @@ balls are open; both are public — the level openness for
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -190,11 +191,9 @@ powers of a deep unit level fill an open subgroup — on the free `ℤ_p`-model 
 `Atlas.Knowledge.deepUnitGroup_continuousMulEquiv` they are a coordinatewise span, open
 because nonzero ideals of `ℤ_[p]` are closed balls. False in equal characteristic, which is
 why the mixed-characteristic carrier is load-bearing
-([Milne 2020, Chap. I, §1, 1.7, p.22][MilneCFT];
-hypothesized and left undischarged by the source at
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbstractProfiniteCompletionComparison.lean:298`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §1, 1.7, p.22][MilneCFT]; hypothesized and left undischarged by the
+source at Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbstractProfiniteCompletionComparison.lean:298`). -/
 theorem unitsFiniteIndexOpen (U : Subgroup Kˣ) (hU : U.FiniteIndex) :
     IsOpen (U : Set Kˣ) := by
   set n := U.index with hndef

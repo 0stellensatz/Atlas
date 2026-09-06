@@ -18,8 +18,9 @@ This packages the finite-group comparison used by the Galois transfer square.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -29,7 +30,7 @@ noncomputable section
 variable {G H G' H' : Type*} [Group G] [Group H] [Group G'] [Group H']
 
 /-- Transfer into an injectively presented subgroup, descended to abelianizations
-([Yamaguchi 2026, `MainTransfer.lean:172`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainTransfer.lean:172`). -/
 def abelianizedTransferOfInjective [Finite G] (i : H →* G) (hi : Function.Injective i) :
     Abelianization G →* Abelianization H :=
   letI : i.range.FiniteIndex := Subgroup.finiteIndex_of_finite
@@ -58,7 +59,7 @@ theorem abelianizedTransferOfInjective_eq [Finite G]
   rfl
 
 /-- Compatible equivalences of an ambient group and its injected subgroup preserve transfer
-([Yamaguchi 2026, `TransferNaturality.lean:216`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `TransferNaturality.lean:216`). -/
 theorem abelianizedTransferOfInjective_natural [Finite G] [Finite G']
     (i : H →* G) (hi : Function.Injective i) (j : H' →* G') (hj : Function.Injective j)
     (e : G ≃* G') (d : H ≃* H') (hcomm : ∀ h, e (i h) = j (d h))

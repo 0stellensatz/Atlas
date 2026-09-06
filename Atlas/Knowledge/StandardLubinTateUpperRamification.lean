@@ -46,8 +46,9 @@ at `k = 1` it is the full wild part of order `qⁿ`.
   2020.
 * [Serre1979] J.-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**,
   Springer New York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped ValuativeRel
@@ -60,9 +61,9 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 /-- On the range visible at level `n + 1`, the **upper filtration is the natural-ceiling
 extension of its integer values** — the level tower's upper jumps are integers
 ([Serre 1979, Chap. XV, §2, Thm. 2 and Rem., p.228][Serre1979];
-[Milne 2020, Chap. I, §4, p.47][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/HerbrandFormula.lean:315`,
-`standardLubinTateRealUpperRamificationGroup_eq_natCeil`][Yamaguchi2026]). -/
+[Milne 2020, Chap. I, §4, p.47][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/HerbrandFormula.lean:315`,
+`standardLubinTateRealUpperRamificationGroup_eq_natCeil`). -/
 theorem standardLubinTateUpperRamification {π : 𝒪[K]} (hπ : Irreducible π) (n : ℕ)
     (t : ℝ) (h1 : 1 ≤ ⌈t⌉₊) (hn : ⌈t⌉₊ ≤ n + 1) :
     upperRamificationGroup K (standardLubinTateLevelField K hπ n) t =
@@ -114,10 +115,9 @@ theorem standardLubinTateUpperRamification {π : 𝒪[K]} (hπ : Irreducible π)
       hpkk (by omega : Nat.card 𝓀[K] ^ k - 1 < Nat.card 𝓀[K] ^ k)]
 
 /-- At an integer `k ∈ [1, n+1]`, the upper group of the level field has order
-`q^{n+1−k}`
-([Serre 1979, Chap. XV, §2, Thm. 2, p.228][Serre1979];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/HerbrandFormula.lean:284`,
-`standardLubinTateRealUpperRamificationGroup_natCard`][Yamaguchi2026]). -/
+`q^{n+1−k}` ([Serre 1979, Chap. XV, §2, Thm. 2, p.228][Serre1979];
+Yamaguchi 2026, `LubinTate/FiniteLevel/HerbrandFormula.lean:284`,
+`standardLubinTateRealUpperRamificationGroup_natCard`). -/
 theorem standardLubinTateUpperRamification_natCard {π : 𝒪[K]} (hπ : Irreducible π)
     (n k : ℕ) (hk : 1 ≤ k) (hkn : k ≤ n + 1) :
     Nat.card (upperRamificationGroup K (standardLubinTateLevelField K hπ n)

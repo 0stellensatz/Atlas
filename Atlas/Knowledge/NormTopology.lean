@@ -91,8 +91,9 @@ ten.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -108,9 +109,8 @@ namespace FiniteGaloisSubextension
 variable {K : ClosedSubgroup G}
 
 /-- The norm subgroup of a compositum is contained in the norm subgroup
-of its first factor ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:417`]
-[Yamaguchi2026]). -/
+of its first factor (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:417`). -/
 theorem finiteNormSubgroup_compositum_le_left (A : Rep ℤ G)
     (L₁ L₂ : FiniteGaloisSubextension K) :
     letI := (L₁.compositum L₂).finite
@@ -148,9 +148,8 @@ theorem finiteNormSubgroup_compositum_le_left (A : Rep ℤ G)
   exact T.norm_trans_apply A a
 
 /-- The symmetric norm-subgroup containment for the second factor
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:457`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FiniteGaloisSubextension.lean:457`). -/
 theorem finiteNormSubgroup_compositum_le_right (A : Rep ℤ G)
     (L₁ L₂ : FiniteGaloisSubextension K) :
     letI := (L₁.compositum L₂).finite
@@ -160,26 +159,23 @@ theorem finiteNormSubgroup_compositum_le_right (A : Rep ℤ G)
   simpa [compositum, inf_comm] using finiteNormSubgroup_compositum_le_left A L₂ L₁
 
 /-- **The norm subgroup of a packaged finite Galois subextension**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:31`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:31`). -/
 def normSubgroup (A : Rep ℤ G) (L : FiniteGaloisSubextension K) :
     AddSubgroup (ambientFixedAddSubgroup A K) := by
   letI := L.finite
   exact finiteNormSubgroup A K L.field L.below
 
 /-- The norm subgroup of a compositum lies in that of its first factor
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:37`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:37`). -/
 theorem normSubgroup_compositum_le_left (A : Rep ℤ G) (L₁ L₂ : FiniteGaloisSubextension K) :
     normSubgroup A (L₁.compositum L₂) ≤ normSubgroup A L₁ := by
   simpa [normSubgroup] using finiteNormSubgroup_compositum_le_left A L₁ L₂
 
 /-- The norm subgroup of a compositum lies in that of its second factor
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:44`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:44`). -/
 theorem normSubgroup_compositum_le_right (A : Rep ℤ G) (L₁ L₂ : FiniteGaloisSubextension K) :
     normSubgroup A (L₁.compositum L₂) ≤ normSubgroup A L₂ := by
   simpa [normSubgroup] using finiteNormSubgroup_compositum_le_right A L₁ L₂
@@ -189,9 +185,8 @@ end FiniteGaloisSubextension
 open FiniteGaloisSubextension
 
 /-- **The filter basis of finite Galois norm subgroups** on the fixed
-subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:57`]
-[Yamaguchi2026]). -/
+subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:57`). -/
 @[implicit_reducible]
 def normFilterBasis (A : Rep ℤ G) (K : ClosedSubgroup G) :
     AddGroupFilterBasis (ambientFixedAddSubgroup A K) :=
@@ -222,38 +217,33 @@ def normFilterBasis (A : Rep ℤ G) (K : ClosedSubgroup G) :
       exact (normSubgroup A L).neg_mem hx)
 
 /-- **The norm topology**: the norm subgroups form a basis at zero
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:92`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:92`). -/
 @[implicit_reducible]
 def normTopology (A : Rep ℤ G) (K : ClosedSubgroup G) :
     TopologicalSpace (ambientFixedAddSubgroup A K) :=
   (normFilterBasis A K).topology
 
-/-- Openness in the norm topology ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:129`]
-[Yamaguchi2026]). -/
+/-- Openness in the norm topology (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:129`). -/
 def IsNormOpen (A : Rep ℤ G) (K : ClosedSubgroup G)
     (s : Set (ambientFixedAddSubgroup A K)) : Prop :=
   @IsOpen (ambientFixedAddSubgroup A K) (normTopology A K) s
 
-/-- Closedness in the norm topology ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:135`]
-[Yamaguchi2026]). -/
+/-- Closedness in the norm topology (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:135`). -/
 def IsNormClosed (A : Rep ℤ G) (K : ClosedSubgroup G)
     (s : Set (ambientFixedAddSubgroup A K)) : Prop :=
   @IsClosed (ambientFixedAddSubgroup A K) (normTopology A K) s
 
-/-- Hausdorffness of the norm topology ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:140`]
-[Yamaguchi2026]). -/
+/-- Hausdorffness of the norm topology (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:140`). -/
 def IsNormHausdorff (A : Rep ℤ G) (K : ClosedSubgroup G) : Prop :=
   @T2Space (ambientFixedAddSubgroup A K) (normTopology A K)
 
 /-- A set belongs to the defining filter basis exactly when it is a
-finite Galois norm subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:183`]
-[Yamaguchi2026]). -/
+finite Galois norm subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:183`). -/
 @[simp]
 theorem mem_normFilterBasis_iff (A : Rep ℤ G) (K : ClosedSubgroup G)
     (U : Set (ambientFixedAddSubgroup A K)) :
@@ -263,9 +253,8 @@ theorem mem_normFilterBasis_iff (A : Rep ℤ G) (K : ClosedSubgroup G)
   Iff.rfl
 
 /-- **A subgroup is norm-open exactly when it contains a finite Galois
-norm subgroup** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:193`]
-[Yamaguchi2026]). -/
+norm subgroup** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:193`). -/
 theorem normTopology_addSubgroup_isOpen_iff (A : Rep ℤ G) (K : ClosedSubgroup G)
     (H : AddSubgroup (ambientFixedAddSubgroup A K)) :
     IsNormOpen A K H ↔ ∃ L : FiniteGaloisSubextension K, normSubgroup A L ≤ H := by
@@ -282,26 +271,23 @@ theorem normTopology_addSubgroup_isOpen_iff (A : Rep ℤ G) (K : ClosedSubgroup 
     apply H.isOpen_of_mem_nhds
     exact Filter.mem_of_superset ((normFilterBasis A K).mem_nhds_zero ⟨L, rfl⟩) hLH
 
-/-- Every defining norm subgroup is open ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:216`]
-[Yamaguchi2026]). -/
+/-- Every defining norm subgroup is open (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:216`). -/
 theorem normSubgroup_isOpen (A : Rep ℤ G) (K : ClosedSubgroup G)
     (L : FiniteGaloisSubextension K) : IsNormOpen A K (normSubgroup A L) := by
   rw [normTopology_addSubgroup_isOpen_iff]
   exact ⟨L, le_rfl⟩
 
 /-- **The universal norm subgroup**: the intersection of all finite
-Galois norm subgroups ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:224`]
-[Yamaguchi2026]). -/
+Galois norm subgroups (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:224`). -/
 def universalNormSubgroup (A : Rep ℤ G) (K : ClosedSubgroup G) :
     AddSubgroup (ambientFixedAddSubgroup A K) :=
   ⨅ L : FiniteGaloisSubextension K, normSubgroup A L
 
 /-- Membership in the universal norm subgroup is membership in every
-norm subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:233`]
-[Yamaguchi2026]). -/
+norm subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:233`). -/
 @[simp]
 theorem mem_universalNormSubgroup_iff (A : Rep ℤ G) (K : ClosedSubgroup G)
     (a : ambientFixedAddSubgroup A K) :
@@ -309,9 +295,8 @@ theorem mem_universalNormSubgroup_iff (A : Rep ℤ G) (K : ClosedSubgroup G)
   simp [universalNormSubgroup]
 
 /-- **The norm topology is Hausdorff exactly when the universal norms
-are trivial** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:270`]
-[Yamaguchi2026]). -/
+are trivial** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:270`). -/
 theorem normTopology_hausdorff (A : Rep ℤ G) (K : ClosedSubgroup G) :
     IsNormHausdorff A K ↔ universalNormSubgroup A K = ⊥ := by
   let B := normFilterBasis A K
@@ -340,9 +325,8 @@ theorem normTopology_hausdorff (A : Rep ℤ G) (K : ClosedSubgroup G) :
     simpa using this
 
 /-- **With finite norm quotients, a norm-open subgroup is a norm-closed
-subgroup of finite index, and conversely** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:290`]
-[Yamaguchi2026]). -/
+subgroup of finite index, and conversely** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/NormTopology.lean:290`). -/
 theorem normTopology_open_iff_closed_finiteIndex_of_finite_normQuotients (A : Rep ℤ G)
     (K : ClosedSubgroup G)
     (hfinite : ∀ L : FiniteGaloisSubextension K,

@@ -36,8 +36,9 @@ same, and the norm sum must be read through the former.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -49,9 +50,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **The carrier of the descended representation is the fixed subgroup**
-`A_L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FieldRepresentation.lean:27`]
-[Yamaguchi2026]). -/
+`A_L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FieldRepresentation.lean:27`). -/
 def extensionFixedRepresentationEquiv
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -76,9 +76,8 @@ def extensionFixedRepresentationEquiv
     apply Subtype.ext
     rfl
 
-/-- The carrier reading forgets to the ambient coefficient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FieldRepresentation.lean:56`]
-[Yamaguchi2026]). -/
+/-- The carrier reading forgets to the ambient coefficient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FieldRepresentation.lean:56`). -/
 @[simp]
 theorem extensionFixedRepresentationEquiv_apply_coe
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
@@ -89,9 +88,8 @@ theorem extensionFixedRepresentationEquiv_apply_coe
         ambientFixedAddSubgroup A L) : A.V) = a.1 :=
   rfl
 
-/-- The inverse reading forgets to the same coefficient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FieldRepresentation.lean:69`]
-[Yamaguchi2026]). -/
+/-- The inverse reading forgets to the same coefficient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FieldRepresentation.lean:69`). -/
 @[simp]
 theorem extensionFixedRepresentationEquiv_symm_apply_coe
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
@@ -102,9 +100,8 @@ theorem extensionFixedRepresentationEquiv_symm_apply_coe
   rfl
 
 /-- **The quotient action on `A_L` is the relative coset action**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FieldRepresentation.lean:79`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FieldRepresentation.lean:79`). -/
 theorem extensionFixedRepresentation_action_coe
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -121,9 +118,8 @@ theorem extensionFixedRepresentation_action_coe
   rfl
 
 /-- **The representation norm is the relative norm** on the underlying fixed
-coefficient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/FieldRepresentation.lean:96`]
-[Yamaguchi2026]). -/
+coefficient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/FieldRepresentation.lean:96`). -/
 theorem extensionFixedRepresentation_norm_coe
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.toSubgroup)

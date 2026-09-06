@@ -50,8 +50,9 @@ instances and now read through these laws.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -182,9 +183,9 @@ theorem normalizedValuation_map_algebraMap_of_map_eq_pow {e : ℕ}
 product, each conjugate of the same value, and the embedding scales by `e`
 ([Serre 1979, Chap. I, §5, p.16][Serre1979] — `N(𝔓) = 𝔭^f`, the element form at
 `f = [L : K]/e`; the source's pointwise law, already in `f`-form and for every finite
-separable extension, is
-[Yamaguchi 2026, `LocalClassFieldTheory/Finite/LocalReciprocity/SeparableNormValuation.lean:513`,
-`v_normUnits_eq_residue_finrank_mul_of_isSeparable`][Yamaguchi2026]). -/
+separable extension, is Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableNormValuation.lean:513`,
+`v_normUnits_eq_residue_finrank_mul_of_isSeparable`). -/
 theorem normalizedValuation_norm_of_map_eq_pow [IsGalois K L] {e : ℕ}
     (he : Ideal.map (algebraMap ↥𝒪[K] ↥𝒪[L]) 𝓂[K] = 𝓂[L] ^ e) (y : Lˣ) :
     (e : ℤ) * normalizedValuation K (Units.map ((Algebra.norm K) : L →* K) y) =

@@ -44,8 +44,9 @@ source's, from the product formula (`:1601`, law at `:1617`).
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open NumberField IsDedekindDomain
@@ -57,9 +58,8 @@ variable {K : Type*} [Field K] [NumberField K]
 /-- The **tame evaluation** of the finite-place Hilbert symbol: at a place prime to `n`
 with the first argument a local unit, the symbol is the prime power residue symbol raised
 to the valuation of the second argument — `(a,b)_v = (a/𝔭_v)^{ord_v(b)}`. Claim recorded
-ahead of its proof ([Milne 2020, Chap. VIII, §5, 5.8, p.246][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1017`]
-[Yamaguchi2026]). -/
+ahead of its proof ([Milne 2020, Chap. VIII, §5, 5.8, p.246][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1017`). -/
 theorem IsFinitePlaceHilbertSymbol.tame_eq {n : ℕ} (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) {v : HeightOneSpectrum (𝓞 K)}
     {h : Kˣ → Kˣ → Kˣ} (hh : IsFinitePlaceHilbertSymbol K n v h)
@@ -77,9 +77,8 @@ theorem IsFinitePlaceHilbertSymbol.tame_eq {n : ℕ} (hn : n ≠ 0)
 the symbol of `a` over `(b)` is the inverse of the bad-place correction times the symbol
 of `b` over `(a)` — Milne's `(a/b)(b/a)⁻¹ = ∏_{v∈S}(b,a)_v`, the correction inverted
 against the family's `(a,b)`-factors by skew-symmetry. Claim recorded ahead of its proof
-([Milne 2020, Chap. VIII, §5, Thm. 5.11, p.247][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1617`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. VIII, §5, Thm. 5.11, p.247][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/Reciprocity/PowerResidueReciprocity.lean:1617`). -/
 theorem powerResidueReciprocity {n : ℕ} (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty)
     (h : ∀ _v : HeightOneSpectrum (𝓞 K), Kˣ → Kˣ → Kˣ)

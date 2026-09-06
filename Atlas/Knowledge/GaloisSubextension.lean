@@ -37,8 +37,9 @@ behind the boundary.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -49,8 +50,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **A Galois subextension**: a not-necessarily-finite Galois extension above
 `K` — the containment and the normality of the relative subgroup carried by the
-object, no finiteness introduced
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:455`][Yamaguchi2026]). -/
+object, no finiteness introduced (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:455`). -/
 structure GaloisSubextension (K : ClosedSubgroup G) where
   /-- The closed subgroup representing the top field. -/
   field : ClosedSubgroup G
@@ -70,8 +71,8 @@ def toAbstractExtension (L : GaloisSubextension K) : AbstractExtension G where
   below := L.below
 
 /-- **The extension quotient** — the Galois group of the subextension, as a
-named object boundary
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:476`][Yamaguchi2026]). -/
+named object boundary (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:476`). -/
 def extensionQuotient (L : GaloisSubextension K) : Type u :=
   K.toSubgroup ⧸ L.field.toSubgroup.subgroupOf K.toSubgroup
 
@@ -115,7 +116,7 @@ theorem extensionQuotientMk_apply (L : GaloisSubextension K)
   rfl
 
 /-- **Eliminate a Galois quotient without exposing a representative**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:522`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:522`). -/
 protected theorem extensionQuotient_inductionOn
     (L : GaloisSubextension K) {motive : L.extensionQuotient → Prop}
     (q : L.extensionQuotient)

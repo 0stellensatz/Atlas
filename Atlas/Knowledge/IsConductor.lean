@@ -35,8 +35,9 @@ defining property, freed of the choice.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField
@@ -48,23 +49,20 @@ variable (K : Type*) [Field K] [NumberField K]
 
 /-- A **defining modulus** for a subgroup of the idele class group: its congruence
 subgroup is contained in `H` ([Milne 2020, Chap. V, §3, Rem. 3.8, p.158][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/GlobalClassFields/Conductor.lean:34`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026, `GlobalClassFieldTheory/GlobalClassFields/Conductor.lean:34`). -/
 def IsDefiningModulus (H : Subgroup (IdeleClassGroup K)) (m : Modulus K) : Prop :=
   congruenceSubgroup K m ≤ H
 
 /-- The **conductor**: a defining modulus dividing every defining modulus — the least
 modulus through which `H`'s condition factors
-([Milne 2020, Chap. V, §3, Rem. 3.8, p.158][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/GlobalClassFields/ConductorInfinitePart.lean:241`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §3, Rem. 3.8, p.158][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/GlobalClassFields/ConductorInfinitePart.lean:241`). -/
 def IsConductor (H : Subgroup (IdeleClassGroup K)) (f : Modulus K) : Prop :=
   IsDefiningModulus K H f ∧ ∀ m, IsDefiningModulus K H m → f ≤ m
 
 /-- A subgroup with any defining modulus has a conductor. Claim recorded ahead of its
-proof ([Milne 2020, Chap. V, §3, Rem. 3.8, p.158][MilneCFT];
-[Yamaguchi 2026, `GlobalClassFieldTheory/GlobalClassFields/Conductor.lean:119`]
-[Yamaguchi2026]). -/
+proof ([Milne 2020, Chap. V, §3, Rem. 3.8, p.158][MilneCFT]; Yamaguchi 2026,
+`GlobalClassFieldTheory/GlobalClassFields/Conductor.lean:119`). -/
 theorem exists_isConductor (H : Subgroup (IdeleClassGroup K))
     (h : ∃ m, IsDefiningModulus K H m) : ∃ f, IsConductor K H f := by
   sorry

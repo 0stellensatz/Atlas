@@ -31,8 +31,9 @@ is universe-polymorphic in the coefficient ring and the group.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -42,7 +43,7 @@ open CategoryTheory
 /-- **Degree-zero Tate cohomology is boundary short-complex homology**: for every
 finite group, `Ĥ⁰(G, A)` is the homology of `A —N→ A —d₀₁→ C¹(G, A)`
 ([Serre 1979, Chap. VIII, §1, p.127][Serre1979] — `Ĥ⁰ = A^G/NA` with `N = Σ_{s ∈ G} s`;
-[Yamaguchi 2026, `CyclicCohomology/TateComparison.lean:22`][Yamaguchi2026]). -/
+Yamaguchi 2026, `CyclicCohomology/TateComparison.lean:22`). -/
 noncomputable def tateCohomologyIsoZeroBoundary {R G : Type u} [CommRing R]
     [Group G] [Fintype G] (A : Rep R G) :
     tateCohomology A 0 ≅
@@ -70,8 +71,8 @@ noncomputable def tateCohomologyIsoZeroBoundary {R G : Type u} [CommRing R]
 degree-zero Tate cohomology is the homology of `A —N→ A —(ρ(g)−1)→ A` —
 `Ĥ⁰ = A^G/NA` read at the actual homology object
 ([Serre 1979, Chap. VIII, §4, p.133][Serre1979] —
-"`Ĥ^q(G,A) = Ker(D)/Im(N) = A^G/NA` for `q ≡ 0 mod 2`";
-[Yamaguchi 2026, `CyclicCohomology/TateComparison.lean:47`][Yamaguchi2026]). -/
+"`Ĥ^q(G,A) = Ker(D)/Im(N) = A^G/NA` for `q ≡ 0 mod 2`"; Yamaguchi 2026,
+`CyclicCohomology/TateComparison.lean:47`). -/
 noncomputable def tateCohomologyIsoFiniteCyclicZero {R G : Type u} [CommRing R]
     [CommGroup G] [Fintype G] (A : Rep R G) (g : G)
     (hg : ∀ x, x ∈ Subgroup.zpowers g) :
@@ -111,8 +112,8 @@ noncomputable def tateCohomologyIsoFiniteCyclicZero {R G : Type u} [CommRing R]
 degree-minus-one Tate cohomology is the homology of `A —(ρ(g)−1)→ A —N→ A` —
 `Ĥ⁻¹ = ker N/DA` read at the actual homology object
 ([Serre 1979, Chap. VIII, §4, p.133][Serre1979] —
-"`Ĥ^q(G,A) = Ker(N)/Im(D) = _N A/DA` for `q ≡ 1 mod 2`";
-[Yamaguchi 2026, `CyclicCohomology/TateComparison.lean:83`][Yamaguchi2026]). -/
+"`Ĥ^q(G,A) = Ker(N)/Im(D) = _N A/DA` for `q ≡ 1 mod 2`"; Yamaguchi 2026,
+`CyclicCohomology/TateComparison.lean:83`). -/
 noncomputable def tateCohomologyIsoFiniteCyclicNegOne {R G : Type u} [CommRing R]
     [CommGroup G] [Fintype G] (A : Rep R G) (g : G)
     (hg : ∀ x, x ∈ Subgroup.zpowers g) :

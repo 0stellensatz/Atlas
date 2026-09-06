@@ -38,8 +38,9 @@ the discharge of the claims will follow that route.
   York, 1979.
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -53,9 +54,8 @@ variable {n : ℕ} {h : Kˣ → Kˣ → Kˣ}
 every `b` iff `a ∈ (Kˣ)ⁿ`. The forward direction is a claim recorded ahead of its proof; the
 reverse is `Atlas.Knowledge.IsLocalHilbertSymbol.pow_left_eq_one`
 ([Serre 1979, Chap. XIV, §2, Prop. 7 vi, p.208][Serre1979];
-[Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:49`][Yamaguchi2026]). -/
+[Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT]; Yamaguchi 2026,
+`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:49`). -/
 theorem localHilbertSymbol_left_kernel (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) (a : Kˣ) :
     (∀ b : Kˣ, h a b = 1) ↔ a ∈ MonoidHom.range (powMonoidHom n : Kˣ →* Kˣ) := by
@@ -71,9 +71,8 @@ theorem localHilbertSymbol_left_kernel (hh : IsLocalHilbertSymbol K n h) (hn : n
 every `a` iff `b ∈ (Kˣ)ⁿ`. The forward direction is a claim recorded ahead of its proof; the
 reverse is `Atlas.Knowledge.IsLocalHilbertSymbol.pow_right_eq_one`
 ([Serre 1979, Chap. XIV, §2, Prop. 7 and Cor., pp.208–209][Serre1979];
-[Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:120`][Yamaguchi2026]). -/
+[Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT]; Yamaguchi 2026,
+`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:120`). -/
 theorem localHilbertSymbol_right_kernel (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) (b : Kˣ) :
     (∀ a : Kˣ, h a b = 1) ↔ b ∈ MonoidHom.range (powMonoidHom n : Kˣ →* Kˣ) := by
@@ -89,9 +88,8 @@ theorem localHilbertSymbol_right_kernel (hh : IsLocalHilbertSymbol K n h) (hn : 
 trivial — an element paired to `1` against everything is an `n`-th power, in either slot.
 Derived from the two kernel characterizations, whose recorded claims carry the backlog
 ([Serre 1979, Chap. XIV, §2, Prop. 7 vi and Cor., pp.208–209][Serre1979];
-[Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:355`][Yamaguchi2026]). -/
+[Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT]; Yamaguchi 2026,
+`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:355`). -/
 theorem localHilbertSymbol_nondegeneracy (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) :
     (∀ a : Kˣ, (∀ b : Kˣ, h a b = 1) →

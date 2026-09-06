@@ -36,8 +36,9 @@ abelianness is automatic and not restated.
   2020.
 * [NeukirchEtAl2008] J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of number fields*,
   Grundlehren der mathematischen Wissenschaften **323**, Springer Berlin Heidelberg, 2008.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField
@@ -53,9 +54,8 @@ variable (K : Type*) [Field K] [NumberField K]
 is the norm subgroup of a finite subextension of `K^ab`. Claim recorded ahead of its proof
 ([Milne 2020, Chap. V, §5, Thm. 5.5, p.179][MilneCFT];
 [Neukirch–Schmidt–Wingberg 2008, Chap. VIII, §1, (8.1.24), p.442][NeukirchEtAl2008];
-[Yamaguchi 2026,
-`GlobalClassFieldTheory/GlobalClassFields/ClosedFiniteIndexClassFieldOriginalField.lean:197`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`GlobalClassFieldTheory/GlobalClassFields/ClosedFiniteIndexClassFieldOriginalField.lean:197`). -/
 theorem exists_classField (H : Subgroup (IdeleClassGroup K))
     (hopen : IsOpen (H : Set (IdeleClassGroup K))) (hfin : H.FiniteIndex) :
     ∃ L : FiniteGaloisIntermediateField K (maximalAbelianExtension K),

@@ -34,8 +34,9 @@ of this claim will follow that proof.
   2020.
 * [NeukirchEtAl2008] J. Neukirch, A. Schmidt, K. Wingberg, *Cohomology of number fields*,
   Grundlehren der mathematischen Wissenschaften **323**, Springer Berlin Heidelberg, 2008.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField
@@ -47,8 +48,8 @@ variable (K : Type*) [Field K] [NumberField K]
 
 /-- **Fujisaki's theorem**: the norm-one idele class group is compact. Claim recorded ahead
 of its proof ([Milne 2020, Chap. V, §4, p.171][MilneCFT];
-[Neukirch–Schmidt–Wingberg 2008, Chap. VIII, §1, p.442][NeukirchEtAl2008];
-[Yamaguchi 2026, `AlgebraicNumberTheory/Idele/NormOneCompact.lean:793`][Yamaguchi2026]). -/
+[Neukirch–Schmidt–Wingberg 2008, Chap. VIII, §1, p.442][NeukirchEtAl2008]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/NormOneCompact.lean:793`). -/
 theorem normOneIdeleClass_isCompact :
     IsCompact (normOneIdeleClassGroup K : Set (IdeleClassGroup K)) := by
   sorry

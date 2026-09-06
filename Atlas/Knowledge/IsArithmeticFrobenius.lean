@@ -61,8 +61,9 @@ with its in-file consumers.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -76,10 +77,9 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 
 /-- The **arithmetic Frobenius** predicate: `σ` satisfies the Frobenius substitution
 congruence `σ x ≡ x ^ q` modulo the Jacobson radical on the integral closure of `𝒪[K]` in
-`L`, where `q = Nat.card 𝓀[K]`
-([Milne 2020, Chap. I, §1, p.20][MilneCFT];
-[Yamaguchi 2026, `LocalFieldTheory/NonarchimedeanLocalField/UnramifiedFrobenius.lean:167`]
-[Yamaguchi2026]). -/
+`L`, where `q = Nat.card 𝓀[K]` ([Milne 2020, Chap. I, §1, p.20][MilneCFT];
+Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/UnramifiedFrobenius.lean:167`). -/
 def IsArithmeticFrobenius (σ : L ≃ₐ[K] L) : Prop :=
   ∀ x : integralClosure 𝒪[K] L,
     galRestrict 𝒪[K] K L (integralClosure 𝒪[K] L) σ x - x ^ Nat.card 𝓀[K] ∈
@@ -324,8 +324,8 @@ theorem orderOf_of_isArithmeticFrobenius [FiniteDimensional K L] [IsGalois K L]
 /-- The arithmetic Frobenius of a finite Galois unramified extension generates the Galois
 group: its cyclic subgroup has cardinality its order, which is the degree, which is the
 cardinality of the whole group ([Milne 2020, Chap. I, §1, p.20][MilneCFT];
-[Yamaguchi 2026, `LocalFieldTheory/NonarchimedeanLocalField/UnramifiedFrobenius.lean:377`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/UnramifiedFrobenius.lean:377`). -/
 theorem zpowers_of_isArithmeticFrobenius [FiniteDimensional K L] [IsGalois K L]
     (h : lowerRamificationGroup K L 0 = ⊥) {σ : L ≃ₐ[K] L}
     (hσ : IsArithmeticFrobenius K L σ) : Subgroup.zpowers σ = ⊤ := by

@@ -51,8 +51,9 @@ in the source. The source's no-op opens go.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -67,9 +68,8 @@ namespace DegreeData
 
 /-- **Two primes from Frobenius fixed fields differ by a finite-stage
 unit after inclusion in `A_{L̃}`** — the common stage is their finite
-compositum, unramified over both fixed fields
-([Yamaguchi 2026, `PrimeUnitDifferences.lean:28`]
-[Yamaguchi2026]). -/
+compositum, unramified over both fixed fields (Yamaguchi 2026,
+`PrimeUnitDifferences.lean:28`). -/
 theorem frobeniusPrimeDifference_mem_infiniteUnitAddSubgroup
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -187,8 +187,7 @@ theorem frobeniusPrimeDifference_mem_infiniteUnitAddSubgroup
 /-- **The difference between a prime and any `G(L̃/K)`-translate of it is
 a finite-stage unit** — a finite Galois refinement of the prime's fixed
 field supplies a stage stable under the chosen representative
-([Yamaguchi 2026, `PrimeUnitDifferences.lean:146`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026, `PrimeUnitDifferences.lean:146`). -/
 theorem frobeniusPrime_actionDifference_mem_infiniteUnitAddSubgroup
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

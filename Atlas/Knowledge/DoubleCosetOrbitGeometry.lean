@@ -51,8 +51,9 @@ bare basename; it lives at
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -65,8 +66,8 @@ open MulAction
 
 /-- **Orbits of `S` on `Q ⧸ H` are the double cosets `S\\Q/H`** — the
 indexing set in Mathlib's transfer formula is literally the double-coset
-set the abstract class-field construction uses ([Yamaguchi 2026,
-`DoubleCosetOrbitGeometry.lean:27`][Yamaguchi2026]). -/
+set the abstract class-field construction uses (Yamaguchi 2026,
+`DoubleCosetOrbitGeometry.lean:27`). -/
 noncomputable def orbitQuotientEquivDoubleCoset
     {Q : Type u} [Group Q] (S H : Subgroup Q) :
     Quotient (orbitRel S (Q ⧸ H)) ≃
@@ -122,7 +123,7 @@ noncomputable def orbitQuotientEquivDoubleCoset
 
 /-- **The equivalence sends the orbit represented by `x` to its double
 coset**, independently of the `Quotient.out` representative
-([Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:84`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:84`). -/
 @[simp]
 theorem orbitQuotientEquivDoubleCoset_mk
     {Q : Type u} [Group Q] (S H : Subgroup Q) (x : Q) :
@@ -143,8 +144,7 @@ theorem orbitQuotientEquivDoubleCoset_mk
     hh, by simp⟩
 
 /-- **The inverse sends a represented double coset to the represented
-orbit**
-([Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:105`][Yamaguchi2026]). -/
+orbit** (Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:105`). -/
 @[simp]
 theorem orbitQuotientEquivDoubleCoset_symm_mk
     {Q : Type u} [Group Q] (S H : Subgroup Q) (x : Q) :
@@ -153,7 +153,7 @@ theorem orbitQuotientEquivDoubleCoset_symm_mk
   rfl
 
 /-- **Inversion exchanges the two sides of a double-coset space**
-([Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:112`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:112`). -/
 noncomputable def doubleCosetInversionEquiv
     {Q : Type u} [Group Q] (S H : Subgroup Q) :
     DoubleCoset.Quotient (S : Set Q) (H : Set Q) ≃
@@ -187,8 +187,8 @@ noncomputable def doubleCosetInversionEquiv
 
 /-- **Orbit sets on the two quotient spaces are exchanged by
 inversion** — the reindexing between the transfer and norm double-coset
-decompositions in transfer–norm naturality ([Yamaguchi 2026,
-`DoubleCosetOrbitGeometry.lean:146`][Yamaguchi2026]). -/
+decompositions in transfer–norm naturality (Yamaguchi 2026,
+`DoubleCosetOrbitGeometry.lean:146`). -/
 noncomputable def orbitQuotientSwapEquiv
     {Q : Type u} [Group Q] (S H : Subgroup Q) :
     Quotient (orbitRel S (Q ⧸ H)) ≃
@@ -199,8 +199,8 @@ noncomputable def orbitQuotientSwapEquiv
 
 /-- **The swap sends the orbit represented by `x` to the orbit
 represented by `x⁻¹`**, independently of the `Quotient.out`
-representatives
-([Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:158`][Yamaguchi2026]). -/
+representatives (Yamaguchi 2026,
+`DoubleCosetOrbitGeometry.lean:158`). -/
 @[simp]
 theorem orbitQuotientSwapEquiv_mk
     {Q : Type u} [Group Q] (S H : Subgroup Q) (x : Q) :
@@ -225,8 +225,8 @@ theorem orbitQuotientSwapEquiv_mk
   simp [mul_assoc]
 
 /-- **A surjective homomorphism and an equivariant equivalence of the
-acted-on sets induce an equivalence of orbit sets** ([Yamaguchi 2026,
-`DoubleCosetOrbitGeometry.lean:182`][Yamaguchi2026]). -/
+acted-on sets induce an equivalence of orbit sets** (Yamaguchi 2026,
+`DoubleCosetOrbitGeometry.lean:182`). -/
 noncomputable def orbitQuotientEquivOfSurjectiveEquivariant
     {M : Type*} {N : Type*} {X : Type*} {Y : Type*} [Group M] [Group N]
     [MulAction M X] [MulAction N Y]
@@ -261,7 +261,7 @@ noncomputable def orbitQuotientEquivOfSurjectiveEquivariant
       rw [e.apply_symm_apply] }
 
 /-- **The transported orbit is represented by the image**
-([Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:217`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:217`). -/
 @[simp]
 theorem orbitQuotientEquivOfSurjectiveEquivariant_mk
     {M : Type*} {N : Type*} {X : Type*} {Y : Type*} [Group M] [Group N]
@@ -273,7 +273,7 @@ theorem orbitQuotientEquivOfSurjectiveEquivariant_mk
   rfl
 
 /-- **The inverse lifts a representative to its source orbit**
-([Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:228`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:228`). -/
 @[simp]
 theorem orbitQuotientEquivOfSurjectiveEquivariant_symm_mk
     {M : Type*} {N : Type*} {X : Type*} {Y : Type*} [Group M] [Group N]
@@ -285,8 +285,8 @@ theorem orbitQuotientEquivOfSurjectiveEquivariant_symm_mk
   rfl
 
 /-- **A group equivalence transports left cosets along the image of a
-subgroup**, with no normality hypothesis ([Yamaguchi 2026,
-`DoubleCosetOrbitGeometry.lean:239`][Yamaguchi2026]). -/
+subgroup**, with no normality hypothesis (Yamaguchi 2026,
+`DoubleCosetOrbitGeometry.lean:239`). -/
 noncomputable def leftCosetEquivOfMulEquiv
     {Q : Type*} {R : Type*} [Group Q] [Group R]
     (e : Q ≃* R) (S : Subgroup Q) :
@@ -320,7 +320,7 @@ noncomputable def leftCosetEquivOfMulEquiv
     rw [e.apply_symm_apply]
 
 /-- **The transported coset is represented by the image**
-([Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:273`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:273`). -/
 @[simp]
 theorem leftCosetEquivOfMulEquiv_mk
     {Q : Type*} {R : Type*} [Group Q] [Group R]
@@ -332,8 +332,8 @@ theorem leftCosetEquivOfMulEquiv_mk
 /-- **Closing a cyclic subgroup does not change its double cosets
 against a closed finite-index subgroup** — the density/open-subgroup
 step passing from the algebraic powers of a Frobenius to its closed
-procyclic subgroup ([Yamaguchi 2026,
-`DoubleCosetOrbitGeometry.lean:284`][Yamaguchi2026]). -/
+procyclic subgroup (Yamaguchi 2026,
+`DoubleCosetOrbitGeometry.lean:284`). -/
 theorem doubleCoset_closedCyclic_eq
     {Q : Type u} [Group Q] [TopologicalSpace Q] [IsTopologicalGroup Q]
     (H : Subgroup Q) [H.FiniteIndex] (hHclosed : IsClosed (H : Set Q))
@@ -380,7 +380,7 @@ theorem doubleCoset_closedCyclic_eq
     simp [mul_assoc]
 
 /-- **The double-coset equivalence induced by the density argument**
-([Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:330`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `DoubleCosetOrbitGeometry.lean:330`). -/
 noncomputable def doubleCosetClosedCyclicEquiv
     {Q : Type u} [Group Q] [TopologicalSpace Q] [IsTopologicalGroup Q]
     (H : Subgroup Q) [H.FiniteIndex] (hHclosed : IsClosed (H : Set Q))
@@ -410,8 +410,8 @@ noncomputable def doubleCosetClosedCyclicEquiv
 
 /-- **Replacing the powers of a Frobenius by their closure is an
 equivalence of orbit sets** whenever the subgroup on the other side is
-closed of finite index ([Yamaguchi 2026,
-`DoubleCosetOrbitGeometry.lean:360`][Yamaguchi2026]). -/
+closed of finite index (Yamaguchi 2026,
+`DoubleCosetOrbitGeometry.lean:360`). -/
 noncomputable def orbitQuotientClosedCyclicEquiv
     {Q : Type u} [Group Q] [TopologicalSpace Q] [IsTopologicalGroup Q]
     (H : Subgroup Q) [H.FiniteIndex] (hHclosed : IsClosed (H : Set Q))
@@ -425,8 +425,8 @@ noncomputable def orbitQuotientClosedCyclicEquiv
         (closedSubgroupGenerated ({g} : Set Q)).toSubgroup).symm)
 
 /-- **Passing to the closure preserves the orbit represented by every
-literal group element** ([Yamaguchi 2026,
-`DoubleCosetOrbitGeometry.lean:375`][Yamaguchi2026]). -/
+literal group element** (Yamaguchi 2026,
+`DoubleCosetOrbitGeometry.lean:375`). -/
 @[simp]
 theorem orbitQuotientClosedCyclicEquiv_mk
     {Q : Type u} [Group Q] [TopologicalSpace Q] [IsTopologicalGroup Q]

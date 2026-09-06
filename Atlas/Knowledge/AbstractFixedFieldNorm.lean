@@ -41,8 +41,9 @@ valuation; both statements here are invariant under it.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -55,9 +56,8 @@ universe u
 
 /-- The relative norm's underlying value is unchanged under transport of its
 closed-subgroup indices — kept explicit to avoid dependent rewriting through
-the inclusion proof ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldNorm.lean:29`]
-[Yamaguchi2026]). -/
+the inclusion proof (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldNorm.lean:29`). -/
 theorem relativeNorm_coe_eq_of_closedSubgroup_eq
     {G : Type u} [Group G] [TopologicalSpace G]
     (A : Rep ℤ G)
@@ -91,9 +91,8 @@ variable (K : Type*) (Ω : Type*) [Field K] [Field Ω] [Algebra K Ω]
   [IsGalois K Ω] [IsSepClosed Ω]
 
 /-- **The engine's norm from an abstract fixed field is the field norm** of
-its concrete fixed field, without normality ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldNorm.lean:59`]
-[Yamaguchi2026]). -/
+its concrete fixed field, without normality (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldNorm.lean:59`). -/
 theorem normToBase_abstractFixedFieldUnit_val_of_isSeparable
     (H : ClosedSubgroup (Ω ≃ₐ[K] Ω))
     [Finite ((baseField (Ω ≃ₐ[K] Ω)).toSubgroup ⧸
@@ -140,9 +139,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsMixedCharLocalField K]
 
 /-- **The base valuation of the engine's norm is the normalized valuation of
-the field norm** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldNorm.lean:101`]
-[Yamaguchi2026]). -/
+the field norm** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldNorm.lean:101`). -/
 theorem localBaseValuation_normToBase_abstractFixedFieldUnit
     (H : ClosedSubgroup (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K))
     [Finite ((baseField
@@ -208,9 +206,8 @@ theorem localBaseValuation_normToBase_abstractFixedFieldUnit
   rw [ha]
 
 /-- **The range of the base valuation after the engine's norm is the
-residue-degree multiple of the value group** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldNorm.lean:166`]
-[Yamaguchi2026]). -/
+residue-degree multiple of the value group** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldNorm.lean:166`). -/
 theorem localBaseValuation_comp_normToBase_range_eq_residueFinrank
     (H : ClosedSubgroup (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K))
     [Finite ((baseField

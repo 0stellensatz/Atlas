@@ -37,8 +37,9 @@ prime elements — and never the value-zero case.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -60,10 +61,10 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 /-- The valuation reading: the abstract normalized valuation of the
 local Henselian datum, at a fixed-field unit through the unit
 dictionary, is the concrete normalized valuation of the fixed field
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldLocalData.lean:86`]
-[Yamaguchi2026], the source counterpart in its `valuationMap` and
-separable-closure vocabulary). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/FixedFieldLocalData.lean:86`,
+the source counterpart in its `valuationMap` and separable-closure
+vocabulary). -/
 theorem localHenselianValuation_valuationAt_abstractFixedFieldUnit_coe
     (x : (abstractFixedField K (AlgebraicClosure K) Kb.field)ˣ) :
     (((localHenselianValuation K).valuationAt Kb
@@ -127,9 +128,8 @@ theorem localHenselianValuation_valuationAt_abstractFixedFieldUnit_coe
 /-- The membership corollary: a fixed-field unit lands in the abstract
 unit subgroup exactly when its concrete valuation vanishes — new to the
 layer; the source's nearest statement is the value-one prime reading
-([Yamaguchi 2026,
-`LocalReciprocity/FixedFieldIntrinsicReciprocity/AmbientPrimeNormTransport.lean:235`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalReciprocity/FixedFieldIntrinsicReciprocity/AmbientPrimeNormTransport.lean:235`). -/
 theorem abstractFixedFieldUnit_mem_localHenselianValuation_unitAddSubgroup_iff
     (x : (abstractFixedField K (AlgebraicClosure K) Kb.field)ˣ) :
     abstractFixedFieldUnitsEquivGaloisFixed

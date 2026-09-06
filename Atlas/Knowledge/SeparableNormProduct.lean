@@ -30,8 +30,9 @@ source's `LocalReciprocity/SeparableNormProduct.lean` whole.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -42,9 +43,8 @@ universe u v w
 
 /-- The embeddings of a finite separable tower above a power-basis
 generator split into embeddings of the lower field and their
-extensions ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableNormProduct.lean:28`]
-[Yamaguchi2026]). -/
+extensions (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableNormProduct.lean:28`). -/
 theorem prod_embeddings_algebraMap_powerBasisGen_eq
     (k : Type u) (Ω : Type v) [Field k] [Field Ω] [Algebra k Ω]
     [IsSepClosed Ω]
@@ -77,9 +77,8 @@ theorem prod_embeddings_algebraMap_powerBasisGen_eq
 
 /-- **Mapping the norm of an element of a finite separable extension
 into a separably closed field gives the product of all base-field
-embeddings** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableNormProduct.lean:60`]
-[Yamaguchi2026]). -/
+embeddings** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableNormProduct.lean:60`). -/
 theorem algebraMap_norm_eq_prod_embeddings_of_isSepClosed
     (k : Type u) (Ω : Type v) (E : Type w) [Field k] [Field Ω] [Field E]
     [Algebra k Ω] [IsSepClosed Ω] [Algebra k E]

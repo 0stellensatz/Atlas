@@ -50,8 +50,9 @@ token-for-token; the file is the source's
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -64,9 +65,8 @@ variable (K : Type*) [Field K] [CharZero K]
 
 /-- The inverse limit of the quotients of the abelianized absolute
 Galois group by its open normal subgroups, as a profinite group — the
-target in which the finite Artin coordinates assemble ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:109`]
-[Yamaguchi2026]). -/
+target in which the finite Artin coordinates assemble (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:109`). -/
 noncomputable def absoluteFiniteArtinLimit : ProfiniteGrp :=
   ProfiniteGrp.limit
     ((ProfiniteGrp.of (Field.absoluteGaloisGroupAbelianization K)).toFiniteQuotientFunctor ⋙
@@ -74,9 +74,8 @@ noncomputable def absoluteFiniteArtinLimit : ProfiniteGrp :=
 
 /-- **The topological abelianization of the absolute Galois group is
 canonically the inverse limit of all of its finite quotients**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:116`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:116`). -/
 noncomputable def absoluteGaloisAbelianizationLimitEquiv :
     Field.absoluteGaloisGroupAbelianization K ≃ₜ* absoluteFiniteArtinLimit K :=
   ProfiniteGrp.continuousMulEquivLimittoFiniteQuotientFunctor

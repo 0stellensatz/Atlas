@@ -58,8 +58,9 @@ keyword — the file's `noncomputable section` supplies it.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -73,18 +74,16 @@ namespace FiniteGaloisSubextension
 variable {K : ClosedSubgroup G}
 
 /-- The inverse image in `G_K` of a subgroup of `G(L/K)`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:34`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:34`). -/
 def intermediateSubgroup (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) : Subgroup K.toSubgroup := by
   exact S.comap L.extensionQuotientMk
 
 omit [IsTopologicalGroup G] in
 /-- Membership in the intermediate subgroup is characterized by
-membership of the underlying ambient element ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:42`]
-[Yamaguchi2026]). -/
+membership of the underlying ambient element (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:42`). -/
 @[simp]
 theorem mem_intermediateSubgroup_iff
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient)
@@ -94,9 +93,8 @@ theorem mem_intermediateSubgroup_iff
 
 omit [IsTopologicalGroup G] in
 /-- The original `G_L` lies in every inverse-image subgroup
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:50`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:50`). -/
 theorem subgroupOf_le_intermediateSubgroup
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     L.field.toSubgroup.subgroupOf K.toSubgroup ≤
@@ -110,17 +108,15 @@ theorem subgroupOf_le_intermediateSubgroup
 
 /-- The `G_L`-coset classified by `q ∈ G(L/K)`, defined canonically as a
 fiber of the quotient map; its public definition does not choose a
-representative of `q` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:63`]
-[Yamaguchi2026]). -/
+representative of `q` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:63`). -/
 def intermediateCoset (L : FiniteGaloisSubextension K)
     (q : L.extensionQuotient) : Set K.toSubgroup :=
   {x | L.extensionQuotientMk x = q}
 
 /- A representative-based description used only to prove topological
-facts about the canonical quotient fiber ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:69`]
-[Yamaguchi2026]). -/
+facts about the canonical quotient fiber (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:69`). -/
 private def representativeIntermediateCoset (L : FiniteGaloisSubextension K)
     (q : L.extensionQuotient) : Set K.toSubgroup :=
   (fun x : K.toSubgroup =>
@@ -129,9 +125,8 @@ private def representativeIntermediateCoset (L : FiniteGaloisSubextension K)
 
 omit [IsTopologicalGroup G] in
 /-- Membership in the canonical coset is equality with its quotient
-class ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:77`]
-[Yamaguchi2026]). -/
+class (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:77`). -/
 theorem mem_intermediateCoset_iff (L : FiniteGaloisSubextension K)
     (q : L.extensionQuotient) (x : K.toSubgroup) :
     x ∈ L.intermediateCoset q ↔
@@ -140,9 +135,8 @@ theorem mem_intermediateCoset_iff (L : FiniteGaloisSubextension K)
 
 omit [IsTopologicalGroup G] in
 /- Membership in the representative-based coset is the same condition
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:84`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:84`). -/
 private theorem mem_representativeIntermediateCoset_iff
     (L : FiniteGaloisSubextension K)
     (q : L.extensionQuotient) (x : K.toSubgroup) :
@@ -181,9 +175,8 @@ private theorem mem_representativeIntermediateCoset_iff
     simp [div_eq_mul_inv, mul_assoc]
 
 omit [IsTopologicalGroup G] in
-/- The canonical coset is the representative-based one ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:121`]
-[Yamaguchi2026]). -/
+/- The canonical coset is the representative-based one (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:121`). -/
 private theorem intermediateCoset_eq_representativeIntermediateCoset
     (L : FiniteGaloisSubextension K) (q : L.extensionQuotient) :
     L.intermediateCoset q = representativeIntermediateCoset L q := by
@@ -192,9 +185,8 @@ private theorem intermediateCoset_eq_representativeIntermediateCoset
 
 omit [IsTopologicalGroup G] in
 /-- The inverse image of `S` is literally the finite union of the `G_L`
-cosets indexed by the elements of `S` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:130`]
-[Yamaguchi2026]). -/
+cosets indexed by the elements of `S` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:130`). -/
 theorem intermediateSubgroup_eq_iUnion_cosets
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     (L.intermediateSubgroup S : Set K.toSubgroup) =
@@ -213,9 +205,8 @@ theorem intermediateSubgroup_eq_iUnion_cosets
     exact hqS
 
 /- The representative-based coset is closed: it is a right translate of
-the closed relative subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:147`]
-[Yamaguchi2026]). -/
+the closed relative subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:147`). -/
 private theorem representativeIntermediateCoset_isClosed
     (L : FiniteGaloisSubextension K) (q : L.extensionQuotient) :
     IsClosed (representativeIntermediateCoset L q) := by
@@ -224,9 +215,8 @@ private theorem representativeIntermediateCoset_isClosed
     (L.field.isClosed'.preimage continuous_subtype_val)
 
 /-- Every coset in the preceding union is closed: it is the image of the
-closed subgroup `G_L ≤ G_K` under right translation ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:156`]
-[Yamaguchi2026]). -/
+closed subgroup `G_L ≤ G_K` under right translation (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:156`). -/
 theorem intermediateCoset_isClosed (L : FiniteGaloisSubextension K)
     (q : L.extensionQuotient) : IsClosed (L.intermediateCoset q) := by
   rw [intermediateCoset_eq_representativeIntermediateCoset]
@@ -234,9 +224,8 @@ theorem intermediateCoset_isClosed (L : FiniteGaloisSubextension K)
 
 /-- **Closedness of the inverse image, proved by its finite coset
 decomposition rather than postulated as a Galois-correspondence
-property** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:163`]
-[Yamaguchi2026]). -/
+property** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:163`). -/
 theorem intermediateSubgroup_isClosed (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     IsClosed (L.intermediateSubgroup S : Set K.toSubgroup) := by
@@ -246,9 +235,8 @@ theorem intermediateSubgroup_isClosed (L : FiniteGaloisSubextension K)
   exact hfinite.isClosed_biUnion fun q _ => intermediateCoset_isClosed L q
 
 /-- **The closed intermediate field cut out by `S ≤ G(L/K)`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:172`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:172`). -/
 def intermediateField (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) : ClosedSubgroup G where
   toSubgroup := (L.intermediateSubgroup S).map K.toSubgroup.subtype
@@ -259,9 +247,8 @@ def intermediateField (L : FiniteGaloisSubextension K)
     exact K.isClosed'.isClosedMap_subtype_val _
       (intermediateSubgroup_isClosed L S)
 
-/-- The constructed intermediate field lies over `K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:183`]
-[Yamaguchi2026]). -/
+/-- The constructed intermediate field lies over `K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:183`). -/
 theorem intermediateField_le_base (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     (L.intermediateField S).toSubgroup ≤ K.toSubgroup := by
@@ -269,9 +256,8 @@ theorem intermediateField_le_base (L : FiniteGaloisSubextension K)
   exact m.property
 
 /-- Pulling the constructed field back to `G_K` recovers exactly the
-inverse-image subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:191`]
-[Yamaguchi2026]). -/
+inverse-image subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:191`). -/
 theorem subgroupOf_intermediateField_eq
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     (L.intermediateField S).toSubgroup.subgroupOf K.toSubgroup =
@@ -287,9 +273,8 @@ theorem subgroupOf_intermediateField_eq
     exact ⟨x, hx, rfl⟩
 
 /-- The constructed field sits under the top field: `G_L ≤ G_M`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:207`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:207`). -/
 theorem field_le_intermediateField (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     L.field.toSubgroup ≤ (L.intermediateField S).toSubgroup := by
@@ -302,9 +287,8 @@ theorem field_le_intermediateField (L : FiniteGaloisSubextension K)
   exact ⟨xK, hxP, rfl⟩
 
 /-- The relative subgroup for `L/M` is the pullback of `G_L ◁ G_K` along
-`G_M → G_K` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:220`]
-[Yamaguchi2026]). -/
+`G_M → G_K` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:220`). -/
 theorem subgroupOf_over_intermediate_eq_comap
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     L.field.toSubgroup.subgroupOf (L.intermediateField S).toSubgroup =
@@ -316,9 +300,8 @@ theorem subgroupOf_over_intermediate_eq_comap
   rfl
 
 /-- `L/M` is normal because it is obtained by restricting the normal
-subgroup `G_L ◁ G_K` to `G_M` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:233`]
-[Yamaguchi2026]). -/
+subgroup `G_L ◁ G_K` to `G_M` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:233`). -/
 theorem subgroupOf_over_intermediate_normal
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     (L.field.toSubgroup.subgroupOf
@@ -327,18 +310,16 @@ theorem subgroupOf_over_intermediate_normal
   infer_instance
 
 /-- The relative subgroup over an intermediate field is normal in the
-intermediate subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:241`]
-[Yamaguchi2026]). -/
+intermediate subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:241`). -/
 instance subgroupOf_over_intermediate_normalInstance
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     (L.field.toSubgroup.subgroupOf
       (L.intermediateField S).toSubgroup).Normal :=
   L.subgroupOf_over_intermediate_normal S
 
-/-- The lower extension `L/M` is finite ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:248`]
-[Yamaguchi2026]). -/
+/-- The lower extension `L/M` is finite (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:248`). -/
 theorem extension_over_intermediate_finite
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     Finite ((L.intermediateField S).toSubgroup ⧸
@@ -350,9 +331,8 @@ theorem extension_over_intermediate_finite
       (L.field_le_intermediateField S)
 
 /-- The intermediate extension `M/K` is finite, since its subgroup
-contains the finite-index subgroup `G_L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:261`]
-[Yamaguchi2026]). -/
+contains the finite-index subgroup `G_L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:261`). -/
 theorem intermediateField_finite
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     Finite (K.toSubgroup ⧸
@@ -369,9 +349,8 @@ theorem intermediateField_finite
 arbitrary subgroup `S ≤ G(L/K)`; normality is deliberately absent from
 this bundle, and clients that only need finite-extension invariants
 should use it rather than forcing `S` through `intermediateFiniteGalois`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:277`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:277`). -/
 def intermediateFiniteAbstractExtension
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     FiniteAbstractExtension G where
@@ -382,18 +361,16 @@ def intermediateFiniteAbstractExtension
 
 omit [IsTopologicalGroup G] in
 /-- A normal subgroup `S ◁ G(L/K)` has normal inverse image in `G_K`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:287`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:287`). -/
 theorem intermediateSubgroup_normal
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient)
     (hS : S.Normal) : (L.intermediateSubgroup S).Normal := by
   letI : S.Normal := hS
   exact hS.comap L.extensionQuotientMk
 
-/-- Hence `M/K` is normal whenever `S` is normal ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:294`]
-[Yamaguchi2026]). -/
+/-- Hence `M/K` is normal whenever `S` is normal (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:294`). -/
 theorem intermediateField_normal
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient)
     (hS : S.Normal) :
@@ -401,9 +378,8 @@ theorem intermediateField_normal
   rw [subgroupOf_intermediateField_eq]
   exact L.intermediateSubgroup_normal S hS
 
-/-- The actual finite Galois extension `L/M` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:303`]
-[Yamaguchi2026]). -/
+/-- The actual finite Galois extension `L/M` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:303`). -/
 def lowerFiniteGalois (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     FiniteGaloisSubextension (L.intermediateField S) where
@@ -413,9 +389,8 @@ def lowerFiniteGalois (L : FiniteGaloisSubextension K)
   finite := L.extension_over_intermediate_finite S
 
 /-- If `S` is normal, the actual finite Galois extension `M/K`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:312`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:312`). -/
 def intermediateFiniteGalois (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) (hS : S.Normal) :
     FiniteGaloisSubextension K where
@@ -426,9 +401,8 @@ def intermediateFiniteGalois (L : FiniteGaloisSubextension K)
 
 /-- Restriction from `G_M` to the subgroup `S ≤ G(L/K)`; the codomain
 membership proof is supplied by the defining inverse-image equation for
-`M` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:323`]
-[Yamaguchi2026]). -/
+`M` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:323`). -/
 def lowerRestrictionHom (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     (L.intermediateField S).toSubgroup →* S :=
@@ -441,9 +415,8 @@ def lowerRestrictionHom (L : FiniteGaloisSubextension K)
       exact Subgroup.mem_subgroupOf.2 m.property)
 
 /-- The lower restriction homomorphism evaluates by restricting the
-underlying ambient automorphism ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:341`]
-[Yamaguchi2026]). -/
+underlying ambient automorphism (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:341`). -/
 @[simp]
 theorem lowerRestrictionHom_apply_coe (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient)
@@ -454,9 +427,8 @@ theorem lowerRestrictionHom_apply_coe (L : FiniteGaloisSubextension K)
   rfl
 
 /-- Every element of `S` is represented by an element of `G_M`; hence
-the restriction map is onto ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:351`]
-[Yamaguchi2026]). -/
+the restriction map is onto (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:351`). -/
 theorem lowerRestrictionHom_surjective (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     Function.Surjective (L.lowerRestrictionHom S) := by
@@ -475,9 +447,8 @@ theorem lowerRestrictionHom_surjective (L : FiniteGaloisSubextension K)
   exact hk
 
 /-- The kernel of restriction is exactly `G_L` viewed inside `G_M`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:369`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:369`). -/
 theorem lowerRestrictionHom_ker (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     MonoidHom.ker (L.lowerRestrictionHom S) =
@@ -507,9 +478,8 @@ theorem lowerRestrictionHom_ker (L : FiniteGaloisSubextension K)
     exact hq
 
 /-- **The first actual Galois-group identification used:
-`G(L/M) ≃ S`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:401`]
-[Yamaguchi2026]). -/
+`G(L/M) ≃ S`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:401`). -/
 def lowerQuotientEquiv (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) :
     (L.lowerFiniteGalois S).extensionQuotient ≃* S := by
@@ -522,9 +492,8 @@ def lowerQuotientEquiv (L : FiniteGaloisSubextension K)
       (QuotientGroup.quotientKerEquivOfSurjective
         (L.lowerRestrictionHom S) (L.lowerRestrictionHom_surjective S)))
 
-/-- Representative formula for `G(L/M) ≃ S` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:415`]
-[Yamaguchi2026]). -/
+/-- Representative formula for `G(L/M) ≃ S` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:415`). -/
 @[simp]
 theorem lowerQuotientEquiv_mk (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient)
@@ -545,9 +514,8 @@ theorem lowerQuotientEquiv_mk (L : FiniteGaloisSubextension K)
 
 /-- The same representative formula after forgetting the subtype `S`;
 this is the form used when composing restriction maps in the reduction
-diagram ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:435`]
-[Yamaguchi2026]). -/
+diagram (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:435`). -/
 theorem lowerQuotientEquiv_mk_coe (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient)
     (m : (L.intermediateField S).toSubgroup) :
@@ -562,9 +530,8 @@ theorem lowerQuotientEquiv_mk_coe (L : FiniteGaloisSubextension K)
 
 omit [IsTopologicalGroup G] in
 /-- Mapping the inverse image of `S` back to `G(L/K)` recovers `S`
-itself ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:450`]
-[Yamaguchi2026]). -/
+itself (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:450`). -/
 theorem intermediateSubgroup_map_quotient_eq
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient) :
     (L.intermediateSubgroup S).map L.extensionQuotientMk = S := by
@@ -572,18 +539,16 @@ theorem intermediateSubgroup_map_quotient_eq
     L.extensionQuotientMk_surjective S
 
 /-- The subgroup attached to the intermediate extension is normal
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:457`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:457`). -/
 instance intermediateSubgroup_normalInstance
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient)
     [hS : S.Normal] : (L.intermediateSubgroup S).Normal :=
   L.intermediateSubgroup_normal S hS
 
 /-- The field represented by a normal intermediate subgroup is a normal
-subextension ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:463`]
-[Yamaguchi2026]). -/
+subextension (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:463`). -/
 instance intermediateField_normalInstance
     (L : FiniteGaloisSubextension K) (S : Subgroup L.extensionQuotient)
     [hS : S.Normal] :
@@ -591,17 +556,15 @@ instance intermediateField_normalInstance
   L.intermediateField_normal S hS
 
 /-- The third-isomorphism identification used in the normal-subextension
-diagram: `G(L/K)/S ≃ G(M/K)` — the named type ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:472`]
-[Yamaguchi2026]). -/
+diagram: `G(L/K)/S ≃ G(M/K)` — the named type (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:472`). -/
 def upperQuotient (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) : Type _ :=
   L.extensionQuotient ⧸ S
 
 /-- The upper quotient over an intermediate field carries its canonical
-group structure ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:477`]
-[Yamaguchi2026]). -/
+group structure (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:477`). -/
 instance upperQuotient_groupInstance (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal] :
     Group (L.upperQuotient S) := by
@@ -609,18 +572,16 @@ instance upperQuotient_groupInstance (L : FiniteGaloisSubextension K)
   infer_instance
 
 /-- Comparison with the group-library presentation of the upper quotient
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:484`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:484`). -/
 def upperQuotientMulEquiv (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal] :
     L.upperQuotient S ≃* (L.extensionQuotient ⧸ S) :=
   MulEquiv.refl _
 
 /-- The canonical projection to the named upper quotient
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:490`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:490`). -/
 def upperQuotientMk (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal] :
     L.extensionQuotient →* L.upperQuotient S :=
@@ -628,9 +589,8 @@ def upperQuotientMk (L : FiniteGaloisSubextension K)
 
 omit [IsTopologicalGroup G] in
 /-- The named upper quotient projection agrees with the underlying
-quotient-group projection ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:498`]
-[Yamaguchi2026]). -/
+quotient-group projection (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:498`). -/
 @[simp]
 theorem upperQuotientMk_apply (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal]
@@ -641,9 +601,8 @@ theorem upperQuotientMk_apply (L : FiniteGaloisSubextension K)
 
 /-- **The third-isomorphism identification, with both source and target
 kept behind their named finite-Galois quotient boundaries**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:507`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:507`). -/
 def upperQuotientEquiv (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal] :
     L.upperQuotient S ≃*
@@ -666,9 +625,8 @@ def upperQuotientEquiv (L : FiniteGaloisSubextension K)
           (L.intermediateFiniteGalois S
             inferInstance).extensionQuotientMulEquiv.symm)))
 
-/-- Representative formula for `G(L/K)/S ≃ G(M/K)` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:530`]
-[Yamaguchi2026]). -/
+/-- Representative formula for `G(L/K)/S ≃ G(M/K)` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/IntermediateExtension.lean:530`). -/
 @[simp]
 theorem upperQuotientEquiv_mk_mk (L : FiniteGaloisSubextension K)
     (S : Subgroup L.extensionQuotient) [S.Normal] (k : K.toSubgroup) :

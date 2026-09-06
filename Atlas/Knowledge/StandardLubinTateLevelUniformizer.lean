@@ -43,8 +43,9 @@ proof consumes the two halves the arc prepared: the lower bound is
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -62,8 +63,8 @@ variable [ValuativeRel ↥(standardLubinTateLevelField K hπ n)]
 /-- **The level generator is a uniformizer**: its integer valuation is one — the
 squeeze of `Atlas.Knowledge.standardLubinTatePrimitiveValuation` against
 `Atlas.Knowledge.ramificationBound` at the level degree
-([Milne 2020, Chap. I, §3, Summary 3.7, p.39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:749`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, Summary 3.7, p.39][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveUniformizer.lean:749`). -/
 theorem integerValuation_levelGeneratorInteger :
     integerValuation ↥(standardLubinTateLevelField K hπ n)
       (levelGeneratorInteger K hπ n) = 1 := by
@@ -88,8 +89,8 @@ theorem integerValuation_levelGeneratorInteger :
 
 /-- **The level generator is irreducible in the level integers** — the uniformizer
 statement in ring form ([Milne 2020, Chap. I, §3, Summary 3.7, p.39][MilneCFT] —
-`𝔪 = (π_n)` in the tower diagram;
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:824`][Yamaguchi2026]). -/
+`𝔪 = (π_n)` in the tower diagram; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveUniformizer.lean:824`). -/
 theorem levelGeneratorInteger_irreducible :
     Irreducible (levelGeneratorInteger K hπ n) :=
   irreducible_of_integerValuation_eq_one _
@@ -97,9 +98,8 @@ theorem levelGeneratorInteger_irreducible :
 
 /-- **The level tower is totally ramified**: the base uniformizer's value at level
 `n + 1` is exactly the degree `(q − 1) qⁿ`
-([Milne 2020, Chap. I, §3, Thm. 3.6 (a), pp.38–39][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/PrimitiveUniformizer.lean:760` and `:811`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, Thm. 3.6 (a), pp.38–39][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/PrimitiveUniformizer.lean:760` and `:811`). -/
 theorem integerValuation_algebraMap_levelField :
     integerValuation ↥(standardLubinTateLevelField K hπ n)
       (algebraMap ↥𝒪[K] ↥𝒪[↥(standardLubinTateLevelField K hπ n)] π) =

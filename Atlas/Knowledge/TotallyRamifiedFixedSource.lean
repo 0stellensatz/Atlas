@@ -65,8 +65,9 @@ privacy; its only consumer is in this file.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -81,9 +82,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 `c = π_Σ^k`, and `b = π_L^k v`; the hypotheses say that `t` fixes `c`,
 that `g` and `t` have the same action on `b`, and that `b-c = a^g-a`;
 commutativity of the cyclic quotient then shows that `b+a-a^t` is fixed
-by `g` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamified.lean:40`]
-[Yamaguchi2026]). -/
+by `g` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamified.lean:40`). -/
 private theorem abstractReciprocity_fixedCombination
     {Q : Type*} [CommGroup Q] (M : Rep ℤ Q)
     (g t : Q) (c b a : M.V)
@@ -131,9 +131,8 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 /-- **The representative extracted from a zero prime-norm class can be
 written as `π_L^k v` with an actual unit `v ∈ U_L`** — the
 prime/valuation calculation: both `L / K` and the Frobenius fixed field
-`Σ / K` have relative residue degree one ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamified.lean:89`]
-[Yamaguchi2026]). -/
+`Σ / K` have relative residue degree one (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamified.lean:89`). -/
 theorem primeNormClass_eq_zero_exists_unit_norm_eq
     (v : ValuationData D A)
     (K L S : FiniteAbstractField G)
@@ -239,9 +238,8 @@ theorem primeNormClass_eq_zero_exists_unit_norm_eq
 
 /-- Normalized valuation is invariant under the actual quotient action
 — the quotient-representation form of the unit-cohomology axiom's
-`valuationAt_normalExtensionAction` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamified.lean:192`]
-[Yamaguchi2026]). -/
+`valuationAt_normalExtensionAction` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamified.lean:192`). -/
 theorem valuationAt_extensionFixedRepresentation_action
     (v : ValuationData D A)
     (E : FiniteAbstractFieldExtension G)
@@ -289,9 +287,8 @@ primitive `a` and an actual element of `A_K` (with `K = M⁰` and
 `L = M`) whose inclusion has normalized valuation `k`.** The two action
 equations are not comparison data: they are the literal claims used in
 this construction, namely that `σ̃` fixes `π_Σ`, and that `σ` and `σ̃`
-have the same action on the element coming from `L` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/TotallyRamified.lean:294`]
-[Yamaguchi2026]). -/
+have the same action on the element coming from `L` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/TotallyRamified.lean:294`). -/
 theorem abstractReciprocity_totallyRamified_fixedSource
     (v : ValuationData D A) (hcf : SatisfiesClassFieldAxiom A)
     (E : FiniteAbstractFieldExtension G)

@@ -73,8 +73,9 @@ layer's items carry none.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -89,9 +90,8 @@ omit [IsTopologicalGroup G] in
 /-- **A norm-open subgroup contains a finite Galois norm subgroup**:
 the first step of the finite abelian classification theorem's
 surjectivity proof — an open subgroup in the norm topology contains the
-norm subgroup of an actual finite Galois subextension ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:40`]
-[Yamaguchi2026]). -/
+norm subgroup of an actual finite Galois subextension (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:40`). -/
 theorem normOpenAddSubgroup_contains_finiteNormSubgroup
     (A : Rep ℤ G) (K : ClosedSubgroup G)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -104,18 +104,16 @@ namespace FiniteGaloisSubextension
 variable {K : ClosedSubgroup G}
 
 /-- The relative quotient of a finite Galois subextension is finite, as
-an instance local to the section ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:51`]
-[Yamaguchi2026]). -/
+an instance local to the section (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:51`). -/
 local instance normQuotient_extensionQuotient_finite
     (E : FiniteGaloisSubextension K) :
     Finite (K.toSubgroup ⧸ E.field.toSubgroup.subgroupOf K.toSubgroup) :=
   E.finite
 
 /-- The image of `H` in the actual norm quotient under the quotient map
-— the subgroup `H / N_E` once `N_E ≤ H` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:58`]
-[Yamaguchi2026]). -/
+— the subgroup `H / N_E` once `N_E ≤ H` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:58`). -/
 def normQuotientSubgroup
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (H : AddSubgroup (ambientFixedAddSubgroup A K)) :
@@ -127,9 +125,8 @@ def normQuotientSubgroup
 omit [IsTopologicalGroup G] in
 /-- If `N_E ⊆ H`, then `H` is exactly the full inverse image of
 `H / N_E` — the group-theoretic fact used in the middle of the
-finite-classification surjectivity proof ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:70`]
-[Yamaguchi2026]). -/
+finite-classification surjectivity proof (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:70`). -/
 theorem finiteNormClass_mem_normQuotientSubgroup_iff
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -162,9 +159,8 @@ theorem finiteNormClass_mem_normQuotientSubgroup_iff
 equivalence and forget additive notation: a genuine subgroup of the
 actual abelianization `G(E/K)ᵃᵇ`. The argument `rE` is kept explicit;
 this definition does not construct the finite reciprocity equivalence
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:106`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:106`). -/
 def reciprocityAbelianizedSubgroup
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -179,9 +175,8 @@ def reciprocityAbelianizedSubgroup
 omit [IsTopologicalGroup G] in
 /-- Membership in the transported subgroup is literal membership of the
 corresponding reciprocity class in the image of `H / N_E` under the
-equivalence ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:120`]
-[Yamaguchi2026]). -/
+equivalence (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:120`). -/
 theorem mem_reciprocityAbelianizedSubgroup_iff
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -197,9 +192,8 @@ theorem mem_reciprocityAbelianizedSubgroup_iff
 
 /-- The representative-level abelianized class map, obtained by first
 passing to `A_K / N_E` and then applying the specified equivalence
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:135`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:135`). -/
 def reciprocityAbelianizedClassHom
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (rE : FiniteNormQuotient A K E.field E.below ≃+
@@ -212,9 +206,8 @@ omit [IsTopologicalGroup G] in
 /-- If `N_E ⊆ H`, the transported subgroup has exactly `H` as its
 inverse image under the abelianized class map — the precise
 full-preimage statement used before taking the fixed field in the
-finite classification argument ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:147`]
-[Yamaguchi2026]). -/
+finite classification argument (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:147`). -/
 theorem reciprocityClass_mem_abelianizedSubgroup_iff
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -241,18 +234,16 @@ theorem reciprocityClass_mem_abelianizedSubgroup_iff
 end FiniteGaloisSubextension
 
 /-- Pull a subgroup of an abelianization back to the original finite
-Galois group ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:176`]
-[Yamaguchi2026]). -/
+Galois group (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:176`). -/
 def abelianizationPreimageSubgroup
     {Q : Type*} [Group Q] (T : Subgroup (Abelianization Q)) :
     Subgroup Q :=
   T.comap (Abelianization.of : Q →* Abelianization Q)
 
 /-- Every such pullback contains the commutator subgroup of that group
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:182`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:182`). -/
 theorem commutator_le_abelianizationPreimageSubgroup
     {Q : Type*} [Group Q] (T : Subgroup (Abelianization Q)) :
     commutator Q ≤ abelianizationPreimageSubgroup T := by
@@ -270,18 +261,16 @@ namespace FiniteGaloisSubextension
 variable {K : ClosedSubgroup G}
 
 /-- The finiteness of the relative quotient again, local to the section
-that builds the candidate ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:198`]
-[Yamaguchi2026]). -/
+that builds the candidate (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:198`). -/
 local instance candidate_extensionQuotient_finite
     (E : FiniteGaloisSubextension K) :
     Finite (K.toSubgroup ⧸ E.field.toSubgroup.subgroupOf K.toSubgroup) :=
   E.finite
 
 /-- The actual finite abelian intermediate extension cut out by a
-subgroup `S ≤ G(E/K)` containing the commutator ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:206`]
-[Yamaguchi2026]). -/
+subgroup `S ≤ G(E/K)` containing the commutator (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:206`). -/
 def intermediateFiniteAbelianOfCommutatorLe
     (E : FiniteGaloisSubextension K)
     (S : Subgroup E.extensionQuotient)
@@ -309,9 +298,8 @@ def intermediateFiniteAbelianOfCommutatorLe
     _ = e y' * e x' := map_mul e y' x'
 
 /-- The field underlying the preceding package is the literal fixed
-field of `S` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:237`]
-[Yamaguchi2026]). -/
+field of `S` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:237`). -/
 @[simp]
 theorem intermediateFiniteAbelianOfCommutatorLe_field
     (E : FiniteGaloisSubextension K)
@@ -322,9 +310,8 @@ theorem intermediateFiniteAbelianOfCommutatorLe_field
   rfl
 
 /-- The subgroup obtained from `H / N_E` on the abelianization side,
-pulled back to the actual finite Galois quotient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:249`]
-[Yamaguchi2026]). -/
+pulled back to the actual finite Galois quotient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:249`). -/
 def reciprocityPreimageSubgroup
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -337,9 +324,8 @@ def reciprocityPreimageSubgroup
 omit [IsTopologicalGroup G] in
 /-- The actual subgroup used to define the intermediate field contains
 the commutator, independently of any kernel assertion for `rE`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:261`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:261`). -/
 theorem commutator_le_reciprocityPreimageSubgroup
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -353,9 +339,8 @@ omit [IsTopologicalGroup G] in
 /-- The pulled-back subgroup has exactly `H` as the inverse image of
 the representative-level reciprocity class — the group-side form of the
 full-preimage assertion used in the finite-classification surjectivity
-proof ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:274`]
-[Yamaguchi2026]). -/
+proof (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:274`). -/
 theorem reciprocityClass_mem_preimageSubgroup_iff
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -379,9 +364,8 @@ theorem reciprocityClass_mem_preimageSubgroup_iff
 omit [IsTopologicalGroup G] in
 /-- Equivalently, the representative of the transported reciprocity
 class restricts trivially to the quotient cut out by the candidate
-precisely for the elements of `H` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:298`]
-[Yamaguchi2026]). -/
+precisely for the elements of `H` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:298`). -/
 theorem candidateQuotient_eq_one_iff
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -414,9 +398,8 @@ theorem candidateQuotient_eq_one_iff
 extension determined by the subgroup transported from `H / N_E`, the
 field candidate in the surjectivity proof of the finite abelian
 classification theorem. No claim that its norm subgroup equals `H` is
-made before finite reciprocity is available ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:330`]
-[Yamaguchi2026]). -/
+made before finite reciprocity is available (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:330`). -/
 def classFieldCandidate
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)
     (H : AddSubgroup (ambientFixedAddSubgroup A K))
@@ -428,9 +411,8 @@ def classFieldCandidate
     (commutator_le_reciprocityPreimageSubgroup A E H rE)
 
 /-- The candidate is cut out by the explicit pulled-back subgroup, not
-by an opaque correspondence object ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:343`]
-[Yamaguchi2026]). -/
+by an opaque correspondence object (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/ClassFieldCandidate.lean:343`). -/
 @[simp]
 theorem classFieldCandidate_field
     (A : Rep ℤ G) (E : FiniteGaloisSubextension K)

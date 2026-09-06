@@ -29,8 +29,9 @@ filtration is exactly the image of this subgroup, in a `ℕ+`-shaped form and in
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped ValuativeRel
@@ -43,7 +44,7 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 /-- The **integer higher unit group** `1 + 𝔪ⁿ` as a subgroup of `𝒪[K]ˣ` — the
 unit-parameter side of the level tower's Galois description
 ([Milne 2020, Chap. I, §3, Prop. 3.4 and Thm. 3.6 (b), p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/FiniteParameters.lean:35`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/FiniteParameters.lean:35`). -/
 def integerHigherUnitGroup (n : ℕ) : Subgroup 𝒪[K]ˣ where
   carrier := {u | (u : 𝒪[K]) - 1 ∈ IsLocalRing.maximalIdeal 𝒪[K] ^ n}
   one_mem' := by
@@ -69,10 +70,10 @@ def integerHigherUnitGroup (n : ℕ) : Subgroup 𝒪[K]ˣ where
 
 /-- **The filtration is the image of the integer higher units**: the translate-set
 subgroup of `Atlas.Knowledge.higherUnitGroup` and the mapped subgroup here are one
-subgroup of `Kˣ` ([Yamaguchi 2026,
-`LocalFieldTheory/NonarchimedeanLocalField/PrincipalUnits.lean:18`][Yamaguchi2026] —
-the source keeps the filtration on the integer side, so the `Kˣ`-level identity is the
-bridging this layer adds). -/
+subgroup of `Kˣ` (Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/PrincipalUnits.lean:18` — the source keeps
+the filtration on the integer side, so the `Kˣ`-level identity is the bridging this
+layer adds). -/
 theorem higherUnitGroup_eq_map_integerHigherUnitGroup (i : ℕ+) :
     higherUnitGroup K i =
       (integerHigherUnitGroup K (i : ℕ)).map
@@ -82,9 +83,8 @@ theorem higherUnitGroup_eq_map_integerHigherUnitGroup (i : ℕ+) :
   rfl
 
 /-- **The identification in the `ℕ`-shaped orientation** consumers rewrite with: the
-integer side on the left, at a nonzero natural level
-([Yamaguchi 2026,
-`LocalFieldTheory/NonarchimedeanLocalField/PrincipalUnits.lean:18`][Yamaguchi2026]). -/
+integer side on the left, at a nonzero natural level (Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/PrincipalUnits.lean:18`). -/
 theorem map_integerHigherUnitGroup_eq_higherUnitGroup (n : ℕ) (hn : n ≠ 0) :
     (integerHigherUnitGroup K n).map
         (Units.map (algebraMap 𝒪[K] K).toMonoidHom) =

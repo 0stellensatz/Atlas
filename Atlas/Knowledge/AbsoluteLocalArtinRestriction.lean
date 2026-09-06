@@ -53,8 +53,9 @@ global Artin map.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -67,9 +68,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 /-- The finite coordinate of the absolute local Artin homomorphism in
 an open finite quotient, read through the dictionary as an automorphism
 of the quotient's field, is the abelian local Artin homomorphism of
-that field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:215`]
-[Yamaguchi2026]). -/
+that field (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/AbsoluteArtin.lean:215`). -/
 theorem absoluteFiniteQuotientMulEquiv_absoluteLocalArtinMonoidHom
     (N : OpenNormalSubgroup (Field.absoluteGaloisGroupAbelianization K)) (u : Kˣ) :
     absoluteFiniteQuotientMulEquiv K N

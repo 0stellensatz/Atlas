@@ -31,8 +31,9 @@ semilinear surjection hitting the pullback, read through `Submodule.FG`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -43,10 +44,8 @@ universe u v w z
 
 /-- **The semilinear pullback of an intermediate field**: the preimage under a
 ring equivalence of the ambient extensions that is semilinear over a base-field
-equivalence
-([Yamaguchi 2026,
-`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:114`]
-[Yamaguchi2026]). -/
+equivalence (Yamaguchi 2026,
+`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:114`). -/
 def semilinearRingEquivPreimageIntermediateField
     {F : Type u} {F' : Type w} {Ω : Type v} {Ω' : Type z}
     [Field F] [Field F'] [Field Ω] [Field Ω']
@@ -102,10 +101,8 @@ theorem semilinearRingEquivPreimageIntermediateField_symm_mem
   simpa using hx
 
 /-- **The semilinear pullback of a finite intermediate field is finite**: a
-semilinear surjection onto it transports finite generation
-([Yamaguchi 2026,
-`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:169`]
-[Yamaguchi2026]). -/
+semilinear surjection onto it transports finite generation (Yamaguchi 2026,
+`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:169`). -/
 theorem finiteDimensional_semilinearRingEquivPreimageIntermediateField
     {F : Type u} {F' : Type w} {Ω : Type v} {Ω' : Type z}
     [Field F] [Field F'] [Field Ω] [Field Ω']
@@ -163,9 +160,8 @@ theorem finiteDimensional_semilinearRingEquivPreimageIntermediateField
 /-- **Conjugation by a semilinear equivalence is continuous** for the Krull
 topologies: a fixing-subgroup neighbourhood pulls back to the fixing subgroup
 of the semilinear preimage of its finite-dimensional intermediate field
-([Yamaguchi 2026,
-`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:227`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`RamificationTheory/GaloisValuation/AbsoluteGalois/InfiniteGaloisCorrespondence.lean:227`). -/
 theorem semilinear_conjugation_continuous
     {F : Type u} {F' : Type w} {Ω : Type v} {Ω' : Type z}
     [Field F] [Field F'] [Field Ω] [Field Ω']

@@ -14,14 +14,15 @@ an intrinsic Artin lift with an element of the abstract Galois quotient.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
 
 /-- A relative Galois quotient class acts by its ambient representative
-([Yamaguchi 2026, `FiniteAbstractFixedField.lean:272`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `FiniteAbstractFixedField.lean:272`). -/
 theorem abstractExtensionQuotientEquivGaloisGroup_mk
     (k Ω : Type*) [Field k] [Field Ω] [Algebra k Ω] [IsGalois k Ω]
     (H L : ClosedSubgroup (Ω ≃ₐ[k] Ω)) (hLH : L.toSubgroup ≤ H.toSubgroup)

@@ -45,8 +45,9 @@ mapping down, as the source does (`FullModulus.lean:330`).
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open scoped NumberField RestrictedProduct
@@ -69,7 +70,7 @@ noncomputable def localUnitReduction (v : HeightOneSpectrum (𝓞 K)) (n : ℕ) 
 
 /-- The **local higher unit group** `U_v^(n)`: integral units congruent to `1` modulo the
 `n`-th power of the maximal ideal ([Milne 2020, Chap. V, §4, p.172][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/Basic.lean:42`][Yamaguchi2026]). -/
+Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/Basic.lean:42`). -/
 noncomputable def localHigherUnitGroup (v : HeightOneSpectrum (𝓞 K)) (n : ℕ) :
     Subgroup (v.adicCompletion K)ˣ :=
   Subgroup.map ((v.adicCompletionIntegers K).units).subtype
@@ -108,8 +109,8 @@ theorem localHigherUnitGroup_zero (v : HeightOneSpectrum (𝓞 K)) :
     exact Units.ext (Subsingleton.elim _ _)
 
 /-- The subgroup of infinite-adele units **positive at the real place** `v`
-([Milne 2020, Chap. V, §4, p.172][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/Basic.lean:93`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §4, p.172][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/RayClass/Basic.lean:93`). -/
 noncomputable def realPositiveSubgroup (v : RealPlace K) :
     Subgroup (InfiniteAdeleRing K)ˣ :=
   Subgroup.comap
@@ -119,7 +120,7 @@ noncomputable def realPositiveSubgroup (v : RealPlace K) :
 
 /-- The finite congruence subgroup of a finite modulus: the congruence condition at every
 finite place, to the modulus's depth ([Milne 2020, Chap. V, §4, p.172][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/Basic.lean:120`][Yamaguchi2026]). -/
+Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/Basic.lean:120`). -/
 noncomputable def finiteIdeleCongruenceSubgroup (m : HeightOneSpectrum (𝓞 K) →₀ ℕ) :
     Subgroup (Πʳ v : HeightOneSpectrum (𝓞 K),
       [(v.adicCompletion K)ˣ, (v.adicCompletionIntegers K).units]) :=
@@ -128,29 +129,29 @@ noncomputable def finiteIdeleCongruenceSubgroup (m : HeightOneSpectrum (𝓞 K) 
 
 /-- The **idele congruence subgroup** of a modulus: real positivity at its real places,
 finite congruence everywhere ([Milne 2020, Chap. V, §4, p.172][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/FullModulus.lean:307`][Yamaguchi2026]). -/
+Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/FullModulus.lean:307`). -/
 noncomputable def ideleCongruenceSubgroup (m : Modulus K) : Subgroup (IdeleGroup K) :=
   (⨅ v ∈ m.infinitePart, realPositiveSubgroup K v).prod
     (finiteIdeleCongruenceSubgroup K m.finitePart)
 
 /-- The **congruence subgroup** of the idele class group: the modulus's condition joined
 with the principal ideles, mapped down to `C_K`
-([Milne 2020, Chap. V, §4, p.172][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/FullModulus.lean:330`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §4, p.172][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/RayClass/FullModulus.lean:330`). -/
 noncomputable def congruenceSubgroup (m : Modulus K) : Subgroup (IdeleClassGroup K) :=
   Subgroup.map (QuotientGroup.mk' (principalIdeleSubgroup K))
     (ideleCongruenceSubgroup K m ⊔ principalIdeleSubgroup K)
 
 /-- The **ray class group** of a modulus, `C_K ⧸ C_K^𝔪`
-([Milne 2020, Chap. V, §1, p.149][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/FullModulus.lean:345`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §1, p.149][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/RayClass/FullModulus.lean:345`). -/
 abbrev RayClassGroup (m : Modulus K) : Type _ :=
   IdeleClassGroup K ⧸ congruenceSubgroup K m
 
 /-- The congruence subgroup is closed in the idele class group — what qualifies it as
 input to the existence theorem. Claim recorded ahead of its proof
-([Milne 2020, Chap. V, §5, Thm. 5.5, p.179][MilneCFT];
-[Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/Topology.lean:906`][Yamaguchi2026]). -/
+([Milne 2020, Chap. V, §5, Thm. 5.5, p.179][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/RayClass/Topology.lean:906`). -/
 theorem isClosed_congruenceSubgroup (m : Modulus K) :
     IsClosed (congruenceSubgroup K m : Set (IdeleClassGroup K)) := by
   sorry

@@ -40,8 +40,9 @@ group, and `IsGalois.card_aut_eq_finrank` counts it.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -57,9 +58,9 @@ variable (L : Type u) [Field L] [Algebra K L] [FiniteDimensional K L] [IsAbelian
 /-- **The norm index of a finite abelian extension is its degree** — the cardinality
 form of finite local reciprocity, the abelian ascent of
 `Atlas.Knowledge.normIndexCyclic`
-([Milne 2020, Chap. I, §1, Thm. 1.1, p.20][MilneCFT];
-[Yamaguchi 2026, `LocalClassFieldTheory/Finite/UnramifiedConductor.lean:94`,
-`card_normQuotient_eq_finrank_of_isAbelianGalois`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §1, Thm. 1.1, p.20][MilneCFT]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/UnramifiedConductor.lean:94`,
+`card_normQuotient_eq_finrank_of_isAbelianGalois`). -/
 theorem normIndexAbelian :
     Nat.card (Kˣ ⧸ (Units.map (Algebra.norm K : L →* K)).range) =
       Module.finrank K L := by

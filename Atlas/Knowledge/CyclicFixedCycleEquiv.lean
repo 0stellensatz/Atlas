@@ -52,8 +52,9 @@ the finiteness theorem wraps, consumed nowhere outside the file;
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -65,9 +66,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **The actual fixed group `A_K` is the fixed subgroup of `ρ(g)` on
-`A_L` when `g` generates `G(L/K)`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:30`]
-[Yamaguchi2026]). -/
+`A_L` when `g` generates `G(L/K)`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/CyclicNormQuotient.lean:30`). -/
 def cyclicFixedCycleEquiv
     (A : Rep ℤ G)
     (K L : ClosedSubgroup G) (hLK : L.toSubgroup ≤ K.toSubgroup)

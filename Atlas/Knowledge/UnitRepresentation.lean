@@ -49,8 +49,9 @@ arc.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -66,9 +67,8 @@ namespace ValuationData
 
 /-- **The normalized valuation is invariant under the Galois action in a
 finite tower**, by transitivity of the norm and its invariance under the
-normal-extension action ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:191`]
-[Yamaguchi2026]). -/
+normal-extension action (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:191`). -/
 theorem valuationAt_normalExtensionAction
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hnormal :
@@ -131,9 +131,8 @@ theorem valuationAt_normalExtensionAction
       (v.residueDegree_nsmul_dividedAt E.field a).symm
 
 /-- The action of `G_K` on the actual unit subgroup `U_L`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:250`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:250`). -/
 noncomputable def unitActionLinearMap
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hnormal :
@@ -158,9 +157,8 @@ noncomputable def unitActionLinearMap
     exact map_zsmul (A.ρ k.1) n u.1.1
 
 /-- The `G_K`-representation on `U_L`, before descending through `G_L`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:272`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:272`). -/
 noncomputable def unitRepresentationOverK
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hnormal :
@@ -182,9 +180,8 @@ noncomputable def unitRepresentationOverK
         rfl }
 
 /- The pre-descent representation is trivial on the extension subgroup
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:290`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:290`). -/
 private theorem unitRepresentationOverK_isTrivialOnExtension
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hnormal :
@@ -203,9 +200,8 @@ private theorem unitRepresentationOverK_isTrivialOnExtension
   exact u.1.2 ⟨s.1.1, Subgroup.mem_subgroupOf.1 s.2⟩
 
 /-- **The `G(L|K)`-representation on the actual unit group `U_L`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:306`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:306`). -/
 noncomputable def unitRepresentation
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hnormal :
@@ -228,9 +224,8 @@ namespace FiniteUnramifiedCyclicExtension
 variable {K : FiniteAbstractField G}
 
 /-- The unit representation carried by a bundled finite unramified cyclic
-extension ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:327`]
-[Yamaguchi2026]). -/
+extension (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:327`). -/
 noncomputable def unitRepresentation
     (E : FiniteUnramifiedCyclicExtension D K) (v : ValuationData D A) :
     Rep ℤ (K.field.toSubgroup ⧸
@@ -242,9 +237,8 @@ end FiniteUnramifiedCyclicExtension
 namespace ValuationData
 
 /-- The quotient action computes on a representative through the original
-unit action ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:338`]
-[Yamaguchi2026]). -/
+unit action (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:338`). -/
 @[simp]
 theorem unitRepresentation_quotient_mk_apply
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
@@ -259,9 +253,8 @@ theorem unitRepresentation_quotient_mk_apply
   rfl
 
 /-- **Inclusion of units along an unramified finite extension**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:349`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:349`). -/
 def unitInclusion
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hUnramified : E.IsUnramified D) :
@@ -279,9 +272,8 @@ def unitInclusion
     rfl
 
 /-- **On coefficients, the descended action on `U_L` is the relative coset
-action** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:366`]
-[Yamaguchi2026]). -/
+action** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:366`). -/
 theorem unitRepresentation_action_coe
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hnormal :
@@ -299,9 +291,8 @@ theorem unitRepresentation_action_coe
   rfl
 
 /-- **The representation norm on `U_L` is the relative field norm on
-coefficients** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:382`]
-[Yamaguchi2026]). -/
+coefficients** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/UnitCohomologyAxiom.lean:382`). -/
 theorem unitRepresentation_norm_coe
     (v : ValuationData D A) (E : FiniteAbstractFieldExtension G)
     (hnormal :

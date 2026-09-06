@@ -92,8 +92,9 @@ re-registered as local instances exactly as in
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at
   www.jmilne.org/math/, 2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -110,9 +111,9 @@ variable (K : Type u) [Field K]
 
 /-- **The packaged ambient base has residue degree one** for every
 degree datum: its subgroup is the base field's, and the base field's
-residue quotient is trivial ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:45`]
-[Yamaguchi2026], at the layer's ambient base). -/
+residue quotient is trivial (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:45`,
+at the layer's ambient base). -/
 theorem galoisAmbientFiniteAbstractBase_residueDegree_eq_one
     (Ω : Type u) [Field Ω] [Algebra K Ω] [IsGalois K Ω]
     (D : DegreeData (Ω ≃ₐ[K] Ω)) :
@@ -161,9 +162,9 @@ private theorem localResidueAlgAction_residue
 
 /- An absolute Galois element acts on the selected residue closure as
 the Frobenius power its local residue degree names — the inverse law of
-the Frobenius-parameter isomorphism ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:95`]
-[Yamaguchi2026], for arbitrary parameter). -/
+the Frobenius-parameter isomorphism (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:95`,
+for arbitrary parameter). -/
 private theorem localResidueAlgAction_eq_frobenius_of_degree
     (g : AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K)
     (z : ProfiniteIntegerMul) (hg : localResidueDegree K g = z) :
@@ -368,9 +369,8 @@ realized in the algebraic closure through any embedding, is an
 unramified extension of the local degree datum — the opposite
 direction, on realizations, to
 `Atlas.Knowledge.lowerRamificationGroup_eq_bot_of_isUnramified`
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:291`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:291`). -/
 theorem finiteGaloisAbstractExtensionOfEmbedding_isUnramified
     (i : L →ₐ[K] AlgebraicClosure K)
     (h : lowerRamificationGroup K L 0 = ⊥) :
@@ -416,10 +416,9 @@ theorem finiteGaloisAbstractExtensionOfEmbedding_isUnramified
 /-- **The abstract degree-one unramified Frobenius of a realization, as
 an actual automorphism**: the restriction of the chosen degree-one
 lift, carried through the chosen quotient equivalence — the realized
-element of the source's comparison theorem, here named
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:353`]
-[Yamaguchi2026], its left-hand side). -/
+element of the source's comparison theorem, here named (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:353`,
+its left-hand side). -/
 def unramifiedFrobeniusRealizationOfEmbedding
     (i : L →ₐ[K] AlgebraicClosure K) : L ≃ₐ[K] L :=
   finiteGaloisAbstractQuotientEquivGaloisGroupOfEmbedding K L
@@ -437,9 +436,8 @@ def unramifiedFrobeniusRealizationOfEmbedding
 
 /- The chosen degree-one lift has local residue degree one exactly: the
 normalized degree divides by the base residue degree, which is one
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:81`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:81`). -/
 private theorem localResidueDegree_chosenUnramifiedFrobeniusLift :
     localResidueDegree K
       (Classical.choose
@@ -507,9 +505,8 @@ predicate-style rendering of the source's identification with its
 constructed Frobenius; under `lowerRamificationGroup K L 0 = ⊥` the
 identification is completed by
 `Atlas.Knowledge.isArithmeticFrobenius_unique`
-([Milne 2020, Chap. I, §1, p.20][MilneCFT]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:353`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §1, p.20][MilneCFT]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:353`). -/
 theorem isArithmeticFrobenius_unramifiedFrobeniusRealizationOfEmbedding
     (i : L →ₐ[K] AlgebraicClosure K) :
     IsArithmeticFrobenius K L
@@ -531,9 +528,8 @@ theorem isArithmeticFrobenius_unramifiedFrobeniusRealizationOfEmbedding
 /-- Embedding-independence of the realized abstract Frobenius: under
 trivial inertia any two embeddings realize the same automorphism, both
 being arithmetic Frobenii — immediate here, where the source realizes
-each embedding as the same constructed Frobenius ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:353`]
-[Yamaguchi2026]). -/
+each embedding as the same constructed Frobenius (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedComparison.lean:353`). -/
 theorem unramifiedFrobeniusRealizationOfEmbedding_eq
     (i j : L →ₐ[K] AlgebraicClosure K)
     (h : lowerRamificationGroup K L 0 = ⊥) :

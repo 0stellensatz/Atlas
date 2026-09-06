@@ -67,8 +67,9 @@ the remaining tail (`:890`–`:1263`) is the next brick.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -80,8 +81,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- The restriction `G(L/K) → G(M/K)` in the upper row — the base
-containment is an inert semantic guard ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:453`][Yamaguchi2026]). -/
+containment is an inert semantic guard (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:453`). -/
 def abstractReciprocityRestriction
     (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -98,8 +99,8 @@ def abstractReciprocityRestriction
   intro k hk
   exact hLM hk
 
-/-- The restriction fixes quotient representatives ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:475`][Yamaguchi2026]). -/
+/-- The restriction fixes quotient representatives (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:475`). -/
 @[simp]
 theorem abstractReciprocityRestriction_mk
     (K M L : ClosedSubgroup G)
@@ -114,8 +115,8 @@ theorem abstractReciprocityRestriction_mk
   rfl
 
 /-- Restriction to the intermediate Galois extension is surjective
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:489`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:489`). -/
 theorem abstractReciprocityRestriction_surjective
     (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -130,8 +131,8 @@ theorem abstractReciprocityRestriction_surjective
   exact ⟨QuotientGroup.mk k, rfl⟩
 
 /-- With equal base fields, norm–conjugation naturality's Galois-side
-restriction is the restriction of the exact row ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:505`][Yamaguchi2026]). -/
+restriction is the restriction of the exact row (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:505`). -/
 theorem finiteReciprocityNaturalityRestriction_sameBase_eq_restriction
     (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -148,8 +149,8 @@ theorem finiteReciprocityNaturalityRestriction_sameBase_eq_restriction
   rfl
 
 /-- Finiteness of `L | K` implies finiteness of the quotient `G(M/K)`,
-derived from the actual surjective restriction map ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:523`][Yamaguchi2026]). -/
+derived from the actual surjective restriction map (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:523`). -/
 theorem abstractReciprocity_intermediateQuotient_finite
     (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -165,8 +166,8 @@ theorem abstractReciprocity_intermediateQuotient_finite
 
 /-- The inclusion `G(L/M) → G(L/K)` in the upper row; normality of
 `L | M` is derived from normality of `L | K`, and the upper containment
-is an inert semantic guard ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:539`][Yamaguchi2026]). -/
+is an inert semantic guard (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:539`). -/
 def abstractReciprocityInclusion
     (K M L : ClosedSubgroup G)
     (_hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -182,8 +183,8 @@ def abstractReciprocityInclusion
   exact transferNormNaturalityIntermediateInclusion K M L hMK
 
 /-- On quotient representatives, the inclusion is induced by inclusion
-of the intermediate subgroup ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:559`][Yamaguchi2026]). -/
+of the intermediate subgroup (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:559`). -/
 @[simp]
 theorem abstractReciprocityInclusion_mk
     (K M L : ClosedSubgroup G)
@@ -201,8 +202,8 @@ theorem abstractReciprocityInclusion_mk
   rfl
 
 /-- **The upper row is exact at `G(L/K)`: the image of `G(L/M)` is
-exactly the kernel of restriction to `G(M/K)`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:577`][Yamaguchi2026]). -/
+exactly the kernel of restriction to `G(M/K)`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:577`). -/
 theorem abstractReciprocity_galois_exact
     (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -241,8 +242,8 @@ theorem abstractReciprocity_galois_exact
     exact (QuotientGroup.eq_one_iff _).2 m.2
 
 /-- Finiteness of `L | K` also implies finiteness of `L | M` — the upper
-containment is an inert semantic guard ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:616`][Yamaguchi2026]). -/
+containment is an inert semantic guard (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:616`). -/
 theorem abstractReciprocity_lowerExtension_finite
     (K M L : ClosedSubgroup G)
     (_hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -276,8 +277,8 @@ theorem abstractReciprocity_lowerExtension_finite
   simpa using hG
 
 /-- Norm transitivity identifies the norm image from `L` with a subgroup
-of the norm image from `M` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:652`][Yamaguchi2026]). -/
+of the norm image from `M` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:652`). -/
 theorem abstractReciprocity_finiteNormSubgroup_le
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -303,8 +304,8 @@ theorem abstractReciprocity_finiteNormSubgroup_le
   exact T.norm_trans_apply A a
 
 /-- **The quotient projection `A_K/N_{L/K}A_L → A_K/N_{M/K}A_M` in the
-lower row** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:730`][Yamaguchi2026]). -/
+lower row** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:730`). -/
 def abstractReciprocityNormProjection
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -331,8 +332,8 @@ def abstractReciprocityNormProjection
     (abstractReciprocity_finiteNormSubgroup_le A K M L hLM hMK ha)
 
 /-- The norm projection preserves the representative while passing to
-the intermediate norm quotient ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:760`][Yamaguchi2026]). -/
+the intermediate norm quotient (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:760`). -/
 @[simp]
 theorem abstractReciprocityNormProjection_finiteNormClass
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
@@ -359,8 +360,8 @@ theorem abstractReciprocityNormProjection_finiteNormClass
   rfl
 
 /-- The quotient projection in the lower row is surjective
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:818`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:818`). -/
 theorem abstractReciprocityNormProjection_surjective
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -386,8 +387,8 @@ theorem abstractReciprocityNormProjection_surjective
     rw [abstractReciprocityNormProjection_finiteNormClass]⟩
 
 /-- **The first arrow in the lower row, induced by `N_{M/K}`**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:677`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:677`). -/
 def abstractReciprocityNormMap
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -410,8 +411,8 @@ def abstractReciprocityNormMap
   exact finiteReciprocityNaturalityNormMap A K M L L (hLM.trans hMK) hLM hMK le_rfl
 
 /-- The norm map sends a finite norm class to the class of the
-corresponding relative norm ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:703`][Yamaguchi2026]). -/
+corresponding relative norm (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:703`). -/
 @[simp]
 theorem abstractReciprocityNormMap_finiteNormClass
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
@@ -440,8 +441,8 @@ theorem abstractReciprocityNormMap_finiteNormClass
 
 /-- When the two base fields coincide, the naturality norm map is the
 ordinary projection between the two actual finite norm quotients
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:786`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:786`). -/
 theorem finiteReciprocityNaturalityNormMap_sameBase_eq_normProjection
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)
@@ -473,8 +474,8 @@ theorem finiteReciprocityNaturalityNormMap_sameBase_eq_normProjection
     abstractReciprocityNormProjection_finiteNormClass,
     relativeNorm_self]
 
-/-- **The lower row is exact at `A_K/N_{L/K}A_L`** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Core.lean:843`][Yamaguchi2026]). -/
+/-- **The lower row is exact at `A_K/N_{L/K}A_L`** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Core.lean:843`). -/
 theorem abstractReciprocity_normQuotient_exact
     (A : Rep ℤ G) (K M L : ClosedSubgroup G)
     (hLM : L.toSubgroup ≤ M.toSubgroup)

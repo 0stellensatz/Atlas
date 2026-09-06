@@ -76,8 +76,9 @@ that item.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -91,9 +92,8 @@ variable (K : Type*) [Field K]
 /-- **Restriction from the abelianized absolute Galois group to the
 Galois group of a finite abelian subextension**: the descent of
 `AlgEquiv.restrictNormalHom` through the topological abelianization
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:30`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:30`). -/
 noncomputable def absoluteAbelianRestriction
     (E : IntermediateField K (AlgebraicClosure K))
     [FiniteDimensional K E] [IsAbelianGalois K E] :
@@ -116,9 +116,8 @@ noncomputable def absoluteAbelianRestriction
     (fun σ hσ ↦ MonoidHom.mem_ker.mp (hclosure hσ))
 
 /-- The restriction sends a quotient class to the restriction of any
-representative ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:60`]
-[Yamaguchi2026]). -/
+representative (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:60`). -/
 @[simp]
 theorem absoluteAbelianRestriction_mk
     (E : IntermediateField K (AlgebraicClosure K))
@@ -131,9 +130,8 @@ theorem absoluteAbelianRestriction_mk
 
 /-- The restriction to a finite abelian subextension is continuous —
 the continuity field of the source's bundled structure, split off as
-its own theorem ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:51`]
-[Yamaguchi2026]). -/
+its own theorem (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:51`). -/
 theorem absoluteAbelianRestriction_continuous
     (E : IntermediateField K (AlgebraicClosure K))
     [FiniteDimensional K E] [IsAbelianGalois K E] :
@@ -145,9 +143,8 @@ theorem absoluteAbelianRestriction_continuous
   exact (absoluteAbelianRestriction_mk K E σ).symm
 
 /-- Restriction to a finite abelian subextension is onto after passing
-to the abelianized absolute Galois group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:71`]
-[Yamaguchi2026]). -/
+to the abelianized absolute Galois group (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:71`). -/
 theorem absoluteAbelianRestriction_surjective
     (E : IntermediateField K (AlgebraicClosure K))
     [FiniteDimensional K E] [IsAbelianGalois K E] :
@@ -158,9 +155,8 @@ theorem absoluteAbelianRestriction_surjective
   exact ⟨QuotientGroup.mk σ, absoluteAbelianRestriction_mk K E σ⟩
 
 /-- The open normal kernel attached to a finite abelian subextension
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:81`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:81`). -/
 noncomputable def absoluteAbelianRestrictionKernel
     (E : IntermediateField K (AlgebraicClosure K))
     [FiniteDimensional K E] [IsAbelianGalois K E] :
@@ -173,9 +169,8 @@ noncomputable def absoluteAbelianRestrictionKernel
           (absoluteAbelianRestriction_continuous K E) }
 
 /-- Membership in the restriction kernel is vanishing of the
-restriction ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:95`]
-[Yamaguchi2026]). -/
+restriction (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:95`). -/
 @[simp]
 theorem mem_absoluteAbelianRestrictionKernel_iff
     (E : IntermediateField K (AlgebraicClosure K))
@@ -187,9 +182,8 @@ theorem mem_absoluteAbelianRestrictionKernel_iff
 
 /-- Pulling the restriction kernel back to the absolute Galois group
 gives the fixing subgroup of the original finite subextension
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:105`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:105`). -/
 theorem absoluteFiniteQuotientPreimage_restrictionKernel
     (E : IntermediateField K (AlgebraicClosure K))
     [FiniteDimensional K E] [IsAbelianGalois K E] :
@@ -207,9 +201,8 @@ theorem absoluteFiniteQuotientPreimage_restrictionKernel
 variable [CharZero K]
 
 /-- **The finite field cut out by the restriction kernel is the
-original finite abelian subextension** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:121`]
-[Yamaguchi2026]). -/
+original finite abelian subextension** (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:121`). -/
 theorem absoluteFiniteQuotientField_restrictionKernel
     (E : IntermediateField K (AlgebraicClosure K))
     [FiniteDimensional K E] [IsAbelianGalois K E] :

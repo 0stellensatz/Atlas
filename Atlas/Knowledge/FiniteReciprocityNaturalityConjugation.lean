@@ -92,8 +92,9 @@ source's `open`s go — the layer keeps everything in one namespace.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -109,7 +110,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **The global degree is invariant under conjugation**
-([Yamaguchi 2026, `MainNaturality.lean:825`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainNaturality.lean:825`). -/
 theorem finiteReciprocityNaturalityDegree_conjugateSubgroupEquiv
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : ClosedSubgroup G) (s : G) (k : K.toSubgroup) :
@@ -118,8 +119,8 @@ theorem finiteReciprocityNaturalityDegree_conjugateSubgroupEquiv
   simp [mul_comm]
 
 /-- **The normalized degree is invariant under the conjugation
-equivalence of field subgroups**
-([Yamaguchi 2026, `MainNaturality.lean:834`][Yamaguchi2026]). -/
+equivalence of field subgroups** (Yamaguchi 2026,
+`MainNaturality.lean:834`). -/
 theorem finiteReciprocityNaturalityNormalizedDegree_conjugateSubgroupEquiv
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (s : G)
@@ -141,8 +142,8 @@ theorem finiteReciprocityNaturalityNormalizedDegree_conjugateSubgroupEquiv
     (D.finiteReciprocityNaturalityDegree_conjugateSubgroupEquiv K.field s k)
 
 /-- **Conjugation carries `I_L` inside `G_K` exactly to the inertia
-subgroup for `Lˢ | Kˢ`**
-([Yamaguchi 2026, `MainNaturality.lean:856`][Yamaguchi2026]). -/
+subgroup for `Lˢ | Kˢ`** (Yamaguchi 2026,
+`MainNaturality.lean:856`). -/
 theorem finiteReciprocityNaturalityMap_extensionInertiaWithin_conjugate
     (D : DegreeData G) [IsTopologicalGroup G]
     (K L : ClosedSubgroup G)
@@ -184,8 +185,8 @@ theorem finiteReciprocityNaturalityMap_extensionInertiaWithin_conjugate
       exact (D.mem_fieldInertiaWithin_iff _ _).mp hx.2
 
 /-- **Conjugation as a continuous multiplicative equivalence on the
-infinite Frobenius quotients**
-([Yamaguchi 2026, `MainNaturality.lean:899`][Yamaguchi2026]). -/
+infinite Frobenius quotients** (Yamaguchi 2026,
+`MainNaturality.lean:899`). -/
 noncomputable def finiteReciprocityNaturalityFrobeniusConjugationEquiv
     (D : DegreeData G) [IsTopologicalGroup G]
     (K L : ClosedSubgroup G)
@@ -234,8 +235,7 @@ noncomputable def finiteReciprocityNaturalityFrobeniusConjugationEquiv
       continuous_const).subtype_mk _
 
 /-- The conjugation equivalence evaluates on representatives by the
-subgroup equivalence
-([Yamaguchi 2026, `MainNaturality.lean:948`][Yamaguchi2026]). -/
+subgroup equivalence (Yamaguchi 2026, `MainNaturality.lean:948`). -/
 @[simp]
 theorem finiteReciprocityNaturalityFrobeniusConjugationEquiv_mk
     (D : DegreeData G) [IsTopologicalGroup G]
@@ -250,8 +250,7 @@ theorem finiteReciprocityNaturalityFrobeniusConjugationEquiv_mk
 
 /-- **Normality transported by conjugation at the residue-finite field
 boundary** — an instance, so clients never unfold the bundled conjugate
-to recover it
-([Yamaguchi 2026, `MainNaturality.lean:963`][Yamaguchi2026]). -/
+to recover it (Yamaguchi 2026, `MainNaturality.lean:963`). -/
 instance finiteReciprocityNaturalityFiniteResidueConjugate_normal
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G) (s : G)
@@ -264,7 +263,7 @@ instance finiteReciprocityNaturalityFiniteResidueConjugate_normal
   infer_instance
 
 /-- **The conjugation equivalence preserves normalized degree**
-([Yamaguchi 2026, `MainNaturality.lean:978`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainNaturality.lean:978`). -/
 theorem finiteReciprocityNaturalityFrobeniusConjugationEquiv_degree
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -286,8 +285,7 @@ theorem finiteReciprocityNaturalityFrobeniusConjugationEquiv_degree
     K s k
 
 /-- **Conjugation transports positive Frobenius lifts without changing
-their exponent**
-([Yamaguchi 2026, `MainNaturality.lean:1000`][Yamaguchi2026]). -/
+their exponent** (Yamaguchi 2026, `MainNaturality.lean:1000`). -/
 def finiteReciprocityNaturalityFrobeniusConjugationLift
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -304,7 +302,7 @@ def finiteReciprocityNaturalityFrobeniusConjugationLift
   exact D.extensionNormalizedDegree_frobenius_eq_pow K L hLK σ
 
 /-- The conjugation lift coerces to the equivalence's value
-([Yamaguchi 2026, `MainNaturality.lean:1017`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainNaturality.lean:1017`). -/
 @[simp]
 theorem finiteReciprocityNaturalityFrobeniusConjugationLift_coe
     (D : DegreeData G) [IsTopologicalGroup G]
@@ -317,7 +315,7 @@ theorem finiteReciprocityNaturalityFrobeniusConjugationLift_coe
   rfl
 
 /-- **The conjugation lift preserves the exponent**
-([Yamaguchi 2026, `MainNaturality.lean:1029`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainNaturality.lean:1029`). -/
 @[simp]
 theorem finiteReciprocityNaturalityFrobeniusConjugationLift_exponent
     (D : DegreeData G) [IsTopologicalGroup G]
@@ -357,7 +355,7 @@ theorem finiteReciprocityNaturalityFrobeniusConjugationLift_exponent
 
 /-- **The conjugation equivalence identifies the two closed cyclic
 subgroups generated by corresponding Frobenius lifts**
-([Yamaguchi 2026, `MainNaturality.lean:1067`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainNaturality.lean:1067`). -/
 theorem finiteReciprocityNaturalityFrobeniusConjugationEquiv_mem_closure_iff
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -400,8 +398,7 @@ theorem finiteReciprocityNaturalityFrobeniusConjugationEquiv_mem_closure_iff
       D.finiteReciprocityNaturalityFrobeniusConjugationLift_coe, e] using hmap
 
 /-- **Conjugation of a Frobenius lift commutes with restriction to the
-finite Galois quotient**
-([Yamaguchi 2026, `MainNaturality.lean:1110`][Yamaguchi2026]). -/
+finite Galois quotient** (Yamaguchi 2026, `MainNaturality.lean:1110`). -/
 theorem finiteReciprocityNaturalityConjugation_frobeniusRestriction
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -428,8 +425,8 @@ theorem finiteReciprocityNaturalityConjugation_frobeniusRestriction
   rfl
 
 /-- **The fixed field of the conjugated Frobenius lift is the conjugate
-of the original fixed field**
-([Yamaguchi 2026, `MainNaturality.lean:1137`][Yamaguchi2026]). -/
+of the original fixed field** (Yamaguchi 2026,
+`MainNaturality.lean:1137`). -/
 theorem finiteReciprocityNaturalityFrobeniusFixedField_conjugate
     (D : DegreeData G) [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -533,8 +530,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **Normality of a conjugated finite abstract field without unfolding
-the bundle**
-([Yamaguchi 2026, `MainNaturality.lean:1242`][Yamaguchi2026]). -/
+the bundle** (Yamaguchi 2026, `MainNaturality.lean:1242`). -/
 instance finiteReciprocityNaturalityFiniteAbstractConjugate_normal
     [IsTopologicalGroup G]
     (K : FiniteAbstractField G) (L : ClosedSubgroup G) (s : G)
@@ -547,7 +543,7 @@ instance finiteReciprocityNaturalityFiniteAbstractConjugate_normal
   infer_instance
 
 /- Prime-element transport along an equality of fields
-([Yamaguchi 2026, `MainNaturality.lean:1256`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainNaturality.lean:1256`). -/
 private theorem finiteReciprocityNaturality_isPrimeElement_transport
     (D : DegreeData G) {A : Rep ℤ G} (v : ValuationData D A)
     (S T : FiniteAbstractField G) (hST : S.field = T.field)
@@ -559,7 +555,7 @@ private theorem finiteReciprocityNaturality_isPrimeElement_transport
   simpa only using hπ
 
 /- Relative-norm transport along an equality of upper fields
-([Yamaguchi 2026, `MainNaturality.lean:1266`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainNaturality.lean:1266`). -/
 private theorem finiteReciprocityNaturality_relativeNorm_right_transport
     (A : Rep ℤ G) (K S T : ClosedSubgroup G) (hST : S = T)
     (hSK : S.toSubgroup ≤ K.toSubgroup)
@@ -576,8 +572,8 @@ private theorem finiteReciprocityNaturality_relativeNorm_right_transport
 
 /-- **The conjugation diagram commutes**: conjugation of finite Galois
 groups corresponds under the finite reciprocity homomorphism to
-conjugation of finite norm classes
-([Yamaguchi 2026, `MainNaturality.lean:1283`][Yamaguchi2026]). -/
+conjugation of finite norm classes (Yamaguchi 2026,
+`MainNaturality.lean:1283`). -/
 theorem finiteReciprocityNaturality_conjugation_commutes
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

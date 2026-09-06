@@ -25,8 +25,9 @@ The two local fields may occupy different universes.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -72,7 +73,7 @@ local instance : IsGalois F (AlgebraicClosure K) :=
   IsGalois.tower_top_of_isGalois K F (AlgebraicClosure K)
 
 /-- The finite decomposition residue field over the extension, enumerated through its given
-residue field ([Yamaguchi 2026, `FixedFieldLocalData.lean:304`][Yamaguchi2026]). -/
+residue field (Yamaguchi 2026, `FixedFieldLocalData.lean:304`). -/
 @[implicit_reducible]
 noncomputable def localBaseChangeDecompositionResidueFintype :
     Fintype (decompositionResidueField F (localAbsoluteValuationSubring K)) := by
@@ -88,8 +89,7 @@ noncomputable def localBaseChangeDecompositionResidueFintype :
   exact Fintype.ofEquiv 𝓀[F] residueEquiv.toEquiv
 
 /-- The intrinsic residue degree agrees with the residue degree after transport to the
-base field's algebraic closure
-([Yamaguchi 2026, `FixedFieldLocalData.lean:358`][Yamaguchi2026]). -/
+base field's algebraic closure (Yamaguchi 2026, `FixedFieldLocalData.lean:358`). -/
 theorem localResidueDegree_eq_residueAbsoluteDegreeIn_baseChange
     (e : AlgebraicClosure F ≃ₐ[F] AlgebraicClosure K)
     (sigma : AlgebraicClosure F ≃ₐ[F] AlgebraicClosure F) :

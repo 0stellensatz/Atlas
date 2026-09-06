@@ -64,8 +64,9 @@ forms subsume each at every use site.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -85,9 +86,8 @@ variable (E : IntermediateField K Ω) [FiniteDimensional K E]
 
 /-- **Under the base-field fixed-unit equivalence, the abstract finite
 norm subgroup is exactly the ordinary field-norm subgroup**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:193`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:193`). -/
 theorem map_finiteNormSubgroup_eq_additiveNormSubgroup :
     (finiteNormSubgroup (galoisAmbientUnitsRep K Ω)
       (closedFixingSubgroup (⊥ : IntermediateField K Ω))
@@ -128,9 +128,8 @@ theorem map_finiteNormSubgroup_eq_additiveNormSubgroup :
 
 /-- **The abstract finite norm quotient is the actual multiplicative
 field norm quotient**, written additively for the abstract
-class-formation API ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:233`]
-[Yamaguchi2026]). -/
+class-formation API (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:233`). -/
 def finiteNormQuotientEquivNormQuotient :
     FiniteNormQuotient (galoisAmbientUnitsRep K Ω)
         (closedFixingSubgroup (⊥ : IntermediateField K Ω))
@@ -204,9 +203,8 @@ def finiteNormQuotientEquivNormQuotient :
 /-- The fixed-unit comparison carries the canonical finite norm class
 to the canonical field norm class; the concrete quotient
 representation remains private to the proof of this boundary theorem
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:307`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:307`). -/
 @[simp]
 theorem finiteNormQuotientEquivNormQuotient_finiteNormClass
     (a : ambientFixedAddSubgroup (galoisAmbientUnitsRep K Ω)
@@ -262,9 +260,8 @@ noncomputable local instance embeddedFieldRangeIsGalois :
 
 omit [IsGalois K Ω] [IsSepClosed Ω] [FiniteDimensional K L] [IsGalois K L] in
 /-- The field norm is invariant under an algebra equivalence, at unit
-level ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:362`]
-[Yamaguchi2026]). -/
+level (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:362`). -/
 theorem normUnits_embeddedExtensionAlgEquiv (x : Lˣ) :
     normUnits K (AlgHom.fieldRange i)
         (Units.mapEquiv (AlgEquiv.ofInjectiveField i).toMulEquiv x) =
@@ -276,9 +273,8 @@ theorem normUnits_embeddedExtensionAlgEquiv (x : Lˣ) :
 omit [IsGalois K Ω] [IsSepClosed Ω] [FiniteDimensional K L] [IsGalois K L] in
 /-- **The ordinary norm subgroups are independent of the chosen
 realization of the finite extension inside the ambient Galois
-extension** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:374`]
-[Yamaguchi2026]). -/
+extension** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:374`). -/
 theorem localNormSubgroup_fieldRange_eq :
     localNormSubgroup K (AlgHom.fieldRange i) = localNormSubgroup K L := by
   ext x
@@ -299,9 +295,8 @@ theorem localNormSubgroup_fieldRange_eq :
 
 omit [IsGalois K L] in
 /-- The abstract relative norm attached to an embedded finite Galois
-extension is the actual field norm on its unit group ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:394`]
-[Yamaguchi2026]). -/
+extension is the actual field norm on its unit group (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:394`). -/
 theorem relativeNorm_embeddedExtensionUnit (x : Lˣ) :
     relativeNorm (galoisAmbientUnitsRep K Ω)
         (closedFixingSubgroup (⊥ : IntermediateField K Ω))
@@ -323,9 +318,8 @@ theorem relativeNorm_embeddedExtensionUnit (x : Lˣ) :
 
 /-- **For an embedded finite Galois extension `L/K`, the finite norm
 quotient in the abstract class formation is the actual quotient
-`Kˣ/N_{L/K}(Lˣ)`** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:415`]
-[Yamaguchi2026]). -/
+`Kˣ/N_{L/K}(Lˣ)`** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:415`). -/
 def finiteNormQuotientEquivEmbeddedNormQuotient :
     FiniteNormQuotient (galoisAmbientUnitsRep K Ω)
         (closedFixingSubgroup (⊥ : IntermediateField K Ω))
@@ -340,9 +334,8 @@ def finiteNormQuotientEquivEmbeddedNormQuotient :
 omit [IsGalois K L] in
 /-- The embedded-extension comparison carries a canonical finite norm
 class to the corresponding field norm class, followed by the canonical
-transport from the embedded field range to `L` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:430`]
-[Yamaguchi2026]). -/
+transport from the embedded field range to `L` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/SeparableUnitsNorm.lean:430`). -/
 @[simp]
 theorem finiteNormQuotientEquivEmbeddedNormQuotient_finiteNormClass
     (a : ambientFixedAddSubgroup (galoisAmbientUnitsRep K Ω)

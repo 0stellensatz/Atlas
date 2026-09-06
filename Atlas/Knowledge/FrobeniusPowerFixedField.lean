@@ -66,8 +66,9 @@ flatten `by exact` to `from`, and the residue degree's positivity reads
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -82,9 +83,8 @@ namespace DegreeData
 
 /-- An element fixing `L` commutes modulo the inertia with every
 degree-zero element of `G(L̃/K)` — group-theoretically,
-`[G_L, I_K] ⊆ G_L ∩ I_K = G_{L̃}` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:34`]
-[Yamaguchi2026]). -/
+`[G_L, I_K] ⊆ G_L ∩ I_K = G_{L̃}` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:34`). -/
 theorem extensionInertia_commutes_of_mem_extensionSubgroup (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -123,9 +123,8 @@ theorem extensionInertia_commutes_of_mem_extensionSubgroup (D : DegreeData G)
 /-- For a finite Galois `P/K` inside `L̃/K` containing `L`, the
 `|G(P/K)|`-th power of every element of `G(L̃/K)` fixes `P`, hence
 commutes with the degree-zero kernel — the finite-stage input behind the
-choice `n = [M:K]`, `σ = φⁿ` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:70`]
-[Yamaguchi2026]). -/
+choice `n = [M:K]`, `σ = φⁿ` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:70`). -/
 theorem quotientPower_card_commutes_degreeZero (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -177,9 +176,8 @@ theorem quotientPower_card_commutes_degreeZero (D : DegreeData G)
   simpa [Q, n, hkq] using hcomm
 
 /- The normalized degree of a power of a degree-one element
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:120`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:120`). -/
 private theorem extensionNormalizedDegree_pow_of_degreeOne (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -194,9 +192,8 @@ private theorem extensionNormalizedDegree_pow_of_degreeOne (D : DegreeData G)
   simp
 
 /-- **The power `φⁿ` of a degree-one Frobenius element, with its exponent recorded**
-— these are the elements `σ = φⁿ` and `σᵐ = φⁿᵐ` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:135`]
-[Yamaguchi2026]). -/
+— these are the elements `σ = φⁿ` and `σᵐ = φⁿᵐ` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:135`). -/
 def frobeniusPowerOfDegreeOne (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -221,10 +218,9 @@ theorem frobeniusPowerOfDegreeOne_coe (D : DegreeData G)
   rfl
 
 /-- **A finite Galois stage `P ⊆ L̃` lies inside the field of `φ^{|G(P/K)|}`**:
-the power is trivial in `G(P/K)`, and the kernel of the restriction is
-closed, so it swallows the whole procyclic closure ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:163`]
-[Yamaguchi2026]). -/
+the power is trivial in `G(P/K)`, and the kernel of the restriction is closed,
+so it swallows the whole procyclic closure (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:163`). -/
 theorem frobeniusPowerFixedField_le_finiteField (D : DegreeData G)
     [IsTopologicalGroup G] (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -313,9 +309,8 @@ theorem frobeniusPowerFixedField_le_finiteField (D : DegreeData G)
   exact hk'
 
 /-- The Frobenius exponent of the degree-one power is the supplied
-exponent ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:252`]
-[Yamaguchi2026]). -/
+exponent (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:252`). -/
 @[simp]
 theorem frobeniusExponent_powerOfDegreeOne (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -339,9 +334,8 @@ theorem frobeniusExponent_powerOfDegreeOne (D : DegreeData G)
       D.extensionNormalizedDegree_pow_of_degreeOne K L hLK φ hφ n
 
 /- The closure of `φⁿᵐ` lies inside the closure of `φⁿ`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:274`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:274`). -/
 private theorem frobeniusClosure_power_mul_le (D : DegreeData G)
     [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -379,9 +373,8 @@ private theorem frobeniusClosure_power_mul_le (D : DegreeData G)
   · exact (closedSubgroupGenerated ({φ.1 ^ n} : Set Q)).isClosed'
 
 /-- **The field fixed by `φⁿᵐ` extends the field fixed by `φⁿ`** — the
-tower `Σₘ / Σ` of the universal norm-descent lemma ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:312`]
-[Yamaguchi2026]). -/
+tower `Σₘ / Σ` of the universal norm-descent lemma (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:312`). -/
 theorem frobeniusPowerFixedField_le (D : DegreeData G)
     [IsTopologicalGroup G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -402,9 +395,8 @@ theorem frobeniusPowerFixedField_le (D : DegreeData G)
 
 /-- **The power-fixed-field tower is Galois** — on the group side, the
 normality of the closure of `φⁿᵐ` inside the procyclic closure of `φⁿ`
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:333`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:333`). -/
 theorem frobeniusPowerFixedField_normal (D : DegreeData G)
     [IsTopologicalGroup G] [T2Space G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -467,9 +459,8 @@ theorem frobeniusPowerFixedField_normal (D : DegreeData G)
   exact htFixed
 
 /-- **The extension fixed by `φⁿᵐ` over the field fixed by `φⁿ` is unramified**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:398`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:398`). -/
 theorem frobeniusPowerFixedField_isUnramified (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
@@ -503,9 +494,8 @@ theorem frobeniusPowerFixedField_isUnramified (D : DegreeData G)
   rw [hSI, ← hTI] at hxI
   exact hxI.1
 
-/-- Finiteness of the power-fixed-field tower ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:432`]
-[Yamaguchi2026]). -/
+/-- Finiteness of the power-fixed-field tower (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:432`). -/
 theorem frobeniusPowerFixedField_finite (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
@@ -535,9 +525,8 @@ theorem frobeniusPowerFixedField_finite (D : DegreeData G)
     D.frobeniusFixedField_finite K L hLK σm
   exact FiniteIntermediateField.finite_extension_of_le hSK hTS
 
-/- The relative degree of the tower is exactly `m` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:465`]
-[Yamaguchi2026]). -/
+/- The relative degree of the tower is exactly `m` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:465`). -/
 private theorem frobeniusPowerFixedField_relIndex (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
@@ -606,9 +595,8 @@ private theorem frobeniusPowerFixedField_relIndex (D : DegreeData G)
     _ = m * (n * (K.residueDegree : ℕ)) := by ac_rfl
 
 /-- The quotient between two successive Frobenius power fixed fields is
-finite, from the computed relative index ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:535`]
-[Yamaguchi2026]). -/
+finite, from the computed relative index (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:535`). -/
 theorem frobeniusPowerFixedField_quotientFinite (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
@@ -637,9 +625,8 @@ theorem frobeniusPowerFixedField_quotientFinite (D : DegreeData G)
   exact hm.ne'
 
 /-- **The tower's degree is exactly `m`** — the cardinality form of the
-relative-degree computation ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:567`]
-[Yamaguchi2026]). -/
+relative-degree computation (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:567`). -/
 theorem frobeniusPowerFixedField_quotientCard (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]
@@ -674,11 +661,10 @@ theorem frobeniusPowerFixedField_quotientCard (D : DegreeData G)
         K L hLK φ hφ n m hn hm
 
 /-- **The restriction of the concrete `φⁿ` is a degree-one generator of `Gal(Σₘ/Σ)`**
-— the generator the unit-cohomology axiom is applied to; retaining the
-actual representative is what the subsequent equation involving `σ = φⁿ`
-runs on ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:608`]
-[Yamaguchi2026]). -/
+— the generator the unit-cohomology axiom is applied to; retaining the actual
+representative is what the subsequent equation involving `σ = φⁿ` runs on
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/FrobeniusPowerFixedField.lean:608`). -/
 theorem frobeniusPowerFixedField_generator (D : DegreeData G)
     [IsTopologicalGroup G] [CompactSpace G]
     [TotallyDisconnectedSpace G]

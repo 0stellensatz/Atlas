@@ -29,8 +29,9 @@ the layer's `ProfiniteInteger.ofAdd_one_pow_injective`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -44,9 +45,8 @@ variable {G : Type u} [Group G] [TopologicalSpace G]
 namespace DegreeData
 
 /-- **A chosen degree-one element of `G(L̃/K)`, packaged as an element of
-the Frobenius semigroup** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ChosenDegreeOneFrobenius.lean:25`]
-[Yamaguchi2026]). -/
+the Frobenius semigroup** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ChosenDegreeOneFrobenius.lean:25`). -/
 noncomputable def chosenDegreeOneFrobeniusElement (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)
     (hLK : L.toSubgroup ≤ K.field.toSubgroup)
@@ -58,9 +58,8 @@ noncomputable def chosenDegreeOneFrobeniusElement (D : DegreeData G)
   rw [pow_one, ← D.extensionNormalizedDegreeContinuous_apply]
   exact Classical.choose_spec hsurj
 
-/-- **The chosen element's Frobenius exponent is one** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Construction/ChosenDegreeOneFrobenius.lean:41`]
-[Yamaguchi2026]). -/
+/-- **The chosen element's Frobenius exponent is one** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Construction/ChosenDegreeOneFrobenius.lean:41`). -/
 @[simp]
 theorem frobeniusExponent_chosenDegreeOneFrobeniusElement (D : DegreeData G)
     (K : FiniteResidueAbstractField D) (L : ClosedSubgroup G)

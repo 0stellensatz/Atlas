@@ -82,8 +82,9 @@ already-proved form enters.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer
   New York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -99,9 +100,8 @@ variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-- **The transported abstract prime**: the chosen prime element of
 the local Henselian datum at the ambient base, read back through the
-base unit dictionary as an actual unit of `K` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:114`]
-[Yamaguchi2026]). -/
+base unit dictionary as an actual unit of `K` (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:114`). -/
 def localAbstractPrimeFieldUnit : Kˣ :=
   Additive.toMul
     ((baseUnitsEquivGaloisAmbientFixed K (AlgebraicClosure K)).symm
@@ -111,9 +111,8 @@ def localAbstractPrimeFieldUnit : Kˣ :=
 /-- **The abstract valuation of a transported base unit is its
 concrete normalized valuation**: the base residue degree is one, so
 the divided valuation is the norm composite, and the norm from the
-base to itself is the identity ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:55`]
-[Yamaguchi2026]). -/
+base to itself is the identity (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:55`). -/
 theorem localHenselianValuation_valuationAt_baseUnit (x : Kˣ) :
     (((localHenselianValuation K).valuationAt
         (galoisAmbientFiniteAbstractBase K (AlgebraicClosure K))
@@ -243,9 +242,8 @@ theorem localHenselianValuation_valuationAt_baseUnit (x : Kˣ) :
 
 /-- **The transported abstract prime has concrete normalized valuation
 one** — exact, not merely modulo each positive integer as at the
-source ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:122`]
-[Yamaguchi2026]). -/
+source (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:122`). -/
 theorem normalizedValuation_localAbstractPrimeFieldUnit :
     normalizedValuation K (localAbstractPrimeFieldUnit K) = 1 := by
   have h := localHenselianValuation_valuationAt_baseUnit K
@@ -275,9 +273,9 @@ are norms — `Atlas.Knowledge.unramifiedNormRange`. The
 irreducible-element form of the hypothesis converts by
 `Atlas.Knowledge.normalizedValuation_irreducible`
 ([Serre 1979, Chap. XIII, §4, Prop. 13, p.197][Serre1979];
-[Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:174`]
-[Yamaguchi2026], at the layer's sign). -/
+Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean:174`,
+at the layer's sign). -/
 theorem normClass_localAbstractPrimeFieldUnit_eq_uniformizer
     (h : lowerRamificationGroup K L 0 = ⊥) (u : Kˣ)
     (hu : normalizedValuation K u = 1) :

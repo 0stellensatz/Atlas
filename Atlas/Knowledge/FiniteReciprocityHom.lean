@@ -57,8 +57,9 @@ source's `open`s go — the layer keeps everything in one namespace.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -73,8 +74,8 @@ namespace DegreeData
 
 /-- **The chosen lift of a product and the product of the chosen lifts
 compare by the degree comparison** — exactly the remaining
-lift-independence obligation in the additivity proof
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:519`][Yamaguchi2026]). -/
+lift-independence obligation in the additivity proof (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:519`). -/
 theorem finiteReciprocityHom_product_lift_comparison
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -107,8 +108,7 @@ theorem finiteReciprocityHom_product_lift_comparison
   rfl
 
 /- Lift-independence of the value under semigroup additivity — the full
-three-case argument
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:555`][Yamaguchi2026]). -/
+three-case argument (Yamaguchi 2026, `MainFiniteReciprocity.lean:555`). -/
 private theorem finiteReciprocityValue_eq_of_same_restriction_of_mul
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -138,7 +138,7 @@ private theorem finiteReciprocityValue_eq_of_same_restriction_of_mul
     rw [hσ, hmul, hι, add_zero]
 
 /- Additivity of the candidate under semigroup additivity
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:586`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:586`). -/
 private theorem finiteReciprocityCandidate_add_of_mul
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -182,7 +182,7 @@ private theorem finiteReciprocityCandidate_add_of_mul
         D.finiteReciprocityValue A v K L hLK σ₂ := hmul σ₁ σ₂
 
 /- The homomorphism with the semigroup-additivity input isolated
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:631`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:631`). -/
 private def finiteReciprocityHom_of_mul
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -204,7 +204,7 @@ private def finiteReciprocityHom_of_mul
     A v K L hLK hmul
 
 /- Evaluation of the conditional homomorphism at any Frobenius lift
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:653`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:653`). -/
 private theorem finiteReciprocityHom_of_mul_apply_of_frobeniusLift
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -234,7 +234,7 @@ private theorem finiteReciprocityHom_of_mul_apply_of_frobeniusLift
   rw [D.frobeniusRestriction_chosenFiniteReciprocityFrobeniusLift, hσ]
 
 /- Prime-norm formula for the conditional homomorphism
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:683`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:683`). -/
 private theorem finiteReciprocityHom_of_mul_apply_eq_primeNormClass
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -281,7 +281,7 @@ private theorem finiteReciprocityHom_of_mul_apply_eq_primeNormClass
 /-- **The finite reciprocity homomorphism**: the prime-norm
 construction descends from positive Frobenius lifts to an additive
 reciprocity homomorphism on the finite Galois group
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:729`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `MainFiniteReciprocity.lean:729`). -/
 def finiteReciprocityHom
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]
@@ -298,8 +298,8 @@ def finiteReciprocityHom
     (D.finiteReciprocityValue_mul A v hAxiom K L hLK)
 
 /-- **The prime-norm evaluation formula**, at any Frobenius lift and
-any prime of its fixed field
-([Yamaguchi 2026, `MainFiniteReciprocity.lean:746`][Yamaguchi2026]). -/
+any prime of its fixed field (Yamaguchi 2026,
+`MainFiniteReciprocity.lean:746`). -/
 theorem finiteReciprocityHom_apply_eq_primeNormClass
     (D : DegreeData G) (A : Rep ℤ G) (v : ValuationData D A)
     [IsTopologicalGroup G] [CompactSpace G]

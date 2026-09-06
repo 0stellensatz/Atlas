@@ -78,8 +78,9 @@ classification are one-liners from it and are not ported.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -99,7 +100,7 @@ private abbrev ProfiniteIntegerModel : Type :=
 diagonal image of `ℤ` in the product of all positive cyclic quotients — that this
 closure is the full inverse limit is `ProfiniteInteger.existsUnique_of_compatible`
 ([Milne 2020, Chap. I, Appendix A, p.55][MilneCFT] — "`ℤ̂ = lim ℤ/mℤ`";
-[Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteIntegerCore.lean:59`][Yamaguchi2026]). -/
+Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteIntegerCore.lean:59`). -/
 def ProfiniteInteger : Type := ProfiniteIntegerModel
 
 instance : CommRing ProfiniteInteger := by
@@ -298,7 +299,7 @@ theorem isClosed_span_singleton (a : ProfiniteInteger) :
 
 /-- **The multiples of `n` are exactly the kernel of reduction mod `n`**: the kernel
 is open, the integers are dense in it relatively, and the ideal is closed
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:131`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:131`). -/
 theorem span_natCast_eq_ker_reduction (n : ℕ) [NeZero n] :
     Ideal.span {(n : ProfiniteInteger)} = RingHom.ker (reduction n) := by
   apply le_antisymm
@@ -355,7 +356,7 @@ theorem index_span_natCast (n : ℕ) [NeZero n] :
   simp
 
 /-- **The multiples of `n` as an additive subgroup** — the span read additively
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:44`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:44`). -/
 abbrev spanAddSubgroup (n : ℕ) : AddSubgroup ProfiniteInteger :=
   (Ideal.span {(n : ProfiniteInteger)}).toAddSubgroup
 
@@ -382,7 +383,8 @@ theorem nsmul_left_injective {n : ℕ} (hn : n ≠ 0) :
   simpa [nsmul_eq_mul] using natCast_mul_left_injective hn
 
 /-- **Distinct natural powers of the multiplicative generator are distinct**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:23`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:23`). -/
 theorem ofAdd_one_pow_injective :
     Function.Injective (fun n : ℕ =>
       (Multiplicative.ofAdd (1 : ProfiniteInteger)) ^ n) := by
@@ -393,8 +395,8 @@ theorem ofAdd_one_pow_injective :
 
 /-- **Every finite-index additive subgroup of `ℤ̂` is the span of its index**:
 the quotient is abelian, so its cardinality annihilates every class, and the
-indices compare — no closedness of the subgroup enters
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:188`][Yamaguchi2026]). -/
+indices compare — no closedness of the subgroup enters (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:188`). -/
 theorem addSubgroup_eq_spanAddSubgroup_of_index_ne_zero
     (H : AddSubgroup ProfiniteInteger) (hH : H.index ≠ 0) :
     H = spanAddSubgroup H.index := by
@@ -415,7 +417,7 @@ theorem addSubgroup_eq_spanAddSubgroup_of_index_ne_zero
 
 /-- **Multiplication by `n` as a homeomorphism onto its span** — injectivity from
 the non-zero-divisor law, continuity upgraded compact-to-Hausdorff
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:225`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:225`). -/
 noncomputable def mulNatHomeomorph (n : ℕ) [NeZero n] :
     ProfiniteInteger ≃ₜ+ spanAddSubgroup n := by
   let f : ProfiniteInteger →+ spanAddSubgroup n :=
@@ -444,7 +446,8 @@ noncomputable def mulNatHomeomorph (n : ℕ) [NeZero n] :
     continuous_invFun := h.symm.continuous }
 
 /-- **Division by `n` on the span**: the continuous inverse of multiplication
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:241`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ProfiniteInteger.lean:241`). -/
 noncomputable def divide (n : ℕ) [NeZero n] :
     ContinuousAddMonoidHom (spanAddSubgroup n) ProfiniteInteger :=
   (mulNatHomeomorph n).symm
@@ -467,9 +470,8 @@ theorem divide_mul (n : ℕ) [NeZero n] (x : ProfiniteInteger) :
 
 /-- **The generator topologically generates the multiplicative profinite
 integers**: the dense diagonal integers are the cyclic subgroup it generates
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/ProfiniteIntegerCore.lean:191`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/ProfiniteIntegerCore.lean:191`). -/
 theorem ofAdd_one_topologicallyGenerates :
     TopologicallyGenerates
       (G := Multiplicative ProfiniteInteger)

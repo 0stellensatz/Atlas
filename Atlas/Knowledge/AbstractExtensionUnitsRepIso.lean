@@ -39,8 +39,9 @@ representation-equivalence packaging is Mathlib's `Rep.mkIso` over
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -54,9 +55,8 @@ variable (k : Type u) (Ω : Type v) [Field k] [Field Ω] [Algebra k Ω]
 
 /-- **Scalar extension does not change the upper unit group**: the units of
 the relative fixed field are the coefficients fixed by the upper subgroup
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:87`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:87`). -/
 def abstractRelativeFixedFieldUnitsEquivGaloisFixed
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup) :
@@ -66,9 +66,8 @@ def abstractRelativeFixedFieldUnitsEquivGaloisFixed
   exact abstractFixedFieldUnitsEquivGaloisFixed k Ω L
 
 omit [IsGalois k Ω] in
-/-- The relative reading forgets to the ambient inclusion ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:98`]
-[Yamaguchi2026]). -/
+/-- The relative reading forgets to the ambient inclusion (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:98`). -/
 @[simp]
 theorem abstractRelativeFixedFieldUnitsEquivGaloisFixed_coe
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
@@ -81,9 +80,8 @@ theorem abstractRelativeFixedFieldUnitsEquivGaloisFixed_coe
   rfl
 
 /-- **The carrier of the descended representation is the upper unit group**
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:110`]
-[Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:110`). -/
 def abstractExtensionFixedRepresentationUnitsEquiv
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -97,9 +95,8 @@ def abstractExtensionFixedRepresentationUnitsEquiv
       k Ω K L hLK).symm
 
 omit [IsGalois k Ω] in
-/-- Round trip of the two carrier readings ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:125`]
-[Yamaguchi2026]). -/
+/-- Round trip of the two carrier readings (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:125`). -/
 @[simp]
 theorem abstractRelativeUnitsEquiv_extensionUnitsEquiv
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
@@ -118,9 +115,8 @@ theorem abstractRelativeUnitsEquiv_extensionUnitsEquiv
         (galoisAmbientUnitsRep k Ω) K L hLK hnormal x)
 
 /-- **A quotient representative acts as restriction of the same ambient
-automorphism** on the relative fixed field ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:143`]
-[Yamaguchi2026]). -/
+automorphism** on the relative fixed field (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:143`). -/
 theorem abstractExtensionQuotientEquivGaloisGroup_mk_apply_val
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -165,9 +161,8 @@ theorem abstractExtensionQuotientEquivGaloisGroup_mk_apply_val
   rfl
 
 /-- **The abstract coset action on an upper unit is the relative Galois
-action** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:198`]
-[Yamaguchi2026]). -/
+action** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:198`). -/
 theorem relativeCosetAction_abstractRelativeFixedFieldUnit_val
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -198,9 +193,8 @@ theorem relativeCosetAction_abstractRelativeFixedFieldUnit_val
       (Additive.toMul x : (abstractRelativeFixedField k Ω hLK)ˣ)
 
 /-- **The carrier comparison intertwines the descended action with the
-relative Galois action** ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:229`]
-[Yamaguchi2026]). -/
+relative Galois action** (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:229`). -/
 theorem abstractExtensionFixedRepresentationUnitsEquiv_action
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)
@@ -241,9 +235,8 @@ theorem abstractExtensionFixedRepresentationUnitsEquiv_action
         k Ω K L hLK hnormal x) q
 
 /-- **The descended representation is the reindexed unit representation** of
-the concrete relative Galois extension ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:271`]
-[Yamaguchi2026]). -/
+the concrete relative Galois extension (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/LocalReciprocity/AbstractFixedFieldUnits.lean:271`). -/
 def abstractExtensionFixedRepresentationIsoUnitsRes
     (K L : ClosedSubgroup (Ω ≃ₐ[k] Ω))
     (hLK : L.toSubgroup ≤ K.toSubgroup)

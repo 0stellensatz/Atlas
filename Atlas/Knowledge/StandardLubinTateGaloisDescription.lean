@@ -70,8 +70,9 @@ separable closure and fails.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -349,10 +350,10 @@ private theorem orbitAut_eq_one_iff (u : 𝒪[K]ˣ) :
 /-- The **level character**: the unit `u` acting on the generator's orbit through the
 untwisted `[u]` scalar — the concrete homomorphism behind the abstract description,
 exported for the ramification filtration
-([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/LevelAutomorphisms.lean:530`][Yamaguchi2026]
-— the source's map is the same untwisted action; the `u⁻¹` twist belongs to Milne's
-reciprocity map `φ_π` on p.40, which a later Artin identification must insert). -/
+([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/LevelAutomorphisms.lean:530` — the source's map is the same
+untwisted action; the `u⁻¹` twist belongs to Milne's reciprocity map `φ_π` on p.40,
+which a later Artin identification must insert). -/
 noncomputable def levelCharacter :
     𝒪[K]ˣ →* (↥(standardLubinTateLevelField K hπ n) ≃ₐ[K]
       ↥(standardLubinTateLevelField K hπ n)) :=
@@ -567,8 +568,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 `𝒪ˣ/U^{(n+1)} ≃* Gal(Lₙ/K)` — deliberately weaker than the source, which constructs
 the specific untwisted `[u]`-action on the chosen torsion point
 ([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/LevelAbelian.lean:53`,
-`standardLubinTateUnitParameterEquivGal`][Yamaguchi2026]). -/
+Yamaguchi 2026, `LubinTate/FiniteLevel/LevelAbelian.lean:53`,
+`standardLubinTateUnitParameterEquivGal`). -/
 theorem nonempty_standardLubinTateGaloisDescription {π : 𝒪[K]} (hπ : Irreducible π)
     (n : ℕ) :
     Nonempty ((𝒪[K]ˣ ⧸ integerHigherUnitGroup K (n + 1)) ≃*
@@ -583,8 +584,8 @@ theorem nonempty_standardLubinTateGaloisDescription {π : 𝒪[K]} (hπ : Irredu
   exact nonempty_description K hπ n
 
 /-- Every standard level field is **abelian Galois** over the base local field
-([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FiniteLevel/LevelAbelian.lean:141`][Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §3, Thm. 3.6 (b), p.38][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FiniteLevel/LevelAbelian.lean:141`). -/
 theorem standardLubinTateLevelField_isAbelianGalois {π : 𝒪[K]} (hπ : Irreducible π)
     (n : ℕ) :
     IsAbelianGalois K (standardLubinTateLevelField K hπ n) := by

@@ -119,8 +119,9 @@ the algebraic closure.
   New York, 1979.
 * [Hyeon2025] S.-H. Hyeon, *The m-step solvable anabelian geometry of mixed-characteristic
   local fields*, J. London Math. Soc. **112** (2025), e70402.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -134,18 +135,16 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-- The abelianized absolute Galois group bundled as a profinite group,
 through the compactness and total-disconnectedness instances of
-`Atlas.Knowledge.AbsoluteAbelianizationEquiv` ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:64`]
-[Yamaguchi2026]). -/
+`Atlas.Knowledge.AbsoluteAbelianizationEquiv` (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:64`). -/
 abbrev absoluteGaloisAbelianizationProfinite : ProfiniteGrp :=
   ProfiniteGrp.of (Field.absoluteGaloisGroupAbelianization K)
 
 variable {K}
 
 /-- The lift of a reciprocity homomorphism agrees with it on the
-completion map ([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:79`]
-[Yamaguchi2026]). -/
+completion map (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:79`). -/
 theorem reciprocityLift_etaFn (φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K) (u : Kˣ) :
     (lift (P := absoluteGaloisAbelianizationProfinite K) (GrpCat.ofHom φ)).hom
         (etaFn (GrpCat.of Kˣ) u) = φ u :=
@@ -153,11 +152,9 @@ theorem reciprocityLift_etaFn (φ : Kˣ →* Field.absoluteGaloisGroupAbelianiza
     (GrpCat.ofHom φ)) u
 
 /-- **Under local existence, finite-index normal subgroups of `Kˣ` come from `G_K^ab`**:
-each is the preimage of an open normal subgroup, the restriction kernel
-of the finite abelian subextension whose norm subgroup it is
-([Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:180`]
-[Yamaguchi2026]). -/
+each is the preimage of an open normal subgroup, the restriction kernel of the finite
+abelian subextension whose norm subgroup it is (Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/FiniteAbelianQuotientKernels.lean:180`). -/
 theorem cofinal_of_normSubgroup_surjective (φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K)
     (hφ : IsLocalReciprocity K φ)
     (hexist : ∀ H : Subgroup Kˣ, H.FiniteIndex → IsOpen (H : Set Kˣ) →
@@ -184,9 +181,8 @@ theorem cofinal_of_normSubgroup_surjective (φ : Kˣ →* Field.absoluteGaloisGr
 `K̂ˣ ≃ₜ* G_K^ab` compatible with the completion map, for any `φ`
 satisfying `IsLocalReciprocity K φ`, once every open finite-index
 subgroup of `Kˣ` is the norm subgroup of a finite abelian subextension
-([Serre 1979, Chap. XIII, §4, pp.197–198][Serre1979]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:115`]
-[Yamaguchi2026]). -/
+([Serre 1979, Chap. XIII, §4, pp.197–198][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:115`). -/
 theorem IsLocalReciprocity.unitsCompletion_continuousMulEquiv_of_normSubgroup_surjective
     {φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K} (hφ : IsLocalReciprocity K φ)
     (hexist : ∀ H : Subgroup Kˣ, H.FiniteIndex → IsOpen (H : Set Kˣ) →
@@ -216,9 +212,9 @@ theorem IsLocalReciprocity.unitsCompletion_continuousMulEquiv_unique
 
 variable (K) in
 /-- **Every finite-index subgroup of `Kˣ` is open for the abstract norm topology**
-at the algebraic closure: it contains a finite Galois norm subgroup,
-which witnesses norm-openness ([Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/KummerNormOpen.lean:83`][Yamaguchi2026]). -/
+at the algebraic closure: it contains a finite Galois norm subgroup, which
+witnesses norm-openness (Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/KummerNormOpen.lean:83`). -/
 theorem finiteIndexSubgroup_isNormOpen (H : Subgroup Kˣ) [H.FiniteIndex] :
     IsNormOpen (galoisAmbientUnitsRep K (AlgebraicClosure K))
       (closedFixingSubgroup (⊥ : IntermediateField K (AlgebraicClosure K)))
@@ -237,8 +233,8 @@ norm subgroup of a finite abelian subextension of the algebraic closure
 — the abstract classification's surjectivity, every finite-index
 subgroup being norm-open, with the represented fixed field read as a
 concrete finite abelian intermediate field ([Serre 1979, Chap. XIV, §6,
-Thm. 1 and Cor. 1, pp.218–219][Serre1979]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Existence/CharacteristicZero.lean:26`][Yamaguchi2026]). -/
+Thm. 1 and Cor. 1, pp.218–219][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Existence/CharacteristicZero.lean:26`). -/
 theorem exists_finiteAbelian_localNormSubgroup_eq (H : Subgroup Kˣ) (hfi : H.FiniteIndex)
     (hH : IsOpen (H : Set Kˣ)) :
     ∃ (L : IntermediateField K (AlgebraicClosure K)) (_ : FiniteDimensional K L)
@@ -263,8 +259,8 @@ subgroups — which are all open, `K` being of mixed characteristic. The
 second claim of `Atlas.Knowledge.IsLocalReciprocity`, recorded there
 ahead of its proof and discharged here by the reduction and the
 existence theorem ([Serre 1979, Chap. XIII, §4, pp.197–198][Serre1979];
-[Hyeon 2025, §3, p.10][Hyeon2025]; [Yamaguchi 2026,
-`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:257`][Yamaguchi2026]). -/
+[Hyeon 2025, §3, p.10][Hyeon2025]; Yamaguchi 2026,
+`LocalClassFieldTheory/Infinite/ProfiniteLocalReciprocity.lean:257`). -/
 theorem IsLocalReciprocity.unitsCompletion_continuousMulEquiv
     {φ : Kˣ →* Field.absoluteGaloisGroupAbelianization K} (hφ : IsLocalReciprocity K φ) :
     ∃ e : ProfiniteGrp.ProfiniteCompletion.completion (GrpCat.of Kˣ) ≃ₜ*

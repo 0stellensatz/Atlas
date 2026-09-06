@@ -38,8 +38,9 @@ source's local `let` for it is dropped.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -54,35 +55,35 @@ variable {D : DegreeData G} {A : Rep ℤ G}
 namespace ValuationData
 
 /-- **The value `1` in the value group**, by the integral-values axiom
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/PrimeElements.lean:102`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:102`). -/
 def oneValue (v : ValuationData D A) : v.valueGroup :=
   ⟨1, by
     obtain ⟨a, ha⟩ := v.integers_mem 1
     exact ⟨a, by simpa using ha⟩⟩
 
-/-- The distinguished value reads as `1` in `ℤ̂` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/PrimeElements.lean:109`][Yamaguchi2026]). -/
+/-- The distinguished value reads as `1` in `ℤ̂` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:109`). -/
 @[simp]
 theorem oneValue_coe (v : ValuationData D A) :
     (v.oneValue : ProfiniteInteger) = 1 :=
   rfl
 
-/-- **A prime element**: normalized value `1` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/PrimeElements.lean:114`][Yamaguchi2026]). -/
+/-- **A prime element**: normalized value `1` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:114`). -/
 def IsPrimeElement (v : ValuationData D A) (K : FiniteAbstractField G)
     (π : ambientFixedAddSubgroup A K.field) : Prop :=
   v.valuationAt K π = v.oneValue
 
-/-- **The additive unit group** `U_K = {u | v_K(u) = 0}` ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/PrimeElements.lean:120`][Yamaguchi2026]). -/
+/-- **The additive unit group** `U_K = {u | v_K(u) = 0}` (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:120`). -/
 def unitAddSubgroup (v : ValuationData D A) (K : FiniteAbstractField G) :
     AddSubgroup (ambientFixedAddSubgroup A K.field) :=
   (v.valuationAt K).ker
 
 /-- Membership in the unit group is vanishing normalized valuation
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/PrimeElements.lean:126`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:126`). -/
 @[simp]
 theorem mem_unitAddSubgroup_iff (v : ValuationData D A)
     (K : FiniteAbstractField G)
@@ -91,8 +92,8 @@ theorem mem_unitAddSubgroup_iff (v : ValuationData D A)
   Iff.rfl
 
 /-- **Over an unramified extension the normalized valuation restricts to the
-valuation below** ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/PrimeElements.lean:134`][Yamaguchi2026]). -/
+valuation below** (Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:134`). -/
 theorem valuationAt_fixedFieldInclusion_of_unramified
     (v : ValuationData D A)
     (E : FiniteAbstractFieldExtension G)
@@ -131,8 +132,8 @@ theorem valuationAt_fixedFieldInclusion_of_unramified
       rw [hfeq]
 
 /-- **A prime element remains prime in an unramified extension**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/PrimeElements.lean:175`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/PrimeElements.lean:175`). -/
 theorem prime_of_unramified (v : ValuationData D A)
     (E : FiniteAbstractFieldExtension G)
     (hUn : E.IsUnramified D)
@@ -145,8 +146,7 @@ theorem prime_of_unramified (v : ValuationData D A)
   exact hπ
 
 /-- **The norm of a prime element is prime in a totally ramified extension**
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Degree/PrimeElements.lean:187`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/PrimeElements.lean:187`). -/
 theorem norm_prime_of_totallyRamified (v : ValuationData D A)
     (E : FiniteAbstractFieldExtension G)
     (hTot : E.IsTotallyRamified D)

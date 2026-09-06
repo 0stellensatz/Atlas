@@ -54,8 +54,9 @@ file is the source's `Reciprocity/Main.lean:1009`–`:1328`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -67,8 +68,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- Restriction in the first diagram of reciprocity naturality, after
-applying abelianization ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1013`][Yamaguchi2026]). -/
+applying abelianization (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1013`). -/
 def normResidueNaturalityAbelianizedRestriction
     (K K' L L' : ClosedSubgroup G)
     (hK'K : K'.toSubgroup ≤ K.toSubgroup)
@@ -83,8 +84,8 @@ def normResidueNaturalityAbelianizedRestriction
     (finiteReciprocityNaturalityRestriction K K' L L' hK'K hL'L)
 
 /-- The abelianized restriction sends a represented class to the
-included representative's class ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1034`][Yamaguchi2026]). -/
+included representative's class (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1034`). -/
 @[simp]
 theorem normResidueNaturalityAbelianizedRestriction_of_mk
     (K K' L L' : ClosedSubgroup G)
@@ -107,8 +108,8 @@ theorem normResidueNaturalityAbelianizedRestriction_of_mk
 
 /-- The right vertical isomorphism `σ*` in the second diagram of
 reciprocity naturality, obtained by abelianizing the actual conjugation
-isomorphism from norm–conjugation naturality ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1129`][Yamaguchi2026]). -/
+isomorphism from norm–conjugation naturality (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1129`). -/
 noncomputable def normResidueNaturalityAbelianizedConjugation
     [ContinuousMul G]
     (K L : ClosedSubgroup G) (s : G)
@@ -122,8 +123,8 @@ noncomputable def normResidueNaturalityAbelianizedConjugation
   (finiteReciprocityNaturalityConjugation K L s).abelianizationCongr
 
 /-- The abelianized conjugation isomorphism computes on representatives
-by the conjugation equivalence ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1147`][Yamaguchi2026]). -/
+by the conjugation equivalence (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1147`). -/
 @[simp]
 theorem normResidueNaturalityAbelianizedConjugation_of_mk
     [ContinuousMul G]
@@ -148,8 +149,8 @@ theorem normResidueNaturalityAbelianizedConjugation_of_mk
 /-- **The two vertical arrows of the norm/restriction diagram of
 reciprocity naturality, assembled into one additive homomorphism**; its
 second component is the relative norm `N_{K'/K}` on finite norm
-quotients from norm–conjugation naturality ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1061`][Yamaguchi2026]). -/
+quotients from norm–conjugation naturality (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1061`). -/
 def normResidueNaturalityNormRestrictionPairMap
     (A : Rep ℤ G)
     (K K' L L' : ClosedSubgroup G)
@@ -180,8 +181,8 @@ def normResidueNaturalityNormRestrictionPairMap
 
 /-- On representatives, norm-restriction naturality applies subgroup
 inclusion to the Galois class and the relative norm to the field
-element ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1094`][Yamaguchi2026]). -/
+element (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1094`). -/
 @[simp]
 theorem normResidueNaturalityNormRestrictionPairMap_on_representatives
     (A : Rep ℤ G)
@@ -216,8 +217,8 @@ theorem normResidueNaturalityNormRestrictionPairMap_on_representatives
 /-- **The two vertical conjugation arrows of reciprocity naturality,
 assembled into one additive homomorphism**; the second component is the
 actual descended map `a ↦ a^s` from norm–conjugation naturality
-([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1171`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1171`). -/
 def normResidueNaturalityConjugationPairMap
     [ContinuousMul G]
     (A : Rep ℤ G) (K L : ClosedSubgroup G)
@@ -250,8 +251,8 @@ def normResidueNaturalityConjugationPairMap
     (finiteReciprocityNaturalityConjugationNormMap A K L hLK s)
 
 /-- On representatives, the conjugation pair map conjugates both the
-Galois class and the fixed-field element ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1208`][Yamaguchi2026]). -/
+Galois class and the fixed-field element (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1208`). -/
 @[simp]
 theorem normResidueNaturalityConjugationPairMap_on_representatives
     [ContinuousMul G]
@@ -289,8 +290,8 @@ theorem normResidueNaturalityConjugationPairMap_on_representatives
 reciprocity naturality, assembled into one additive homomorphism**: the
 first component is Mathlib's actual transfer, transported to
 `G(L/K')ᵃᵇ` in transfer–norm naturality, and the second is inclusion
-`A_K → A_{K'}` descended to finite norm quotients ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1247`][Yamaguchi2026]). -/
+`A_K → A_{K'}` descended to finite norm quotients (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1247`). -/
 def normResidueNaturalityTransferInclusionPairMap
     (A : Rep ℤ G) (K K' L : ClosedSubgroup G)
     (hLK' : L.toSubgroup ≤ K'.toSubgroup)
@@ -327,8 +328,8 @@ def normResidueNaturalityTransferInclusionPairMap
 
 /-- On representatives, the transfer-inclusion pair map applies
 transfer to the Galois class and fixed-field inclusion to the norm
-class ([Yamaguchi 2026,
-`AbstractClassFieldTheory/Reciprocity/Main.lean:1289`][Yamaguchi2026]). -/
+class (Yamaguchi 2026,
+`AbstractClassFieldTheory/Reciprocity/Main.lean:1289`). -/
 @[simp]
 theorem normResidueNaturalityTransferInclusionPairMap_on_representatives
     (A : Rep ℤ G) (K K' L : ClosedSubgroup G)

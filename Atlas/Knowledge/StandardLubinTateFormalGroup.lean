@@ -39,8 +39,9 @@ swapped.
 
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open MvPowerSeries
@@ -54,9 +55,8 @@ variable {A : Type*} [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
 
 /-- The **standard Lubin–Tate formal group series**: the unique two-variable intertwiner
 of the standard series with itself with linear term `X + Y`
-([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:331`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/StandardFormalGroup.lean:331`). -/
 noncomputable def standardLubinTateFormalGroupPowerSeries (hπ : Irreducible π) :
     MvPowerSeries (Fin 2) A :=
   lubinTateIntertwiner hπ (standardLubinTateSeries hπ) (standardLubinTateSeries hπ)
@@ -64,8 +64,8 @@ noncomputable def standardLubinTateFormalGroupPowerSeries (hπ : Irreducible π)
 
 /-- The characterizing property of the standard formal-group series
 ([Milne 2020, Chap. I, §2, Lem. 2.11 and Prop. 2.12, pp.32–33][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:353`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LubinTate/FormalModule/StandardFormalGroup.lean:353`). -/
 theorem existsUnique_standardLubinTateFormalGroupPowerSeries (hπ : Irreducible π) :
     ∃! H : MvPowerSeries (Fin 2) A,
       LubinTateHasLinearTerm H (fun _ => 1) ∧
@@ -89,9 +89,8 @@ private theorem hF0_std (hπ : Irreducible π) :
 
 /-- The **standard Lubin–Tate formal group**, landing in Mathlib's `FormalGroup`: the
 formal group law admitting the standard series as an endomorphism
-([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:673`]
-[Yamaguchi2026]). -/
+([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT]; Yamaguchi 2026,
+`LubinTate/FormalModule/StandardFormalGroup.lean:673`). -/
 noncomputable def standardLubinTateFormalGroup (hπ : Irreducible π) : FormalGroup A where
   toPowerSeries := standardLubinTateFormalGroupPowerSeries hπ
   zero_constantCoeff := hF0_std hπ
@@ -108,8 +107,8 @@ noncomputable def standardLubinTateFormalGroup (hπ : Irreducible π) : FormalGr
 
 /-- The standard Lubin–Tate formal group is commutative
 ([Milne 2020, Chap. I, §2, Prop. 2.12, p.33][MilneCFT];
-[Yamaguchi 2026, `LubinTate/FormalModule/StandardFormalGroup.lean:688`]
-[Yamaguchi2026]). -/
+Yamaguchi 2026,
+`LubinTate/FormalModule/StandardFormalGroup.lean:688`). -/
 instance standardLubinTateFormalGroup_isComm (hπ : Irreducible π) :
     (standardLubinTateFormalGroup hπ).IsComm where
   comm := by

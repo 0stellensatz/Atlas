@@ -34,8 +34,9 @@ first consumer that unfolds through it.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 namespace Atlas.Knowledge
@@ -45,7 +46,8 @@ universe u
 variable {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- **An abstract field finite over the distinguished base**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1087`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:1087`). -/
 structure FiniteAbstractField (G : Type u) [Group G] [TopologicalSpace G] where
   /-- The closed subgroup representing the abstract field. -/
   field : ClosedSubgroup G
@@ -105,7 +107,7 @@ instance (K : FiniteAbstractField G) :
 
 /-- **A field finite over the base has finite absolute residue quotient**: from
 the finite relative quotient and the surjectivity of the ambient degree
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1150`][Yamaguchi2026]). -/
+(Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1150`). -/
 noncomputable def toFiniteResidueAbstractField
     (K : FiniteAbstractField G) (D : DegreeData G) :
     FiniteResidueAbstractField D where
@@ -132,7 +134,8 @@ noncomputable def residueDegree (K : FiniteAbstractField G)
   (K.toFiniteResidueAbstractField D).residueDegree
 
 /-- **The base field has residue degree one**
-([Yamaguchi 2026, `AbstractClassFieldTheory/Degree/Fields.lean:1176`][Yamaguchi2026]). -/
+(Yamaguchi 2026,
+`AbstractClassFieldTheory/Degree/Fields.lean:1176`). -/
 @[simp] theorem base_residueDegree (D : DegreeData G) :
     (FiniteAbstractField.base G).residueDegree D = 1 := by
   apply Subtype.ext

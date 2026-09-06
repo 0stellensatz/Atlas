@@ -33,8 +33,9 @@ zero would junk-value to `0 < ν(π)`.
 
 ## References
 
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory
-  in Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -194,10 +195,9 @@ include hπ in
 /-- **The derivative valuation at a primitive root**: the primitive polynomial's
 derivative takes value `(q − 2) qⁿ ν(x) + n ν(π)` — at the level field, where
 `ν(x) = 1` and `ν(π) = (q − 1) qⁿ`, this is the source's derivative exponent
-`(n + 1) d − qⁿ` for `d = (q − 1) qⁿ`
-([Yamaguchi 2026, `LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:294`]
-[Yamaguchi2026] — the source computes at the level; the abstract-carrier form is this
-layer's statement policy). -/
+`(n + 1) d − qⁿ` for `d = (q − 1) qⁿ` (Yamaguchi 2026,
+`LubinTate/FiniteLevel/HigherUnitLevelEquiv.lean:294` — the source computes at the
+level; the abstract-carrier form is this layer's statement policy). -/
 theorem standardLubinTateDerivativeValuation
     (hroot : Polynomial.aeval x (standardLubinTatePrimitivePolynomial ↥𝒪[K] π n) = 0) :
     integerValuation E (Polynomial.aeval x (Polynomial.derivative

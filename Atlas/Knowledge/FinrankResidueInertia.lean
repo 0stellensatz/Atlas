@@ -52,8 +52,9 @@ literature statement beyond the `finrank` tower of the residue degrees.
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
-* [Yamaguchi2026] n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in
-  Lean 4*, GitHub repository, pinned commit `6010237`, 2026.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -107,9 +108,8 @@ extension at the middle floor of a mixed-characteristic tower — the
 single-prime local case of `n = Σ e·f` with the ramification index
 read as the order of the zeroth ramification group ([Serre 1979,
 Chap. I, §4, Prop. 10, pp.14–15][Serre1979]; the source counterpart,
-in its own model vocabulary, is [Yamaguchi 2026,
-`LocalFieldTheory/NonarchimedeanLocalField/ResidueExtension.lean:362`]
-[Yamaguchi2026]). -/
+in its own model vocabulary, is Yamaguchi 2026,
+`LocalFieldTheory/NonarchimedeanLocalField/ResidueExtension.lean:362`). -/
 theorem finrank_eq_finrank_residueField_mul_card_inertia :
     Module.finrank F E =
       Module.finrank 𝓀[F] 𝓀[E] * Nat.card (lowerRamificationGroup F E 0) := by
