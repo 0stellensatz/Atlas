@@ -3,10 +3,10 @@
 
 It ships in the template repository and so sits at the root of every project
 generated from it, where it checks that project and nothing else.  The project
-name is read from the `lean_lib` target in `lakefile.toml` --- not from the
-directory this file sits in, which a git worktree names for its branch rather
-than for the package.  Run it from the project root, or wire it into a hook or a
-CI step:
+name is read from `lakefile.toml` --- not from the directory this file sits in,
+which need not carry the package name at all, and in a git worktree does not.
+Reading the lakefile needs `tomllib`, so this script wants Python 3.11 or newer.
+Run it from the project root, or wire it into a hook or a CI step:
 
     python3 __check__.py
 
@@ -56,38 +56,55 @@ import re
 import sys
 from pathlib import Path
 
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python < 3.11
+    sys.exit("error: __check__.py needs Python 3.11 or newer, for tomllib")
+
 PROJECT = Path(__file__).resolve().parent
 
 
 def package_name() -> str:
-    """The library name, read from the `lean_lib` target in `lakefile.toml`.
+    """The library this script checks, as `lakefile.toml` names it.
 
     Not the checkout directory's name.  Every check below keys off `<Name>/` and
-    `<Name>.lean`, and a git worktree is a checkout of the project under a
-    directory named for its branch, so deriving the name from the directory made
-    the first check fail there for a reason having nothing to do with the work
-    being checked.  Lake gives a `lean_lib` target's source directory and root
-    module that same name, so the target is the honest source for both.
+    `<Name>.lean`, and a checkout directory need not carry the package name --- a
+    git worktree's does not --- so deriving the name from it made the first check
+    fail there for a reason having nothing to do with the work being checked.
 
-    Falls back to the directory name where the lakefile cannot be parsed, which
-    keeps the behaviour outside a Lake package unchanged; `main` reports a
-    missing lakefile on its own terms.
+    By default Lake roots a `lean_lib` at its own name, which is where `roots`
+    and the target name come in; a lakefile setting `srcDir` moves the tree out
+    from under that and is not handled, as it was not before.  Anything that
+    leaves the library unidentified is fatal here rather than a fall back to the
+    directory, since falling back is precisely the bug.  A lakefile that is
+    missing altogether is left to `main`, which reports it in its own terms.
     """
+    lakefile = PROJECT / "lakefile.toml"
     try:
-        import tomllib
-
-        config = tomllib.loads((PROJECT / "lakefile.toml").read_text(encoding="utf-8"))
-    except (ImportError, OSError, ValueError):
+        config = tomllib.loads(lakefile.read_text(encoding="utf-8"))
+    except FileNotFoundError:
         return PROJECT.name
+    except (OSError, ValueError) as error:
+        sys.exit(f"error: lakefile.toml: {error}")
 
-    libs = config.get("lean_lib")
-    if isinstance(libs, list) and libs and isinstance(libs[0], dict):
-        name = libs[0].get("name")
-        if isinstance(name, str) and name:
-            return name
+    libs = [lib for lib in config.get("lean_lib", ()) if isinstance(lib, dict)]
+    if not libs:
+        sys.exit("error: lakefile.toml declares no [[lean_lib]] target to check")
 
-    name = config.get("name")
-    return name if isinstance(name, str) and name else PROJECT.name
+    # Check 1 asks whether a plain `lake build` can omit a file, so where a
+    # lakefile carries several libraries the one that `lake build` builds is the
+    # one to check.
+    default = config.get("defaultTargets")
+    wanted = set(default) if isinstance(default, list) else set()
+    libs = [lib for lib in libs if lib.get("name") in wanted] or libs
+
+    roots = libs[0].get("roots")
+    if isinstance(roots, list) and roots and isinstance(roots[0], str):
+        return roots[0]
+    name = libs[0].get("name")
+    if isinstance(name, str) and name:
+        return name
+    sys.exit("error: lakefile.toml: the [[lean_lib]] target has no name")
 
 
 NAME = package_name()
