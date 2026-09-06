@@ -47,7 +47,8 @@ splitting, and `InfiniteGalois.fixingSubgroup_fixedField` finishes.
 Choice-independence and base change both compare two continuous homomorphisms
 out of `ℤ̂` on the dense image of `ℤ` after checking the generator, riding
 `Atlas.Knowledge.semilinear_conjugation_continuous` and
-`Atlas.Knowledge.ofIntermediateFieldInExtension_continuous`. The positive
+`Atlas.Knowledge.ofIntermediateFieldInExtension_continuous`. The semilinear comparison allows
+independent universes for the two residue fields and their closures. The positive
 degree rides the same file-local `NeZero` device as the finite coordinates; the
 character-prime and closure instances are likewise local, never entering an
 importer's search. The degree lemma of the level-`n` subextension carries the
@@ -286,7 +287,7 @@ degree datum; the conjugate automorphism is written locally in the statement
 `LocalClassFieldTheory/Finite/LocalReciprocity/ResidueAlgebraicClosureDegree.lean:236`]
 [Yamaguchi2026]). -/
 theorem residueAbsoluteDegreeIn_semilinear_conjugation
-    {k' : Type u} {Omega' : Type v}
+    {k' : Type*} {Omega' : Type*}
     [Field k'] [Fintype k']
     [Field Omega'] [Algebra k' Omega']
     [Algebra.IsAlgebraic k' Omega'] [IsAlgClosed Omega']
