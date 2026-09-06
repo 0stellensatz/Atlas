@@ -27,41 +27,18 @@ shopt -s nullglob
 cd "$(dirname "$0")"
 
 # The library's name as `lakefile.toml` gives it---not the name of the directory this script
-# sits in, which need not carry it and in a git worktree does not. The selection is the one
-# `__check__.py` makes, so the picture is of the library that gets checked: the `[[lean_lib]]`
-# named in `defaultTargets` where there is one, that target's `roots` where it sets them, and
-# the first target otherwise. Read by hand rather than by a TOML parser, so an array written
-# across several lines is not seen. What is *not* done is falling back to the directory name---
-# that is the bug, and a graph named for a branch is drawn over a tree that is not there---so a
-# name that cannot be read is fatal here.
-if [ ! -f lakefile.toml ]; then
-    echo "error: $PWD is not a Lake project (no lakefile.toml)" >&2
-    exit 1
-fi
-NAME=$(awk '
-    function quoted(s) { sub(/^[^"]*"/, "", s); sub(/".*/, "", s); return s }
-    /^[[:space:]]*defaultTargets[[:space:]]*=/ { want = $0 }
-    /^[[:space:]]*\[\[lean_lib\]\]/            { n++; lib = 1; next }
-    /^[[:space:]]*\[/                          { lib = 0 }
-    lib && /^[[:space:]]*name[[:space:]]*=[[:space:]]*"/ {
-        if (!(n in name)) name[n] = quoted($0)
-    }
-    lib && /^[[:space:]]*roots[[:space:]]*=[[:space:]]*\[[[:space:]]*"/ {
-        if (!(n in root)) root[n] = quoted($0)
-    }
-    END {
-        pick = 1
-        for (i = 1; i <= n; i++)
-            if (name[i] != "" && index(want, "\"" name[i] "\"")) { pick = i; break }
-        chosen = root[pick] != "" ? root[pick] : name[pick]
-        print chosen
-    }
-' lakefile.toml)
-if [ -z "$NAME" ]; then
-    echo "error: lakefile.toml names no [[lean_lib]] to draw" >&2
-    exit 1
-fi
+# sits in, which need not carry it and in a git worktree does not. `__check__.py` is *asked*
+# rather than reimplemented: a hand-rolled read of the lakefile agreed with it on the spellings
+# this project uses and diverged on legal TOML it does not, which would have drawn the picture
+# over a different library than the one that gets checked. What is not done is falling back to
+# the directory name---that is the bug---so an unreadable lakefile is fatal, and so is a name
+# that is read correctly but names no tree, which is the same empty picture by another route.
+NAME=$(python3 -c 'import __check__; print(__check__.NAME)') || exit 1
 LIB=$NAME
+if [ ! -d "$LIB" ]; then
+    echo "error: the library directory is missing: $LIB/" >&2
+    exit 1
+fi
 
 src=$(
     echo "digraph ${NAME}Knowledge {"

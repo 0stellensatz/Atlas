@@ -12,8 +12,10 @@ and the subject it is on.  A day that turns to a second, unrelated subject gets 
 sharing the date prefix, rather than a second question filed under the first one's name.
 
 The project's name is read from `lakefile.toml` — not from the directory this file sits in,
-which need not carry the package name at all, and in a git worktree does not.  Reading the
-lakefile needs `tomllib`, so this script wants Python 3.11 or newer.
+which need not carry the package name at all, and in a git worktree does not.  The reading is
+`__check__.py`'s, imported rather than repeated, so that a question cannot be scaffolded into
+one library while another is checked.  That read needs `tomllib`, so this script wants Python
+3.11 or newer, and it needs `__check__.py` beside it.
 
 Two modes:
 
@@ -51,67 +53,17 @@ import tempfile
 from pathlib import Path
 from typing import NoReturn
 
-try:
-    import tomllib
-except ModuleNotFoundError:  # Python < 3.11
+if sys.version_info < (3, 11):  # `package_name` reads the lakefile with `tomllib`
     sys.exit("error: __init_question__.py needs Python 3.11 or newer, for tomllib")
 
+# One reading of the lakefile, not two: a name that differed between the two scripts would have
+# the checker check a library this one is not writing to. The cost is that `__check__.py` has to
+# sit beside this file---and that `python3 -P`, which drops the script's own directory from
+# `sys.path`, cannot run it.
+from __check__ import package_name  # noqa: E402
+
 PROJECT = Path(__file__).resolve().parent          # the project root
-
-
-def die(msg) -> NoReturn:
-    print(f"error: {msg}", file=sys.stderr)
-    sys.exit(1)
-
-
-def package_name(lakefile) -> str:
-    """The library this script writes into, as `lakefile.toml` names it.
-
-    Not the checkout directory's name.  Everything below keys off `<Name>/`, `<Name>.lean` and
-    the module prefix of every line written into them, and a checkout directory need not carry
-    the package name — a git worktree's does not — so deriving the name from it made this
-    script refuse to scaffold there, for a reason having nothing to do with the unit posed.
-
-    By default Lake roots a `lean_lib` at its own name, which is where `roots` and the target
-    name come in; a lakefile setting `srcDir` moves the tree out from under that and is not
-    handled, as it was not before.  Anything that leaves the library unidentified is fatal,
-    including a lakefile that is missing altogether, since falling back to the directory is
-    precisely the bug.
-
-    This is `__check__.py`'s derivation, copied rather than imported: the two ship in the
-    template as separate files, each usable without the other, and `sys.path` is keyed to the
-    invoked path rather than the resolved one, so a symlinked copy of this script would import
-    a sibling out of the wrong tree.  The two readings must agree — a name that differed would
-    have the checker check a library this script is not writing to — so a change here is a
-    change there.
-    """
-    try:
-        config = tomllib.loads(lakefile.read_text(encoding="utf-8"))
-    except FileNotFoundError:
-        die(f"{lakefile.parent} is not a Lake project (no {lakefile.name})")
-    except (OSError, ValueError) as error:
-        die(f"{lakefile.name}: {error}")
-
-    libs = [lib for lib in config.get("lean_lib", ()) if isinstance(lib, dict)]
-    if not libs:
-        die(f"{lakefile.name} declares no [[lean_lib]] target to write to")
-
-    # A question goes into the library a plain `lake build` builds, where there are several:
-    # the unit it scaffolds has to be reachable from that library's root module.
-    default = config.get("defaultTargets")
-    wanted = set(default) if isinstance(default, list) else set()
-    libs = [lib for lib in libs if lib.get("name") in wanted] or libs
-
-    roots = libs[0].get("roots")
-    if isinstance(roots, list) and roots and isinstance(roots[0], str):
-        return roots[0]
-    name = libs[0].get("name")
-    if isinstance(name, str) and name:
-        return name
-    die(f"{lakefile.name}: the [[lean_lib]] target has no name")
-
-
-NAME = package_name(PROJECT / "lakefile.toml")     # the Lake package / library name
+NAME = package_name(PROJECT / "lakefile.toml")     # the library, as the lakefile gives it
 LIB_DIR = PROJECT / NAME                           # the library source tree
 QUESTIONS = LIB_DIR / "Questions"                  # one directory per unit posed
 ROOT_MODULE = PROJECT / f"{NAME}.lean"             # the root all-import module
@@ -126,6 +78,11 @@ DEV_IMPORT_RE = re.compile(
 # A unit's topic, spelled as the module component it becomes: UpperCamelCase, like every other
 # module name in the tree.  ASCII, since the directory only has to sort and grep.
 TOPIC_RE = re.compile(r"^[A-Z][A-Za-z0-9]*$")
+
+
+def die(msg) -> NoReturn:
+    print(f"error: {msg}", file=sys.stderr)
+    sys.exit(1)
 
 
 def namespace(stem):
@@ -622,8 +579,9 @@ def selftest():
     assert before.splitlines()[-2] == (
         f"import {NAME}.Questions.«20260813Digits».Development"), before
 
-    # package_name: the lakefile names the library, and every way of leaving it unnamed is
-    # fatal rather than a fall back to the directory, which is the bug this read exists for.
+    # package_name comes from `__check__.py`, and is exercised here because this is where the
+    # test harness is. Every decision it makes is pinned: a decision left untested is one the
+    # two scripts can drift apart on silently, which is the whole thing importing it prevents.
     with tempfile.TemporaryDirectory() as tmp:
         lakefile = Path(tmp) / "lakefile.toml"
 
@@ -636,23 +594,34 @@ def selftest():
                 lakefile.unlink(missing_ok=True)
             else:
                 lakefile.write_text(text, encoding="utf-8")
+            complaint = io.StringIO()
             try:
-                with contextlib.redirect_stderr(io.StringIO()):
+                with contextlib.redirect_stderr(complaint):
                     package_name(lakefile)
-            except SystemExit:
-                return True
+            except SystemExit as stop:
+                # Loudly, not merely fatally---either `sys.exit("error: ...")`, which carries
+                # the message in `.code`, or a print to stderr and `sys.exit(1)`. A bare
+                # `sys.exit(1)` leaves the caller nothing to act on and does not count.
+                said = stop.code if isinstance(stop.code, str) else complaint.getvalue()
+                return bool(said.strip())
             return False
 
         # `lake new hellopkg lib` writes `name = "hellopkg"` beside `[[lean_lib]]` `"Hellopkg"`,
         # so the package-level name is never the answer, and `roots` outranks the target name.
         assert named('name = "hellopkg"\n[[lean_lib]]\nname = "Hellopkg"\n') == "Hellopkg"
-        assert named('[[lean_lib]]\nname = "Foo"\nroots = ["Bar"]\n') == "Bar"
-        assert named('defaultTargets = ["b"]\n'
-                     '[[lean_lib]]\nname = "a"\n[[lean_lib]]\nname = "b"\n') == "b"
+        assert named('[[lean_lib]]\nname = "Foo"\nroots = ["Bar", "Baz"]\n') == "Bar"
+        # `defaultTargets` names the library `lake build` builds, wherever it stands among the
+        # targets; with none set the first is taken, which is a different rule and needs its own
+        # case---one library standing both first and last pins neither.
+        assert named('defaultTargets = ["a"]\n[[lean_lib]]\nname = "b"\n'
+                     '[[lean_lib]]\nname = "a"\n[[lean_lib]]\nname = "c"\n') == "a"
+        assert named('[[lean_lib]]\nname = "First"\n[[lean_lib]]\nname = "Second"\n') == "First"
         assert unnamed(None)                                    # no lakefile at all
         assert unnamed('name = "hellopkg"\n')                   # no [[lean_lib]]
-        assert unnamed('[[lean_lib]]\nroots = []\n')            # a target naming nothing
         assert unnamed('[[lean_lib]\nname = "Foo"\n')           # not TOML
+        # A target that names nothing does not fall through to the package name: the `hellopkg`
+        # case again, where falling through lands the wrong casing rather than an error.
+        assert unnamed('name = "hellopkg"\n[[lean_lib]]\nroots = []\n')
 
     print("selftest ok")
     return 0
