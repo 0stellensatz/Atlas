@@ -15,7 +15,7 @@ Each project is a self-contained Lake package with its own `lakefile.toml`, `lea
 ```
 <Project>/
 ├── lakefile.toml   lean-toolchain   lake-manifest.json   .gitignore
-├── README.md   CLAUDE.md   AGENTS.md → CLAUDE.md
+├── README.md   AGENTS.md   CLAUDE.md → AGENTS.md
 ├── __docs__/            the project's own copies of the rules it follows
 ├── __check__.py         the project's own copy of the structural checker
 ├── <Project>.lean       the root all-import module

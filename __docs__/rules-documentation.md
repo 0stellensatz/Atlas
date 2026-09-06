@@ -8,7 +8,7 @@ These rules follow the Mathlib documentation guidelines (https://leanprover-comm
 
 Three narrowings, all of them about the knowledge layer, where a docstring does more work here than it does anywhere else—it is simultaneously the documentation, the index entry, and the link.
 
-- **Which bibliography a cite key lives in** is fixed by `../CLAUDE.md`, and the rest of this document defers to that line and names none itself, so that it still holds when this repository is read on its own.
+- **Which bibliography a cite key lives in** is fixed by `../AGENTS.md`, and the rest of this document defers to that line and names none itself, so that it still holds when this repository is read on its own.
 - **A knowledge item's module docstring opens `# <Term>`—the term, and nothing else.** No article, no gloss, no sentence. That line *is* the index entry: `grep -h '^# ' Atlas/Knowledge/*.lean` is how the layer is read as a list, and a title that is a sentence makes the list useless. The summary paragraph beneath it is where the sentence goes.
 - **A backticked `Atlas.Knowledge.<Item>` module name in a docstring is a link, and may name an item that does not exist yet.** That is deliberate: the set of items promised but unwritten is exactly what `./__graph__.sh` colors red, and nothing else tracks the backlog. **It is not a dangling reference to be "fixed"**, and an item must never be deleted, renamed, or stubbed out to make one resolve. Write the item, or leave the promise standing. (A backticked *declaration* inside an item—`Atlas.Knowledge.digitSum`—is an ordinary fully-qualified name in the sense above, not a link; the lowercase initial is the difference, and the graph ignores it.)
 
@@ -62,7 +62,7 @@ Sections that do not apply are omitted rather than left empty. In a source-forma
 
 **Every claim taken from the literature carries its source.** This is the rule that matters most here: a reading-note formalization whose statements do not say where they come from is unusable a month later.
 
-- A reference is cited by its **cite key in the bibliography the project cites against**, which the project's `CLAUDE.md` names, enclosed in square brackets: `[Pagano2022]`, `[Serre1978]`. The bracketed-key form is Mathlib's citation syntax, so a file that is later upstreamed only needs its entries moved to `docs/references.bib`.
+- A reference is cited by its **cite key in the bibliography the project cites against**, which the project's `AGENTS.md` names, enclosed in square brackets: `[Pagano2022]`, `[Serre1978]`. The bracketed-key form is Mathlib's citation syntax, so a file that is later upstreamed only needs its entries moved to `docs/references.bib`.
 - Custom link text goes ahead of the key in its own brackets: `[Corps Locaux][Serre1968]`. A closing `]` inside the link text breaks the syntax, so do not write `[Euclid's *Elements* [Prop. 1]][heath1956a]`.
 - **Never invent a key.** Cite only a key that exists in the bibliography; if the work is not there, add the entry first, then cite the key it produced.
 - A pinpoint follows the key inside the brackets, abbreviated `Chap.`, `§` / `§§`, `p.` / `pp.` (no space before the number), and `Thm.` / `Prop.` / `Cor.` / `Lem.` / `Def.` / `Rem.`: `[Serre1968, Chap. III, §3]`, `[AtiyahMacDonald1969, p.8]`, `[Pagano2022, Prop. 2.3]`.
