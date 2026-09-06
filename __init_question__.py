@@ -11,6 +11,10 @@ The directory says what the unit is about — `20260813LegendreFormula`, the day
 and the subject it is on.  A day that turns to a second, unrelated subject gets a second unit
 sharing the date prefix, rather than a second question filed under the first one's name.
 
+The project's name is read from `lakefile.toml` — not from the directory this file sits in,
+which need not carry the package name at all, and in a git worktree does not.  Reading the
+lakefile needs `tomllib`, so this script wants Python 3.11 or newer.
+
 Two modes:
 
     python3 __init_question__.py <Topic> [YYYYMMDD]
@@ -43,11 +47,71 @@ import io
 import re
 import string
 import sys
+import tempfile
 from pathlib import Path
 from typing import NoReturn
 
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python < 3.11
+    sys.exit("error: __init_question__.py needs Python 3.11 or newer, for tomllib")
+
 PROJECT = Path(__file__).resolve().parent          # the project root
-NAME = PROJECT.name                                # the Lake package / library name
+
+
+def die(msg) -> NoReturn:
+    print(f"error: {msg}", file=sys.stderr)
+    sys.exit(1)
+
+
+def package_name(lakefile) -> str:
+    """The library this script writes into, as `lakefile.toml` names it.
+
+    Not the checkout directory's name.  Everything below keys off `<Name>/`, `<Name>.lean` and
+    the module prefix of every line written into them, and a checkout directory need not carry
+    the package name — a git worktree's does not — so deriving the name from it made this
+    script refuse to scaffold there, for a reason having nothing to do with the unit posed.
+
+    By default Lake roots a `lean_lib` at its own name, which is where `roots` and the target
+    name come in; a lakefile setting `srcDir` moves the tree out from under that and is not
+    handled, as it was not before.  Anything that leaves the library unidentified is fatal,
+    including a lakefile that is missing altogether, since falling back to the directory is
+    precisely the bug.
+
+    This is `__check__.py`'s derivation, copied rather than imported: the two ship in the
+    template as separate files, each usable without the other, and `sys.path` is keyed to the
+    invoked path rather than the resolved one, so a symlinked copy of this script would import
+    a sibling out of the wrong tree.  The two readings must agree — a name that differed would
+    have the checker check a library this script is not writing to — so a change here is a
+    change there.
+    """
+    try:
+        config = tomllib.loads(lakefile.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        die(f"{lakefile.parent} is not a Lake project (no {lakefile.name})")
+    except (OSError, ValueError) as error:
+        die(f"{lakefile.name}: {error}")
+
+    libs = [lib for lib in config.get("lean_lib", ()) if isinstance(lib, dict)]
+    if not libs:
+        die(f"{lakefile.name} declares no [[lean_lib]] target to write to")
+
+    # A question goes into the library a plain `lake build` builds, where there are several:
+    # the unit it scaffolds has to be reachable from that library's root module.
+    default = config.get("defaultTargets")
+    wanted = set(default) if isinstance(default, list) else set()
+    libs = [lib for lib in libs if lib.get("name") in wanted] or libs
+
+    roots = libs[0].get("roots")
+    if isinstance(roots, list) and roots and isinstance(roots[0], str):
+        return roots[0]
+    name = libs[0].get("name")
+    if isinstance(name, str) and name:
+        return name
+    die(f"{lakefile.name}: the [[lean_lib]] target has no name")
+
+
+NAME = package_name(PROJECT / "lakefile.toml")     # the Lake package / library name
 LIB_DIR = PROJECT / NAME                           # the library source tree
 QUESTIONS = LIB_DIR / "Questions"                  # one directory per unit posed
 ROOT_MODULE = PROJECT / f"{NAME}.lean"             # the root all-import module
@@ -62,11 +126,6 @@ DEV_IMPORT_RE = re.compile(
 # A unit's topic, spelled as the module component it becomes: UpperCamelCase, like every other
 # module name in the tree.  ASCII, since the directory only has to sort and grep.
 TOPIC_RE = re.compile(r"^[A-Z][A-Za-z0-9]*$")
-
-
-def die(msg) -> NoReturn:
-    print(f"error: {msg}", file=sys.stderr)
-    sys.exit(1)
 
 
 def namespace(stem):
@@ -562,6 +621,38 @@ def selftest():
     before = insert_dev_import(added, "20260813Digits")
     assert before.splitlines()[-2] == (
         f"import {NAME}.Questions.«20260813Digits».Development"), before
+
+    # package_name: the lakefile names the library, and every way of leaving it unnamed is
+    # fatal rather than a fall back to the directory, which is the bug this read exists for.
+    with tempfile.TemporaryDirectory() as tmp:
+        lakefile = Path(tmp) / "lakefile.toml"
+
+        def named(text):
+            lakefile.write_text(text, encoding="utf-8")
+            return package_name(lakefile)
+
+        def unnamed(text):
+            if text is None:
+                lakefile.unlink(missing_ok=True)
+            else:
+                lakefile.write_text(text, encoding="utf-8")
+            try:
+                with contextlib.redirect_stderr(io.StringIO()):
+                    package_name(lakefile)
+            except SystemExit:
+                return True
+            return False
+
+        # `lake new hellopkg lib` writes `name = "hellopkg"` beside `[[lean_lib]]` `"Hellopkg"`,
+        # so the package-level name is never the answer, and `roots` outranks the target name.
+        assert named('name = "hellopkg"\n[[lean_lib]]\nname = "Hellopkg"\n') == "Hellopkg"
+        assert named('[[lean_lib]]\nname = "Foo"\nroots = ["Bar"]\n') == "Bar"
+        assert named('defaultTargets = ["b"]\n'
+                     '[[lean_lib]]\nname = "a"\n[[lean_lib]]\nname = "b"\n') == "b"
+        assert unnamed(None)                                    # no lakefile at all
+        assert unnamed('name = "hellopkg"\n')                   # no [[lean_lib]]
+        assert unnamed('[[lean_lib]]\nroots = []\n')            # a target naming nothing
+        assert unnamed('[[lean_lib]\nname = "Foo"\n')           # not TOML
 
     print("selftest ok")
     return 0
