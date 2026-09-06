@@ -64,8 +64,8 @@ except ModuleNotFoundError:  # Python < 3.11
 PROJECT = Path(__file__).resolve().parent
 
 
-def package_name() -> str:
-    """The library this script checks, as `lakefile.toml` names it.
+def package_name(lakefile: Path) -> str:
+    """The library that `lakefile`, a project's `lakefile.toml`, names.
 
     Not the checkout directory's name.  Every check below keys off `<Name>/` and
     `<Name>.lean`, and a checkout directory need not carry the package name --- a
@@ -76,20 +76,26 @@ def package_name() -> str:
     and the target name come in; a lakefile setting `srcDir` moves the tree out
     from under that and is not handled, as it was not before.  Anything that
     leaves the library unidentified is fatal here rather than a fall back to the
-    directory, since falling back is precisely the bug.  A lakefile that is
-    missing altogether is left to `main`, which reports it in its own terms.
+    directory, since falling back is precisely the bug --- a lakefile that is
+    missing altogether included.
+
+    This is the project's one reading of a lakefile.  `__init_question__.py`
+    imports it and `__graph__.sh` calls it, so that a question cannot be
+    scaffolded into one library while another is checked, and the graph cannot be
+    drawn over a third.  It takes the path rather than reading `PROJECT` so that
+    the scaffolder's `--selftest` can drive it over lakefiles that are not this
+    project's.
     """
-    lakefile = PROJECT / "lakefile.toml"
     try:
         config = tomllib.loads(lakefile.read_text(encoding="utf-8"))
     except FileNotFoundError:
-        return PROJECT.name
+        sys.exit(f"error: {lakefile.parent} is not a Lake project (no {lakefile.name})")
     except (OSError, ValueError) as error:
-        sys.exit(f"error: lakefile.toml: {error}")
+        sys.exit(f"error: {lakefile.name}: {error}")
 
     libs = [lib for lib in config.get("lean_lib", ()) if isinstance(lib, dict)]
     if not libs:
-        sys.exit("error: lakefile.toml declares no [[lean_lib]] target to check")
+        sys.exit(f"error: {lakefile.name} declares no [[lean_lib]] target")
 
     # Check 1 asks whether a plain `lake build` can omit a file, so where a
     # lakefile carries several libraries the one that `lake build` builds is the
@@ -104,10 +110,10 @@ def package_name() -> str:
     name = libs[0].get("name")
     if isinstance(name, str) and name:
         return name
-    sys.exit("error: lakefile.toml: the [[lean_lib]] target has no name")
+    sys.exit(f"error: {lakefile.name}: the [[lean_lib]] target has no name")
 
 
-NAME = package_name()
+NAME = package_name(PROJECT / "lakefile.toml")
 
 DECL_KEYWORDS = (
     "theorem",
@@ -472,10 +478,6 @@ def compare(
 
 
 def main() -> int:
-    if not (PROJECT / "lakefile.toml").is_file():
-        print(f"error: {PROJECT} is not a Lake project (no lakefile.toml)", file=sys.stderr)
-        return 1
-
     errors: list[str] = []
     warnings: list[str] = []
     modules = project_modules()
