@@ -58,6 +58,7 @@ import Atlas.Knowledge.ArtinRamificationCompatibility
 import Atlas.Knowledge.ArtinRestrictionEquiv
 import Atlas.Knowledge.ArtinRestrictionNormKernel
 import Atlas.Knowledge.ArtinRestrictionNormLift
+import Atlas.Knowledge.ArtinRestrictionNormQuotient
 import Atlas.Knowledge.ArtinUniformizerResidueDegree
 import Atlas.Knowledge.AxSenTate
 import Atlas.Knowledge.BreakFunction
