@@ -1,5 +1,7 @@
 import Mathlib
+import Atlas.Knowledge.AbelianizedKummerRootQuotient
 import Atlas.Knowledge.IsLocalReciprocity
+import Atlas.Knowledge.IsMixedCharLocalField
 
 /-!
 # local Hilbert symbol
@@ -9,11 +11,12 @@ The `n`-th Hilbert symbol of a mixed-characteristic local field, as a characteri
 absolute reciprocity map — every lift of `φ (b)` moves every `n`-th root `β` of `a` in the
 algebraic closure by the factor `h a b`. This is the literature's `(a, b) = s_b (α) / α`,
 `α ^ n = a`, read pointwise with `Atlas.Knowledge.IsLocalReciprocity` in the norm-residue
-slot; the symbol itself is as unconstructible here as the Artin map it is built from, so the
-predicate is the item. What the characterization already pins, it pins sorry-free: the values
-are `n`-th roots of unity, the symbol is bimultiplicative, both slots kill `n`-th powers, and
-two symbols for the same `n` agree — everything provable now is proved below, and only
-existence is recorded ahead of its proof.
+slot; the symbol is characterized rather than constructed, as the reciprocity map is, so the
+predicate is the item. Everything the characterization pins, it pins sorry-free: the values
+are `n`-th roots of unity, the symbol is bimultiplicative, both slots kill `n`-th powers, two
+symbols for the same `n` agree, and a symbol exists — the last from the reciprocity map's
+existence and `Atlas.Knowledge.AbelianizedKummerRootQuotient`, the well-definedness of the
+root quotient on `G_K^ab`.
 
 ## Main definitions
 
@@ -21,13 +24,14 @@ existence is recorded ahead of its proof.
 
 ## Main statements
 
-* `exists_isLocalHilbertSymbol` — existence, recorded ahead of its proof.
+* `exists_isLocalHilbertSymbol` — existence; proved, the value at `(a, b)` being the
+  abelianized root quotient of `a` at the class `φ (b)` of the reciprocity map.
 * `IsLocalHilbertSymbol.pow_eq_one`, `.mul_left`, `.mul_right` — the values are `n`-th roots
   of unity and the symbol is bimultiplicative; proved from the characterization alone.
 * `IsLocalHilbertSymbol.pow_left_eq_one`, `.pow_right_eq_one` — `n`-th powers die in either
   slot; the trivial halves of nondegeneracy, proved.
-* `IsLocalHilbertSymbol.unique` — the characterization pins the symbol; proved modulo the
-  recorded uniqueness of the reciprocity map.
+* `IsLocalHilbertSymbol.unique` — the characterization pins the symbol; proved, through the
+  uniqueness of the reciprocity map.
 
 ## Implementation notes
 
@@ -44,10 +48,14 @@ predicate makes every lift of `φ (1)` fix every radical, so it places every `n`
 every unit inside the abelianized closure — off `μ_n ⊂ K` it is unsatisfiable, the proved
 lemmas below are vacuous there, and `exists_isLocalHilbertSymbol` states the hypothesis
 explicitly. At `n = 0` the same mechanism turns contradictory against dense range — every
-element is a `0`-th root of `1`, so every lift of every `φ (b)` is forced to be the
-identity; the pinning statements carry `n ≠ 0` because root existence does. `unique`
-consumes the recorded claim `Atlas.Knowledge.IsLocalReciprocity.unique`, and the axiom audit
-tracks that inheritance — the proof is genuine, the taint deliberate.
+element is a `0`-th root of `1`, so every lift of every `φ (b)` is forced to be the identity;
+the pinning statements carry `n ≠ 0` because root existence does. `unique` consumes
+`Atlas.Knowledge.IsLocalReciprocity.unique`, proved since the reciprocity engine landed, so
+the file carries no recorded claim. The existence proof takes the reciprocity map of
+`Atlas.Knowledge.exists_isLocalReciprocity` and, for each pair `(a, b)`, the scalar of
+`Atlas.Knowledge.abelianizedKummerRootQuotient` at the class `φ (b)`: `choose` assembles the
+function, and the characterization is that lemma's conclusion verbatim, so no root and no
+lift is chosen in the statement.
 
 ## References
 
@@ -82,13 +90,16 @@ def IsLocalHilbertSymbol (n : ℕ) (h : Kˣ → Kˣ → Kˣ) : Prop :=
       ∀ β : AlgebraicClosure K, β ^ n = algebraMap K (AlgebraicClosure K) (a : K) →
         σ β = algebraMap K (AlgebraicClosure K) ((h a b : Kˣ) : K) * β
 
-/-- An `n`-th Hilbert symbol exists once `K` contains the `n`-th roots of unity. Claim
-recorded ahead of its proof ([Serre 1979, Chap. XIV, §2, p.206][Serre1979];
+/-- An `n`-th Hilbert symbol exists once `K` contains the `n`-th roots of unity: its value at
+`(a, b)` is the scalar by which every lift of `φ (b)` moves every `n`-th root of `a`, `φ` the
+reciprocity map ([Serre 1979, Chap. XIV, §2, p.206 and Prop. 6, p.208][Serre1979];
 Yamaguchi 2026, `LocalClassFieldTheory/Kummer/LocalHilbertSymbol.lean:44`). -/
 theorem exists_isLocalHilbertSymbol (n : ℕ) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) :
     ∃ h : Kˣ → Kˣ → Kˣ, IsLocalHilbertSymbol K n h := by
-  sorry
+  obtain ⟨φ, hφ⟩ := exists_isLocalReciprocity K
+  choose h hh using fun a b : Kˣ => abelianizedKummerRootQuotient hn hmu a (φ b)
+  exact ⟨h, φ, hφ, hh⟩
 
 namespace IsLocalHilbertSymbol
 
@@ -218,9 +229,8 @@ theorem pow_right_eq_one (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0) (a c :
   rw [key n, pow_eq_one hh hn]
 
 /-- The characterization pins the symbol: two `n`-th Hilbert symbols agree. The proof
-consumes the recorded uniqueness of the reciprocity map,
-`Atlas.Knowledge.IsLocalReciprocity.unique`, and inherits its backlog through the axiom
-audit ([Serre 1979, Chap. XIV, §2, Prop. 6, p.208][Serre1979];
+consumes the uniqueness of the reciprocity map, `Atlas.Knowledge.IsLocalReciprocity.unique`
+([Serre 1979, Chap. XIV, §2, Prop. 6, p.208][Serre1979];
 [Milne 2020, Chap. III, §4, Rem. 4.5, p.114][MilneCFT]). -/
 theorem unique (hn : n ≠ 0) {h₁ h₂ : Kˣ → Kˣ → Kˣ} (hh₁ : IsLocalHilbertSymbol K n h₁)
     (hh₂ : IsLocalHilbertSymbol K n h₂) : h₁ = h₂ := by

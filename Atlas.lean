@@ -10,6 +10,7 @@ import Atlas.Knowledge.AbelianLocalArtinMonoidHomRestrict
 import Atlas.Knowledge.AbelianizedGaloisCyclotomicRigidity
 import Atlas.Knowledge.AbelianizedGaloisRecovery
 import Atlas.Knowledge.AbelianizedGaloisTransfer
+import Atlas.Knowledge.AbelianizedKummerRootQuotient
 import Atlas.Knowledge.AbelianizedRestrictionComp
 import Atlas.Knowledge.AbelianizedTransferOfInjective
 import Atlas.Knowledge.AbsoluteAbelianOpenSubgroupField
@@ -94,6 +95,7 @@ import Atlas.Knowledge.CyclotomicNormalizedTraceBound
 import Atlas.Knowledge.DecompositionResidueExactSequence
 import Atlas.Knowledge.DeepUnitGroup
 import Atlas.Knowledge.DegreeData
+import Atlas.Knowledge.DenseGaloisFixedElement
 import Atlas.Knowledge.DigitSum
 import Atlas.Knowledge.DoubleCosetOrbitGeometry
 import Atlas.Knowledge.EisensteinFieldInvariant
@@ -160,6 +162,7 @@ import Atlas.Knowledge.FinrankResidueInertia
 import Atlas.Knowledge.FixedFieldInclusion
 import Atlas.Knowledge.FixedTowerUnitCorrection
 import Atlas.Knowledge.FixedTowerUnitDescent
+import Atlas.Knowledge.FixingSubgroupAdjoinSimple
 import Atlas.Knowledge.FormalLogExp
 import Atlas.Knowledge.FormalLogPow
 import Atlas.Knowledge.FreeCharacterJumpSets
