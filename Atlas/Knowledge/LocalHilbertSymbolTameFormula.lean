@@ -1,5 +1,10 @@
 import Mathlib
+import Atlas.Knowledge.HigherUnitGroup
+import Atlas.Knowledge.HigherUnitGroupCongruence
 import Atlas.Knowledge.IsLocalHilbertSymbol
+import Atlas.Knowledge.IsMixedCharLocalField
+import Atlas.Knowledge.LocalHilbertSymbolSkewSymmetry
+import Atlas.Knowledge.LocalHilbertSymbolUnitUniformizer
 import Atlas.Knowledge.NormalizedValuation
 
 /-!
@@ -12,12 +17,15 @@ the symbol. The formula is stated as a congruence — the symbol and `c ^ ((q - 
 by an element of valuation less than one — and the two facts that give the congruence its
 force are proved here: reduction is injective on tame roots of unity, so the congruence pins
 the symbol exactly, and `n` divides `q - 1`, so the exponent is the integer the literature
-writes. The formula itself is the recorded claim.
+writes. The formula itself is proved, by Serre's reduction: the unit-against-uniformizer case
+is `Atlas.Knowledge.LocalHilbertSymbolUnitUniformizer`, the Frobenius congruence on the
+unramified Kummer field, and bimultiplicativity with the skew-symmetry of
+`Atlas.Knowledge.LocalHilbertSymbolSkewSymmetry` carry it to every pair, the congruences
+travelling as memberships in the first higher unit group.
 
 ## Main statements
 
-* `localHilbertSymbol_tame_formula` — Serre's tame formula in congruence form, recorded
-  ahead of its proof.
+* `localHilbertSymbol_tame_formula` — Serre's tame formula in congruence form; proved.
 * `eq_one_of_pow_eq_one_of_valuation_sub_one_lt` — a tame `n`-th root of unity congruent to
   `1` is `1`: reduction is injective on `μ_n`, which is what makes the congruence above an
   exact determination.
@@ -37,13 +45,24 @@ The source's only tame statement
 (`LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:937`) is the unit-first special
 case — its first slot is a valuation-ring unit, so the `(-1)` factor and the `b ^ (- v a)`
 term are invisible in it, and the general orientation rests on Serre alone, the reduction to
-uniformizers of Prop. 8's proof included. On that sub-case the formulas agree: the source's
-two departures — transposed slots and inverted Artin normalization, recorded in
-`Atlas.Knowledge.IsLocalHilbertSymbol`'s notes — cancel by skew-symmetry, and its exponent
-`- valuationMap` is already the standard valuation, with nothing left to reconcile. The
-injectivity proof needs no ultrametric dominance: from `(1 + x) ^ n = 1` the binomial
-expansion factors as `x · (n + x · S) = 0` with `S` integral, forcing `v (n) ≤ v (x) < 1`
-outright.
+uniformizers of Prop. 8's proof included. That reduction is how the general form is proved
+here: a uniformizer `ϖ` splits `a = u_a ϖ ^ α` and `b = u_b ϖ ^ β`, the symbol is the product
+`(u_a, u_b) (u_a, ϖ) ^ β (ϖ, u_b) ^ α (ϖ, ϖ) ^ (α β)` by `zpow`-bimultiplicativity, and the
+four factors are congruent to `1`, `(u_a ^ k) ^ β`, `(u_b ^ k) ^ (-α)` and
+`((-1) ^ k) ^ (α β)` with `k = (q - 1) / n` — the unit-against-uniformizer congruence at `ϖ`
+and at `ϖ u_b` for the first, `Atlas.Knowledge.IsLocalHilbertSymbol.skew` for the third, and
+`(ϖ, ϖ) = (-1, ϖ)` from `Atlas.Knowledge.IsLocalHilbertSymbol.neg_self` with `skew` for the
+last. The congruences are carried as memberships `x⁻¹ y ∈ U₁` through
+`Atlas.Knowledge.HigherUnitGroupCongruence`, so that products, inverses and integer powers of
+congruences are subgroup closure and the final identity is associativity and commutativity
+alone; the unit parts are introduced as opaque variables with their defining equations, since
+`set` lets `rw` see through them and match the bimultiplicativity lemmas inside their bodies.
+On that sub-case the formulas agree: the source's two departures — transposed slots and
+inverted Artin normalization, recorded in `Atlas.Knowledge.IsLocalHilbertSymbol`'s notes —
+cancel by skew-symmetry, and its exponent `- valuationMap` is already the standard valuation,
+with nothing left to reconcile. The injectivity proof needs no ultrametric dominance: from
+`(1 + x) ^ n = 1` the binomial expansion factors as `x · (n + x · S) = 0` with `S` integral,
+forcing `v (n) ≤ v (x) < 1` outright.
 
 ## References
 
@@ -204,8 +223,10 @@ theorem dvd_card_residueField_sub_one {n : ℕ} (hn : valuation K ((n : ℕ) : K
 Hilbert symbol `(a, b)` is congruent modulo the maximal ideal to
 `((-1) ^ (v a · v b) · a ^ v b · b ^ (- v a)) ^ ((q - 1) / n)` — Serre's
 `c = (-1)^{αβ} a^β / b^α` raised to `(q - 1) / n`, read through the reduction that
-`eq_one_of_pow_eq_one_of_valuation_sub_one_lt` makes exact. Claim recorded ahead of its
-proof ([Serre 1979, Chap. XIV, §3, Prop. 8 and Cor., pp.210–211][Serre1979]; Yamaguchi 2026,
+`eq_one_of_pow_eq_one_of_valuation_sub_one_lt` makes exact. Proved by Serre's reduction to a
+unit against a uniformizer, `Atlas.Knowledge.localHilbertSymbol_unit_uniformizer`, through
+bimultiplicativity and skew-symmetry
+([Serre 1979, Chap. XIV, §3, Prop. 8 and Cor., pp.210–211][Serre1979]; Yamaguchi 2026,
 `LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:937`, the unit-first special
 case). -/
 theorem localHilbertSymbol_tame_formula {n : ℕ} {h : Kˣ → Kˣ → Kˣ}
@@ -216,6 +237,131 @@ theorem localHilbertSymbol_tame_formula {n : ℕ} {h : Kˣ → Kˣ → Kˣ}
         ((((-1 : Kˣ) ^ (normalizedValuation K a * normalizedValuation K b) *
             a ^ normalizedValuation K b * b ^ (- normalizedValuation K a)) ^
               ((Nat.card 𝓀[K] - 1) / n) : Kˣ) : K)) < 1 := by
-  sorry
+  have hn0 : n ≠ 0 := by
+    rintro rfl
+    simp at hn
+  set k := (Nat.card 𝓀[K] - 1) / n with hkdef
+  -- the values of the symbol are units of the integers
+  have hval : ∀ x y : Kˣ, valuation K ((h x y : Kˣ) : K) = 1 := fun x y =>
+    valuation_eq_one_of_pow_eq_one K hn0
+      (by rw [← Units.val_pow_eq_pow_val, IsLocalHilbertSymbol.pow_eq_one hh hn0 x y,
+        Units.val_one])
+  set U := higherUnitGroup K 1 with hUdef
+  have hcong : ∀ x y : Kˣ, valuation K (x : K) = 1 →
+      (valuation K ((x : K) - y) < 1 ↔ x⁻¹ * y ∈ U) := fun x y hx =>
+    (inv_mul_mem_higherUnitGroup_one_iff K x y hx).symm
+  -- the symbol is bimultiplicative, hence `zpow`-multiplicative in each slot
+  have hR : ∀ (x y : Kˣ) (m : ℤ), h x (y ^ m) = h x y ^ m := fun x y m =>
+    map_zpow (MonoidHom.mk' (h x) (IsLocalHilbertSymbol.mul_right hh hn0 x)) y m
+  have hL : ∀ (x y : Kˣ) (m : ℤ), h (x ^ m) y = h x y ^ m := fun x y m =>
+    map_zpow (MonoidHom.mk' (fun x => h x y)
+      (fun x x' => IsLocalHilbertSymbol.mul_left hh hn0 x x' y)) x m
+  -- a uniformizer, and the unit parts of `a` and `b`
+  obtain ⟨ϖ, hϖ⟩ := normalizedValuation_surjective K 1
+  set α := normalizedValuation K a with hαdef
+  set β := normalizedValuation K b with hβdef
+  have hunit : ∀ x : Kˣ, normalizedValuation K x = 0 → valuation K (x : K) = 1 := fun x hx =>
+    (mem_ker_normalizedValuationHom K x).mp (by
+      rw [MonoidHom.mem_ker]
+      apply Multiplicative.toAdd.injective
+      rw [toAdd_normalizedValuationHom, hx]
+      rfl)
+  obtain ⟨ua, hua_def⟩ : ∃ ua : Kˣ, ua = a * ϖ ^ (-α) := ⟨_, rfl⟩
+  obtain ⟨ub, hub_def⟩ : ∃ ub : Kˣ, ub = b * ϖ ^ (-β) := ⟨_, rfl⟩
+  have hua : valuation K (ua : K) = 1 := hunit ua (by
+    rw [hua_def, normalizedValuation_mul, normalizedValuation_zpow, hϖ]; ring)
+  have hub : valuation K (ub : K) = 1 := hunit ub (by
+    rw [hub_def, normalizedValuation_mul, normalizedValuation_zpow, hϖ]; ring)
+  have ha : a = ua * ϖ ^ α := by
+    rw [hua_def, mul_assoc, ← zpow_add, neg_add_cancel, zpow_zero, mul_one]
+  have hb : b = ub * ϖ ^ β := by
+    rw [hub_def, mul_assoc, ← zpow_add, neg_add_cancel, zpow_zero, mul_one]
+  -- (A) a unit against a uniformizer: the power residue symbol
+  have hA : ∀ u ϖ' : Kˣ, valuation K (u : K) = 1 → normalizedValuation K ϖ' = 1 →
+      (h u ϖ')⁻¹ * u ^ k ∈ U := fun u ϖ' hu hϖ' =>
+    (hcong _ _ (hval u ϖ')).mp
+      (localHilbertSymbol_unit_uniformizer K hh hn hmu (dvd_card_residueField_sub_one K hn hmu) u
+        hu ϖ' hϖ')
+  -- (B) two units: trivial
+  have hB : ∀ u u' : Kˣ, valuation K (u : K) = 1 → valuation K (u' : K) = 1 → h u u' ∈ U := by
+    intro u u' hu hu'
+    have h1 := hA u ϖ hu hϖ
+    have h2 := hA u (ϖ * u') hu (by
+      rw [normalizedValuation_mul, hϖ, normalizedValuation_eq_zero_of_valuation_eq_one K u' hu',
+        add_zero])
+    have h3 : h u u' = ((h u ϖ)⁻¹ * u ^ k) * ((h u (ϖ * u'))⁻¹ * u ^ k)⁻¹ := by
+      rw [IsLocalHilbertSymbol.mul_right hh hn0]
+      have hx := (h u ϖ).ne_zero
+      have hy := (h u u').ne_zero
+      have hz := u.ne_zero
+      ext
+      push_cast
+      field_simp
+    rw [h3]
+    exact U.mul_mem h1 (U.inv_mem h2)
+  -- (C) a uniformizer against a unit: the inverse power residue symbol, by skew-symmetry
+  have hC : ∀ u ϖ' : Kˣ, valuation K (u : K) = 1 → normalizedValuation K ϖ' = 1 →
+      (h ϖ' u)⁻¹ * (u ^ k)⁻¹ ∈ U := by
+    intro u ϖ' hu hϖ'
+    have hs := IsLocalHilbertSymbol.skew hh hn0 hmu ϖ' u
+    have h1 := hA u ϖ' hu hϖ'
+    have h3 : (h ϖ' u)⁻¹ * (u ^ k)⁻¹ = ((h u ϖ')⁻¹ * u ^ k)⁻¹ := by
+      rw [eq_inv_of_mul_eq_one_left hs, mul_inv]
+    rw [h3]
+    exact U.inv_mem h1
+  -- (D) a uniformizer against itself: `(ϖ, ϖ) = (-1, ϖ)`
+  have hD : ∀ ϖ' : Kˣ, normalizedValuation K ϖ' = 1 → (h ϖ' ϖ')⁻¹ * (-1 : Kˣ) ^ k ∈ U := by
+    intro ϖ' hϖ'
+    have hneg := IsLocalHilbertSymbol.neg_self hh hn0 hmu ϖ'
+    have hs := IsLocalHilbertSymbol.skew hh hn0 hmu ϖ' (-1)
+    have h1 := hA (-1) ϖ' (by simp) hϖ'
+    have e1 : h ϖ' (-ϖ') = h ϖ' ϖ' * h ϖ' (-1) := by
+      rw [show -ϖ' = ϖ' * (-1) by simp, IsLocalHilbertSymbol.mul_right hh hn0]
+    rw [hneg] at e1
+    have e2 : h ϖ' ϖ' = (h ϖ' (-1))⁻¹ := eq_inv_of_mul_eq_one_left e1.symm
+    have e3 : h (-1) ϖ' = (h ϖ' (-1))⁻¹ := eq_inv_of_mul_eq_one_right hs
+    rw [e2, ← e3]
+    exact h1
+  -- assemble
+  rw [hcong _ _ (hval a b)]
+  have hpz : ∀ (x : Kˣ) (m : ℤ), (x ^ m) ^ k = (x ^ k) ^ m := fun x m => by
+    rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast]
+  have e1 : h a b = h ua ub * h ua ϖ ^ β * h ϖ ub ^ α * h ϖ ϖ ^ (α * β) := by
+    conv_lhs => rw [ha, hb]
+    simp only [IsLocalHilbertSymbol.mul_left hh hn0, IsLocalHilbertSymbol.mul_right hh hn0, hR, hL,
+      ← zpow_mul]
+    ac_rfl
+  have hbase : (-1 : Kˣ) ^ (α * β) * a ^ β * b ^ (-α)
+      = (-1 : Kˣ) ^ (α * β) * ua ^ β * (ub ^ α)⁻¹ := by
+    rw [ha, hb, mul_zpow, mul_zpow, ← zpow_mul, ← zpow_mul, show β * -α = -(α * β) by ring,
+      zpow_neg, zpow_neg]
+    rw [show (-1 : Kˣ) ^ (α * β) * (ua ^ β * ϖ ^ (α * β)) * ((ub ^ α)⁻¹ * (ϖ ^ (α * β))⁻¹)
+        = (-1 : Kˣ) ^ (α * β) * ua ^ β * (ub ^ α)⁻¹ * (ϖ ^ (α * β) * (ϖ ^ (α * β))⁻¹) by ac_rfl,
+      mul_inv_cancel, mul_one]
+  have e2 : ((-1 : Kˣ) ^ (α * β) * a ^ β * b ^ (-α)) ^ k
+      = ((-1 : Kˣ) ^ k) ^ (α * β) * (ua ^ k) ^ β * ((ub ^ k) ^ α)⁻¹ := by
+    rw [hbase, mul_pow, mul_pow, hpz, hpz, inv_pow, hpz]
+  rw [e1, e2]
+  have m1 : (h ua ub)⁻¹ * 1 ∈ U := by
+    rw [mul_one]
+    exact U.inv_mem (hB ua ub hua hub)
+  have m2 : (h ua ϖ ^ β)⁻¹ * (ua ^ k) ^ β ∈ U := by
+    have := U.zpow_mem (hA ua ϖ hua hϖ) β
+    rwa [mul_zpow, inv_zpow] at this
+  have m3 : (h ϖ ub ^ α)⁻¹ * ((ub ^ k) ^ α)⁻¹ ∈ U := by
+    have := U.zpow_mem (hC ub ϖ hub hϖ) α
+    rwa [mul_zpow, inv_zpow, inv_zpow] at this
+  have m4 : (h ϖ ϖ ^ (α * β))⁻¹ * ((-1 : Kˣ) ^ k) ^ (α * β) ∈ U := by
+    have := U.zpow_mem (hD ϖ hϖ) (α * β)
+    rwa [mul_zpow, inv_zpow] at this
+  have e3 : (h ua ub * h ua ϖ ^ β * h ϖ ub ^ α * h ϖ ϖ ^ (α * β))⁻¹ *
+      (((-1 : Kˣ) ^ k) ^ (α * β) * (ua ^ k) ^ β * ((ub ^ k) ^ α)⁻¹)
+      = ((h ua ub)⁻¹ * 1) * ((h ua ϖ ^ β)⁻¹ * (ua ^ k) ^ β) *
+        ((h ϖ ub ^ α)⁻¹ * ((ub ^ k) ^ α)⁻¹) *
+        ((h ϖ ϖ ^ (α * β))⁻¹ * ((-1 : Kˣ) ^ k) ^ (α * β)) := by
+    simp only [mul_inv, mul_one]
+    ac_rfl
+  rw [e3]
+  exact U.mul_mem (U.mul_mem (U.mul_mem m1 m2) m3) m4
 
 end Atlas.Knowledge

@@ -209,6 +209,7 @@ import Atlas.Knowledge.HerbrandPhi
 import Atlas.Knowledge.HerbrandPsi
 import Atlas.Knowledge.HerbrandQuotient
 import Atlas.Knowledge.HigherUnitGroup
+import Atlas.Knowledge.HigherUnitGroupCongruence
 import Atlas.Knowledge.HilbertClassField
 import Atlas.Knowledge.HilbertNinety
 import Atlas.Knowledge.HilbertProductFormula
@@ -281,6 +282,7 @@ import Atlas.Knowledge.JumpSetSmall
 import Atlas.Knowledge.JumpSetVector
 import Atlas.Knowledge.KummerCharacterEquiv
 import Atlas.Knowledge.KummerField
+import Atlas.Knowledge.KummerFieldLowerRamificationGroupEqBot
 import Atlas.Knowledge.KummerPowSubNorm
 import Atlas.Knowledge.KummerRadicalSubgroup
 import Atlas.Knowledge.LegendreFormula
@@ -299,6 +301,7 @@ import Atlas.Knowledge.LocalHigherUnitClassSubgroup
 import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LocalHilbertSymbolSkewSymmetry
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
+import Atlas.Knowledge.LocalHilbertSymbolUnitUniformizer
 import Atlas.Knowledge.LocalKroneckerWeber
 import Atlas.Knowledge.LocalNormSubgroupExistence
 import Atlas.Knowledge.LocalReciprocityNormNaturality
