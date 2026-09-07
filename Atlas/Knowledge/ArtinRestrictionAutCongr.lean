@@ -42,8 +42,8 @@ variable (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCha
 
 /-- **Artin restrictions transport along compatible isomorphisms of floors**: for
 `e : L ≃ₐ[K] L'` under the embeddings into the closure, the conjugate of an Artin restriction
-of `L` by `AlgEquiv.autCongr e` is an Artin restriction of `L'` ([Serre 1979, Chap. XIII, §4,
-Prop. 11, p.197][Serre1979]). -/
+of `L` by `AlgEquiv.autCongr e` is an Artin restriction of `L'`
+([Serre 1979, Chap. XIII, §4, Prop. 11, p.197][Serre1979]). -/
 theorem IsArtinRestriction.of_algEquiv {L L' : Type*} [Field L] [Field L'] [Algebra K L]
     [Algebra K L'] [Algebra L (AlgebraicClosure K)] [Algebra L' (AlgebraicClosure K)]
     [IsScalarTower K L (AlgebraicClosure K)] [IsScalarTower K L' (AlgebraicClosure K)]
