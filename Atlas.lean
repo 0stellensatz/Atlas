@@ -290,6 +290,7 @@ import Atlas.Knowledge.LocalFixedResidueDegree
 import Atlas.Knowledge.LocalFixedResidueField
 import Atlas.Knowledge.LocalFixedResidueFinrank
 import Atlas.Knowledge.LocalHenselianValuation
+import Atlas.Knowledge.LocalHigherUnitClassSubgroup
 import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
 import Atlas.Knowledge.LocalKroneckerWeber
@@ -379,6 +380,7 @@ import Atlas.Knowledge.RayClassField
 import Atlas.Knowledge.RayClassGroup
 import Atlas.Knowledge.RealHigherUnitGroup
 import Atlas.Knowledge.RealLowerRamificationGroup
+import Atlas.Knowledge.RealPlaceClassSubgroup
 import Atlas.Knowledge.ReciprocityExactRows
 import Atlas.Knowledge.ReciprocityIndependence
 import Atlas.Knowledge.ReciprocityMap

@@ -1,6 +1,8 @@
 import Mathlib
 import Atlas.Knowledge.IdeleClassGroup
+import Atlas.Knowledge.IdeleGroup
 import Atlas.Knowledge.Modulus
+import Atlas.Knowledge.PrincipalIdele
 
 /-!
 # ray class group
@@ -26,6 +28,10 @@ theorem.
 ## Main statements
 
 * `localHigherUnitGroup_zero` — at level zero the condition is integrality alone; proved.
+* `mem_realPositiveSubgroup_iff`, `mem_finiteIdeleCongruenceSubgroup_iff`,
+  `mem_ideleCongruenceSubgroup_iff` — membership read off componentwise; proved.
+* `congruenceSubgroup_eq_map` — the join with the principal ideles is absorbed by the
+  quotient, so the congruence subgroup is the bare image; proved.
 * `isClosed_congruenceSubgroup` — recorded ahead of its proof.
 
 ## Implementation notes
@@ -118,6 +124,16 @@ noncomputable def realPositiveSubgroup (v : RealPlace K) :
       (Pi.evalRingHom (fun w : InfinitePlace K => w.Completion) v.1)).toMonoidHom)
     (Units.posSubgroup ℝ)
 
+omit [NumberField K] in
+/-- Positivity at a real place, read on the component: the real embedding of the
+`v`-coordinate is positive ([Milne 2020, Chap. V, §4, p.172][MilneCFT]). -/
+theorem mem_realPositiveSubgroup_iff (v : RealPlace K) (x : (InfiniteAdeleRing K)ˣ) :
+    x ∈ realPositiveSubgroup K v ↔
+      0 < InfinitePlace.Completion.extensionEmbeddingOfIsReal v.2
+        ((x : InfiniteAdeleRing K) v.1) := by
+  rw [realPositiveSubgroup, Subgroup.mem_comap, Units.mem_posSubgroup, Units.coe_map]
+  rfl
+
 /-- The finite congruence subgroup of a finite modulus: the congruence condition at every
 finite place, to the modulus's depth ([Milne 2020, Chap. V, §4, p.172][MilneCFT];
 Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/Basic.lean:120`). -/
@@ -127,12 +143,33 @@ noncomputable def finiteIdeleCongruenceSubgroup (m : HeightOneSpectrum (𝓞 K) 
   ⨅ v, Subgroup.comap (RestrictedProduct.evalMonoidHom _ v)
     (localHigherUnitGroup K v (m v))
 
+/-- Membership in the finite congruence subgroup is the local condition at every finite
+place ([Milne 2020, Chap. V, §4, p.172][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/RayClass/Basic.lean:130`). -/
+theorem mem_finiteIdeleCongruenceSubgroup_iff (m : HeightOneSpectrum (𝓞 K) →₀ ℕ)
+    (y : Πʳ v : HeightOneSpectrum (𝓞 K),
+      [(v.adicCompletion K)ˣ, (v.adicCompletionIntegers K).units]) :
+    y ∈ finiteIdeleCongruenceSubgroup K m ↔ ∀ v, y v ∈ localHigherUnitGroup K v (m v) := by
+  unfold finiteIdeleCongruenceSubgroup
+  simp only [Subgroup.mem_iInf, Subgroup.mem_comap, RestrictedProduct.evalMonoidHom_apply]
+
 /-- The **idele congruence subgroup** of a modulus: real positivity at its real places,
 finite congruence everywhere ([Milne 2020, Chap. V, §4, p.172][MilneCFT];
 Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/FullModulus.lean:307`). -/
 noncomputable def ideleCongruenceSubgroup (m : Modulus K) : Subgroup (IdeleGroup K) :=
   (⨅ v ∈ m.infinitePart, realPositiveSubgroup K v).prod
     (finiteIdeleCongruenceSubgroup K m.finitePart)
+
+/-- Membership in the idele congruence subgroup: positive at the modulus's real places,
+locally congruent at every finite place ([Milne 2020, Chap. V, §4, p.172][MilneCFT];
+Yamaguchi 2026, `AlgebraicNumberTheory/RayClass/FullModulus.lean:313`). -/
+theorem mem_ideleCongruenceSubgroup_iff (m : Modulus K) (y : IdeleGroup K) :
+    y ∈ ideleCongruenceSubgroup K m ↔
+      (∀ v ∈ m.infinitePart, y.1 ∈ realPositiveSubgroup K v) ∧
+        ∀ v, y.2 v ∈ localHigherUnitGroup K v (m.finitePart v) := by
+  unfold ideleCongruenceSubgroup
+  rw [Subgroup.mem_prod, mem_finiteIdeleCongruenceSubgroup_iff]
+  simp only [Subgroup.mem_iInf]
 
 /-- The **congruence subgroup** of the idele class group: the modulus's condition joined
 with the principal ideles, mapped down to `C_K`
@@ -141,6 +178,14 @@ with the principal ideles, mapped down to `C_K`
 noncomputable def congruenceSubgroup (m : Modulus K) : Subgroup (IdeleClassGroup K) :=
   Subgroup.map (QuotientGroup.mk' (principalIdeleSubgroup K))
     (ideleCongruenceSubgroup K m ⊔ principalIdeleSubgroup K)
+
+/-- The principal ideles die in the quotient, so the congruence subgroup is the bare image
+of the idele congruence subgroup ([Milne 2020, Chap. V, §4, p.172][MilneCFT]). -/
+theorem congruenceSubgroup_eq_map (m : Modulus K) :
+    congruenceSubgroup K m =
+      (ideleCongruenceSubgroup K m).map (QuotientGroup.mk' (principalIdeleSubgroup K)) := by
+  unfold congruenceSubgroup
+  rw [Subgroup.map_sup, QuotientGroup.map_mk'_self, sup_bot_eq]
 
 /-- The **ray class group** of a modulus, `C_K ⧸ C_K^𝔪`
 ([Milne 2020, Chap. V, §1, p.149][MilneCFT]; Yamaguchi 2026,
