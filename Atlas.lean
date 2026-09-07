@@ -55,10 +55,12 @@ import Atlas.Knowledge.ArtinMapNormNaturality
 import Atlas.Knowledge.ArtinMapProfiniteTransferNaturality
 import Atlas.Knowledge.ArtinNormKernelBaseChange
 import Atlas.Knowledge.ArtinRamificationCompatibility
+import Atlas.Knowledge.ArtinRestrictionAutCongr
 import Atlas.Knowledge.ArtinRestrictionEquiv
 import Atlas.Knowledge.ArtinRestrictionNormKernel
 import Atlas.Knowledge.ArtinRestrictionNormLift
 import Atlas.Knowledge.ArtinRestrictionNormQuotient
+import Atlas.Knowledge.ArtinRestrictionSubfloor
 import Atlas.Knowledge.ArtinRestrictionTower
 import Atlas.Knowledge.ArtinUniformizerResidueDegree
 import Atlas.Knowledge.AxSenTate
@@ -123,6 +125,7 @@ import Atlas.Knowledge.FilteredProfiniteGroup
 import Atlas.Knowledge.FilteredRhoMap
 import Atlas.Knowledge.FiniteAbelianClassification
 import Atlas.Knowledge.FiniteAbelianSubextension
+import Atlas.Knowledge.FiniteAbelianSubfieldCompositumNorm
 import Atlas.Knowledge.FiniteAbelianSubfieldOrder
 import Atlas.Knowledge.FiniteAbstractExtension
 import Atlas.Knowledge.FiniteAbstractField
@@ -223,10 +226,12 @@ import Atlas.Knowledge.IntegerHigherUnitCount
 import Atlas.Knowledge.IntegerHigherUnitGroup
 import Atlas.Knowledge.IntegerIsIntegralClosure
 import Atlas.Knowledge.IntegerLinearTopology
+import Atlas.Knowledge.IntegerUnitsNormalizedValuation
 import Atlas.Knowledge.IntegerValuation
 import Atlas.Knowledge.IntegralClosureDVR
 import Atlas.Knowledge.IntermediateFieldNormResidueNaturality
 import Atlas.Knowledge.IntermediateFieldRestrictNormalHom
+import Atlas.Knowledge.IntermediateFieldRestrictionKernel
 import Atlas.Knowledge.IntermediateFieldUnitsFixedSubgroup
 import Atlas.Knowledge.IntermediateGaloisCorrespondence
 import Atlas.Knowledge.IntermediateGaloisTransfer
@@ -488,6 +493,7 @@ import Atlas.Knowledge.UnramifiedQuotientGenerator
 import Atlas.Knowledge.UnramifiedReciprocityEquiv
 import Atlas.Knowledge.UnramifiedUnitCohomology
 import Atlas.Knowledge.UpperRamificationGroup
+import Atlas.Knowledge.UpperRamificationGroupSubfloor
 import Atlas.Knowledge.ValuationData
 import Atlas.Knowledge.ValuationResidueRootOfUnityLift
 import Atlas.Knowledge.WildBaseChange
