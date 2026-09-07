@@ -13,9 +13,9 @@ stated as equivalences whose trivial directions are proved in
 `Atlas.Knowledge.IsLocalHilbertSymbol`. The substantial direction of the left kernel is
 proved here by density: a root of `a` killed against every `b` is fixed by every lift of
 every value of the reciprocity map, a dense set of automorphisms, hence is rational. The
-substantial direction of the right kernel — the common kernel of the second slot is no
-larger than the powers — is the recorded claim, and the principal statement packages the
-two, matching the shape the read repository proves. The quotient pairing itself is not
+substantial direction of the right kernel — the common kernel of the second slot is no larger
+than the powers — is the recorded claim, and the principal statement packages the two,
+matching the shape the read repository proves. The quotient pairing itself is not
 constructed: nondegeneracy on the quotient *is* the kernel statement on representatives, and
 the layer states in Mathlib's vocabulary rather than bundling a descended map.
 
@@ -36,11 +36,12 @@ layer already uses for norm groups. The left statement quantifies the second slo
 no `n ≠ 0` in its trivial direction — the root of an `n`-th power is rational outright —
 while the right one runs through the values being `n`-th roots of unity. The left kernel's
 substantial direction needs no roots of unity at all: the lifts of the values `φ (b)` form
-the preimage of a dense range under the open quotient map onto `G_K^ab`, they all fix a root
-of `a` once every `h a b` is `1`, and `Atlas.Knowledge.denseGaloisFixedElement` puts the root
-in `K`; the `hmu` binder of `localHilbertSymbol_left_kernel` is therefore carried unused, the
-statement keeping its recorded form beside its sibling. The source proves the left kernel
-from its maximal-Kummer-extension apparatus
+the preimage of a dense range — the `denseRange` field of
+`Atlas.Knowledge.IsLocalReciprocity` — under the open quotient map onto `G_K^ab`, they all
+fix a root of `a` once every `h a b` is `1`, and `Atlas.Knowledge.denseGaloisFixedElement`
+puts the root in `K`; the `hmu` binder of `localHilbertSymbol_left_kernel` is therefore
+carried unused, the statement keeping its recorded form beside its sibling. The source proves
+the left kernel from its maximal-Kummer-extension apparatus
 (`LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:49`), derives the right
 kernel from it through skew-symmetry (`:120`), and packages nondegeneracy at `:355` — on the
 descended quotient, so the shape stated here on representatives is that of `:49` and `:120`.
@@ -69,8 +70,9 @@ variable {n : ℕ} {h : Kˣ → Kˣ → Kˣ}
 
 set_option linter.unusedVariables false in
 -- The roots-of-unity guard `hmu` is not consumed: the substantial direction is the density
--- argument and the trivial one is rational-root bookkeeping. The binder is kept so that the
--- statement matches its recorded form and its sibling, whose discharge does consume it.
+-- argument, which reads only the reciprocity map's range, and the trivial one is rational-root
+-- bookkeeping. The binder is kept so that the statement keeps its recorded form; the sibling
+-- right kernel's discharge does consume it.
 /-- The left kernel of the Hilbert symbol is exactly the `n`-th powers: `h a b = 1` for every
 `b` iff `a ∈ (Kˣ)ⁿ`. The forward direction is the density of the reciprocity map's range —
 every lift of every `φ (b)` fixes a root of `a`, so the root is fixed by a dense set of

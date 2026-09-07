@@ -1,5 +1,4 @@
 import Mathlib
-import Atlas.Knowledge.FixingSubgroupAdjoinSimple
 
 /-!
 # abelianized Kummer root quotient
@@ -10,7 +9,7 @@ multiplies every `n`-th root `β` of `a : Kˣ` in the algebraic closure by one s
 — `σ β = x β` for every lift `σ` of `g`, the same `x` for every lift and every root. This is
 the literature's `φ_a (s) = s (α) / α`, a homomorphism from `G_K` to `μ_n`, descended to the
 abelianization: its target is commutative, so it kills the commutator subgroup, and its
-kernel is the fixing subgroup of `K⟮β⟯`, closed in the Krull topology, so it kills the
+kernel is the stabilizer of `β`, open and hence closed in the Krull topology, so it kills the
 closure too. The item is what makes `Atlas.Knowledge.IsLocalHilbertSymbol` satisfiable: the
 symbol's value at `(a, b)` is this scalar at the class `φ (b)` of the reciprocity map.
 
@@ -29,18 +28,26 @@ power of the base's primitive root (`IsPrimitiveRoot.eq_pow_of_pow_eq_one`), whi
 puts the scalar in `Kˣ` and makes it fixed by every automorphism; that fixedness is the whole
 of the commutation lemma, and the commutation lemma applied to the root `τ⁻¹ (ρ⁻¹ β)` is the
 whole of the commutator computation. The descent to the closure is
-`Subgroup.topologicalClosure_minimal` against `IntermediateField.fixingSubgroup_isClosed`,
-read through `Atlas.Knowledge.fixingSubgroupAdjoinSimple`; the fixing subgroup is bound at
-the type `Field.absoluteGaloisGroup K` by a `let`, so that the derived topological-group
-instance of that type, not the Krull instance of the underlying automorphism group, is the
-one synthesized. Nothing about local fields enters — the statement holds over any field with
-the roots of unity, and `n ≠ 0` serves root existence alone; the three lemmas on one root —
-scalar, commutation, and the roots of unity coming from the base — are stated over an
-arbitrary extension `L`, since the finite Kummer extensions downstream need them as much as
-the closure does. The source has the finite-level root quotient
-(`KummerTheory/Concrete/RootCharacters.lean:75`) on a chosen finite Kummer extension and no
-abelianized form; the abelianized statement is this layer's, as
-`Atlas.Knowledge.IsLocalHilbertSymbol` is stated against `G_K^ab`.
+`Subgroup.topologicalClosure_minimal` against the stabilizer of the root, open by Mathlib's
+`stabilizer_isOpen_of_isIntegral` and closed by `Subgroup.isClosed_of_isOpen`; the stabilizer
+is bound at the type `Field.absoluteGaloisGroup K` by a `let`, so that the derived
+topological-group instance of that type, not the Krull instance of the underlying
+automorphism group, is the one synthesized. Nothing about local fields enters — the statement
+holds over any field with the roots of unity, and `n ≠ 0` serves root existence alone; the
+three lemmas on one root — scalar, commutation, and the roots of unity coming from the base —
+are stated over an arbitrary extension `L`, since the finite Kummer extensions downstream
+need them as much as the closure does. `Atlas.Knowledge.KummerCharacterEquiv` holds the same
+three steps in another carrier: privately, on units `Lˣ` with the quotient landing in
+`rootsOfUnity n L`, and publicly as the character `Atlas.Knowledge.kummerCharacterHom_apply`,
+valued in `rootsOfUnity n L` at a class of `Atlas.Knowledge.KummerRadicalSubgroup`. The
+closure argument cannot consume that interface: `Atlas.Knowledge.IsLocalHilbertSymbol` speaks
+of an element `β` of the closure, not a unit, and asks for the scalar in `Kˣ`, so the descent
+from a root of unity of `L` to a power of the base's primitive root — the content of
+`exists_algebraMap_pow_eq_of_pow_eq_one` — would have to be redone on the character's values;
+the lemmas here state that descent once, at the carrier the consumer uses. The source has the
+finite-level root quotient (`KummerTheory/Concrete/RootCharacters.lean:75`) on a chosen
+finite Kummer extension and no abelianized form; the abelianized statement is this layer's,
+as `Atlas.Knowledge.IsLocalHilbertSymbol` is stated against `G_K^ab`.
 
 ## References
 
@@ -99,7 +106,8 @@ theorem kummerRoot_apply_apply_comm {L : Type*} [Field L] [Algebra K L] {n : ℕ
 
 /-- Every element of the closure of the commutator subgroup of the absolute Galois group
 fixes every `n`-th root of a base element: a commutator fixes it by the commutation lemma, so
-the commutator subgroup lies in the fixing subgroup of `K⟮β⟯`, which is closed. -/
+the commutator subgroup lies in the stabilizer of the root, which is open in the Krull
+topology and hence closed. -/
 theorem kummerRoot_apply_eq_self_of_mem_commutator_topologicalClosure {n : ℕ} {ζ : K}
     (hζ : IsPrimitiveRoot ζ n) (hn : n ≠ 0) (a : Kˣ)
     {β : AlgebraicClosure K} (hβ : β ^ n = algebraMap K (AlgebraicClosure K) (a : K))
@@ -107,14 +115,12 @@ theorem kummerRoot_apply_eq_self_of_mem_commutator_topologicalClosure {n : ℕ} 
     (hσ : (σ : Field.absoluteGaloisGroup K) ∈
       (commutator (Field.absoluteGaloisGroup K)).topologicalClosure) :
     σ β = β := by
-  haveI : FiniteDimensional K (IntermediateField.adjoin K {β}) :=
-    IntermediateField.adjoin.finiteDimensional (Algebra.IsIntegral.isIntegral β)
   let H : Subgroup (Field.absoluteGaloisGroup K) :=
-    (IntermediateField.adjoin K {β}).fixingSubgroup
+    MulAction.stabilizer (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K) β
   have hmem : ∀ τ : AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K, τ β = β →
-      τ ∈ (IntermediateField.adjoin K {β}).fixingSubgroup := by
+      τ ∈ MulAction.stabilizer (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K) β := by
     intro τ hτ
-    rw [fixingSubgroupAdjoinSimple, MulAction.mem_stabilizer_iff, AlgEquiv.smul_def]
+    rw [MulAction.mem_stabilizer_iff, AlgEquiv.smul_def]
     exact hτ
   have hcomm : commutator (Field.absoluteGaloisGroup K) ≤ H := by
     rw [commutator_def, Subgroup.commutator_le]
@@ -127,11 +133,11 @@ theorem kummerRoot_apply_eq_self_of_mem_commutator_topologicalClosure {n : ℕ} 
     rw [AlgEquiv.apply_symm_apply, AlgEquiv.apply_symm_apply] at h1
     exact hmem ⁅τ', ρ'⁆ (by rw [commutatorElement_def]; exact h1)
   have hclosed : IsClosed (H : Set (Field.absoluteGaloisGroup K)) :=
-    IntermediateField.fixingSubgroup_isClosed _
+    (MulAction.stabilizer (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K) β).isClosed_of_isOpen
+      (stabilizer_isOpen_of_isIntegral β)
   have h2 : (σ : Field.absoluteGaloisGroup K) ∈ H :=
     (commutator (Field.absoluteGaloisGroup K)).topologicalClosure_minimal hcomm hclosed hσ
-  exact (IntermediateField.mem_fixingSubgroup_iff _ _).mp h2 β
-    (IntermediateField.mem_adjoin_simple_self K β)
+  exact (MulAction.mem_stabilizer_iff.mp h2 :)
 
 /-- **The abelianized Kummer root quotient**: every class of the topological abelianization
 of the absolute Galois group multiplies every `n`-th root of `a` by one scalar from `K`, the
