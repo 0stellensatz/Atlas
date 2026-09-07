@@ -77,8 +77,6 @@ def IsConductor (H : Subgroup (IdeleClassGroup K)) (f : Modulus K) : Prop :=
 
 namespace IsConductor
 
-variable {K}
-
 open scoped Classical in
 /-- **Finite descent**: a defining modulus whose exponent at each finite place of a
 prescribed finite set is least among all defining moduli, and which agrees with the chosen
@@ -129,7 +127,7 @@ its piece in `H` ([Milne 2020, Chap. V, §3, Rem. 3.8, p.158][MilneCFT]; Yamaguc
 theorem exists_isConductor (H : Subgroup (IdeleClassGroup K))
     (h : ∃ m, IsDefiningModulus K H m) : ∃ f, IsConductor K H f := by
   obtain ⟨m, hm, hon, hoff⟩ :=
-    IsConductor.exists_finitePart_agrees h h.choose.finitePart.support
+    IsConductor.exists_finitePart_agrees K h h.choose.finitePart.support
   refine ⟨⟨m.finitePart,
     m.infinitePart \ m.infinitePart.filter (fun w => realPlaceClassSubgroup K w ≤ H)⟩,
     congruenceSubgroup_sdiff_le K hm _ (fun w hw => (Finset.mem_filter.1 hw).2),

@@ -221,6 +221,7 @@ import Atlas.Knowledge.IdeleGroup
 import Atlas.Knowledge.InertiaQuotientDegreeKernel
 import Atlas.Knowledge.InfiniteNormSubgroup
 import Atlas.Knowledge.InfinitePlaceHilbertSymbol
+import Atlas.Knowledge.InfinitePlaceIdele
 import Atlas.Knowledge.InfiniteUnitDescent
 import Atlas.Knowledge.InfiniteUnitNormSubgroup
 import Atlas.Knowledge.IntegerHigherUnitCount

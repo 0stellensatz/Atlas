@@ -44,8 +44,8 @@ condition comaps `Units.posSubgroup ℝ` along
 `InfinitePlace.Completion.extensionEmbeddingOfIsReal`, replacing the source's if-then-else
 over all infinite places and its `piUnits` transport
 (`AlgebraicNumberTheory/RayClass/Basic.lean:93`, `FullModulus.lean:214, :252`) by one
-comap over the modulus's real places. The class-level subgroup joins the principal ideles before
-mapping down, as the source does (`FullModulus.lean:330`).
+comap over the modulus's real places. The class-level subgroup joins the principal ideles
+before mapping down, as the source does (`FullModulus.lean:330`).
 
 ## References
 

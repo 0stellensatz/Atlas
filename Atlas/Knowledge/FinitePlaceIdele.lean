@@ -16,13 +16,21 @@ class group. Everything here is proved; nothing is recorded.
 * `finitePlaceIdele` — `(v.adicCompletion K)ˣ →* 𝕀_K`.
 * `finitePlaceIdeleClass` — the same, followed by the class-group projection.
 
+## Main statements
+
+* `finitePlaceIdele_fst`, `finitePlaceIdele_apply_self`, `finitePlaceIdele_apply_of_ne` —
+  the components: `1` in the archimedean block, the prescribed unit at `v`, `1` at every
+  other finite place.
+
 ## Implementation notes
 
 The value function is a dependent `if`-update, `x` at `v` and `1` elsewhere; the
 restricted-product membership is cofinitely trivial because `1` is everywhere integral.
 The construction is a port of the finite half of the source's single-place module
 (`AlgebraicNumberTheory/Idele/SinglePlace.lean`), with the classical `open Classical`
-narrowed to the value function.
+narrowed to the value function. The component lemmas read the value function back off the
+idele; they are what the one-place congruence steps of
+`Atlas.Knowledge.LocalHigherUnitClassSubgroup` split an idele with.
 
 ## References
 
@@ -92,6 +100,29 @@ noncomputable def finitePlaceIdele (v : HeightOneSpectrum (𝓞 K)) :
         simp
       · simp [finitePlaceValue_of_ne v w x hw, finitePlaceValue_of_ne v w y hw,
           finitePlaceValue_of_ne v w (x * y) hw]
+
+/-- The finite-place idele has archimedean block `1`
+([Milne 2020, Chap. V, §4, 4.3, p.171][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/SinglePlace.lean:261`). -/
+theorem finitePlaceIdele_fst (v : HeightOneSpectrum (𝓞 K)) (x : (v.adicCompletion K)ˣ) :
+    (finitePlaceIdele v x).1 = 1 :=
+  rfl
+
+/-- At its own place the finite-place idele is the prescribed unit
+([Milne 2020, Chap. V, §4, 4.3, p.171][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/SinglePlace.lean:242`). -/
+@[simp]
+theorem finitePlaceIdele_apply_self (v : HeightOneSpectrum (𝓞 K))
+    (x : (v.adicCompletion K)ˣ) : (finitePlaceIdele v x).2 v = x :=
+  finitePlaceValue_same v x
+
+/-- At every other finite place the finite-place idele is `1`
+([Milne 2020, Chap. V, §4, 4.3, p.171][MilneCFT]; Yamaguchi 2026,
+`AlgebraicNumberTheory/Idele/SinglePlace.lean:251`). -/
+@[simp]
+theorem finitePlaceIdele_apply_of_ne (v w : HeightOneSpectrum (𝓞 K))
+    (x : (v.adicCompletion K)ˣ) (h : w ≠ v) : (finitePlaceIdele v x).2 w = 1 :=
+  finitePlaceValue_of_ne v w x h
 
 /-- The **finite-place idele class**: one local unit, made global, made a class
 ([Milne 2020, Chap. V, §4, 4.3, p.171][MilneCFT]; Yamaguchi 2026,
