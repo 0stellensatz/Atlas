@@ -41,7 +41,11 @@ nonvanishing proof in their statements. The source proves the Steinberg relation
 norm witness in the transposed slot
 (`LocalClassFieldTheory/Kummer/LocalHilbertPairing.lean:213`), derives `(a, -a) = 1` from it
 through `-a = (1 - a) / (1 - a⁻¹)` (`:228`), and expands `(ab, -ab)` for skew-symmetry
-(`:301`); here `(a, -a) = 1` is the case `c = 0` of the general norm and needs no detour.
+(`:301`); here `(a, -a) = 1` is the case `c = 0` of the general norm and needs no detour. The
+declarations sit in the `IsLocalHilbertSymbol` namespace, as `.pow_sub_right_eq_one`,
+`.neg_self`, `.one_sub` and `.skew` beside the characterization's own lemmas, rather than
+under the file's stem: they are properties of the predicate and read as such at their use
+sites, and the file is named for the identity that heads them.
 
 ## References
 
@@ -135,7 +139,7 @@ theorem one_sub (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0)
 
 /-- **Skew-symmetry of the local Hilbert symbol**: `(a, b) (b, a) = 1`, by expanding
 `1 = (ab, -ab)` bimultiplicatively into `(a, -a) (a, b) (b, a) (b, -b)`
-([Serre 1979, Chap. XIV, §2, Prop. 7 v, p.208, with the proof on p.207][Serre1979];
+([Serre 1979, Chap. XIV, §2, Prop. 4 v, p.206, proof p.207, and Prop. 7 v, p.208][Serre1979];
 Yamaguchi 2026, `LocalClassFieldTheory/Kummer/LocalHilbertPairing.lean:301`). -/
 theorem skew (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0)
     (hmu : (primitiveRoots n K).Nonempty) (a b : Kˣ) : h a b * h b a = 1 := by
