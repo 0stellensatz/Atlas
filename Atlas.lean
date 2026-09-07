@@ -280,6 +280,8 @@ import Atlas.Knowledge.JumpSetRealization
 import Atlas.Knowledge.JumpSetSmall
 import Atlas.Knowledge.JumpSetVector
 import Atlas.Knowledge.KummerCharacterEquiv
+import Atlas.Knowledge.KummerField
+import Atlas.Knowledge.KummerPowSubNorm
 import Atlas.Knowledge.KummerRadicalSubgroup
 import Atlas.Knowledge.LegendreFormula
 import Atlas.Knowledge.LocalAbsoluteValuationSubring
@@ -295,6 +297,7 @@ import Atlas.Knowledge.LocalFixedResidueFinrank
 import Atlas.Knowledge.LocalHenselianValuation
 import Atlas.Knowledge.LocalHigherUnitClassSubgroup
 import Atlas.Knowledge.LocalHilbertSymbolNondegeneracy
+import Atlas.Knowledge.LocalHilbertSymbolSkewSymmetry
 import Atlas.Knowledge.LocalHilbertSymbolTameFormula
 import Atlas.Knowledge.LocalKroneckerWeber
 import Atlas.Knowledge.LocalNormSubgroupExistence

@@ -3,6 +3,7 @@ import Atlas.Knowledge.DenseGaloisFixedElement
 import Atlas.Knowledge.IsLocalHilbertSymbol
 import Atlas.Knowledge.IsLocalReciprocity
 import Atlas.Knowledge.IsMixedCharLocalField
+import Atlas.Knowledge.LocalHilbertSymbolSkewSymmetry
 
 /-!
 # nondegeneracy of the local Hilbert symbol
@@ -14,20 +15,21 @@ stated as equivalences whose trivial directions are proved in
 proved here by density: a root of `a` killed against every `b` is fixed by every lift of
 every value of the reciprocity map, a dense set of automorphisms, hence is rational. The
 substantial direction of the right kernel — the common kernel of the second slot is no larger
-than the powers — is the recorded claim, and the principal statement packages the two,
-matching the shape the read repository proves. The quotient pairing itself is not
-constructed: nondegeneracy on the quotient *is* the kernel statement on representatives, and
-the layer states in Mathlib's vocabulary rather than bundling a descended map.
+than the powers — is proved from skew-symmetry: an element killed against everything in the
+second slot is killed against everything in the first, by
+`Atlas.Knowledge.LocalHilbertSymbolSkewSymmetry`, and the left kernel finishes. The principal
+statement packages the two, matching the shape the read repository proves, and the file
+carries no recorded claim. The quotient pairing itself is not constructed: nondegeneracy on
+the quotient *is* the kernel statement on representatives, and the layer states in Mathlib's
+vocabulary rather than bundling a descended map.
 
 ## Main statements
 
-* `localHilbertSymbol_nondegeneracy` — both kernels are exactly the `n`-th powers; the right
-  kernel's claim carries its backlog.
+* `localHilbertSymbol_nondegeneracy` — both kernels are exactly the `n`-th powers; proved.
 * `localHilbertSymbol_left_kernel` — the first slot's kernel characterization; proved, the
   substantial direction by the density of the reciprocity map's range.
-* `localHilbertSymbol_right_kernel` — the second slot's kernel characterization, an
-  equivalence with its trivial direction proved and its substantial direction recorded ahead
-  of its proof.
+* `localHilbertSymbol_right_kernel` — the second slot's kernel characterization; proved, the
+  substantial direction by skew-symmetry into the left kernel.
 
 ## Implementation notes
 
@@ -47,8 +49,10 @@ kernel from it through skew-symmetry (`:120`), and packages nondegeneracy at `:3
 descended quotient, so the shape stated here on representatives is that of `:49` and `:120`.
 The left kernel is discharged by density instead: the source's first slot is its Artin slot
 and this layer's is its root slot, so fixing it varies the Kummer extension there and only
-the reciprocity classes here, where density suffices; the right kernel's discharge will
-follow the source's skew-symmetry route.
+the reciprocity classes here, where density suffices. The right kernel is discharged by the
+source's skew-symmetry route: `Atlas.Knowledge.IsLocalHilbertSymbol.skew` turns
+`∀ a, h a b = 1` into `∀ a, h b a = 1`, and the left kernel at `b` finishes — which is why
+its `hmu` is consumed where the left kernel's is not.
 
 ## References
 
@@ -70,9 +74,9 @@ variable {n : ℕ} {h : Kˣ → Kˣ → Kˣ}
 
 set_option linter.unusedVariables false in
 -- The roots-of-unity guard `hmu` is not consumed: the substantial direction is the density
--- argument, which reads only the reciprocity map's range, and the trivial one is rational-root
--- bookkeeping. The binder is kept so that the statement keeps its recorded form; the sibling
--- right kernel's discharge does consume it.
+-- argument, which reads only the reciprocity map's range, and the trivial one is
+-- rational-root bookkeeping. The binder is kept so that the statement keeps its recorded
+-- form; the sibling right kernel's discharge does consume it.
 /-- The left kernel of the Hilbert symbol is exactly the `n`-th powers: `h a b = 1` for every
 `b` iff `a ∈ (Kˣ)ⁿ`. The forward direction is the density of the reciprocity map's range —
 every lift of every `φ (b)` fixes a root of `a`, so the root is fixed by a dense set of
@@ -116,8 +120,9 @@ theorem localHilbertSymbol_left_kernel (hh : IsLocalHilbertSymbol K n h) (hn : n
     exact IsLocalHilbertSymbol.pow_left_eq_one hh c b
 
 /-- The right kernel of the Hilbert symbol is exactly the `n`-th powers: `h a b = 1` for
-every `a` iff `b ∈ (Kˣ)ⁿ`. The forward direction is a claim recorded ahead of its proof; the
-reverse is `Atlas.Knowledge.IsLocalHilbertSymbol.pow_right_eq_one`
+every `a` iff `b ∈ (Kˣ)ⁿ`. The forward direction is skew-symmetry into the left kernel —
+`h b a = (h a b)⁻¹` for every `a`, so `b` lies in the left kernel; the reverse is
+`Atlas.Knowledge.IsLocalHilbertSymbol.pow_right_eq_one`
 ([Serre 1979, Chap. XIV, §2, Prop. 7 and Cor., pp.208–209][Serre1979];
 [Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT]; Yamaguchi 2026,
 `LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:120`). -/
@@ -126,16 +131,19 @@ theorem localHilbertSymbol_right_kernel (hh : IsLocalHilbertSymbol K n h) (hn : 
     (∀ a : Kˣ, h a b = 1) ↔ b ∈ MonoidHom.range (powMonoidHom n : Kˣ →* Kˣ) := by
   constructor
   · intro hb
-    sorry
+    refine (localHilbertSymbol_left_kernel K hh hn hmu b).mp (fun a => ?_)
+    have h1 := IsLocalHilbertSymbol.skew hh hn hmu b a
+    rw [hb a, mul_one] at h1
+    exact h1
   · rintro ⟨c, hc⟩ a
     have hc' : c ^ n = b := hc
     rw [← hc']
     exact IsLocalHilbertSymbol.pow_right_eq_one hh hn a c
 
 /-- **Nondegeneracy of the local Hilbert symbol**: on power classes, both kernels are
-trivial — an element paired to `1` against everything is an `n`-th power, in either slot.
-Derived from the two kernel characterizations, of which the right kernel's recorded claim
-carries the backlog ([Serre 1979, Chap. XIV, §2, Prop. 7 vi and Cor., pp.208–209][Serre1979];
+trivial: an element paired to `1` against everything is an `n`-th power, in either slot.
+Derived from the two kernel characterizations, both proved
+([Serre 1979, Chap. XIV, §2, Prop. 7 vi and Cor., pp.208–209][Serre1979];
 [Milne 2020, Chap. III, §4, Thm. 4.4 (c), p.113][MilneCFT]; Yamaguchi 2026,
 `LocalClassFieldTheory/Kummer/LocalHilbertPairingNondegeneracy.lean:355`). -/
 theorem localHilbertSymbol_nondegeneracy (hh : IsLocalHilbertSymbol K n h) (hn : n ≠ 0)
