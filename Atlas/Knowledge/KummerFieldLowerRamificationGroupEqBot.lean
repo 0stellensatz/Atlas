@@ -35,15 +35,21 @@ injectivity lemma `Atlas.Knowledge.eq_of_pow_eq_one_of_sub_mem` — two `n`-th r
 congruent modulo an ideal avoiding `n` are equal — is applied to the root quotient
 `σ z · z⁻¹`, a unit of the integral closure because `z ^ n` is one, against `1`. The tameness
 hypothesis is `valuation K (n : K) = 1`, the reading the tame formula takes, and it enters
-only through `n` avoiding the maximal ideal of the closure; no primitive root of unity in the
-base is needed, since no root of unity is chosen. The inertia step is stated over an
-arbitrary finite extension `L` and applied to the Kummer field by unification, not spelled at
-it: the local-ring instance of `integralClosure 𝒪[K] L` is found for a generic `L` but not
-when `L` is spelled as an intermediate field of the closure, whose algebra structure
-elaborates through `IntermediateField.algebra'` to a term the instance's key does not match.
-Extensionality on the root set is `IntermediateField.adjoin_algHom_ext` at the definition, as
-in `Atlas.Knowledge.KummerField`. The source proves the same unramifiedness in its
-valued-extension bundle at a chosen generator of the simple Kummer extension
+only through `n` avoiding the maximal ideal of the closure and through `n ≠ 0`; no primitive
+root of unity in the base is needed, since no root of unity is chosen. Under that reading the
+item restates two facts the layer holds under `Nat.Coprime n (Nat.card 𝓀[K])`:
+`natCast_notMem_maximalIdeal_of_valuation_eq_one` is
+`Atlas.Knowledge.natCast_notMem_maximalIdeal_of_coprime` with the hypothesis exchanged, and
+the cyclotomic case of the headline is
+`Atlas.Knowledge.CycloFieldLowerRamificationGroupEqBot`; nothing in the layer relates the two
+renderings of tameness, so each pair stands until that bridge is an item. The inertia step is
+stated over an arbitrary finite extension `L` and applied to the Kummer field by unification,
+not spelled at it: the local-ring instance of `integralClosure 𝒪[K] L` is found for a generic
+`L` but not when `L` is spelled as an intermediate field of the closure, whose algebra
+structure elaborates through `IntermediateField.algebra'` to a term the instance's key does
+not match. Extensionality on the root set is `IntermediateField.adjoin_algHom_ext` at the
+definition, as in `Atlas.Knowledge.KummerField`. The source proves the same unramifiedness in
+its valued-extension bundle at a chosen generator of the simple Kummer extension
 (`KummerTheory/Concrete/LocalUnitKummerUnramified.lean:23`), through its
 `IsUnramifiedValuedExtension` predicate; here the statement is at the layer's
 `lowerRamificationGroup` rendering, on the root-free field, with no valuation on the
@@ -125,7 +131,7 @@ end Generic
 integers, the zeroth lower-numbering ramification group of `kummerField K n u` is trivial —
 an inertia element fixes every root, since it moves it by a root of unity congruent to `1`
 modulo the maximal ideal, and the roots generate
-([Serre 1979, Chap. XIV, §3, p.210][Serre1979]; Yamaguchi 2026,
+([Serre 1979, Chap. XIV, §3, Prop. 8, p.210, proof p.211][Serre1979]; Yamaguchi 2026,
 `KummerTheory/Concrete/LocalUnitKummerUnramified.lean:23`, its valued-extension form at a
 chosen generator). -/
 theorem kummerField_lowerRamificationGroup_eq_bot {n : ℕ} (hn : valuation K (n : K) = 1)

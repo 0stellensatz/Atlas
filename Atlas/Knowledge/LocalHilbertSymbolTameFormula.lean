@@ -6,6 +6,7 @@ import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.LocalHilbertSymbolSkewSymmetry
 import Atlas.Knowledge.LocalHilbertSymbolUnitUniformizer
 import Atlas.Knowledge.NormalizedValuation
+import Atlas.Knowledge.ValuationEqOneOfPowEqOne
 
 /-!
 # tame formula for the local Hilbert symbol
@@ -31,17 +32,16 @@ travelling as memberships in the first higher unit group.
   exact determination.
 * `dvd_card_residueField_sub_one` — `n ∣ q - 1` once `K` contains the `n`-th roots of unity
   and `n` is a unit.
-* `valuation_eq_one_of_pow_eq_one` — roots of unity are valuation-one, the fact feeding both.
 
 ## Implementation notes
 
-Tameness is rendered as `valuation K (n : K) = 1` — `n` a unit of the integer ring — the
-same reading the source takes. The congruence form avoids constructing the reduction
-isomorphism `μ_n (K) ≃ μ_n (𝓀)` of the literature: Serre's statement passes through the
+Tameness is rendered as `valuation K (n : K) = 1` — `n` a unit of the integer ring — the same
+reading the source takes. The congruence form avoids constructing the reduction isomorphism
+`μ_n (K) ≃ μ_n (𝓀)` of the literature: Serre's statement passes through the
 multiplicative-representative identification, and `v (x - y) < 1` says exactly that `x`
-reduces to `y`'s residue without naming the lift. The exponent orientation is Serre's
-Prop. 8 read against the *arithmetic* normalization both this layer and the literature fix.
-The source's only tame statement
+reduces to `y`'s residue without naming the lift. The exponent orientation is Serre's Prop. 8
+read against the *arithmetic* normalization both this layer and the literature fix. The
+source's only general tame formula
 (`LocalClassFieldTheory/Kummer/PowerResidueTameFormula.lean:937`) is the unit-first special
 case — its first slot is a valuation-ring unit, so the `(-1)` factor and the `b ^ (- v a)`
 term are invisible in it, and the general orientation rests on Serre alone, the reduction to
@@ -52,7 +52,7 @@ four factors are congruent to `1`, `(u_a ^ k) ^ β`, `(u_b ^ k) ^ (-α)` and
 `((-1) ^ k) ^ (α β)` with `k = (q - 1) / n` — the unit-against-uniformizer congruence at `ϖ`
 and at `ϖ u_b` for the first, `Atlas.Knowledge.IsLocalHilbertSymbol.skew` for the third, and
 `(ϖ, ϖ) = (-1, ϖ)` from `Atlas.Knowledge.IsLocalHilbertSymbol.neg_self` with `skew` for the
-last. The congruences are carried as memberships `x⁻¹ y ∈ U₁` through
+last. The congruences are carried as memberships `x⁻¹ * y ∈ U 1 (K)` through
 `Atlas.Knowledge.HigherUnitGroupCongruence`, so that products, inverses and integer powers of
 congruences are subgroup closure and the final identity is associativity and commutativity
 alone; the unit parts are introduced as opaque variables with their defining equations, since
@@ -62,7 +62,9 @@ inverted Artin normalization, recorded in `Atlas.Knowledge.IsLocalHilbertSymbol`
 cancel by skew-symmetry, and its exponent `- valuationMap` is already the standard valuation,
 with nothing left to reconcile. The injectivity proof needs no ultrametric dominance: from
 `(1 + x) ^ n = 1` the binomial expansion factors as `x · (n + x · S) = 0` with `S` integral,
-forcing `v (n) ≤ v (x) < 1` outright.
+forcing `v (n) ≤ v (x) < 1` outright. That roots of unity have valuation one is
+`Atlas.Knowledge.ValuationEqOneOfPowEqOne`, an item below this one and the unit-uniformizer
+item, which both consume it.
 
 ## References
 
@@ -82,13 +84,6 @@ namespace Atlas.Knowledge
 section ValuationLemmas
 
 variable (K : Type*) [Field K] [ValuativeRel K]
-
-/-- Roots of unity have valuation one: the value group is torsion-free away from zero
-([Serre 1979, Chap. XIV, §3, p.210][Serre1979]). -/
-theorem valuation_eq_one_of_pow_eq_one {ζ : K} {n : ℕ} (hn : n ≠ 0) (hζ : ζ ^ n = 1) :
-    valuation K ζ = 1 := by
-  have h : (valuation K ζ) ^ n = 1 := by rw [← map_pow, hζ, map_one]
-  exact (pow_eq_one_iff.mp h).resolve_right hn
 
 private theorem valuation_natCast_le_one (m : ℕ) : valuation K ((m : ℕ) : K) ≤ 1 := by
   induction m with

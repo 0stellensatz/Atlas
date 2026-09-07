@@ -510,6 +510,7 @@ import Atlas.Knowledge.UnramifiedUnitCohomology
 import Atlas.Knowledge.UpperRamificationGroup
 import Atlas.Knowledge.UpperRamificationGroupSubfloor
 import Atlas.Knowledge.ValuationData
+import Atlas.Knowledge.ValuationEqOneOfPowEqOne
 import Atlas.Knowledge.ValuationResidueRootOfUnityLift
 import Atlas.Knowledge.WildBaseChange
 import Atlas.Knowledge.WildInertiaSubgroup
