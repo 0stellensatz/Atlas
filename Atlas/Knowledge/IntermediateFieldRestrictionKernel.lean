@@ -37,8 +37,6 @@ what replaces it.
 
 ## References
 
-* [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
-  York, 1979.
 * n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
   [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
   `6010237`, 2026.
@@ -59,10 +57,9 @@ theorem intermediateFieldRestrictNormalHom_surjective [Normal K E] [Normal K F] 
 
 /-- **The order of the restriction kernel times the lower degree is the upper degree**:
 `#ker · [E : K] = [F : K]`, the first isomorphism theorem read through
-`IsGalois.card_aut_eq_finrank` on both floors ([Serre 1979, Chap. IV, §1, p.61][Serre1979] —
-the tower `G (F/E) ⊆ G (F/K)`). -/
-theorem card_ker_intermediateFieldRestrictNormalHom [Normal K E] [FiniteDimensional K F]
-    [IsGalois K F] [IsGalois K E] :
+`IsGalois.card_aut_eq_finrank` on both floors. -/
+theorem card_ker_intermediateFieldRestrictNormalHom [FiniteDimensional K F] [IsGalois K F]
+    [IsGalois K E] :
     Nat.card (intermediateFieldRestrictNormalHom E F hEF).ker * Module.finrank K E =
       Module.finrank K F := by
   haveI : FiniteDimensional K E := FiniteDimensional.of_injective

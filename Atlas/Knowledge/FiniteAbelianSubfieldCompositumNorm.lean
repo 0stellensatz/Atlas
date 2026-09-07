@@ -1,7 +1,6 @@
 import Mathlib
 import Atlas.Knowledge.FiniteAbelianSubextension
 import Atlas.Knowledge.FiniteAbelianSubfieldOrder
-import Atlas.Knowledge.FiniteGaloisSubextension
 import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.NormQuotient
 import Atlas.Knowledge.NormSubgroupSurjectivity
@@ -30,8 +29,11 @@ The abstract compositum's subgroup is the intersection of the two fixing subgrou
 `IntermediateField.fixingSubgroup_sup` identifies with the fixing subgroup of the compositum,
 so the two packagings agree by extensionality on the closed subgroup; the norm law then
 transports along `Atlas.Knowledge.finiteAbelianNormSubgroup_toFiniteAbelianSubextension` at
-the three fields. The compositum's own finiteness and commutativity enter as instance
-arguments, since Lean does not find them on a `⊔` by search.
+the three fields. The compositum's commutativity enters as an instance argument, since Lean
+does not find `IsAbelianGalois` on a `⊔` by search; `Atlas.Knowledge.isAbelianGalois_sup`
+supplies it, and once it is declared as an instance for a named compositum both statements
+apply there directly. Finiteness of a `⊔` is found by search, and the finiteness binder here
+is discharged by it.
 
 ## References
 
