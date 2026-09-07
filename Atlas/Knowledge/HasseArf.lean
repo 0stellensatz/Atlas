@@ -3,7 +3,6 @@ import Atlas.Knowledge.ArtinRamificationCompatibility
 import Atlas.Knowledge.ArtinRestrictionAutCongr
 import Atlas.Knowledge.HerbrandPhi
 import Atlas.Knowledge.HerbrandPsi
-import Atlas.Knowledge.IsArtinRestriction
 import Atlas.Knowledge.IsMixedCharLocalField
 import Atlas.Knowledge.LowerRamificationGroup
 import Atlas.Knowledge.RealHigherUnitGroup
@@ -34,8 +33,8 @@ to `Atlas.Knowledge.ramificationFiltration`.
 
 ## References
 
-* [Serre1979] J.-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**,
-  Springer New York, 1979.
+* [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
+  York, 1979.
 * [MilneCFT] J. S. Milne, *Class field theory* (v4.03), available at www.jmilne.org/math/,
   2020.
 * n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,

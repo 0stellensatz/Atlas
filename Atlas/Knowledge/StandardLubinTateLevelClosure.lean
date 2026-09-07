@@ -81,10 +81,13 @@ noncomputable def standardLubinTateLevelClosureEquiv :
     standardLubinTateLevelField K hπ n ≃ₐ[K] standardLubinTateLevelClosure K hπ n :=
   AlgEquiv.ofInjectiveField _
 
+/-- The level closure is finite over `K`, through its identification with the level field. -/
 instance standardLubinTateLevelClosure_finiteDimensional :
     FiniteDimensional K (standardLubinTateLevelClosure K hπ n) :=
   (standardLubinTateLevelClosureEquiv K hπ n).toLinearEquiv.finiteDimensional
 
+/-- The level closure is abelian over `K`, transported from the level field along the
+identification. -/
 instance standardLubinTateLevelClosure_isAbelianGalois :
     IsAbelianGalois K (standardLubinTateLevelClosure K hπ n) := by
   haveI := standardLubinTateLevelField_isAbelianGalois K hπ n

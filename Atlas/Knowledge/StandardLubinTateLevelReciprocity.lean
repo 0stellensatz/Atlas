@@ -27,11 +27,14 @@ enters, which is what makes the level case reachable with Phase 5's cardinalitie
 
 ## Main statements
 
-* `subgroup_eq_of_map_eq_of_le` — two subgroups of a subgroup on which a homomorphism is
-  injective, with the same image, agree.
 * `map_higherUnitGroup_standardLubinTateLevelClosure` — `Art (U^k) = G^k (Tₙ/K)`.
 * `map_realHigherUnitGroup_standardLubinTateLevelClosure` — `Art (U^t) = G^t (Tₙ/K)` for
   `t > 0`.
+
+## Notation
+
+* `𝕋 k` — `standardLubinTateLevelClosure K hπ k`, the level-`k` closure; a `local notation`,
+  scoped to this file.
 
 ## Implementation notes
 
@@ -41,8 +44,6 @@ subfields — `Atlas.Knowledge.ArtinRestrictionSubfloor`,
 `Atlas.Knowledge.IntermediateFieldRestrictionKernel` — because installing the tower instances
 by hand at these carriers and restricting directly overran the kernel's budget. Above the
 visible range both sides vanish: `U^t ≤ U^{n+1}` is normic and `G^t ≤ G^{n+1}` is trivial.
-The group-theoretic lemma is filed with its first consumer; the compositum brick is its
-second, and a general home would be a subgroup item.
 
 ## References
 
@@ -56,20 +57,6 @@ second, and a general home would be a subgroup item.
 open ValuativeRel
 
 namespace Atlas.Knowledge
-
-/-- Two subgroups inside a subgroup on which `f` is injective, with equal images, agree. -/
-theorem subgroup_eq_of_map_eq_of_le {G G' : Type*} [Group G] [Group G'] {f : G →* G'}
-    {H A B : Subgroup G} (hA : A ≤ H) (hB : B ≤ H) (hker : H ⊓ f.ker = ⊥)
-    (h : A.map f = B.map f) : A = B := by
-  have key : ∀ {A B : Subgroup G}, A ≤ H → B ≤ H → A.map f ≤ B.map f → A ≤ B := by
-    intro A B hA hB h a ha
-    obtain ⟨b, hb, hfb⟩ := Subgroup.mem_map.1 (h ⟨a, ha, rfl⟩)
-    have hmem : b⁻¹ * a ∈ H ⊓ f.ker := Subgroup.mem_inf.2
-      ⟨H.mul_mem (H.inv_mem (hB hb)) (hA ha),
-        MonoidHom.mem_ker.2 (by rw [map_mul, map_inv, hfb, inv_mul_cancel])⟩
-    rw [hker, Subgroup.mem_bot, inv_mul_eq_one] at hmem
-    exact hmem ▸ hb
-  exact le_antisymm (key hA hB h.le) (key hB hA h.ge)
 
 universe u
 

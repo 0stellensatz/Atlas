@@ -1,4 +1,5 @@
 import Mathlib
+import Atlas.Knowledge.ArtinRestrictionNormQuotient
 import Atlas.Knowledge.ArtinRestrictionSubfloor
 import Atlas.Knowledge.CycloField
 import Atlas.Knowledge.CycloFieldOfDegree
@@ -50,12 +51,24 @@ against the level's Galois group.
 * `map_realHigherUnitGroup_standardCompositum` — `Art (U^t) = G^t (F/K)` for `t > 0`.
 * `map_units_standardCompositum` — `Art (U^0) = G^0 (F/K)`.
 
+## Notation
+
+* `𝔽` — `standardCompositum K hπ n d`, the compositum.
+* `𝕋n` — `standardLubinTateLevelClosure K hπ n`, its level factor.
+* `𝔼` — `cycloField K (Nat.card 𝓀[K] ^ d - 1)`, its cyclotomic factor.
+* `𝕌` — `MonoidHom.range (Units.map 𝒪[K].subtype)`, the unit group `U^0` read inside `Kˣ`.
+
+All four are `local notation`, scoped to this file.
+
 ## Implementation notes
 
 The compositum is an `abbrev` so that the instances of a `⊔` are found by search; its
 commutativity is `Atlas.Knowledge.isAbelianGalois_sup`, once the cyclotomic level is known
 nonzero, which `d > 0` gives and instance search cannot see. At `t > 0` the argument is
-`Atlas.Knowledge.subgroup_eq_of_map_eq_of_le` with the joint injectivity of
+`subgroup_eq_of_map_eq_of_le` — two subgroups of a subgroup on which a homomorphism is
+injective, with the same image, agree; filed here with its only consumer, and proved for any
+group by chasing an element of one side through the common image into `H ⊓ ker = ⊥`, so no
+commutativity of the Galois group enters — with the joint injectivity of
 `Atlas.Knowledge.IntermediateFieldRestrictionKernel`. At `t = 0` the Artin image of the units
 is the image of `U^0 ⊔ N (F) = N (K (μ))`, the compositum law
 `Atlas.Knowledge.localNormSubgroup_sup` supplying `π ^ d ∈ N (F)`, hence the kernel of
@@ -78,6 +91,20 @@ open ValuativeRel
 
 namespace Atlas.Knowledge
 
+/-- Two subgroups inside a subgroup on which `f` is injective, with equal images, agree. -/
+theorem subgroup_eq_of_map_eq_of_le {G G' : Type*} [Group G] [Group G'] {f : G →* G'}
+    {H A B : Subgroup G} (hA : A ≤ H) (hB : B ≤ H) (hker : H ⊓ f.ker = ⊥)
+    (h : A.map f = B.map f) : A = B := by
+  have key : ∀ {A B : Subgroup G}, A ≤ H → B ≤ H → A.map f ≤ B.map f → A ≤ B := by
+    intro A B hA hB h a ha
+    obtain ⟨b, hb, hfb⟩ := Subgroup.mem_map.1 (h ⟨a, ha, rfl⟩)
+    have hmem : b⁻¹ * a ∈ H ⊓ f.ker := Subgroup.mem_inf.2
+      ⟨H.mul_mem (H.inv_mem (hB hb)) (hA ha),
+        MonoidHom.mem_ker.2 (by rw [map_mul, map_inv, hfb, inv_mul_cancel])⟩
+    rw [hker, Subgroup.mem_bot, inv_mul_eq_one] at hmem
+    exact hmem ▸ hb
+  exact le_antisymm (key hA hB h.le) (key hB hA h.ge)
+
 universe u
 
 variable (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
@@ -89,10 +116,12 @@ the unramified cyclotomic floor of degree `d` (Yamaguchi 2026,
 noncomputable abbrev standardCompositum : IntermediateField K (AlgebraicClosure K) :=
   standardLubinTateLevelClosure K hπ n ⊔ cycloField K (Nat.card 𝓀[K] ^ d - 1)
 
+/-- The compositum of two finite floors is finite. -/
 instance standardCompositum_finiteDimensional :
     FiniteDimensional K (standardCompositum K hπ n d) :=
   IntermediateField.finiteDimensional_sup _ _
 
+/-- The compositum of two Galois floors is Galois. -/
 instance standardCompositum_isGalois : IsGalois K (standardCompositum K hπ n d) := ⟨⟩
 
 /- The cyclotomic level is nonzero once `d` is positive. -/
