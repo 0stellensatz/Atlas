@@ -4,46 +4,58 @@ import Atlas.Knowledge.IsMixedCharLocalField
 /-!
 # adic completion as mixed-characteristic local field
 
-The completion of a number field at a finite place, carried into the local layer's
-signature: the canonical valuative relation induced by the `v`-adic valuation is installed
-as an instance, pinned to that valuation by its compatibility certificate, and the field is
-proved to have characteristic zero. What remains — that the completion is a
-mixed-characteristic local field — is recorded ahead of its proof, and it owes three
-obligations: that the `Valued` topology is the valuative one, that the valuation is
-nontrivial, and local compactness, of which the last is the only hard one. This item is
-the junction the reciprocity phase crosses every time it evaluates a local notion at a
-place of a global field; without it, `Atlas.Knowledge.IsLocalHilbertSymbol` cannot even be
-stated at a completion.
+The completion of a number field at a finite place, carried into the local layer's signature: the
+canonical valuative relation induced by the `v`-adic valuation is installed as an instance, pinned
+to that valuation by its compatibility certificate, and the field is proved to be a
+mixed-characteristic local field. The three obligations of the carrier — that the `Valued` topology
+is the valuative one, that the valuation is nontrivial, and local compactness — are all discharged,
+the last through Serre's Proposition 1: a complete discretely valued field is locally compact if and
+only if its residue field is finite, and the residue field of the completion is that of `𝓞 K` at
+`v`. This item is the junction the reciprocity phase crosses every time it evaluates a local notion
+at a place of a global field; without it, `Atlas.Knowledge.IsLocalHilbertSymbol` cannot even be
+stated at a completion. Everything here is proved.
 
 ## Main definitions
 
 * `adicCompletionValuativeRel`, `adicCompletionValuedCompatible` — the canonical
   `ValuativeRel` on `v.adicCompletion K` and its pinning to `Valued.v`.
+* `AdicCompletionIsMixedCharLocalField.integerEquiv` — the layer's integer ring of the
+  completion is Mathlib's `adicCompletionIntegers`.
 
 ## Main statements
 
 * `adicCompletion_charZero` — characteristic zero; proved.
-* `adicCompletion_isMixedCharLocalField` — the local-field certificate; recorded ahead of
-  its proof.
+* `adicCompletion_isValuativeTopology` — the `Valued` topology is the valuative one; proved.
+* `adicCompletion_isNontrivial` — the valuation is nontrivial; proved.
+* `AdicCompletionIsMixedCharLocalField.finite_residueField` — the residue field of the
+  completion is finite; proved.
+* `adicCompletion_locallyCompactSpace` — local compactness; proved.
+* `adicCompletion_isMixedCharLocalField` — the local-field certificate; proved.
 
 ## Implementation notes
 
-The valuative relation is `ValuativeRel.ofValuation` applied to the completion's `Valued`
-structure, and the `Valuation.Compatible` instance is what pins the relation to the
-`v`-adic valuation rather than an arbitrary one — together they are the canonical bridge
-Mathlib's own `Valued`-to-`ValuativeRel` migration uses, so no orphan structure is
-invented. At the pinned Mathlib, `IsNonarchimedeanLocalField` ships with no instance at
-all — the `ℚ_[p]` model is Atlas's own, `Atlas.Knowledge.PadicIsMixedCharLocalField` — and
-none of its three components synthesizes for the completion: `IsValuativeTopology` (Mathlib carries
-it only for `WithVal` and for the `ValuativeRel`-induced topology, neither of which fires here —
-its own TODO at `Mathlib/NumberTheory/Padics/HeightOneSpectrum.lean:50` says as much),
-`ValuativeRel.IsNontrivial`, and `LocallyCompactSpace`. The first two are routine facts about the
-`Valued` structure; the compactness is Serre's Proposition 1 — locally compact iff complete with
-finite residue field — and is the real content. The source builds the same certificate over its
-normed completion from its own machinery
+The valuative relation is `ValuativeRel.ofValuation` applied to the completion's `Valued` structure,
+and the `Valuation.Compatible` instance is what pins the relation to the `v`-adic valuation rather
+than an arbitrary one — together they are the canonical bridge Mathlib's own
+`Valued`-to-`ValuativeRel` migration uses, so no orphan structure is invented. At the pinned
+Mathlib, `IsNonarchimedeanLocalField` ships with no instance at all — the `ℚ_[p]` model is Atlas's
+own, `Atlas.Knowledge.PadicIsMixedCharLocalField` — and none of its three components synthesizes for
+the completion; Mathlib's own TODO at `Mathlib/NumberTheory/Padics/HeightOneSpectrum.lean:50` says
+as much. The valuative topology is nonetheless one line: the `Valued` axiom `Valued.mem_nhds_zero`
+is stated, at the pin, in exactly the form `IsValuativeTopology.of_mem_nhds_zero_iff_vle` consumes,
+so the general `Valued`-to-`IsValuativeTopology` bridge is not absent, only unregistered.
+Nontriviality reads a uniformizer of `K` through `valued_coe`. Local compactness is Serre's
+Proposition 1 in Mathlib's form,
+`properSpace_iff_completeSpace_and_isDiscreteValuationRing_integer_and_finite_residueField` in the
+`Valued.integer` namespace, whose three inputs are completeness and the discrete valuation ring,
+both Mathlib instances, and the finiteness of the residue field, which is the content: the residue
+map `𝓞 K → 𝓀_v` is surjective, because `K` is dense in the completion, an element of `K` close to an
+integer of the completion is `v`-integral, hence `a / s` with `s ∉ v`, and `s` is invertible modulo
+`v`. The layer's `𝓀[K_v]` is transported along `AdicCompletionIsMixedCharLocalField.integerEquiv`,
+an equality of subrings of the completion read through `IsLocalRing.ResidueField.mapEquiv`. The
+source builds the same certificate over its normed completion from its own machinery
 (`GlobalClassFieldTheory/Reciprocity/FinitePlaceArtin/Construction.lean:294`, certificate at
-`:305`); Atlas records the claim on Mathlib's `Valued` completion instead and lets the backlog
-carry it.
+`:305`); Atlas proves it on Mathlib's `Valued` completion instead.
 
 ## References
 
@@ -54,8 +66,8 @@ carry it.
   `6010237`, 2026.
 -/
 
-open NumberField IsDedekindDomain
-open scoped WithZero
+open NumberField IsDedekindDomain ValuativeRel
+open scoped WithZero Topology
 
 namespace Atlas.Knowledge
 
@@ -78,15 +90,193 @@ half that is provable now, through the rational algebra structure. -/
 instance adicCompletion_charZero : CharZero (v.adicCompletion K) :=
   charZero_of_injective_algebraMap (algebraMap ℚ (v.adicCompletion K)).injective
 
+/-- The `Valued` topology of the completion is the valuative one: the `Valued` axiom is the
+constructor's hypothesis verbatim ([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
+instance adicCompletion_isValuativeTopology : IsValuativeTopology (v.adicCompletion K) :=
+  IsValuativeTopology.of_mem_nhds_zero_iff_vle (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰)
+    fun {_} => Valued.mem_nhds_zero
+
+/-- The valuation of the completion is nontrivial: a uniformizer of `K` has value `exp (-1)`
+([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
+instance adicCompletion_isNontrivial : ValuativeRel.IsNontrivial (v.adicCompletion K) := by
+  obtain ⟨π, hπ⟩ := v.valuation_exists_uniformizer K
+  have hv : (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰) (π : v.adicCompletion K) =
+      WithZero.exp (-1 : ℤ) := by
+    rw [HeightOneSpectrum.adicCompletion.valued_coe, hπ]
+  refine ⟨valuation (v.adicCompletion K) (π : v.adicCompletion K), ?_, ?_⟩
+  · rw [Ne, (isEquiv (valuation _) (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰)).eq_zero, hv]
+    exact WithZero.exp_ne_zero
+  · intro h
+    rw [(isEquiv (valuation _) (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰)).eq_one_iff_eq_one,
+      hv] at h
+    exact absurd h (by simp)
+
+namespace AdicCompletionIsMixedCharLocalField
+
+/-- The layer's integer ring of the completion is Mathlib's `adicCompletionIntegers`, as
+subrings of the completion ([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
+theorem integer_eq :
+    (valuation (v.adicCompletion K)).integer = (v.adicCompletionIntegers K).toSubring := by
+  ext x
+  rw [Valuation.mem_integer_iff,
+    (isEquiv (valuation _) (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰)).le_one_iff_le_one]
+  exact Iff.rfl
+
+/-- The two integer rings of the completion, as one ring. -/
+noncomputable def integerEquiv : 𝒪[v.adicCompletion K] ≃+* v.adicCompletionIntegers K :=
+  RingEquiv.subringCongr (integer_eq K v)
+
+/-- Membership in the maximal ideal of the completion's integers is valuation below one. -/
+theorem mem_maximalIdeal_iff (x : v.adicCompletionIntegers K) :
+    x ∈ IsLocalRing.maximalIdeal (v.adicCompletionIntegers K) ↔
+      (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰) (x : v.adicCompletion K) < 1 := by
+  rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
+  exact Valuation.Integer.not_isUnit_iff_valuation_lt_one
+
+/-- The residue field of the completion is finite: the residue map from `𝓞 K` is onto it,
+because `K` is dense in the completion and a `v`-integral element of `K` is `a / s` with `s`
+invertible modulo `v` ([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
+theorem finite_residueField_adicCompletionIntegers :
+    Finite (IsLocalRing.ResidueField (v.adicCompletionIntegers K)) := by
+  classical
+  set A := v.adicCompletionIntegers K with hA
+  have hval : ∀ r : 𝓞 K, (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰)
+      (algebraMap (𝓞 K) A r : v.adicCompletion K) = v.valuation K (algebraMap (𝓞 K) K r) := by
+    intro r
+    rw [HeightOneSpectrum.algebraMap_adicCompletionIntegers_apply,
+      HeightOneSpectrum.adicCompletion.valued_coe]
+  set φ : 𝓞 K →+* IsLocalRing.ResidueField A :=
+    (IsLocalRing.residue A).comp (algebraMap (𝓞 K) A) with hφ
+  have hker : ∀ r ∈ v.asIdeal, φ r = 0 := by
+    intro r hr
+    rw [hφ, RingHom.comp_apply, IsLocalRing.residue_eq_zero_iff, mem_maximalIdeal_iff, hval,
+      HeightOneSpectrum.valuation_lt_one_iff_mem]
+    exact hr
+  let ψ : 𝓞 K ⧸ v.asIdeal →+* IsLocalRing.ResidueField A := Ideal.Quotient.lift v.asIdeal φ hker
+  refine Finite.of_surjective ψ ?_
+  intro z
+  obtain ⟨y, rfl⟩ := IsLocalRing.residue_surjective z
+  -- approximate `y` by an element of `K`
+  have hN : {w : v.adicCompletion K | (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰) (w - y) < 1}
+      ∈ 𝓝 (y : v.adicCompletion K) := by
+    rw [Valued.mem_nhds]
+    exact ⟨1, fun w hw => by simpa using hw⟩
+  have hy : (y : v.adicCompletion K) ∈ closure (Set.range (algebraMap K (v.adicCompletion K))) := by
+    rw [(HeightOneSpectrum.denseRange_algebraMap K v).closure_range]
+    exact Set.mem_univ _
+  obtain ⟨w, hw, k, rfl⟩ := mem_closure_iff_nhds.mp hy _ hN
+  have hk : (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰) ((k : v.adicCompletion K) - y) < 1 := by
+    simpa [HeightOneSpectrum.algebraMap_adicCompletion] using hw
+  -- `k` is integral at `v`
+  have hk1 : v.valuation K k ≤ 1 := by
+    have h1 : (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰) (k : v.adicCompletion K) ≤ 1 := by
+      have := Valuation.map_add_le (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰)
+        hk.le (y.2 : (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰) (y : v.adicCompletion K) ≤ 1)
+      simpa using this
+    rwa [HeightOneSpectrum.adicCompletion.valued_coe] at h1
+  -- write `k = a / s` with `s ∉ v`
+  obtain ⟨a, s, hs⟩ : ∃ (a : 𝓞 K) (s : v.asIdeal.primeCompl),
+      k * algebraMap (𝓞 K) K s = algebraMap (𝓞 K) K a := by
+    rcases HeightOneSpectrum.exists_primeCompl_mul_eq_or_mul_eq v k with ⟨n, d, h | h⟩
+    · exact ⟨n, d, h⟩
+    · refine ⟨d, ⟨n, ?_⟩, h⟩
+      -- `v n = 1` from `v k * v n = v d = 1` and `v k ≤ 1`, `v n ≤ 1`
+      have hd : v.valuation K (algebraMap (𝓞 K) K d) = 1 := by
+        rw [HeightOneSpectrum.valuation_eq_one_iff_notMem]
+        exact d.2
+      have hmul := congrArg (v.valuation K) h
+      rw [map_mul, hd] at hmul
+      have hn1 : v.valuation K (algebraMap (𝓞 K) K n) ≤ 1 := v.valuation_le_one n
+      have hn : v.valuation K (algebraMap (𝓞 K) K n) = 1 := by
+        refine le_antisymm hn1 ?_
+        calc (1 : ℤᵐ⁰) = v.valuation K k * v.valuation K (algebraMap (𝓞 K) K n) := hmul.symm
+          _ ≤ 1 * v.valuation K (algebraMap (𝓞 K) K n) := mul_le_mul' hk1 le_rfl
+          _ = v.valuation K (algebraMap (𝓞 K) K n) := one_mul _
+      exact fun hmem => by
+        have := (HeightOneSpectrum.valuation_lt_one_iff_mem (K := K) v n).mpr hmem
+        rw [hn] at this
+        exact lt_irrefl _ this
+  -- invert `s` modulo `v`
+  obtain ⟨s', hs'⟩ : ∃ s' : 𝓞 K, (s : 𝓞 K) * s' - 1 ∈ v.asIdeal := by
+    have hfield : IsField (𝓞 K ⧸ v.asIdeal) :=
+      (Ideal.Quotient.maximal_ideal_iff_isField_quotient v.asIdeal).mp v.isMaximal
+    have hne : Ideal.Quotient.mk v.asIdeal (s : 𝓞 K) ≠ 0 := by
+      rw [Ne, Ideal.Quotient.eq_zero_iff_mem]
+      exact s.2
+    obtain ⟨t, ht⟩ := hfield.mul_inv_cancel hne
+    obtain ⟨s', rfl⟩ := Ideal.Quotient.mk_surjective t
+    refine ⟨s', ?_⟩
+    rw [← Ideal.Quotient.eq_zero_iff_mem, map_sub, map_mul, ht, map_one, sub_self]
+  refine ⟨Ideal.Quotient.mk v.asIdeal (a * s'), ?_⟩
+  change φ (a * s') = IsLocalRing.residue A y
+  rw [hφ, RingHom.comp_apply, ← sub_eq_zero, ← map_sub, IsLocalRing.residue_eq_zero_iff,
+    mem_maximalIdeal_iff]
+  -- `k - a s' = k (1 - s s')` has valuation below one
+  have hkc : v.valuation K (k - algebraMap (𝓞 K) K (a * s')) < 1 := by
+    have heq : k - algebraMap (𝓞 K) K (a * s') = k * algebraMap (𝓞 K) K (1 - (s : 𝓞 K) * s') := by
+      rw [map_sub, map_one, map_mul, map_mul, ← hs]
+      ring
+    rw [heq, map_mul]
+    have h1 : v.valuation K (algebraMap (𝓞 K) K (1 - (s : 𝓞 K) * s')) < 1 := by
+      rw [HeightOneSpectrum.valuation_lt_one_iff_mem]
+      have := v.asIdeal.neg_mem hs'
+      rwa [neg_sub] at this
+    calc v.valuation K k * v.valuation K (algebraMap (𝓞 K) K (1 - (s : 𝓞 K) * s'))
+        ≤ 1 * v.valuation K (algebraMap (𝓞 K) K (1 - (s : 𝓞 K) * s')) :=
+          mul_le_mul' hk1 le_rfl
+      _ < 1 := by rw [one_mul]; exact h1
+  have hcoe : ∀ x : K, algebraMap K (v.adicCompletion K) x = (x : v.adicCompletion K) := by
+    intro x
+    rw [HeightOneSpectrum.algebraMap_adicCompletion]
+    rfl
+  have hsplit : ((algebraMap (𝓞 K) A (a * s') - y : A) : v.adicCompletion K) =
+      -(algebraMap K (v.adicCompletion K) (k - algebraMap (𝓞 K) K (a * s'))) +
+        ((k : v.adicCompletion K) - y) := by
+    rw [map_sub, hcoe, hcoe]
+    change ((algebraMap (𝓞 K) A (a * s') : A) : v.adicCompletion K) - (y : v.adicCompletion K) = _
+    rw [HeightOneSpectrum.algebraMap_adicCompletionIntegers_apply]
+    ring
+  rw [hsplit]
+  refine Valuation.map_add_lt _ ?_ hk
+  rw [Valuation.map_neg, hcoe, HeightOneSpectrum.adicCompletion.valued_coe]
+  exact hkc
+
+/-- The residue field of the completion, in the layer's spelling, is finite
+([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
+theorem finite_residueField : Finite 𝓀[v.adicCompletion K] := by
+  haveI := finite_residueField_adicCompletionIntegers K v
+  exact Finite.of_equiv _ (IsLocalRing.ResidueField.mapEquiv (integerEquiv K v)).symm.toEquiv
+
+end AdicCompletionIsMixedCharLocalField
+
+open Valued.integer in
+/-- The completion of a number field at a finite place is locally compact: it is complete,
+its integers form a discrete valuation ring, and its residue field is finite
+([Serre 1979, Chap. II, §1, Prop. 1, p.27][Serre1979]). -/
+instance adicCompletion_locallyCompactSpace : LocallyCompactSpace (v.adicCompletion K) := by
+  haveI : Finite (IsLocalRing.ResidueField
+      (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰).integer) :=
+    AdicCompletionIsMixedCharLocalField.finite_residueField_adicCompletionIntegers K v
+  haveI : IsDiscreteValuationRing (Valued.v : Valuation (v.adicCompletion K) ℤᵐ⁰).integer :=
+    inferInstanceAs (IsDiscreteValuationRing (v.adicCompletionIntegers K))
+  have hproper : ProperSpace (v.adicCompletion K) :=
+    (properSpace_iff_completeSpace_and_isDiscreteValuationRing_integer_and_finite_residueField
+      (K := v.adicCompletion K)).mpr ⟨inferInstance, inferInstance, inferInstance⟩
+  infer_instance
+
 /-- The completion of a number field at a finite place is a mixed-characteristic local
-field. Three obligations remain open at the pinned Mathlib — the `Valued` topology is the
-valuative one, the valuation is nontrivial, and local compactness — the first two routine,
-the last Serre's Proposition 1 (a complete discretely valued field is locally compact iff
-its residue field is finite) plus the finiteness of that residue field; recorded ahead of
-its proof ([Serre 1979, Chap. II, §1, Prop. 1, p.27][Serre1979]; Yamaguchi 2026,
+field: the `Valued` topology is the valuative one, the valuation is nontrivial, and the field
+is locally compact by Serre's Proposition 1 — a complete discretely valued field is locally
+compact iff its residue field is finite — with that residue field the finite one of `𝓞 K` at
+`v` ([Serre 1979, Chap. II, §1, Prop. 1, p.27][Serre1979]; Yamaguchi 2026,
 `GlobalClassFieldTheory/Reciprocity/FinitePlaceArtin/Construction.lean:305`). -/
 theorem adicCompletion_isMixedCharLocalField :
     IsMixedCharLocalField (v.adicCompletion K) := by
-  sorry
+  exact {}
+
+/-- The certificate, registered as an instance, so that local notions synthesize at every
+finite place of a number field. -/
+instance : IsMixedCharLocalField (v.adicCompletion K) :=
+  adicCompletion_isMixedCharLocalField K v
 
 end Atlas.Knowledge
