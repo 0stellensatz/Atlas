@@ -13,14 +13,13 @@ import Atlas.Knowledge.NormIndexAbelian
 # local Kronecker–Weber theorem
 
 Every finite abelian extension of `ℚ_[p]` lies in a cyclotomic extension: some
-`CyclotomicField m ℚ_[p]`, generated over `ℚ_[p]` by a chosen primitive `m`-th root of
-unity, receives an embedding of it. The statement is pure Mathlib vocabulary — nothing
-here depends on any other knowledge item — and the proof is local class field theory's
-existence theorem run through norm-subgroup order reversal: the norm subgroup of the
-extension is open of finite index, so it contains a standard subgroup `⟨p ^ f⟩ ⊔ U^(n)`,
-which is the norm subgroup of the cyclotomic field of level `(p ^ f - 1) * p ^ n`, and the
-order reversal turns that containment of norm subgroups into a containment of fields.
-Everything here is proved.
+`CyclotomicField m ℚ_[p]`, generated over `ℚ_[p]` by a chosen primitive `m`-th root of unity,
+receives an embedding of it. The statement is pure Mathlib vocabulary — no knowledge item appears in
+it — and the proof is local class field theory's existence theorem run through norm-subgroup order
+reversal: the norm subgroup of the extension is open of finite index, so it contains a standard
+subgroup `⟨p ^ f⟩ ⊔ U^(n)`, which is the norm subgroup of the cyclotomic field of level
+`(p ^ f - 1) * p ^ n`, and the order reversal turns that containment of norm subgroups into a
+containment of fields. Everything here is proved.
 
 ## Main statements
 
@@ -78,7 +77,7 @@ namespace Atlas.Knowledge
 namespace LocalKroneckerWeber
 
 /-- A cyclotomic floor of level dividing `m` lies in the floor of level `m`: every root of
-unity of order dividing `a ∣ m` is an `m`-th root of unity. -/
+unity of order dividing `a` is an `m`-th root of unity when `a ∣ m`. -/
 theorem cycloField_le_of_dvd (K : Type*) [Field K] {a m : ℕ} (hm : m ≠ 0) (h : a ∣ m) :
     cycloField K a ≤ cycloField K m := by
   rw [cycloField, IntermediateField.adjoin_le_iff]

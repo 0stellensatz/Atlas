@@ -50,6 +50,9 @@ model through a transported complete discretely valued field
 
 * [Serre1979] J-P. Serre, *Local fields*, Graduate Texts in Mathematics **67**, Springer New
   York, 1979.
+* n-yamaguchi-0729, *ClassFieldTheory: local and global class field theory in Lean 4*,
+  [GitHub repository](https://github.com/n-yamaguchi-0729/ClassFieldTheory), pinned commit
+  `6010237`, 2026.
 -/
 
 open ValuativeRel
@@ -81,10 +84,12 @@ noncomputable def padicIntegerEquiv : 𝒪[ℚ_[p]] ≃+* ℤ_[p] :=
 
 namespace PadicIntegerEquiv
 
+/-- The equivalence is the identity on the underlying `p`-adic numbers. -/
 @[simp]
 theorem coe_apply (x : 𝒪[ℚ_[p]]) : ((padicIntegerEquiv p x : ℤ_[p]) : ℚ_[p]) = (x : ℚ_[p]) :=
   rfl
 
+/-- The inverse equivalence is the identity on the underlying `p`-adic numbers. -/
 @[simp]
 theorem coe_symm_apply (x : ℤ_[p]) :
     (((padicIntegerEquiv p).symm x : 𝒪[ℚ_[p]]) : ℚ_[p]) = (x : ℚ_[p]) :=
@@ -119,7 +124,7 @@ theorem residueCharacteristic_eq : residueCharacteristic ℚ_[p] = p := by
   exact ringChar.eq 𝓀[ℚ_[p]] p
 
 /-- `ℚ_[p]` is absolutely unramified: its absolute ramification index is `1`, the prime `p`
-being its own uniformizer ([Serre 1979, Chap. II, §1, p.27][Serre1979]). -/
+being its own uniformizer ([Serre 1979, Chap. II, §5, p.36][Serre1979]). -/
 theorem absoluteRamificationIndex_eq : absoluteRamificationIndex ℚ_[p] = 1 := by
   have h := span_residueCharacteristic_eq_maximalIdeal_pow ℚ_[p]
   rw [residueCharacteristic_eq, ← maximalIdeal_eq] at h
