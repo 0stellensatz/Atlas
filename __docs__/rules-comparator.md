@@ -114,7 +114,7 @@ theorem foo : ... := ...
 
 ## Checking
 
-Each project carries its own copy of the checker, so a hook or a CI step can run it per project. From the project directory:
+Each project carries its own copy of the checker, so a local hook or command can run it per project. The checker and both builds below are mandatory locally; see `./rules-workflow.md` for recording and verifying the results. From the project directory:
 
 ```bash
 python3 __check__.py
@@ -134,7 +134,7 @@ lake build
 find Atlas -name Challenge.lean | sed -E 's|/([0-9][^/]*)/|/«\1»/|g; s|^|lake build |; s|/|.|g; s|\.lean$||' | sh
 ```
 
-The second command is a loop rather than a single target because there is one Challenge per question unit, and it is the same loop `.github/workflows/build.yml` runs. Its first substitution wraps the unit directories in the French quotes the module names require—`20260813LegendreFormula` opens with a digit and so is not an identifier, and without them lake cannot resolve the target. Keep the quotes when building one by hand: `lake build 'Atlas.Questions.«20260813LegendreFormula».Challenge'`.
+The second command is a loop rather than a single target because there is one Challenge per question unit. Its first substitution wraps the unit directories in the French quotes the module names require—`20260813LegendreFormula` opens with a digit and so is not an identifier, and without them lake cannot resolve the target. Keep the quotes when building one by hand: `lake build 'Atlas.Questions.«20260813LegendreFormula».Challenge'`.
 
 `sorry` warnings from the comparator files are expected, and a Challenge target's `sorry` is permanent—it is the question, not a gap. **`Knowledge/` is exempt from the usual "production modules build without them" rule, in one direction only:**
 
