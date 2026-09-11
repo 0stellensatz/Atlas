@@ -344,6 +344,7 @@ import Atlas.Knowledge.NormSubgroupOrderEmbedding
 import Atlas.Knowledge.NormSubgroupSurjectivity
 import Atlas.Knowledge.NormTopology
 import Atlas.Knowledge.NormUnits
+import Atlas.Knowledge.NormUnitsRangeIsOpen
 import Atlas.Knowledge.NormalizedDegree
 import Atlas.Knowledge.NormalizedValuation
 import Atlas.Knowledge.NormalizedValuationAlgEquiv
