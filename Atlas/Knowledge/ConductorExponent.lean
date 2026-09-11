@@ -1,12 +1,10 @@
 import Mathlib
 import Atlas.Knowledge.ArtinRestrictionNormQuotient
-import Atlas.Knowledge.FiniteNormQuotientEquivNormQuotient
 import Atlas.Knowledge.HigherUnitGroup
 import Atlas.Knowledge.IsArtinRestriction
 import Atlas.Knowledge.IsMixedCharLocalField
-import Atlas.Knowledge.NormIndexAbelian
+import Atlas.Knowledge.NormUnitsRangeIsOpen
 import Atlas.Knowledge.StandardOpenSubgroups
-import Atlas.Knowledge.UnitsFiniteIndexOpen
 
 /-!
 # conductor exponent
@@ -16,9 +14,8 @@ unit step `U^n` of the base lies in the norm group, as an element of `ℕ∞` �
 recording that no step ever falls in. For a finite abelian extension of a local field the
 exponent is finite (the norm subgroup is open and the unit steps are cofinal), and against a
 reciprocity map it is exactly the cutoff of the Artin images of the unit filtration: the
-image of `U^n` is trivial iff `n` is at least the exponent. Finiteness is recorded ahead of
-its proof at the source's nonarchimedean scope and proved over mixed characteristic; the
-cutoff, the definition, and the defining `≤`-characterization land proved.
+image of `U^n` is trivial iff `n` is at least the exponent. Finiteness holds in either
+characteristic; the Artin cutoff uses the layer's mixed-characteristic reciprocity.
 
 ## Main definitions
 
@@ -28,9 +25,9 @@ cutoff, the definition, and the defining `≤`-characterization land proved.
 
 * `conductorExponent_le_iff` — the defining characterization at finite levels.
 * `conductorExponent_ne_top` — finiteness for a finite abelian extension of a
-  nonarchimedean local field, recorded ahead of its proof.
+  nonarchimedean local field.
 * `conductorExponent_ne_top_of_isMixedCharLocalField` — the same over mixed
-  characteristic, proved.
+  characteristic.
 * `conductorExponent_cutoff` / `conductorExponent_cutoff_zero` — the Artin image of the
   `n`th unit step is trivial iff `conductorExponent ≤ n`, with the `U^0` endpoint separate.
 
@@ -46,18 +43,12 @@ junks to `⊤` — the junk region is owned here once. The unit steps are phrase
 filtration; at level `0` the condition ranges over all of `𝒪[K]ˣ` since `𝓂[K]^0 = ⊤`, so the
 `U^0` semantics needs no case split. Agreement with the source's ℕ-valued `Nat.find` form
 (`LocalClassFieldTheory/Finite/Conductor.lean:48`) is exactly the finiteness claim.
-Finiteness is recorded over every nonarchimedean local field, the source's scope, and proved
-here over mixed characteristic only: the norm subgroup's finite index comes from the layer's
-reciprocity through `Atlas.Knowledge.normIndexAbelian`, and the openness of finite-index
-subgroups that makes a unit step fall in is `Atlas.Knowledge.unitsFiniteIndexOpen`, both of
-which the layer has in mixed characteristic alone — the source reaches its
-`IsNonarchimedeanLocalField` scope through a topological reciprocity the layer does not carry
-in equal characteristic
-(`LocalClassFieldTheory/Finite/LocalReciprocity/TopologicalReciprocity.lean`). The general
-claim stays recorded so the equal-characteristic gap remains on the backlog, its proof
-deferred until the layer has reciprocity there; the mixed-characteristic sibling is the
-statement the consumers reach for. The extension enters with no embedding into the closure,
-so the proof picks one by `IsAlgClosed.lift` and counts the norm index at its range. The
+Finiteness follows the source's two steps: the norm subgroup is open by
+`Atlas.Knowledge.NormUnitsRangeIsOpen`, and it contains a sufficiently deep higher unit group
+by `Atlas.Knowledge.StandardOpenSubgroups`. The first supplies openness analytically in
+both characteristics, and the second identifies the source's principal-unit carrier with
+the layer's translate-set filtration. No structure on the extension or embedding into an
+algebraic closure is needed, and the fields retain independent universes. The
 cutoff claims take the reciprocity map through `Atlas.Knowledge.IsArtinRestriction` and are
 one rewrite each: `Atlas.Knowledge.IsArtinRestriction.ker` pins the kernel as the norm
 subgroup, and the image of a step is trivial iff the step lies in the kernel; they are stated
@@ -125,42 +116,28 @@ theorem conductorExponent_le_iff (K L : Type*) [Field K] [ValuativeRel K]
 
 /-- The conductor exponent of a finite abelian extension of a nonarchimedean local field is
 finite: the norm subgroup is open and the unit steps are cofinal among neighborhoods of `1`.
-This is the identification with the source's ℕ-valued conductor, and the one genuinely
-class-field-theoretic input of the item. Claim recorded ahead of its proof
+This identifies the exponent with the source's ℕ-valued conductor
 ([Serre 1979, Chap. XV, §2, Cor. 2 to Thm. 1, p.228][Serre1979]; Yamaguchi 2026,
 `LocalClassFieldTheory/Finite/Conductor.lean:35`). -/
 theorem conductorExponent_ne_top (K L : Type*) [Field K] [ValuativeRel K]
     [TopologicalSpace K] [IsNonarchimedeanLocalField K]
     [Field L] [Algebra K L] [FiniteDimensional K L] [IsAbelianGalois K L] :
     conductorExponent K L ≠ ⊤ := by
-  sorry
-
-/-- The conductor exponent of a finite abelian extension of a mixed-characteristic local
-field is finite: the norm subgroup has finite index, hence is open, and some unit step lies
-in every open subgroup — `conductorExponent_ne_top` at the scope where the layer has its
-reciprocity ([Serre 1979, Chap. XV, §2, Cor. 2 to Thm. 1, p.228][Serre1979]; Yamaguchi 2026,
-`LocalClassFieldTheory/Finite/Conductor.lean:35`). -/
-theorem conductorExponent_ne_top_of_isMixedCharLocalField (K L : Type*) [Field K]
-    [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
-    [Field L] [Algebra K L] [FiniteDimensional K L] [IsAbelianGalois K L] :
-    conductorExponent K L ≠ ⊤ := by
-  haveI : Algebra.IsAlgebraic K L := Algebra.IsAlgebraic.of_finite K L
-  let i : L →ₐ[K] AlgebraicClosure K := IsAlgClosed.lift
-  let L' : IntermediateField K (AlgebraicClosure K) := i.fieldRange
-  let e : L ≃ₐ[K] L' := AlgEquiv.ofInjectiveField i
-  haveI : FiniteDimensional K L' := e.toLinearEquiv.finiteDimensional
-  haveI : IsAbelianGalois K L' := IsAbelianGalois.of_algHom e.symm.toAlgHom
-  have hfi : (Units.map (Algebra.norm K : L →* K)).range.FiniteIndex := by
-    rw [← normUnits_range_fieldRange L i]
-    haveI : Finite (Kˣ ⧸ (Units.map (Algebra.norm K : L' →* K)).range) :=
-      Nat.finite_of_card_ne_zero (by rw [normIndexAbelian K L']; exact Module.finrank_pos.ne')
-    exact Subgroup.finiteIndex_of_finite_quotient
-  obtain ⟨n, hn⟩ := exists_higherUnitGroup_le_of_isOpen K _ (unitsFiniteIndexOpen K _ hfi)
+  obtain ⟨n, hn⟩ := exists_higherUnitGroup_le_of_isOpen K _ (normUnits_range_isOpen K L)
   have hle : conductorExponent K L ≤ (n : ℕ) := by
     rw [conductorExponent_le_iff]
     intro u hu
     exact hn ((mem_higherUnitGroup_iff K n _).2 ⟨u, hu, rfl⟩)
   exact ne_top_of_le_ne_top (ENat.coe_ne_top _) hle
+
+/-- The mixed-characteristic specialization of `Atlas.Knowledge.conductorExponent_ne_top`
+([Serre 1979, Chap. XV, §2, Cor. 2 to Thm. 1, p.228][Serre1979]; Yamaguchi 2026,
+`LocalClassFieldTheory/Finite/Conductor.lean:35`). -/
+theorem conductorExponent_ne_top_of_isMixedCharLocalField (K L : Type*) [Field K]
+    [ValuativeRel K] [TopologicalSpace K] [IsMixedCharLocalField K]
+    [Field L] [Algebra K L] [FiniteDimensional K L] [IsAbelianGalois K L] :
+    conductorExponent K L ≠ ⊤ :=
+  conductorExponent_ne_top K L
 
 section Cutoff
 
