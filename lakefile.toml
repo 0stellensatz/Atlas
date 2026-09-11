@@ -18,10 +18,5 @@ name = "mathlib"
 scope = "leanprover-community"
 rev = "v4.32.2"
 
-[[require]]
-name = "LeanPrism"
-git = "https://codeberg.org/wvhulle/lean-prism.git"
-rev = "main"
-
 [[lean_lib]]
 name = "Atlas"
