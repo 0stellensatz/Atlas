@@ -52,7 +52,7 @@ The four template documents in `__docs__/`, fine-tuned here and not in the templ
 - **`rules-comments.md`** — the closing *When the target is Mathlib* section is cut; nothing here is headed upstream.
 - **`rules-workflow.md`** — the native one, not from the template: the cycle a phase travels—plan as tracking issue, formalization per PR, adversarial review by a second agent on a different model, revision, verification before the issue's checkboxes are ticked, linear merge. The author never ticks its own boxes; the document says why, and it is the comparator's threat model one layer up.
 
-Run the checker before declaring work done, and a build after it—including the Challenge files, which `lake build` leaves out and whose failure to elaborate is otherwise invisible:
+All three checks below are mandatory locally before declaring work done or merging. GitHub Actions does not run the Lean build; local results must be recorded in the PR, and the verifier re-runs the checks locally. Run the checker first, then the build—including the Challenge files, which `lake build` leaves out and whose failure to elaborate is otherwise invisible:
 
 ```bash
 python3 __check__.py

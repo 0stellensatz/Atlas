@@ -39,12 +39,14 @@ A `sorry` on a knowledge theorem is likewise deliberate—a claim recorded befor
 
 ## Building
 
+The structural checker, full build, and Challenge builds are mandatory locally before merging; record their results in the PR. There is no GitHub Actions build workflow.
+
 Mathlib is pinned in `lake-manifest.json`, and `elan` will fetch the toolchain named in `lean-toolchain`. From this directory:
 
 ```bash
 lake exe cache get   # once, before the first build—otherwise Mathlib compiles from source
-lake build           # everything the root all-import module reaches
 python3 __check__.py
+lake build           # everything the root all-import module reaches
 ```
 
 `Challenge.lean` is **not** among them: it shares `Development.lean`'s namespace, so the root module cannot import it and `lake build` does not compile it. Build the Challenges by name, or a question that fails to elaborate stays green. A unit directory opens with a digit, so its module component has to be French-quoted, which is what the first substitution does:
