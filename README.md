@@ -54,3 +54,7 @@ find Atlas -name Challenge.lean | sed -E 's|/([0-9][^/]*)/|/«\1»/|g; s|^|lake 
 ```
 
 The conventions this project follows are its own copies, in `__docs__/`.
+
+## Codex setup
+
+See [the Codex integration guide](.codex/README.md) for Lean MCP, completion-hook activation, and configuration regeneration.
