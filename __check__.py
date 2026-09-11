@@ -6,7 +6,7 @@ generated from it, where it checks that project and nothing else.  The project
 name is read from `lakefile.toml` --- not from the directory this file sits in,
 which need not carry the package name at all, and in a git worktree does not.
 Reading the lakefile needs `tomllib`, so this script wants Python 3.11 or newer.
-Run it from the project root, or wire it into a hook or a CI step:
+Run it locally from the project root, or wire it into a local hook:
 
     python3 __check__.py
 
